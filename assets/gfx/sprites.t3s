@@ -1,0 +1,6 @@
+--atlas -f rgba -z auto
+
+sprites/keyboard/normal_key.png
+sprites/keyboard/left_shift.png
+sprites/keyboard/right_shift.png
+sprites/keyboard/space.png
