@@ -44,6 +44,8 @@
 #include "lang/lang.h"
 #include "common/settings.hpp"
 #include "gui/screens/mainMenu.hpp"
+#include "core/gameLoader.hpp"
+#include "title.hpp"
 
 // The classic Fade Effect! ;P
 int fadealpha = 255;
@@ -51,9 +53,6 @@ bool fadein = true;
 
 // If true -> Exit LeafEdit.
 bool exiting = false;
-
-// Current Game... If true -> use the Gamecard, If false -> use installed Title.
-bool Gamecard = false;
 
 // Touch Touch!
 touchPosition touch;

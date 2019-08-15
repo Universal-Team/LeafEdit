@@ -28,10 +28,14 @@
 #define GAMELOADER_HPP
 
 #include <3ds.h>
+#include "title.hpp"
+#include <memory>
 
 namespace GameLoader
 {
     void scanTitleID(void);
+    bool scanCard();
+    inline std::shared_ptr<Title> cardTitle = nullptr;
 };
 
 #endif
