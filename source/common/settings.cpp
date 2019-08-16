@@ -45,7 +45,7 @@ Structs::ButtonPos languagePos [] = {
 
 	{180, 100, 120, 52, -1}, // Français
 	{20, 170, 120, 52, -1}, // Italiano
-	{180, 170, 120, 52, -1}, // 日本の
+	{180, 170, 120, 52, -1}, // 日本語
 };
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
