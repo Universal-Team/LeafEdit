@@ -30,12 +30,14 @@
 #include <3ds.h>
 #include <algorithm>
 #include <string>
+#include <citro2d.h>
 
 class Title
 {
 public:
     // std::make_shared stuff.
     Title(void) = default;
+    ~Title(void);
 
     // Title Handling.
     bool load(u64 id, FS_MediaType mediaType, FS_CardType cardType);
@@ -44,16 +46,16 @@ public:
     u64 ID(void) { return (u64)highId() << 32 | lowId(); }
     FS_MediaType mediaType(void);
     FS_CardType cardType(void);
-
-    // Archive Stuff.
-    bool saveAccessible(FS_MediaType mediatype, u32 lowid, u32 highid);
-    Result save(FS_Archive* archive, FS_MediaType mediatype, u32 lowid, u32 highid);
+    std::string name(void);
+    C2D_Image icon(void);
 
 private:
     u64 mId;
     FS_MediaType mMedia;
     FS_CardType mCard;
     FS_CardType mCardType;
+    C2D_Image mIcon;
+    std::string mName;
 };
 
 #endif

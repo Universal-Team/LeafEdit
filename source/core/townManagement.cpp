@@ -73,19 +73,15 @@ void TownManagement::RestoreTown() // To-Do.
 
 
 // Restore and Launch the selected Town. The current Commented out code would Launch Animal Crossing : New Leaf [EUR].
-void TownManagement::LaunchTown()
+void TownManagement::LaunchTown(u64 TID)
 {
-//	u8 param[0x300];
-//	u8 hmac[0x20];
-//	memset(param, 0, sizeof(param));
-//	memset(hmac, 0, sizeof(hmac));
+	u8 param[0x300];
+	u8 hmac[0x20];
+	memset(param, 0, sizeof(param));
+	memset(hmac, 0, sizeof(hmac));
 
-//	if (Gamecard == false) {
-//		APT_PrepareToDoApplicationJump(0, EU_GAMEID, MEDIATYPE_SD);
-//	} else if (Gamecard == true) {
-//		APT_PrepareToDoApplicationJump(0, EU_GAMEID, MEDIATYPE_GAME_CARD);
-//	}
-//	APT_DoApplicationJump(param, sizeof(param), hmac);
+	APT_PrepareToDoApplicationJump(0, TID, MEDIATYPE_SD);
+	APT_DoApplicationJump(param, sizeof(param), hmac);
 }
 
 

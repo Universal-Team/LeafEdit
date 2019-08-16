@@ -43,7 +43,7 @@
 #include "gui/keyboard.hpp"
 #include "lang/lang.h"
 #include "common/settings.hpp"
-#include "gui/screens/mainMenu.hpp"
+#include "gui/screens/titleSelection.hpp"
 #include "core/gameLoader.hpp"
 #include "title.hpp"
 
@@ -71,9 +71,7 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 void TestStuff(void)
 {
 	if (test == 1) {
-		// Testing some Scans with the Titles.
-		GameLoader::scanCard();
-		GameLoader::scanTitleID();
+		// Currently nothing to test.
 	} else if (test == 0) {
 	}
 }
@@ -109,8 +107,12 @@ int main()
 	Lang::loadLangStrings(Config::lang);
 
 	TestStuff();
+
+	// Scan for available Titles to display.
+	GameLoader::scanTitleID();
+	
 	// Set the Screen to the MainMenu.
-	Gui::setScreen(std::make_unique<MainMenu>());
+	Gui::setScreen(std::make_unique<TitleSelection>());
 	
 	// Loop as long as the status is not exit
     while (aptMainLoop() && !exiting)

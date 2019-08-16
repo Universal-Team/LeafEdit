@@ -38,7 +38,7 @@ namespace TownManagement
     void BackupTown();
     void CreateNewTown();
     void RestoreTown();
-    void LaunchTown();
+    void LaunchTown(u64 TID);
     void ShowProgress();
 };
 

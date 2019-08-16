@@ -35,6 +35,10 @@ namespace GameLoader
 {
     void scanTitleID(void);
     bool scanCard();
+    bool cardUpdate();
+
+    
+    inline std::vector<std::shared_ptr<Title>> installedTitles;
     inline std::shared_ptr<Title> cardTitle = nullptr;
 };
 

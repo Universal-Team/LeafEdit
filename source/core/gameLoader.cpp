@@ -48,6 +48,11 @@ void GameLoader::scanTitleID(void)
     Result res = 0;
     u32 count  = 0;
 
+    // clear title list if filled previously
+    installedTitles.clear();
+
+    scanCard();
+
     res = AM_GetTitleCount(MEDIATYPE_SD, &count);
     if (R_FAILED(res))
     {
@@ -66,29 +71,22 @@ void GameLoader::scanTitleID(void)
     for (size_t i = 0; i < titleIds.size(); i++)
     {
         u64 id = titleIds.at(i);
-        std::string TID = std::to_string(id);
         if (std::find(ids.begin(), ids.end(), id) != ids.end())
         {
             auto title = std::make_shared<Title>();
             if (title->load(id, MEDIATYPE_SD, CARD_CTR))
             {
-                std::string Found;
-                Found += TID.c_str();
-                Found += "\n\n";
-                Found += Lang::scan[0];
-                Gui::DisplayWarnMsg(Found.c_str());
+                installedTitles.push_back(title);
             }
-        } else {
-            std::string NotFound;
-            NotFound += TID.c_str();
-            NotFound += "\n\n";
-            NotFound += Lang::scan[1];
-            Gui::DisplayWarnMsg(NotFound.c_str());
         }
     }
+
+    // sort the list alphabetically
+    std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<Title>& l, std::shared_ptr<Title>& r) { return l->ID() < r->ID(); });
 }
 
 // Scan the Gamecard, if the Title ID matches with the Cartridge.
+
 bool GameLoader::scanCard()
 {
     static bool isScanning = false;
@@ -124,17 +122,53 @@ bool GameLoader::scanCard()
                     auto title = std::make_shared<Title>();
                     if (title->load(id, MEDIATYPE_GAME_CARD, cardType))
                     {
-                        Gui::DisplayWarnMsg(Lang::scan[2]);
                         cardTitle = title;
                     }
-                    } else {
-                        Gui::DisplayWarnMsg(Lang::scan[3]);
                     }
                 }
             }
-        }  else {
-            Gui::DisplayWarnMsg(Lang::scan[4]);
         }
     isScanning = false;
     return ret;
+}
+
+// Update the GameCard.
+
+bool GameLoader::cardUpdate()
+{
+    static bool first     = true;
+    static bool oldCardIn = false;
+    if (first)
+    {
+        FSUSER_CardSlotIsInserted(&oldCardIn);
+        first = false;
+        return false;
+    }
+    bool cardIn = false;
+
+    FSUSER_CardSlotIsInserted(&cardIn);
+    if (cardIn != oldCardIn)
+    {
+        bool power;
+        FSUSER_CardSlotGetCardIFPowerStatus(&power);
+        if (cardIn)
+        {
+            if (!power)
+            {
+                FSUSER_CardSlotPowerOn(&power);
+            }
+            while (!power)
+            {
+                FSUSER_CardSlotGetCardIFPowerStatus(&power);
+            }
+            return oldCardIn = scanCard();
+        }
+        else
+        {
+            cardTitle = nullptr;
+            oldCardIn = false;
+            return true;
+        }
+    }
+    return false;
 }

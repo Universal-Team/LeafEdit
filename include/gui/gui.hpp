@@ -76,6 +76,7 @@ namespace Gui
     // Sprite Drawing.
     void sprite(int key, int x, int y);
     void Draw_ImageBlend(int key, int x, int y, u32 color);
+    void drawSelector(float x, float y);
 
     // Misc.
     bool Draw_Rect(float x, float y, float w, float h, u32 color);

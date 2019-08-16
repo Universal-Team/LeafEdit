@@ -243,3 +243,22 @@ void Gui::ScreenDraw(C3D_RenderTarget * screen)
 {
     C2D_SceneBegin(screen);
 }
+
+void Gui::drawSelector(float x, float y)
+{
+    static constexpr int w     = 2;
+    static float timer         = 0.0f;
+    float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+    u8 r                       = RED & 0xFF;
+    u8 g                       = (RED >> 8) & 0xFF;
+    u8 b                       = (RED >> 16) & 0xFF;
+    u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
+
+    Gui::Draw_Rect(x, y, 50, 50, C2D_Color32(255, 255, 255, 100));
+    Gui::Draw_Rect(x, y, 50, w, color);                      // top
+    Gui::Draw_Rect(x, y + w, w, 50 - 2 * w, color);          // left
+    Gui::Draw_Rect(x + 50 - w, y + w, w, 50 - 2 * w, color); // right
+    Gui::Draw_Rect(x, y + 50 - w, 50, w, color);             // bottom
+
+    timer += .025f;
+}

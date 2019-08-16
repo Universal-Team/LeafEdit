@@ -25,26 +25,33 @@
  */
 
 #include "title.hpp"
+#include "utils.hpp"
 
+// Delete the Texture of the Title Icons.
 
-// Check, if a Save is accessible on the Card or on the installed Title.
-bool Title::saveAccessible(FS_MediaType mediatype, u32 lowid, u32 highid)
+Title::~Title(void)
 {
-    FS_Archive archive;
-    Result res = save(&archive, mediatype, lowid, highid);
-    if (R_SUCCEEDED(res))
-    {
-        FSUSER_CloseArchive(archive);
-        return true;
-    }
-    return false;
+    if (mCard != CARD_TWL && mIcon.tex)
+        C3D_TexDelete(mIcon.tex);
 }
 
-// Save stuff.
-Result Title::save(FS_Archive* archive, FS_MediaType mediatype, u32 lowid, u32 highid)
+
+static C2D_Image loadTextureIcon(smdh_s* smdh)
 {
-    const u32 path[3] = {mediatype, lowid, highid};
-    return FSUSER_OpenArchive(archive, ARCHIVE_USER_SAVEDATA, {PATH_BINARY, 12, path});
+    C3D_Tex* tex                          = new C3D_Tex;
+    static const Tex3DS_SubTexture subt3x = {48, 48, 0.0f, 48 / 64.0f, 48 / 64.0f, 0.0f};
+    C3D_TexInit(tex, 64, 64, GPU_RGB565);
+
+    u16* dest = (u16*)tex->data + (64 - 48) * 64;
+    u16* src  = (u16*)smdh->bigIconData;
+    for (int j = 0; j < 48; j += 8)
+    {
+        std::copy(src, src + 48 * 8, dest);
+        src += 48 * 8;
+        dest += 64 * 8;
+    }
+
+    return C2D_Image{tex, &subt3x};
 }
 
 // Load the Title. (Used for the Scan as well.)
@@ -57,10 +64,20 @@ bool Title::load(u64 id, FS_MediaType media, FS_CardType card)
 
     if (mCard == CARD_CTR)
     {
-        if (saveAccessible(mMedia, lowId(), highId()))
+        smdh_s* smdh = loadSMDH(lowId(), highId(), mMedia);
+        if (smdh == NULL)
+        {
+            return false;
+        }
+
+        mName   = StringUtils::UTF16toUTF8((char16_t*)smdh->applicationTitles[1].shortDescription);
+        
+        if (Archive::saveAccessible(mMedia, lowId(), highId()))
         {
             loadTitle = true;
+            mIcon     = loadTextureIcon(smdh);
         }
+        delete smdh;
     }
     return loadTitle;
 }
@@ -84,4 +101,18 @@ FS_MediaType Title::mediaType(void)
 FS_CardType Title::cardType(void)
 {
     return mCard;
+}
+
+// Get the Icon from the SMDH.
+
+C2D_Image Title::icon(void)
+{
+    return mIcon;
+}
+
+// get the name of the Title from the SMDH.
+
+std::string Title::name(void)
+{
+    return mName;
 }
