@@ -74,19 +74,21 @@ void GameLoader::scanTitleID(void)
             {
                 std::string Found;
                 Found += TID.c_str();
-                Found += "\n\nTitle Found!";
+                Found += "\n\n";
+                Found += Lang::scan[0];
                 Gui::DisplayWarnMsg(Found.c_str());
             }
         } else {
             std::string NotFound;
             NotFound += TID.c_str();
-            NotFound += "\n\nTitle not Found!";
+            NotFound += "\n\n";
+            NotFound += Lang::scan[1];
             Gui::DisplayWarnMsg(NotFound.c_str());
         }
     }
 }
 
-// Scan the Gamecard, if the Title ID matches with it.
+// Scan the Gamecard, if the Title ID matches with the Cartridge.
 bool GameLoader::scanCard()
 {
     static bool isScanning = false;
@@ -122,17 +124,17 @@ bool GameLoader::scanCard()
                     auto title = std::make_shared<Title>();
                     if (title->load(id, MEDIATYPE_GAME_CARD, cardType))
                     {
-                        Gui::DisplayWarnMsg("Card ID matches!");
+                        Gui::DisplayWarnMsg(Lang::scan[2]);
                         cardTitle = title;
                     }
                     } else {
-                        Gui::DisplayWarnMsg("Card ID doesn't match!");
+                        Gui::DisplayWarnMsg(Lang::scan[3]);
                     }
-            } else {
-                Gui::DisplayWarnMsg("No Cartridge inserted!");
+                }
             }
+        }  else {
+            Gui::DisplayWarnMsg(Lang::scan[4]);
         }
-    }
     isScanning = false;
     return ret;
 }

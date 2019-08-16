@@ -28,6 +28,12 @@ void Lang::loadLangStrings(int lang) {
 	Lang::languages[6] = ini.GetString("languages", "ccl", Lang::languages[6]);
 	Lang::languages[7] = ini.GetString("languages", "notValid", Lang::languages[7]);
 
+	// [scan]
+	Lang::scan[0] = ini.GetString("scan", "TF", Lang::scan[0]);
+	Lang::scan[1] = ini.GetString("scan", "TNF", Lang::scan[1]);
+	Lang::scan[2] = ini.GetString("scan", "IDM", Lang::scan[2]);
+	Lang::scan[3] = ini.GetString("scan", "IDDM", Lang::scan[3]);
+	Lang::scan[4] = ini.GetString("scan", "NCI", Lang::scan[4]);
 
 	// [title]
 	Lang::title[0] = ini.GetString("title", "1", Lang::title[0]);

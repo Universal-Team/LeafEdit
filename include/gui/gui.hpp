@@ -36,6 +36,9 @@
 #include <unordered_map>
 #include <wchar.h>
 
+// Language Strings.
+#include "lang/langStrings.h"
+
 // Spritesheet.
 #include "sprites.h"
 

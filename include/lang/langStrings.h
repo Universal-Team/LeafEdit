@@ -8,6 +8,7 @@ namespace Lang {
 	extern std::vector<std::string>
 	// App strings
 	title,
+	scan,
 	languages;
 
 	extern std::string

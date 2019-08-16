@@ -29,12 +29,26 @@
 #include "gui/keyboard.hpp"
 #include "gui/gui.hpp"
 #include "lang/langStrings.h"
+#include "screenCommon.hpp"
+#include "structs.hpp"
 #include <unistd.h>
 #include <string>
 using std::string;
 using std::wstring;
 
 #include <3ds.h>
+
+Structs::ButtonPos languagePos [] = {
+	{20, 30, 120, 52, -1}, // Deutsch
+	{180, 30, 120, 52, -1}, // English
+	{20, 100, 120, 52, -1}, // Español
+
+	{180, 100, 120, 52, -1}, // Français
+	{20, 170, 120, 52, -1}, // Italiano
+	{180, 170, 120, 52, -1}, // 日本の
+};
+
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
 
@@ -55,43 +69,65 @@ void Config::saveConfig() {
 	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
 }
 
+std::vector<std::string> Language = {
+	"Deutsch",
+	"English",
+	"Español",
+	"Français",
+	"Italiano",
+	"日本語"
+};
+
+
 void Config::setLanguage() {
-	std::string LangSetText;
-	LangSetText += Lang::languages[6];;
-	LangSetText += "\n\n00/0 : ";
+	touchPosition touch;
+    Gui::clearTextBufs();
+    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+    C2D_TargetClear(top, BLACK);
+    C2D_TargetClear(bottom, BLACK);
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::languages[6]))/2, 2, 0.8f, WHITE, Lang::languages[6]);
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
+	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
+	Gui::Draw_Rect(0, 215, 320, 25, GREEN);
 
-	LangSetText += "Deutsch";
-	LangSetText += "\n01/1 : ";
+	for(int i=0;i<3;i++) {
+		Gui::Draw_Rect(20, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
+		Gui::Draw_Rect(180, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
 
-	LangSetText += "English";
-	LangSetText += "\n02/2 : ";
-
-	LangSetText += "Español";
-	LangSetText += "\n03/3 : ";
-
-	LangSetText += "Français";
-	LangSetText += "\n04/4 : ";
-
-	LangSetText += "Italiano";
-	LangSetText += "\n05/5 : ";
-
-	LangSetText += "日本の";
-
-	std::string currentLanguage = Input::getLine(LangSetText.c_str());
-	if (currentLanguage == "0" || currentLanguage == "00") {
-		Config::lang = 0;
-	} else if (currentLanguage == "1" || currentLanguage == "01") {
-		Config::lang = 1;
-	} else if (currentLanguage == "2" || currentLanguage == "02") {
-		Config::lang = 2;
-	} else if (currentLanguage == "3" || currentLanguage == "03") {
-		Config::lang = 3;
-	} else if (currentLanguage == "4" || currentLanguage == "04") {
-		Config::lang = 4;
-	} else if (currentLanguage == "5" || currentLanguage == "05") {
-		Config::lang = 5;
-	} else {
-		Gui::DisplayWarnMsg(Lang::languages[7]);
-		Config::setLanguage();
+		Gui::DrawString(((320-Gui::Draw_GetStringWidth(0.65f, Language[(2*i)].c_str()))/2)-60-20, 46+(i*65), 0.65f, BLACK, Language[(2*i)].c_str());
+		Gui::DrawString(((320-Gui::Draw_GetStringWidth(0.65f, Language[(2*i)+1].c_str()))/2)+60+20, 46+(i*65), 0.65f, BLACK, Language[(2*i)+1].c_str());
 	}
+
+	C3D_FrameEnd(0);
+	while(1)
+    {
+		hidScanInput();
+		touchRead(&touch);
+		if(hidKeysDown() & KEY_TOUCH) {
+			if (touching(touch, languagePos[0])) {
+				Config::lang = 0;
+				break;
+			} else if (touching(touch, languagePos[1])) {
+				Config::lang = 1;
+				break;
+			} else if (touching(touch, languagePos[2])) {
+				Config::lang = 2;
+				break;
+			} else if (touching(touch, languagePos[3])) {
+				Config::lang = 3;
+				break;
+			} else if (touching(touch, languagePos[4])) {
+				Config::lang = 4;
+				break;
+			} else if (touching(touch, languagePos[5])) {
+				Config::lang = 5;
+				break;
+			}
+		}
+    }
 }

@@ -1,6 +1,6 @@
 BasicInfo:
   Title                   : "LeafEdit"
-  ProductCode             : "CTR-H-UNIV"
+  ProductCode             : "CTR-H-LEDT"
   Logo                    : Homebrew # Nintendo / Licensed / Distributed / iQue / iQueForSystem
 
 RomFs:

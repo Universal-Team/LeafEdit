@@ -51,6 +51,9 @@
 int fadealpha = 255;
 bool fadein = true;
 
+// Set to 1, if testing some stuff. Leave to 0, if normal use.
+int test = 0;
+
 // If true -> Exit LeafEdit.
 bool exiting = false;
 
@@ -65,6 +68,15 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 		return false;
 }
 
+void TestStuff(void)
+{
+	if (test == 1) {
+		// Testing some Scans with the Titles.
+		GameLoader::scanCard();
+		GameLoader::scanTitleID();
+	} else if (test == 0) {
+	}
+}
 
 int main()
 {
@@ -96,6 +108,7 @@ int main()
 	// Load The Strings from the Romfs.
 	Lang::loadLangStrings(Config::lang);
 
+	TestStuff();
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<MainMenu>());
 	
