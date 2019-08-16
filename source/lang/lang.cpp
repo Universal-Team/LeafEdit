@@ -18,15 +18,8 @@ void Lang::loadLangStrings(int lang) {
 	// [keyboard]
 	Lang::typeName = ini.GetString("keyboard", "typeName", Lang::typeName);
 
-	// [languages]
-	Lang::languages[0] = ini.GetString("languages", "German", Lang::languages[0]);
-	Lang::languages[1] = ini.GetString("languages", "English", Lang::languages[1]);
-	Lang::languages[2] = ini.GetString("languages", "Spanish", Lang::languages[2]);
-	Lang::languages[3] = ini.GetString("languages", "French", Lang::languages[3]);
-	Lang::languages[4] = ini.GetString("languages", "Italian", Lang::languages[4]);
-	Lang::languages[5] = ini.GetString("languages", "Japanese", Lang::languages[5]);
-	Lang::languages[6] = ini.GetString("languages", "ccl", Lang::languages[6]);
-	Lang::languages[7] = ini.GetString("languages", "notValid", Lang::languages[7]);
+	// [language]
+	Lang::language = ini.GetString("language", "ccl", Lang::language);
 
 	// [scan]
 	Lang::scan[0] = ini.GetString("scan", "TF", Lang::scan[0]);

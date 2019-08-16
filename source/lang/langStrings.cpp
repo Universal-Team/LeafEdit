@@ -6,11 +6,12 @@ namespace Lang {
 	// [title]
 	title = {"LeafEdit", "LeafEdit - Town Manager"},
 	// [scan]
-	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"},
-	// [languages]
-	languages = {"German", "English", "Spanish", "French", "Italian", "Japanese", "Choose the current Language.", "This is not a Valid Language ID!"};
+	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"};
 
 	std::string
 	// [keyboard]
-	typeName = "Please Type in your Save Name.";
+	typeName = "Please Type in your Save Name.",
+
+	// [languages]
+	language = "Choose the current Language.";
 }

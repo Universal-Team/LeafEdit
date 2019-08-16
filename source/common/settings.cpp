@@ -89,7 +89,7 @@ void Config::setLanguage() {
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::languages[6]))/2, 2, 0.8f, WHITE, Lang::languages[6]);
+	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
 	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);

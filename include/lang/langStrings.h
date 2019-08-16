@@ -8,12 +8,12 @@ namespace Lang {
 	extern std::vector<std::string>
 	// App strings
 	title,
-	scan,
-	languages;
+	scan;
 
 	extern std::string
 	// [Keyboard]
-	typeName;
+	typeName,
+	language;
 }
 
 #endif
