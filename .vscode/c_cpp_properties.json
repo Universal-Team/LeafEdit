@@ -1,0 +1,41 @@
+{
+    "configurations": [
+        {
+            "name": "3DS | macOS/Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/devkitpro/libctru/include/**",
+                "/opt/devkitpro/devkitARM/include/**",
+                "/opt/devkitpro/devkitARM/arm-none-eabi/include/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        },
+        {
+            "name": "3DS | Windows",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/devkitpro/libctru/include/**",
+                "/devkitpro/devkitARM/include/**",
+                "/devkitpro/devkitARM/arm-none-eabi/include/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [],
+            "compilerPath": "/devkitpro/devkitARM/bin/arm-none-eabi-g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64",
+            "forcedInclude": [],
+            "browse": {
+                "path": []
+            }
+        }
+    ],
+    "version": 4
+}
