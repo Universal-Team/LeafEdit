@@ -29,6 +29,8 @@
 #include "gui/keyboard.hpp"
 #include "gui/screens/townManager.hpp"
 
+extern FS_MediaType currentMedia;
+extern u64 currentID;
 void MainMenu::Draw(void) const
 {
 	Gui::ScreenDraw(top);

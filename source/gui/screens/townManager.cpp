@@ -32,7 +32,8 @@
 #include "gui/screens/townManager.hpp"
 #include "core/townManagement.hpp"
 
-extern bool Gamecard;
+extern FS_MediaType currentMedia;
+extern u64 currentID;
 
 void TownManager::Draw(void) const
 {
@@ -69,15 +70,11 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 		return;
 	}
 
-//	if (hDown & KEY_Y) {
-//		Gamecard = true;
-//	}
-
-//	if (hDown & KEY_X) {
-//	if (Gui::promptMsg("Do you want to launch this Title?")) {
-//		TownManagement::LaunchTown();
-//	}
-//	}
+	if (hDown & KEY_X) {
+	if (Gui::promptMsg("Do you want to launch this Title?")) {
+		TownManagement::LaunchTown(currentMedia, currentID);
+	}
+	}
 
 	if (Selection == 0 && hDown & KEY_A) {
 		TownManagement::BackupTown();

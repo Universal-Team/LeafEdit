@@ -36,6 +36,9 @@ extern bool exiting;
 extern int fadealpha;
 extern bool fadein;
 
+u64 currentID;
+FS_MediaType currentMedia;
+
 
 void TitleSelection::Draw(void) const
 {
@@ -44,8 +47,9 @@ void TitleSelection::Draw(void) const
 	// Draw the BG.
 	Gui::Draw_Rect(0, 0, 400.0f, 240.0f, C2D_Color32(30, 130, 10, 255));
 
-	// Draw the Top Bar.
+	// Draw the Top Bars.
 	Gui::Draw_Rect(0, 0, 400.0f, 25.0f, C2D_Color32(30, 190, 10, 255));
+    Gui::Draw_Rect(0, 215, 400.0f, 25.0f, C2D_Color32(30, 190, 10, 255));
 
     // Draw the Two Rectangles for the Gamecard and installed Titles.
 	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, C2D_Color32(30, 190, 10, 255));
@@ -109,7 +113,7 @@ void TitleSelection::SelectionLogic(u32 hDown) {
         // Scroll with D-Pad Right to the next available Title.
         else if (hDown & KEY_RIGHT)
         {
-            if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 3)
+            if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 5)
             {
                 if (GameLoader::cardTitle)
                 {
@@ -117,13 +121,13 @@ void TitleSelection::SelectionLogic(u32 hDown) {
                 }
                 else
                 {
-                    if (GameLoader::installedTitles.size() > 4 && selectedTitle > 3)
+                    if (GameLoader::installedTitles.size() > 6 && selectedTitle > 5)
                     {
-                        if (selectedTitle > 3)
+                        if (selectedTitle > 5)
                         {
-                            selectedTitle = 4;
+                            selectedTitle = 6;
                         }
-                        else if (selectedTitle == 3)
+                        else if (selectedTitle == 5)
                         {
                             selectedTitle = 0;
                         }
@@ -145,9 +149,9 @@ void TitleSelection::SelectionLogic(u32 hDown) {
         {
             if (selectedTitle == -1)
             {
-                selectedTitle = GameLoader::installedTitles.size() < 4 ? GameLoader::installedTitles.size() - 1 : 3;
+                selectedTitle = GameLoader::installedTitles.size() < 6 ? GameLoader::installedTitles.size() - 1 : 5;
             }
-            else if (selectedTitle == 4)
+            else if (selectedTitle == 6)
             {
                 if (GameLoader::cardTitle)
                 {
@@ -166,7 +170,7 @@ void TitleSelection::SelectionLogic(u32 hDown) {
                 }
                 else
                 {
-                    selectedTitle = GameLoader::installedTitles.size() > 4 ? 3 : (int)GameLoader::installedTitles.size() - 1;
+                    selectedTitle = GameLoader::installedTitles.size() > 6 ? 5 : (int)GameLoader::installedTitles.size() - 1;
                 }
             }
             else
@@ -176,8 +180,6 @@ void TitleSelection::SelectionLogic(u32 hDown) {
         }
 }
 
-
-
 void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
     // For the D-Pad Selection.
     SelectionLogic(hDown);
@@ -185,6 +187,11 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_START) {
 		exiting = true;
 	} else if (hDown & KEY_A) {
+        if (GameLoader::cardTitle == nullptr && GameLoader::installedTitles.empty()) {
+        } else {
+            currentID = titleFromIndex(selectedTitle)->ID();
+            currentMedia = titleFromIndex(selectedTitle)->mediaType();
+        }
 		Gui::setScreen(std::make_unique<MainMenu>());
 	}
 }
@@ -206,12 +213,12 @@ void TitleSelection::TitleDraw(void) const
     // Installed Titles.
     for (size_t i = 0; i < GameLoader::installedTitles.size(); i++)
     {
-        int y = GameLoader::installedTitles.size() > 4 ? (i / 4) * 60 + 68 : 98;
-        int x = 150 + (4 - (GameLoader::installedTitles.size() % 4 == 0 ? 4 : GameLoader::installedTitles.size() % 4)) * 30 + (i > 3 ? i - 4 : i) * 60;
+        int y = GameLoader::installedTitles.size() > 3 ? (i / 3) * 60 + 68 : 98;
+        int x = 165 + (4 - (GameLoader::installedTitles.size() % 3 == 0 ? 4 : GameLoader::installedTitles.size() % 3)) * 30 + (i > 2 ? i - 3 : i) * 60;
         ;
-        if (GameLoader::installedTitles.size() > 4 && i < 4)
+        if (GameLoader::installedTitles.size() > 3 && i < 3)
         {
-            x = 150 + (i > 3 ? i - 4 : i) * 60;
+            x = 165 + (i > 2 ? i - 3 : i) * 60;
         }
 
         C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 1.0f);
