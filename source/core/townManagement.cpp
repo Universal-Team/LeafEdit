@@ -49,7 +49,6 @@ void TownManagement::BackupTownFiles() // To-Do.
 // Create the Folder for the Backup with Keyboard input. It creates the typed in name to "sdmc:/LeafEdit/Towns/".
 void TownManagement::BackupTown(u64 ID)
 {
-		Title title;
 		std::string currentPath;
 		std::string saveName = Input::getLine(Lang::typeName);
 		currentPath += "sdmc:/LeafEdit/Towns/";

@@ -44,11 +44,15 @@ extern bool updateJPNFound;
 
 void TownManager::Draw(void) const
 {
+	std::string Title;
+	Title += Lang::title;
+	Title += " - ";
+	Title += Lang::mainMenu[0];
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::title[1]))/2, 2, 0.8f, WHITE, Lang::title[1]);
+	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
 	DrawSelection();
 
 	Gui::ScreenDraw(bottom);

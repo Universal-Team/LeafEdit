@@ -7,14 +7,15 @@
 namespace Lang {
 	extern std::vector<std::string>
 	// App strings
-	title,
+	mainMenu,
 	titleSelector,
 	scan;
 
 	extern std::string
 	// [Keyboard]
 	typeName,
-	language;
+	language,
+	title;
 }
 
 #endif

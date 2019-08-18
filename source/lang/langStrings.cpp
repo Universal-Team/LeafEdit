@@ -3,19 +3,26 @@
 namespace Lang {
 	std::vector<std::string>
 	// App strings
-	// [title]
-	title = {"LeafEdit", "LeafEdit - Town Manager"},
 
+	// [mainMenu]
+	mainMenu = {"Town Manager", "Editor", "Settings"},
+	
 	// [titleSelector]
 	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},
 	
 	// [scan]
 	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"};
 
+
 	std::string
+	// Single Strings.
+
 	// [keyboard]
 	typeName = "Please Type in your Save Name.",
 
 	// [languages]
-	language = "Choose the current Language.";
+	language = "Choose the current Language.",
+
+	// [title]
+	title = "LeafEdit";
 }

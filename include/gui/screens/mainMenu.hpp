@@ -27,6 +27,8 @@
 #define MAINMENU_HPP
 
 #include "gui/screens/screen.hpp"
+#include "structs.hpp"
+#include <vector>
 
 class MainMenu : public SCREEN 
 {
@@ -35,6 +37,12 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+
+	std::vector<Structs::ButtonPos> mainButtons = {
+    	{90, 40, 140, 35, -1}, // TownManager
+		{90, 100, 140, 35, -1}, // Editor
+		{90, 160, 140, 35, -1}, // Settings
+	};
 };
 
 #endif

@@ -21,6 +21,11 @@ void Lang::loadLangStrings(int lang) {
 	// [language]
 	Lang::language = ini.GetString("language", "ccl", Lang::language);
 
+	// [mainmenu]
+	Lang::mainMenu[0] = ini.GetString("mainmenu", "townmanager", Lang::mainMenu[0]);
+	Lang::mainMenu[1] = ini.GetString("mainmenu", "editor", Lang::mainMenu[1]);
+	Lang::mainMenu[2] = ini.GetString("mainmenu", "settings", Lang::mainMenu[2]);
+
 	// [scan]
 	Lang::scan[0] = ini.GetString("scan", "TF", Lang::scan[0]);
 	Lang::scan[1] = ini.GetString("scan", "TNF", Lang::scan[1]);
@@ -29,8 +34,7 @@ void Lang::loadLangStrings(int lang) {
 	Lang::scan[4] = ini.GetString("scan", "NCI", Lang::scan[4]);
 
 	// [title]
-	Lang::title[0] = ini.GetString("title", "1", Lang::title[0]);
-	Lang::title[1] = ini.GetString("title", "2", Lang::title[1]);
+	Lang::title = ini.GetString("title", "title", Lang::title);
 
 	// [titleSelector]
 	Lang::titleSelector[0] = ini.GetString("titleSelector", "title", Lang::titleSelector[0]);
