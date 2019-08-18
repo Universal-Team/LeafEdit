@@ -35,7 +35,7 @@ namespace TownManagement
 {
     void checkTitleID();
     void BackupTownFiles();
-    void BackupTown();
+    void BackupTown(u64 ID);
     void CreateNewTown();
     void RestoreTown();
     void LaunchTown(FS_MediaType Mediatype, u64 TID);

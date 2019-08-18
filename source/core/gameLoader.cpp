@@ -29,18 +29,31 @@
 #include "gui.hpp"
 #include <array>
 
+// Check, if update for the old AC:NL version is found.
+bool updateEURFound;
+bool updateUSAFound;
+bool updateJPNFound;
+
 static constexpr std::array<unsigned long long, 6> titleIds = {
 
     // old version.
-    0x0004000000086300, // NA.
+    0x0004000000086300, // USA.
     0x0004000000086400, // EUR.
-    0x0004000000086200, // JP.
+    0x0004000000086200, // JPN.
 
     // Welcome Amiibo.
-    0x0004000000198E00, // NA.
+    0x0004000000198E00, // USA.
     0x0004000000198F00, // EUR.
-    0x0004000000198D00 //  JP.
+    0x0004000000198D00 //  JPN.
 };
+
+// For later.
+static constexpr std::array<unsigned long long, 3> updateIDs = {
+    0x0004000E00086300, // USA.
+    0x0004000E00086400, // EUR.
+    0x0004000E00086200  // JPN.
+};
+
 
 // Scan the installed Titles, to check if Animal Crossing : New Leaf is found.
 void GameLoader::scanTitleID(void)

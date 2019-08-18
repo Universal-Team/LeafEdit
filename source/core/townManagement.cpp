@@ -32,8 +32,13 @@
 #include "gui/keyboard.hpp" // For the Input Stuff.
 #include "lang/langStrings.h" // For the Strings.
 #include "common/settings.hpp"
+#include "common.hpp"
+#include "title.hpp"
 
-extern bool Gamecard;
+// For later.
+extern bool updateEURFound;
+extern bool updateUSAFound;
+extern bool updateJPNFound;
 
 // Backup the Save from the AC:NL Cartridge or digital version to the Created Folder. (Will be probably merged to "void TownManagement::BackupTown()").
 void TownManagement::BackupTownFiles() // To-Do.
@@ -41,13 +46,37 @@ void TownManagement::BackupTownFiles() // To-Do.
 }
 
 
-
 // Create the Folder for the Backup with Keyboard input. It creates the typed in name to "sdmc:/LeafEdit/Towns/".
-void TownManagement::BackupTown()
+void TownManagement::BackupTown(u64 ID)
 {
+		Title title;
 		std::string currentPath;
 		std::string saveName = Input::getLine(Lang::typeName);
 		currentPath += "sdmc:/LeafEdit/Towns/";
+		// EUR.
+		if (ID == OldEUR && updateEURFound == true) {
+			currentPath += "Welcome-Amiibo/";
+		} else if (ID == OldEUR && updateEURFound == false) {
+			currentPath += "Old/";
+		}
+
+		// USA.
+		if (ID == OldUSA && updateUSAFound == true) {
+			currentPath += "Welcome-Amiibo/";
+		} else if (ID == OldUSA && updateUSAFound == false) {
+			currentPath += "Old/";
+		}
+
+		// JPN.
+		if (ID == OldJPN && updateJPNFound == true) {
+			currentPath += "Welcome-Amiibo/";
+		} else if (ID == OldJPN && updateJPNFound == false) {
+			currentPath += "Old/";
+		}
+
+		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN) {
+			currentPath += "Welcome-Amiibo/";
+		}
 		currentPath += saveName.c_str();
 		mkdir(currentPath.c_str(), 0777);
 }

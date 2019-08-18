@@ -60,6 +60,12 @@ bool exiting = false;
 // Touch Touch!
 touchPosition touch;
 
+// Update Data bools.
+
+extern bool updateEURFound;
+extern bool updateUSAFound;
+extern bool updateJPNFound;
+
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
@@ -93,6 +99,8 @@ int main()
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/LeafEdit", 0777); // main Path.
 	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
+	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
+	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 
 	// If Language isn't set -> Set the Language.
 	if (Config::langSet == 0) {
@@ -110,6 +118,11 @@ int main()
 
 	// Scan for available Titles to display.
 	GameLoader::scanTitleID();
+
+	// Set all the Titles currently to true.
+	updateEURFound = true;
+	updateUSAFound = true;
+	updateJPNFound = true;
 	
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());

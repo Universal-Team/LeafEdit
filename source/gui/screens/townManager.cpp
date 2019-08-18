@@ -31,9 +31,16 @@
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/townManager.hpp"
 #include "core/townManagement.hpp"
+#include "common.hpp" // For the TID's.
 
 extern FS_MediaType currentMedia;
 extern u64 currentID;
+extern u32 currentLowID;
+extern u32 currentHighID;
+
+extern bool updateEURFound;
+extern bool updateUSAFound;
+extern bool updateJPNFound;
 
 void TownManager::Draw(void) const
 {
@@ -71,13 +78,13 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	}
 
 	if (hDown & KEY_X) {
-	if (Gui::promptMsg("Do you want to launch this Title?")) {
-		TownManagement::LaunchTown(currentMedia, currentID);
-	}
+		if (Gui::promptMsg("Do you want to launch this Title?")) {
+				TownManagement::LaunchTown(currentMedia, currentID);
+		}
 	}
 
 	if (Selection == 0 && hDown & KEY_A) {
-		TownManagement::BackupTown();
+		TownManagement::BackupTown(currentID);
 	}
 }
 
