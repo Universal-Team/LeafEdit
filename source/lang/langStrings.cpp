@@ -5,6 +5,10 @@ namespace Lang {
 	// App strings
 	// [title]
 	title = {"LeafEdit", "LeafEdit - Town Manager"},
+
+	// [titleSelector]
+	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},
+	
 	// [scan]
 	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"};
 

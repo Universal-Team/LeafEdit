@@ -58,16 +58,18 @@ void TitleSelection::Draw(void) const
 	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, C2D_Color32(30, 190, 10, 255));
 
 
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f,"Select a Title to start."))/2, 2, 0.72f, WHITE, "Select a Title to start.");
+	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0]);
 	
     // Draw the 3DS Gamecard.
     Gui::sprite(sprites_card_idx, 30, 93);
     // Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-    Gui::DrawString(24, 190, 0.6f, BLACK, "Cartridge");
+    Gui::DrawString(((400-Gui::Draw_GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 190, 0.6f, BLACK, Lang::titleSelector[1]);
 
-    Gui::DrawString(190, 190, 0.6f, BLACK, "Installed Titles");
+    Gui::DrawString(190, 190, 0.6f, BLACK, Lang::titleSelector[2]);
+
+    Gui::DrawString(395-Gui::Draw_GetStringWidth(FONT_SIZE_18, VERSION_STRING), 216, FONT_SIZE_18, WHITE, VERSION_STRING);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 

@@ -44,13 +44,33 @@ BANNERTOOL 	?= bannertool
 
 endif
 
+# If on a tagged commit, use the tag instead of the commit
+ifneq ($(shell echo $(shell git describe --contains) | head -c 1),)
+GIT_VER := $(shell git describe --contains)
+else
+GIT_VER := $(shell git rev-parse --short HEAD)
+endif
+
 #---------------------------------------------------------------------------------
 # Version number
 #---------------------------------------------------------------------------------
-
+ifneq ($(shell echo $(shell git describe --tags) | head -c 2 | tail -c 1),)
+VERSION_MAJOR := $(shell echo $(shell git describe --tags) | head -c 2 | tail -c 1)
+else
 VERSION_MAJOR := 0
+endif
+
+ifneq ($(shell echo $(shell git describe --tags) | head -c 4 | tail -c 1),)
+VERSION_MINOR := $(shell echo $(shell git describe --tags) | head -c 4 | tail -c 1)
+else
 VERSION_MINOR := 0
-VERSION_MICRO := 1
+endif
+
+ifneq ($(shell echo $(shell git describe --tags) | head -c 6 | tail -c 1),)
+VERSION_MICRO := $(shell echo $(shell git describe --tags) | head -c 6 | tail -c 1)
+else
+VERSION_MICRO := 0
+endif
 
 #---------------------------------------------------------------------------------
 TARGET		:=	LeafEdit
@@ -74,7 +94,8 @@ RSF_FILE	:=	app/build-cia.rsf
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:=	-g -Wall -O2 -DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_MINOR) -DVERSION_MICRO=$(VERSION_MICRO) -mword-relocations \
+CFLAGS	:=	-g -Wall -O2 -mword-relocations \
+			-DVERSION_STRING=\"$(GIT_VER)\" \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 

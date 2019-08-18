@@ -31,4 +31,9 @@ void Lang::loadLangStrings(int lang) {
 	// [title]
 	Lang::title[0] = ini.GetString("title", "1", Lang::title[0]);
 	Lang::title[1] = ini.GetString("title", "2", Lang::title[1]);
+
+	// [titleSelector]
+	Lang::titleSelector[0] = ini.GetString("titleSelector", "title", Lang::titleSelector[0]);
+	Lang::titleSelector[1] = ini.GetString("titleSelector", "card", Lang::titleSelector[1]);
+	Lang::titleSelector[2] = ini.GetString("titleSelector", "installed", Lang::titleSelector[2]);
 }
