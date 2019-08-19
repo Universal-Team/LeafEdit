@@ -77,8 +77,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Gui::setScreen(std::make_unique<TownManager>());
 						break;
 				}   case 1:
+						Misc::NotImplementedYet();
 						break;
 				 	case 2: {
+						Misc::NotImplementedYet();
 						break;
 					 }
 			}

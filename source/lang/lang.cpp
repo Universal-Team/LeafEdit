@@ -26,6 +26,9 @@ void Lang::loadLangStrings(int lang) {
 	Lang::mainMenu[1] = ini.GetString("mainmenu", "editor", Lang::mainMenu[1]);
 	Lang::mainMenu[2] = ini.GetString("mainmenu", "settings", Lang::mainMenu[2]);
 
+	// [misc]
+	Lang::notImplemented = ini.GetString("misc", "notImplemented", Lang::notImplemented);
+
 	// [title]
 	Lang::title = ini.GetString("title", "title", Lang::title);
 

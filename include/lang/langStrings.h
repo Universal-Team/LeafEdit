@@ -14,6 +14,7 @@ namespace Lang {
 
 	extern std::string
 	// [Keyboard]
+	notImplemented,
 	typeName,
 	language,
 	title;

@@ -101,6 +101,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 						TownManagement::BackupTown(currentID);
 						break;
 				 	case 2: {
+						Misc::NotImplementedYet();
 						break;
 					 }
 			}

@@ -26,6 +26,9 @@ namespace Lang {
 	// [languages]
 	language = "Choose the current Language.",
 
+	// [misc]
+	notImplemented = "This is not Implemented yet!",
+
 	// [title]
 	title = "LeafEdit";
 }
