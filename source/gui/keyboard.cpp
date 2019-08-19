@@ -125,7 +125,7 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			}
 			// Check if a modifier key was pressed
 			for(uint i=0;i<(sizeof(space)/sizeof(space[0]));i++) {
-				if((touch.px > space[i].x-2 && touch.px < space[i].x+22) && (touch.py > space[i].y+(100)-2 && touch.py < space[i].y+22+(100))) {
+				if((touch.px > space[i].x-2 && touch.px < space[i].x+120) && (touch.py > space[i].y+(103)-2 && touch.py < space[i].y+18+(103))) {
 					if(space[i].character == " ") {
 						if(string.length() < maxLength) {
 							shift = 0;
