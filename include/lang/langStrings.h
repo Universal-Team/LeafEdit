@@ -9,6 +9,7 @@ namespace Lang {
 	// App strings
 	mainMenu,
 	titleSelector,
+	townmanager,
 	scan;
 
 	extern std::string

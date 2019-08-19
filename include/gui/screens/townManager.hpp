@@ -27,6 +27,8 @@
 #define TOWNMANAGER_HPP
 
 #include "gui/screens/screen.hpp"
+#include "structs.hpp"
+#include <vector>
 
 class TownManager : public SCREEN 
 {
@@ -36,8 +38,13 @@ public:
 
 private:
 	int Selection = 0;
-	void DrawSelection(void) const;
 	void SelectionLogic(u32 hDown, u32 hHeld);
+
+	std::vector<Structs::ButtonPos> townButtons = {
+    	{90, 40, 140, 35, -1}, // Launch
+		{90, 100, 140, 35, -1}, // Backup
+		{90, 160, 140, 35, -1}, // Restore
+	};
 };
 
 #endif

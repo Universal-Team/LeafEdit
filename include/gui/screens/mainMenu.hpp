@@ -37,6 +37,8 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+	int Selection = 0;
+	void SelectionLogic(u32 hDown, u32 hHeld);
 
 	std::vector<Structs::ButtonPos> mainButtons = {
     	{90, 40, 140, 35, -1}, // TownManager

@@ -9,6 +9,9 @@ namespace Lang {
 	
 	// [titleSelector]
 	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},
+
+	// [townmanager]
+	townmanager = {"Launch Town", "Backup Town", "Restore Town", "Do you want to launch this Town?"},
 	
 	// [scan]
 	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"};

@@ -53,23 +53,32 @@ void TownManager::Draw(void) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
-	DrawSelection();
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
-}
 
-void TownManager::DrawSelection(void) const
-{
+
 	if (Selection == 0) {
+		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, RED);
+		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, GREEN);
+		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, GREEN);
 
 	} else if (Selection == 1) {
+		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, GREEN);
+		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, RED);
+		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, GREEN);
 
 	} else if (Selection == 2) {
-
+		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, GREEN);
+		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, GREEN);
+		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, RED);
 	}
+
+	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::townmanager[0]))/2, townButtons[0].y+10, 0.6f, WHITE, Lang::townmanager[0]);
+	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::townmanager[1]))/2, townButtons[1].y+10, 0.6f, WHITE, Lang::townmanager[1]);
+	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::townmanager[2]))/2, townButtons[2].y+10, 0.6f, WHITE, Lang::townmanager[2]);
 }
 
 void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -81,15 +90,21 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 		return;
 	}
 
-	if (hDown & KEY_X) {
-		if (Gui::promptMsg("Do you want to launch this Title?")) {
-				TownManagement::LaunchTown(currentMedia, currentID);
+	if (hDown & KEY_A) {
+			switch(Selection) {
+				case 0: {
+					if (Gui::promptMsg(Lang::townmanager[3])) {
+						TownManagement::LaunchTown(currentMedia, currentID);
+						}
+						break;
+				}   case 1:
+						TownManagement::BackupTown(currentID);
+						break;
+				 	case 2: {
+						break;
+					 }
+			}
 		}
-	}
-
-	if (Selection == 0 && hDown & KEY_A) {
-		TownManagement::BackupTown(currentID);
-	}
 }
 
 void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
