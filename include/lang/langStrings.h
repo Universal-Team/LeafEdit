@@ -10,7 +10,8 @@ namespace Lang {
 	mainMenu,
 	titleSelector,
 	townmanager,
-	scan;
+	scan,
+	update;
 
 	extern std::string
 	// [Keyboard]

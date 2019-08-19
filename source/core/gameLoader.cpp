@@ -27,12 +27,11 @@
 #include <3ds.h>
 #include "core/gameLoader.hpp"
 #include "gui.hpp"
+#include "settings.hpp"
 #include <array>
 
 // Check, if update for the old AC:NL version is found.
-bool updateEURFound;
-bool updateUSAFound;
-bool updateJPNFound;
+bool updateFound;
 
 static constexpr std::array<unsigned long long, 6> titleIds = {
 
@@ -47,12 +46,45 @@ static constexpr std::array<unsigned long long, 6> titleIds = {
     0x0004000000198D00 //  JPN.
 };
 
-// For later.
-static constexpr std::array<unsigned long long, 3> updateIDs = {
-    0x0004000E00086300, // USA.
-    0x0004000E00086400, // EUR.
-    0x0004000E00086200  // JPN.
-};
+
+void GameLoader::checkUpdate(void)
+{
+    if (Config::check == 0) {
+    Result res = 0;
+	u32 updateTitleCount;
+
+    res = AM_GetTitleCount(MEDIATYPE_SD, &updateTitleCount);
+    if (R_FAILED(res))
+    {
+        return;
+    }
+
+    // get title list and check if a title matches the ids we want
+    std::vector<u64> updateIds;
+    updateIds.resize(updateTitleCount);
+    res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
+    if (R_FAILED(res))
+    {
+        return;
+    }
+
+    if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
+        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
+        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end()) // JPN.
+        {
+            Gui::DisplayWarnMsg(Lang::update[0]);
+            Config::update = 1;
+        } else {
+            Gui::DisplayWarnMsg(Lang::update[1]);
+            Config::update = 0;
+        }
+
+        Config::check = 1;
+        Config::saveConfig();
+
+    } else if (Config::check == 1) {
+    }
+}
 
 
 // Scan the installed Titles, to check if Animal Crossing : New Leaf is found.

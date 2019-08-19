@@ -60,11 +60,6 @@ bool exiting = false;
 // Touch Touch!
 touchPosition touch;
 
-// Update Data bools.
-
-extern bool updateEURFound;
-extern bool updateUSAFound;
-extern bool updateJPNFound;
 
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
@@ -116,13 +111,11 @@ int main()
 
 	TestStuff();
 
+	GameLoader::checkUpdate();
+
+
 	// Scan for available Titles to display.
 	GameLoader::scanTitleID();
-
-	// Set all the Titles currently to true.
-	updateEURFound = true;
-	updateUSAFound = true;
-	updateJPNFound = true;
 	
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());

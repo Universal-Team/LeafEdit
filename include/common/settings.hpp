@@ -33,6 +33,8 @@
 namespace Config {
 	extern int lang; // [UI]
 	extern int langSet; // tell if the current Language was already set.
+	extern int update; // Tell, if an Update of AC:NL was found. (For the old version)
+	extern int check; // If checked on startup -> 1.
 
 	void loadConfig();
 	void saveConfig();

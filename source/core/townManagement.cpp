@@ -34,11 +34,8 @@
 #include "common/settings.hpp"
 #include "common.hpp"
 #include "title.hpp"
+#include "settings.hpp"
 
-// For later.
-extern bool updateEURFound;
-extern bool updateUSAFound;
-extern bool updateJPNFound;
 
 // Backup the Save from the AC:NL Cartridge or digital version to the Created Folder. (Will be probably merged to "void TownManagement::BackupTown()").
 void TownManagement::BackupTownFiles() // To-Do.
@@ -53,23 +50,23 @@ void TownManagement::BackupTown(u64 ID)
 		std::string saveName = Input::getLine(Lang::typeName);
 		currentPath += "sdmc:/LeafEdit/Towns/";
 		// EUR.
-		if (ID == OldEUR && updateEURFound == true) {
+		if (ID == OldEUR && Config::update == 1) {
 			currentPath += "Welcome-Amiibo/";
-		} else if (ID == OldEUR && updateEURFound == false) {
+		} else if (ID == OldEUR  && Config::update == 0) {
 			currentPath += "Old/";
 		}
 
 		// USA.
-		if (ID == OldUSA && updateUSAFound == true) {
+		if (ID == OldUSA  && Config::update == 1) {
 			currentPath += "Welcome-Amiibo/";
-		} else if (ID == OldUSA && updateUSAFound == false) {
+		} else if (ID == OldUSA  && Config::update == 0) {
 			currentPath += "Old/";
 		}
 
 		// JPN.
-		if (ID == OldJPN && updateJPNFound == true) {
+		if (ID == OldJPN  && Config::update == 1) {
 			currentPath += "Welcome-Amiibo/";
-		} else if (ID == OldJPN && updateJPNFound == false) {
+		} else if (ID == OldJPN  && Config::update == 0) {
 			currentPath += "Old/";
 		}
 

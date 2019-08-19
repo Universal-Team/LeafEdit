@@ -50,4 +50,8 @@ void Lang::loadLangStrings(int lang) {
 	Lang::scan[2] = ini.GetString("scan", "IDM", Lang::scan[2]);
 	Lang::scan[3] = ini.GetString("scan", "IDDM", Lang::scan[3]);
 	Lang::scan[4] = ini.GetString("scan", "NCI", Lang::scan[4]);
+
+	// [update]
+	Lang::update[0] = ini.GetString("update", "found", Lang::update[0]);
+	Lang::update[1] = ini.GetString("update", "notFound", Lang::update[1]);
 }

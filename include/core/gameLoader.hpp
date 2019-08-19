@@ -33,6 +33,7 @@
 
 namespace GameLoader
 {
+    void checkUpdate(void);
     void scanTitleID(void);
     bool scanCard();
     bool cardUpdate();
