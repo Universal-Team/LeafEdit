@@ -74,6 +74,17 @@ steps:
     isPreRelease: true
     addChangeLog: false
 
+- task: GitHubRelease@0
+  displayName: "Release to Universal-Team/LeafEdit"
+  condition: startsWith(variables['Build.SourceBranchName'], 'v')
+  inputs:
+    gitHubConnection: TWLBot
+    repositoryName: Universal-Team/LeafEdit
+    action: edit
+    target: '$(Build.SourceVersion)'
+    tag: $(Build.SourceBranchName)
+    assets: '$(Build.ArtifactStagingDirectory)/**/*'
+
 - script: |
     curl -o send.sh https://raw.githubusercontent.com/Universal-Team/discord-webhooks/master/send-azure.sh
     chmod +x send.sh
