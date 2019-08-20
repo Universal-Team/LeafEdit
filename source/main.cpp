@@ -46,6 +46,7 @@
 #include "gui/screens/titleSelection.hpp"
 #include "core/gameLoader.hpp"
 #include "title.hpp"
+#include "archive.hpp"
 
 // The classic Fade Effect! ;P
 int fadealpha = 255;
@@ -89,6 +90,8 @@ int main()
 	cfguInit();
 	Config::loadConfig();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
+	fsInit();
+	Archive::init();
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
@@ -150,6 +153,8 @@ int main()
 	Gui::exit();
 	gfxExit();
 	romfsExit();
+	fsExit();
+	Archive::exit();
 
     return 0;
 }

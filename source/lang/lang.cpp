@@ -26,6 +26,22 @@ void Lang::loadLangStrings(int lang) {
 	Lang::mainMenu[1] = ini.GetString("mainmenu", "editor", Lang::mainMenu[1]);
 	Lang::mainMenu[2] = ini.GetString("mainmenu", "settings", Lang::mainMenu[2]);
 
+	// [messages]
+	Lang::messages[0] = ini.GetString("messages", "1", Lang::messages[0]);
+	Lang::messages[1] = ini.GetString("messages", "2", Lang::messages[1]);
+	Lang::messages[2] = ini.GetString("messages", "3", Lang::messages[2]);
+	Lang::messages[3] = ini.GetString("messages", "4", Lang::messages[3]);
+	Lang::messages[4] = ini.GetString("messages", "5", Lang::messages[4]);
+	Lang::messages[5] = ini.GetString("messages", "6", Lang::messages[5]);
+	Lang::messages[6] = ini.GetString("messages", "7", Lang::messages[6]);
+
+	// [messages]
+	Lang::messages2[0] = ini.GetString("messages2", "continue", Lang::messages2[0]);
+	Lang::messages2[1] = ini.GetString("messages2", "confirm", Lang::messages2[1]);
+	Lang::messages2[2] = ini.GetString("messages2", "backup", Lang::messages2[2]);
+	Lang::messages2[3] = ini.GetString("messages2", "restore", Lang::messages2[3]);
+	Lang::messages2[4] = ini.GetString("messages2", "launch", Lang::messages2[4]);
+
 	// [misc]
 	Lang::notImplemented = ini.GetString("misc", "notImplemented", Lang::notImplemented);
 
@@ -41,7 +57,6 @@ void Lang::loadLangStrings(int lang) {
 	Lang::townmanager[0] = ini.GetString("townmanager", "launch", Lang::townmanager[0]);
 	Lang::townmanager[1] = ini.GetString("townmanager", "backup", Lang::townmanager[1]);
 	Lang::townmanager[2] = ini.GetString("townmanager", "restore", Lang::townmanager[2]);
-	Lang::townmanager[3] = ini.GetString("townmanager", "launchmsg", Lang::townmanager[3]);
 
 
 	// [scan]

@@ -37,6 +37,7 @@ extern FS_MediaType currentMedia;
 extern u64 currentID;
 extern u32 currentLowID;
 extern u32 currentHighID;
+extern u32 currentUniqueID;
 
 extern bool updateEURFound;
 extern bool updateUSAFound;
@@ -93,15 +94,19 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_A) {
 			switch(Selection) {
 				case 0: {
-					if (Gui::promptMsg(Lang::townmanager[3])) {
+					if (Gui::promptMsg(Lang::messages2[4])) {
 						TownManagement::LaunchTown(currentMedia, currentID);
 						}
 						break;
-				}   case 1:
-						TownManagement::BackupTown(currentID);
+				}	case 1:
+						if (Gui::promptMsg(Lang::messages2[2])) {
+						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
+						}
 						break;
 				 	case 2: {
-						Misc::NotImplementedYet();
+						if (Gui::promptMsg(Lang::messages2[3])) {
+							TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID);
+						}
 						break;
 					 }
 			}

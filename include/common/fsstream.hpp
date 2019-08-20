@@ -1,6 +1,6 @@
 /*
- *   This file is part of PKSM
- *   Copyright (C) 2016-2019 Bernardo Giordano, Admiral Fish, piepie62
+ *   This file is part of Checkpoint
+ *   Copyright (C) 2017-2019 Bernardo Giordano, FlagBrew
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,38 +24,34 @@
  *         reasonable ways as different from the original version.
  */
 
-#ifndef TITLE_HPP
-#define TITLE_HPP
+#ifndef FSSTREAM_HPP
+#define FSSTREAM_HPP
 
 #include <3ds.h>
-#include <algorithm>
 #include <string>
-#include <citro2d.h>
 
-class Title
-{
+class FSStream {
 public:
-    // std::make_shared stuff.
-    Title(void) = default;
-    ~Title(void);
+    FSStream(FS_Archive archive, const std::u16string& path, u32 flags);
+    FSStream(FS_Archive archive, const std::u16string& path, u32 flags, u32 size);
+    ~FSStream(void){};
 
-    // Title Handling.
-    bool load(u64 id, FS_MediaType mediaType, FS_CardType cardType);
-    u32 highId(void);
-    u32 lowId(void);
-    u64 ID(void) { return (u64)highId() << 32 | lowId(); }
-    FS_MediaType mediaType(void);
-    FS_CardType cardType(void);
-    std::string name(void);
-    C2D_Image icon(void);
+    Result close(void);
+    bool eof(void);
+    bool good(void);
+    void offset(u32 o);
+    u32 offset(void);
+    u32 read(void* buf, u32 size);
+    Result result(void);
+    u32 size(void);
+    u32 write(const void* buf, u32 size);
 
 private:
-    u64 mId;
-    FS_MediaType mMedia;
-    FS_CardType mCard;
-    FS_CardType mCardType;
-    C2D_Image mIcon;
-    std::string mName;
+    Handle mHandle;
+    u32 mSize;
+    u32 mOffset;
+    Result mResult;
+    bool mGood;
 };
 
 #endif

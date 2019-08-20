@@ -35,78 +35,155 @@
 #include "common.hpp"
 #include "title.hpp"
 #include "settings.hpp"
-
-
-// Backup the Save from the AC:NL Cartridge or digital version to the Created Folder. (Will be probably merged to "void TownManagement::BackupTown()").
-void TownManagement::BackupTownFiles() // To-Do.
-{
-}
+#include "utils.hpp"
+#include "archive.hpp"
+#include "io.hpp" // Backup & Restore Part.
 
 
 // Create the Folder for the Backup with Keyboard input. It creates the typed in name to "sdmc:/LeafEdit/Towns/".
-void TownManagement::BackupTown(u64 ID)
+Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID)
 {
-		std::string currentPath;
+	Result res		= 0;
+	FS_Archive archive;
+		res = Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
+
+	if (R_SUCCEEDED(res)) {
+		std::u16string customPath;
 		std::string saveName = Input::getLine(Lang::typeName);
-		currentPath += "sdmc:/LeafEdit/Towns/";
+		customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
+
+		customPath += StringUtils::UTF8toUTF16("/");
+
 		// EUR.
 		if (ID == OldEUR && Config::update == 1) {
-			currentPath += "Welcome-Amiibo/";
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 		} else if (ID == OldEUR  && Config::update == 0) {
-			currentPath += "Old/";
+			customPath += StringUtils::UTF8toUTF16("Old");
 		}
 
 		// USA.
 		if (ID == OldUSA  && Config::update == 1) {
-			currentPath += "Welcome-Amiibo/";
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 		} else if (ID == OldUSA  && Config::update == 0) {
-			currentPath += "Old/";
+			customPath += StringUtils::UTF8toUTF16("Old");
 		}
 
 		// JPN.
 		if (ID == OldJPN  && Config::update == 1) {
-			currentPath += "Welcome-Amiibo/";
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 		} else if (ID == OldJPN  && Config::update == 0) {
-			currentPath += "Old/";
+			customPath += StringUtils::UTF8toUTF16("Old");
 		}
 
 		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN) {
-			currentPath += "Welcome-Amiibo/";
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 		}
-		currentPath += saveName.c_str();
-		mkdir(currentPath.c_str(), 0777);
+
+		std::u16string folderPath = customPath;
+		folderPath += StringUtils::UTF8toUTF16("/");
+		folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
+		res = io::createDirectory(Archive::sdmc(), folderPath);
+            if (R_FAILED(res)) {
+                FSUSER_CloseArchive(archive);
+				Gui::DisplayWaitMsg(Lang::messages[0]);
+				return res;
+			}
+
+
+		std::u16string savePath = folderPath;
+		savePath += StringUtils::UTF8toUTF16("/");
+
+		res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
+			if (R_FAILED(res)) {
+                FSUSER_CloseArchive(archive);
+                FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
+				Gui::DisplayWaitMsg(Lang::messages[1]);
+				return res;
+			}
+		}
+	FSUSER_CloseArchive(archive);
+	Gui::DisplayWaitMsg(Lang::messages[2]);
+	return 0;
 }
 
 
 
 // Clear the current Save Data
-void TownManagement::CreateNewTown()
+Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID)
 {
+	FS_Archive archive;
+	Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
+
+	std::u16string dstPath = StringUtils::UTF8toUTF16("/");
+
+	FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
+
+	LaunchTown(Media, TID);
+	return 0;
 }
 
 
 
 // Restore the selected Town.
-void TownManagement::RestoreTown() // To-Do.
+Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID) // To-Do -> add Save Browse.
 {
+	Result res		= 0;
+	FS_Archive archive;
+		res =  Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
+
+			if (R_SUCCEEDED(res)) {
+				std::u16string srcPath = StringUtils::UTF8toUTF16("/LeafEdit/Towns/Welcome-Amiibo/Test");
+				srcPath += StringUtils::UTF8toUTF16("/");
+				std::u16string dstPath = StringUtils::UTF8toUTF16("/");
+
+				FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
+
+				res = io::copyDirectory(Archive::sdmc(), archive, srcPath, dstPath);
+					if (R_FAILED(res)) {
+						Gui::DisplayWaitMsg(Lang::messages[1]);
+						FSUSER_CloseArchive(archive);
+						return res;
+					}
+
+
+			res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
+				if (R_FAILED(res)) {
+					FSUSER_CloseArchive(archive);
+					Gui::DisplayWaitMsg(Lang::messages[3]);
+					return res;
+				}
+
+
+			u8 out;
+			u64 secureValue = ((u64)SECUREVALUE_SLOT_SD << 32) | (uniqueID << 8);
+			res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
+				if (R_FAILED(res)) {
+					FSUSER_CloseArchive(archive);
+					Gui::DisplayWaitMsg(Lang::messages[4]);
+					return res;
+				}
+			}
+	Gui::DisplayWaitMsg(Lang::messages[5]);
+	return 0;
 }
 
 
-// MEDIATYPE_GAME_CARD -> Gamecart.
-// MEDIATYPE_SD -> Installed Title.
-// MEDIATYPE_NAND -> NAND Title.
-
-
 // Restore and Launch the selected Town. The current Commented out code would Launch Animal Crossing : New Leaf [EUR].
-void TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
+Result TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
 {
-	u8 param[0x300];
-	u8 hmac[0x20];
-	memset(param, 0, sizeof(param));
-	memset(hmac, 0, sizeof(hmac));
+	Result res		= 0;
+		u8 param[0x300];
+		u8 hmac[0x20];
+		memset(param, 0, sizeof(param));
+		memset(hmac, 0, sizeof(hmac));
 
-	APT_PrepareToDoApplicationJump(0, TID, Mediatype);
-	APT_DoApplicationJump(param, sizeof(param), hmac);
+		APT_PrepareToDoApplicationJump(0, TID, Mediatype);
+		res = APT_DoApplicationJump(param, sizeof(param), hmac);
+		if (R_FAILED(res)) {
+			Gui::DisplayWaitMsg(Lang::messages[6]);
+			return res;
+		}
+	return 0;
 }
 
 

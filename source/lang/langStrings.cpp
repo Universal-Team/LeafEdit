@@ -6,12 +6,20 @@ namespace Lang {
 
 	// [mainMenu]
 	mainMenu = {"Town Manager", "Editor", "Settings"},
+
+	// [messages]
+	messages = {"Creating Directory Failed!", "Copying Files Failed!", "Backup success!", "Failed to commit Save Data!",
+				"Failed to fix secure value!", "Restore success!", "Failed to do App Jump!"},
+
+	// [messages2]
+	messages2 = {"Press A to continue.", "Press A to confirm or B to Cancel.", "Do you want to Backup this save?",
+				 "Do you want to restore this Save?", "Do you want to launch this Town?"},
 	
 	// [titleSelector]
 	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},
 
 	// [townmanager]
-	townmanager = {"Launch Town", "Backup Town", "Restore Town", "Do you want to launch this Town?"},
+	townmanager = {"Launch Town", "Backup Town", "Restore Town"},
 	
 	// [scan]
 	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"},

@@ -8,6 +8,8 @@ namespace Lang {
 	extern std::vector<std::string>
 	// App strings
 	mainMenu,
+	messages,
+	messages2,
 	titleSelector,
 	townmanager,
 	scan,

@@ -39,6 +39,7 @@ extern bool fadein;
 u64 currentID;
 u32 currentLowID;
 u32 currentHighID;
+u32 currentUniqueID;
 FS_MediaType currentMedia;
 
 
@@ -197,6 +198,7 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
             currentMedia = titleFromIndex(selectedTitle)->mediaType();
             currentLowID = titleFromIndex(selectedTitle)->lowId();
             currentHighID = titleFromIndex(selectedTitle)->highId();
+            currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
         }
 		Gui::setScreen(std::make_unique<MainMenu>());
 	}

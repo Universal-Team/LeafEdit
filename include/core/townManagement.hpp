@@ -33,13 +33,11 @@
 
 namespace TownManagement
 {
-    void checkTitleID();
-    void BackupTownFiles();
-    void BackupTown(u64 ID);
-    void CreateNewTown();
-    void RestoreTown();
-    void LaunchTown(FS_MediaType Mediatype, u64 TID);
-    void ShowProgress();
+    Result BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID);
+    Result CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID); // Doesn't really work yet.
+    Result RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID);
+    Result LaunchTown(FS_MediaType Mediatype, u64 TID);
+    void ShowProgress(); // To-Do.
 };
 
 #endif

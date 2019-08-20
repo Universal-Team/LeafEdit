@@ -106,10 +106,12 @@ bool Gui::promptMsg2(std::string promptMsg)
     C2D_TargetClear(top, BLACK);
     C2D_TargetClear(bottom, BLACK);
     Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, promptMsg.c_str()))/2, 50, 0.72f, WHITE, promptMsg.c_str());
+	Gui::Draw_Rect(0, 0, 400, 240, DARKGRAY);
+	Gui::Draw_Rect(0, 65, 400, 100, GREEN);
+    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, WHITE, promptMsg.c_str());
+
+    Gui::Draw_Rect(0, 215, 400, 25, GREEN);
+    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::messages2[1]))/2, 217, 0.72f, WHITE, Lang::messages2[1]);
     Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
@@ -163,11 +165,12 @@ void Gui::DisplayWaitMsg(std::string waitMsg, ...)
     C2D_TargetClear(top, BLACK);
     C2D_TargetClear(bottom, BLACK);
     Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-    //Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::Continue))/2, 2, 0.72f, WHITE, Lang::Continue);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, waitMsg.c_str()))/2, 50, 0.72f, WHITE, waitMsg.c_str());
+	Gui::Draw_Rect(0, 0, 400, 240, DARKGRAY);
+	Gui::Draw_Rect(0, 65, 400, 100, GREEN);
+
+    Gui::Draw_Rect(0, 215, 400, 25, GREEN);
+    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.6f, Lang::messages2[0]))/2, 217, 0.6f, WHITE, Lang::messages2[0]);
+    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, WHITE, waitMsg.c_str());
     Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);

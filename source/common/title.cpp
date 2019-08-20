@@ -69,7 +69,9 @@ bool Title::load(u64 id, FS_MediaType media, FS_CardType card)
         {
             return false;
         }
-
+        
+        char unique[12] = {0};
+        sprintf(unique, "0x%05X ", (unsigned int)uniqueId());
         mName   = StringUtils::UTF16toUTF8((char16_t*)smdh->applicationTitles[1].shortDescription);
         
         if (Archive::saveAccessible(mMedia, lowId(), highId()))
@@ -115,4 +117,9 @@ C2D_Image Title::icon(void)
 std::string Title::name(void)
 {
     return mName;
+}
+
+u32 Title::uniqueId(void)
+{
+    return (lowId() >> 8);
 }
