@@ -125,14 +125,44 @@ Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32
 
 
 // Restore the selected Town.
-Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID) // To-Do -> add Save Browse.
+Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID, std::string saveFolder)
 {
 	Result res		= 0;
 	FS_Archive archive;
 		res =  Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
 
-			if (R_SUCCEEDED(res)) {
-				std::u16string srcPath = StringUtils::UTF8toUTF16("/LeafEdit/Towns/Welcome-Amiibo/Test");
+		if (R_SUCCEEDED(res)) {
+			std::u16string customPath;
+			customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
+			customPath += StringUtils::UTF8toUTF16("/");
+
+			// EUR.
+			if (ID == OldEUR && Config::update == 1) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+			} else if (ID == OldEUR  && Config::update == 0) {
+				customPath += StringUtils::UTF8toUTF16("Old/");
+			}
+
+			// USA.
+			if (ID == OldUSA  && Config::update == 1) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+			} else if (ID == OldUSA  && Config::update == 0) {
+				customPath += StringUtils::UTF8toUTF16("Old/");
+			}
+
+			// JPN.
+			if (ID == OldJPN  && Config::update == 1) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+			} else if (ID == OldJPN  && Config::update == 0) {
+				customPath += StringUtils::UTF8toUTF16("Old/");
+			}
+
+			if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+			}
+
+				std::u16string srcPath = customPath;
+				srcPath += StringUtils::UTF8toUTF16(saveFolder.c_str());
 				srcPath += StringUtils::UTF8toUTF16("/");
 				std::u16string dstPath = StringUtils::UTF8toUTF16("/");
 

@@ -32,18 +32,27 @@
 #include "gui/screens/townManager.hpp"
 #include "core/townManagement.hpp"
 #include "common.hpp" // For the TID's.
+#include <algorithm>
+#include <unistd.h>
+#include "settings.hpp"
 
 extern FS_MediaType currentMedia;
 extern u64 currentID;
 extern u32 currentLowID;
 extern u32 currentHighID;
 extern u32 currentUniqueID;
-
-extern bool updateEURFound;
-extern bool updateUSAFound;
-extern bool updateJPNFound;
+std::string selectedSaveFolder = "";
 
 void TownManager::Draw(void) const
+{
+	if (screenMode == 0) {
+		DrawSubMenu();
+	} else if (screenMode == 1) {
+		DrawBrowse();
+	}
+}
+
+void TownManager::DrawSubMenu(void) const
 {
 	std::string Title;
 	Title += Lang::title;
@@ -82,8 +91,10 @@ void TownManager::Draw(void) const
 	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::townmanager[2]))/2, townButtons[2].y+10, 0.6f, WHITE, Lang::townmanager[2]);
 }
 
+
 void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 {
+	if (screenMode == 0) {
 	SelectionLogic(hDown, hHeld);
 
 	if (hDown & KEY_B) {
@@ -104,12 +115,13 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 						}
 						break;
 				 	case 2: {
-						if (Gui::promptMsg(Lang::messages2[3])) {
-							TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID);
-						}
+							screenMode = 1;
 						break;
 					 }
+				}
 			}
+		} else if (screenMode == 1) {
+			BrowseLogic(hDown, hHeld);
 		}
 }
 
@@ -119,5 +131,127 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
+	}
+}
+
+void TownManager::DrawBrowse(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::townmanager[3]))/2, 2, 0.8f, WHITE, Lang::townmanager[3]);
+
+	std::string dirs;
+	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
+		(i == selectedSave);
+
+		if (selectedSave == 0) {
+			Gui::Draw_Rect(0, 25, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+
+		} else if (selectedSave == 1) {
+			Gui::Draw_Rect(0, 56, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+
+		} else if (selectedSave == 2) {
+			Gui::Draw_Rect(0, 91, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+
+		} else if (selectedSave == 3) {
+			Gui::Draw_Rect(0, 125, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+
+		} else if (selectedSave == 4) {
+			Gui::Draw_Rect(0, 160, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+
+		} else if (selectedSave == 5) {
+			Gui::Draw_Rect(0, 190, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+		} else {
+			Gui::Draw_Rect(0, 190, 400, 25, RED);
+			dirs +=  dirContents[i].name + "\n\n";
+		}
+	}
+	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
+		dirs += "\n\n";
+	}
+	Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str());
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+void TownManager::BrowseLogic(u32 hDown, u32 hHeld) { 
+	if (keyRepeatDelay)	keyRepeatDelay--;
+	gspWaitForVBlank();
+
+			if (dirChanged) {
+            dirContents.clear();
+		std::string customPath = "sdmc:/LeafEdit/Towns/";
+
+		// EUR.
+		if (currentID == OldEUR && Config::update == 1) {
+			customPath += "Welcome-Amiibo/";
+		} else if (currentID == OldEUR  && Config::update == 0) {
+			customPath += "Old/";
+		}
+
+		// USA.
+		if (currentID == OldUSA  && Config::update == 1) {
+			customPath += "Welcome-Amiibo/";
+		} else if (currentID == OldUSA  && Config::update == 0) {
+			customPath += "Old/";
+		}
+
+		// JPN.
+		if (currentID == OldJPN  && Config::update == 1) {
+			customPath += "Welcome-Amiibo/";
+		} else if (currentID == OldJPN  && Config::update == 0) {
+			customPath += "Old/";
+		}
+
+		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN) {
+			customPath += "Welcome-Amiibo/";
+		}
+
+
+			chdir(customPath.c_str());
+            std::vector<DirEntry> dirContentsTemp;
+            getDirectoryContents(dirContentsTemp);
+            for(uint i=0;i<dirContentsTemp.size();i++) {
+                  dirContents.push_back(dirContentsTemp[i]);
+        }
+		dirChanged = false;
+	}
+
+		if(hDown & KEY_A) {
+			std::string prompt = Lang::messages2[3];
+			prompt += "\n\n";
+			prompt += dirContents[selectedSave].name;
+			if(Gui::promptMsg(prompt.c_str())) {
+				selectedSaveFolder = dirContents[selectedSave].name.c_str();
+				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
+				selectedSaveFolder = "";
+				screenMode = 0;
+			}
+	} else if (hHeld & KEY_UP) {
+		if (selectedSave > 0 && !keyRepeatDelay) {
+			selectedSave--;
+			keyRepeatDelay = 3;
+		}
+	} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+		if (selectedSave < dirContents.size()-1) {
+			selectedSave++;
+			keyRepeatDelay = 3;
+		}
+	} else if (hDown & KEY_B) {
+		if(Gui::promptMsg("Do you want to Cancel the Restore?")) {
+			screenMode = 0;
+		}
 	}
 }

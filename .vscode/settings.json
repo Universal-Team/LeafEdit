@@ -43,6 +43,7 @@
 		"streambuf": "cpp",
 		"typeinfo": "cpp",
 		"codecvt": "cpp",
-		"optional": "cpp"
+		"optional": "cpp",
+		"cstring": "cpp"
 	}
 }

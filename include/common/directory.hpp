@@ -29,6 +29,8 @@
 
 #include "utils.hpp"
 #include <3ds.h>
+#include <sys/stat.h>
+#include <dirent.h>
 #include <string>
 #include <vector>
 
@@ -48,5 +50,14 @@ private:
     Result mError;
     bool mGood;
 };
+
+struct DirEntry {
+	std::string name;
+	std::string path;
+	bool isDirectory;
+	off_t size;
+};
+
+void getDirectoryContents(std::vector<DirEntry>& dirContents);
 
 #endif

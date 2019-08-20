@@ -29,12 +29,16 @@
 #include "gui/screens/screen.hpp"
 #include "structs.hpp"
 #include <vector>
+#include "directory.hpp"
 
 class TownManager : public SCREEN 
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	void DrawBrowse(void) const;
+	void BrowseLogic(u32 hDown, u32 hHeld);
+	void DrawSubMenu(void) const;
 
 private:
 	int Selection = 0;
@@ -45,6 +49,12 @@ private:
 		{90, 100, 140, 35, -1}, // Backup
 		{90, 160, 140, 35, -1}, // Restore
 	};
+
+	int screenMode = 0;
+	uint selectedSave = 0;
+	int keyRepeatDelay = 3;
+	mutable bool dirChanged = true;
+	std::vector<DirEntry> dirContents;
 };
 
 #endif
