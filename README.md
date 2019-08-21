@@ -7,7 +7,7 @@ This is a work in progress Animal Crossing : New Leaf Save Manager & Editor for 
 ### Main Developers
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ): App Idea and Main Developer.
 ### Translators
-- [Epicpkmn11](https://github.com/Epicpkmn11): Japanese
+- [Epicpkmn11](https://github.com/Epicpkmn11): Japanese & English
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ): German & English
 ### Others
 - [devkitPro](https://github.com/devkitPro), [Fincs](https://github.com/fincs), [Smealum](https://github.com/smealum), [Wintermute](https://github.com/WinterMute) : For devkitARM, Citro2D, Citro3D and Libctru.
