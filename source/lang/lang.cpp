@@ -63,14 +63,6 @@ void Lang::loadLangStrings(int lang) {
 	Lang::townmanager[3] = ini.GetString("townmanager", "select", Lang::townmanager[3]);
 	Lang::townmanager[4] = ini.GetString("townmanager", "select2", Lang::townmanager[4]);
 
-
-	// [scan]
-	Lang::scan[0] = ini.GetString("scan", "TF", Lang::scan[0]);
-	Lang::scan[1] = ini.GetString("scan", "TNF", Lang::scan[1]);
-	Lang::scan[2] = ini.GetString("scan", "IDM", Lang::scan[2]);
-	Lang::scan[3] = ini.GetString("scan", "IDDM", Lang::scan[3]);
-	Lang::scan[4] = ini.GetString("scan", "NCI", Lang::scan[4]);
-
 	// [update]
 	Lang::update[0] = ini.GetString("update", "found", Lang::update[0]);
 	Lang::update[1] = ini.GetString("update", "notFound", Lang::update[1]);

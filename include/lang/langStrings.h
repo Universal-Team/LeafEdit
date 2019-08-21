@@ -12,7 +12,6 @@ namespace Lang {
 	messages2,
 	titleSelector,
 	townmanager,
-	scan,
 	update;
 
 	extern std::string

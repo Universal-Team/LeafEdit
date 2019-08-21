@@ -21,9 +21,6 @@ namespace Lang {
 
 	// [townmanager]
 	townmanager = {"Launch Town", "Backup Town", "Restore Town", "Select a Town to restore.", "Select a Town to Launch."},
-	
-	// [scan]
-	scan = {"Title Found!", "Title not Found!", "Card ID matches!", "Card ID doesn't match!", "No Cartridge Inserted!"},
 
 	// [update]
 	update = {"Update Found!", "Update Not Found!"};
