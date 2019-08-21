@@ -47,7 +47,7 @@ void TownManager::Draw(void) const
 {
 	if (screenMode == 0) {
 		DrawSubMenu();
-	} else if (screenMode == 1) {
+	} else if (screenMode == 1 || screenMode == 2) {
 		DrawBrowse();
 	}
 }
@@ -105,9 +105,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_A) {
 			switch(Selection) {
 				case 0: {
-					if (Gui::promptMsg(Lang::messages2[4])) {
-						TownManagement::LaunchTown(currentMedia, currentID);
-						}
+						screenMode = 2;
 						break;
 				}	case 1:
 						if (Gui::promptMsg(Lang::messages2[2])) {
@@ -120,7 +118,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 					 }
 				}
 			}
-		} else if (screenMode == 1) {
+		} else if (screenMode == 1 || screenMode == 2) {
 			BrowseLogic(hDown, hHeld);
 		}
 }
@@ -140,7 +138,11 @@ void TownManager::DrawBrowse(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::townmanager[3]))/2, 2, 0.8f, WHITE, Lang::townmanager[3]);
+	if (screenMode == 1) {
+		Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, WHITE, Lang::townmanager[3]);
+	} else if (screenMode == 2) {
+		Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::townmanager[4]))/2, 2, 0.72f, WHITE, Lang::townmanager[4]);
+	}
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -228,7 +230,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
         }
 		dirChanged = false;
 	}
-
+	if (screenMode == 1) {
 		if(hDown & KEY_A) {
 			std::string prompt = Lang::messages2[3];
 			prompt += "\n\n";
@@ -239,7 +241,30 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 				selectedSaveFolder = "";
 				screenMode = 0;
 			}
-	} else if (hHeld & KEY_UP) {
+		}
+	} else if (screenMode == 2) {
+		if(hDown & KEY_A) {
+			std::string prompt = Lang::messages2[4];
+			prompt += "\n\n";
+			prompt += dirContents[selectedSave].name;
+			if(Gui::promptMsg(prompt.c_str())) {
+				selectedSaveFolder = dirContents[selectedSave].name.c_str();
+				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
+				selectedSaveFolder = "";
+				TownManagement::LaunchTown(currentMedia, currentID);
+			}
+		}
+	}
+
+		if (screenMode == 2) {
+			if (hDown & KEY_X) {
+				if(Gui::promptMsg(Lang::messages2[5])) {
+					TownManagement::LaunchTown(currentMedia, currentID);
+				}
+			}
+		}
+
+		if (hHeld & KEY_UP) {
 		if (selectedSave > 0 && !keyRepeatDelay) {
 			selectedSave--;
 			keyRepeatDelay = 3;
@@ -250,7 +275,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			keyRepeatDelay = 3;
 		}
 	} else if (hDown & KEY_B) {
-		if(Gui::promptMsg("Do you want to Cancel the Restore?")) {
+		if(Gui::promptMsg(Lang::messages[7])) {
 			screenMode = 0;
 		}
 	}

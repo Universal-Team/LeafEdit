@@ -68,6 +68,8 @@ void GameLoader::checkUpdate(void)
         return;
     }
 
+    Gui::DisplayWarnMsg(Lang::messages2[6]);
+
     if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
         || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
         || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end()) // JPN.
