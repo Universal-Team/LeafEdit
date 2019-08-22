@@ -26,7 +26,7 @@
 
 #include "core/townManagement.hpp"
 #include "common/common.hpp" // For the TID's.
-#include "common/settings.hpp"
+#include "common/config.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/townManager.hpp"
 
@@ -182,7 +182,15 @@ void TownManager::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
+
+    if (Config::selector == 0) {
+        Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+    } else if (Config::selector == 1) {
+        Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
+    } else if (Config::selector == 2) {
+        Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
+    }
+
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str());
 
 	Gui::ScreenDraw(bottom);

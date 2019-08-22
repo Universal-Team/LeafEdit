@@ -10,6 +10,7 @@ namespace Lang {
 	mainMenu,
 	messages,
 	messages2,
+	settings,
 	titleSelector,
 	townmanager,
 	update;

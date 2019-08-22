@@ -26,7 +26,7 @@
 
 #include "core/gameLoader.hpp"
 #include "common/archive.hpp"
-#include "common/settings.hpp"
+#include "common/config.hpp"
 #include "common/structs.hpp"
 #include "common/title.hpp"
 #include "gui/gui.hpp"

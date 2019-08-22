@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/config.hpp"
 #include "gui/gui.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -181,7 +182,14 @@ void Gui::drawFileSelector(float x, float y)
     u8 b                       = (SelectorBlue >> 16) & 0xFF;
     u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
-    Gui::Draw_Rect(x, y, 400, 25, C2D_Color32(255, 255, 255, 20));
+    if (Config::selector == 0) {
+        Draw_Rect(x, y, 400, 25, C2D_Color32(0, 0, 0, 255));
+    } else if (Config::selector == 1) {
+        Draw_Rect(x, y, 400, 25, C2D_Color32(255, 255, 255, 20));
+    } else if (Config::selector == 2) {
+        Draw_Rect(x, y, 400, 25, C2D_Color32(255, 255, 255, 255));
+    }
+
     Gui::Draw_Rect(x, y, 400, w, color);                      // top
     Gui::Draw_Rect(x, y + w, w, 25 - 2 * w, color);          // left
     Gui::Draw_Rect(x + 400 - w, y + w, w, 25 - 2 * w, color); // right

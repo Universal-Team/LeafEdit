@@ -17,6 +17,9 @@ namespace Lang {
 				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...", 
 				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse."},
 	
+	// [settings]
+	settings = {"Language", "Selector", "?"},
+	
 	// [titleSelector]
 	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},
 

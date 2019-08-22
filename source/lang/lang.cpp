@@ -53,6 +53,12 @@ void Lang::loadLangStrings(int lang) {
 	// [misc]
 	Lang::notImplemented = ini.GetString("misc", "notImplemented", Lang::notImplemented);
 
+	// [settings]
+	Lang::settings[0] = ini.GetString("settings", "language", Lang::settings[0]);
+	Lang::settings[1] = ini.GetString("settings", "selector", Lang::settings[1]);
+	Lang::settings[2] = ini.GetString("settings", "?", Lang::settings[2]); // Unknown what to add.
+
+
 	// [title]
 	Lang::title = ini.GetString("title", "title", Lang::title);
 

@@ -27,6 +27,7 @@
 #include "gui/keyboard.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
+#include "gui/screens/settings.hpp"
 #include "gui/screens/townManager.hpp"
 
 void MainMenu::Draw(void) const
@@ -80,7 +81,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Msg::NotImplementedYet();
 						break;
 				 	case 2: {
-						Msg::NotImplementedYet();
+						Gui::setScreen(std::make_unique<Settings>());
 						break;
 					 }
 			}
