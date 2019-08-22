@@ -157,9 +157,9 @@ void Gui::drawSelector(float x, float y)
     static constexpr int w     = 2;
     static float timer         = 0.0f;
     float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-    u8 r                       = RED & 0xFF;
-    u8 g                       = (RED >> 8) & 0xFF;
-    u8 b                       = (RED >> 16) & 0xFF;
+    u8 r                       = SelectorBlue & 0xFF;
+    u8 g                       = (SelectorBlue >> 8) & 0xFF;
+    u8 b                       = (SelectorBlue >> 16) & 0xFF;
     u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
     Gui::Draw_Rect(x, y, 50, 50, C2D_Color32(255, 255, 255, 100));
@@ -169,4 +169,23 @@ void Gui::drawSelector(float x, float y)
     Gui::Draw_Rect(x, y + 50 - w, 50, w, color);             // bottom
 
     timer += .025f;
+}
+
+void Gui::drawFileSelector(float x, float y)
+{
+    static constexpr int w     = 2;
+    static float timer         = 0.0f;
+    float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+    u8 r                       = SelectorBlue & 0xFF;
+    u8 g                       = (SelectorBlue >> 8) & 0xFF;
+    u8 b                       = (SelectorBlue >> 16) & 0xFF;
+    u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
+
+    Gui::Draw_Rect(x, y, 400, 25, C2D_Color32(255, 255, 255, 20));
+    Gui::Draw_Rect(x, y, 400, w, color);                      // top
+    Gui::Draw_Rect(x, y + w, w, 25 - 2 * w, color);          // left
+    Gui::Draw_Rect(x + 400 - w, y + w, w, 25 - 2 * w, color); // right
+    Gui::Draw_Rect(x, y + 25 - w, 400, w, color);             // bottom
+
+    timer += .010f;
 }

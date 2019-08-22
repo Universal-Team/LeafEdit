@@ -152,37 +152,37 @@ void TownManager::DrawBrowse(void) const
 		(i == selectedSave);
 
 		if (selectedSave == 0) {
-			Gui::Draw_Rect(0, 25, 400, 25, RED);
+			Gui::drawFileSelector(0, 28);
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 1) {
-			Gui::Draw_Rect(0, 56, 400, 25, RED);
+			Gui::drawFileSelector(0, 58);
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 2) {
-			Gui::Draw_Rect(0, 91, 400, 25, RED);
+			Gui::drawFileSelector(0, 91);
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 3) {
-			Gui::Draw_Rect(0, 125, 400, 25, RED);
+			Gui::drawFileSelector(0, 125);
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 4) {
-			Gui::Draw_Rect(0, 160, 400, 25, RED);
+			Gui::drawFileSelector(0, 156);
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 5) {
-			Gui::Draw_Rect(0, 190, 400, 25, RED);
+			Gui::drawFileSelector(0, 188);
 			dirs +=  dirContents[i].name + "\n\n";
 		} else {
-			Gui::Draw_Rect(0, 190, 400, 25, RED);
+			Gui::drawFileSelector(0, 188);
 			dirs +=  dirContents[i].name + "\n\n";
 		}
 	}
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+	Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str());
 
 	Gui::ScreenDraw(bottom);
