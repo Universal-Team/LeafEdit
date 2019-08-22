@@ -24,7 +24,7 @@
  *         reasonable ways as different from the original version.
  */
 
-#include "fsstream.hpp"
+#include "common/fsstream.hpp"
 
 FSStream::FSStream(FS_Archive archive, const std::u16string& path, u32 flags)
 {

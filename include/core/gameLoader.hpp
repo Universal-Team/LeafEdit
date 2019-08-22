@@ -27,17 +27,17 @@
 #ifndef GAMELOADER_HPP
 #define GAMELOADER_HPP
 
+#include "common/title.hpp"
+
 #include <3ds.h>
-#include "title.hpp"
 #include <memory>
 
 namespace GameLoader
 {
-    void checkUpdate(void);
-    void scanTitleID(void);
-    bool scanCard();
     bool cardUpdate();
-
+    void checkUpdate(void);
+    bool scanCard();
+    void scanTitleID(void);
     
     inline std::vector<std::shared_ptr<Title>> installedTitles;
     inline std::shared_ptr<Title> cardTitle = nullptr;

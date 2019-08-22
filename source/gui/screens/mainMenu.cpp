@@ -24,9 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/screens/screenCommon.hpp"
-#include "gui/screens/mainMenu.hpp"
 #include "gui/keyboard.hpp"
+#include "gui/screens/mainMenu.hpp"
+#include "gui/screens/screenCommon.hpp"
 #include "gui/screens/townManager.hpp"
 
 void MainMenu::Draw(void) const
@@ -35,7 +35,7 @@ void MainMenu::Draw(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::title))/2, 2, 0.8f, WHITE, Lang::title);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::title))/2, 2, 0.8f, WHITE, Lang::title);
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -58,9 +58,9 @@ void MainMenu::Draw(void) const
 		Gui::Draw_Rect(mainButtons[2].x, mainButtons[2].y, mainButtons[2].w, mainButtons[2].h, RED);
 	}
 
-	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::mainMenu[0]))/2, mainButtons[0].y+10, 0.6f, WHITE, Lang::mainMenu[0]);
-	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::mainMenu[1]))/2, mainButtons[1].y+10, 0.6f, WHITE, Lang::mainMenu[1]);
-	Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, Lang::mainMenu[2]))/2, mainButtons[2].y+10, 0.6f, WHITE, Lang::mainMenu[2]);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[0]))/2, mainButtons[0].y+10, 0.6f, WHITE, Lang::mainMenu[0]);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[1]))/2, mainButtons[1].y+10, 0.6f, WHITE, Lang::mainMenu[1]);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[2]))/2, mainButtons[2].y+10, 0.6f, WHITE, Lang::mainMenu[2]);
 }
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -77,10 +77,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Gui::setScreen(std::make_unique<TownManager>());
 						break;
 				}   case 1:
-						Misc::NotImplementedYet();
+						Msg::NotImplementedYet();
 						break;
 				 	case 2: {
-						Misc::NotImplementedYet();
+						Msg::NotImplementedYet();
 						break;
 					 }
 			}

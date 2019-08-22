@@ -1,11 +1,12 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include "common/archive.hpp"
+#include "common/smdh.hpp"
+
 #include <3ds.h>
-#include <string>
 #include <stdarg.h>
-#include "smdh.hpp"
-#include "archive.hpp"
+#include <string>
 
 namespace StringUtils
 {

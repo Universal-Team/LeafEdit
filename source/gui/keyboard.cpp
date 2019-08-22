@@ -1,9 +1,10 @@
+#include "common/structs.hpp"
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
+
 #include <string>
 #include <stdio.h>
 #include <ctype.h>
-#include "common/structs.hpp"
 
 extern C3D_RenderTarget* top;
 extern C3D_RenderTarget* bottom;
@@ -50,10 +51,10 @@ void Input::drawKeyboard()
 		Gui::sprite(sprites_normal_key_idx, keysQWERTY[i].x, keysQWERTY[i].y+100);
 		if(shift) {
 			char c[2] = {caps ? (char)toupper(keysQWERTYShift[i].character[0]) : keysQWERTYShift[i].character[0]};
-			Gui::DrawString(keysQWERTYShift[i].x+(10-(Gui::Draw_GetStringWidth(FONT_SIZE_12, c)/2)), keysQWERTYShift[i].y+100+(10-(Gui::Draw_GetStringHeight(FONT_SIZE_12, c)/2)), FONT_SIZE_12, BLACK, c);
+			Gui::DrawString(keysQWERTYShift[i].x+(10-(Gui::GetStringWidth(FONT_SIZE_12, c)/2)), keysQWERTYShift[i].y+100+(10-(Gui::GetStringHeight(FONT_SIZE_12, c)/2)), FONT_SIZE_12, BLACK, c);
 		} else {
 			char c[2] = {caps ? (char)toupper(keysQWERTY[i].character[0]) : keysQWERTY[i].character[0]};
-			Gui::DrawString(keysQWERTY[i].x+(10-(Gui::Draw_GetStringWidth(FONT_SIZE_12, c)/2)), keysQWERTY[i].y+100+(10-(Gui::Draw_GetStringHeight(FONT_SIZE_12, c)/2)), FONT_SIZE_12, BLACK, c);
+			Gui::DrawString(keysQWERTY[i].x+(10-(Gui::GetStringWidth(FONT_SIZE_12, c)/2)), keysQWERTY[i].y+100+(10-(Gui::GetStringHeight(FONT_SIZE_12, c)/2)), FONT_SIZE_12, BLACK, c);
 		}
 	}
 	for(uint i=0;i<(sizeof(space)/sizeof(space[0]));i++) {
@@ -89,7 +90,7 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 			Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 			Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-			Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text);
+			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text);
 			Gui::ScreenDraw(bottom);
 			Gui::Draw_Rect(0, 0, 320, 30, GREEN);
 			Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
@@ -139,7 +140,6 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 						if(shift)	shift = 0;
 						else		shift = 2;
 						if(shift) {
-							// drawRectangle(modifierKeys[i].x, modifierKeys[i].y+(103), 26, 16, GRAY, false);
 							keyDownDelay = -1;
 						} else {
 							keyDownDelay = 0;
@@ -152,7 +152,6 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 						if(shift)	shift = 0;
 						else		shift = 1;
 						if(shift) {
-							// drawRectangle(modifierKeys[i].x, modifierKeys[i].y+(103), 26, 16, GRAY, false);
 							keyDownDelay = -1;
 						} else {
 							keyDownDelay = 0;
@@ -162,13 +161,9 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			} for(uint i=0;i<(sizeof(misc)/sizeof(misc[0]));i++) {
 				if((touch.px > misc[i].x-2 && touch.px < misc[i].x+22) && (touch.py > misc[i].y+(100)-2 && touch.py < misc[i].y+22+(100))) {
 					if(misc[i].character == "bksp") {
-						// drawRectangle(modifierKeys[i].x, modifierKeys[i].y+(103), 16, 16, DARK_GRAY, false);
 						string = string.substr(0, string.length()-1);
-						// drawRectangle(0, 103-16, 256, 16, DARKER_GRAY, false);
-						// Draw_Text(0, 103, 0.5, BLACK, string.c_str());
 			} else if(misc[i].character == "caps") {
 						caps = !caps;
-						// if(caps) drawRectangle(modifierKeys[i].x, modifierKeys[i].y+(103), 16, 16, GRAY, false);
 					} else if(misc[i].character == "entr") {
 						enter = true;
 					} else if (misc[i].character == "	") {
@@ -181,14 +176,11 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 				}
 			}
 		} else if(hDown & KEY_B) {
-			// drawRectangle(modifierKeys[0].x, modifierKeys[0].y+(103), 16, 16, DARK_GRAY, false);
 			string = string.substr(0, string.length()-1);
-			// drawRectangle(0, 103-16, 256, 16, DARKER_GRAY, false);
 			Gui::DrawString(0, 100, 0.5, BLACK, string.c_str());
 		}
 		
 		if(hDown & KEY_START || enter) {
-			// drawRectangle(0, 103-16, 256, keyboardData.height+16, DARK_GRAY, false);
 			break;
 		}
 	}

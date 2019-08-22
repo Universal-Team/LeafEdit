@@ -24,23 +24,22 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "core/townManagement.hpp" 
+#include "common/archive.hpp"
+#include "common/common.hpp"
+#include "common/io.hpp" // Backup & Restore Part.
+#include "common/settings.hpp"
+#include "common/title.hpp"
+#include "common/utils.hpp"
+#include "gui/keyboard.hpp" // For the Input Stuff.
+#include "gui/screens/screenCommon.hpp"
+#include "lang/langStrings.h" // For the Strings.
+
 #include <3ds.h>
 #include <3ds/types.h>
 #include <sys/stat.h>
-#include "gui/gui.hpp"
-#include "core/townManagement.hpp" 
-#include "gui/keyboard.hpp" // For the Input Stuff.
-#include "lang/langStrings.h" // For the Strings.
-#include "common/settings.hpp"
-#include "common.hpp"
-#include "title.hpp"
-#include "settings.hpp"
-#include "utils.hpp"
-#include "archive.hpp"
-#include "io.hpp" // Backup & Restore Part.
 
-
-// Create the Folder for the Backup with Keyboard input. It creates the typed in name to "sdmc:/LeafEdit/Towns/".
+// Backup the current Game. If Update Found "Welcome-Amiibo" Folder -> If not "Old" Folder.
 Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID)
 {
 	Result res		= 0;
@@ -82,10 +81,11 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		std::u16string folderPath = customPath;
 		folderPath += StringUtils::UTF8toUTF16("/");
 		folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
+		Msg::DisplayMsg(Lang::messages2[7]);
 		res = io::createDirectory(Archive::sdmc(), folderPath);
             if (R_FAILED(res)) {
                 FSUSER_CloseArchive(archive);
-				Gui::DisplayWaitMsg(Lang::messages[0]);
+				Msg::DisplayWaitMsg(Lang::messages[0]);
 				return res;
 			}
 
@@ -97,16 +97,14 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 			if (R_FAILED(res)) {
                 FSUSER_CloseArchive(archive);
                 FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
-				Gui::DisplayWaitMsg(Lang::messages[1]);
+				Msg::DisplayWaitMsg(Lang::messages[1]);
 				return res;
 			}
 		}
 	FSUSER_CloseArchive(archive);
-	Gui::DisplayWaitMsg(Lang::messages[2]);
+	Msg::DisplayWaitMsg(Lang::messages[2]);
 	return 0;
 }
-
-
 
 // Clear the current Save Data
 Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID)
@@ -122,7 +120,23 @@ Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32
 	return 0;
 }
 
+// Restore and Launch the selected Town. The current Commented out code would Launch Animal Crossing : New Leaf [EUR].
+Result TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
+{
+	Result res		= 0;
+		u8 param[0x300];
+		u8 hmac[0x20];
+		memset(param, 0, sizeof(param));
+		memset(hmac, 0, sizeof(hmac));
 
+		APT_PrepareToDoApplicationJump(0, TID, Mediatype);
+		res = APT_DoApplicationJump(param, sizeof(param), hmac);
+		if (R_FAILED(res)) {
+			Msg::DisplayWaitMsg(Lang::messages[6]);
+			return res;
+		}
+	return 0;
+}
 
 // Restore the selected Town.
 Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID, std::string saveFolder)
@@ -167,10 +181,10 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 				std::u16string dstPath = StringUtils::UTF8toUTF16("/");
 
 				FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
-
+					  Msg::DisplayMsg(Lang::messages2[8]);
 				res = io::copyDirectory(Archive::sdmc(), archive, srcPath, dstPath);
 					if (R_FAILED(res)) {
-						Gui::DisplayWaitMsg(Lang::messages[1]);
+						Msg::DisplayWaitMsg(Lang::messages[1]);
 						FSUSER_CloseArchive(archive);
 						return res;
 					}
@@ -179,7 +193,7 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 			res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
 				if (R_FAILED(res)) {
 					FSUSER_CloseArchive(archive);
-					Gui::DisplayWaitMsg(Lang::messages[3]);
+					Msg::DisplayWaitMsg(Lang::messages[3]);
 					return res;
 				}
 
@@ -189,36 +203,10 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 			res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
 				if (R_FAILED(res)) {
 					FSUSER_CloseArchive(archive);
-					Gui::DisplayWaitMsg(Lang::messages[4]);
+					Msg::DisplayWaitMsg(Lang::messages[4]);
 					return res;
 				}
 			}
-	Gui::DisplayWaitMsg(Lang::messages[5]);
+	Msg::DisplayWaitMsg(Lang::messages[5]);
 	return 0;
-}
-
-
-// Restore and Launch the selected Town. The current Commented out code would Launch Animal Crossing : New Leaf [EUR].
-Result TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
-{
-	Result res		= 0;
-		u8 param[0x300];
-		u8 hmac[0x20];
-		memset(param, 0, sizeof(param));
-		memset(hmac, 0, sizeof(hmac));
-
-		APT_PrepareToDoApplicationJump(0, TID, Mediatype);
-		res = APT_DoApplicationJump(param, sizeof(param), hmac);
-		if (R_FAILED(res)) {
-			Gui::DisplayWaitMsg(Lang::messages[6]);
-			return res;
-		}
-	return 0;
-}
-
-
-
-// Show the current Progress.
-void TownManagement::ShowProgress() // To-Do.
-{
 }

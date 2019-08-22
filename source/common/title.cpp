@@ -24,8 +24,8 @@
  *         reasonable ways as different from the original version.
  */
 
-#include "title.hpp"
-#include "utils.hpp"
+#include "common/title.hpp"
+#include "common/utils.hpp"
 
 // Delete the Texture of the Title Icons.
 

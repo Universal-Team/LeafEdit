@@ -27,6 +27,11 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
+#include "sprites.h"
+#include "gui/colors.hpp"
+#include "gui/screens/screen.hpp"
+#include "lang/langStrings.h"
+
 #include <3ds.h>
 #include <citro2d.h>
 #include <citro3d.h>
@@ -35,19 +40,6 @@
 #include <string.h>
 #include <unordered_map>
 #include <wchar.h>
-
-// Language Strings.
-#include "lang/langStrings.h"
-
-// Spritesheet.
-#include "sprites.h"
-
-// Misc.
-#include "gui/colors.hpp"
-#include "gui/screens/screen.hpp"
-
-// emulated
-#define sprites_res_null_idx 500
 
 #define FONT_SIZE_18 0.72f
 #define FONT_SIZE_17 0.7f
@@ -81,17 +73,11 @@ namespace Gui
     // Misc.
     bool Draw_Rect(float x, float y, float w, float h, u32 color);
 
-    // Display Misc Messages.
-    void DisplayWarnMsg(std::string Text);
-    bool promptMsg2(std::string promptMsg);
-    void DisplayWaitMsg(std::string waitMsg, ...);
-    bool promptMsg(std::string msg);
-
     // Text / String Functions.
     void DrawString(float x, float y, float size, u32 color, std::string Text);
-    void Draw_GetStringSize(float size, float *width, float *height, std::string Text);
-    float Draw_GetStringWidth(float size, std::string Text);
-    float Draw_GetStringHeight(float size, std::string Text);
+    void GetStringSize(float size, float *width, float *height, std::string Text);
+    float GetStringWidth(float size, std::string Text);
+    float GetStringHeight(float size, std::string Text);
 }
 
 #endif

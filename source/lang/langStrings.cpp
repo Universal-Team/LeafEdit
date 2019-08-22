@@ -14,7 +14,8 @@ namespace Lang {
 	// [messages2]
 	messages2 = {"Press A to continue.", "Press A to confirm or B to Cancel.", "Do you want to Backup this save?",
 				 "Do you want to restore this Save?", "Do you want to launch this Town?", 
-				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates..."},
+				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...", 
+				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse."},
 	
 	// [titleSelector]
 	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},

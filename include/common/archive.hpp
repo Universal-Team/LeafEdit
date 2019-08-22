@@ -1,10 +1,10 @@
 #ifndef ARCHIVE_HPP
 #define ARCHIVE_HPP
 
-#include "utils.hpp"
-#include <3ds.h>
-#include "fsstream.hpp"
+#include "common/fsstream.hpp"
+#include "common/utils.hpp"
 
+#include <3ds.h>
 
 namespace Archive {
     Result init(void);

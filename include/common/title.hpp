@@ -29,8 +29,9 @@
 
 #include <3ds.h>
 #include <algorithm>
-#include <string>
 #include <citro2d.h>
+#include <string>
+
 
 class Title
 {

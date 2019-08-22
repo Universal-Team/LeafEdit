@@ -23,15 +23,19 @@
 *         or requiring that modified versions of such material be marked in
 *         reasonable ways as different from the original version.
 */
-
-#ifndef MISC_HPP
-#define MISC_HPP
+#ifndef MSG_HPP
+#define MSG_HPP
 
 #include <string>
 
-
-namespace Misc {
-	void NotImplementedYet(void);
+namespace Msg
+{
+    void DisplayWarnMsg(std::string Text); // Display a Warn Message for about 2 seconds.
+    bool promptMsg(std::string msg); // This will be used for the prompt Messages, which needs confirmation with A or cancel with B.
+    bool promptMsg2(std::string promptMsg); // This is part of promptMsg.
+    void DisplayWaitMsg(std::string waitMsg, ...); // Will Display a Message, which needs a confirmation with A.
+    void NotImplementedYet(void); // Display a not Implemented Message.
+    void DisplayMsg(std::string Message); // Display just a Message.
 }
 
 #endif

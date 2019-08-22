@@ -24,19 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/settings.hpp"
 #include "common/inifile.h"
-#include "gui/keyboard.hpp"
+#include "common/settings.hpp"
+#include "common/structs.hpp"
 #include "gui/gui.hpp"
+#include "gui/keyboard.hpp"
+#include "gui/screens/screenCommon.hpp"
 #include "lang/langStrings.h"
-#include "screenCommon.hpp"
-#include "structs.hpp"
-#include <unistd.h>
-#include <string>
-using std::string;
-using std::wstring;
 
 #include <3ds.h>
+#include <string>
+#include <unistd.h>
+
+using std::string;
+using std::wstring;
 
 Structs::ButtonPos languagePos [] = {
 	{20, 30, 120, 52, -1}, // Deutsch
@@ -95,7 +96,7 @@ void Config::setLanguage() {
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
 	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
@@ -105,8 +106,8 @@ void Config::setLanguage() {
 		Gui::Draw_Rect(20, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
 		Gui::Draw_Rect(180, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
 
-		Gui::DrawString(((320-Gui::Draw_GetStringWidth(0.65f, Language[(2*i)].c_str()))/2)-60-20, 46+(i*65), 0.65f, BLACK, Language[(2*i)].c_str());
-		Gui::DrawString(((320-Gui::Draw_GetStringWidth(0.65f, Language[(2*i)+1].c_str()))/2)+60+20, 46+(i*65), 0.65f, BLACK, Language[(2*i)+1].c_str());
+		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)].c_str()))/2)-60-20, 46+(i*65), 0.65f, BLACK, Language[(2*i)].c_str());
+		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)+1].c_str()))/2)+60+20, 46+(i*65), 0.65f, BLACK, Language[(2*i)+1].c_str());
 	}
 
 	C3D_FrameEnd(0);

@@ -24,13 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/screens/screenCommon.hpp"
-#include "gui/screens/mainMenu.hpp"
-#include "gui/screens/titleSelection.hpp"
+#include "core/gameLoader.hpp"
+#include "core/townManagement.hpp"
+#include "common/utils.hpp"
 #include "gui/keyboard.hpp"
-#include "gameLoader.hpp"
-#include "townManagement.hpp"
-#include "utils.hpp"
+#include "gui/screens/mainMenu.hpp"
+#include "gui/screens/screenCommon.hpp"
+#include "gui/screens/titleSelection.hpp"
 
 extern bool exiting;
 extern int fadealpha;
@@ -59,18 +59,18 @@ void TitleSelection::Draw(void) const
 	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, C2D_Color32(30, 190, 10, 255));
 
 
-	Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0]);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0]);
 	
     // Draw the 3DS Gamecard.
     Gui::sprite(sprites_card_idx, 30, 93);
     // Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-    Gui::DrawString(((400-Gui::Draw_GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 190, 0.6f, BLACK, Lang::titleSelector[1]);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 190, 0.6f, BLACK, Lang::titleSelector[1]);
 
     Gui::DrawString(190, 190, 0.6f, BLACK, Lang::titleSelector[2]);
 
-    Gui::DrawString(395-Gui::Draw_GetStringWidth(FONT_SIZE_18, VERSION_STRING), 216, FONT_SIZE_18, WHITE, VERSION_STRING);
+    Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, VERSION_STRING), 216, FONT_SIZE_18, WHITE, VERSION_STRING);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
@@ -86,7 +86,7 @@ void TitleSelection::Draw(void) const
         Gui::Draw_Rect(243, 33, 52, 52, C2D_Color32(30, 130, 10, 255));
         DrawInformationBox();
         C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 35, 1.0f);
-        Gui::DrawString((320-Gui::Draw_GetStringWidth(0.6f, titleFromIndex(selectedTitle)->name()))/2, 100+5, 0.6f, WHITE, titleFromIndex(selectedTitle)->name());
+        Gui::DrawString((320-Gui::GetStringWidth(0.6f, titleFromIndex(selectedTitle)->name()))/2, 100+5, 0.6f, WHITE, titleFromIndex(selectedTitle)->name());
         Gui::DrawString(100+10, 150+5, 0.6f, WHITE, "ID :");
         Gui::DrawString(100+40, 150+5, 0.6f, WHITE, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()));
     }

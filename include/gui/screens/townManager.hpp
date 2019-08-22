@@ -26,10 +26,11 @@
 #ifndef TOWNMANAGER_HPP
 #define TOWNMANAGER_HPP
 
+#include "common/fileBrowse.h"
+#include "common/structs.hpp"
 #include "gui/screens/screen.hpp"
-#include "structs.hpp"
+
 #include <vector>
-#include "directory.hpp"
 
 class TownManager : public SCREEN 
 {

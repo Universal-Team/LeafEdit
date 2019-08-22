@@ -24,29 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "core/gameLoader.hpp"
+#include "common/archive.hpp"
+#include "common/settings.hpp"
+#include "common/structs.hpp"
+#include "common/title.hpp"
+#include "gui/gui.hpp"
+#include "gui/screens/screenCommon.hpp"
+#include "gui/screens/titleSelection.hpp"
+#include "lang/lang.h"
+
+#include <3ds.h>
 #include <citro3d.h>
 #include <citro2d.h>
-#include <3ds.h>
-#include <algorithm>
 #include <dirent.h>
-#include <malloc.h>
-#include <sstream>
-#include <stdio.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <time.h>
-#include <unistd.h>
-
-#include "gui/gui.hpp"
-#include "common/structs.hpp"
-#include "gui/screens/screenCommon.hpp"
-#include "gui/keyboard.hpp"
-#include "lang/lang.h"
-#include "common/settings.hpp"
-#include "gui/screens/titleSelection.hpp"
-#include "core/gameLoader.hpp"
-#include "title.hpp"
-#include "archive.hpp"
 
 // The classic Fade Effect! ;P
 int fadealpha = 255;
@@ -90,7 +81,6 @@ int main()
 	cfguInit();
 	Config::loadConfig();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
-	fsInit();
 	Archive::init();
 
 	// make folders if they don't exist
@@ -153,7 +143,6 @@ int main()
 	Gui::exit();
 	gfxExit();
 	romfsExit();
-	fsExit();
 	Archive::exit();
 
     return 0;

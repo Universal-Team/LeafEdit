@@ -24,9 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
+#ifndef SCREENCOMMON_HPP
+#define SCREENCOMMON_HPP
 #include "gui/gui.hpp"
+#include "gui/msg.hpp"
 #include "lang/langStrings.h"
-#include "common/misc.hpp"
 
 extern C3D_RenderTarget* top;
 extern C3D_RenderTarget* bottom;
+
+#endif

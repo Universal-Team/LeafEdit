@@ -26,8 +26,8 @@
 #ifndef TITLESELECTION_HPP
 #define TITLESELECTION_HPP
 
+#include "core/gameLoader.hpp"
 #include "gui/screens/screen.hpp"
-#include "gameLoader.hpp"
 
 class TitleSelection : public SCREEN 
 {

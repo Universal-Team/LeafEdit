@@ -1,8 +1,10 @@
+#include "common/inifile.h"
 #include "lang/lang.h"
+#include "lang/langStrings.h"
+
 #include <fstream>
 
-#include "common/inifile.h"
-#include "lang/langStrings.h"
+
 
 std::string langs[] = { "de", "en", "es", "fr", "it", "jp"};
 
@@ -44,6 +46,9 @@ void Lang::loadLangStrings(int lang) {
 	Lang::messages2[4] = ini.GetString("messages2", "launch", Lang::messages2[4]);
 	Lang::messages2[5] = ini.GetString("messages2", "normalLaunch", Lang::messages2[5]);
 	Lang::messages2[6] = ini.GetString("messages2", "updateCheck", Lang::messages2[6]);
+	Lang::messages2[7] = ini.GetString("messages2", "backupMsg", Lang::messages2[7]);
+	Lang::messages2[8] = ini.GetString("messages2", "restoreMsg", Lang::messages2[8]);
+	Lang::messages2[9] = ini.GetString("messages2", "refresh", Lang::messages2[9]);
 
 	// [misc]
 	Lang::notImplemented = ini.GetString("misc", "notImplemented", Lang::notImplemented);

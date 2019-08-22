@@ -26,8 +26,9 @@
 #ifndef MAINMENU_HPP
 #define MAINMENU_HPP
 
+#include "common/structs.hpp"
 #include "gui/screens/screen.hpp"
-#include "structs.hpp"
+
 #include <vector>
 
 class MainMenu : public SCREEN 

@@ -24,9 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#include <3ds.h>
 #include "gui/gui.hpp"
 #include "gui/screens/screenCommon.hpp"
+
+#include <3ds.h>
 #include <assert.h>
 #include <stdarg.h>
 #include <unistd.h>
@@ -87,103 +88,7 @@ void Gui::exit(void)
 // Draw a normal Sprite from the Spritesheet.
 void Gui::sprite(int key, int x, int y)
 {
-    if (key == sprites_res_null_idx)
-    {
-        return;
-    }
-    // standard case
-    else
-    {
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
-    }
-}
-
-// Display a Message, which needs to be confirmed with A/B.
-bool Gui::promptMsg2(std::string promptMsg)
-{
-    Gui::clearTextBufs();
-    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-    C2D_TargetClear(top, BLACK);
-    C2D_TargetClear(bottom, BLACK);
-    Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 240, DARKGRAY);
-	Gui::Draw_Rect(0, 65, 400, 100, GREEN);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, WHITE, promptMsg.c_str());
-
-    Gui::Draw_Rect(0, 215, 400, 25, GREEN);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Lang::messages2[1]))/2, 217, 0.72f, WHITE, Lang::messages2[1]);
-    Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
-	C3D_FrameEnd(0);
-
-    while(1)
-    {
-		gspWaitForVBlank();
-		hidScanInput();
-		if(hidKeysDown() & KEY_A) {
-			return true;
-		} else if(hidKeysDown() & KEY_B) {
-			return false;
-		}
-    }
-
-}
-
-bool Gui::promptMsg(std::string msg) {
-	return Gui::promptMsg2(msg);
-}
-
-// Displays a Message for 2 Seconds. Good for warnings like invalid Language.
-void Gui::DisplayWarnMsg(std::string Text)
-{
-    Gui::clearTextBufs();
-    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-    C2D_TargetClear(top, BLACK);
-    C2D_TargetClear(bottom, BLACK);
-    Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, Text.c_str()))/2, 2, 0.72f, WHITE, Text.c_str());
-    Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
-	C3D_FrameEnd(0);
-	for (int i = 0; i < 60*2; i++) {
-		gspWaitForVBlank();
-	}
-}
-
-// Display a Message, which can be skipped with A.
-void Gui::DisplayWaitMsg(std::string waitMsg, ...)
-{
-    Gui::clearTextBufs();
-    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-    C2D_TargetClear(top, BLACK);
-    C2D_TargetClear(bottom, BLACK);
-    Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 240, DARKGRAY);
-	Gui::Draw_Rect(0, 65, 400, 100, GREEN);
-
-    Gui::Draw_Rect(0, 215, 400, 25, GREEN);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.6f, Lang::messages2[0]))/2, 217, 0.6f, WHITE, Lang::messages2[0]);
-    Gui::DrawString((400-Gui::Draw_GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, WHITE, waitMsg.c_str());
-    Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
-	C3D_FrameEnd(0);
-
-	while(1)
-    {
-		hidScanInput();
-		if(hidKeysDown() & KEY_A)
-			break;
-    }
-
+    C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
 }
 
 // Draw String or Text.
@@ -197,14 +102,14 @@ void Gui::DrawString(float x, float y, float size, u32 color, std::string Text)
 
 
 // Get String or Text Width.
-float Gui::Draw_GetStringWidth(float size, std::string Text) {
+float Gui::GetStringWidth(float size, std::string Text) {
 	float width = 0;
-	Draw_GetStringSize(size, &width, NULL, Text);
+	GetStringSize(size, &width, NULL, Text);
 	return width;
 }
 
 // Get String or Text Size.
-void Gui::Draw_GetStringSize(float size, float *width, float *height, std::string Text) {
+void Gui::GetStringSize(float size, float *width, float *height, std::string Text) {
 	C2D_Text c2d_text;
     C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
 	C2D_TextGetDimensions(&c2d_text, size, size, width, height);
@@ -212,9 +117,9 @@ void Gui::Draw_GetStringSize(float size, float *width, float *height, std::strin
 
 
 // Get String or Text Height.
-float Gui::Draw_GetStringHeight(float size, std::string Text) {
+float Gui::GetStringHeight(float size, std::string Text) {
 	float height = 0;
-	Draw_GetStringSize(size, NULL, &height, Text.c_str());
+	GetStringSize(size, NULL, &height, Text.c_str());
 	return height;
 }
 
