@@ -153,47 +153,24 @@ void Gui::ScreenDraw(C3D_RenderTarget * screen)
     C2D_SceneBegin(screen);
 }
 
-void Gui::drawSelector(float x, float y)
+void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour)
 {
     static constexpr int w     = 2;
     static float timer         = 0.0f;
     float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-    u8 r                       = SelectorBlue & 0xFF;
-    u8 g                       = (SelectorBlue >> 8) & 0xFF;
-    u8 b                       = (SelectorBlue >> 16) & 0xFF;
+    u8 r                       = C2D_Color32(0, 191, 255, 255) & 0xFF;
+    u8 g                       = (C2D_Color32(0, 191, 255, 255) >> 8) & 0xFF;
+    u8 b                       = (C2D_Color32(0, 191, 255, 255) >> 16) & 0xFF;
     u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
-    Gui::Draw_Rect(x, y, 50, 50, C2D_Color32(255, 255, 255, 100));
-    Gui::Draw_Rect(x, y, 50, w, color);                      // top
-    Gui::Draw_Rect(x, y + w, w, 50 - 2 * w, color);          // left
-    Gui::Draw_Rect(x + 50 - w, y + w, w, 50 - 2 * w, color); // right
-    Gui::Draw_Rect(x, y + 50 - w, 50, w, color);             // bottom
+    // BG Color for the Selector.
+    C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, colour); // Black.
 
-    timer += .025f;
-}
+    // Animated Selector part.
+    C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, color);                      // top
+    C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, color);          // left
+    C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, color); // right
+    C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, color);             // bottom
 
-void Gui::drawFileSelector(float x, float y)
-{
-    static constexpr int w     = 2;
-    static float timer         = 0.0f;
-    float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-    u8 r                       = SelectorBlue & 0xFF;
-    u8 g                       = (SelectorBlue >> 8) & 0xFF;
-    u8 b                       = (SelectorBlue >> 16) & 0xFF;
-    u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
-
-    if (Config::selector == 0) {
-        Draw_Rect(x, y, 400, 25, C2D_Color32(0, 0, 0, 255));
-    } else if (Config::selector == 1) {
-        Draw_Rect(x, y, 400, 25, C2D_Color32(255, 255, 255, 20));
-    } else if (Config::selector == 2) {
-        Draw_Rect(x, y, 400, 25, C2D_Color32(255, 255, 255, 255));
-    }
-
-    Gui::Draw_Rect(x, y, 400, w, color);                      // top
-    Gui::Draw_Rect(x, y + w, w, 25 - 2 * w, color);          // left
-    Gui::Draw_Rect(x + 400 - w, y + w, w, 25 - 2 * w, color); // right
-    Gui::Draw_Rect(x, y + 25 - w, 400, w, color);             // bottom
-
-    timer += .010f;
+    timer += speed; // Speed of the animation. Example : .030f / .030
 }

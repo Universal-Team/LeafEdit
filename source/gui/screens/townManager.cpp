@@ -72,19 +72,19 @@ void TownManager::DrawSubMenu(void) const
 
 
 	if (Selection == 0) {
-		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, RED);
+		Gui::drawAnimatedSelector(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
 		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, GREEN);
 		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, GREEN);
 
 	} else if (Selection == 1) {
 		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, GREEN);
-		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, RED);
+		Gui::drawAnimatedSelector(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
 		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, GREEN);
 
 	} else if (Selection == 2) {
 		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, GREEN);
 		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, GREEN);
-		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, RED);
+		Gui::drawAnimatedSelector(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2, townButtons[0].y+10, 0.6f, WHITE, Lang::townmanager[0]);
@@ -107,6 +107,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 			switch(Selection) {
 				case 0: {
 						screenMode = 2;
+						dirChanged = true;
 						break;
 				}	case 1:
 						if (Msg::promptMsg(Lang::messages2[2])) {
@@ -115,6 +116,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 						break;
 				 	case 2: {
 							screenMode = 1;
+							dirChanged = true;
 						break;
 					 }
 				}
@@ -152,30 +154,30 @@ void TownManager::DrawBrowse(void) const
 		(i == selectedSave);
 
 		if (selectedSave == 0) {
-			Gui::drawFileSelector(0, 28);
+			Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 1) {
-			Gui::drawFileSelector(0, 58);
+			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 2) {
-			Gui::drawFileSelector(0, 91);
+			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 3) {
-			Gui::drawFileSelector(0, 125);
+			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 4) {
-			Gui::drawFileSelector(0, 156);
+			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 5) {
-			Gui::drawFileSelector(0, 188);
+			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 		} else {
-			Gui::drawFileSelector(0, 188);
+			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
 			dirs +=  dirContents[i].name + "\n\n";
 		}
 	}
@@ -183,13 +185,7 @@ void TownManager::DrawBrowse(void) const
 		dirs += "\n\n";
 	}
 
-    if (Config::selector == 0) {
-        Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
-    } else if (Config::selector == 1) {
-        Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
-    } else if (Config::selector == 2) {
-        Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
-    }
+	Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
 
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str());
 
@@ -201,7 +197,6 @@ void TownManager::DrawBrowse(void) const
 
 void TownManager::BrowseLogic(u32 hDown, u32 hHeld) { 
 	if (keyRepeatDelay)	keyRepeatDelay--;
-	gspWaitForVBlank();
 
 			if (dirChanged) {
             dirContents.clear();
@@ -278,12 +273,12 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		if (hHeld & KEY_UP) {
 		if (selectedSave > 0 && !keyRepeatDelay) {
 			selectedSave--;
-			keyRepeatDelay = 3;
+			keyRepeatDelay = 6;
 		}
 	} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
 		if (selectedSave < dirContents.size()-1) {
 			selectedSave++;
-			keyRepeatDelay = 3;
+			keyRepeatDelay = 6;
 		}
 	} else if (hDown & KEY_B) {
 		if(Msg::promptMsg(Lang::messages[7])) {

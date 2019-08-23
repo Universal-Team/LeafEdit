@@ -214,7 +214,7 @@ void TitleSelection::TitleDraw(void) const
         C2D_DrawImageAt(GameLoader::cardTitle->icon(), 35, 98, 1.0f);
         if (titleFromIndex(selectedTitle) == GameLoader::cardTitle)
         {
-            Gui::drawSelector(34, 97);
+            Gui::drawAnimatedSelector(34, 97, 50, 50, .025f, C2D_Color32(255, 255, 255, 100));
         }
     }
 
@@ -232,7 +232,7 @@ void TitleSelection::TitleDraw(void) const
         C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 1.0f);
         if (titleFromIndex(selectedTitle) == GameLoader::installedTitles[i])
         {
-            Gui::drawSelector(x - 1, y - 1);
+            Gui::drawAnimatedSelector(x - 1, y - 1, 50, 50, .025f, C2D_Color32(255, 255, 255, 100));
         }
     }
 }
