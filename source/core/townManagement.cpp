@@ -53,10 +53,10 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 		customPath += StringUtils::UTF8toUTF16("/");
 
-		// EUR.
-		if (ID == OldEUR && Config::update == 1) {
+		// JPN.
+		if (ID == OldJPN  && Config::update == 1) {
 			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-		} else if (ID == OldEUR  && Config::update == 0) {
+		} else if (ID == OldJPN  && Config::update == 0) {
 			customPath += StringUtils::UTF8toUTF16("Old");
 		}
 
@@ -67,14 +67,21 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 			customPath += StringUtils::UTF8toUTF16("Old");
 		}
 
-		// JPN.
-		if (ID == OldJPN  && Config::update == 1) {
+		// EUR.
+		if (ID == OldEUR && Config::update == 1) {
 			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-		} else if (ID == OldJPN  && Config::update == 0) {
+		} else if (ID == OldEUR  && Config::update == 0) {
 			customPath += StringUtils::UTF8toUTF16("Old");
 		}
 
-		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN) {
+		// KOR.
+		if (ID == OldKOR  && Config::update == 1) {
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+		} else if (ID == OldKOR  && Config::update == 0) {
+			customPath += StringUtils::UTF8toUTF16("Old");
+		}
+
+		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
 			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 		}
 
@@ -150,10 +157,10 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 			customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
 			customPath += StringUtils::UTF8toUTF16("/");
 
-			// EUR.
-			if (ID == OldEUR && Config::update == 1) {
+			// JPN.
+			if (ID == OldJPN  && Config::update == 1) {
 				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
-			} else if (ID == OldEUR  && Config::update == 0) {
+			} else if (ID == OldJPN  && Config::update == 0) {
 				customPath += StringUtils::UTF8toUTF16("Old/");
 			}
 
@@ -164,14 +171,21 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 				customPath += StringUtils::UTF8toUTF16("Old/");
 			}
 
-			// JPN.
-			if (ID == OldJPN  && Config::update == 1) {
+			// EUR.
+			if (ID == OldEUR && Config::update == 1) {
 				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
-			} else if (ID == OldJPN  && Config::update == 0) {
+			} else if (ID == OldEUR  && Config::update == 0) {
 				customPath += StringUtils::UTF8toUTF16("Old/");
 			}
 
-			if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN) {
+			// KOR.
+			if (ID == OldKOR  && Config::update == 1) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+			} else if (ID == OldKOR  && Config::update == 0) {
+				customPath += StringUtils::UTF8toUTF16("Old");
+			}
+
+			if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
 				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
 			}
 

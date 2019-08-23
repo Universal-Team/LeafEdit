@@ -33,17 +33,19 @@
 #include <3ds.h>
 #include <array>
 
-static constexpr std::array<unsigned long long, 6> titleIds = {
+static constexpr std::array<unsigned long long, 8> titleIds = {
 
     // old version.
+    0x0004000000086200, // JPN.
     0x0004000000086300, // USA.
     0x0004000000086400, // EUR.
-    0x0004000000086200, // JPN.
+    0x0004000000086500, // KOR.
 
     // Welcome Amiibo.
+    0x0004000000198D00, // JPN.
     0x0004000000198E00, // USA.
     0x0004000000198F00, // EUR.
-    0x0004000000198D00 //  JPN.
+    0x0004000000199000  // KOR.
 };
 
 // Update the GameCard.
@@ -109,10 +111,11 @@ void GameLoader::checkUpdate(void)
     }
 
     Msg::DisplayWarnMsg(Lang::messages2[6]);
-
-    if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
+    
+    if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end() //JPN.
+        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
         || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
-        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end()) // JPN.
+        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
         {
             Msg::DisplayWarnMsg(Lang::update[0]);
             Config::update = 1;
