@@ -31,12 +31,17 @@
 
 
 namespace Config {
-	extern int lang; // [UI]
-	extern int langSet; // tell if the current Language was already set.
-	extern int update; // Tell, if an Update of AC:NL was found. (For the old version)
+	
+	// [CORE]
 	extern int check; // If checked on startup -> 1.
-	extern int selector; // The Selector Design.
+	extern int update; // Tell, if an Update of AC:NL was found. (For the old version).
 
+	// [UI]
+	extern int LangLocation; // Language Location (Romfs/SD).
+	extern int lang; // The current Language.
+	extern int langSet; // tell if the current Language was already set.
+	extern int selector; // The Selector Design.
+	
 	void loadConfig();
 	void saveConfig();
 	void setLanguage();

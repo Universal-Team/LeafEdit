@@ -1,3 +1,4 @@
+#include "common/config.hpp"
 #include "common/inifile.h"
 #include "lang/lang.h"
 #include "lang/langStrings.h"
@@ -14,7 +15,12 @@ void Lang::loadLangStrings(int lang) {
 	std::string line;
 
 	// Load app strings
-	snprintf(path, sizeof(path), "romfs:/lang/%s/app.ini", langs[lang].c_str());
+	if (Config::LangLocation == 0) {
+		snprintf(path, sizeof(path), "romfs:/lang/%s/app.ini", langs[lang].c_str());
+	} else if (Config::LangLocation == 1) {
+		snprintf(path, sizeof(path), "sdmc:/LeafEdit/lang/%s/app.ini", langs[lang].c_str());
+	}
+
 	CIniFile ini(path);
 
 	// [keyboard]
