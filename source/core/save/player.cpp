@@ -16,6 +16,8 @@ Player::Player(u32 offset, u32 index) {
 
     this->Name = Save::Instance()->ReadString(offset + 0x55A8, 8);
     this->TownName = Save::Instance()->ReadString(offset + 0x55BE, 8);
+
+    this->Wallet = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6F08));
 }
 
 bool Player::Exists() {

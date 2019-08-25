@@ -41,6 +41,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+
 extern u64 currentID;
 std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
@@ -71,11 +72,15 @@ void Editor::DrawSubMenu(void) const
 
 	// Display First Player Name.
 	std::string PlayerName = "Player Name: ";
-	PlayerName += StringUtils::UTF16toUTF8(Save::Instance()->players[0]->Name).c_str();
+	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
 
 	// Display Town Name.
 	std::string TownName = "Town Name: ";
-	TownName += StringUtils::UTF16toUTF8(Save::Instance()->players[0]->TownName).c_str();
+	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
+
+	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
+	std::string WalletAmount = "Wallet Amount: ";
+	WalletAmount += Wallet.c_str();
 
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
@@ -85,7 +90,8 @@ void Editor::DrawSubMenu(void) const
 
 	// Game Specific Things.
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 100, 0.8f, WHITE, PlayerName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 150, 0.8f, WHITE, TownName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 130, 0.8f, WHITE, TownName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 160, 0.8f, WHITE, WalletAmount.c_str());
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -123,6 +129,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_B) {
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
+		SaveFile->Close();
 	}
 }
 

@@ -16,6 +16,8 @@ public:
     std::u16string Name;
     std::u16string TownName;
 
+    EncryptedInt32 Wallet;
+
     bool Exists();
 
     u32 m_offset;
