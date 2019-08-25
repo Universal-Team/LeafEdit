@@ -17,6 +17,7 @@ public:
     std::u16string TownName;
 
     EncryptedInt32 Wallet;
+    EncryptedInt32 BankAmount;
 
     bool Exists();
 

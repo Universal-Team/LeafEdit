@@ -78,9 +78,15 @@ void Editor::DrawSubMenu(void) const
 	std::string TownName = "Town Name: ";
 	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
 
+	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
 	std::string WalletAmount = "Wallet Amount: ";
 	WalletAmount += Wallet.c_str();
+
+	// Display the Amount of Bells from the Bank.
+	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
+	std::string BankAmount = "Bank Amount: ";
+	BankAmount += Bank.c_str();
 
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
@@ -89,9 +95,10 @@ void Editor::DrawSubMenu(void) const
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
 
 	// Game Specific Things.
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 100, 0.8f, WHITE, PlayerName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 130, 0.8f, WHITE, TownName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 160, 0.8f, WHITE, WalletAmount.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 70, 0.8f, WHITE, PlayerName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 100, 0.8f, WHITE, TownName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 130, 0.8f, WHITE, WalletAmount.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 160, 0.8f, WHITE, BankAmount.c_str());
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
