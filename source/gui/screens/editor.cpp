@@ -26,6 +26,7 @@
 
 #include "common/common.hpp" // For the TID's.
 #include "common/config.hpp"
+#include "common/utils.hpp"
 
 #include "gui/keyboard.hpp"
 
@@ -33,12 +34,16 @@
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 
+#include "core/save/player.h"
+#include "core/save/save.h"
+
 #include <3ds.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
 extern u64 currentID;
 std::string selectedSaveFolderEditor = "";
+Save* SaveFile;
 
 void Editor::Draw(void) const
 {
@@ -64,17 +69,23 @@ void Editor::DrawSubMenu(void) const
 	Title += " - ";
 	Title += "Editor";
 
-	std::string currentSave;
-	currentSave += "Current Save: ";
-	currentSave += selectedSaveFolderEditor.c_str();
+	// Display First Player Name.
+	std::string PlayerName = "Player Name: ";
+	PlayerName += StringUtils::UTF16toUTF8(Save::Instance()->players[0]->Name).c_str();
 
+	// Display Town Name.
+	std::string TownName = "Town Name: ";
+	TownName += StringUtils::UTF16toUTF8(Save::Instance()->players[0]->TownName).c_str();
 
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, currentSave.c_str()))/2, 215, 0.8f, WHITE, currentSave.c_str());
+
+	// Game Specific Things.
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 100, 0.8f, WHITE, PlayerName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 150, 0.8f, WHITE, TownName.c_str());
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -214,7 +225,11 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		if(hDown & KEY_A) {
 			std::string prompt = "Do you want to load this Save?";
 			if(Msg::promptMsg(prompt.c_str())) {
-				selectedSaveFolderEditor = dirContents[selectedSave].name.c_str();
+				selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
+				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
+				selectedSaveFolderEditor += "/garden_plus.dat";
+				const char *save = selectedSaveFolderEditor.c_str();
+				SaveFile = Save::Initialize(save, true);
 				EditorMode = 2;
 			}
 		}
