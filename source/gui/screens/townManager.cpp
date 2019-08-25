@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "core/townManagement.hpp"
 #include "common/common.hpp" // For the TID's.
 #include "common/config.hpp"
+
+#include "core/townManagement.hpp"
+
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/townManager.hpp"
 
 #include <3ds.h>
-#include <algorithm>
-#include <citro2d.h>
-#include <citro3d.h>
 #include <sys/stat.h>
 #include <unistd.h>
 

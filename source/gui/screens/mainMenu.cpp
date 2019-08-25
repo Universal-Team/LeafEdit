@@ -25,6 +25,8 @@
 */
 
 #include "gui/keyboard.hpp"
+
+#include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/settings.hpp"
@@ -78,7 +80,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Gui::setScreen(std::make_unique<TownManager>());
 						break;
 				}   case 1:
-						Msg::NotImplementedYet();
+						Gui::setScreen(std::make_unique<Editor>());
 						break;
 				 	case 2: {
 						Gui::setScreen(std::make_unique<Settings>());

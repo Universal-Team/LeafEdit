@@ -37,13 +37,14 @@ class TownManager : public SCREEN
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	void DrawBrowse(void) const;
-	void BrowseLogic(u32 hDown, u32 hHeld);
-	void DrawSubMenu(void) const;
-
 private:
 	int Selection = 0;
+
+	void DrawSubMenu(void) const;
 	void SelectionLogic(u32 hDown, u32 hHeld);
+
+	void DrawBrowse(void) const;
+	void BrowseLogic(u32 hDown, u32 hHeld);
 
 	std::vector<Structs::ButtonPos> townButtons = {
     	{90, 40, 140, 35, -1}, // Launch
