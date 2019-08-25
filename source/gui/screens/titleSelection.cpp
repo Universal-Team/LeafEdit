@@ -201,7 +201,9 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
             currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
         }
 		Gui::setScreen(std::make_unique<MainMenu>());
-	}
+	} else if (hDown & KEY_SELECT) {
+        GameLoader::updateCheck2();
+    }
 }
 
 

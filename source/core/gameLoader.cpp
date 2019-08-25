@@ -220,3 +220,9 @@ void GameLoader::scanTitleID(void)
     // sort the list alphabetically
     std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<Title>& l, std::shared_ptr<Title>& r) { return l->ID() < r->ID(); });
 }
+
+// Check for Updates, even when the Update was already checked on first startup.
+void GameLoader::updateCheck2(void) {
+    Config::check = 0;
+    checkUpdate();
+}
