@@ -28,8 +28,11 @@
 #define GUI_HPP
 
 #include "sprites.h"
+
 #include "gui/colors.hpp"
+
 #include "gui/screens/screen.hpp"
+
 #include "lang/langStrings.h"
 
 #include <3ds.h>

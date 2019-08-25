@@ -24,19 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "core/gameLoader.hpp"
 #include "common/archive.hpp"
 #include "common/config.hpp"
 #include "common/structs.hpp"
 #include "common/title.hpp"
+
+#include "core/gameLoader.hpp"
+
 #include "gui/gui.hpp"
+
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/titleSelection.hpp"
+
 #include "lang/lang.h"
 
 #include <3ds.h>
-#include <citro3d.h>
-#include <citro2d.h>
 #include <dirent.h>
 
 // The classic Fade Effect! ;P

@@ -28,6 +28,7 @@
 
 #include "common/fileBrowse.h"
 #include "common/structs.hpp"
+
 #include "gui/screens/screen.hpp"
 
 #include <vector>

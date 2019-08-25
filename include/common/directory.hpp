@@ -31,8 +31,8 @@
 
 #include <3ds.h>
 #include <dirent.h>
-#include <sys/stat.h>
 #include <string>
+#include <sys/stat.h>
 #include <vector>
 
 class Directory {

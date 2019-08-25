@@ -27,9 +27,12 @@
 #include "common/inifile.h"
 #include "common/config.hpp"
 #include "common/structs.hpp"
+
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
+
 #include "gui/screens/screenCommon.hpp"
+
 #include "lang/lang.h"
 #include "lang/langStrings.h"
 

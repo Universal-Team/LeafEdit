@@ -29,7 +29,6 @@
 
 #include <string>
 
-
 namespace Config {
 	
 	// [CORE]
@@ -47,4 +46,4 @@ namespace Config {
 	void setLanguage();
 }
 
-#endif /* SETTINGS_HPP */
+#endif

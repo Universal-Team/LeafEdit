@@ -1,8 +1,6 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
-#include <3ds.h>
-
 //Title IDs
 #define OldJPN     0x0004000000086200
 #define OldUSA     0x0004000000086300

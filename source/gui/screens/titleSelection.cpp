@@ -24,10 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/utils.hpp"
+
 #include "core/gameLoader.hpp"
 #include "core/townManagement.hpp"
-#include "common/utils.hpp"
+
 #include "gui/keyboard.hpp"
+
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/titleSelection.hpp"

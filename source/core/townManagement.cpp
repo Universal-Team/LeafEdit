@@ -24,20 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "core/townManagement.hpp" 
 #include "common/archive.hpp"
 #include "common/common.hpp"
 #include "common/config.hpp"
 #include "common/io.hpp" // Backup & Restore Part.
 #include "common/title.hpp"
 #include "common/utils.hpp"
+
+#include "core/townManagement.hpp" 
+
 #include "gui/keyboard.hpp" // For the Input Stuff.
 #include "gui/screens/screenCommon.hpp"
+
 #include "lang/langStrings.h" // For the Strings.
 
 #include <3ds.h>
-#include <3ds/types.h>
-#include <sys/stat.h>
 
 // Backup the current Game. If Update Found "Welcome-Amiibo" Folder -> If not "Old" Folder.
 Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID)

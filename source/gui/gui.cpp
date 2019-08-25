@@ -25,7 +25,9 @@
 */
 
 #include "common/config.hpp"
+
 #include "gui/gui.hpp"
+
 #include "gui/screens/screenCommon.hpp"
 
 #include <3ds.h>

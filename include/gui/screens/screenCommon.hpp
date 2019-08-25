@@ -26,8 +26,10 @@
 
 #ifndef SCREENCOMMON_HPP
 #define SCREENCOMMON_HPP
+
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
+
 #include "lang/langStrings.h"
 
 extern C3D_RenderTarget* top;

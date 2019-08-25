@@ -32,7 +32,6 @@
 #include <citro2d.h>
 #include <string>
 
-
 class Title
 {
 public:

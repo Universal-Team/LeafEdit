@@ -25,6 +25,7 @@
 */
 
 #include "gui/msg.hpp"
+
 #include "gui/screens/screenCommon.hpp"
 
 // Display a Message, which needs to be confirmed with A/B.

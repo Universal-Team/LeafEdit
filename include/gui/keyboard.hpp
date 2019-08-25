@@ -8,4 +8,5 @@ namespace Input {
 	std::string getLine(std::string Text);
 	std::string getLine(uint maxLength, std::string Text);
 }
+
 #endif

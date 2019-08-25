@@ -25,7 +25,9 @@
 */
 
 #include "common/config.hpp"
+
 #include "gui/keyboard.hpp"
+
 #include "gui/screens/settings.hpp"
 #include "gui/screens/screenCommon.hpp"
 

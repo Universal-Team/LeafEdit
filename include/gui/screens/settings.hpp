@@ -27,6 +27,7 @@
 #define SETTINGS_HPP
 
 #include "common/structs.hpp"
+
 #include "gui/screens/screen.hpp"
 
 #include <vector>

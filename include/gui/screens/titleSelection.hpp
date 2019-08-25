@@ -27,6 +27,7 @@
 #define TITLESELECTION_HPP
 
 #include "core/gameLoader.hpp"
+
 #include "gui/screens/screen.hpp"
 
 class TitleSelection : public SCREEN 
@@ -34,11 +35,10 @@ class TitleSelection : public SCREEN
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+private:
 	void TitleDraw(void) const;
     void SelectionLogic(u32 hDown);
     void DrawInformationBox(void) const;
-
-private:
 	int selectedTitle = -2;
 	bool GameSelected   = false;
 

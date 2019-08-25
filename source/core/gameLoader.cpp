@@ -24,13 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/config.hpp"
 
 #include "core/gameLoader.hpp"
-#include "common/config.hpp"
+
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
 
-#include <3ds.h>
 #include <array>
 
 static constexpr std::array<unsigned long long, 8> titleIds = {

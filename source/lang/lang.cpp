@@ -1,5 +1,6 @@
 #include "common/config.hpp"
 #include "common/inifile.h"
+
 #include "lang/lang.h"
 #include "lang/langStrings.h"
 
