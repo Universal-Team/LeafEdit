@@ -19,12 +19,8 @@ Player::Player(u32 offset, u32 index) {
     this->TownName = Save::Instance()->ReadString(offset + 0x55BE, 8);
     this->Gender = Save::Instance()->ReadU16(offset + 0x55BA);
     this->TownId = Save::Instance()->ReadU16(offset + 0x55BC);
-
-    this->WalletOld = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6e38)); // Old Ver.
-    this->Wallet = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6F08)); // Welcome Amiibo.
-
-    this->BankAmountOld = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6b6c)); // Old Ver.
-    this->BankAmount = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6b8c)); // Welcome Amiibo.
+    this->Wallet = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6F08));
+    this->BankAmount = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6b8c));
 }
 
 void Player::Write() {

@@ -43,10 +43,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-
-extern u64 currentID;
 std::string selectedSaveFolderEditor = "";
-extern bool WelcomeAmiibo;
 Save* SaveFile;
 
 // Player Stuff.
@@ -88,25 +85,11 @@ void Editor::DrawSubMenu(void) const
 	TownName += " ";
 	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
 
-	// Display the Amount of Bells inside the Wallet. [NEW]
+	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
 	std::string WalletAmount = Lang::editor[3];
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
-
-	// Display the Amount of Bells inside the Wallet. [OLD]
-	std::string WalletOld = std::to_string((SaveFile->players[0]->WalletOld.value));
-	std::string WalletAmountOld = Lang::editor[3];
-	WalletAmountOld += " ";
-	WalletAmountOld += WalletOld.c_str();
-
-
-
-	// Display the Amount of Bells from the Bank. [OLD]
-	std::string BankOld = std::to_string((SaveFile->players[0]->BankAmountOld.value));
-	std::string BankAmountOld = Lang::editor[2];
-	BankAmountOld += " ";
-	BankAmountOld += BankOld.c_str();
 
 	// Display the Amount of Bells from the Bank. [NEW]
 	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
@@ -164,7 +147,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_B) {
 
 			// Only write something to the Save, because we don't want to write Data with nothing inside it!
-/*		if (player1Name != "" || player1Wallet != "") {
+		if (player1Name != "" || player1Wallet != "") {
 			if (Msg::promptMsg(Lang::editor[0])) {
 				std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(SaveFile->players[0]);
 				SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
@@ -181,7 +164,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 					SaveFile->Commit(false);
 				}
 			}
-		} */
+		} 
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
@@ -262,22 +245,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 
 			if (dirChanged) {
             dirContents.clear();
-		std::string customPath = "sdmc:/LeafEdit/Towns/";
-
-		// Check, if the current ID is the old one.
-		if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
-			if (WelcomeAmiibo == false) {
-				customPath += "Old/";
-			} else if (WelcomeAmiibo == true) {
-				customPath += "Welcome-Amiibo/";
-			}
-		}
-
-		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
-			customPath += "Welcome-Amiibo/";
-		}
-
-
+			std::string customPath = "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
 			chdir(customPath.c_str());
             std::vector<DirEntry> dirContentsTemp;
             getDirectoryContents(dirContentsTemp);
@@ -291,27 +259,9 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 			std::string prompt = Lang::editor[8];
 			if(Msg::promptMsg(prompt.c_str())) {
 
-			selectedSaveFolderEditor = "/LeafEdit/Towns/";
-		// Check, if the current ID is the old one.
-		if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
-			if (WelcomeAmiibo == false) {
-				selectedSaveFolderEditor += "Old/";
-				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
-				selectedSaveFolderEditor += "/garden.dat";
-
-			} else if (WelcomeAmiibo == true) {
-				selectedSaveFolderEditor += "Welcome-Amiibo/";
+			selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
 				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
 				selectedSaveFolderEditor += "/garden_plus.dat";
-			}
-		}
-
-		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
-			selectedSaveFolderEditor += "Welcome-Amiibo/";
-			selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
-			selectedSaveFolderEditor += "/garden_plus.dat";
-		}
-
 				const char *save = selectedSaveFolderEditor.c_str();
 				SaveFile = Save::Initialize(save, true);
 				EditorMode = 2;
