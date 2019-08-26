@@ -35,6 +35,7 @@
 #include "core/save/offsets.h"
 #include "core/save/player.h"
 #include "core/save/save.h"
+#include "core/save/villager.h"
 
 #include <3ds.h>
 #include <sys/stat.h>
@@ -71,6 +72,11 @@ void PlayerEditor::Draw(void) const
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
+	// Get the First Villager as a Value.
+	std::string villager = std::to_string((SaveFile->villagers[0]->GetId()));
+	std::string firstVillager = "First Villager: ";
+	firstVillager += villager.c_str();
+
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
 	std::string BankAmount = Lang::editor[2];
@@ -84,10 +90,11 @@ void PlayerEditor::Draw(void) const
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
 
 	// Game Specific Things.
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 70, 0.8f, WHITE, PlayerName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 100, 0.8f, WHITE, TownName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 130, 0.8f, WHITE, WalletAmount.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 160, 0.8f, WHITE, BankAmount.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 40, 0.8f, WHITE, PlayerName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 70, 0.8f, WHITE, TownName.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 100, 0.8f, WHITE, WalletAmount.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 130, 0.8f, WHITE, BankAmount.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, firstVillager.c_str()))/2, 160, 0.8f, WHITE, firstVillager.c_str());
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -129,7 +136,7 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 				}   case 1:
 						player1Wallet = Input::Numpad(5, "Please type in the Wallet Value.");
 						break;
-					 }
+				}
 			}
 
 	if (hDown & KEY_B) {

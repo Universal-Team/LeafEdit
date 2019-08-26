@@ -5,6 +5,7 @@
 
 #include "core/save/offsets.h"
 #include "core/save/player.h"
+#include "core/save/villager.h"
 
 
 #include <string>
@@ -16,6 +17,7 @@ struct Region_Lock {
 };
 
 class Player;
+class Villager;
 
 class Save {
 public:
@@ -55,6 +57,7 @@ public:
     void Close(void);
 
     Player *players[4];
+    Villager* villagers[10];
     Region_Lock RegionLock;
 
 private:

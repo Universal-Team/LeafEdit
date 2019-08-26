@@ -154,6 +154,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 				for (u32 offset : m_PlayerIdReferences) {
 
 					if (player1Name != "") {
+						SaveFile->Write(offset, SaveFile->players[0]->PlayerId);
 						SaveFile->Write(offset + 2, SaveFile->players[0]->Name, 8); // Name Player 1.
 					}
 

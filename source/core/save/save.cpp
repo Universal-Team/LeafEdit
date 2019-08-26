@@ -19,6 +19,11 @@ Save::~Save() {
         player = nullptr;
     }
 
+    for (auto villager : villagers) {   
+        delete villager;
+        villager = nullptr;
+    }
+
     delete[] m_saveBuffer;
     m_saveBuffer = nullptr;
 }
@@ -54,6 +59,12 @@ Save* Save::Initialize(const char *saveName, bool init) {
         u32 PlayerOffset = 0xA0 + (i * 0xA480);
         m_pSave->players[i] = new Player(PlayerOffset, i);
     }
+
+    // Load Villagers
+    for (int i = 0; i < 10; i++) {
+        m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+    }
+
 
     return m_pSave;
 }
@@ -191,9 +202,15 @@ void Save::SetChangesMade(bool changesMade) {
 }
 
 bool Save::Commit(bool close) {
+    
     // Save Players
     for (int i = 0; i < 4; i++) {
         players[i]->Write();
+    }
+
+    // Save Villagers
+    for (int i = 0; i < 10; i++) {
+        villagers[i]->Write();
     }
 
     // Update Checksums
