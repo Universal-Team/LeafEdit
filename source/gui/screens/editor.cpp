@@ -88,17 +88,33 @@ void Editor::DrawSubMenu(void) const
 	TownName += " ";
 	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
 
-	// Display the Amount of Bells inside the Wallet.
+	// Display the Amount of Bells inside the Wallet. [NEW]
 	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
 	std::string WalletAmount = Lang::editor[3];
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
-	// Display the Amount of Bells from the Bank.
+	// Display the Amount of Bells inside the Wallet. [OLD]
+	std::string WalletOld = std::to_string((SaveFile->players[0]->WalletOld.value));
+	std::string WalletAmountOld = Lang::editor[3];
+	WalletAmountOld += " ";
+	WalletAmountOld += WalletOld.c_str();
+
+
+
+	// Display the Amount of Bells from the Bank. [OLD]
+	std::string BankOld = std::to_string((SaveFile->players[0]->BankAmountOld.value));
+	std::string BankAmountOld = Lang::editor[2];
+	BankAmountOld += " ";
+	BankAmountOld += BankOld.c_str();
+
+	// Display the Amount of Bells from the Bank. [NEW]
 	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
 	std::string BankAmount = Lang::editor[2];
 	BankAmount += " ";
 	BankAmount += Bank.c_str();
+
+
 
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
@@ -148,7 +164,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_B) {
 
 			// Only write something to the Save, because we don't want to write Data with nothing inside it!
-		if (player1Name != "" || player1Wallet != "") {
+/*		if (player1Name != "" || player1Wallet != "") {
 			if (Msg::promptMsg(Lang::editor[0])) {
 				std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(SaveFile->players[0]);
 				SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
@@ -165,7 +181,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 					SaveFile->Commit(false);
 				}
 			}
-		}
+		} */
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();

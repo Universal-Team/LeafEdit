@@ -94,6 +94,9 @@ void PlayerEditor::Draw(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
+	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
+
 	if (Selection == 0) {
 		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
 	} else if (Selection == 1) {
@@ -103,11 +106,11 @@ void PlayerEditor::Draw(void) const
 
 	// Display Player Name.
 	Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, Lang::editor[5]);
-	Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.6f, WHITE, player1Name.c_str());
+	Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.72f, BLACK, player1Name.c_str());
 
 	// Display Wallet Amount of the first Player. 
 	Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, Lang::editor[3]);
-	Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.6f, WHITE, player1Wallet.c_str());
+	Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player1Wallet.c_str());
 }
 
 void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch)

@@ -19,7 +19,10 @@ public:
     u16 TownId;
     std::u16string TownName;
 
+    EncryptedInt32 WalletOld;
     EncryptedInt32 Wallet;
+
+    EncryptedInt32 BankAmountOld;
     EncryptedInt32 BankAmount;
     
     void Write();
