@@ -124,10 +124,10 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_A) {
 			switch(Selection) {
 				case 0: {
-						player1Name = Input::getLine(Lang::playerEditor[0]); // To-Do : Limit the length to 8 chars.
+						player1Name = Input::getLine(8, Lang::playerEditor[0]);
 						break;
 				}   case 1:
-						player1Wallet = Input::getLine("Please type in the Wallet Value."); // To-Do : Limit the length to 5 numbers.
+						player1Wallet = Input::getLine(5, "Please type in the Wallet Value.");
 						break;
 					 }
 			}
