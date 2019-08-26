@@ -127,7 +127,7 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 						player1Name = Input::getLine(8, Lang::playerEditor[0]);
 						break;
 				}   case 1:
-						player1Wallet = Input::getLine(5, "Please type in the Wallet Value.");
+						player1Wallet = Input::Numpad(5, "Please type in the Wallet Value.");
 						break;
 					 }
 			}
