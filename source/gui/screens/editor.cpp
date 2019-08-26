@@ -46,6 +46,7 @@
 
 extern u64 currentID;
 std::string selectedSaveFolderEditor = "";
+extern bool WelcomeAmiibo;
 Save* SaveFile;
 
 // Player Stuff.
@@ -247,28 +248,16 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
             dirContents.clear();
 		std::string customPath = "sdmc:/LeafEdit/Towns/";
 
-		// EUR.
-		if (currentID == OldEUR && Config::update == 1) {
-			customPath += "Welcome-Amiibo/";
-		} else if (currentID == OldEUR  && Config::update == 0) {
-			customPath += "Old/";
+		// Check, if the current ID is the old one.
+		if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
+			if (WelcomeAmiibo == false) {
+				customPath += "Old/";
+			} else if (WelcomeAmiibo == true) {
+				customPath += "Welcome-Amiibo/";
+			}
 		}
 
-		// USA.
-		if (currentID == OldUSA  && Config::update == 1) {
-			customPath += "Welcome-Amiibo/";
-		} else if (currentID == OldUSA  && Config::update == 0) {
-			customPath += "Old/";
-		}
-
-		// JPN.
-		if (currentID == OldJPN  && Config::update == 1) {
-			customPath += "Welcome-Amiibo/";
-		} else if (currentID == OldJPN  && Config::update == 0) {
-			customPath += "Old/";
-		}
-
-		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN) {
+		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
 			customPath += "Welcome-Amiibo/";
 		}
 
@@ -285,9 +274,28 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		if(hDown & KEY_A) {
 			std::string prompt = Lang::editor[8];
 			if(Msg::promptMsg(prompt.c_str())) {
-				selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
+
+			selectedSaveFolderEditor = "/LeafEdit/Towns/";
+		// Check, if the current ID is the old one.
+		if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
+			if (WelcomeAmiibo == false) {
+				selectedSaveFolderEditor += "Old/";
+				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
+				selectedSaveFolderEditor += "/garden.dat";
+
+			} else if (WelcomeAmiibo == true) {
+				selectedSaveFolderEditor += "Welcome-Amiibo/";
 				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
 				selectedSaveFolderEditor += "/garden_plus.dat";
+			}
+		}
+
+		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
+			selectedSaveFolderEditor += "Welcome-Amiibo/";
+			selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
+			selectedSaveFolderEditor += "/garden_plus.dat";
+		}
+
 				const char *save = selectedSaveFolderEditor.c_str();
 				SaveFile = Save::Initialize(save, true);
 				EditorMode = 2;

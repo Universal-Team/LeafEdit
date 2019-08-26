@@ -40,6 +40,8 @@
 
 #include <3ds.h>
 
+extern bool WelcomeAmiibo;
+
 // Backup the current Game. If Update Found "Welcome-Amiibo" Folder -> If not "Old" Folder.
 Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID)
 {
@@ -54,32 +56,13 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 		customPath += StringUtils::UTF8toUTF16("/");
 
-		// JPN.
-		if (ID == OldJPN  && Config::update == 1) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-		} else if (ID == OldJPN  && Config::update == 0) {
-			customPath += StringUtils::UTF8toUTF16("Old");
-		}
-
-		// USA.
-		if (ID == OldUSA  && Config::update == 1) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-		} else if (ID == OldUSA  && Config::update == 0) {
-			customPath += StringUtils::UTF8toUTF16("Old");
-		}
-
-		// EUR.
-		if (ID == OldEUR && Config::update == 1) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-		} else if (ID == OldEUR  && Config::update == 0) {
-			customPath += StringUtils::UTF8toUTF16("Old");
-		}
-
-		// KOR.
-		if (ID == OldKOR  && Config::update == 1) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-		} else if (ID == OldKOR  && Config::update == 0) {
-			customPath += StringUtils::UTF8toUTF16("Old");
+		// Check, if the current ID is the old one.
+		if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+			if (WelcomeAmiibo == false) {
+				customPath += StringUtils::UTF8toUTF16("Old");
+			} else if (WelcomeAmiibo == true) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+			}
 		}
 
 		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
@@ -158,37 +141,18 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 			customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
 			customPath += StringUtils::UTF8toUTF16("/");
 
-			// JPN.
-			if (ID == OldJPN  && Config::update == 1) {
-				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
-			} else if (ID == OldJPN  && Config::update == 0) {
+		// Check, if the current ID is the old one.
+		if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+			if (WelcomeAmiibo == false) {
 				customPath += StringUtils::UTF8toUTF16("Old/");
-			}
-
-			// USA.
-			if (ID == OldUSA  && Config::update == 1) {
-				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
-			} else if (ID == OldUSA  && Config::update == 0) {
-				customPath += StringUtils::UTF8toUTF16("Old/");
-			}
-
-			// EUR.
-			if (ID == OldEUR && Config::update == 1) {
-				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
-			} else if (ID == OldEUR  && Config::update == 0) {
-				customPath += StringUtils::UTF8toUTF16("Old/");
-			}
-
-			// KOR.
-			if (ID == OldKOR  && Config::update == 1) {
-				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-			} else if (ID == OldKOR  && Config::update == 0) {
-				customPath += StringUtils::UTF8toUTF16("Old");
-			}
-
-			if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+			} else if (WelcomeAmiibo == true) {
 				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
 			}
+		}
+
+		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+		}
 
 				std::u16string srcPath = customPath;
 				srcPath += StringUtils::UTF8toUTF16(saveFolder.c_str());

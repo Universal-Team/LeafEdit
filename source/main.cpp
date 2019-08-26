@@ -51,6 +51,8 @@ int test = 0;
 // If true -> Exit LeafEdit.
 bool exiting = false;
 
+bool WelcomeAmiibo;
+
 // Touch Touch!
 touchPosition touch;
 
@@ -108,7 +110,13 @@ int main()
 
 	GameLoader::checkUpdate();
 
-
+	// Return the Welcome Amiibo State.
+	if (Config::update == 0) {
+		WelcomeAmiibo = false;
+	} else if (Config::update == 1) {
+		WelcomeAmiibo = true;
+	}
+	
 	// Scan for available Titles to display.
 	GameLoader::scanTitleID();
 	
