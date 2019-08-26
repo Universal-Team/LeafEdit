@@ -42,8 +42,9 @@
 
 extern Save* SaveFile;
 
-// Player Stuff.
+// Player 1 / Mayor Stuff.
 extern std::string player1Name; // Player Name [Mayor].
+extern std::string player1Wallet; // Player Wallet Amount [Mayor].
 
 void PlayerEditor::Draw(void) const
 {
@@ -93,18 +94,42 @@ void PlayerEditor::Draw(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
+	if (Selection == 0) {
+		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 1) {
+		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
+	}
 
-	Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
 
 	// Display Player Name.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, player1Name.c_str()))/2, playerButtons[0].y+10, 0.6f, WHITE, player1Name.c_str());
+	Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, Lang::editor[5]);
+	Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.6f, WHITE, player1Name.c_str());
+
+	// Display Wallet Amount of the first Player. 
+	Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, Lang::editor[3]);
+	Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.6f, WHITE, player1Wallet.c_str());
 }
 
 void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 {
+	if (hDown & KEY_UP) {
+		if(Selection > 0)	Selection--;
+	} else if (hDown & KEY_DOWN) {
+		if(Selection < 1)	Selection++;
+	}
+
 	if (hDown & KEY_A) {
-		player1Name = Input::getLine(Lang::playerEditor[0]); // To-Do : Limit the length to 8 chars.
-	} else if (hDown & KEY_B) {
+			switch(Selection) {
+				case 0: {
+						player1Name = Input::getLine(Lang::playerEditor[0]); // To-Do : Limit the length to 8 chars.
+						break;
+				}   case 1:
+						player1Wallet = Input::getLine("Please type in the Wallet Value."); // To-Do : Limit the length to 5 numbers.
+						break;
+					 }
+			}
+
+	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
 	}

@@ -40,8 +40,11 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+	int Selection = 0;
+	
 	std::vector<Structs::ButtonPos> playerButtons = {
-    	{90, 40, 140, 35, -1}, // Player Name 1 [Mayor]
+    	{140, 40, 140, 35, -1}, // Player Name 1 [Mayor]
+		{140, 100, 140, 35, -1}, // Player 1 [Mayor] Wallet Amount.
 	};
 };
 

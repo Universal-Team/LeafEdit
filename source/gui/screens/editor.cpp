@@ -50,6 +50,7 @@ Save* SaveFile;
 
 // Player Stuff.
 std::string player1Name;
+std::string player1Wallet;
 
 void Editor::Draw(void) const
 {
@@ -144,17 +145,31 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if (hDown & KEY_B) {
-		if (Msg::promptMsg(Lang::editor[0])) {
-			std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(Save::Instance()->players[0]);
-			Save::Instance()->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
-			for (u32 offset : m_PlayerIdReferences) {
-				Save::Instance()->Write(offset + 2, Save::Instance()->players[0]->Name, 8);
-				SaveFile->Commit(false);
+
+			// Only write something to the Save, because we don't want to write Data with nothing inside it!
+		if (player1Name != "" || player1Wallet != "") {
+			if (Msg::promptMsg(Lang::editor[0])) {
+				std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(SaveFile->players[0]);
+				SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
+				for (u32 offset : m_PlayerIdReferences) {
+
+					if (player1Name != "") {
+						SaveFile->Write(offset + 2, SaveFile->players[0]->Name, 8); // Name Player 1.
+					}
+
+					if (player1Wallet != "") {
+						SaveFile->players[0]->Wallet.value = static_cast<u32>(std::stoi(player1Wallet.c_str())); // Wallet Amount Player 1.
+					}
+
+					SaveFile->Commit(false);
+				}
 			}
 		}
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
+		player1Name = "";
+		player1Wallet = "";
 	}
 
 	if (hDown & KEY_A) {
