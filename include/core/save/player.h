@@ -18,7 +18,8 @@ public:
 
     EncryptedInt32 Wallet;
     EncryptedInt32 BankAmount;
-
+    
+    void Write();
     bool Exists();
 
     u32 m_offset;

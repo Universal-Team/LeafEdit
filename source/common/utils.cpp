@@ -1,5 +1,7 @@
 #include "common/utils.hpp"
 
+
+#include "save.h"
 #include <memory>
 
 // StringUtils.
@@ -59,4 +61,32 @@ std::string StringUtils::format(std::string fmt_str, ...)
     va_end(ap);
     std::unique_ptr<char, decltype(free)*> formatted(fp, free);
     return std::string(formatted.get());
+}
+
+std::vector<u32> EditorUtils::findPlayerReferences(Player *player) {
+    // Read u16 ID + Name
+    u16 *dataArray = new u16[11];
+    for (u32 i = 0; i < 11; i++) {
+        dataArray[i] = Save::Instance()->ReadU16(player->m_offset + 0x55A6 + i * 2);
+    }
+
+    std::vector<u32> references = std::vector<u32>();
+    u32 Size = Save::Instance()->GetSaveSize() - 22;
+    for (u32 i = 0; i < Size; i += 2) { // subtract 22 so we don't read past the end of the file
+        bool foundMatch = true;
+        for (int x = 0; x < 11; x++) {
+            if (Save::Instance()->ReadU16(i + x * 2) != dataArray[x]) {
+                foundMatch = false;
+                break;
+            }
+        }
+        // add the offset to the vector
+        if (foundMatch) {
+            references.push_back(i);
+            i += 20; // skip the rest of this data
+        }
+    }
+
+    delete[] dataArray;
+    return references;
 }

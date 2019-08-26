@@ -140,3 +140,38 @@ bool VerifyCRC32(u32 crc, u8 *buf, u32 startOffset, u32 size, ChecksumType type)
 
     return CalculateCRC32Reflected(buf + startOffset + 4, size) == crc;
 }
+
+u32 UpdateCRC32(u32 startOffset, u32 size, ChecksumType type) {
+    u32 crc32 = 0;
+    if (type == CRC_NORMAL) {
+        crc32 = CalculateCRC32Normal(Save::Instance()->GetRawSaveData() + startOffset + 4, size);
+    }
+
+    else {
+        crc32 = CalculateCRC32Reflected(Save::Instance()->GetRawSaveData() + startOffset + 4, size);
+    }
+    Save::Instance()->Write(startOffset, crc32); // write calculated crc32
+
+    return crc32;
+}
+
+void FixCRC32s() {
+    UpdateCRC32(0x80, 0x1C); //Save Header
+
+    // Rehash players
+    for (int i = 0; i < 4; i++) {
+        UpdateCRC32(0xA0 + (0xA480 * i), 0x6B84);           //Players Checksum1
+        UpdateCRC32(0xA0 + (0xA480 * i) + 0x6B88, 0x38F4);  //Players Checksum2
+    }
+
+    UpdateCRC32(0x292A0, 0x22BC8); 	//VillagerData Checksum
+    UpdateCRC32(0x4BE80, 0x44B8); 	//GeneralTownData Checksum
+    UpdateCRC32(0x53424, 0x1E4D8);    //ItemAndAcreData Checksum
+    UpdateCRC32(0x71900, 0x20);       //Unknown1 Checksum
+    UpdateCRC32(0x71924, 0xBE4);      //Unknown2 Checksum
+    UpdateCRC32(0x73954, 0x16188);    //LetterStorage Checksum
+
+    UpdateCRC32(0x5033C, 0x28F0, CRC_NORMAL);     //Unknown3 Checksum
+    UpdateCRC32(0x52C30, 0x7F0, CRC_NORMAL);      //Unknown4 Checksum
+    UpdateCRC32(0x7250C, 0x1444, CRC_NORMAL);     //Unknown5 Checksum
+}

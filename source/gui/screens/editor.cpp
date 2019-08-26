@@ -32,8 +32,10 @@
 
 #include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
+#include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
+#include "core/save/offsets.h"
 #include "core/save/player.h"
 #include "core/save/save.h"
 
@@ -45,6 +47,9 @@
 extern u64 currentID;
 std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
+
+// Player Stuff.
+std::string player1Name;
 
 void Editor::Draw(void) const
 {
@@ -68,24 +73,29 @@ void Editor::DrawSubMenu(void) const
 	std::string Title;
 	Title += Lang::title;
 	Title += " - ";
-	Title += "Editor";
+	Title += Lang::editor[6];
 
 	// Display First Player Name.
-	std::string PlayerName = "Player Name: ";
+	std::string PlayerName = Lang::editor[5];
+	PlayerName += " ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
 
+
 	// Display Town Name.
-	std::string TownName = "Town Name: ";
+	std::string TownName = Lang::editor[4];
+	TownName += " ";
 	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
 
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
-	std::string WalletAmount = "Wallet Amount: ";
+	std::string WalletAmount = Lang::editor[3];
+	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
-	std::string BankAmount = "Bank Amount: ";
+	std::string BankAmount = Lang::editor[2];
+	BankAmount += " ";
 	BankAmount += Bank.c_str();
 
 	Gui::ScreenDraw(top);
@@ -122,7 +132,7 @@ void Editor::DrawSubMenu(void) const
 		Gui::drawAnimatedSelector(editorButtons[2].x, editorButtons[2].y, editorButtons[2].w, editorButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
 	}
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[0].y+10, 0.6f, WHITE, "WIP");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1]);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[1].y+10, 0.6f, WHITE, "WIP");
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP");
 }
@@ -134,9 +144,30 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if (hDown & KEY_B) {
+		if (Msg::promptMsg(Lang::editor[0])) {
+			std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(Save::Instance()->players[0]);
+			Save::Instance()->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
+			for (u32 offset : m_PlayerIdReferences) {
+				Save::Instance()->Write(offset + 2, Save::Instance()->players[0]->Name, 8);
+				SaveFile->Commit(false);
+			}
+		}
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
+	}
+
+	if (hDown & KEY_A) {
+			switch(Selection) {
+				case 0: {
+						Gui::setScreen(std::make_unique<PlayerEditor>());
+						break;
+				}   case 1:
+						break;
+				 	case 2: {
+						break;
+					 }
+			}
 	}
 }
 
@@ -147,7 +178,7 @@ void Editor::DrawBrowse(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Save for the Editor."))/2, 2, 0.72f, WHITE, "Select a Save for the Editor.");
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[7]))/2, 2, 0.72f, WHITE, Lang::editor[7]);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -237,7 +268,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	}
 
 		if(hDown & KEY_A) {
-			std::string prompt = "Do you want to load this Save?";
+			std::string prompt = Lang::editor[8];
 			if(Msg::promptMsg(prompt.c_str())) {
 				selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
 				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
@@ -259,7 +290,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 			keyRepeatDelay = 6;
 		}
 	} else if (hDown & KEY_B) {
-		if(Msg::promptMsg("Do you want to return to the Main Menu?")) {
+		if(Msg::promptMsg(Lang::editor[9])) {
 			Gui::screenBack();
 			return;
 		}

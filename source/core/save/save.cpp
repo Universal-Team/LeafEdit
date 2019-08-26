@@ -126,3 +126,88 @@ void Save::Close(void) {
         m_pSave = nullptr;
     }
 }
+
+// Actual Writing Stuff to the Save.
+
+bool Save::Write(u32 offset, u8 *data, u32 count) {
+    if (offset + count >= m_saveSize) {
+        return false;
+    }
+
+    memcpy(m_saveBuffer + offset, data, count);
+    m_changesMade = true;
+    return true;
+}
+
+bool Save::Write(u32 offset, s8 data) {
+    return Write(offset, (u8 *)&data, 1);
+}
+
+bool Save::Write(u32 offset, u8 data) {
+    return Write(offset, &data, 1);
+}
+
+bool Save::Write(u32 offset, s16 data) {
+    return Write(offset, (u8 *)&data, 2);
+}
+
+bool Save::Write(u32 offset, u16 data) {
+    return Write(offset, (u8 *)&data, 2);
+}
+
+bool Save::Write(u32 offset, s32 data) {
+    return Write(offset, (u8 *)&data, 4);
+}
+
+bool Save::Write(u32 offset, u32 data) {
+    return Write(offset, (u8 *)&data, 4);
+}
+
+bool Save::Write(u32 offset, s64 data) {
+    return Write(offset, (u8 *)&data, 8);
+}
+
+bool Save::Write(u32 offset, u64 data) {
+    return Write(offset, (u8 *)&data, 8);
+}
+
+bool Save::Write(u32 offset, std::u16string str, u32 maxSize) {
+    if (str.length() > maxSize + 1) {
+        return false;
+    }
+
+    return Write(offset, (u8 *)str.data(), maxSize * 2);
+}
+
+bool Save::ChangesMade(void) {
+    return m_changesMade;
+}
+
+/*
+    NOTE: This should be removed at some point. It's a hack to allow the Player encryptedInts to say they've been changed.
+*/
+void Save::SetChangesMade(bool changesMade) {
+    m_changesMade = changesMade;
+}
+
+bool Save::Commit(bool close) {
+    // Save Players
+    for (int i = 0; i < 4; i++) {
+        players[i]->Write();
+    }
+
+    // Update Checksums
+    FixCRC32s();
+
+    bool res = R_SUCCEEDED(FSFILE_Write(m_handle, NULL, 0, m_saveBuffer, m_saveSize, FS_WRITE_FLUSH));
+
+    if (res) {
+        m_changesMade = false;
+    }
+
+    if (close) {
+        Close();
+    }
+
+    return res;
+}

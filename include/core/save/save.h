@@ -37,6 +37,21 @@ public:
     u8* GetRawSaveData(void);
     u64 GetSaveSize(void);
 
+    bool Write(u32 offset, u8 *buffer, u32 count);
+    bool Write(u32 offset, s8 data);
+    bool Write(u32 offset, u8 data);
+    bool Write(u32 offset, s16 data);
+    bool Write(u32 offset, u16 data);
+    bool Write(u32 offset, s32 data);
+    bool Write(u32 offset, u32 data);
+    bool Write(u32 offset, s64 data);
+    bool Write(u32 offset, u64 data);
+    bool Write(u32 offset, std::u16string data, u32 maxSize);
+
+    bool ChangesMade(void);
+    void SetChangesMade(bool changesMade);
+
+    bool Commit(bool close);
     void Close(void);
 
     Player *players[4];

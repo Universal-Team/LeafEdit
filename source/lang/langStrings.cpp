@@ -4,6 +4,9 @@ namespace Lang {
 	std::vector<std::string>
 	// App strings
 
+	// [editor]
+	editor = {"Do you want to save your changes?", "Player", "Bank Amount: ", "Wallet Amount: ", "Town Name: ", "Player Name: ",
+			  "Editor", "Select a save for the Editor.", "Do you want to load this save?", "Do you want to return to the Main Menu?"},
 	// [mainMenu]
 	mainMenu = {"Town Manager", "Editor", "Settings"},
 
@@ -17,6 +20,9 @@ namespace Lang {
 				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...", 
 				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse."},
 	
+	// [playerEditor]
+	playerEditor = {"Please type in the new player name."},
+
 	// [settings]
 	settings = {"Language", "Selector", "?"},
 	
