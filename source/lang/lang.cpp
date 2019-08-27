@@ -70,6 +70,7 @@ void Lang::loadLangStrings(int lang) {
 	Lang::messages2[8] = ini.GetString("messages2", "restoreMsg", Lang::messages2[8]);
 	Lang::messages2[9] = ini.GetString("messages2", "refresh", Lang::messages2[9]);
 	Lang::messages2[10] = ini.GetString("messages2", "backupLaunch", Lang::messages2[10]);
+	Lang::messages2[11] = ini.GetString("messages2", "overwrite", Lang::messages2[11]);
 
 	// [misc]
 	Lang::notImplemented = ini.GetString("misc", "notImplemented", Lang::notImplemented);

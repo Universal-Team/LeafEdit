@@ -19,7 +19,7 @@ namespace Lang {
 				 "Do you want to restore this Save?", "Do you want to launch this Town?", 
 				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...", 
 				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse.",
-				 "Would you like to backup the current town\nbefore restoring the selected one?"},
+				 "Would you like to backup the current town\nbefore restoring the selected one?", "A save with this name already exists.\nWould you like to overwrite the save?"},
 	
 	// [playerEditor]
 	playerEditor = {"Please type in the new player name."},

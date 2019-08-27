@@ -45,6 +45,7 @@ extern bool WelcomeAmiibo;
 // Backup the current Game. If Update Found "Welcome-Amiibo" Folder -> If not "Old" Folder.
 Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID)
 {
+	static bool alreadyexists = false;
 	Result res		= 0;
 	FS_Archive archive;
 		res = Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
@@ -74,30 +75,48 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
 		Msg::DisplayMsg(Lang::messages2[7]);
 		if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
-		res = io::createDirectory(Archive::sdmc(), folderPath);
-            if (R_FAILED(res)) {
-                FSUSER_CloseArchive(archive);
-				Msg::DisplayWaitMsg(Lang::messages[0]);
-				return res;
+			alreadyexists = false;
+			res = io::createDirectory(Archive::sdmc(), folderPath);
+            	if (R_FAILED(res)) {
+                	FSUSER_CloseArchive(archive);
+					Msg::DisplayWaitMsg(Lang::messages[0]);
+					return res;
+				}
+			} else if (io::directoryExists(Archive::sdmc(), folderPath) == true) {
+				alreadyexists = true;
 			}
-		} else {
-		}
 
 
 		std::u16string savePath = folderPath;
 		savePath += StringUtils::UTF8toUTF16("/");
 
-		res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
-			if (R_FAILED(res)) {
-                FSUSER_CloseArchive(archive);
-                FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
-				Msg::DisplayWaitMsg(Lang::messages[1]);
-				return res;
+		if (alreadyexists == true) {
+			if (Msg::promptMsg(Lang::messages2[11])) {
+				res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
+					if (R_FAILED(res)) {
+                		FSUSER_CloseArchive(archive);
+               			FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
+						Msg::DisplayWaitMsg(Lang::messages[1]);
+						return res;
+					}
+				FSUSER_CloseArchive(archive);
+				Msg::DisplayWaitMsg(Lang::messages[2]);
 			}
-		}
-	FSUSER_CloseArchive(archive);
-	Msg::DisplayWaitMsg(Lang::messages[2]);
+
+		} else if (alreadyexists == false) {
+			res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
+				if (R_FAILED(res)) {
+                	FSUSER_CloseArchive(archive);
+                	FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
+					Msg::DisplayWaitMsg(Lang::messages[1]);
+					return res;
+				}
+				FSUSER_CloseArchive(archive);
+				Msg::DisplayWaitMsg(Lang::messages[2]);
+			}
+	}
 	return 0;
+	alreadyexists = false;
 }
 
 // Clear the current Save Data
