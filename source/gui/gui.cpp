@@ -33,6 +33,7 @@
 #include <3ds.h>
 #include <assert.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <stack>
 
@@ -94,9 +95,25 @@ void Gui::sprite(int key, int x, int y)
     C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
 }
 
+void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
+{
+	// Get the first occurrence
+	size_t pos = data.find(toSearch);
+ 
+	// Repeat till end is reached
+	while( pos != std::string::npos)
+	{
+		// Replace this occurrence of Sub String
+		data.replace(pos, toSearch.size(), replaceStr);
+		// Get the next occurrence from the current position
+		pos =data.find(toSearch, pos + replaceStr.size());
+	}
+}
+
 // Draw String or Text.
 void Gui::DrawString(float x, float y, float size, u32 color, std::string Text)
 {
+    findAndReplaceAll(Text, "\\n", "\n");
 	C2D_Text c2d_text;
     C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
 	C2D_TextOptimize(&c2d_text);
