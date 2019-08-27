@@ -254,6 +254,9 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			prompt += dirContents[selectedSave].name;
 			if(Msg::promptMsg(prompt.c_str())) {
 				selectedSaveFolder = dirContents[selectedSave].name.c_str();
+				if(Msg::promptMsg(Lang::messages2[10])) {
+					TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
+				}
 				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
 				selectedSaveFolder = "";
 				TownManagement::LaunchTown(currentMedia, currentID);

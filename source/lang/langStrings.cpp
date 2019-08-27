@@ -18,7 +18,8 @@ namespace Lang {
 	messages2 = {"Press A to continue.", "Press A to confirm or B to Cancel.", "Do you want to Backup this save?",
 				 "Do you want to restore this Save?", "Do you want to launch this Town?", 
 				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...", 
-				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse."},
+				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse.",
+				 "Would you like to backup the current town\nbefore restoring the selected one?"},
 	
 	// [playerEditor]
 	playerEditor = {"Please type in the new player name."},
