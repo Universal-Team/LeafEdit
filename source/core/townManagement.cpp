@@ -73,12 +73,15 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		folderPath += StringUtils::UTF8toUTF16("/");
 		folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
 		Msg::DisplayMsg(Lang::messages2[7]);
+		if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
 		res = io::createDirectory(Archive::sdmc(), folderPath);
             if (R_FAILED(res)) {
                 FSUSER_CloseArchive(archive);
 				Msg::DisplayWaitMsg(Lang::messages[0]);
 				return res;
 			}
+		} else {
+		}
 
 
 		std::u16string savePath = folderPath;

@@ -110,3 +110,19 @@ Result io::deleteFolderRecursively(FS_Archive arch, const std::u16string& path)
     FSUSER_DeleteDirectory(arch, fsMakePath(PATH_UTF16, path.data()));
     return 0;
 }
+
+// Check if Folder exists.
+bool io::directoryExists(FS_Archive archive, const std::u16string& path)
+{
+    Handle handle;
+
+    if (R_FAILED(FSUSER_OpenDirectory(&handle, archive, fsMakePath(PATH_UTF16, path.data())))) {
+        return false;
+    }
+
+    if (R_FAILED(FSDIR_Close(handle))) {
+        return false;
+    }
+
+    return true;
+}
