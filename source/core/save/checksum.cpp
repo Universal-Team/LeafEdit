@@ -1,5 +1,6 @@
 /*
 MIT License
+This file is part of NLTK
 Copyright (c) 2018-2019 Slattz, Cuyler
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
