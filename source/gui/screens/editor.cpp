@@ -150,10 +150,10 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 		if (player1Name != "" || player1Wallet != "") {
 			if (Msg::promptMsg(Lang::editor[0])) {
 				std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(SaveFile->players[0]);
-				SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
 				for (u32 offset : m_PlayerIdReferences) {
 
 					if (player1Name != "") {
+						SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
 						SaveFile->Write(offset, SaveFile->players[0]->PlayerId);
 						SaveFile->Write(offset + 2, SaveFile->players[0]->Name, 8); // Name Player 1.
 					}
