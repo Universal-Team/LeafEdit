@@ -46,6 +46,8 @@ public:
 
     EncryptedInt32 Wallet;
     EncryptedInt32 BankAmount;
+    EncryptedInt32 MeowCoupons;
+    EncryptedInt32 IslandMedals;
     
     void Write();
     bool Exists();

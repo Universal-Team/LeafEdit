@@ -70,8 +70,6 @@ void Editor::DrawSubMenu(void) const
 	Title += " - ";
 	Title += Lang::editor[6];
 
-
-
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);

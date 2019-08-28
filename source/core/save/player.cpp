@@ -43,8 +43,11 @@ Player::Player(u32 offset, u32 index) {
     this->TownName = Save::Instance()->ReadString(offset + 0x55BE, 8);
     this->Gender = Save::Instance()->ReadU16(offset + 0x55BA);
     this->TownId = Save::Instance()->ReadU16(offset + 0x55BC);
+
     this->Wallet = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6F08));
     this->BankAmount = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6b8c));
+    this->IslandMedals = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6B9C));
+    this->MeowCoupons = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x8D1C));
 }
 
 void Player::Write() {
@@ -58,9 +61,21 @@ void Player::Write() {
     Save::Instance()->Write(this->m_offset + 0x55BC, this->TownId);
     Save::Instance()->Write(this->m_offset + 0x55BE, this->TownName, 8);
 
+    this->BankAmount.encrypt(encryptedInt, encryptionData);
+    Save::Instance()->Write(this->m_offset + 0x6b8c, encryptedInt);
+    Save::Instance()->Write(this->m_offset + 0x6b90, encryptionData);
+
     this->Wallet.encrypt(encryptedInt, encryptionData);
     Save::Instance()->Write(this->m_offset + 0x6F08, encryptedInt);
     Save::Instance()->Write(this->m_offset + 0x6F0C, encryptionData);
+
+    this->IslandMedals.encrypt(encryptedInt, encryptionData);
+    Save::Instance()->Write(this->m_offset + 0x6B9C, encryptedInt);
+    Save::Instance()->Write(this->m_offset + 0x6BA0, encryptionData);
+
+    this->MeowCoupons.encrypt(encryptedInt, encryptionData);
+    Save::Instance()->Write(this->m_offset + 0x8D1C, encryptedInt);
+    Save::Instance()->Write(this->m_offset + 0x8D20, encryptionData);
 }
 
 bool Player::Exists() {

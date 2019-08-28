@@ -40,8 +40,9 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
-	int Selection = 0;
-	int currentPlayer = 1;
+	int Selection = 0; // The current option selection.
+	int currentPlayer = 1; // The current Selected Player.
+	int currentPage = 1; // Page of the Player Editor.
 	
 	// Player Drawings.
 	void Player1Draw(void) const;
@@ -61,9 +62,9 @@ private:
 
 	// Button Struct.
 	std::vector<Structs::ButtonPos> playerButtons = {
-    	{140, 40, 140, 35, -1}, // Player Name.
-		{140, 100, 140, 35, -1}, // Wallet Amount.
-		{140, 160, 140, 35, -1}, // Tan.
+    	{140, 40, 140, 35, -1}, // Player Name / Bank.
+		{140, 100, 140, 35, -1}, // Wallet Amount / Medals.
+		{140, 160, 140, 35, -1}, // Tan / Coupons.
 	};
 };
 
