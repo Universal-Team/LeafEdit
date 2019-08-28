@@ -41,10 +41,28 @@ public:
 
 private:
 	int Selection = 0;
+	int currentPlayer = 1;
 	
+	// Player Drawings.
+	void Player1Draw(void) const;
+	void Player2Draw(void) const;
+	void Player3Draw(void) const;
+	void Player4Draw(void) const;
+
+
+	// Player Logics.
+	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player3Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player4Logic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	// Draw Current Player.
+	void DrawCurrentPlayer(void) const;
+
+	// Button Struct.
 	std::vector<Structs::ButtonPos> playerButtons = {
-    	{140, 40, 140, 35, -1}, // Player Name 1 [Mayor]
-		{140, 100, 140, 35, -1}, // Player 1 [Mayor] Wallet Amount.
+    	{140, 40, 140, 35, -1}, // Player Name.
+		{140, 100, 140, 35, -1}, // Wallet Amount.
 	};
 };
 

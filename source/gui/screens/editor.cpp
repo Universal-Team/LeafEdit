@@ -46,10 +46,6 @@
 std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
 
-// Player Stuff.
-std::string player1Name;
-std::string player1Wallet;
-
 void Editor::Draw(void) const
 {
 	if (EditorMode == 1) {
@@ -74,29 +70,6 @@ void Editor::DrawSubMenu(void) const
 	Title += " - ";
 	Title += Lang::editor[6];
 
-	// Display First Player Name.
-	std::string PlayerName = Lang::editor[5];
-	PlayerName += " ";
-	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
-
-
-	// Display Town Name.
-	std::string TownName = Lang::editor[4];
-	TownName += " ";
-	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
-
-	// Display the Amount of Bells inside the Wallet.
-	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
-	std::string WalletAmount = Lang::editor[3];
-	WalletAmount += " ";
-	WalletAmount += Wallet.c_str();
-
-	// Display the Amount of Bells from the Bank. [NEW]
-	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
-	std::string BankAmount = Lang::editor[2];
-	BankAmount += " ";
-	BankAmount += Bank.c_str();
-
 
 
 	Gui::ScreenDraw(top);
@@ -104,12 +77,6 @@ void Editor::DrawSubMenu(void) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
-
-	// Game Specific Things.
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 70, 0.8f, WHITE, PlayerName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 100, 0.8f, WHITE, TownName.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 130, 0.8f, WHITE, WalletAmount.c_str());
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 160, 0.8f, WHITE, BankAmount.c_str());
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -145,32 +112,12 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if (hDown & KEY_B) {
-
-			// Only write something to the Save, because we don't want to write Data with nothing inside it!
-		if (player1Name != "" || player1Wallet != "") {
 			if (Msg::promptMsg(Lang::editor[0])) {
-				std::vector<u32> m_PlayerIdReferences = EditorUtils::findPlayerReferences(SaveFile->players[0]);
-				for (u32 offset : m_PlayerIdReferences) {
-
-					if (player1Name != "") {
-						SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
-						SaveFile->Write(offset, SaveFile->players[0]->PlayerId);
-						SaveFile->Write(offset + 2, SaveFile->players[0]->Name, 8); // Name Player 1.
-					}
-
-					if (player1Wallet != "") {
-						SaveFile->players[0]->Wallet.value = static_cast<u32>(std::stoi(player1Wallet.c_str())); // Wallet Amount Player 1.
-					}
-
 					SaveFile->Commit(false);
-				}
-			}
-		} 
+				} 
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
-		player1Name = "";
-		player1Wallet = "";
 	}
 
 	if (hDown & KEY_A) {
