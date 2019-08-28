@@ -49,9 +49,13 @@ namespace PlayerManagement
 
 	// Medals stuff.
 	void PlayerMedals(int currentPlayer, std::string medals);
+	void PlayerMaxMedals(int currentPlayer, std::string medals);
+	void PlayerClearMedals(int currentPlayer, std::string medals);
 
 	// Coupons Stuff.
 	void PlayerCoupons(int currentPlayer, std::string coupons);
+	void PlayerMaxCoupons(int currentPlayer, std::string coupons);
+	void PlayerClearCoupons(int currentPlayer, std::string coupons);
 }
 
 #endif

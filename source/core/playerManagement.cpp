@@ -121,10 +121,34 @@ void PlayerManagement::PlayerMedals(int currentPlayer, std::string medals)
 	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
 }
 
+void PlayerManagement::PlayerMaxMedals(int currentPlayer, std::string medals)
+{
+	medals = "9999";
+	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
+}
+
+void PlayerManagement::PlayerClearMedals(int currentPlayer, std::string medals)
+{
+	medals = "0";
+	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
+}
+
 
 // Coupon Stuff.
 void PlayerManagement::PlayerCoupons(int currentPlayer, std::string coupons)
 {
 	coupons = Input::Numpad(4, "Please type in the Coupons Amount.");
+	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
+}
+
+void PlayerManagement::PlayerMaxCoupons(int currentPlayer, std::string coupons)
+{
+	coupons = "9999";
+	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
+}
+
+void PlayerManagement::PlayerClearCoupons(int currentPlayer, std::string coupons)
+{
+	coupons = "0";
 	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
 }
