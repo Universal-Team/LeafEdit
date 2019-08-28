@@ -24,52 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITOR_HPP
-#define PLAYEREDITOR_HPP
+#ifndef PLAYERMANAGEMENT_HPP
+#define PLAYERMANAGEMENT_HPP
 
-#include "common/structs.hpp"
+#include <3ds.h>
+#include <stdio.h>
+#include <string>
 
-#include "gui/screens/screen.hpp"
-
-#include <vector>
-
-class PlayerEditor : public SCREEN 
+namespace PlayerManagement
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	// Player Names.
+    void PlayerName(int currentPlayer, std::string name);
 
-private:
-	int Selection = 0; // The current option selection.
-	int currentPlayer = 1; // The current Selected Player.
-	int currentPage = 1; // Page of the Player Editor.
-	
-	// Player Drawings.
-	void Player1Draw(void) const;
-	void Player2Draw(void) const;
-	void Player3Draw(void) const;
-	void Player4Draw(void) const;
+	// Wallet Amounts.
+	void PlayerWallet(int currentPlayer, std::string wallet);
 
+	// Tan.
+	void PlayerTan(int currentPlayer, std::string tan);
 
-	// Player Logics.
-	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player3Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player4Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	// Bank stuff.
+	void PlayerBank(int currentPlayer, std::string bank);
+	void PlayerMaxBank(int currentPlayer, std::string bank);
+	void PlayerClearBank(int currentPlayer, std::string bank);
 
-	// Draw Current Player.
-	void DrawCurrentPlayer(void) const;
+	// Medals stuff.
+	void PlayerMedals(int currentPlayer, std::string medals);
 
-	// Button Struct.
-	std::vector<Structs::ButtonPos> playerButtons = {
-    	{20, 40, 140, 35, -1}, // Player Name.
-		{20, 100, 140, 35, -1}, // Wallet Amount.
-		{20, 160, 140, 35, -1}, // Tan.
-
-    	{170, 40, 140, 35, -1}, // Bank.
-		{170, 100, 140, 35, -1}, // Medals.
-		{170, 160, 140, 35, -1}, // Coupons.
-	};
-};
+	// Coupons Stuff.
+	void PlayerCoupons(int currentPlayer, std::string coupons);
+}
 
 #endif

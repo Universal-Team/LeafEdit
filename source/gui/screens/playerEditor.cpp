@@ -27,6 +27,8 @@
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
+#include "core/playerManagement.hpp"
+
 #include "gui/keyboard.hpp"
 
 #include "gui/screens/playerEditor.hpp"
@@ -72,6 +74,8 @@ std::string player4Bank;
 std::string player4Medals;
 std::string player4Coupons;
 
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
 void PlayerEditor::Draw(void) const
 {
 	if (currentPlayer == 1) {
@@ -101,18 +105,13 @@ void PlayerEditor::Player1Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = Lang::editor[5];
+	std::string PlayerName = "Player Name: ";
 	PlayerName += " ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
 
-	// Display Town Name.
-	std::string TownName = Lang::editor[4];
-	TownName += " ";
-	TownName += StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
-
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
-	std::string WalletAmount = Lang::editor[3];
+	std::string WalletAmount = "Wallet Amount: ";
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
@@ -143,17 +142,13 @@ void PlayerEditor::Player1Draw(void) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
-	if (currentPage == 1) {
 		// Game Specific Things.
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 40, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 70, 0.8f, WHITE, TownName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 100, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 130, 0.8f, WHITE, TanPlayer.c_str());
-	} else if (currentPage == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 40, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 70, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 100, 0.8f, WHITE, CouponsAmount.c_str());
-	}
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
 
 
 	DrawCurrentPlayer();
@@ -166,6 +161,9 @@ void PlayerEditor::Player1Draw(void) const
 	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
 	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
 	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
 
 	if (Selection == 0) {
 		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
@@ -173,54 +171,46 @@ void PlayerEditor::Player1Draw(void) const
 		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
 	} else if (Selection == 2) {
 		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 3) {
+		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 4) {
+		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 5) {
+		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
 	}
 
 
-	if (currentPage == 1) {
 		// Display Player Name.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, Lang::editor[5]);
-		Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.72f, BLACK, player1Name.c_str());
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
 		// Display Wallet Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, Lang::editor[3]);
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player1Wallet.c_str());
+		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, "Wallet Amount");
 
 		// Display current Tan Value.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Tan Value: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player1Tan.c_str());
-	} else if (currentPage == 2) {
+		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, "Tan Value");
 
 
 		// Display Bank Amount.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, "Bank Amount: ");
-		Gui::DrawString(playerButtons[0].x+25, playerButtons[0].y+10, 0.72f, BLACK, player1Bank.c_str());
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Bank Amount");
 
 		// Display Medal Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, "Medal Amount: ");
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player1Medals.c_str());
+		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, "Medal Amount");
 
 		// Display Coupon Amount.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Coupon Amount: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player1Coupons.c_str());
-	}
+		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
 }
 
 void PlayerEditor::Player2Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = Lang::editor[5];
+	std::string PlayerName = "Player Name: ";
 	PlayerName += " ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str();
 
-	// Display Town Name.
-	std::string TownName = Lang::editor[4];
-	TownName += " ";
-	TownName += StringUtils::UTF16toUTF8(SaveFile->players[1]->TownName).c_str();
-
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[1]->Wallet.value));
-	std::string WalletAmount = Lang::editor[3];
+	std::string WalletAmount = "Wallet Amount: ";
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
@@ -251,17 +241,13 @@ void PlayerEditor::Player2Draw(void) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
-	if (currentPage == 1) {
 		// Game Specific Things.
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 40, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 70, 0.8f, WHITE, TownName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 100, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 130, 0.8f, WHITE, TanPlayer.c_str());
-	} else if (currentPage == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 40, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 70, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 100, 0.8f, WHITE, CouponsAmount.c_str());
-	}
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
 
 	DrawCurrentPlayer();
 
@@ -273,6 +259,9 @@ void PlayerEditor::Player2Draw(void) const
 	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
 	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
 	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
 
 	if (Selection == 0) {
 		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
@@ -280,36 +269,33 @@ void PlayerEditor::Player2Draw(void) const
 		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
 	} else if (Selection == 2) {
 		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 3) {
+		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 4) {
+		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 5) {
+		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
 	}
 
 
-	if (currentPage == 1) {
 		// Display Player Name.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, Lang::editor[5]);
-		Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.72f, BLACK, player2Name.c_str());
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
 		// Display Wallet Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, Lang::editor[3]);
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player2Wallet.c_str());
+		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, "Wallet Amount");
 
 		// Display current Tan Value.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Tan Value: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player2Tan.c_str());
-	} else if (currentPage == 2) {
+		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, "Tan Value");
 
 
 		// Display Bank Amount.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, "Bank Amount: ");
-		Gui::DrawString(playerButtons[0].x+25, playerButtons[0].y+10, 0.72f, BLACK, player2Bank.c_str());
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Bank Amount");
 
 		// Display Medal Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, "Medal Amount: ");
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player2Medals.c_str());
+		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, "Medal Amount");
 
 		// Display Coupon Amount.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Coupon Amount: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player2Coupons.c_str());
-	}
+		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
 }
 
 
@@ -317,18 +303,13 @@ void PlayerEditor::Player3Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = Lang::editor[5];
+	std::string PlayerName = "Player Name: ";
 	PlayerName += " ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str();
 
-	// Display Town Name.
-	std::string TownName = Lang::editor[4];
-	TownName += " ";
-	TownName += StringUtils::UTF16toUTF8(SaveFile->players[2]->TownName).c_str();
-
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[2]->Wallet.value));
-	std::string WalletAmount = Lang::editor[3];
+	std::string WalletAmount = "Wallet Amount: ";
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
@@ -358,17 +339,13 @@ void PlayerEditor::Player3Draw(void) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
-	if (currentPage == 1) {
 		// Game Specific Things.
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 40, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 70, 0.8f, WHITE, TownName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 100, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 130, 0.8f, WHITE, TanPlayer.c_str());
-	} else if (currentPage == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 40, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 70, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 100, 0.8f, WHITE, CouponsAmount.c_str());
-	}
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
 
 	DrawCurrentPlayer();
 
@@ -380,6 +357,9 @@ void PlayerEditor::Player3Draw(void) const
 	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
 	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
 	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
 
 	if (Selection == 0) {
 		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
@@ -387,36 +367,33 @@ void PlayerEditor::Player3Draw(void) const
 		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
 	} else if (Selection == 2) {
 		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 3) {
+		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 4) {
+		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 5) {
+		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
 	}
 
 
-	if (currentPage == 1) {
 		// Display Player Name.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, Lang::editor[5]);
-		Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.72f, BLACK, player3Name.c_str());
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
 		// Display Wallet Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, Lang::editor[3]);
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player3Wallet.c_str());
+		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, "Wallet Amount");
 
 		// Display current Tan Value.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Tan Value: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player3Tan.c_str());
-	} else if (currentPage == 2) {
+		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, "Tan Value");
 
 
 		// Display Bank Amount.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, "Bank Amount: ");
-		Gui::DrawString(playerButtons[0].x+25, playerButtons[0].y+10, 0.72f, BLACK, player3Bank.c_str());
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Bank Amount");
 
 		// Display Medal Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, "Medal Amount: ");
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player3Medals.c_str());
+		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, "Medal Amount");
 
 		// Display Coupon Amount.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Coupon Amount: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player3Coupons.c_str());
-	}
+		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
 }
 
 
@@ -424,18 +401,13 @@ void PlayerEditor::Player4Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = Lang::editor[5];
+	std::string PlayerName = "Player Name: ";
 	PlayerName += " ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str();
 
-	// Display Town Name.
-	std::string TownName = Lang::editor[4];
-	TownName += " ";
-	TownName += StringUtils::UTF16toUTF8(SaveFile->players[3]->TownName).c_str();
-
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[3]->Wallet.value));
-	std::string WalletAmount = Lang::editor[3];
+	std::string WalletAmount = "Wallet Amount: ";
 	WalletAmount += " ";
 	WalletAmount += Wallet.c_str();
 
@@ -465,17 +437,13 @@ void PlayerEditor::Player4Draw(void) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
-	if (currentPage == 1) {
 		// Game Specific Things.
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 40, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TownName.c_str()))/2, 70, 0.8f, WHITE, TownName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 100, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 130, 0.8f, WHITE, TanPlayer.c_str());
-	} else if (currentPage == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 40, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 70, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 100, 0.8f, WHITE, CouponsAmount.c_str());
-	}
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
 
 	DrawCurrentPlayer();
 
@@ -487,6 +455,9 @@ void PlayerEditor::Player4Draw(void) const
 	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
 	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
 	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
 
 	if (Selection == 0) {
 		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
@@ -494,35 +465,32 @@ void PlayerEditor::Player4Draw(void) const
 		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
 	} else if (Selection == 2) {
 		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 3) {
+		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 4) {
+		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (Selection == 5) {
+		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
 	}
 
-	if (currentPage == 1) {
 		// Display Player Name.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, Lang::editor[5]);
-		Gui::DrawString(playerButtons[0].x+30, playerButtons[0].y+10, 0.72f, BLACK, player4Name.c_str());
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
 		// Display Wallet Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, Lang::editor[3]);
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player4Wallet.c_str());
+		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, "Wallet Amount");
 
 		// Display current Tan Value.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Tan Value: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player4Tan.c_str());
-	} else if (currentPage == 2) {
+		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, "Tan Value");
 
 
 		// Display Bank Amount.
-		Gui::DrawString(0, playerButtons[0].y+10, 0.6f, WHITE, "Bank Amount: ");
-		Gui::DrawString(playerButtons[0].x+25, playerButtons[0].y+10, 0.72f, BLACK, player4Bank.c_str());
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Bank Amount");
 
 		// Display Medal Amount. 
-		Gui::DrawString(0, playerButtons[1].y+10, 0.6f, WHITE, "Medal Amount: ");
-		Gui::DrawString(playerButtons[1].x+30, playerButtons[1].y+10, 0.72f, BLACK, player4Medals.c_str());
+		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, "Medal Amount");
 
 		// Display Coupon Amount.
-		Gui::DrawString(0, playerButtons[2].y+10, 0.6f, WHITE, "Coupon Amount: ");
-		Gui::DrawString(playerButtons[2].x+30, playerButtons[2].y+10, 0.72f, BLACK, player4Coupons.c_str());
-	}
+		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
 }
 
 void PlayerEditor::DrawCurrentPlayer(void) const
@@ -552,7 +520,7 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 		currentPages += "2";
 	}
 
-	currentPages += " / 2";
+	currentPages += " / 1";
 
 	Gui::DrawString(225, 215, 0.8f, WHITE, activePlayer.c_str());
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
@@ -565,48 +533,54 @@ void PlayerEditor::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_RIGHT) {
-		if(currentPage <2) currentPage++;
-	} else if (hDown & KEY_LEFT) {
-		if(currentPage > 1)	currentPage--;
+		if(Selection < 5)	Selection++;
+//	} else if (hDown & KEY_RIGHT) {
+//		if(currentPage <2) currentPage++;
+//	} else if (hDown & KEY_LEFT) {
+//		if(currentPage > 1)	currentPage--;
 	}
 
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
 				switch(Selection) {
 					case 0: {
-							player1Name = Input::getLine(8, Lang::playerEditor[0]);
-							SaveFile->players[0]->Name = StringUtils::UTF8toUTF16(player1Name.c_str());
+							PlayerManagement::PlayerName(0, player1Name);
 							break;
 					}   case 1:
-							player1Wallet = Input::Numpad(5, "Please type in the Wallet Value.");
-							SaveFile->players[0]->Wallet.value = static_cast<u32>(std::stoi(player1Wallet.c_str()));
+							PlayerManagement::PlayerWallet(0, player1Wallet);
 							break;
 				 		case 2: {
-							player1Tan = Input::Numpad(2, "Please type in the Tan Value.");
-							SaveFile->players[0]->PlayerTan = static_cast<u16>(std::stoi(player1Tan.c_str()));
+							PlayerManagement::PlayerTan(0, player1Tan);
 							break;
-					 	}
-				}
-		} else if (currentPage == 2) {
-				switch(Selection) {
-					case 0: {
-							player1Bank = Input::Numpad(9, "Please type in the Bank Amount.");
-							SaveFile->players[0]->BankAmount.value = static_cast<u32>(std::stoi(player1Bank.c_str()));
+					 	} case 3: {
+							PlayerManagement::PlayerBank(0, player1Bank);
 							break;
-					}   case 1:
-							player1Medals = Input::Numpad(4, "Please type in the Medals Amount.");
-							SaveFile->players[0]->IslandMedals.value = static_cast<u32>(std::stoi(player1Medals.c_str()));
+						 } case 4: {
+							PlayerManagement::PlayerMedals(0, player1Medals);
 							break;
-				 		case 2: {
-							player1Coupons = Input::Numpad(4, "Please type in the Coupons Amount.");
-							SaveFile->players[0]->MeowCoupons.value = static_cast<u32>(std::stoi(player1Coupons.c_str()));
+						 } case 5: {
+							PlayerManagement::PlayerCoupons(0, player1Coupons);
 							break;
-					 	}
-				}
+						 }
+					}
+			}
 		}
-	}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, playerButtons[0])) {
+				PlayerManagement::PlayerName(0, player1Name);
+		} else if (touching(touch, playerButtons[1])) {
+				PlayerManagement::PlayerWallet(0, player1Wallet);
+		} else if (touching(touch, playerButtons[2])) {
+				PlayerManagement::PlayerTan(0, player1Tan);
+		} else if (touching(touch, playerButtons[3])) {
+				PlayerManagement::PlayerBank(0, player1Bank);
+		} else if (touching(touch, playerButtons[4])) {
+				PlayerManagement::PlayerMedals(0, player1Medals);
+		} else if (touching(touch, playerButtons[5])) {
+				PlayerManagement::PlayerCoupons(0, player1Coupons);
+		}
+		}
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
@@ -626,48 +600,56 @@ void PlayerEditor::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_RIGHT) {
-		if(currentPage <2) currentPage++;
-	} else if (hDown & KEY_LEFT) {
-		if(currentPage > 1)	currentPage--;
+		if(Selection < 5)	Selection++;
+//	} else if (hDown & KEY_RIGHT) {
+//		if(currentPage <2) currentPage++;
+//	} else if (hDown & KEY_LEFT) {
+//		if(currentPage > 1)	currentPage--;
 	}
 
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
 				switch(Selection) {
 					case 0: {
-							player2Name = Input::getLine(8, Lang::playerEditor[0]);
-							SaveFile->players[1]->Name = StringUtils::UTF8toUTF16(player2Name.c_str());
+							PlayerManagement::PlayerName(1, player2Name);
 							break;
 					}   case 1:
-							player2Wallet = Input::Numpad(5, "Please type in the Wallet Value.");
-							SaveFile->players[1]->Wallet.value = static_cast<u32>(std::stoi(player2Wallet.c_str()));
+							PlayerManagement::PlayerWallet(1, player2Wallet);
 							break;
 				 		case 2: {
-							player2Tan = Input::Numpad(2, "Please type in the Tan Value.");
-							SaveFile->players[1]->PlayerTan = static_cast<u16>(std::stoi(player2Tan.c_str()));
+							PlayerManagement::PlayerTan(1, player2Tan);
 							break;
-					 	}
-				}
-		} else if (currentPage == 2) {
-				switch(Selection) {
-					case 0: {
-							player2Bank = Input::Numpad(9, "Please type in the Bank Amount.");
-							SaveFile->players[1]->BankAmount.value = static_cast<u32>(std::stoi(player2Bank.c_str()));
+					 	} case 3: {
+							PlayerManagement::PlayerBank(1, player2Bank);
 							break;
-					}   case 1:
-							player2Medals = Input::Numpad(4, "Please type in the Medals Amount.");
-							SaveFile->players[1]->IslandMedals.value = static_cast<u32>(std::stoi(player2Medals.c_str()));
+						 } case 4: {
+							PlayerManagement::PlayerMedals(1, player2Medals);
 							break;
-				 		case 2: {
-							player2Coupons = Input::Numpad(4, "Please type in the Coupons Amount.");
-							SaveFile->players[1]->MeowCoupons.value = static_cast<u32>(std::stoi(player2Coupons.c_str()));
+						 } case 5: {
+							PlayerManagement::PlayerCoupons(1, player2Coupons);
 							break;
-					 	}
-				}
+						 }
+					}
+			}
 		}
-	}
+
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, playerButtons[0])) {
+				PlayerManagement::PlayerName(1, player2Name);
+		} else if (touching(touch, playerButtons[1])) {
+				PlayerManagement::PlayerWallet(1, player2Wallet);
+		} else if (touching(touch, playerButtons[2])) {
+				PlayerManagement::PlayerTan(1, player2Tan);
+		} else if (touching(touch, playerButtons[3])) {
+				PlayerManagement::PlayerBank(1, player2Bank);
+		} else if (touching(touch, playerButtons[4])) {
+				PlayerManagement::PlayerMedals(1, player2Medals);
+		} else if (touching(touch, playerButtons[5])) {
+				PlayerManagement::PlayerCoupons(1, player2Coupons);
+		}
+		}
+
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
@@ -693,48 +675,56 @@ void PlayerEditor::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_RIGHT) {
-		if(currentPage <2) currentPage++;
-	} else if (hDown & KEY_LEFT) {
-		if(currentPage > 1)	currentPage--;
+		if(Selection < 5)	Selection++;
+//	} else if (hDown & KEY_RIGHT) {
+//		if(currentPage <2) currentPage++;
+//	} else if (hDown & KEY_LEFT) {
+//		if(currentPage > 1)	currentPage--;
 	}
 
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
 				switch(Selection) {
 					case 0: {
-							player3Name = Input::getLine(8, Lang::playerEditor[0]);
-							SaveFile->players[2]->Name = StringUtils::UTF8toUTF16(player3Name.c_str());
+							PlayerManagement::PlayerName(2, player3Name);
 							break;
 					}   case 1:
-							player3Wallet = Input::Numpad(5, "Please type in the Wallet Value.");
-							SaveFile->players[2]->Wallet.value = static_cast<u32>(std::stoi(player3Wallet.c_str()));
+							PlayerManagement::PlayerWallet(2, player3Wallet);
 							break;
 				 		case 2: {
-							player3Tan = Input::Numpad(2, "Please type in the Tan Value.");
-							SaveFile->players[2]->PlayerTan = static_cast<u16>(std::stoi(player3Tan.c_str()));
+							PlayerManagement::PlayerTan(2, player3Tan);
 							break;
-					 	}
-				}
-		} else if (currentPage == 2) {
-				switch(Selection) {
-					case 0: {
-							player3Bank = Input::Numpad(9, "Please type in the Bank Amount.");
-							SaveFile->players[2]->BankAmount.value = static_cast<u32>(std::stoi(player3Bank.c_str()));
+					 	} case 3: {
+							PlayerManagement::PlayerBank(2, player3Bank);
 							break;
-					}   case 1:
-							player3Medals = Input::Numpad(4, "Please type in the Medals Amount.");
-							SaveFile->players[2]->IslandMedals.value = static_cast<u32>(std::stoi(player3Medals.c_str()));
+						 } case 4: {
+							PlayerManagement::PlayerMedals(2, player3Medals);
 							break;
-				 		case 2: {
-							player3Coupons = Input::Numpad(4, "Please type in the Coupons Amount.");
-							SaveFile->players[2]->MeowCoupons.value = static_cast<u32>(std::stoi(player3Coupons.c_str()));
+						 } case 5: {
+							PlayerManagement::PlayerCoupons(2, player3Coupons);
 							break;
-					 	}
-				}
+						 }
+					}
+			}
 		}
-	}
+
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, playerButtons[0])) {
+				PlayerManagement::PlayerName(2, player3Name);
+		} else if (touching(touch, playerButtons[1])) {
+				PlayerManagement::PlayerWallet(2, player3Wallet);
+		} else if (touching(touch, playerButtons[2])) {
+				PlayerManagement::PlayerTan(2, player3Tan);
+		} else if (touching(touch, playerButtons[3])) {
+				PlayerManagement::PlayerBank(2, player3Bank);
+		} else if (touching(touch, playerButtons[4])) {
+				PlayerManagement::PlayerMedals(2, player3Medals);
+		} else if (touching(touch, playerButtons[5])) {
+				PlayerManagement::PlayerCoupons(2, player3Coupons);
+		}
+		}
+
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
@@ -760,48 +750,55 @@ void PlayerEditor::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_RIGHT) {
-		if(currentPage <2) currentPage++;
-	} else if (hDown & KEY_LEFT) {
-		if(currentPage > 1)	currentPage--;
+		if(Selection < 5)	Selection++;
+//	} else if (hDown & KEY_RIGHT) {
+//		if(currentPage <2) currentPage++;
+//	} else if (hDown & KEY_LEFT) {
+//		if(currentPage > 1)	currentPage--;
 	}
 
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
 				switch(Selection) {
 					case 0: {
-							player4Name = Input::getLine(8, Lang::playerEditor[0]);
-							SaveFile->players[3]->Name = StringUtils::UTF8toUTF16(player4Name.c_str());
+							PlayerManagement::PlayerName(3, player4Name);
 							break;
 					}   case 1:
-							player4Wallet = Input::Numpad(5, "Please type in the Wallet Value.");
-							SaveFile->players[3]->Wallet.value = static_cast<u32>(std::stoi(player4Wallet.c_str()));
+							PlayerManagement::PlayerWallet(3, player4Wallet);
 							break;
 				 		case 2: {
-							player4Tan = Input::Numpad(2, "Please type in the Tan Value.");
-							SaveFile->players[3]->PlayerTan = static_cast<u16>(std::stoi(player4Tan.c_str()));
+							PlayerManagement::PlayerTan(3, player4Tan);
 							break;
-					 	}
-				}
-		} else if (currentPage == 2) {
-				switch(Selection) {
-					case 0: {
-							player4Bank = Input::Numpad(9, "Please type in the Bank Amount.");
-							SaveFile->players[3]->BankAmount.value = static_cast<u32>(std::stoi(player4Bank.c_str()));
+					 	} case 3: {
+							PlayerManagement::PlayerBank(3, player4Bank);
 							break;
-					}   case 1:
-							player4Medals = Input::Numpad(4, "Please type in the Medals Amount.");
-							SaveFile->players[3]->IslandMedals.value = static_cast<u32>(std::stoi(player4Medals.c_str()));
+						 } case 4: {
+							PlayerManagement::PlayerMedals(3, player4Medals);
 							break;
-				 		case 2: {
-							player4Coupons = Input::Numpad(4, "Please type in the Coupons Amount.");
-							SaveFile->players[3]->MeowCoupons.value = static_cast<u32>(std::stoi(player4Coupons.c_str()));
+						 } case 5: {
+							PlayerManagement::PlayerCoupons(3, player4Coupons);
 							break;
-					 	}
-				}
+						 }
+					}
+			}
 		}
-	}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, playerButtons[0])) {
+				PlayerManagement::PlayerName(3, player4Name);
+		} else if (touching(touch, playerButtons[1])) {
+				PlayerManagement::PlayerWallet(3, player4Wallet);
+		} else if (touching(touch, playerButtons[2])) {
+				PlayerManagement::PlayerTan(3, player4Tan);
+		} else if (touching(touch, playerButtons[3])) {
+				PlayerManagement::PlayerBank(3, player4Bank);
+		} else if (touching(touch, playerButtons[4])) {
+				PlayerManagement::PlayerMedals(3, player4Medals);
+		} else if (touching(touch, playerButtons[5])) {
+				PlayerManagement::PlayerCoupons(3, player4Coupons);
+		}
+		}
+
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
