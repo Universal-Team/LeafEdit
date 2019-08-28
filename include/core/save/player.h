@@ -38,6 +38,7 @@ public:
     Player(u32 offset, u32 index);
 
     u16 PlayerId;
+    u16 PlayerTan;
     std::u16string Name;
     u16 Gender; // might not be a u16, but the following byte is always? 0.
     u16 TownId;

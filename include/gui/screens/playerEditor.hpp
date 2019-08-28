@@ -63,6 +63,7 @@ private:
 	std::vector<Structs::ButtonPos> playerButtons = {
     	{140, 40, 140, 35, -1}, // Player Name.
 		{140, 100, 140, 35, -1}, // Wallet Amount.
+		{140, 160, 140, 35, -1}, // Tan.
 	};
 };
 
