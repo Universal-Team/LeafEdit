@@ -143,12 +143,23 @@ void PlayerEditor::Player1Draw(void) const
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
 		// Game Specific Things.
+		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
+
+		Gui::Draw_Rect(40, 65, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str());
+
+		Gui::Draw_Rect(40, 93, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str());
+
+		Gui::Draw_Rect(40, 121, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str());
+
+		Gui::Draw_Rect(40, 149, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str());
+
+		Gui::Draw_Rect(40, 177, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str());
 
 
 	DrawCurrentPlayer();
@@ -265,12 +276,23 @@ void PlayerEditor::Player2Draw(void) const
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
 		// Game Specific Things.
+		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
+
+		Gui::Draw_Rect(40, 65, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str());
+
+		Gui::Draw_Rect(40, 93, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str());
+
+		Gui::Draw_Rect(40, 121, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str());
+
+		Gui::Draw_Rect(40, 149, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str());
+
+		Gui::Draw_Rect(40, 177, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str());
 
 	DrawCurrentPlayer();
 
@@ -379,18 +401,30 @@ void PlayerEditor::Player3Draw(void) const
 	std::string CouponsAmount = "Coupons Amount: ";
 	CouponsAmount += Coupons.c_str();
 
+
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
 		// Game Specific Things.
+		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
+
+		Gui::Draw_Rect(40, 65, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str());
+
+		Gui::Draw_Rect(40, 93, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str());
+
+		Gui::Draw_Rect(40, 121, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str());
+
+		Gui::Draw_Rect(40, 149, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str());
+
+		Gui::Draw_Rect(40, 177, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str());
 
 	DrawCurrentPlayer();
 
@@ -500,18 +534,30 @@ void PlayerEditor::Player4Draw(void) const
 	std::string CouponsAmount = "Coupons Amount: ";
 	CouponsAmount += Coupons.c_str();
 
+
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
 		// Game Specific Things.
+		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 60, 0.8f, WHITE, WalletAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 85, 0.8f, WHITE, TanPlayer.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 110, 0.8f, WHITE, BankAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 135, 0.8f, WHITE, MedalsAmount.c_str());
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 160, 0.8f, WHITE, CouponsAmount.c_str());
+
+		Gui::Draw_Rect(40, 65, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str());
+
+		Gui::Draw_Rect(40, 93, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str());
+
+		Gui::Draw_Rect(40, 121, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str());
+
+		Gui::Draw_Rect(40, 149, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str());
+
+		Gui::Draw_Rect(40, 177, 320, 22, GRAY);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str());
 
 	DrawCurrentPlayer();
 
