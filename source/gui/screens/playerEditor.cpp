@@ -158,28 +158,42 @@ void PlayerEditor::Player1Draw(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
-	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
-	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
-	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
-	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
-	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
-	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	if (currentPage == 1) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
+		Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+		Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+		Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	} else if (currentPage == 2) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	}
 
-	if (Selection == 0) {
-		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 1) {
-		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 2) {
-		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 3) {
-		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 4) {
-		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 5) {
-		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+	if (currentPage == 1) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 2) {
+			Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 3) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 4) {
+			Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 5) {
+			Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
+	} else if (currentPage == 2) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
 	}
 
 
+	if (currentPage == 1) {
 		// Display Player Name.
 		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
@@ -198,6 +212,14 @@ void PlayerEditor::Player1Draw(void) const
 
 		// Display Coupon Amount.
 		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
+	} else if (currentPage == 2) {
+
+		// Max Bank.
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Maximize Bank");
+
+		// Clear Bank. 
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Clear Bank");
+	}
 }
 
 void PlayerEditor::Player2Draw(void) const
@@ -256,28 +278,42 @@ void PlayerEditor::Player2Draw(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
-	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
-	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
-	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
-	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
-	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
-	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	if (currentPage == 1) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
+		Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+		Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+		Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	} else if (currentPage == 2) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	}
 
-	if (Selection == 0) {
-		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 1) {
-		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 2) {
-		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 3) {
-		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 4) {
-		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 5) {
-		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+	if (currentPage == 1) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 2) {
+			Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 3) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 4) {
+			Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 5) {
+			Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
+	} else if (currentPage == 2) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
 	}
 
 
+	if (currentPage == 1) {
 		// Display Player Name.
 		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
@@ -296,6 +332,14 @@ void PlayerEditor::Player2Draw(void) const
 
 		// Display Coupon Amount.
 		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
+	} else if (currentPage == 2) {
+
+		// Max Bank.
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Maximize Bank");
+
+		// Clear Bank. 
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Clear Bank");
+	}
 }
 
 
@@ -354,28 +398,42 @@ void PlayerEditor::Player3Draw(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
-	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
-	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
-	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
-	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
-	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
-	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	if (currentPage == 1) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
+		Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+		Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+		Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	} else if (currentPage == 2) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+	}
 
-	if (Selection == 0) {
-		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 1) {
-		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 2) {
-		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 3) {
-		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 4) {
-		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 5) {
-		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+	if (currentPage == 1) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 2) {
+			Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 3) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 4) {
+			Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 5) {
+			Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
+	} else if (currentPage == 2) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
 	}
 
 
+	if (currentPage == 1) {
 		// Display Player Name.
 		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
@@ -394,6 +452,14 @@ void PlayerEditor::Player3Draw(void) const
 
 		// Display Coupon Amount.
 		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
+	} else if (currentPage == 2) {
+
+		// Max Bank.
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Maximize Bank");
+
+		// Clear Bank. 
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Clear Bank");
+	}
 }
 
 
@@ -452,27 +518,42 @@ void PlayerEditor::Player4Draw(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
-	Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
-	Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
-	Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
-	Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
-	Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
-	Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
-
-	if (Selection == 0) {
-		Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 1) {
-		Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 2) {
-		Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 3) {
-		Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 4) {
-		Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
-	} else if (Selection == 5) {
-		Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+	if (currentPage == 1) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
+		Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
+		Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
+		Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+	} else if (currentPage == 2) {
+		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
+		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
 	}
 
+
+	if (currentPage == 1) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 2) {
+			Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 3) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 4) {
+			Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 5) {
+			Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
+	} else if (currentPage == 2) {
+		if (Selection == 0) {
+			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+		} else if (Selection == 1) {
+			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+		}
+	}
+
+	if (currentPage == 1) {
 		// Display Player Name.
 		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
 
@@ -491,6 +572,14 @@ void PlayerEditor::Player4Draw(void) const
 
 		// Display Coupon Amount.
 		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
+	} else if (currentPage == 2) {
+
+		// Max Bank.
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Maximize Bank");
+
+		// Clear Bank. 
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Clear Bank");
+	}
 }
 
 void PlayerEditor::DrawCurrentPlayer(void) const
@@ -520,7 +609,7 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 		currentPages += "2";
 	}
 
-	currentPages += " / 1";
+	currentPages += " / 2";
 
 	Gui::DrawString(225, 215, 0.8f, WHITE, activePlayer.c_str());
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
@@ -533,11 +622,17 @@ void PlayerEditor::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 5)	Selection++;
-//	} else if (hDown & KEY_RIGHT) {
-//		if(currentPage <2) currentPage++;
-//	} else if (hDown & KEY_LEFT) {
-//		if(currentPage > 1)	currentPage--;
+		if (currentPage == 1) {
+			if(Selection < 5)	Selection++;
+		} else if (currentPage == 2) {
+			if(Selection < 1)	Selection++;
+		}
+	} else if (hDown & KEY_RIGHT) {
+		if(currentPage <2) currentPage++;
+		Selection = 0;
+	} else if (hDown & KEY_LEFT) {
+		if(currentPage > 1)	currentPage--;
+		Selection = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -563,23 +658,40 @@ void PlayerEditor::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch)
 							break;
 						 }
 					}
+			} else if (currentPage == 2) {
+				switch(Selection) {
+					case 0: {
+							PlayerManagement::PlayerMaxBank(0, player1Bank);
+							break;
+					}   case 1:
+							PlayerManagement::PlayerClearBank(0, player1Bank);
+							break;
+				}
 			}
 		}
 
 		if (hDown & KEY_TOUCH) {
-			if (touching(touch, playerButtons[0])) {
-				PlayerManagement::PlayerName(0, player1Name);
-		} else if (touching(touch, playerButtons[1])) {
-				PlayerManagement::PlayerWallet(0, player1Wallet);
-		} else if (touching(touch, playerButtons[2])) {
-				PlayerManagement::PlayerTan(0, player1Tan);
-		} else if (touching(touch, playerButtons[3])) {
-				PlayerManagement::PlayerBank(0, player1Bank);
-		} else if (touching(touch, playerButtons[4])) {
-				PlayerManagement::PlayerMedals(0, player1Medals);
-		} else if (touching(touch, playerButtons[5])) {
-				PlayerManagement::PlayerCoupons(0, player1Coupons);
-		}
+			if (currentPage == 1) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerName(0, player1Name);
+			} else if (touching(touch, playerButtons[1])) {
+					PlayerManagement::PlayerWallet(0, player1Wallet);
+			} else if (touching(touch, playerButtons[2])) {
+					PlayerManagement::PlayerTan(0, player1Tan);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerBank(0, player1Bank);
+			} else if (touching(touch, playerButtons[4])) {
+					PlayerManagement::PlayerMedals(0, player1Medals);
+			} else if (touching(touch, playerButtons[5])) {
+					PlayerManagement::PlayerCoupons(0, player1Coupons);
+			}
+			} else if (currentPage == 2) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerMaxBank(0, player1Bank);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerClearBank(0, player1Bank);
+			}
+			}
 		}
 
 	if (hDown & KEY_B) {
@@ -600,11 +712,17 @@ void PlayerEditor::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 5)	Selection++;
-//	} else if (hDown & KEY_RIGHT) {
-//		if(currentPage <2) currentPage++;
-//	} else if (hDown & KEY_LEFT) {
-//		if(currentPage > 1)	currentPage--;
+		if (currentPage == 1) {
+			if(Selection < 5)	Selection++;
+		} else if (currentPage == 2) {
+			if(Selection < 1)	Selection++;
+		}
+	} else if (hDown & KEY_RIGHT) {
+		if(currentPage <2) currentPage++;
+		Selection = 0;
+	} else if (hDown & KEY_LEFT) {
+		if(currentPage > 1)	currentPage--;
+		Selection = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -630,24 +748,41 @@ void PlayerEditor::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch)
 							break;
 						 }
 					}
+			} else if (currentPage == 2) {
+				switch(Selection) {
+					case 0: {
+							PlayerManagement::PlayerMaxBank(1, player2Bank);
+							break;
+					}   case 1:
+							PlayerManagement::PlayerClearBank(1, player2Bank);
+							break;
+				}
 			}
 		}
 
 
 		if (hDown & KEY_TOUCH) {
-			if (touching(touch, playerButtons[0])) {
-				PlayerManagement::PlayerName(1, player2Name);
-		} else if (touching(touch, playerButtons[1])) {
-				PlayerManagement::PlayerWallet(1, player2Wallet);
-		} else if (touching(touch, playerButtons[2])) {
-				PlayerManagement::PlayerTan(1, player2Tan);
-		} else if (touching(touch, playerButtons[3])) {
-				PlayerManagement::PlayerBank(1, player2Bank);
-		} else if (touching(touch, playerButtons[4])) {
-				PlayerManagement::PlayerMedals(1, player2Medals);
-		} else if (touching(touch, playerButtons[5])) {
-				PlayerManagement::PlayerCoupons(1, player2Coupons);
-		}
+			if (currentPage == 1) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerName(1, player2Name);
+			} else if (touching(touch, playerButtons[1])) {
+					PlayerManagement::PlayerWallet(1, player2Wallet);
+			} else if (touching(touch, playerButtons[2])) {
+					PlayerManagement::PlayerTan(1, player2Tan);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerBank(1, player2Bank);
+			} else if (touching(touch, playerButtons[4])) {
+					PlayerManagement::PlayerMedals(1, player2Medals);
+			} else if (touching(touch, playerButtons[5])) {
+					PlayerManagement::PlayerCoupons(1, player2Coupons);
+			}
+			} else if (currentPage == 2) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerMaxBank(1, player2Bank);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerClearBank(1, player2Bank);
+			}
+			}
 		}
 
 
@@ -675,11 +810,17 @@ void PlayerEditor::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 5)	Selection++;
-//	} else if (hDown & KEY_RIGHT) {
-//		if(currentPage <2) currentPage++;
-//	} else if (hDown & KEY_LEFT) {
-//		if(currentPage > 1)	currentPage--;
+		if (currentPage == 1) {
+			if(Selection < 5)	Selection++;
+		} else if (currentPage == 2) {
+			if(Selection < 1)	Selection++;
+		}
+	} else if (hDown & KEY_RIGHT) {
+		if(currentPage <2) currentPage++;
+		Selection = 0;
+	} else if (hDown & KEY_LEFT) {
+		if(currentPage > 1)	currentPage--;
+		Selection = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -705,24 +846,41 @@ void PlayerEditor::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch)
 							break;
 						 }
 					}
+			} else if (currentPage == 2) {
+				switch(Selection) {
+					case 0: {
+							PlayerManagement::PlayerMaxBank(2, player3Bank);
+							break;
+					}   case 1:
+							PlayerManagement::PlayerClearBank(2, player3Bank);
+							break;
+				}
 			}
 		}
 
 
 		if (hDown & KEY_TOUCH) {
-			if (touching(touch, playerButtons[0])) {
-				PlayerManagement::PlayerName(2, player3Name);
-		} else if (touching(touch, playerButtons[1])) {
-				PlayerManagement::PlayerWallet(2, player3Wallet);
-		} else if (touching(touch, playerButtons[2])) {
-				PlayerManagement::PlayerTan(2, player3Tan);
-		} else if (touching(touch, playerButtons[3])) {
-				PlayerManagement::PlayerBank(2, player3Bank);
-		} else if (touching(touch, playerButtons[4])) {
-				PlayerManagement::PlayerMedals(2, player3Medals);
-		} else if (touching(touch, playerButtons[5])) {
-				PlayerManagement::PlayerCoupons(2, player3Coupons);
-		}
+			if (currentPage == 1) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerName(2, player3Name);
+			} else if (touching(touch, playerButtons[1])) {
+					PlayerManagement::PlayerWallet(2, player3Wallet);
+			} else if (touching(touch, playerButtons[2])) {
+					PlayerManagement::PlayerTan(2, player3Tan);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerBank(2, player3Bank);
+			} else if (touching(touch, playerButtons[4])) {
+					PlayerManagement::PlayerMedals(2, player3Medals);
+			} else if (touching(touch, playerButtons[5])) {
+					PlayerManagement::PlayerCoupons(2, player3Coupons);
+			}
+			} else if (currentPage == 2) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerMaxBank(2, player3Bank);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerClearBank(2, player3Bank);
+			}
+			}
 		}
 
 
@@ -750,11 +908,17 @@ void PlayerEditor::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 5)	Selection++;
-//	} else if (hDown & KEY_RIGHT) {
-//		if(currentPage <2) currentPage++;
-//	} else if (hDown & KEY_LEFT) {
-//		if(currentPage > 1)	currentPage--;
+		if (currentPage == 1) {
+			if(Selection < 5)	Selection++;
+		} else if (currentPage == 2) {
+			if(Selection < 1)	Selection++;
+		}
+	} else if (hDown & KEY_RIGHT) {
+		if(currentPage <2) currentPage++;
+		Selection = 0;
+	} else if (hDown & KEY_LEFT) {
+		if(currentPage > 1)	currentPage--;
+		Selection = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -780,23 +944,40 @@ void PlayerEditor::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch)
 							break;
 						 }
 					}
+			} else if (currentPage == 2) {
+				switch(Selection) {
+					case 0: {
+							PlayerManagement::PlayerMaxBank(3, player4Bank);
+							break;
+					}   case 1:
+							PlayerManagement::PlayerClearBank(3, player4Bank);
+							break;
+				}
 			}
 		}
 
 		if (hDown & KEY_TOUCH) {
-			if (touching(touch, playerButtons[0])) {
-				PlayerManagement::PlayerName(3, player4Name);
-		} else if (touching(touch, playerButtons[1])) {
-				PlayerManagement::PlayerWallet(3, player4Wallet);
-		} else if (touching(touch, playerButtons[2])) {
-				PlayerManagement::PlayerTan(3, player4Tan);
-		} else if (touching(touch, playerButtons[3])) {
-				PlayerManagement::PlayerBank(3, player4Bank);
-		} else if (touching(touch, playerButtons[4])) {
-				PlayerManagement::PlayerMedals(3, player4Medals);
-		} else if (touching(touch, playerButtons[5])) {
-				PlayerManagement::PlayerCoupons(3, player4Coupons);
-		}
+			if (currentPage == 1) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerName(3, player4Name);
+			} else if (touching(touch, playerButtons[1])) {
+					PlayerManagement::PlayerWallet(3, player4Wallet);
+			} else if (touching(touch, playerButtons[2])) {
+					PlayerManagement::PlayerTan(3, player4Tan);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerBank(3, player4Bank);
+			} else if (touching(touch, playerButtons[4])) {
+					PlayerManagement::PlayerMedals(3, player4Medals);
+			} else if (touching(touch, playerButtons[5])) {
+					PlayerManagement::PlayerCoupons(3, player4Coupons);
+			}
+			} else if (currentPage == 2) {
+				if (touching(touch, playerButtons[0])) {
+					PlayerManagement::PlayerMaxBank(3, player4Bank);
+			} else if (touching(touch, playerButtons[3])) {
+					PlayerManagement::PlayerClearBank(3, player4Bank);
+			}
+			}
 		}
 
 
