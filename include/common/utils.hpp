@@ -22,4 +22,6 @@ namespace EditorUtils
 	std::vector<u32> findPlayerReferences(Player *player);
 }
 
+u16             strToU16(std::string str);
+void            LoadVillagerDatabase();
 #endif

@@ -89,7 +89,6 @@ Save* Save::Initialize(const char *saveName, bool init) {
         m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
     }
 
-
     return m_pSave;
 }
 

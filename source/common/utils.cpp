@@ -1,8 +1,15 @@
 #include "common/utils.hpp"
 
+#include "core/save/save.h"
 
-#include "save.h"
+#include <3ds.h>
+#include <fstream>
+#include <map>
 #include <memory>
+#include <sstream>
+#include <string>
+
+std::map<u16, std::string> g_villagerDatabase;
 
 // StringUtils.
 
@@ -89,4 +96,32 @@ std::vector<u32> EditorUtils::findPlayerReferences(Player *player) {
 
     delete[] dataArray;
     return references;
+}
+
+
+// Villager stuff.
+u16 strToU16(std::string str) {
+    u16 out;
+    std::stringstream ss;
+    ss << std::hex << str;
+    ss >> out;
+
+    return out;
+}
+
+void LoadVillagerDatabase() {
+    g_villagerDatabase.clear();
+
+    std::string currentLine;
+    std::ifstream villagerDatabase("romfs:/lang/en/villager.txt", std::ifstream::in);
+
+    while (std::getline(villagerDatabase, currentLine)) {
+        u16 id = strToU16(currentLine.substr(0, 4));
+        std::string name = currentLine.substr(5, currentLine.size());
+
+        // TODO: Read default things like personality, catchphrases, & furniture.
+        g_villagerDatabase.insert(std::make_pair(id, name));
+    }
+
+    villagerDatabase.close();
 }

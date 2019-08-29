@@ -28,6 +28,7 @@
 #include "common/config.hpp"
 #include "common/structs.hpp"
 #include "common/title.hpp"
+#include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
 
@@ -105,6 +106,7 @@ int main()
 
 	// Load The Strings from the Romfs.
 	Lang::loadLangStrings(Config::lang);
+	LoadVillagerDatabase();
 
 	TestStuff();
 
