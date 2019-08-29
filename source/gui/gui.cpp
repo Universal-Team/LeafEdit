@@ -40,7 +40,9 @@
 C3D_RenderTarget* top;
 C3D_RenderTarget* bottom;
 
-static C2D_SpriteSheet sprites;
+C2D_SpriteSheet sprites;
+C2D_SpriteSheet Villager;
+C2D_SpriteSheet Villager2;
 
 C2D_TextBuf sizeBuf;
 C2D_Font systemFont;
@@ -52,15 +54,22 @@ void Gui::clearTextBufs(void)
     C2D_TextBufClear(sizeBuf);
 }
 
-// Draw a blended Image. (Maybe useful for later?)
-void Gui::Draw_ImageBlend(int key, int x, int y, u32 color)
+// Draw a Sprite from the Sheet, but blended.
+void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color)
 {
     C2D_ImageTint tint;
     C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
     C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
     C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
     C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
-    C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, &tint);
+
+    if (sheet == 0) { // Sprites.
+        C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, &tint);
+    } else if (sheet == 1) { // villagers.
+        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint);
+    } else if (sheet == 2) { // villagers2.
+        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint);
+    }
 }
 
 // Initialize GUI.
@@ -72,7 +81,11 @@ Result Gui::init(void)
     top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
     bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
     sizeBuf = C2D_TextBufNew(4096);
+
     sprites    = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+    Villager    = C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+    Villager2    = C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+
     systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
     return 0;
 }
@@ -80,19 +93,24 @@ Result Gui::init(void)
 // Exit GUI.
 void Gui::exit(void)
 {
-    if (sprites)
-    {
-        C2D_SpriteSheetFree(sprites);
-    }
+    C2D_SpriteSheetFree(sprites);
+    C2D_SpriteSheetFree(Villager);
+    C2D_SpriteSheetFree(Villager2);
     C2D_TextBufDelete(sizeBuf);
     C2D_Fini();
     C3D_Fini();
 }
 
-// Draw a normal Sprite from the Spritesheet.
-void Gui::sprite(int key, int x, int y)
+// Draw a Sprite from the Sheet.
+void Gui::sprite(int sheet, int key, int x, int y)
 {
-    C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
+    if (sheet == 0) { // Sprites.
+        C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
+    } else if (sheet == 1) { // villagers.
+        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f);
+    } else if (sheet == 2) { // villagers2.
+        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f);
+    }
 }
 
 void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
@@ -195,4 +213,11 @@ void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height
     C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, color);             // bottom
 
     timer += speed; // Speed of the animation. Example : .030f / .030
+}
+
+
+void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y)
+{
+    C2D_Image img = C2D_SpriteSheetGetImage(sheet, imgindex);
+    C2D_DrawImageAt(img, x, y, 0.5f);
 }

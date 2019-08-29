@@ -27,7 +27,7 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-#include "sprites.h"
+#include "spriteID.h"
 
 #include "gui/colors.hpp"
 
@@ -69,8 +69,8 @@ namespace Gui
     void clearTextBufs(void);
     
     // Sprite Drawing.
-    void sprite(int key, int x, int y);
-    void Draw_ImageBlend(int key, int x, int y, u32 color);
+    void sprite(int sheet, int key, int x, int y);
+    void Draw_ImageBlend(int sheet, int key, int x, int y, u32 color);
 
     // float xPos -> X Position of the Selector.
     // float yPos -> Y Position of the Selector.
@@ -89,5 +89,7 @@ namespace Gui
     float GetStringWidth(float size, std::string Text);
     float GetStringHeight(float size, std::string Text);
 }
+
+void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y);
 
 #endif

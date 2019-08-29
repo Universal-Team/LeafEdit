@@ -34,6 +34,7 @@
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
+#include "gui/screens/villagerEditor.hpp"
 
 #include "core/save/offsets.h"
 #include "core/save/player.h"
@@ -99,7 +100,7 @@ void Editor::DrawSubMenu(void) const
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[1].y+10, 0.6f, WHITE, "WIP");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Villager"))/2, editorButtons[1].y+10, 0.6f, WHITE, "Villager");
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP");
 }
 
@@ -124,6 +125,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 						Gui::setScreen(std::make_unique<PlayerEditor>());
 						break;
 				}   case 1:
+						Gui::setScreen(std::make_unique<VillagerEditor>());
 						break;
 				 	case 2: {
 						break;

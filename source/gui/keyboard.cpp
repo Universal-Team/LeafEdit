@@ -103,7 +103,7 @@ void Input::DrawNumpad()
 void Input::drawKeyboard()
 {
 	for(uint i=0;i<(sizeof(keysQWERTY)/sizeof(keysQWERTY[0]));i++) {
-		Gui::sprite(sprites_normal_key_idx, keysQWERTY[i].x, keysQWERTY[i].y+100);
+		Gui::sprite(0, sprites_normal_key_idx, keysQWERTY[i].x, keysQWERTY[i].y+100);
 		if(shift) {
 			char c[2] = {caps ? (char)toupper(keysQWERTYShift[i].character[0]) : keysQWERTYShift[i].character[0]};
 			Gui::DrawString(keysQWERTYShift[i].x+(10-(Gui::GetStringWidth(FONT_SIZE_12, c)/2)), keysQWERTYShift[i].y+100+(10-(Gui::GetStringHeight(FONT_SIZE_12, c)/2)), FONT_SIZE_12, BLACK, c);
@@ -113,16 +113,16 @@ void Input::drawKeyboard()
 		}
 	}
 	for(uint i=0;i<(sizeof(space)/sizeof(space[0]));i++) {
-		Gui::sprite(sprites_space_idx, space[i].x, space[i].y+100);
+		Gui::sprite(0, sprites_space_idx, space[i].x, space[i].y+100);
 	}
 	for(uint i=0;i<(sizeof(rightShift)/sizeof(rightShift[0]));i++) {
-		Gui::sprite(sprites_right_shift_idx, rightShift[i].x, rightShift[i].y+100);
+		Gui::sprite(0, sprites_right_shift_idx, rightShift[i].x, rightShift[i].y+100);
 	}
 	for(uint i=0;i<(sizeof(leftShift)/sizeof(leftShift[0]));i++) {
-		Gui::sprite(sprites_left_shift_idx, leftShift[i].x, leftShift[i].y+100);
+		Gui::sprite(0, sprites_left_shift_idx, leftShift[i].x, leftShift[i].y+100);
 	}
 	for(uint i=0;i<(sizeof(misc)/sizeof(misc[0]));i++) {
-		Gui::sprite(sprites_normal_key_idx, misc[i].x, misc[i].y+100);
+		Gui::sprite(0, sprites_normal_key_idx, misc[i].x, misc[i].y+100);
 	}
 }
 

@@ -65,7 +65,7 @@ void TitleSelection::Draw(void) const
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0]);
 	
     // Draw the 3DS Gamecard.
-    Gui::sprite(sprites_card_idx, 30, 93);
+    Gui::sprite(0, sprites_card_idx, 30, 93);
     // Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
