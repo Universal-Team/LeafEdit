@@ -47,6 +47,12 @@ public:
         u16 Id; // 0 - 1 (2)
         Villager::Personality Personality; // 2 (1)
         u8 Unknown1[0x246B]; // 3 - 246D
+        u32 Shirt; // 246E - 2471
+        u32 Song; // 2472 - 2475
+        u32 Wallpaper; // 2476 - 2479
+        u32 Carpet; // 247A - 247D
+        u32 Umbrella; // 247E - 2481
+        u32 Furniture[16]; // 2482 - 24C1
         u32 Unknown2; // 24C2 - 24C5
         char16_t Catchphrase[11]; // Last character is null terminator | 24C6 - 24DB
         u8 Unknown3[8]; // 24DC - 24E3

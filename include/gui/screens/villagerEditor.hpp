@@ -41,6 +41,23 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+	int currentVillager = 1;
+
+	// Villager Screens.
+
+	void Villager1Draw(void) const;
+	void Villager2Draw(void) const;
+	void Villager3Draw(void) const;
+	void Villager4Draw(void) const;
+	void Villager5Draw(void) const;
+	void Villager6Draw(void) const;
+	void Villager7Draw(void) const;
+	void Villager8Draw(void) const;
+	void Villager9Draw(void) const;
+	void Villager10Draw(void) const;
+
+	// Current Villager.
+	void DrawCurrentVillager(void) const;
 };
 
 namespace VillagerEditor2

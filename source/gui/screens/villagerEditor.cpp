@@ -39,23 +39,41 @@ extern Save* SaveFile;
 extern C2D_SpriteSheet Villager;
 extern C2D_SpriteSheet Villager2;
 
+
 void VillagerEditor::Draw(void) const
+{
+	if (currentVillager == 1) {
+		Villager1Draw();
+	} else if (currentVillager == 2) {
+		Villager2Draw();
+	} else if (currentVillager == 3) {
+		Villager3Draw();
+	} else if (currentVillager == 4) {
+		Villager4Draw();
+	} else if (currentVillager == 5) {
+		Villager5Draw();
+	} else if (currentVillager == 6) {
+		Villager6Draw();
+	} else if (currentVillager == 7) {
+		Villager7Draw();
+	} else if (currentVillager == 8) {
+		Villager8Draw();
+	} else if (currentVillager == 9) {
+		Villager9Draw();
+	} else if (currentVillager == 10) {
+		Villager10Draw();
+	}
+}
+
+void VillagerEditor::Villager1Draw(void) const
 {
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-    u32 idx = 0;
-    for (u32 y = 0; y < 2; y++) {
-        for (u32 x = 0; x < 5; x++, idx++) { 
-            u16 villagerId = Save::Instance()->villagers[idx]->GetId();
-            if (villagerId > 399) {
-                villagerId = 399;
-            }
-			VillagerEditor2::DrawVillagerSprite(villagerId,  15 + x * 58, 67 + y * 58);
-		}
-	}
-
+    u16 villagerId = Save::Instance()->villagers[0]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -63,11 +81,217 @@ void VillagerEditor::Draw(void) const
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 }
 
+
+void VillagerEditor::Villager2Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[1]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager3Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[2]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager4Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[3]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager5Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[4]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager6Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[5]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager7Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[6]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager8Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[7]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager9Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[8]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+void VillagerEditor::Villager10Draw(void) const
+{
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+    u16 villagerId = Save::Instance()->villagers[9]->GetId();
+	VillagerEditor2::DrawVillagerSprite(villagerId,  170, 100);
+	DrawCurrentVillager();
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+}
+
+
+
 void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_R) {
+		if(currentVillager < 10)	currentVillager++;
+	} else if (hDown & KEY_L) {
+		if(currentVillager > 1)	currentVillager--;
+	}
+
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
 	}
+}
+
+void VillagerEditor::DrawCurrentVillager(void) const
+{
+	std::string Title;
+	Title += Lang::title;
+	Title += " - ";
+	Title += "Villager";
+	Title += " ";
+	Title += "Editor";
+
+	std::string activeVillager = "Current Villager: ";
+	if (currentVillager == 1) {
+		activeVillager += "1";
+
+	} else if (currentVillager == 2) {
+		activeVillager += "2";
+
+	} else if (currentVillager == 3) {
+		activeVillager += "3";
+
+	} else if (currentVillager == 4) {
+		activeVillager += "4";
+
+	} else if (currentVillager == 5) {
+		activeVillager += "5";
+
+	} else if (currentVillager == 6) {
+		activeVillager += "6";
+
+	} else if (currentVillager == 7) {
+		activeVillager += "7";
+
+	} else if (currentVillager == 8) {
+		activeVillager += "8";
+
+	} else if (currentVillager == 9) {
+		activeVillager += "9";
+
+	} else if (currentVillager == 10) {
+		activeVillager += "10";
+	}
+
+	Gui::DrawString(200, 215, 0.8f, WHITE, activeVillager.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
 }
 
 
