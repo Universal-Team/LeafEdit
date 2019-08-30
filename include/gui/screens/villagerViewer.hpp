@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGEREDITOR_HPP
-#define VILLAGEREDITOR_HPP
+#ifndef VILLAGERVIEWER_HPP
+#define VILLAGERVIEWER_HPP
 
 #include "common/fileBrowse.h"
 #include "common/structs.hpp"
@@ -34,7 +34,7 @@
 
 #include <vector>
 
-class VillagerEditor : public SCREEN 
+class VillagerViewer : public SCREEN 
 {
 public:
 	void Draw(void) const override;
@@ -42,27 +42,23 @@ public:
 
 private:
 
-	// Basic Stuff.
-	int editorMode = 1;
-	int group = 1;
-	int subMenuPage = 1;
-	void DrawSelection(void) const;
+	// The current Villager.
+	int currentVillager = 1;
 
-	/*
-		SUB MENU.
-	*/
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch); // SubMenu Logic.
-	void DrawSubMenuPage(void) const;
-	
+	// Villager Screens.
+	void Villager1Draw(void) const;
+	void Villager2Draw(void) const;
+	void Villager3Draw(void) const;
+	void Villager4Draw(void) const;
+	void Villager5Draw(void) const;
+	void Villager6Draw(void) const;
+	void Villager7Draw(void) const;
+	void Villager8Draw(void) const;
+	void Villager9Draw(void) const;
+	void Villager10Draw(void) const;
 
-	// Villager Editor Stuff.
-	bool isSelected = false; // If the Villager is Selected, this would be true.
-	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
-	u16 selectedVillager; // This would be the new Selected Villager.
-	int currentRow = 1; // Return the current Selected Row.
-	int currentSlot = 1; // Return the current Selected Slot.
-
+	// Current Villager and Title Draw.
+	void DrawCurrentVillager(void) const;
 };
 
 #endif

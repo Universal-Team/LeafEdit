@@ -34,7 +34,7 @@
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
-#include "gui/screens/villagerEditor.hpp"
+#include "gui/screens/villagerViewer.hpp"
 
 #include "core/save/offsets.h"
 #include "core/save/player.h"
@@ -125,7 +125,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
 						Gui::setScreen(std::make_unique<PlayerEditor>());
 						break;
 				}   case 1:
-						Gui::setScreen(std::make_unique<VillagerEditor>());
+						Gui::setScreen(std::make_unique<VillagerViewer>());
 						break;
 				 	case 2: {
 						break;
