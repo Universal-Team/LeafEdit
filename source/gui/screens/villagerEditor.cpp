@@ -99,11 +99,16 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (villagerMode == 2) {
 		if (hDown & KEY_RIGHT) {
-			editorPage ++;
+			if(currentSlot < 5)	currentSlot++;
 		} else if (hDown & KEY_LEFT) {
-			editorPage --;
+			if(currentSlot > 1)	currentSlot--;
+		} else if (hDown & KEY_UP) {
+			if(currentRow > 1)	currentRow--;
+		} else if (hDown & KEY_DOWN) {
+			if(currentRow < 2)	currentRow++;
 		}
 	}
+
 
 	if (villagerMode == 1) {
 		if (hDown & KEY_R) {
@@ -404,6 +409,9 @@ void VillagerEditor::Villager10Draw(void) const
 }
 
 
+
+
+// Villager Editor Screen.
 void VillagerEditor::VillagerEditorDraw(int currentVillager) const
 {
 	Gui::ScreenDraw(top);
@@ -474,6 +482,9 @@ void VillagerEditor::VillagerEditorDraw(int currentVillager) const
 	std::string villagerNameText10 = g_villagerDatabase[9];
 	Gui::DrawString((400-Gui::GetStringWidth(0.65f, villagerNameText10.c_str()))/2+195-35, 190, 0.65f, WHITE, villagerNameText10.c_str());
 
+	// Draw Selection.
+	DrawEditorSelection();
+
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
@@ -484,6 +495,38 @@ void VillagerEditor::VillagerEditorDraw(int currentVillager) const
 	Gui::villager(currentId, 140, 60);
 }
 
+void VillagerEditor::DrawEditorSelection(void) const
+{
+		// First Row.
+	if (currentSlot == 1 && currentRow == 1) {
+		Gui::drawAnimatedSelector(5, 30, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 2 && currentRow == 1) {
+		Gui::drawAnimatedSelector(85, 30, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 3 && currentRow == 1) {
+		Gui::drawAnimatedSelector(165, 30, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 4 && currentRow == 1) {
+		Gui::drawAnimatedSelector(245, 30, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 5 && currentRow == 1) {
+		Gui::drawAnimatedSelector(325, 30, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+
+		// Second Row.
+	} else if (currentSlot == 1 && currentRow == 2) {
+		Gui::drawAnimatedSelector(5, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 2 && currentRow == 2) {
+		Gui::drawAnimatedSelector(85, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 3 && currentRow == 2) {
+		Gui::drawAnimatedSelector(165, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 4 && currentRow == 2) {
+		Gui::drawAnimatedSelector(245, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	} else if (currentSlot == 5 && currentRow == 2) {
+		Gui::drawAnimatedSelector(325, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	}
+}
+
+
+
+
+// This will draw the current Villager and Title for the Villagers Screen.
 void VillagerEditor::DrawCurrentVillager(void) const
 {
 	std::string Title;

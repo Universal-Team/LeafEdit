@@ -64,7 +64,10 @@ private:
 	u16 selectedVillager; // This would be the new Selected Villager.
 	int currentRow = 1; // Return the current Selected Row.
 	int currentSlot = 1; // Return the current Selected Slot.
+
+
 	void VillagerEditorDraw(int currentVillager) const;
+	void DrawEditorSelection(void) const;
 
 	// Current Villager.
 	void DrawCurrentVillager(void) const;
