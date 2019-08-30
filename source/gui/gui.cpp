@@ -113,6 +113,19 @@ void Gui::sprite(int sheet, int key, int x, int y)
     }
 }
 
+void Gui::villager(u16 villagerId, int x, int y) {
+    if (villagerId > 399) {
+        villagerId = 399;
+    }
+
+    if (villagerId < 200) {
+        DrawSprite(Villager, villagerId, x, y);
+    }
+    else {
+        DrawSprite(Villager2, villagerId - 200, x, y);
+    }
+}
+
 void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
 {
 	// Get the first occurrence

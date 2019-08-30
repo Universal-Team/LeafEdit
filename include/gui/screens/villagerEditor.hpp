@@ -41,10 +41,12 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+
+	// Basic Stuff.
 	int currentVillager = 1;
+	int villagerMode = 1;
 
 	// Villager Screens.
-
 	void Villager1Draw(void) const;
 	void Villager2Draw(void) const;
 	void Villager3Draw(void) const;
@@ -56,13 +58,16 @@ private:
 	void Villager9Draw(void) const;
 	void Villager10Draw(void) const;
 
+	// Villager Editor Stuff.
+	bool isSelected = false; // If the Villager is Selected, this would be true.
+	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
+	u16 selectedVillager; // This would be the new Selected Villager.
+	int currentRow = 1; // Return the current Selected Row.
+	int currentSlot = 1; // Return the current Selected Slot.
+	void VillagerEditorDraw(int currentVillager) const;
+
 	// Current Villager.
 	void DrawCurrentVillager(void) const;
 };
-
-namespace VillagerEditor2
-{
-	void DrawVillagerSprite(u16 villagerId, int x, int y);
-}
 
 #endif
