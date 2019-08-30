@@ -46,6 +46,11 @@ private:
 	int currentVillager = 1;
 	int villagerMode = 1;
 
+	// Logic.
+	void EditorLogic(u32 hDown, u32 hHeld, touchPosition touch); // Editor Logic.
+	void VillagerLogic(u32 hDown, u32 hHeld, touchPosition touch); // Villager Logic.
+	void DrawEditorPage(void) const;
+
 	// Villager Screens.
 	void Villager1Draw(void) const;
 	void Villager2Draw(void) const;

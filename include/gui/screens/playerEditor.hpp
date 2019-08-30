@@ -43,19 +43,15 @@ private:
 	int Selection = 0; // The current option selection.
 	int currentPlayer = 1; // The current Selected Player.
 	int currentPage = 1; // Page of the Player Editor.
+	int cp = 0; // Current Player.
 	
+	void DrawBottom(void) const; // Draw the Bottom Screen with this function, because it is the same on every player.
+
 	// Player Drawings.
 	void Player1Draw(void) const;
 	void Player2Draw(void) const;
 	void Player3Draw(void) const;
 	void Player4Draw(void) const;
-
-
-	// Player Logics.
-	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player3Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player4Logic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	// Draw Current Player.
 	void DrawCurrentPlayer(void) const;

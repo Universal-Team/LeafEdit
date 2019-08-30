@@ -92,39 +92,55 @@ void VillagerEditor::Draw(void) const
 
 void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (villagerMode == 1) {
-		if (hDown & KEY_A) {
-			villagerMode = 2;
-		}
+		VillagerLogic(hDown, hHeld, touch);
+	} else if (villagerMode == 2) {
+		EditorLogic(hDown, hHeld, touch);
+	}
+}
+
+void VillagerEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+
+	// Selection Logic.
+	if (hDown & KEY_RIGHT) {
+		if(currentSlot < 5)	currentSlot++;
+	} else if (hDown & KEY_LEFT) {
+		if(currentSlot > 1)	currentSlot--;
+	} else if (hDown & KEY_UP) {
+		if(currentRow > 1)	currentRow--;
+	} else if (hDown & KEY_DOWN) {
+		if(currentRow < 2)	currentRow++;
 	}
 
-	if (villagerMode == 2) {
-		if (hDown & KEY_RIGHT) {
-			if(currentSlot < 5)	currentSlot++;
-		} else if (hDown & KEY_LEFT) {
-			if(currentSlot > 1)	currentSlot--;
-		} else if (hDown & KEY_UP) {
-			if(currentRow > 1)	currentRow--;
-		} else if (hDown & KEY_DOWN) {
-			if(currentRow < 2)	currentRow++;
-		}
+	// Page Logic.
+	if (hDown & KEY_R) {
+		if(editorPage < 30)	editorPage++;
+	} else if (hDown & KEY_L) {
+		if(editorPage > 1)	editorPage--;
 	}
 
-
-	if (villagerMode == 1) {
-		if (hDown & KEY_R) {
-			if(currentVillager < 10)	currentVillager++;
-		} else if (hDown & KEY_L) {
-			if(currentVillager > 1)	currentVillager--;
-		}
-	}
-
+	// Back to Villager Screen.
 	if (hDown & KEY_B) {
-		if (villagerMode == 2) {
-			villagerMode = 1;
-		} else if (villagerMode == 1) {
-			Gui::screenBack();
-			return;
-		}
+		villagerMode = 1;
+	}
+}
+
+void VillagerEditor::VillagerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	// Switch to the Villager Editor Screen.
+	if (hDown & KEY_A) {
+		villagerMode = 2;
+	}
+
+	// Switch current Villager.
+	if (hDown & KEY_R) {
+		if(currentVillager < 10)	currentVillager++;
+	} else if (hDown & KEY_L) {
+		if(currentVillager > 1)	currentVillager--;
+	}
+
+	// Go back to the Editor Screen.
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
 	}
 }
 
@@ -419,12 +435,6 @@ void VillagerEditor::VillagerEditorDraw(int currentVillager) const
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
 
-	if (editorPage == 1) {
-		Gui::DrawString(0, 0, 0.7f, WHITE, "1");
-	} else if (editorPage == 2) {
-		Gui::DrawString(0, 0, 0.7f, WHITE, "2");
-	}
-
 	Gui::Draw_Rect(5, 30, 70, 70, GRAY);
 	Gui::villager(0, 5, 20);
 	villagerNameText = g_villagerDatabase[0];
@@ -484,6 +494,7 @@ void VillagerEditor::VillagerEditorDraw(int currentVillager) const
 
 	// Draw Selection.
 	DrawEditorSelection();
+	DrawEditorPage();
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -523,7 +534,21 @@ void VillagerEditor::DrawEditorSelection(void) const
 	}
 }
 
+void VillagerEditor::DrawEditorPage(void) const
+{
+	// Initial String.
+	std::string currentPage = "Current Page: ";
 
+	// currentPage
+	for (int i = 1; i < 31; i++) {
+		if (editorPage == i) {
+			currentPage += std::to_string(i);
+		}
+	}
+
+	currentPage += " / 30";
+	Gui::DrawString(0, 0, 0.7f, WHITE, currentPage.c_str());
+}
 
 
 // This will draw the current Villager and Title for the Villagers Screen.
@@ -537,35 +562,11 @@ void VillagerEditor::DrawCurrentVillager(void) const
 	Title += "Editor";
 
 	std::string activeVillager = "Current Villager: ";
-	if (currentVillager == 1) {
-		activeVillager += "1";
 
-	} else if (currentVillager == 2) {
-		activeVillager += "2";
-
-	} else if (currentVillager == 3) {
-		activeVillager += "3";
-
-	} else if (currentVillager == 4) {
-		activeVillager += "4";
-
-	} else if (currentVillager == 5) {
-		activeVillager += "5";
-
-	} else if (currentVillager == 6) {
-		activeVillager += "6";
-
-	} else if (currentVillager == 7) {
-		activeVillager += "7";
-
-	} else if (currentVillager == 8) {
-		activeVillager += "8";
-
-	} else if (currentVillager == 9) {
-		activeVillager += "9";
-
-	} else if (currentVillager == 10) {
-		activeVillager += "10";
+	for (int i = 1; i < 11; i++) {
+		if (currentVillager == i) {
+			activeVillager += std::to_string(i);
+		}
 	}
 
 	Gui::DrawString(200, 215, 0.8f, WHITE, activeVillager.c_str());
