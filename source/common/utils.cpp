@@ -4,7 +4,6 @@
 
 #include <3ds.h>
 #include <fstream>
-#include <map>
 #include <memory>
 #include <sstream>
 #include <string>

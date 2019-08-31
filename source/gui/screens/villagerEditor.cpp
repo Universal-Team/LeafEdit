@@ -32,12 +32,11 @@
 #include "core/save/save.h"
 
 #include <3ds.h>
-#include <map>
 #include <sys/stat.h>
 #include <unistd.h>
 
 extern Save* SaveFile;
-extern std::map<u16, std::string> g_villagerDatabase;
+extern std::vector<std::string> g_villagerDatabase;
 extern std::string villagerNameText;
 
 
