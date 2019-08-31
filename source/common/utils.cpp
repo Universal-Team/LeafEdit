@@ -9,7 +9,7 @@
 #include <sstream>
 #include <string>
 
-std::map<u16, std::string> g_villagerDatabase;
+std::vector<std::string> g_villagerDatabase;
 
 // StringUtils.
 
@@ -120,11 +120,8 @@ void LoadVillagerDatabase(int lang) {
 
 
     while (std::getline(villagerDatabase, currentLine)) {
-        u16 id = strToU16(currentLine.substr(0, 4));
-        std::string name = currentLine.substr(5, currentLine.size());
-
         // TODO: Read default things like personality, catchphrases, & furniture.
-        g_villagerDatabase.insert(std::make_pair(id, name));
+        g_villagerDatabase.push_back(currentLine);
     }
 
     villagerDatabase.close();
