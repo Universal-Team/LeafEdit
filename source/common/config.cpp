@@ -27,6 +27,7 @@
 #include "common/inifile.h"
 #include "common/config.hpp"
 #include "common/structs.hpp"
+#include "common/utils.hpp"
 
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
@@ -154,5 +155,7 @@ void Config::setLanguage() {
 			}
 		}
     }
+	LoadVillagerDatabase(Config::lang);
 	Lang::loadLangStrings(Config::lang);
+	Config::saveConfig();
 }

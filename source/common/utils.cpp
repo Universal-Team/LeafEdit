@@ -109,11 +109,15 @@ u16 strToU16(std::string str) {
     return out;
 }
 
-void LoadVillagerDatabase() {
+std::string languages[] = { "de", "en", "es", "fr", "it", "jp"};
+
+void LoadVillagerDatabase(int lang) {
     g_villagerDatabase.clear();
 
     std::string currentLine;
-    std::ifstream villagerDatabase("romfs:/lang/en/villager.txt", std::ifstream::in);
+        std::ifstream villagerDatabase("romfs:/lang/" + languages[lang] + "/villager.txt", std::ifstream::in);
+
+
 
     while (std::getline(villagerDatabase, currentLine)) {
         u16 id = strToU16(currentLine.substr(0, 4));

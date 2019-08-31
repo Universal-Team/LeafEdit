@@ -106,7 +106,7 @@ int main()
 
 	// Load The Strings from the Romfs.
 	Lang::loadLangStrings(Config::lang);
-	LoadVillagerDatabase();
+	LoadVillagerDatabase(Config::lang);
 
 	TestStuff();
 
