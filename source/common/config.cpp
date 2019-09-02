@@ -54,6 +54,12 @@ Structs::ButtonPos languagePos [] = {
 	{180, 170, 120, 52, -1}, // 日本語
 };
 
+Structs::ButtonPos SelectorPos [] = {
+    	{90, 40, 140, 35, -1}, // Selector 1.
+		{90, 100, 140, 35, -1}, // Selector 2.
+		{90, 160, 140, 35, -1}, // Selector 3.
+};
+
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
@@ -157,5 +163,51 @@ void Config::setLanguage() {
     }
 	LoadVillagerDatabase(Config::lang);
 	Lang::loadLangStrings(Config::lang);
+	Config::saveConfig();
+}
+
+
+void Config::setSelector() {
+	touchPosition touch;
+    Gui::clearTextBufs();
+    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+    C2D_TargetClear(top, BLACK);
+    C2D_TargetClear(bottom, BLACK);
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
+	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Please Select the Selector."))/2, 2, 0.8f, WHITE, "Please Select the Selector.");
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
+	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
+	Gui::Draw_Rect(0, 215, 320, 25, GREEN);
+
+	Gui::Draw_Rect(SelectorPos[0].x, SelectorPos[0].y, SelectorPos[0].w, SelectorPos[0].h, GREEN);
+	Gui::Draw_Rect(SelectorPos[1].x, SelectorPos[1].y, SelectorPos[1].w, SelectorPos[1].h, GREEN);
+	Gui::Draw_Rect(SelectorPos[2].x, SelectorPos[2].y, SelectorPos[2].w, SelectorPos[2].h, GREEN);
+
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 1"))/2, SelectorPos[0].y+10, 0.6f, WHITE, "Selector 1");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 2"))/2, SelectorPos[1].y+10, 0.6f, WHITE, "Selector 2");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 3"))/2, SelectorPos[2].y+10, 0.6f, WHITE, "Selector 3");
+
+	C3D_FrameEnd(0);
+	while(1)
+    {
+		hidScanInput();
+		touchRead(&touch);
+		if(hidKeysDown() & KEY_TOUCH) {
+			if (touching(touch, SelectorPos[0])) {
+				Config::selector = 1;
+				break;
+			} else if (touching(touch, SelectorPos[1])) {
+				Config::selector = 2;
+				break;
+			} else if (touching(touch, SelectorPos[2])) {
+				Config::selector = 3;
+				break;
+			}
+		}
+	}
 	Config::saveConfig();
 }

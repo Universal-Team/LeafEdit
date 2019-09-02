@@ -44,6 +44,7 @@ namespace Config {
 	void loadConfig();
 	void saveConfig();
 	void setLanguage();
+	void setSelector(); // Set the Selector.
 }
 
 #endif

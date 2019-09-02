@@ -153,30 +153,72 @@ void TownManager::DrawBrowse(void) const
 		(i == selectedSave);
 
 		if (selectedSave == 0) {
-			Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 1) {
-			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 2) {
-			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 3) {
-			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 4) {
-			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSave == 5) {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 		} else {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			if (Config::selector == 1) {
+				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
+			} else if (Config::selector == 2) {
+				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
+			} else if (Config::selector == 3) {
+				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
+			}
 			dirs +=  dirContents[i].name + "\n\n";
 		}
 	}
@@ -184,7 +226,11 @@ void TownManager::DrawBrowse(void) const
 		dirs += "\n\n";
 	}
 
-	Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+	if (Config::selector == 1) {
+		Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+	} else if (Config::selector == 2 || Config::selector == 3) {
+		Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
+	}
 
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str());
 
