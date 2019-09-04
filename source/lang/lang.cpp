@@ -27,18 +27,19 @@ void Lang::loadLangStrings(int lang) {
 	// [editor]
 	Lang::editor[0] = ini.GetString("editor", "saveChanges", Lang::editor[0]);
 	Lang::editor[1] = ini.GetString("editor", "player", Lang::editor[1]);
-	Lang::editor[2] = ini.GetString("editor", "bank", Lang::editor[2]);
-	Lang::editor[3] = ini.GetString("editor", "wallet", Lang::editor[3]);
-	Lang::editor[4] = ini.GetString("editor", "townname", Lang::editor[4]);
-	Lang::editor[5] = ini.GetString("editor", "playername", Lang::editor[5]);
-	Lang::editor[6] = ini.GetString("editor", "editor", Lang::editor[6]);
-	Lang::editor[7] = ini.GetString("editor", "saveselect", Lang::editor[7]);
-	Lang::editor[8] = ini.GetString("editor", "loadSave", Lang::editor[8]);
-	Lang::editor[9] = ini.GetString("editor", "returnMM", Lang::editor[9]);
-
+	Lang::editor[2] = ini.GetString("editor", "editor", Lang::editor[2]);
+	Lang::editor[3] = ini.GetString("editor", "saveselect", Lang::editor[3]);
+	Lang::editor[4] = ini.GetString("editor", "saveload", Lang::editor[4]);
+	Lang::editor[5] = ini.GetString("editor", "returnmm", Lang::editor[5]);
+	Lang::editor[6] = ini.GetString("editor", "villager", Lang::editor[6]);
 
 	// [keyboard]
 	Lang::typeName = ini.GetString("keyboard", "typeName", Lang::typeName);
+	Lang::keyboard[0] = ini.GetString("keyboard", "walletAmount", Lang::keyboard[0]);
+	Lang::keyboard[1] = ini.GetString("keyboard", "tan", Lang::keyboard[1]);
+	Lang::keyboard[2]= ini.GetString("keyboard", "bankAmount", Lang::keyboard[2]);
+	Lang::keyboard[3] = ini.GetString("keyboard", "MedalsAmount", Lang::keyboard[3]);
+	Lang::keyboard[4] = ini.GetString("keyboard", "CouponsAmount", Lang::keyboard[4]);
 
 	// [language]
 	Lang::language = ini.GetString("language", "ccl", Lang::language);
@@ -74,9 +75,23 @@ void Lang::loadLangStrings(int lang) {
 
 	// [misc]
 	Lang::notImplemented = ini.GetString("misc", "notImplemented", Lang::notImplemented);
+	Lang::misc[0] = ini.GetString("misc", "currentPage", Lang::misc[0]);
+	Lang::misc[1] = ini.GetString("misc", "currentPlayer", Lang::misc[1]);
 
 	// [playerEditor]
 	Lang::playerEditor[0] = ini.GetString("playerEditor", "playername", Lang::playerEditor[0]);
+	Lang::playerEditor[1] = ini.GetString("playerEditor", "pName", Lang::playerEditor[1]);
+	Lang::playerEditor[2] = ini.GetString("playerEditor", "pWallet", Lang::playerEditor[2]);
+	Lang::playerEditor[3] = ini.GetString("playerEditor", "pTan", Lang::playerEditor[3]);
+	Lang::playerEditor[4] = ini.GetString("playerEditor", "pBank", Lang::playerEditor[4]);
+	Lang::playerEditor[5] = ini.GetString("playerEditor", "pMedals", Lang::playerEditor[5]);
+	Lang::playerEditor[6] = ini.GetString("playerEditor", "pCoupons", Lang::playerEditor[6]);
+	Lang::playerEditor[7] = ini.GetString("playerEditor", "maxBank", Lang::playerEditor[7]);
+	Lang::playerEditor[8] = ini.GetString("playerEditor", "maxMedals", Lang::playerEditor[8]);
+	Lang::playerEditor[9] = ini.GetString("playerEditor", "maxCoupons", Lang::playerEditor[9]);
+	Lang::playerEditor[10] = ini.GetString("playerEditor", "clearBank", Lang::playerEditor[10]);
+	Lang::playerEditor[11] = ini.GetString("playerEditor", "clearMedals", Lang::playerEditor[11]);
+	Lang::playerEditor[12] = ini.GetString("playerEditor", "clearCoupons", Lang::playerEditor[12]);
 	
 	// [settings]
 	Lang::settings[0] = ini.GetString("settings", "language", Lang::settings[0]);

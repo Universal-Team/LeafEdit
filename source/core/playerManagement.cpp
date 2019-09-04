@@ -82,7 +82,7 @@ void PlayerManagement::PlayerName(int currentPlayer, std::string name)
 // Player Wallet Amounts.
 void PlayerManagement::PlayerWallet(int currentPlayer, std::string wallet)
 {
-	wallet = Input::Numpad(5, "Please type in the Wallet Value.");
+	wallet = Input::Numpad(5, Lang::keyboard[0]);
 	SaveFile->players[currentPlayer]->Wallet.value = static_cast<u32>(std::stoi(wallet.c_str()));
 }
 
@@ -90,14 +90,14 @@ void PlayerManagement::PlayerWallet(int currentPlayer, std::string wallet)
 // Tan! -> To:Do :: Implement a List to select a Tan instead of the keyboard.
 void PlayerManagement::PlayerTan(int currentPlayer, std::string tan)
 {
-    tan = Input::Numpad(2, "Please type in the Tan Value.");
+    tan = Input::Numpad(2, Lang::keyboard[1]);
     SaveFile->players[currentPlayer]->PlayerTan = static_cast<u16>(std::stoi(tan.c_str()));
 }
 
 // Bank Stuff.
 void PlayerManagement::PlayerBank(int currentPlayer, std::string bank)
 {
-	bank = Input::Numpad(9, "Please type in the Bank Amount.");
+	bank = Input::Numpad(9, Lang::keyboard[2]);
 	SaveFile->players[currentPlayer]->BankAmount.value = static_cast<u32>(std::stoi(bank.c_str()));
 }
 
@@ -117,7 +117,7 @@ void PlayerManagement::PlayerClearBank(int currentPlayer, std::string bank)
 // Medal Stuff.
 void PlayerManagement::PlayerMedals(int currentPlayer, std::string medals)
 {
-	medals = Input::Numpad(4, "Please type in the Medals Amount.");
+	medals = Input::Numpad(4, Lang::keyboard[3]);
 	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
 }
 
@@ -137,7 +137,7 @@ void PlayerManagement::PlayerClearMedals(int currentPlayer, std::string medals)
 // Coupon Stuff.
 void PlayerManagement::PlayerCoupons(int currentPlayer, std::string coupons)
 {
-	coupons = Input::Numpad(4, "Please type in the Coupons Amount.");
+	coupons = Input::Numpad(4, Lang::keyboard[4]);
 	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
 }
 

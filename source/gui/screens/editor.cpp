@@ -69,7 +69,7 @@ void Editor::DrawSubMenu(void) const
 	std::string Title;
 	Title += Lang::title;
 	Title += " - ";
-	Title += Lang::editor[6];
+	Title += Lang::editor[2];
 
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
@@ -100,7 +100,7 @@ void Editor::DrawSubMenu(void) const
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Villager"))/2, editorButtons[1].y+10, 0.6f, WHITE, "Villager");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, WHITE, Lang::editor[6]);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP");
 }
 
@@ -141,7 +141,7 @@ void Editor::DrawBrowse(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[7]))/2, 2, 0.72f, WHITE, Lang::editor[7]);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, WHITE, Lang::editor[3]);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -250,7 +250,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	}
 
 		if(hDown & KEY_A) {
-			std::string prompt = Lang::editor[8];
+			std::string prompt = Lang::editor[4];
 			if(Msg::promptMsg(prompt.c_str())) {
 
 			selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
@@ -273,7 +273,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 			keyRepeatDelay = 6;
 		}
 	} else if (hDown & KEY_B) {
-		if(Msg::promptMsg(Lang::editor[9])) {
+		if(Msg::promptMsg(Lang::editor[5])) {
 			Gui::screenBack();
 			return;
 		}

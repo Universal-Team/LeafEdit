@@ -5,8 +5,13 @@ namespace Lang {
 	// App strings
 
 	// [editor]
-	editor = {"Do you want to save your changes?", "Player", "Bank Amount: ", "Wallet Amount: ", "Town Name: ", "Player Name: ",
-			  "Editor", "Select a save for the Editor.", "Do you want to load this save?", "Do you want to return to the Main Menu?"},
+	editor = {"Would you like to save your changes?", "Player", "Editor", "Select a save for the Editor.",
+			   "Would you like to load this save?", "Would you like to return to the Main Menu?", 
+			   "Villager"},
+
+	// [keyboard]
+	keyboard = {"Please type in the Wallet Value.", "Please type in the Tan Value.", "Please type in the Bank Amount.",
+				"Please type in the Medals Amount.", "Please type in the Coupons Amount."},
 	// [mainMenu]
 	mainMenu = {"Town Manager", "Editor", "Settings"},
 
@@ -21,8 +26,13 @@ namespace Lang {
 				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse.",
 				 "Would you like to backup the current town\nbefore restoring the selected one?", "A save with this name already exists.\nWould you like to overwrite the save?"},
 	
+	// [misc]
+	misc = {"Current Page", "Current Player"},
+
 	// [playerEditor]
-	playerEditor = {"Please type in the new player name."},
+	playerEditor = {"Please type in the new player name.", "Player Name", "Wallet Amount", "Tan Value", "Bank Amount", 
+					"Medal Amount", "Coupon Amount", "Maximize Bank", "Max Medals", "Max Coupons", "Clear Bank", "Clear Medals",
+					"Clear Coupons"},
 
 	// [settings]
 	settings = {"Language", "Selector", "?"},

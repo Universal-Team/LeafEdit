@@ -8,9 +8,11 @@ namespace Lang {
 	extern std::vector<std::string>
 	// App strings
 	editor,
+	keyboard,
 	mainMenu,
 	messages,
 	messages2,
+	misc,
 	playerEditor,
 	settings,
 	titleSelector,

@@ -337,7 +337,8 @@ void VillagerEditor::DrawSubMenuPage(void) const
 	Title += "SubMenu";
 
 	// Initial String.
-	std::string currentPage = "Current Page: ";
+	std::string currentPage = Lang::misc[0];
+	currentPage += " ";
 
 	// currentPage
 	for (int i = 1; i < 5; i++) {

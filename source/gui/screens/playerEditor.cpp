@@ -106,44 +106,44 @@ void PlayerEditor::DrawBottom(void) const
 
 	if (currentPage == 1) {
 		// Display Player Name.
-		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Player Name");
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, Lang::playerEditor[1]);
 
 		// Display Wallet Amount. 
-		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, "Wallet Amount");
+		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, Lang::playerEditor[2]);
 
 		// Display current Tan Value.
-		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, "Tan Value");
+		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, Lang::playerEditor[3]);
 
 
 		// Display Bank Amount.
-		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Bank Amount");
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, Lang::playerEditor[4]);
 
 		// Display Medal Amount. 
-		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, "Medal Amount");
+		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, Lang::playerEditor[5]);
 
 		// Display Coupon Amount.
-		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Coupon Amount");
+		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, Lang::playerEditor[6]);
 
 	} else if (currentPage == 2) {
 
 		// Max Bank.
-		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, "Maximize Bank");
+		Gui::DrawString(playerButtons[0].x+10, playerButtons[0].y+10, 0.65f, BLACK, Lang::playerEditor[7]);
 
 		// Max Medals. 
-		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, "Max Medals");
+		Gui::DrawString(playerButtons[1].x+10, playerButtons[1].y+10, 0.65f, BLACK, Lang::playerEditor[8]);
 
 		// Max Coupons.
-		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, "Max Coupons");
+		Gui::DrawString(playerButtons[2].x+10, playerButtons[2].y+10, 0.65f, BLACK, Lang::playerEditor[9]);
 
 
 		// Clear Bank.
-		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, "Clear Bank");
+		Gui::DrawString(playerButtons[3].x+10, playerButtons[3].y+10, 0.65f, BLACK, Lang::playerEditor[10]);
 
 		// Clear Medals.
-		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, "Clear Medals");
+		Gui::DrawString(playerButtons[4].x+10, playerButtons[4].y+10, 0.65f, BLACK, Lang::playerEditor[11]);
 
 		// Clear Coupons.
-		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, "Clear Coupons");
+		Gui::DrawString(playerButtons[5].x+10, playerButtons[5].y+10, 0.65f, BLACK, Lang::playerEditor[12]);
 	}
 }
 
@@ -287,35 +287,38 @@ void PlayerEditor::Player1Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = "Player Name: ";
-	PlayerName += " ";
+	std::string PlayerName = Lang::playerEditor[1];
+	PlayerName += ": ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
 
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[0]->Wallet.value));
-	std::string WalletAmount = "Wallet Amount: ";
-	WalletAmount += " ";
+	std::string WalletAmount = Lang::playerEditor[2];
+	WalletAmount += ": ";
 	WalletAmount += Wallet.c_str();
 
 	// Display the current Tan of the Player.
 	std::string Tan = std::to_string((SaveFile->players[0]->PlayerTan));
-	std::string TanPlayer = "Current Tan: ";
+	std::string TanPlayer = Lang::playerEditor[3];
+	TanPlayer += ": ";
 	TanPlayer += Tan.c_str();
 
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[0]->BankAmount.value));
-	std::string BankAmount = Lang::editor[2];
-	BankAmount += " ";
+	std::string BankAmount = Lang::playerEditor[4];
+	BankAmount += ": ";
 	BankAmount += Bank.c_str();
 
 	// Display the amount of medals.
 	std::string Medals = std::to_string((SaveFile->players[0]->IslandMedals.value));
-	std::string MedalsAmount = "Medals Amount: ";
+	std::string MedalsAmount = Lang::playerEditor[5];
+	MedalsAmount += ": ";
 	MedalsAmount += Medals.c_str();
 
 	// Display the amount of Coupons.
 	std::string Coupons = std::to_string((SaveFile->players[0]->MeowCoupons.value));
-	std::string CouponsAmount = "Coupons Amount: ";
+	std::string CouponsAmount = Lang::playerEditor[6];
+	CouponsAmount += ": ";
 	CouponsAmount += Coupons.c_str();
 
 
@@ -348,35 +351,38 @@ void PlayerEditor::Player2Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = "Player Name: ";
-	PlayerName += " ";
+	std::string PlayerName = Lang::playerEditor[1];
+	PlayerName += ": ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str();
 
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[1]->Wallet.value));
-	std::string WalletAmount = "Wallet Amount: ";
-	WalletAmount += " ";
+	std::string WalletAmount = Lang::playerEditor[2];
+	WalletAmount += ": ";
 	WalletAmount += Wallet.c_str();
 
 	// Display the current Tan of the Player.
 	std::string Tan = std::to_string((SaveFile->players[1]->PlayerTan));
-	std::string TanPlayer = "Current Tan: ";
+	std::string TanPlayer = Lang::playerEditor[3];
+	TanPlayer += ": ";
 	TanPlayer += Tan.c_str();
 
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[1]->BankAmount.value));
-	std::string BankAmount = Lang::editor[2];
-	BankAmount += " ";
+	std::string BankAmount = Lang::playerEditor[4];
+	BankAmount += ": ";
 	BankAmount += Bank.c_str();
 
 	// Display the amount of medals.
 	std::string Medals = std::to_string((SaveFile->players[1]->IslandMedals.value));
-	std::string MedalsAmount = "Medals Amount: ";
+	std::string MedalsAmount = Lang::playerEditor[5];
+	MedalsAmount += ": ";
 	MedalsAmount += Medals.c_str();
 
 	// Display the amount of Coupons.
 	std::string Coupons = std::to_string((SaveFile->players[1]->MeowCoupons.value));
-	std::string CouponsAmount = "Coupons Amount: ";
+	std::string CouponsAmount = Lang::playerEditor[6];
+	CouponsAmount += ": ";
 	CouponsAmount += Coupons.c_str();
 
 
@@ -409,35 +415,38 @@ void PlayerEditor::Player3Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = "Player Name: ";
-	PlayerName += " ";
+	std::string PlayerName = Lang::playerEditor[1];
+	PlayerName += ": ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str();
 
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[2]->Wallet.value));
-	std::string WalletAmount = "Wallet Amount: ";
-	WalletAmount += " ";
+	std::string WalletAmount = Lang::playerEditor[2];
+	WalletAmount += ": ";
 	WalletAmount += Wallet.c_str();
 
 	// Display the current Tan of the Player.
 	std::string Tan = std::to_string((SaveFile->players[2]->PlayerTan));
-	std::string TanPlayer = "Current Tan: ";
+	std::string TanPlayer = Lang::playerEditor[3];
+	TanPlayer += ": ";
 	TanPlayer += Tan.c_str();
 
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[2]->BankAmount.value));
-	std::string BankAmount = Lang::editor[2];
-	BankAmount += " ";
+	std::string BankAmount = Lang::playerEditor[4];
+	BankAmount += ": ";
 	BankAmount += Bank.c_str();
 
 	// Display the amount of medals.
 	std::string Medals = std::to_string((SaveFile->players[2]->IslandMedals.value));
-	std::string MedalsAmount = "Medals Amount: ";
+	std::string MedalsAmount = Lang::playerEditor[5];
+	MedalsAmount += ": ";
 	MedalsAmount += Medals.c_str();
 
 	// Display the amount of Coupons.
 	std::string Coupons = std::to_string((SaveFile->players[2]->MeowCoupons.value));
-	std::string CouponsAmount = "Coupons Amount: ";
+	std::string CouponsAmount = Lang::playerEditor[6];
+	CouponsAmount += ": ";
 	CouponsAmount += Coupons.c_str();
 
 
@@ -471,35 +480,38 @@ void PlayerEditor::Player4Draw(void) const
 {
 
 	// Display First Player Name.
-	std::string PlayerName = "Player Name: ";
-	PlayerName += " ";
+	std::string PlayerName = Lang::playerEditor[1];
+	PlayerName += ": ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str();
 
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[3]->Wallet.value));
-	std::string WalletAmount = "Wallet Amount: ";
-	WalletAmount += " ";
+	std::string WalletAmount = Lang::playerEditor[2];
+	WalletAmount += ": ";
 	WalletAmount += Wallet.c_str();
 
 	// Display the current Tan of the Player.
 	std::string Tan = std::to_string((SaveFile->players[3]->PlayerTan));
-	std::string TanPlayer = "Current Tan: ";
+	std::string TanPlayer = Lang::playerEditor[3];
+	TanPlayer += ": ";
 	TanPlayer += Tan.c_str();
 
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[3]->BankAmount.value));
-	std::string BankAmount = Lang::editor[2];
-	BankAmount += " ";
+	std::string BankAmount = Lang::playerEditor[4];
+	BankAmount += ": ";
 	BankAmount += Bank.c_str();
 
 	// Display the amount of medals.
 	std::string Medals = std::to_string((SaveFile->players[3]->IslandMedals.value));
-	std::string MedalsAmount = "Medals Amount: ";
+	std::string MedalsAmount = Lang::playerEditor[5];
+	MedalsAmount += ": ";
 	MedalsAmount += Medals.c_str();
 
 	// Display the amount of Coupons.
 	std::string Coupons = std::to_string((SaveFile->players[3]->MeowCoupons.value));
-	std::string CouponsAmount = "Coupons Amount: ";
+	std::string CouponsAmount = Lang::playerEditor[6];
+	CouponsAmount += ": ";
 	CouponsAmount += Coupons.c_str();
 
 
@@ -535,9 +547,10 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 	Title += " - ";
 	Title += Lang::editor[1];
 	Title += " ";
-	Title += Lang::editor[6];
+	Title += Lang::editor[2];
 
-	std::string activePlayer = "Current Player: ";
+	std::string activePlayer = Lang::misc[1];
+	activePlayer += ": ";
 
 	for (int i = 1; i < 5; i++) {
 		if (currentPlayer == i) {
@@ -545,7 +558,8 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 		}
 	}
 
-	std::string currentPages = "Current Page: ";
+	std::string currentPages = Lang::misc[0];
+	currentPages += ": ";
 
 	for (int i = 1; i < 3; i++) {
 		if (currentPage == i) {
@@ -554,8 +568,10 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 	}
 
 	currentPages += " / 2";
+	std::string endresult = currentPages;
+	endresult += " ";
+	endresult += activePlayer;
 
-	Gui::DrawString(225, 215, 0.8f, WHITE, activePlayer.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, endresult.c_str()))/2, 215, 0.8f, WHITE, endresult.c_str());
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
-	Gui::DrawString(0, 215, 0.8f, WHITE, currentPages.c_str());
 }
