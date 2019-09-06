@@ -30,6 +30,7 @@
 #include "core/playerManagement.hpp"
 
 #include "gui/keyboard.hpp"
+#include "gui/msg.hpp"
 
 #include "gui/screens/screenCommon.hpp"
 
@@ -75,7 +76,11 @@ extern std::string player4Coupons;
 void PlayerManagement::PlayerName(int currentPlayer, std::string name)
 {
 	name = Input::getLine(8, Lang::playerEditor[0]);
-	SaveFile->players[currentPlayer]->Name = StringUtils::UTF8toUTF16(name.c_str());
+	if (name != "") {
+		SaveFile->players[currentPlayer]->Name = StringUtils::UTF8toUTF16(name.c_str());
+	} else {
+		Msg::DisplayWarnMsg("This is not a valid Playername!");
+	}
 }
 
 
@@ -83,7 +88,11 @@ void PlayerManagement::PlayerName(int currentPlayer, std::string name)
 void PlayerManagement::PlayerWallet(int currentPlayer, std::string wallet)
 {
 	wallet = Input::Numpad(5, Lang::keyboard[0]);
-	SaveFile->players[currentPlayer]->Wallet.value = static_cast<u32>(std::stoi(wallet.c_str()));
+	if (wallet != "") {
+		SaveFile->players[currentPlayer]->Wallet.value = static_cast<u32>(std::stoi(wallet.c_str()));
+	} else {
+		Msg::DisplayWarnMsg("This is not a valid Wallet Amount!");
+	}
 }
 
 
@@ -91,14 +100,26 @@ void PlayerManagement::PlayerWallet(int currentPlayer, std::string wallet)
 void PlayerManagement::PlayerTan(int currentPlayer, std::string tan)
 {
     tan = Input::Numpad(2, Lang::keyboard[1]);
-    SaveFile->players[currentPlayer]->PlayerTan = static_cast<u16>(std::stoi(tan.c_str()));
+	if (tan != "") {
+		if (u16 tanValue = static_cast<u16>(std::stoi(tan.c_str())) =< 16) {
+			SaveFile->players[currentPlayer]->PlayerTan = static_cast<u16>(std::stoi(tan.c_str()));
+		} else {
+			Msg::DisplayWarnMsg("This Tan Value is too high!");
+		}
+	} else {
+		Msg::DisplayWarnMsg("This is not a valid Tan!");
+	}
 }
 
 // Bank Stuff.
 void PlayerManagement::PlayerBank(int currentPlayer, std::string bank)
 {
 	bank = Input::Numpad(9, Lang::keyboard[2]);
-	SaveFile->players[currentPlayer]->BankAmount.value = static_cast<u32>(std::stoi(bank.c_str()));
+	if (bank != "") {
+		SaveFile->players[currentPlayer]->BankAmount.value = static_cast<u32>(std::stoi(bank.c_str()));
+	} else {
+		Msg::DisplayWarnMsg("This is not a valid Bank Amount!");
+	}
 }
 
 void PlayerManagement::PlayerMaxBank(int currentPlayer, std::string bank)
@@ -118,7 +139,11 @@ void PlayerManagement::PlayerClearBank(int currentPlayer, std::string bank)
 void PlayerManagement::PlayerMedals(int currentPlayer, std::string medals)
 {
 	medals = Input::Numpad(4, Lang::keyboard[3]);
-	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
+	if (medals != "") {
+		SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
+	} else {
+		Msg::DisplayWarnMsg("This is not a valid Medals Amount!");
+	}
 }
 
 void PlayerManagement::PlayerMaxMedals(int currentPlayer, std::string medals)
@@ -138,7 +163,11 @@ void PlayerManagement::PlayerClearMedals(int currentPlayer, std::string medals)
 void PlayerManagement::PlayerCoupons(int currentPlayer, std::string coupons)
 {
 	coupons = Input::Numpad(4, Lang::keyboard[4]);
-	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
+	if (coupons != "") {
+		SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
+	} else {
+		Msg::DisplayWarnMsg("This is not a valid Coupon Amount!");
+	}
 }
 
 void PlayerManagement::PlayerMaxCoupons(int currentPlayer, std::string coupons)
