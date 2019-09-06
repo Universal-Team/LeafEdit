@@ -101,7 +101,7 @@ void PlayerManagement::PlayerTan(int currentPlayer, std::string tan)
 {
     tan = Input::Numpad(2, Lang::keyboard[1]);
 	if (tan != "") {
-		if (u16 tanValue = static_cast<u16>(std::stoi(tan.c_str())) =< 16) {
+		if (u16 tanValue = static_cast<u16>(std::stoi(tan.c_str())) <= 15) {
 			SaveFile->players[currentPlayer]->PlayerTan = static_cast<u16>(std::stoi(tan.c_str()));
 		} else {
 			Msg::DisplayWarnMsg("This Tan Value is too high!");
