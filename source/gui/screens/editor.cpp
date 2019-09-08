@@ -46,6 +46,7 @@
 
 std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Editor::Draw(void) const
 {
@@ -60,7 +61,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (EditorMode == 1) {
 		BrowseLogic(hDown, hHeld);
 	} else if (EditorMode == 2) {
-		SubMenuLogic(hDown, hHeld);
+		SubMenuLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -99,18 +100,20 @@ void Editor::DrawSubMenu(void) const
 		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y, selectedColor);
 	}
 
+	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
+
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1]);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, WHITE, Lang::editor[6]);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP");
 }
 
-void Editor::SubMenuLogic(u32 hDown, u32 hHeld)
+void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_B) {
+	} else if (hDown & KEY_TOUCH && touching(touch, editorButtons[3])) {
 			if (Msg::promptMsg(Lang::editor[0])) {
 					SaveFile->Commit(false);
 				} 
