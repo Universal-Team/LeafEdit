@@ -72,6 +72,8 @@ namespace Gui
     void sprite(int sheet, int key, int x, int y);
     void Draw_ImageBlend(int sheet, int key, int x, int y, u32 color);
     void villager(u16 villagerId, int x, int y); // Draw Villager sprite.
+    // Draw an Image, but scaled.
+    bool Draw_ImageScale(int sheet, int key, int x, int y, float scaleX, float scaleY);
 
     // float xPos -> X Position of the Selector.
     // float yPos -> Y Position of the Selector.

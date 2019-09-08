@@ -50,19 +50,19 @@ void Settings::Draw(void) const
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
 	if (Selection == 0) {
-		Gui::drawAnimatedSelector(settingsButtons[0].x, settingsButtons[0].y, settingsButtons[0].w, settingsButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(settingsButtons[1].x, settingsButtons[1].y, settingsButtons[1].w, settingsButtons[1].h, GREEN);
-		Gui::Draw_Rect(settingsButtons[2].x, settingsButtons[2].y, settingsButtons[2].w, settingsButtons[2].h, GREEN);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, settingsButtons[1].x, settingsButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, settingsButtons[2].x, settingsButtons[2].y);
 
 	} else if (Selection == 1) {
-		Gui::Draw_Rect(settingsButtons[0].x, settingsButtons[0].y, settingsButtons[0].w, settingsButtons[0].h, GREEN);
-		Gui::drawAnimatedSelector(settingsButtons[1].x, settingsButtons[1].y, settingsButtons[1].w, settingsButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(settingsButtons[2].x, settingsButtons[2].y, settingsButtons[2].w, settingsButtons[2].h, GREEN);
+		Gui::sprite(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[1].x, settingsButtons[1].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, settingsButtons[2].x, settingsButtons[2].y);
 
 	} else if (Selection == 2) {
-		Gui::Draw_Rect(settingsButtons[0].x, settingsButtons[0].y, settingsButtons[0].w, settingsButtons[0].h, GREEN);
-		Gui::Draw_Rect(settingsButtons[1].x, settingsButtons[1].y, settingsButtons[1].w, settingsButtons[1].h, GREEN);
-		Gui::drawAnimatedSelector(settingsButtons[2].x, settingsButtons[2].y, settingsButtons[2].w, settingsButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		Gui::sprite(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y);
+		Gui::sprite(0, sprites_button_idx, settingsButtons[1].x, settingsButtons[1].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[2].x, settingsButtons[2].y, selectedColor);
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[0]))/2, settingsButtons[0].y+10, 0.6f, WHITE, Lang::settings[0]);

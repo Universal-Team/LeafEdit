@@ -183,9 +183,9 @@ void Config::setSelector() {
 	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
 	Gui::Draw_Rect(0, 215, 320, 25, GREEN);
 
-	Gui::Draw_Rect(SelectorPos[0].x, SelectorPos[0].y, SelectorPos[0].w, SelectorPos[0].h, GREEN);
-	Gui::Draw_Rect(SelectorPos[1].x, SelectorPos[1].y, SelectorPos[1].w, SelectorPos[1].h, GREEN);
-	Gui::Draw_Rect(SelectorPos[2].x, SelectorPos[2].y, SelectorPos[2].w, SelectorPos[2].h, GREEN);
+	Gui::sprite(0, sprites_button_idx, SelectorPos[0].x, SelectorPos[0].y);
+	Gui::sprite(0, sprites_button_idx, SelectorPos[1].x, SelectorPos[1].y);
+	Gui::sprite(0, sprites_button_idx, SelectorPos[2].x, SelectorPos[2].y);
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 1"))/2, SelectorPos[0].y+10, 0.6f, WHITE, "Selector 1");
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 2"))/2, SelectorPos[1].y+10, 0.6f, WHITE, "Selector 2");

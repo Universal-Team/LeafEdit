@@ -1,5 +1,6 @@
 --atlas -f rgba -z auto
 
+sprites/button.png
 sprites/card.png
 
 sprites/keyboard/normal_key.png

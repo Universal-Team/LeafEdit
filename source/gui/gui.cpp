@@ -101,6 +101,17 @@ void Gui::exit(void)
     C3D_Fini();
 }
 
+
+bool Gui::Draw_ImageScale(int sheet, int key, int x, int y, float scaleX, float scaleY) {
+    if (sheet == 0) { // Sprites.
+        return C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, NULL, scaleX, scaleY);
+    } else if (sheet == 1) { // villagers.
+        return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, scaleX, scaleY);
+    } else if (sheet == 2) { // villagers2.
+        return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, scaleX, scaleY);
+    }
+}
+
 // Draw a Sprite from the Sheet.
 void Gui::sprite(int sheet, int key, int x, int y)
 {

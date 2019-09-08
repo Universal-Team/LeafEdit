@@ -46,19 +46,19 @@ void MainMenu::Draw(void) const
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
 	if (Selection == 0) {
-		Gui::drawAnimatedSelector(mainButtons[0].x, mainButtons[0].y, mainButtons[0].w, mainButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(mainButtons[1].x, mainButtons[1].y, mainButtons[1].w, mainButtons[1].h, GREEN);
-		Gui::Draw_Rect(mainButtons[2].x, mainButtons[2].y, mainButtons[2].w, mainButtons[2].h, GREEN);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y);
 
 	} else if (Selection == 1) {
-		Gui::Draw_Rect(mainButtons[0].x, mainButtons[0].y, mainButtons[0].w, mainButtons[0].h, GREEN);
-		Gui::drawAnimatedSelector(mainButtons[1].x, mainButtons[1].y, mainButtons[1].w, mainButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(mainButtons[2].x, mainButtons[2].y, mainButtons[2].w, mainButtons[2].h, GREEN);
+		Gui::sprite(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y);
 
 	} else if (Selection == 2) {
-		Gui::Draw_Rect(mainButtons[0].x, mainButtons[0].y, mainButtons[0].w, mainButtons[0].h, GREEN);
-		Gui::Draw_Rect(mainButtons[1].x, mainButtons[1].y, mainButtons[1].w, mainButtons[1].h, GREEN);
-		Gui::drawAnimatedSelector(mainButtons[2].x, mainButtons[2].y, mainButtons[2].w, mainButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		Gui::sprite(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[0]))/2, mainButtons[0].y+10, 0.6f, WHITE, Lang::mainMenu[0]);

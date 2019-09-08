@@ -84,19 +84,19 @@ void Editor::DrawSubMenu(void) const
 
 
 	if (Selection == 0) {
-		Gui::drawAnimatedSelector(editorButtons[0].x, editorButtons[0].y, editorButtons[0].w, editorButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(editorButtons[1].x, editorButtons[1].y, editorButtons[1].w, editorButtons[1].h, GREEN);
-		Gui::Draw_Rect(editorButtons[2].x, editorButtons[2].y, editorButtons[2].w, editorButtons[2].h, GREEN);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y);
 
 	} else if (Selection == 1) {
-		Gui::Draw_Rect(editorButtons[0].x, editorButtons[0].y, editorButtons[0].w, editorButtons[0].h, GREEN);
-		Gui::drawAnimatedSelector(editorButtons[1].x, editorButtons[1].y, editorButtons[1].w, editorButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(editorButtons[2].x, editorButtons[2].y, editorButtons[2].w, editorButtons[2].h, GREEN);
+		Gui::sprite(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y);
 
 	} else if (Selection == 2) {
-		Gui::Draw_Rect(editorButtons[0].x, editorButtons[0].y, editorButtons[0].w, editorButtons[0].h, GREEN);
-		Gui::Draw_Rect(editorButtons[1].x, editorButtons[1].y, editorButtons[1].w, editorButtons[1].h, GREEN);
-		Gui::drawAnimatedSelector(editorButtons[2].x, editorButtons[2].y, editorButtons[2].w, editorButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		Gui::sprite(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y);
+		Gui::sprite(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y, selectedColor);
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1]);

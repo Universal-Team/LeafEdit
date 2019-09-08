@@ -82,25 +82,27 @@ void PlayerEditor::DrawBottom(void) const
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
 
-		Gui::Draw_Rect(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, WHITE);
-		Gui::Draw_Rect(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, WHITE);
-		Gui::Draw_Rect(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, WHITE);
-		Gui::Draw_Rect(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, WHITE);
-		Gui::Draw_Rect(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, WHITE);
-		Gui::Draw_Rect(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, WHITE);
+		Gui::sprite(0, sprites_button_idx, playerButtons[0].x, playerButtons[0].y);
+		Gui::sprite(0, sprites_button_idx, playerButtons[1].x, playerButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, playerButtons[2].x, playerButtons[2].y);
+		Gui::sprite(0, sprites_button_idx, playerButtons[3].x, playerButtons[3].y);
+		Gui::sprite(0, sprites_button_idx, playerButtons[4].x, playerButtons[4].y);
+		Gui::sprite(0, sprites_button_idx, playerButtons[5].x, playerButtons[5].y);
+
+		
 
 		if (Selection == 0) {
-			Gui::drawAnimatedSelector(playerButtons[0].x, playerButtons[0].y, playerButtons[0].w, playerButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[0].x, playerButtons[0].y, selectedColor);
 		} else if (Selection == 1) {
-			Gui::drawAnimatedSelector(playerButtons[1].x, playerButtons[1].y, playerButtons[1].w, playerButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[1].x, playerButtons[1].y, selectedColor);
 		} else if (Selection == 2) {
-			Gui::drawAnimatedSelector(playerButtons[2].x, playerButtons[2].y, playerButtons[2].w, playerButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[2].x, playerButtons[2].y, selectedColor);
 		} else if (Selection == 3) {
-			Gui::drawAnimatedSelector(playerButtons[3].x, playerButtons[3].y, playerButtons[3].w, playerButtons[3].h, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[3].x, playerButtons[3].y, selectedColor);
 		} else if (Selection == 4) {
-			Gui::drawAnimatedSelector(playerButtons[4].x, playerButtons[4].y, playerButtons[4].w, playerButtons[4].h, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[4].x, playerButtons[4].y, selectedColor);
 		} else if (Selection == 5) {
-			Gui::drawAnimatedSelector(playerButtons[5].x, playerButtons[5].y, playerButtons[5].w, playerButtons[5].h, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[5].x, playerButtons[5].y, selectedColor);
 		}
 
 

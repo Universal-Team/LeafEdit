@@ -71,19 +71,19 @@ void TownManager::DrawSubMenu(void) const
 
 
 	if (Selection == 0) {
-		Gui::drawAnimatedSelector(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, GREEN);
-		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, GREEN);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[0].x, townButtons[0].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
 
 	} else if (Selection == 1) {
-		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, GREEN);
-		Gui::drawAnimatedSelector(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, .030f, C2D_Color32(0, 0, 0, 0));
-		Gui::Draw_Rect(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, GREEN);
+		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[1].x, townButtons[1].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
 
 	} else if (Selection == 2) {
-		Gui::Draw_Rect(townButtons[0].x, townButtons[0].y, townButtons[0].w, townButtons[0].h, GREEN);
-		Gui::Draw_Rect(townButtons[1].x, townButtons[1].y, townButtons[1].w, townButtons[1].h, GREEN);
-		Gui::drawAnimatedSelector(townButtons[2].x, townButtons[2].y, townButtons[2].w, townButtons[2].h, .030f, C2D_Color32(0, 0, 0, 0));
+		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[2].x, townButtons[2].y, selectedColor);
 	}
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2, townButtons[0].y+10, 0.6f, WHITE, Lang::townmanager[0]);
