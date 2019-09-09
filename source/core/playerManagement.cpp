@@ -24,6 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "logging.hpp"
+
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
@@ -81,6 +83,13 @@ void PlayerManagement::PlayerName(int currentPlayer, std::string name)
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Playername!");
 	}
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got a name change to: ";
+	log += name.c_str();
+	Logging::writeToLog(log.c_str());
 }
 
 
@@ -93,6 +102,13 @@ void PlayerManagement::PlayerWallet(int currentPlayer, std::string wallet)
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Wallet Amount!");
 	}
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got a Wallet Amount change to: ";
+	log += wallet.c_str();
+	Logging::writeToLog(log.c_str());
 }
 
 
@@ -109,6 +125,13 @@ void PlayerManagement::PlayerTan(int currentPlayer, std::string tan)
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Tan!");
 	}
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got a Tan Value change to: ";
+	log += tan.c_str();
+	Logging::writeToLog(log.c_str());
 }
 
 // Bank Stuff.
@@ -120,18 +143,37 @@ void PlayerManagement::PlayerBank(int currentPlayer, std::string bank)
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Bank Amount!");
 	}
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got a Bank Amount change to: ";
+	log += bank.c_str();
+	Logging::writeToLog(log.c_str());
 }
 
 void PlayerManagement::PlayerMaxBank(int currentPlayer, std::string bank)
 {
 	bank = "999999999";
 	SaveFile->players[currentPlayer]->BankAmount.value = static_cast<u32>(std::stoi(bank.c_str()));
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got the Bank Amount: maximized.";
+	Logging::writeToLog(log.c_str());
 }
 
 void PlayerManagement::PlayerClearBank(int currentPlayer, std::string bank)
 {
 	bank = "0";
 	SaveFile->players[currentPlayer]->BankAmount.value = static_cast<u32>(std::stoi(bank.c_str()));
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got the Bank Amount: cleared.";
+	Logging::writeToLog(log.c_str());
 }
 
 
@@ -144,18 +186,37 @@ void PlayerManagement::PlayerMedals(int currentPlayer, std::string medals)
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Medals Amount!");
 	}
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got a Medals Amount change to: ";
+	log += medals.c_str();
+	Logging::writeToLog(log.c_str());
 }
 
 void PlayerManagement::PlayerMaxMedals(int currentPlayer, std::string medals)
 {
 	medals = "9999";
 	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got the Medals Amount: maximized.";
+	Logging::writeToLog(log.c_str());
 }
 
 void PlayerManagement::PlayerClearMedals(int currentPlayer, std::string medals)
 {
 	medals = "0";
 	SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got the Medals Amount: cleared.";
+	Logging::writeToLog(log.c_str());
 }
 
 
@@ -168,16 +229,35 @@ void PlayerManagement::PlayerCoupons(int currentPlayer, std::string coupons)
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Coupon Amount!");
 	}
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got a Coupons Amount change to: ";
+	log += coupons.c_str();
+	Logging::writeToLog(log.c_str());
 }
 
 void PlayerManagement::PlayerMaxCoupons(int currentPlayer, std::string coupons)
 {
 	coupons = "9999";
 	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got the Coupons Amount: maximized.";
+	Logging::writeToLog(log.c_str());
 }
 
 void PlayerManagement::PlayerClearCoupons(int currentPlayer, std::string coupons)
 {
 	coupons = "0";
 	SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
+
+	std::string log = "Current Player: ";
+	log += std::to_string(currentPlayer + 1);
+	log += " - ";
+	log += "Got the Coupons Amount: cleared.";
+	Logging::writeToLog(log.c_str());
 }
