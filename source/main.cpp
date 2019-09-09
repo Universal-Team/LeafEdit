@@ -76,10 +76,45 @@ void TestStuff(void)
 	}
 }
 
+
+// If an Error while startup appears, Return this!
+
+static Result DisplayStartupError(const std::string& message, Result res)
+{
+    consoleInit(GFX_TOP, nullptr);
+    printf("\x1b[2;16H\x1b[34mLeafEdit");
+    printf("\x1b[5;1HError during startup: \x1b[31m0x%08lX\x1b[0m", res);
+    printf("\x1b[8;1HDescription: \x1b[33m%s\x1b[0m", message.c_str());
+    printf("\x1b[29;16HPress START to exit.");
+
+	// For the Log.
+	std::string error = message;
+	error += ", ";
+	error += std::to_string(res);
+	Logging::writeToLog(error.c_str());
+
+    gfxFlushBuffers();
+    gfxSwapBuffers();
+    gspWaitForVBlank();
+    while (aptMainLoop() && !(hidKeysDown() & KEY_START))
+    {
+        hidScanInput();
+    }
+    return res;
+}
+
+
 int main()
 {
-	// Initialize Everything.
-	Archive::init();
+	// Initialize Everything and check for errors.
+	Result res;
+    gfxInitDefault();
+
+	if (R_FAILED(res = Archive::init())) {
+		return DisplayStartupError("Archive::init failed.", res);
+	}
+
+	Config::loadConfig();
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
@@ -89,14 +124,31 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
-	romfsInit();
-    gfxInitDefault();
-	Gui::init();
-	acInit();
-	amInit();
-	sdmcInit();
-	cfguInit();
-	Config::loadConfig();
+
+	if (R_FAILED(res = romfsInit())) {
+		return DisplayStartupError("romfsInit failed.", res);
+	}
+
+	if (R_FAILED(res = acInit())) {
+		return DisplayStartupError("acInit failed.", res);
+	}
+
+	if (R_FAILED(res = amInit())) {
+		return DisplayStartupError("amInit failed.", res);
+	}
+
+	if (R_FAILED(res = sdmcInit())) {
+		return DisplayStartupError("sdmcInit failed.", res);
+	}
+
+	if (R_FAILED(res = cfguInit())) {
+		return DisplayStartupError("cfguInit failed.", res);
+	}
+
+	if (R_FAILED(res = Gui::init())) {
+		return DisplayStartupError("Gui::init failed.", res);
+	}
+
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// If Language isn't set -> Set the Language.
@@ -109,6 +161,7 @@ int main()
 	}
 
 	// Load The Strings from the Romfs.
+	
 	Lang::loadLangStrings(Config::lang);
 	LoadVillagerDatabase(Config::lang);
 
