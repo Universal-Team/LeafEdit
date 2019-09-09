@@ -90,7 +90,7 @@ steps:
 - script: |
     curl -o send.sh https://raw.githubusercontent.com/Universal-Team/discord-webhooks/master/send-azure.sh
     chmod +x send.sh
-    export IMAGE=https://raw.githubusercontent.com/Universal-Team/extras/v$CURRENT_DATE/Universal-Manager/LeafEdit.png
+    export IMAGE=https://raw.githubusercontent.com/Universal-Team/extras/v$CURRENT_DATE/LeafEdit/LeafEdit.png
     ./send.sh success $WEBHOOK_URL
   condition: succeeded()
   displayName: "Send success webhook"
