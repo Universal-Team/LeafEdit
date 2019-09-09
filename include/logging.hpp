@@ -1,5 +1,5 @@
 /*
-*   This file is part of LeafEdit
+*   This file is part of Universal-Manager/LeafEdit
 *   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
-
+#include <fstream>
+#include <stdarg.h>
 #include <string>
+#include <time.h>
+#include <unistd.h>
 
-namespace Config {
-	
-	// [CORE]
-	extern int check; // If checked on startup -> 1.
-	extern int update; // Tell, if an Update of AC:NL was found. (For the old version).
+namespace Logging {
+	// Create the Log File.
+	void createLogFile(void);
 
-	// [MISC]
-	extern int Logging; // Enable / Disable writing to the Log.
-	
-	// [UI]
-	extern int LangLocation; // Language Location (Romfs/SD).
-	extern int lang; // The current Language.
-	extern int langSet; // tell if the current Language was already set.
-	extern int selector; // The Selector Design.
-	
-	void loadConfig();
-	void saveConfig();
-	void setLanguage();
-	void setSelector(); // Set the Selector.
+	// Write to the Log.
+	void writeToLog(std::string debugText);
+
+	// Other needed stuff. ;P
+	std::string logDate(void);
+	std::string format(const std::string& fmt_str, ...);
 }
-
-#endif

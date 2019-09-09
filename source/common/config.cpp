@@ -67,6 +67,8 @@ static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
 int Config::check; // Update Checked.
 int Config::update; // Update Available? ;P
 
+int Config::Logging; // Enable / Disable writing the log.
+
 int Config::LangLocation; // Language Location (Romfs/SD).
 int Config::lang; // Current Language.
 int Config::langSet; // Tell, if the current Language was already set.
@@ -79,6 +81,9 @@ void Config::loadConfig() {
 	Config::check = settingsini.GetInt("CORE", "CHECKED", 0);
 	Config::update = settingsini.GetInt("CORE", "FOUND", 0);
 
+	// [MISC]
+	Config::Logging = settingsini.GetInt("MISC", "LOGGING", 0);
+
 	// [UI]
 	Config::LangLocation = settingsini.GetInt("UI", "LANGLOCATION", 0);
 	Config::lang = settingsini.GetInt("UI", "LANGUAGE", 1);
@@ -90,6 +95,9 @@ void Config::saveConfig() {
 	// [CORE]
 	settingsini.SetInt("CORE", "CHECKED", Config::check);
 	settingsini.SetInt("CORE", "FOUND", Config::update);
+
+	// [MISC]
+	settingsini.SetInt("MISC", "LOGGING", Config::Logging);
 
 	// [UI]
 	settingsini.SetInt("UI", "LANGLOCATION", Config::LangLocation);

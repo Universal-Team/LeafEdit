@@ -24,6 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "logging.hpp"
+
 #include "common/archive.hpp"
 #include "common/config.hpp"
 #include "common/structs.hpp"
@@ -77,6 +79,16 @@ void TestStuff(void)
 int main()
 {
 	// Initialize Everything.
+	Archive::init();
+
+	// make folders if they don't exist
+	mkdir("sdmc:/3ds", 0777);	// For DSP dump
+	mkdir("sdmc:/LeafEdit", 0777); // main Path.
+	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
+	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
+	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
+
+	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 	romfsInit();
     gfxInitDefault();
 	Gui::init();
@@ -86,14 +98,6 @@ int main()
 	cfguInit();
 	Config::loadConfig();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
-	Archive::init();
-
-	// make folders if they don't exist
-	mkdir("sdmc:/3ds", 0777);	// For DSP dump
-	mkdir("sdmc:/LeafEdit", 0777); // main Path.
-	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
-	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
-	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 
 	// If Language isn't set -> Set the Language.
 	if (Config::langSet == 0) {
@@ -125,6 +129,9 @@ int main()
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());
 	
+	// We write a successfull Message, because it launched Successfully. Lol.
+	Logging::writeToLog("LeafEdit launched successfully!");
+
 	// Loop as long as the status is not exit
     while (aptMainLoop() && !exiting)
     {
