@@ -51,90 +51,90 @@ std::stack<std::unique_ptr<SCREEN>> screens;
 // Clear Text.
 void Gui::clearTextBufs(void)
 {
-    C2D_TextBufClear(sizeBuf);
+	C2D_TextBufClear(sizeBuf);
 }
 
 // Draw a Sprite from the Sheet, but blended.
 void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color)
 {
-    C2D_ImageTint tint;
-    C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
-    C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
-    C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
-    C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
 
-    if (sheet == 0) { // Sprites.
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, &tint);
-    } else if (sheet == 1) { // villagers.
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint);
-    } else if (sheet == 2) { // villagers2.
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint);
-    }
+	if (sheet == 0) { // Sprites.
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, &tint);
+	} else if (sheet == 1) { // villagers.
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint);
+	} else if (sheet == 2) { // villagers2.
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint);
+	}
 }
 
 // Initialize GUI.
 Result Gui::init(void)
 {
-    C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
-    C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
-    C2D_Prepare();
-    top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
-    bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
-    sizeBuf = C2D_TextBufNew(4096);
+	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
+	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
+	C2D_Prepare();
+	top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
+	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+	sizeBuf = C2D_TextBufNew(4096);
 
-    sprites    = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
-    Villager    = C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-    Villager2    = C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	sprites    = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+	Villager    = C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+	Villager2    = C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
 
-    systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
-    return 0;
+	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
+	return 0;
 }
 
 // Exit GUI.
 void Gui::exit(void)
 {
-    C2D_SpriteSheetFree(sprites);
-    C2D_SpriteSheetFree(Villager);
-    C2D_SpriteSheetFree(Villager2);
-    C2D_TextBufDelete(sizeBuf);
-    C2D_Fini();
-    C3D_Fini();
+	C2D_SpriteSheetFree(sprites);
+	C2D_SpriteSheetFree(Villager);
+	C2D_SpriteSheetFree(Villager2);
+	C2D_TextBufDelete(sizeBuf);
+	C2D_Fini();
+	C3D_Fini();
 }
 
 
 bool Gui::Draw_ImageScale(int sheet, int key, int x, int y, float scaleX, float scaleY) {
-    if (sheet == 0) { // Sprites.
-        return C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, NULL, scaleX, scaleY);
-    } else if (sheet == 1) { // villagers.
-        return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, scaleX, scaleY);
-    } else if (sheet == 2) { // villagers2.
-        return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, scaleX, scaleY);
-    }
+	if (sheet == 0) { // Sprites.
+		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, NULL, scaleX, scaleY);
+	} else if (sheet == 1) { // villagers.
+		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, scaleX, scaleY);
+	} else if (sheet == 2) { // villagers2.
+		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, scaleX, scaleY);
+	}
 }
 
 // Draw a Sprite from the Sheet.
 void Gui::sprite(int sheet, int key, int x, int y)
 {
-    if (sheet == 0) { // Sprites.
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
-    } else if (sheet == 1) { // villagers.
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f);
-    } else if (sheet == 2) { // villagers2.
-        C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f);
-    }
+	if (sheet == 0) { // Sprites.
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
+	} else if (sheet == 1) { // villagers.
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f);
+	} else if (sheet == 2) { // villagers2.
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f);
+	}
 }
 
 void Gui::villager(u16 villagerId, int x, int y) {
-    if (villagerId > 399) {
-        villagerId = 399;
-    }
+	if (villagerId > 399) {
+		villagerId = 399;
+	}
 
-    if (villagerId < 200) {
-        DrawSprite(Villager, villagerId, x, y);
-    }
-    else {
-        DrawSprite(Villager2, villagerId - 200, x, y);
-    }
+	if (villagerId < 200) {
+		DrawSprite(Villager, villagerId, x, y);
+	}
+	else {
+		DrawSprite(Villager2, villagerId - 200, x, y);
+	}
 }
 
 void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
@@ -153,19 +153,25 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 }
 
 // Draw String or Text.
-void Gui::DrawString(float x, float y, float size, u32 color, std::string Text)
-{
-    findAndReplaceAll(Text, "\\n", "\n");
+void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
+	float width = 1, height = 1;
+
+	findAndReplaceAll(Text, "\\n", "\n");
 	C2D_Text c2d_text;
-    C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
+	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
+
+	if(maxWidth > 0) {
+		C2D_TextGetDimensions(&c2d_text, size, size, &width, &height);
+	}
+
 	C2D_TextOptimize(&c2d_text);
-	C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, size, size, color);
+	C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/width)), size, color);
 }
 
 
 // Get String or Text Width.
 float Gui::GetStringWidth(float size, std::string Text) {
-    findAndReplaceAll(Text, "\\n", "\n");
+	findAndReplaceAll(Text, "\\n", "\n");
 	float width = 0;
 	GetStringSize(size, &width, NULL, Text);
 	return width;
@@ -173,16 +179,16 @@ float Gui::GetStringWidth(float size, std::string Text) {
 
 // Get String or Text Size.
 void Gui::GetStringSize(float size, float *width, float *height, std::string Text) {
-    findAndReplaceAll(Text, "\\n", "\n");
+	findAndReplaceAll(Text, "\\n", "\n");
 	C2D_Text c2d_text;
-    C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
+	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
 	C2D_TextGetDimensions(&c2d_text, size, size, width, height);
 }
 
 
 // Get String or Text Height.
 float Gui::GetStringHeight(float size, std::string Text) {
-    findAndReplaceAll(Text, "\\n", "\n");
+	findAndReplaceAll(Text, "\\n", "\n");
 	float height = 0;
 	GetStringSize(size, NULL, &height, Text.c_str());
 	return height;
@@ -202,46 +208,46 @@ void Gui::mainLoop(u32 hDown, u32 hHeld, touchPosition touch) {
 // Set the current Screen.
 void Gui::setScreen(std::unique_ptr<SCREEN> screen)
 {
-    screens.push(std::move(screen));
+	screens.push(std::move(screen));
 }
 
 // Go a Screen back.
 void Gui::screenBack()
 {
-    screens.pop();
+	screens.pop();
 }
 
 // Select, on which Screen should be drawn.
 void Gui::ScreenDraw(C3D_RenderTarget * screen)
 {
-    C2D_SceneBegin(screen);
+	C2D_SceneBegin(screen);
 }
 
 void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour)
 {
-    static constexpr int w     = 2;
-    static float timer         = 0.0f;
-    float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-    u8 r                       = C2D_Color32(0, 191, 255, 255) & 0xFF;
-    u8 g                       = (C2D_Color32(0, 191, 255, 255) >> 8) & 0xFF;
-    u8 b                       = (C2D_Color32(0, 191, 255, 255) >> 16) & 0xFF;
-    u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
+	static constexpr int w     = 2;
+	static float timer         = 0.0f;
+	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	u8 r                       = C2D_Color32(0, 191, 255, 255) & 0xFF;
+	u8 g                       = (C2D_Color32(0, 191, 255, 255) >> 8) & 0xFF;
+	u8 b                       = (C2D_Color32(0, 191, 255, 255) >> 16) & 0xFF;
+	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
-    // BG Color for the Selector.
-    C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, colour); // Black.
+	// BG Color for the Selector.
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, colour); // Black.
 
-    // Animated Selector part.
-    C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, color);                      // top
-    C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, color);          // left
-    C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, color); // right
-    C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, color);             // bottom
+	// Animated Selector part.
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, color);                      // top
+	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, color);          // left
+	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, color); // right
+	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, color);             // bottom
 
-    timer += speed; // Speed of the animation. Example : .030f / .030
+	timer += speed; // Speed of the animation. Example : .030f / .030
 }
 
 
 void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y)
 {
-    C2D_Image img = C2D_SpriteSheetGetImage(sheet, imgindex);
-    C2D_DrawImageAt(img, x, y, 0.5f);
+	C2D_Image img = C2D_SpriteSheetGetImage(sheet, imgindex);
+	C2D_DrawImageAt(img, x, y, 0.5f);
 }
