@@ -10,6 +10,7 @@
 *.lst
 .vscode/ipch
 *.DS_Store
+romfs/gfx/*.t3x
 
 bannertool*
 makerom*
