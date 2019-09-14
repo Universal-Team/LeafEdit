@@ -109,43 +109,43 @@ void PlayerEditor::DrawBottom(void) const
 	if (currentPage == 1) {
 		// Display Player Name.
 		
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[1]))/2-70+5, playerButtons[0].y+10, 0.6f, BLACK, Lang::playerEditor[1], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[1]))/2-65, playerButtons[0].y+10, 0.6f, BLACK, Lang::playerEditor[1], 130);
 
 		// Display Wallet Amount. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[2]))/2-70+5, playerButtons[1].y+10, 0.6f, BLACK, Lang::playerEditor[2], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[2]))/2-65, playerButtons[1].y+10, 0.6f, BLACK, Lang::playerEditor[2], 130);
 
 		// Display current Tan Value.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[3]))/2-70+5, playerButtons[2].y+10, 0.6f, BLACK, Lang::playerEditor[3], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[3]))/2-65, playerButtons[2].y+10, 0.6f, BLACK, Lang::playerEditor[3], 130);
 
 
 		// Display Bank Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[4]))/2+150-70+5, playerButtons[3].y+10, 0.6f, BLACK, Lang::playerEditor[4], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[4]))/2+150-65, playerButtons[3].y+10, 0.6f, BLACK, Lang::playerEditor[4], 130);
 
 		// Display Medal Amount. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[5]))/2+150-70+5, playerButtons[4].y+10, 0.6f, BLACK, Lang::playerEditor[5], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[5]))/2+150-65, playerButtons[4].y+10, 0.6f, BLACK, Lang::playerEditor[5], 130);
 
 		// Display Coupon Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[6]))/2+150-70+5, playerButtons[5].y+10, 0.6f, BLACK, Lang::playerEditor[6], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[6]))/2+150-65, playerButtons[5].y+10, 0.6f, BLACK, Lang::playerEditor[6], 130);
 
 	} else if (currentPage == 2) {
 
 		// Max Bank.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[7]))/2-70+5, playerButtons[0].y+10, 0.6f, BLACK, Lang::playerEditor[7], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[7]))/2-65, playerButtons[0].y+10, 0.6f, BLACK, Lang::playerEditor[7], 130);
 
 		// Max Medals. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[8]))/2-70+5, playerButtons[1].y+10, 0.6f, BLACK, Lang::playerEditor[8], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[8]))/2-65, playerButtons[1].y+10, 0.6f, BLACK, Lang::playerEditor[8], 130);
 
 		// Max Coupons.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[10]))/2-70+5, playerButtons[2].y+10, 0.6f, BLACK, Lang::playerEditor[9], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[9]))/2-65, playerButtons[2].y+10, 0.6f, BLACK, Lang::playerEditor[9], 130);
 
 		// Clear Bank.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[11]))/2+150-70+5, playerButtons[3].y+10, 0.6f, BLACK, Lang::playerEditor[10], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[10]))/2+150-65+5, playerButtons[3].y+10, 0.6f, BLACK, Lang::playerEditor[10], 130);
 
 		// Clear Medals.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[12]))/2+150-70+5, playerButtons[4].y+10, 0.6f, BLACK, Lang::playerEditor[11], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[11]))/2+150-65, playerButtons[4].y+10, 0.6f, BLACK, Lang::playerEditor[11], 130);
 
 		// Clear Coupons.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[13]))/2+150-70+5, playerButtons[5].y+10, 0.6f, BLACK, Lang::playerEditor[12], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[12]))/2+150-65, playerButtons[5].y+10, 0.6f, BLACK, Lang::playerEditor[12], 130);
 	}
 }
 
