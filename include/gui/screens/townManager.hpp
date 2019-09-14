@@ -48,9 +48,11 @@ private:
 	void BrowseLogic(u32 hDown, u32 hHeld);
 
 	std::vector<Structs::ButtonPos> townButtons = {
-    	{90, 40, 140, 35, -1}, // Launch
-		{90, 100, 140, 35, -1}, // Backup
-		{90, 160, 140, 35, -1}, // Restore
+    	{20, 40, 140, 35, -1}, // Launch.
+		{20, 100, 140, 35, -1}, // Backup.
+		{20, 160, 140, 35, -1}, // Restore.
+    	{170, 40, 140, 35, -1}, // Delete Gamecard / Installed Title save.
+		{170, 100, 140, 35, -1}, // Delete Backup.
 	};
 
 	int screenMode = 0;

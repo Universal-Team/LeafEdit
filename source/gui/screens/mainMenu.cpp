@@ -38,7 +38,7 @@ void MainMenu::Draw(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::title))/2, 2, 0.8f, WHITE, Lang::title);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::title))/2, 2, 0.8f, WHITE, Lang::title, 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -61,9 +61,9 @@ void MainMenu::Draw(void) const
 		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
 	}
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[0]))/2, mainButtons[0].y+10, 0.6f, WHITE, Lang::mainMenu[0]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[1]))/2, mainButtons[1].y+10, 0.6f, WHITE, Lang::mainMenu[1]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[2]))/2, mainButtons[2].y+10, 0.6f, WHITE, Lang::mainMenu[2]);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[0]))/2, mainButtons[0].y+10, 0.6f, WHITE, Lang::mainMenu[0], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[1]))/2, mainButtons[1].y+10, 0.6f, WHITE, Lang::mainMenu[1], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::mainMenu[2]))/2, mainButtons[2].y+10, 0.6f, WHITE, Lang::mainMenu[2], 140);
 }
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {

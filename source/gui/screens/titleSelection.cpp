@@ -62,16 +62,16 @@ void TitleSelection::Draw(void) const
 	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, C2D_Color32(30, 190, 10, 255));
 
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0]);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0], 400);
 	
     // Draw the 3DS Gamecard.
     Gui::sprite(0, sprites_card_idx, 30, 93);
     // Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 190, 0.6f, BLACK, Lang::titleSelector[1]);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 190, 0.6f, BLACK, Lang::titleSelector[1], 80);
 
-    Gui::DrawString(190, 190, 0.6f, BLACK, Lang::titleSelector[2]);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 190, 0.6f, BLACK, Lang::titleSelector[2], 270);
 
     Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, VERSION_STRING), 216, FONT_SIZE_18, WHITE, VERSION_STRING);
 
@@ -88,10 +88,10 @@ void TitleSelection::Draw(void) const
     {
         Gui::Draw_Rect(243, 33, 52, 52, C2D_Color32(30, 130, 10, 255));
         DrawInformationBox();
-        C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 35, 1.0f);
-        Gui::DrawString((320-Gui::GetStringWidth(0.6f, titleFromIndex(selectedTitle)->name()))/2, 100+5, 0.6f, WHITE, titleFromIndex(selectedTitle)->name());
-        Gui::DrawString(100+10, 150+5, 0.6f, WHITE, "ID :");
-        Gui::DrawString(100+40, 150+5, 0.6f, WHITE, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()));
+        C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 42, 1.0f);
+        Gui::DrawString((320-Gui::GetStringWidth(0.6f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.6f, WHITE, titleFromIndex(selectedTitle)->name(), 400);
+        Gui::DrawString(100+10, 150+5, 0.6f, WHITE, "ID :", 50);
+        Gui::DrawString(100+40, 150+5, 0.6f, WHITE, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
     }
 
 

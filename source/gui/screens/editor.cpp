@@ -76,7 +76,7 @@ void Editor::DrawSubMenu(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -102,9 +102,9 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, WHITE, Lang::editor[6]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, WHITE, Lang::editor[6], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP", 140);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -144,7 +144,7 @@ void Editor::DrawBrowse(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, WHITE, Lang::editor[3]);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, WHITE, Lang::editor[3], 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -225,9 +225,9 @@ void Editor::DrawBrowse(void) const
 	}
 
 	if (Config::selector == 1) {
-		Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+		Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str(), 400);
 	} else if (Config::selector == 2 || Config::selector == 3) {
-		Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
+		Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str(), 400);
 	}
 
 	Gui::ScreenDraw(bottom);

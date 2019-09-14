@@ -120,20 +120,37 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 }
 
 // Clear the current Save Data
-Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID)
+Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID, u32 uniqueID)
 {
 	FS_Archive archive;
+	Result res		= 0;
 	Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
 
 	std::u16string dstPath = StringUtils::UTF8toUTF16("/");
 
 	FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
 
+	res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
+		if (R_FAILED(res)) {
+			FSUSER_CloseArchive(archive);
+			Msg::DisplayWaitMsg(Lang::messages[3]);
+			return res;
+		}
+
+
+	u8 out;
+	u64 secureValue = ((u64)SECUREVALUE_SLOT_SD << 32) | (uniqueID << 8);
+	res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
+		if (R_FAILED(res)) {
+			FSUSER_CloseArchive(archive);
+			Msg::DisplayWaitMsg(Lang::messages[4]);
+			return res;
+		}
 	LaunchTown(Media, TID);
 	return 0;
 }
 
-// Restore and Launch the selected Town. The current Commented out code would Launch Animal Crossing : New Leaf [EUR].
+// Restore and Launch the selected Town.
 Result TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
 {
 	Result res		= 0;
@@ -210,4 +227,32 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 			}
 	Msg::DisplayWaitMsg(Lang::messages[5]);
 	return 0;
+}
+
+// Other Useful stuff?
+
+void TownManagement::DeleteBackup(u64 ID, std::string backup) {
+	std::u16string customPath;
+	customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
+
+	customPath += StringUtils::UTF8toUTF16("/");
+
+	// Check, if the current ID is the old one.
+	if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+		if (WelcomeAmiibo == false) {
+			customPath += StringUtils::UTF8toUTF16("Old");
+		} else if (WelcomeAmiibo == true) {
+			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+		}
+	}
+
+	if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+		customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+	}
+
+	std::u16string backupPath = customPath;
+	backupPath += StringUtils::UTF8toUTF16("/");
+	backupPath += StringUtils::UTF8toUTF16(backup.c_str());
+
+	FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, backupPath.data()));
 }

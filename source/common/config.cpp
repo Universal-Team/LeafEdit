@@ -138,8 +138,8 @@ void Config::setLanguage() {
 		Gui::Draw_Rect(20, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
 		Gui::Draw_Rect(180, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
 
-		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)].c_str()))/2)-60-20, 46+(i*65), 0.65f, BLACK, Language[(2*i)].c_str());
-		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)+1].c_str()))/2)+60+20, 46+(i*65), 0.65f, BLACK, Language[(2*i)+1].c_str());
+		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)].c_str()))/2)-60-20, 46+(i*65), 0.65f, BLACK, Language[(2*i)].c_str(), 120);
+		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)+1].c_str()))/2)+60+20, 46+(i*65), 0.65f, BLACK, Language[(2*i)+1].c_str(), 120);
 	}
 
 	C3D_FrameEnd(0);
@@ -185,7 +185,7 @@ void Config::setSelector() {
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Please Select the Selector."))/2, 2, 0.8f, WHITE, "Please Select the Selector.");
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Please Select the Selector."))/2, 2, 0.8f, WHITE, "Please Select the Selector.", 400);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
 	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
@@ -195,9 +195,9 @@ void Config::setSelector() {
 	Gui::sprite(0, sprites_button_idx, SelectorPos[1].x, SelectorPos[1].y);
 	Gui::sprite(0, sprites_button_idx, SelectorPos[2].x, SelectorPos[2].y);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 1"))/2, SelectorPos[0].y+10, 0.6f, WHITE, "Selector 1");
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 2"))/2, SelectorPos[1].y+10, 0.6f, WHITE, "Selector 2");
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 3"))/2, SelectorPos[2].y+10, 0.6f, WHITE, "Selector 3");
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 1"))/2, SelectorPos[0].y+10, 0.6f, WHITE, "Selector 1", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 2"))/2, SelectorPos[1].y+10, 0.6f, WHITE, "Selector 2", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 3"))/2, SelectorPos[2].y+10, 0.6f, WHITE, "Selector 3", 140);
 
 	C3D_FrameEnd(0);
 	while(1)

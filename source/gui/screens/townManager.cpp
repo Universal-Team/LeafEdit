@@ -42,12 +42,13 @@ extern u32 currentLowID;
 extern u32 currentHighID;
 extern u32 currentUniqueID;
 std::string selectedSaveFolder = "";
+std::string currentBackup = "";
 
 void TownManager::Draw(void) const
 {
 	if (screenMode == 0) {
 		DrawSubMenu();
-	} else if (screenMode == 1 || screenMode == 2) {
+	} else if (screenMode == 1 || screenMode == 2 || screenMode == 3) {
 		DrawBrowse();
 	}
 }
@@ -62,7 +63,7 @@ void TownManager::DrawSubMenu(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str());
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -74,21 +75,52 @@ void TownManager::DrawSubMenu(void) const
 		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[0].x, townButtons[0].y, selectedColor);
 		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
 		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
 
 	} else if (Selection == 1) {
 		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
 		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[1].x, townButtons[1].y, selectedColor);
 		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
 
 	} else if (Selection == 2) {
 		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
 		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
 		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[2].x, townButtons[2].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
+
+	} else if (Selection == 3) {
+		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[3].x, townButtons[3].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
+
+	} else if (Selection == 4) {
+		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
+		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[4].x, townButtons[4].y, selectedColor);
 	}
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2, townButtons[0].y+10, 0.6f, WHITE, Lang::townmanager[0]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2, townButtons[1].y+10, 0.6f, WHITE, Lang::townmanager[1]);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2, townButtons[2].y+10, 0.6f, WHITE, Lang::townmanager[2]);
+		// Launch a Town from a Backup or just start the game.
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, BLACK, Lang::townmanager[0], 130);
+
+		// Backup the Save from the installed Title / Gamecard. 
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, BLACK, Lang::townmanager[1], 130);
+
+		// Restore a Backuped save.
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, BLACK, Lang::townmanager[2], 130);
+
+
+		// Delete Save from Installed Title / Gamecard.
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, BLACK, "Delete Town", 130);
+
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, BLACK, "Delete Backup", 130);
 }
 
 
@@ -114,13 +146,22 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 						}
 						break;
 				 	case 2: {
-							screenMode = 1;
-							dirChanged = true;
+						screenMode = 1;
+						dirChanged = true;
+						break;
+					 } case 3: {
+						if (Msg::promptMsg("Would you like, to delete this Game's Town?\nYour Game will start directly after it.")) {
+							TownManagement::CreateNewTown(currentMedia, currentID, currentLowID, currentHighID, currentUniqueID);
+						}
+						break;
+					 } case 4: {
+						screenMode = 3;
+						dirChanged = true;
 						break;
 					 }
 				}
 			}
-		} else if (screenMode == 1 || screenMode == 2) {
+		} else if (screenMode == 1 || screenMode == 2 || screenMode == 3) {
 			BrowseLogic(hDown, hHeld);
 		}
 }
@@ -130,7 +171,7 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
+		if(Selection < 4)	Selection++;
 	}
 }
 
@@ -140,13 +181,16 @@ void TownManager::DrawBrowse(void) const
 	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
 	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+
 	if (screenMode == 1) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, WHITE, Lang::townmanager[3]);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, WHITE, Lang::townmanager[3], 400);
 	} else if (screenMode == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[4]))/2, 2, 0.72f, WHITE, Lang::townmanager[4]);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[4]))/2, 2, 0.72f, WHITE, Lang::townmanager[4], 400);
+	} else if (screenMode == 3) {
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Backup to delete."))/2, 2, 0.72f, WHITE, "Select a Backup to delete.", 400);
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 218, 0.60f, WHITE, Lang::messages2[9]);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 218, 0.60f, WHITE, Lang::messages2[9], 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -227,12 +271,12 @@ void TownManager::DrawBrowse(void) const
 	}
 
 	if (Config::selector == 1) {
-		Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str());
+		Gui::DrawString(26, 32, 0.53f, WHITE, dirs.c_str(), 400);
 	} else if (Config::selector == 2 || Config::selector == 3) {
-		Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str());
+		Gui::DrawString(26, 32, 0.53f, BLACK, dirs.c_str(), 400);
 	}
 
-	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str());
+	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
@@ -293,6 +337,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 				screenMode = 0;
 			}
 		}
+
 	} else if (screenMode == 2) {
 		if(hDown & KEY_A) {
 			std::string prompt = Lang::messages2[4];
@@ -306,6 +351,16 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
 				selectedSaveFolder = "";
 				TownManagement::LaunchTown(currentMedia, currentID);
+			}
+		}
+
+	} else if (screenMode == 3) {
+		if (hDown & KEY_A) {
+			if(Msg::promptMsg("Would you like, to delete this Backup?")) {
+				currentBackup += dirContents[selectedSave].name.c_str(); // Get the actual Backup Folder.
+				TownManagement::DeleteBackup(currentID, currentBackup.c_str()); // We delete the Backup now.
+				currentBackup = ""; // We reset the Backup Folder.
+				dirChanged = true; // We want to refresh the list after it.
 			}
 		}
 	}
