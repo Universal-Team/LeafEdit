@@ -7,8 +7,10 @@ This is a work in progress Animal Crossing : New Leaf Save Manager & Editor for 
 ### Main Developers
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ): App Idea and Main Developer.
 ### Translators
+- [Daniyel33](https://github.com/Daniyel33): Spanish
 - [Epicpkmn11](https://github.com/Epicpkmn11): Japanese & English
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ): German & English
+- [YoSoy](https://twitter.com/riku200): Spanish
 ### Others
 
 - [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK) : For the Core part and the Villager Sprites!
