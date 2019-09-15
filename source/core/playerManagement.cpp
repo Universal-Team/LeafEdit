@@ -44,35 +44,6 @@
 
 extern Save* SaveFile;
 
-// Player Stuff.
-extern std::string player1Name; // Player Name [Mayor].
-extern std::string player1Wallet; // Player Wallet Amount [Mayor].
-extern std::string player1Tan; //Player Tan [Mayor].
-extern std::string player1Bank;
-extern std::string player1Medals;
-extern std::string player1Coupons;
-
-extern std::string player2Name; // Player Name [2].
-extern std::string player2Wallet; // Player Wallet Amount [2].
-extern std::string player2Tan; //Player Tan [2].
-extern std::string player2Bank;
-extern std::string player2Medals;
-extern std::string player2Coupons;
-
-extern std::string player3Name; // Player Name [3].
-extern std::string player3Wallet; // Player Wallet Amount [3].
-extern std::string player3Tan; //Player Tan [3].
-extern std::string player3Bank;
-extern std::string player3Medals;
-extern std::string player3Coupons;
-
-extern std::string player4Name; // Player Name [4].
-extern std::string player4Wallet; // Player Wallet Amount [4].
-extern std::string player4Tan; // Player Tan [4].
-extern std::string player4Bank;
-extern std::string player4Medals;
-extern std::string player4Coupons;
-
 
 // Player Names.
 void PlayerManagement::PlayerName(int currentPlayer, std::string name)
@@ -117,11 +88,7 @@ void PlayerManagement::PlayerTan(int currentPlayer, std::string tan)
 {
     tan = Input::Numpad(2, Lang::keyboard[1]);
 	if (tan != "") {
-		if (u16 tanValue = static_cast<u16>(std::stoi(tan.c_str())) <= 15) {
 			SaveFile->players[currentPlayer]->PlayerTan = static_cast<u16>(std::stoi(tan.c_str()));
-		} else {
-			Msg::DisplayWarnMsg("This Tan Value is too high!");
-		}
 	} else {
 		Msg::DisplayWarnMsg("This is not a valid Tan!");
 	}
