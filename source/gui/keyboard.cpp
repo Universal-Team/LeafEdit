@@ -141,15 +141,9 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         	C2D_TargetClear(top, BLACK);
         	C2D_TargetClear(bottom, BLACK);
-			Gui::ScreenDraw(top);
-			Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-			Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-			Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+			Gui::DrawTop();
 			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
-			Gui::ScreenDraw(bottom);
-			Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-			Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-			Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+			Gui::DrawBottom();
 			drawKeyboard();
 			C2D_DrawRectSolid(0, 78, 0.5f, 320, 20, GREEN);
 			Gui::DrawString(5, 79, 0.6, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 400);

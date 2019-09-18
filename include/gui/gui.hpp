@@ -91,6 +91,10 @@ namespace Gui
     void GetStringSize(float size, float *width, float *height, std::string Text);
     float GetStringWidth(float size, std::string Text);
     float GetStringHeight(float size, std::string Text);
+
+    // GUI Functions.
+    void DrawTop();
+    void DrawBottom();
 }
 
 void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y);

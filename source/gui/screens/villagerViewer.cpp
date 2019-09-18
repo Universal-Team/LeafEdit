@@ -89,10 +89,7 @@ void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerViewer::Villager1Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[0]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -108,19 +105,13 @@ void VillagerViewer::Villager1Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager2Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[1]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -136,19 +127,13 @@ void VillagerViewer::Villager2Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager3Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[2]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -164,19 +149,13 @@ void VillagerViewer::Villager3Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager4Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[3]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -192,19 +171,13 @@ void VillagerViewer::Villager4Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager5Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[4]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -220,19 +193,13 @@ void VillagerViewer::Villager5Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager6Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[5]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -248,19 +215,13 @@ void VillagerViewer::Villager6Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager7Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[6]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -276,19 +237,13 @@ void VillagerViewer::Villager7Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager8Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[7]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -304,19 +259,13 @@ void VillagerViewer::Villager8Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager9Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[8]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -332,19 +281,13 @@ void VillagerViewer::Villager9Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 
 void VillagerViewer::Villager10Draw(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[9]->GetId();
 	Gui::villager(villagerId, 170, 60);
 	DrawCurrentVillager();
@@ -360,10 +303,7 @@ void VillagerViewer::Villager10Draw(void) const
 	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 // This will draw the current Villager and Title for the Villager Viewer Screen.

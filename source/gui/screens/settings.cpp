@@ -38,16 +38,10 @@ void Settings::Draw(void) const
 	Title += " - ";
 	Title += Lang::mainMenu[2];
 	
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 
 	if (Selection == 0) {
 		Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y, selectedColor);

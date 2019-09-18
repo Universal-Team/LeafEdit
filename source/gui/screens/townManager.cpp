@@ -59,16 +59,10 @@ void TownManager::DrawSubMenu(void) const
 	Title += Lang::title;
 	Title += " - ";
 	Title += Lang::mainMenu[0];
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 
 
 	if (Selection == 0) {
@@ -177,10 +171,7 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 
 void TownManager::DrawBrowse(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 
 	if (screenMode == 1) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, WHITE, Lang::townmanager[3], 400);
@@ -278,10 +269,7 @@ void TownManager::DrawBrowse(void) const
 
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 void TownManager::BrowseLogic(u32 hDown, u32 hHeld) { 

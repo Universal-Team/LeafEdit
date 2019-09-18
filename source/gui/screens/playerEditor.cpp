@@ -77,10 +77,7 @@ void PlayerEditor::Draw(void) const
 void PlayerEditor::DrawBottom(void) const
 {
 	// Player Bottom.
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 
 		Gui::sprite(0, sprites_button_idx, playerButtons[0].x, playerButtons[0].y);
 		Gui::sprite(0, sprites_button_idx, playerButtons[1].x, playerButtons[1].y);
@@ -324,10 +321,7 @@ void PlayerEditor::Player1Draw(void) const
 	CouponsAmount += Coupons.c_str();
 
 
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 
 		// Game Specific Things.
 		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
@@ -388,10 +382,7 @@ void PlayerEditor::Player2Draw(void) const
 	CouponsAmount += Coupons.c_str();
 
 
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 
 		// Game Specific Things.
 		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
@@ -452,10 +443,7 @@ void PlayerEditor::Player3Draw(void) const
 	CouponsAmount += Coupons.c_str();
 
 
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 
 		// Game Specific Things.
 		Gui::Draw_Rect(40, 37, 320, 22, GRAY);
@@ -517,10 +505,7 @@ void PlayerEditor::Player4Draw(void) const
 	CouponsAmount += Coupons.c_str();
 
 
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 
 		// Game Specific Things.
 		Gui::Draw_Rect(40, 37, 320, 22, GRAY);

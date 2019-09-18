@@ -84,10 +84,7 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 // Villager Editor Screen.
 void VillagerEditor::DrawSubMenu(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 
 	if (subMenuPage == 1) {
 		Gui::Draw_Rect(5, 30, 70, 70, GRAY);
@@ -291,10 +288,7 @@ void VillagerEditor::DrawSubMenu(void) const
 	DrawSelection();
 	DrawSubMenuPage();
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+	Gui::DrawBottom();
 }
 
 void VillagerEditor::DrawSelection(void) const

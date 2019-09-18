@@ -72,10 +72,7 @@ void Editor::DrawSubMenu(void) const
 	Title += " - ";
 	Title += Lang::editor[2];
 
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
@@ -140,10 +137,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 
 void Editor::DrawBrowse(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, WHITE, Lang::editor[3], 400);
 
 	std::string dirs;
