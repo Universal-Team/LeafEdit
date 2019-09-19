@@ -24,13 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/screens/screenCommon.hpp"
-#include "gui/screens/villagerEditor.hpp"
-#include "gui/screens/villagerViewer.hpp"
+#include "core/villagerManagement.hpp"
 
 #include "core/save/offsets.h"
 #include "core/save/save.h"
 #include "core/save/villager.h"
+
+#include "gui/screens/screenCommon.hpp"
+#include "gui/screens/villagerEditor.hpp"
+#include "gui/screens/villagerViewer.hpp"
 
 #include <3ds.h>
 #include <sys/stat.h>
@@ -91,7 +93,7 @@ void VillagerViewer::Villager1Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[0]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -113,7 +115,7 @@ void VillagerViewer::Villager2Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[1]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -135,7 +137,7 @@ void VillagerViewer::Villager3Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[2]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -157,7 +159,7 @@ void VillagerViewer::Villager4Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[3]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -179,7 +181,7 @@ void VillagerViewer::Villager5Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[4]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -201,7 +203,7 @@ void VillagerViewer::Villager6Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[5]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -223,7 +225,7 @@ void VillagerViewer::Villager7Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[6]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -245,7 +247,7 @@ void VillagerViewer::Villager8Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[7]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -267,7 +269,7 @@ void VillagerViewer::Villager9Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[8]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.
@@ -289,7 +291,7 @@ void VillagerViewer::Villager10Draw(void) const
 {
 	Gui::DrawTop();
     u16 villagerId = Save::Instance()->villagers[9]->GetId();
-	Gui::villager(villagerId, 170, 60);
+	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
 	// Villager ID.

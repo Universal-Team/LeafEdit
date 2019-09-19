@@ -33,6 +33,7 @@
 
 namespace VillagerManagement
 {
+	void DrawVillager(u16 villagerId, int x, int y); // Draw the Villager sprite.
 }
 
 #endif

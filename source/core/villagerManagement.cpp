@@ -36,6 +36,9 @@ extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::string villagerNameText;
 
+extern C2D_SpriteSheet Villager;
+extern C2D_SpriteSheet Villager2;
+
 struct Villagers {
     int species; // or std::string?
     std::string name;
@@ -54,4 +57,18 @@ std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, int spec
     }
 
     return outVector;
+}
+
+// Draw the Villager sprite.
+void VillagerManagement::DrawVillager(u16 villagerId, int x, int y) {
+	if (villagerId > 399) {
+		villagerId = 399;
+	}
+
+	if (villagerId < 200) {
+		DrawSprite(Villager, villagerId, x, y);
+	}
+	else {
+		DrawSprite(Villager2, villagerId - 200, x, y);
+	}
 }
