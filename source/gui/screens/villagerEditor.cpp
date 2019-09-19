@@ -39,7 +39,6 @@ extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::string villagerNameText;
 
-
 void VillagerEditor::Draw(void) const
 {
 	if (editorMode == 1) {
@@ -84,7 +83,32 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 // Villager Editor Screen.
 void VillagerEditor::DrawSubMenu(void) const
 {
+	std::string Title;
+	Title += Lang::title;
+	Title += " - ";
+	Title += "Villager";
+	Title += " ";
+	Title += "Editor";
+	Title += " - ";
+	Title += "SubMenu";
+
+	// Initial String.
+	std::string currentPage = Lang::misc[0];
+	currentPage += " ";
+
+	// currentPage
+	for (int i = 1; i < 5; i++) {
+		if (subMenuPage == i) {
+			currentPage += std::to_string(i);
+		}
+	}
+
+	currentPage += " / 4";
+
 	Gui::DrawTop();
+
+	Gui::DrawString((400-Gui::GetStringWidth(0.55f, currentPage.c_str()))/2, 215, 0.55f, WHITE, currentPage.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
 	if (subMenuPage == 1) {
 		Gui::Draw_Rect(5, 30, 70, 70, GRAY);
@@ -286,7 +310,6 @@ void VillagerEditor::DrawSubMenu(void) const
 
 	// Draw Selection.
 	DrawSelection();
-	DrawSubMenuPage();
 
 	Gui::DrawBottom();
 }
@@ -317,31 +340,4 @@ void VillagerEditor::DrawSelection(void) const
 	} else if (currentSlot == 5 && currentRow == 2) {
 		Gui::drawAnimatedSelector(325, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 	}
-}
-
-void VillagerEditor::DrawSubMenuPage(void) const
-{
-	std::string Title;
-	Title += Lang::title;
-	Title += " - ";
-	Title += "Villager";
-	Title += " ";
-	Title += "Editor";
-	Title += " - ";
-	Title += "SubMenu";
-
-	// Initial String.
-	std::string currentPage = Lang::misc[0];
-	currentPage += " ";
-
-	// currentPage
-	for (int i = 1; i < 5; i++) {
-		if (subMenuPage == i) {
-			currentPage += std::to_string(i);
-		}
-	}
-
-	currentPage += " / 4";
-	Gui::DrawString((400-Gui::GetStringWidth(0.55f, currentPage.c_str()))/2, 215, 0.55f, WHITE, currentPage.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 }

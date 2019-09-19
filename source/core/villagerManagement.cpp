@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
@@ -24,44 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGEREDITOR_HPP
-#define VILLAGEREDITOR_HPP
+#include "core/villagerManagement.hpp"
 
-#include "common/fileBrowse.h"
-#include "common/structs.hpp"
+#include "core/save/offsets.h"
+#include "core/save/save.h"
+#include "core/save/villager.h"
 
-#include "gui/screens/screen.hpp"
+#include "gui/screens/screenCommon.hpp"
 
-#include <vector>
+extern Save* SaveFile;
+extern std::vector<std::string> g_villagerDatabase;
+extern std::string villagerNameText;
 
-class VillagerEditor : public SCREEN 
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
-private:
-
-	// Basic Stuff.
-	int editorMode = 1;
-	int group = 1;
-	int subMenuPage = 1;
-
-	/*
-		SUB MENU.
-	*/
-	void DrawSubMenu(void) const;
-	void DrawSelection(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch); // SubMenu Logic.
-	
-
-	// Villager Editor Stuff.
-	bool isSelected = false; // If the Villager is Selected, this would be true.
-	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
-	u16 selectedVillager; // This would be the new Selected Villager.
-	int currentRow = 1; // Return the current Selected Row.
-	int currentSlot = 1; // Return the current Selected Slot.
-
+struct Villagers {
+    int species; // or std::string?
+    std::string name;
 };
 
-#endif
+std::vector<Villagers> villagersData = {
+    {12},  // vector index is the id, put the species and any other data you might need here, load the names from lang files later
+    {13},
+};
+
+std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, int species) {
+    std::vector<Villagers> outVector;
+
+    for(uint i=0;i<inVector.size();i++) {
+        if(inVector[i].species == species)    outVector.push_back(inVector[i]);
+    }
+
+    return outVector;
+}

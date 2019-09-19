@@ -24,44 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGEREDITOR_HPP
-#define VILLAGEREDITOR_HPP
+#ifndef VILLAGERMANAGEMENT_HPP
+#define VILLAGERMANAGEMENT_HPP
 
-#include "common/fileBrowse.h"
-#include "common/structs.hpp"
+#include <3ds.h>
+#include <stdio.h>
+#include <string>
 
-#include "gui/screens/screen.hpp"
-
-#include <vector>
-
-class VillagerEditor : public SCREEN 
+namespace VillagerManagement
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
-private:
-
-	// Basic Stuff.
-	int editorMode = 1;
-	int group = 1;
-	int subMenuPage = 1;
-
-	/*
-		SUB MENU.
-	*/
-	void DrawSubMenu(void) const;
-	void DrawSelection(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch); // SubMenu Logic.
-	
-
-	// Villager Editor Stuff.
-	bool isSelected = false; // If the Villager is Selected, this would be true.
-	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
-	u16 selectedVillager; // This would be the new Selected Villager.
-	int currentRow = 1; // Return the current Selected Row.
-	int currentSlot = 1; // Return the current Selected Slot.
-
-};
+}
 
 #endif
