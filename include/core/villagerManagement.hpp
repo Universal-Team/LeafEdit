@@ -34,6 +34,7 @@
 namespace VillagerManagement
 {
 	void DrawVillager(u16 villagerId, int x, int y); // Draw the Villager sprite.
+	void LoadVillagerDatabase(int lang); // Load the Villager Names.
 }
 
 #endif

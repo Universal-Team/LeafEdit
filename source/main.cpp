@@ -33,6 +33,7 @@
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
+#include "core/villagerManagement.hpp"
 
 #include "gui/gui.hpp"
 
@@ -163,7 +164,7 @@ int main()
 	// Load The Strings from the Romfs.
 	
 	Lang::loadLangStrings(Config::lang);
-	LoadVillagerDatabase(Config::lang);
+	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
 	TestStuff();
 

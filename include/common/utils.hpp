@@ -23,5 +23,4 @@ namespace EditorUtils
 }
 
 u16             strToU16(std::string str);
-void            LoadVillagerDatabase(int lang);
 #endif

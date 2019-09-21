@@ -41,6 +41,8 @@ extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::string villagerNameText;
 
+extern int getSpecies(int id);
+
 void VillagerEditor::Draw(void) const
 {
 	if (editorMode == 1) {
@@ -66,11 +68,26 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if (hDown & KEY_UP) {
 		if(currentRow > 1)	currentRow--;
 	} else if (hDown & KEY_DOWN) {
-		if(currentRow < 2)	currentRow++;
+		if(subMenuPage == 4) {
+		} else {
+			if(currentRow < 2)	currentRow++;
+		}
 	}
 
 	if (hDown & KEY_R) {
-		if(subMenuPage < 4)	subMenuPage++;
+		if(subMenuPage == 3) {
+			if(currentRow == 2) {
+				if(currentSlot == 1 || currentSlot == 2 || currentSlot == 3 || currentSlot == 4 || currentSlot == 5) {
+					subMenuPage = 4;
+					currentRow = 1;
+					currentSlot = 5;
+				}
+			} else {
+				subMenuPage++;
+			}
+		} else {
+			if(subMenuPage < 4)	subMenuPage++;
+		}
 	} else if (hDown & KEY_L) {
 		if(subMenuPage > 1)	subMenuPage--;
 	}

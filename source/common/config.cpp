@@ -29,6 +29,8 @@
 #include "common/structs.hpp"
 #include "common/utils.hpp"
 
+#include "core/villagerManagement.hpp"
+
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
 
@@ -169,7 +171,7 @@ void Config::setLanguage() {
 			}
 		}
     }
-	LoadVillagerDatabase(Config::lang);
+	VillagerManagement::LoadVillagerDatabase(Config::lang);
 	Lang::loadLangStrings(Config::lang);
 	Config::saveConfig();
 }

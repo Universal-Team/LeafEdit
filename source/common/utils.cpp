@@ -8,8 +8,6 @@
 #include <sstream>
 #include <string>
 
-std::vector<std::string> g_villagerDatabase;
-
 // StringUtils.
 
 std::u16string StringUtils::UTF8toUTF16(const char* src)
@@ -106,22 +104,4 @@ u16 strToU16(std::string str) {
     ss >> out;
 
     return out;
-}
-
-std::string languages[] = { "de", "en", "es", "fr", "it", "jp"};
-
-void LoadVillagerDatabase(int lang) {
-    g_villagerDatabase.clear();
-
-    std::string currentLine;
-        std::ifstream villagerDatabase("romfs:/lang/" + languages[lang] + "/villager.txt", std::ifstream::in);
-
-
-
-    while (std::getline(villagerDatabase, currentLine)) {
-        // TODO: Read default things like personality, catchphrases, & furniture.
-        g_villagerDatabase.push_back(currentLine);
-    }
-
-    villagerDatabase.close();
 }

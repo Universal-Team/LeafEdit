@@ -45,6 +45,7 @@ u32 currentHighID;
 u32 currentUniqueID;
 FS_MediaType currentMedia;
 
+bool titleIsLoaded = false;
 
 void TitleSelection::Draw(void) const
 {
@@ -202,10 +203,14 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
             currentLowID = titleFromIndex(selectedTitle)->lowId();
             currentHighID = titleFromIndex(selectedTitle)->highId();
             currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
+            titleIsLoaded = true;
         }
 		Gui::setScreen(std::make_unique<MainMenu>());
 	} else if (hDown & KEY_SELECT) {
         GameLoader::updateCheck2();
+    } else if (hDown & KEY_Y) {
+        titleIsLoaded = false;
+        Gui::setScreen(std::make_unique<MainMenu>());
     }
 }
 
