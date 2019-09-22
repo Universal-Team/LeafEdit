@@ -7,6 +7,7 @@ $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>dev
 endif
 
 TOPDIR ?= $(CURDIR)
+include $(DEVKITARM)/3ds_rules
 
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))

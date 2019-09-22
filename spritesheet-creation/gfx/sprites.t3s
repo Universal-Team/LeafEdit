@@ -2,7 +2,11 @@
 
 sprites/back.png
 sprites/button.png
+sprites/bottombar.png
+sprites/bottombg.png
 sprites/card.png
+sprites/topbar.png
+sprites/topbg.png
 
 sprites/keyboard/normal_key.png
 sprites/keyboard/left_shift.png
