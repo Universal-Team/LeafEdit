@@ -96,15 +96,15 @@ void VillagerViewer::Villager1Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[0]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -118,15 +118,15 @@ void VillagerViewer::Villager2Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[1]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -140,15 +140,15 @@ void VillagerViewer::Villager3Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[2]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -162,15 +162,15 @@ void VillagerViewer::Villager4Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[3]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -184,15 +184,15 @@ void VillagerViewer::Villager5Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[4]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -206,15 +206,15 @@ void VillagerViewer::Villager6Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[5]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -228,15 +228,15 @@ void VillagerViewer::Villager7Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[6]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -250,15 +250,15 @@ void VillagerViewer::Villager8Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[7]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -272,15 +272,15 @@ void VillagerViewer::Villager9Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+	
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
-	villagerID += std::to_string(Save::Instance()->villagers[8]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
+	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -294,15 +294,15 @@ void VillagerViewer::Villager10Draw(void) const
 	VillagerManagement::DrawVillager(villagerId, 170, 60);
 	DrawCurrentVillager();
 
+	DrawBox();
+
 	// Villager ID.
 	std::string villagerID = "Villager ID: ";
 	villagerID += std::to_string(Save::Instance()->villagers[9]->GetId());
-	Gui::Draw_Rect(40, 162, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, WHITE, villagerID.c_str(), 320);
 
 	// Villager Name.
 	villagerNameText = g_villagerDatabase[villagerId];
-	Gui::Draw_Rect(40, 132, 320, 22, GRAY);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, WHITE, villagerNameText.c_str(), 320);
 
 	Gui::DrawBottom();
@@ -328,4 +328,9 @@ void VillagerViewer::DrawCurrentVillager(void) const
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, WHITE, activeVillager.c_str(), 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
+}
+
+void VillagerViewer::DrawBox(void) const {
+	Gui::sprite(0, sprites_topbox_idx, 40, 162);
+	Gui::sprite(0, sprites_topbox_idx, 40, 132);
 }

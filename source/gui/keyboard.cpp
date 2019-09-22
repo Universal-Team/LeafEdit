@@ -94,7 +94,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Input::DrawNumpad()
 {
 	for(uint i=0;i<(sizeof(NumpadStruct)/sizeof(NumpadStruct[0]));i++) {
-		C2D_DrawRectSolid(NumpadStruct[i].x, NumpadStruct[i].y, 0.5f, 60, 50, GREEN);
+		Gui::sprite(0, sprites_numpad_idx, NumpadStruct[i].x, NumpadStruct[i].y);
 		char c[2] = {NumpadStruct[i].character[0]};
 		Gui::DrawString(NumpadStruct[i].x+25, NumpadStruct[i].y+15, 0.72f, BLACK, c, 50);
 	}

@@ -5,10 +5,15 @@ sprites/button.png
 sprites/bottombar.png
 sprites/bottombg.png
 sprites/card.png
+sprites/titleBottom.png
+sprites/titleTop.png
 sprites/topbar.png
 sprites/topbg.png
+sprites/topbox.png
+sprites/villagerBox.png
 
 sprites/keyboard/normal_key.png
+sprites/keyboard/numpad.png
 sprites/keyboard/left_shift.png
 sprites/keyboard/right_shift.png
 sprites/keyboard/space.png

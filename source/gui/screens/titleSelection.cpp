@@ -47,57 +47,42 @@ FS_MediaType currentMedia;
 
 bool titleIsLoaded = false;
 
-void TitleSelection::Draw(void) const
-{
-	Gui::ScreenDraw(top);
+void TitleSelection::Draw(void) const {
+    Gui::ScreenDraw(top);
+    Gui::sprite(0, sprites_topbar_idx, 0, 0);
+    Gui::sprite(0, sprites_titleTop_idx, 0, 27);
+    Gui::sprite(0, sprites_topbar_idx, 0, 213);
 
-	// Draw the BG.
-	Gui::Draw_Rect(0, 0, 400.0f, 240.0f, GRAY);
-
-	// Draw the Top Bars.
-	Gui::Draw_Rect(0, 0, 400.0f, 25.0f, SelectorBlue);
-    Gui::Draw_Rect(0, 215, 400.0f, 25.0f, SelectorBlue);
-
-    // Draw the Two Rectangles for the Gamecard and installed Titles.
-	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, BarGreen);
-	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, BarGreen);
-
-
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0], 400);
+    Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0], 400);
 	
     // Draw the 3DS Gamecard.
     Gui::sprite(0, sprites_card_idx, 30, 93);
     // Draw the Available Titles on the Top Screen.
-	TitleDraw();
+    TitleDraw();
 
-    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 190, 0.6f, BLACK, Lang::titleSelector[1], 80);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 180, 0.6f, BLACK, Lang::titleSelector[1], 80);
 
-    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 190, 0.6f, BLACK, Lang::titleSelector[2], 270);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 180, 0.6f, BLACK, Lang::titleSelector[2], 270);
 
     Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, WHITE, V_STRING, 400);
 
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
+    if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, SelectorBlue);
-	Gui::Draw_Rect(0, 30, 320, 180, BarGreen);
-	Gui::Draw_Rect(0, 210, 320, 30, SelectorBlue);
+    Gui::ScreenDraw(bottom);
+    Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+    Gui::sprite(0, sprites_titleBottom_idx, 0, 27);
+    Gui::sprite(0, sprites_bottombar_idx, 0, 213);
     Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, WHITE, "Press Y, to skip the Title Selection.", 320);
 
     // Draw the current Selected Title on the Bottom Screen with informations.
     if (selectedTitle != -2)
     {
-        Gui::Draw_Rect(245, 42, 48, 48, C2D_Color32(30, 130, 10, 255));
-        DrawInformationBox();
-        C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 42, 1.0f);
-        Gui::DrawString((320-Gui::GetStringWidth(0.6f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.6f, WHITE, titleFromIndex(selectedTitle)->name(), 400);
-        Gui::DrawString(100+10, 150+5, 0.6f, WHITE, "ID :", 50);
-        Gui::DrawString(100+40, 150+5, 0.6f, WHITE, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
+        C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 1.0f);
+        Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 100, 0.7f, WHITE, titleFromIndex(selectedTitle)->name(), 400);
+        Gui::DrawString(90, 150, 0.6f, WHITE, "ID :", 50);
+        Gui::DrawString(90+30, 150, 0.6f, WHITE, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
     }
-
-
-
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
@@ -246,11 +231,4 @@ void TitleSelection::TitleDraw(void) const
             Gui::drawAnimatedSelector(x - 1, y - 1, 50, 50, .025f, C2D_Color32(255, 255, 255, 100));
         }
     }
-}
-
-void TitleSelection::DrawInformationBox(void) const
-{
-    Gui::Draw_Rect(0, 100, 320, 30, GRAY);
-
-    Gui::Draw_Rect(100, 150, 140, 30, GRAY);
 }

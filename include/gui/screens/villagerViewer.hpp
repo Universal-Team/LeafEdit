@@ -59,6 +59,7 @@ private:
 
 	// Current Villager and Title Draw.
 	void DrawCurrentVillager(void) const;
+	void DrawBox(void) const;
 };
 
 #endif
