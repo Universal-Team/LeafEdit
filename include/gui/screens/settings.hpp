@@ -56,6 +56,8 @@ private:
 	uint selectedSpriteSheet = 0;
 	int keyRepeatDelay = 3;
 	mutable bool dirChanged = true;
+	std::string selectedSheet = "";
+	std::string finalSheet = "";
 	std::vector<DirEntry> dirContents;
 };
 

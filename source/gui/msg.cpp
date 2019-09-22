@@ -112,3 +112,19 @@ void Msg::DisplayMsg(std::string Message) {
 void Msg::NotImplementedYet(void) {
 	Msg::DisplayWarnMsg(Lang::notImplemented);
 }
+
+void Msg::SheetMsg(std::string Message) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 240, DARKGRAY);
+
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, WHITE, Message.c_str(), 400);
+
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 240, DARKGRAY);
+	C3D_FrameEnd(0);
+}

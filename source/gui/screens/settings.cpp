@@ -35,8 +35,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-std::string selectedSheet = "";
-
 void Settings::Draw(void) const
 {
 	if(screenMode == 0) {
@@ -230,15 +228,16 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			prompt += "'";
 			if(Msg::promptMsg(prompt.c_str())) {
 				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
-				std::string finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
+				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
 				finalSheet += selectedSheet.c_str();
-				Msg::DisplayWarnMsg("Now freeing the SpriteSheet...");
+				Msg::SheetMsg("Now freeing the SpriteSheet...");
 				C2D_SpriteSheetFree(sprites);
-				Msg::DisplayWarnMsg("Now Loading the new SpriteSheet...");
+				Msg::SheetMsg("Now Loading the new SpriteSheet...");
 				sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
-				selectedSheet = "";
-				screenMode = 0;
 			}
+			finalSheet = "";
+			selectedSheet = "";
+			screenMode = 0;
 		}
 
 		if (hHeld & KEY_UP) {
