@@ -26,6 +26,7 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
+#include "common/fileBrowse.h"
 #include "common/structs.hpp"
 
 #include "gui/screens/screen.hpp"
@@ -41,12 +42,21 @@ public:
 private:
 	int Selection = 0;
 	void SelectionLogic(u32 hDown, u32 hHeld);
+	
+	void DrawSpriteSheetSelection(void) const;
+	void SpriteSheetLogic(u32 hDown, u32 hHeld);
 
 	std::vector<Structs::ButtonPos> settingsButtons = {
     	{90, 40, 140, 35, -1}, // Language
 		{90, 100, 140, 35, -1}, // Selector
 		{90, 160, 140, 35, -1}, // ?
 	};
+
+	int screenMode = 0;
+	uint selectedSpriteSheet = 0;
+	int keyRepeatDelay = 3;
+	mutable bool dirChanged = true;
+	std::vector<DirEntry> dirContents;
 };
 
 #endif

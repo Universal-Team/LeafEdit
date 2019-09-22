@@ -123,6 +123,7 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
 	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
+	mkdir("sdmc:/LeafEdit/SpriteSheets", 0777); // Spritesheets path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 
