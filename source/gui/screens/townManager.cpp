@@ -181,7 +181,7 @@ void TownManager::DrawBrowse(void) const
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Backup to delete."))/2, 2, 0.72f, WHITE, "Select a Backup to delete.", 400);
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 218, 0.60f, WHITE, Lang::messages2[9], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, WHITE, Lang::messages2[9], 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -276,7 +276,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 			if (dirChanged) {
-            dirContents.clear();
+			dirContents.clear();
 		std::string customPath = "sdmc:/LeafEdit/Towns/";
 
 		// EUR.
@@ -306,18 +306,20 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 
 
 			chdir(customPath.c_str());
-            std::vector<DirEntry> dirContentsTemp;
-            getDirectoryContents(dirContentsTemp);
-            for(uint i=0;i<dirContentsTemp.size();i++) {
-                  dirContents.push_back(dirContentsTemp[i]);
-        }
+			std::vector<DirEntry> dirContentsTemp;
+			getDirectoryContents(dirContentsTemp);
+			for(uint i=0;i<dirContentsTemp.size();i++) {
+				dirContents.push_back(dirContentsTemp[i]);
+		}
 		dirChanged = false;
 	}
 	if (screenMode == 1) {
 		if(hDown & KEY_A) {
 			std::string prompt = Lang::messages2[3];
 			prompt += "\n\n";
+			prompt += "'";
 			prompt += dirContents[selectedSave].name;
+			prompt += "'";
 			if(Msg::promptMsg(prompt.c_str())) {
 				selectedSaveFolder = dirContents[selectedSave].name.c_str();
 				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
@@ -330,7 +332,9 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		if(hDown & KEY_A) {
 			std::string prompt = Lang::messages2[4];
 			prompt += "\n\n";
+			prompt += "'";
 			prompt += dirContents[selectedSave].name;
+			prompt += "'";
 			if(Msg::promptMsg(prompt.c_str())) {
 				selectedSaveFolder = dirContents[selectedSave].name.c_str();
 				if(Msg::promptMsg(Lang::messages2[10])) {

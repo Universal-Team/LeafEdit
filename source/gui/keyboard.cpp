@@ -252,12 +252,9 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         	C2D_TargetClear(top, BLACK);
         	C2D_TargetClear(bottom, BLACK);
-			Gui::ScreenDraw(top);
-			Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-			Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-			Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+			Gui::DrawTop();
 			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
-			Gui::DrawString(160, 214, 0.8, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 400);
+			Gui::DrawString(180, 212, 0.8, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 400);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			Gui::ScreenDraw(bottom);
 			Gui::Draw_Rect(0, 0, 320, 240, GRAY);

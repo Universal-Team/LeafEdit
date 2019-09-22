@@ -48,6 +48,8 @@
 
 #define SelectorBlue C2D_Color32(0, 191, 255, 255)
 
+#define BarGreen C2D_Color32(0, 200, 10, 255)
+
 #define selectedColor C2D_Color32(180, 180, 180, 255)
 
 typedef u32 Color;

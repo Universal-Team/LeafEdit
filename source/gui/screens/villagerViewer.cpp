@@ -326,6 +326,6 @@ void VillagerViewer::DrawCurrentVillager(void) const
 		}
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 215, 0.8f, WHITE, activeVillager.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, WHITE, activeVillager.c_str(), 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 }

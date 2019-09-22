@@ -199,7 +199,7 @@ std::vector<Villagers> villagers = {
 };
 
 std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, Species species) {
-    std::vector<Villagers> outVector;
+	std::vector<Villagers> outVector;
 
 	for(uint i=0;i<inVector.size();i++) {
 		if(inVector[i].species == species)    outVector.push_back(inVector[i]);
@@ -210,7 +210,7 @@ std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, Species 
 
 // example on, how to use it. (Will be deleted, when the Villager Editor is done.)
 void anotherFunction(void) {
-    std::vector<Villagers> speciesGroup = getSpeciesGroup(villagers, Bear);
+	std::vector<Villagers> speciesGroup = getSpeciesGroup(villagers, Bear);
 }
 
 int getSpecies(int id) {
@@ -284,7 +284,7 @@ int getSpecies(int id) {
 		return Tiger;
 	} else if(id <= 398) {
 		return Wolf;
-    } else {
+	} else {
 		return InvalidSpecies;
 	}
 }

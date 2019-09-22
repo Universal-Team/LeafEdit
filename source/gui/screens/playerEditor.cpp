@@ -71,7 +71,6 @@ void PlayerEditor::Draw(void) const
 	DrawCurrentPlayer();
 	DrawBottom();
 }
-	
 
 // This draws the Bottom Screen, because it is the same on every Player Screen.
 void PlayerEditor::DrawBottom(void) const
@@ -199,22 +198,22 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					case 0: {
 							PlayerManagement::PlayerName(cp, pName);
 							break;
-					}   case 1:
+					}	case 1:
 							PlayerManagement::PlayerWallet(cp, pWallet);
 							break;
-				 		case 2: {
+						case 2: {
 							PlayerManagement::PlayerTan(cp, pTan);
 							break;
-					 	} case 3: {
+						} case 3: {
 							PlayerManagement::PlayerBank(cp, pBank);
 							break;
-						 } case 4: {
+						} case 4: {
 							PlayerManagement::PlayerMedals(cp, pMedals);
 							break;
-						 } case 5: {
+						} case 5: {
 							PlayerManagement::PlayerCoupons(cp, pCoupons);
 							break;
-						 }
+						}
 					}
 
 			} else if (currentPage == 2) {
@@ -222,22 +221,22 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					case 0: {
 							PlayerManagement::PlayerMaxBank(cp, pBank);
 							break;
-					}   case 1:
+					}	case 1:
 							PlayerManagement::PlayerMaxMedals(cp, pMedals);
 							break;
-				 		case 2: {
+						case 2: {
 							PlayerManagement::PlayerMaxCoupons(cp, pCoupons);
 							break;
-					 	} case 3: {
+						} case 3: {
 							PlayerManagement::PlayerClearBank(cp, pBank);
 							break;
-						 } case 4: {
+						} case 4: {
 							PlayerManagement::PlayerClearMedals(cp, pMedals);
 							break;
-						 } case 5: {
+						} case 5: {
 							PlayerManagement::PlayerClearCoupons(cp, pCoupons);
 							break;
-						 }
+						}
 					}
 			}
 	}
@@ -559,6 +558,6 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 	endresult += " ";
 	endresult += activePlayer;
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, endresult.c_str()))/2, 215, 0.8f, WHITE, endresult.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, endresult.c_str()))/2, 212, 0.8f, WHITE, endresult.c_str(), 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 }

@@ -52,15 +52,15 @@ void TitleSelection::Draw(void) const
 	Gui::ScreenDraw(top);
 
 	// Draw the BG.
-	Gui::Draw_Rect(0, 0, 400.0f, 240.0f, C2D_Color32(30, 130, 10, 255));
+	Gui::Draw_Rect(0, 0, 400.0f, 240.0f, GRAY);
 
 	// Draw the Top Bars.
-	Gui::Draw_Rect(0, 0, 400.0f, 25.0f, C2D_Color32(30, 190, 10, 255));
-    Gui::Draw_Rect(0, 215, 400.0f, 25.0f, C2D_Color32(30, 190, 10, 255));
+	Gui::Draw_Rect(0, 0, 400.0f, 25.0f, SelectorBlue);
+    Gui::Draw_Rect(0, 215, 400.0f, 25.0f, SelectorBlue);
 
     // Draw the Two Rectangles for the Gamecard and installed Titles.
-	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, C2D_Color32(30, 190, 10, 255));
-	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, C2D_Color32(30, 190, 10, 255));
+	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, BarGreen);
+	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, BarGreen);
 
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0], 400);
@@ -76,18 +76,19 @@ void TitleSelection::Draw(void) const
 
     Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, VERSION_STRING), 216, FONT_SIZE_18, WHITE, VERSION_STRING);
 
+    Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 217, 0.72f, WHITE, "Press Y, to skip the Title Selection.", 400);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
 
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, C2D_Color32(30, 190, 10, 255));
-	Gui::Draw_Rect(0, 30, 320, 180, C2D_Color32(30, 130, 10, 255));
-	Gui::Draw_Rect(0, 210, 320, 30, C2D_Color32(30, 190, 10, 255));
+	Gui::Draw_Rect(0, 0, 320, 30, SelectorBlue);
+	Gui::Draw_Rect(0, 30, 320, 180, BarGreen);
+	Gui::Draw_Rect(0, 210, 320, 30, SelectorBlue);
 
     // Draw the current Selected Title on the Bottom Screen with informations.
     if (selectedTitle != -2)
     {
-        Gui::Draw_Rect(243, 33, 52, 52, C2D_Color32(30, 130, 10, 255));
+        Gui::Draw_Rect(245, 42, 48, 48, C2D_Color32(30, 130, 10, 255));
         DrawInformationBox();
         C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 42, 1.0f);
         Gui::DrawString((320-Gui::GetStringWidth(0.6f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.6f, WHITE, titleFromIndex(selectedTitle)->name(), 400);

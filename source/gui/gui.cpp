@@ -244,14 +244,26 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y)
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
+	Gui::Draw_Rect(0, 0, 400, 3, SelectorBlue);
+	Gui::Draw_Rect(0, 3, 400, 24, BarGreen);
+	Gui::Draw_Rect(0, 27, 400, 3, SelectorBlue);
+
 	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+
+	Gui::Draw_Rect(0, 210, 400, 3, SelectorBlue);
+	Gui::Draw_Rect(0, 213, 400, 24, BarGreen);
+	Gui::Draw_Rect(0, 237, 400, 3, SelectorBlue);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, GREEN);
+	Gui::Draw_Rect(0, 0, 320, 3, SelectorBlue);
+	Gui::Draw_Rect(0, 3, 320, 24, BarGreen);
+	Gui::Draw_Rect(0, 27, 320, 3, SelectorBlue);
+
 	Gui::Draw_Rect(0, 30, 320, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 320, 30, GREEN);
+
+	Gui::Draw_Rect(0, 210, 320, 3, SelectorBlue);
+	Gui::Draw_Rect(0, 213, 320, 24, BarGreen);
+	Gui::Draw_Rect(0, 237, 320, 3, SelectorBlue);
 }

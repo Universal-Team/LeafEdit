@@ -57,7 +57,7 @@ Structs::ButtonPos languagePos [] = {
 };
 
 Structs::ButtonPos SelectorPos [] = {
-    	{90, 40, 140, 35, -1}, // Selector 1.
+		{90, 40, 140, 35, -1}, // Selector 1.
 		{90, 100, 140, 35, -1}, // Selector 2.
 		{90, 160, 140, 35, -1}, // Selector 3.
 };
@@ -122,19 +122,13 @@ std::vector<std::string> Language = {
 
 void Config::setLanguage() {
 	touchPosition touch;
-    Gui::clearTextBufs();
-    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-    C2D_TargetClear(top, BLACK);
-    C2D_TargetClear(bottom, BLACK);
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language);
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
-	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
-	Gui::Draw_Rect(0, 215, 320, 25, GREEN);
+	Gui::DrawBottom();
 
 	for(int i=0;i<3;i++) {
 		Gui::Draw_Rect(20, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
@@ -146,7 +140,7 @@ void Config::setLanguage() {
 
 	C3D_FrameEnd(0);
 	while(1)
-    {
+	{
 		hidScanInput();
 		touchRead(&touch);
 		if(hidKeysDown() & KEY_TOUCH) {
@@ -170,7 +164,7 @@ void Config::setLanguage() {
 				break;
 			}
 		}
-    }
+	}
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 	Lang::loadLangStrings(Config::lang);
 	Config::saveConfig();
@@ -179,19 +173,13 @@ void Config::setLanguage() {
 
 void Config::setSelector() {
 	touchPosition touch;
-    Gui::clearTextBufs();
-    C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-    C2D_TargetClear(top, BLACK);
-    C2D_TargetClear(bottom, BLACK);
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, GREEN);
-	Gui::Draw_Rect(0, 30, 400, 180, DARKGRAY);
-	Gui::Draw_Rect(0, 210, 400, 30, GREEN);
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Please Select the Selector."))/2, 2, 0.8f, WHITE, "Please Select the Selector.", 400);
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 25, GREEN);
-	Gui::Draw_Rect(0, 25, 320, 190, DARKGRAY);
-	Gui::Draw_Rect(0, 215, 320, 25, GREEN);
+	Gui::DrawBottom();
 
 	Gui::sprite(0, sprites_button_idx, SelectorPos[0].x, SelectorPos[0].y);
 	Gui::sprite(0, sprites_button_idx, SelectorPos[1].x, SelectorPos[1].y);
@@ -203,7 +191,7 @@ void Config::setSelector() {
 
 	C3D_FrameEnd(0);
 	while(1)
-    {
+	{
 		hidScanInput();
 		touchRead(&touch);
 		if(hidKeysDown() & KEY_TOUCH) {

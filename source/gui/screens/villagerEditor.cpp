@@ -126,7 +126,7 @@ void VillagerEditor::DrawSubMenu(void) const
 
 	Gui::DrawTop();
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.55f, currentPage.c_str()))/2, 215, 0.55f, WHITE, currentPage.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, currentPage.c_str()))/2, 212, 0.8f, WHITE, currentPage.c_str(), 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
 
 	if (subMenuPage == 1) {
