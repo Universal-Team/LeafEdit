@@ -171,7 +171,10 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 
 void TownManager::DrawBrowse(void) const
 {
-	Gui::DrawTop();
+	Gui::ScreenDraw(top);
+	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
+	Gui::sprite(0, sprites_topbar_idx, 0, 213);
 
 	if (screenMode == 1) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, WHITE, Lang::townmanager[3], 400);
@@ -269,7 +272,10 @@ void TownManager::DrawBrowse(void) const
 
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
 
-	Gui::DrawBottom();
+	Gui::ScreenDraw(bottom);
+	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
+	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
 }
 
 void TownManager::BrowseLogic(u32 hDown, u32 hHeld) { 

@@ -3,14 +3,21 @@
 sprites/back.png
 sprites/button.png
 sprites/bottombar.png
-sprites/bottombg.png
 sprites/card.png
-sprites/titleBottom.png
-sprites/titleTop.png
 sprites/topbar.png
-sprites/topbg.png
 sprites/topbox.png
 sprites/villagerBox.png
+
+
+sprites/bg/bottombg.png
+sprites/bg/fbBgBottom.png
+sprites/bg/fbBgTop.png
+sprites/bg/msgBgBottom.png
+sprites/bg/msgBgTop.png
+sprites/bg/titleBottom.png
+sprites/bg/titleTop.png
+sprites/bg/topbg.png
+
 
 sprites/keyboard/normal_key.png
 sprites/keyboard/numpad.png
