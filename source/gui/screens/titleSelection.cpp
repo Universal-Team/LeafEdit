@@ -74,9 +74,8 @@ void TitleSelection::Draw(void) const
 
     Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 190, 0.6f, BLACK, Lang::titleSelector[2], 270);
 
-    Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, VERSION_STRING), 216, FONT_SIZE_18, WHITE, VERSION_STRING);
+    Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, WHITE, V_STRING, 400);
 
-    Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 217, 0.72f, WHITE, "Press Y, to skip the Title Selection.", 400);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
 
@@ -84,6 +83,7 @@ void TitleSelection::Draw(void) const
 	Gui::Draw_Rect(0, 0, 320, 30, SelectorBlue);
 	Gui::Draw_Rect(0, 30, 320, 180, BarGreen);
 	Gui::Draw_Rect(0, 210, 320, 30, SelectorBlue);
+    Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, WHITE, "Press Y, to skip the Title Selection.", 320);
 
     // Draw the current Selected Title on the Bottom Screen with informations.
     if (selectedTitle != -2)
