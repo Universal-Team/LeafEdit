@@ -246,6 +246,37 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			screenMode = 0;
 		}
 
+		if (hDown & KEY_Y) {
+			std::string prompt = "Would you like to autoboot this SpriteSheet?";
+			prompt += "\n\n";
+			prompt += "'";
+			prompt += dirContents[selectedSpriteSheet].name;
+			prompt += "'";
+			if(Msg::promptMsg(prompt.c_str())) {
+				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
+				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
+				finalSheet += selectedSheet.c_str();
+				Config::saveSheet(finalSheet.c_str());
+			}
+			finalSheet = "";
+			selectedSheet = "";
+			screenMode = 0;
+		}
+
+		if (hDown & KEY_SELECT) {
+			std::string prompt = "Would you like to reset the SpriteSheet?";
+			if(Msg::promptMsg(prompt.c_str())) {
+				finalSheet = "romfs:/gfx/sprites.t3x";
+				Config::saveSheet(finalSheet.c_str());
+				Msg::SheetMsg("Now freeing the SpriteSheet...");
+				C2D_SpriteSheetFree(sprites);
+				Msg::SheetMsg("Now Loading the new SpriteSheet...");
+				sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
+			}
+			finalSheet = "";
+			screenMode = 0;
+		}
+
 		if (hHeld & KEY_UP) {
 		if (selectedSpriteSheet > 0 && !keyRepeatDelay) {
 			selectedSpriteSheet--;

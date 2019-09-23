@@ -46,6 +46,8 @@
 using std::string;
 using std::wstring;
 
+extern C2D_SpriteSheet sprites;
+
 Structs::ButtonPos languagePos [] = {
 	{20, 30, 120, 52, -1}, // Deutsch
 	{180, 30, 120, 52, -1}, // English
@@ -75,7 +77,19 @@ int Config::LangLocation; // Language Location (Romfs/SD).
 int Config::lang; // Current Language.
 int Config::langSet; // Tell, if the current Language was already set.
 int Config::selector; // Selector Design for the FileBrowse.
+std::string Config::sheet; // Spritesheet Path.
 
+void Config::loadSheet() {
+	Config::sheet = settingsini.GetString("MISC", "SheetPath", Config::sheet);
+	std::string sheetPath1 = Config::sheet;
+	const char *sheetPath = sheetPath1.c_str();
+	sprites    = C2D_SpriteSheetLoad(sheetPath);
+}
+
+void Config::saveSheet(std::string sheetPath) {
+	settingsini.SetString("MISC", "SheetPath", sheetPath.c_str());
+	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+}
 
 void Config::loadConfig() {
 
@@ -85,6 +99,7 @@ void Config::loadConfig() {
 
 	// [MISC]
 	Config::Logging = settingsini.GetInt("MISC", "LOGGING", 0);
+	Config::sheet = settingsini.GetString("MISC", "SheetPath", "romfs:/gfx/sprites.t3x");
 
 	// [UI]
 	Config::LangLocation = settingsini.GetInt("UI", "LANGLOCATION", 0);

@@ -43,7 +43,11 @@ namespace Config {
 	extern int lang; // The current Language.
 	extern int langSet; // tell if the current Language was already set.
 	extern int selector; // The Selector Design.
+	extern std::string sheet; // SpriteSheet.
 	
+	void loadSheet();
+	void saveSheet(std::string sheetPath);
+
 	void loadConfig();
 	void saveConfig();
 	void setLanguage();

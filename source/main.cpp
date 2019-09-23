@@ -151,6 +151,8 @@ int main()
 		return DisplayStartupError("Gui::init failed.", res);
 	}
 
+	Config::loadSheet();
+
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// If Language isn't set -> Set the Language.
