@@ -19,3 +19,9 @@ This is a work in progress Animal Crossing : New Leaf Save Manager & Editor for 
 - [Flagbrew](https://github.com/FlagBrew): [PKSM](https://github.com/FlagBrew/PKSM)'s Title Code, to get the Title ID for Animal Crossing : New Leaf and such.
 - [Flame](https://github.com/FlameKat53): The Name Idea of LeafEdit.
 - [Kodtiz3D](https://github.com/Kodtiz3D): For the Icon and the Banner.
+
+## informations
+
+You want to create Custom Spritesheets for LeafEdit? Then check this [out](https://github.com/Universal-Team/leafedit-spritesheet-creation)!
+
+You have Questions to it? Then don't be shy and join the Universal-Server on [discord](https://discord.gg/KDJCfGF)!
