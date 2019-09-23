@@ -37,17 +37,17 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C2D_TargetClear(bottom, BLACK);
 	
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, WHITE, promptMsg.c_str(), 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::messages2[1]))/2, 214, 0.72f, WHITE, Lang::messages2[1], 400);
 
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 	C3D_FrameEnd(0);
 
 	while(1)
@@ -75,16 +75,16 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(bottom, BLACK);
 
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Text.c_str()))/2, 2, 0.72f, WHITE, Text.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -101,17 +101,17 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(bottom, BLACK);
 
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::messages2[0]))/2, 214, 0.6f, WHITE, Lang::messages2[0], 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, WHITE, waitMsg.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 
 	C3D_FrameEnd(0);
 
@@ -130,16 +130,16 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(bottom, BLACK);
 
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, WHITE, Message.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 
 	C3D_FrameEnd(0);
 }

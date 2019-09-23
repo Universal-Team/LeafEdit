@@ -113,9 +113,9 @@ extern C2D_SpriteSheet sprites;
 
 void Settings::DrawSpriteSheetSelection(void) const {
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Spritesheet to load."))/2, 2, 0.72f, WHITE, "Select a Spritesheet to load.", 400);
 
@@ -206,9 +206,9 @@ void Settings::DrawSpriteSheetSelection(void) const {
 	}
 
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 }
 
 

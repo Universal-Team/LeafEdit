@@ -81,7 +81,7 @@ Result Gui::init(void)
 	top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 	sizeBuf = C2D_TextBufNew(4096);
-	
+
 	Villager    = C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
 	Villager2    = C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
 
@@ -243,14 +243,14 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y)
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_topbg_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_bottombg_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 }

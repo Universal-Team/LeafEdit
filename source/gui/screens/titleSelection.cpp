@@ -49,9 +49,9 @@ bool titleIsLoaded = false;
 
 void TitleSelection::Draw(void) const {
     Gui::ScreenDraw(top);
-    Gui::sprite(0, sprites_topbar_idx, 0, 0);
+    Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
     Gui::sprite(0, sprites_titleTop_idx, 0, 27);
-    Gui::sprite(0, sprites_topbar_idx, 0, 213);
+    Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
     Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0], 400);
 	
@@ -70,9 +70,9 @@ void TitleSelection::Draw(void) const {
 
 
     Gui::ScreenDraw(bottom);
-    Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+    Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
     Gui::sprite(0, sprites_titleBottom_idx, 0, 27);
-    Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+    Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
     Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, WHITE, "Press Y, to skip the Title Selection.", 320);
 
     // Draw the current Selected Title on the Bottom Screen with informations.

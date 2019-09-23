@@ -135,9 +135,9 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 void Editor::DrawBrowse(void) const
 {
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_topbar_idx, 0, 0);
+	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_topbar_idx, 0, 213);
+	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, WHITE, Lang::editor[3], 400);
 
@@ -226,9 +226,9 @@ void Editor::DrawBrowse(void) const
 	}
 
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 0);
+	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottombar_idx, 0, 213);
+	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 }
 
 
