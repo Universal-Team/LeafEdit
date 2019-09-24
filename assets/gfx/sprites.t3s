@@ -3,7 +3,9 @@
 sprites/back.png
 sprites/button.png
 sprites/card.png
+sprites/selectedBox.png 
 sprites/topbox.png
+sprites/unselectedBox.png
 sprites/villagerBox.png
 
 sprites/bars/bottom-bottombar.png

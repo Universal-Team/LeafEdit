@@ -26,14 +26,19 @@
 
 #include "common/config.hpp"
 
+#include "core/villagerManagement.hpp"
+
 #include "gui/keyboard.hpp"
 
 #include "gui/screens/settings.hpp"
 #include "gui/screens/screenCommon.hpp"
 
+#include "lang/lang.h"
 #include <3ds.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Settings::Draw(void) const
 {
@@ -69,6 +74,8 @@ void Settings::Draw(void) const
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[2].y+10, 0.6f, WHITE, "Spritesheet", 140);
 	} else if(screenMode == 1) {
 		DrawSpriteSheetSelection();
+	} else if(screenMode == 2) {
+		DrawLangScreen();
 	}
 }
 
@@ -84,7 +91,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_A) {
 				switch(Selection) {
 					case 0: {
-							Config::setLanguage();
+							screenMode = 2;
 							break;
 					}	case 1:
 							Config::setSelector();
@@ -97,6 +104,8 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	} else if(screenMode == 1) {
 		SpriteSheetLogic(hDown, hHeld);
+	} else if(screenMode == 2) {
+		langScreenLogic(hDown, touch);
 	}
 }
 
@@ -293,5 +302,168 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 		}
 	} else if (hDown & KEY_SELECT) {
 		dirChanged = true;
+	}
+}
+
+
+
+void Settings::DrawLangScreen(void) const {
+	Gui::DrawTop();
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language, 398);
+	Gui::DrawBottom();
+
+	if (Config::lang == 0) {
+		Gui::sprite(0, sprites_selectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 1) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_selectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 2) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_selectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 3) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_selectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 4) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 5) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 6) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+
+	} else if (Config::lang == 7) {
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 172);
+	}
+
+	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, WHITE, "Deutsch", 320);
+	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, WHITE, "English", 320);
+	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, WHITE, "Español", 320);
+	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, WHITE, "Français", 320);
+
+	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, WHITE, "Italiano", 320);
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, WHITE, "日本語", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, WHITE, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, WHITE, "Português", 320);
+
+	Gui::sprite(0, sprites_back_idx, langBlocks[8].x, langBlocks[8].y);
+}
+
+void Settings::langScreenLogic(u32 hDown, touchPosition touch) {
+	if (hDown & KEY_B) {
+		screenMode = 0;
+	}
+
+	if (hDown & KEY_TOUCH && touching(touch, langBlocks[8])) {
+		screenMode = 0;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, langBlocks[0])) {
+			Config::lang = 0;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[1])) {
+			Config::lang = 1;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[2])) {
+			Config::lang = 2;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[3])) {
+			Config::lang = 3;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[4])) {
+			Config::lang = 4;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[5])) {
+			Config::lang = 5;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[6])) {
+			Config::lang = 6;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		} else if (touching(touch, langBlocks[7])) {
+			Config::lang = 7;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+		}
 	}
 }

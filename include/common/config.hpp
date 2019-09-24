@@ -41,7 +41,6 @@ namespace Config {
 	// [UI]
 	extern int LangLocation; // Language Location (Romfs/SD).
 	extern int lang; // The current Language.
-	extern int langSet; // tell if the current Language was already set.
 	extern int selector; // The Selector Design.
 	extern std::string sheet; // SpriteSheet.
 	
@@ -50,7 +49,6 @@ namespace Config {
 
 	void loadConfig();
 	void saveConfig();
-	void setLanguage();
 	void setSelector(); // Set the Selector.
 }
 

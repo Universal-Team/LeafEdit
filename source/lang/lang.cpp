@@ -8,7 +8,7 @@
 
 
 
-std::string langs[] = { "de", "en", "es", "fr", "it", "jp"};
+std::string langs[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};
 
 void Lang::loadLangStrings(int lang) {
 	// Declare variables

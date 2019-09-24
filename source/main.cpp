@@ -155,15 +155,6 @@ int main()
 
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
-	// If Language isn't set -> Set the Language.
-	if (Config::langSet == 0) {
-		Lang::loadLangStrings(Config::lang);
-		Config::setLanguage();
-		Config::langSet = 1;
-		Config::saveConfig();
-	} else if (Config::langSet == 1) {
-	}
-
 	// Load The Strings from the Romfs.
 	
 	Lang::loadLangStrings(Config::lang);

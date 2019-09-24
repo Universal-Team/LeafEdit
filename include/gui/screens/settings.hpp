@@ -46,10 +46,27 @@ private:
 	void DrawSpriteSheetSelection(void) const;
 	void SpriteSheetLogic(u32 hDown, u32 hHeld);
 
+	void DrawLangScreen(void) const;
+	void langScreenLogic(u32 hDown, touchPosition touch);
+
 	std::vector<Structs::ButtonPos> settingsButtons = {
     	{90, 40, 140, 35, -1}, // Language
 		{90, 100, 140, 35, -1}, // Selector
 		{90, 160, 140, 35, -1}, // ?
+	};
+
+	std::vector<Structs::ButtonPos> langBlocks = {
+		{37, 52, 20, 20, -1},
+		{37, 92, 20, 20, -1},
+		{37, 132, 20, 20, -1},
+		{37, 172, 20, 20, -1},
+
+		{177, 52, 20, 20, -1},
+		{177, 92, 20, 20, -1},
+		{177, 132, 20, 20, -1},
+		{177, 172, 20, 20, -1}, 
+
+		{293, 213, 27, 27, -1},
 	};
 
 	int screenMode = 0;

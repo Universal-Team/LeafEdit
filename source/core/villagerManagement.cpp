@@ -289,7 +289,7 @@ int getSpecies(int id) {
 	}
 }
 
-std::string villagerLanguages[] = { "de", "en", "es", "fr", "it", "jp"};
+std::string villagerLanguages[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};
 
 void VillagerManagement::LoadVillagerDatabase(int lang) {
 	g_villagerDatabase.clear();
