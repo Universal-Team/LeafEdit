@@ -374,9 +374,9 @@ void Settings::DrawLangScreen(void) const {
 		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
 
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 172);
 
 	} else if (Config::lang == 6) {
 		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
@@ -385,8 +385,8 @@ void Settings::DrawLangScreen(void) const {
 		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
 
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 92);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
 
 	} else if (Config::lang == 7) {
@@ -397,8 +397,8 @@ void Settings::DrawLangScreen(void) const {
 
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 172);
+		Gui::sprite(0, sprites_selectedBox_idx, 177, 132);
+		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
 	}
 
 	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, WHITE, "Deutsch", 320);
@@ -407,9 +407,9 @@ void Settings::DrawLangScreen(void) const {
 	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, WHITE, "Français", 320);
 
 	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, WHITE, "Italiano", 320);
-	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, WHITE, "日本語", 320);
-	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, WHITE, "Lietuvių", 320);
-	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, WHITE, "Português", 320);
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, WHITE, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, WHITE, "Português", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, WHITE, "日本語", 320);
 
 	Gui::sprite(0, sprites_back_idx, langBlocks[8].x, langBlocks[8].y);
 }
@@ -429,38 +429,45 @@ void Settings::langScreenLogic(u32 hDown, touchPosition touch) {
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
+
 		} else if (touching(touch, langBlocks[1])) {
 			Config::lang = 1;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
+
 		} else if (touching(touch, langBlocks[2])) {
 			Config::lang = 2;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
+
 		} else if (touching(touch, langBlocks[3])) {
 			Config::lang = 3;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
+
 		} else if (touching(touch, langBlocks[4])) {
 			Config::lang = 4;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
+
 		} else if (touching(touch, langBlocks[5])) {
-			Config::lang = 5;
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
-			Config::saveConfig();
-		} else if (touching(touch, langBlocks[6])) {
 			Config::lang = 6;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
-		} else if (touching(touch, langBlocks[7])) {
+
+		} else if (touching(touch, langBlocks[6])) {
 			Config::lang = 7;
+			VillagerManagement::LoadVillagerDatabase(Config::lang);
+			Lang::loadLangStrings(Config::lang);
+			Config::saveConfig();
+			
+		} else if (touching(touch, langBlocks[7])) {
+			Config::lang = 5;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
