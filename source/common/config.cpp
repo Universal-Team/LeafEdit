@@ -49,13 +49,13 @@ using std::wstring;
 extern C2D_SpriteSheet sprites;
 
 Structs::ButtonPos languagePos [] = {
-	{20, 30, 120, 52, -1}, // Deutsch
-	{180, 30, 120, 52, -1}, // English
-	{20, 100, 120, 52, -1}, // Español
+	{20, 40, 140, 35, -1}, // Deutsch
+	{20, 100, 140, 35, -1}, // English
+	{20, 160, 140, 35, -1}, // Español
 
-	{180, 100, 120, 52, -1}, // Français
-	{20, 170, 120, 52, -1}, // Italiano
-	{180, 170, 120, 52, -1}, // 日本語
+	{170, 40, 140, 35, -1}, // Français
+	{170, 100, 140, 35, -1}, // Italiano
+	{170, 160, 140, 35, -1}, // 日本語
 };
 
 Structs::ButtonPos SelectorPos [] = {
@@ -75,7 +75,6 @@ int Config::Logging; // Enable / Disable writing the log.
 
 int Config::LangLocation; // Language Location (Romfs/SD).
 int Config::lang; // Current Language.
-int Config::langSet; // Tell, if the current Language was already set.
 int Config::selector; // Selector Design for the FileBrowse.
 std::string Config::sheet; // Spritesheet Path.
 
@@ -104,7 +103,6 @@ void Config::loadConfig() {
 	// [UI]
 	Config::LangLocation = settingsini.GetInt("UI", "LANGLOCATION", 0);
 	Config::lang = settingsini.GetInt("UI", "LANGUAGE", 1);
-	Config::langSet = settingsini.GetInt("UI", "LANGSET", 0);
 	Config::selector = settingsini.GetInt("UI", "SELECTOR", 1);
 }
 
@@ -119,70 +117,9 @@ void Config::saveConfig() {
 	// [UI]
 	settingsini.SetInt("UI", "LANGLOCATION", Config::LangLocation);
 	settingsini.SetInt("UI", "LANGUAGE", Config::lang);
-	settingsini.SetInt("UI", "LANGSET", Config::langSet);
 	settingsini.SetInt("UI", "SELECTOR", Config::selector);
 
 	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
-}
-
-std::vector<std::string> Language = {
-	"Deutsch",
-	"English",
-	"Español",
-	"Français",
-	"Italiano",
-	"日本語"
-};
-
-
-void Config::setLanguage() {
-	touchPosition touch;
-	Gui::clearTextBufs();
-	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language);
-	Gui::DrawBottom();
-
-	for(int i=0;i<3;i++) {
-		Gui::Draw_Rect(20, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
-		Gui::Draw_Rect(180, 29+(i*65), languagePos[i].w, languagePos[i].h, WHITE);
-
-		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)].c_str()))/2)-60-20, 46+(i*65), 0.65f, BLACK, Language[(2*i)].c_str(), 120);
-		Gui::DrawString(((320-Gui::GetStringWidth(0.65f, Language[(2*i)+1].c_str()))/2)+60+20, 46+(i*65), 0.65f, BLACK, Language[(2*i)+1].c_str(), 120);
-	}
-
-	C3D_FrameEnd(0);
-	while(1)
-	{
-		hidScanInput();
-		touchRead(&touch);
-		if(hidKeysDown() & KEY_TOUCH) {
-			if (touching(touch, languagePos[0])) {
-				Config::lang = 0;
-				break;
-			} else if (touching(touch, languagePos[1])) {
-				Config::lang = 1;
-				break;
-			} else if (touching(touch, languagePos[2])) {
-				Config::lang = 2;
-				break;
-			} else if (touching(touch, languagePos[3])) {
-				Config::lang = 3;
-				break;
-			} else if (touching(touch, languagePos[4])) {
-				Config::lang = 4;
-				break;
-			} else if (touching(touch, languagePos[5])) {
-				Config::lang = 5;
-				break;
-			}
-		}
-	}
-	VillagerManagement::LoadVillagerDatabase(Config::lang);
-	Lang::loadLangStrings(Config::lang);
-	Config::saveConfig();
 }
 
 
