@@ -5,6 +5,10 @@ trigger:
   tags:
     include: ['*']
 
+pr:
+  branches:
+    exclude: ['*']
+
 name:  $[format('{0:yyyyMMdd\-HHmmss}', pipeline.startTime)]
 
 pool:
