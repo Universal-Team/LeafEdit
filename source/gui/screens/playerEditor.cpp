@@ -196,22 +196,22 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (currentPage == 1) {
 				switch(Selection) {
 					case 0: {
-							PlayerManagement::PlayerName(cp);
+							SaveFile->players[cp]->Name = Input::getu16String(8, "Please type in your Player's name.");
 							break;
 					}	case 1:
-							PlayerManagement::PlayerWallet(cp);
+							SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);
 							break;
 						case 2: {
-							PlayerManagement::PlayerTan(cp);
+							SaveFile->players[cp]->PlayerTan = Input::getu32(2, 15);
 							break;
 						} case 3: {
-							PlayerManagement::PlayerBank(cp);
+							SaveFile->players[cp]->BankAmount.value = Input::getu32(9, 999999999);
 							break;
 						} case 4: {
-							PlayerManagement::PlayerMedals(cp);
+							SaveFile->players[cp]->IslandMedals.value = Input::getu32(4, 9999);
 							break;
 						} case 5: {
-							PlayerManagement::PlayerCoupons(cp);
+							SaveFile->players[cp]->MeowCoupons.value = Input::getu32(4, 9999);
 							break;
 						}
 					}
@@ -245,17 +245,17 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_TOUCH) {
 			if (currentPage == 1) {
 				if (touching(touch, playerButtons[0])) {
-					PlayerManagement::PlayerName(cp);
+					SaveFile->players[cp]->Name = Input::getu16String(8, "Please type in your Player's name.");
 			} else if (touching(touch, playerButtons[1])) {
-					PlayerManagement::PlayerWallet(cp);
+					SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);
 			} else if (touching(touch, playerButtons[2])) {
-					PlayerManagement::PlayerTan(cp);
+					SaveFile->players[cp]->PlayerTan = Input::getu32(2, 15);
 			} else if (touching(touch, playerButtons[3])) {
-					PlayerManagement::PlayerBank(cp);
+					SaveFile->players[cp]->BankAmount.value = Input::getu32(9, 999999999);
 			} else if (touching(touch, playerButtons[4])) {
-					PlayerManagement::PlayerMedals(cp);
+					SaveFile->players[cp]->IslandMedals.value = Input::getu32(4, 9999);
 			} else if (touching(touch, playerButtons[5])) {
-					PlayerManagement::PlayerCoupons(cp);
+					SaveFile->players[cp]->MeowCoupons.value = Input::getu32(4, 9999);
 			}
 
 			} else if (currentPage == 2) {

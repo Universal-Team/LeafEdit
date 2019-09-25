@@ -1,4 +1,5 @@
 #include "common/structs.hpp"
+#include "common/utils.hpp"
 
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
@@ -309,4 +310,125 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 
 	return string;
 	enter = false;
+}
+
+std::uint32_t Input::getu32(uint maxLength, int maxNum)
+{
+	u32 valueu32;
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, maxLength);
+		first = false;
+	}
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[maxLength + 1]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[maxLength]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		valueu32 = (u32)std::min(std::stoi(input), maxNum);
+		first = true;
+		return valueu32;
+	} else {
+		first = true;
+		return 0;
+	}
+}
+
+std::uint16_t Input::getu16(uint maxLength, int maxNum)
+{
+	u16 valueu16;
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, maxLength);
+		first = false;
+	}
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[maxLength + 1]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[maxLength]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		valueu16 = (u16)std::min(std::stoi(input), maxNum);
+		first = true;
+		return valueu16;
+	} else {
+		first = true;
+		return 0;
+	}
+}
+
+std::uint8_t Input::getu8(uint maxLength, int maxNum)
+{
+	u8 valueu8;
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, maxLength);
+		first = false;
+	}
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[maxLength + 1]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[maxLength]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		valueu8 = (u8)std::min(std::stoi(input), maxNum);
+		first = true;
+		return valueu8;
+	} else {
+		first = true;
+		return 0;
+	}
+}
+
+std::u16string Input::getu16String(uint maxLength, const char *hint)
+{
+	std::u16string stringu16;
+	C3D_FrameEnd(0);
+	SwkbdState state;
+	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
+	swkbdSetHintText(&state, hint);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
+	char input[maxLength + 1]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[maxLength]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		stringu16 = StringUtils::UTF8toUTF16(input);
+		return stringu16;
+	} else {
+		return StringUtils::UTF8toUTF16("");
+	}
+}
+
+std::string Input::getString(uint maxLength, const char *hint)
+{
+	std::string normalString;
+	C3D_FrameEnd(0);
+	SwkbdState state;
+	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
+	swkbdSetHintText(&state, hint);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
+	char input[maxLength + 1]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[maxLength]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		normalString = input;
+		return normalString;
+	} else {
+		return "";
+	}
 }
