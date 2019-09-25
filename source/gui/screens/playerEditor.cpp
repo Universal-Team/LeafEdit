@@ -196,22 +196,22 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (currentPage == 1) {
 				switch(Selection) {
 					case 0: {
-							PlayerManagement::PlayerName(cp, pName);
+							PlayerManagement::PlayerName(cp);
 							break;
 					}	case 1:
-							PlayerManagement::PlayerWallet(cp, pWallet);
+							PlayerManagement::PlayerWallet(cp);
 							break;
 						case 2: {
-							PlayerManagement::PlayerTan(cp, pTan);
+							PlayerManagement::PlayerTan(cp);
 							break;
 						} case 3: {
-							PlayerManagement::PlayerBank(cp, pBank);
+							PlayerManagement::PlayerBank(cp);
 							break;
 						} case 4: {
-							PlayerManagement::PlayerMedals(cp, pMedals);
+							PlayerManagement::PlayerMedals(cp);
 							break;
 						} case 5: {
-							PlayerManagement::PlayerCoupons(cp, pCoupons);
+							PlayerManagement::PlayerCoupons(cp);
 							break;
 						}
 					}
@@ -245,17 +245,17 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_TOUCH) {
 			if (currentPage == 1) {
 				if (touching(touch, playerButtons[0])) {
-					PlayerManagement::PlayerName(cp, pName);
+					PlayerManagement::PlayerName(cp);
 			} else if (touching(touch, playerButtons[1])) {
-					PlayerManagement::PlayerWallet(cp, pWallet);
+					PlayerManagement::PlayerWallet(cp);
 			} else if (touching(touch, playerButtons[2])) {
-					PlayerManagement::PlayerTan(cp, pTan);
+					PlayerManagement::PlayerTan(cp);
 			} else if (touching(touch, playerButtons[3])) {
-					PlayerManagement::PlayerBank(cp, pBank);
+					PlayerManagement::PlayerBank(cp);
 			} else if (touching(touch, playerButtons[4])) {
-					PlayerManagement::PlayerMedals(cp, pMedals);
+					PlayerManagement::PlayerMedals(cp);
 			} else if (touching(touch, playerButtons[5])) {
-					PlayerManagement::PlayerCoupons(cp, pCoupons);
+					PlayerManagement::PlayerCoupons(cp);
 			}
 
 			} else if (currentPage == 2) {

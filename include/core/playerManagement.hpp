@@ -34,26 +34,26 @@
 namespace PlayerManagement
 {
 	// Player Names.
-    void PlayerName(int currentPlayer, std::string name);
+	void PlayerName(int currentPlayer);
 
 	// Wallet Amounts.
-	void PlayerWallet(int currentPlayer, std::string wallet);
+	void PlayerWallet(int currentPlayer);
 
 	// Tan.
-	void PlayerTan(int currentPlayer, std::string tan);
+	void PlayerTan(int currentPlayer);
 
 	// Bank stuff.
-	void PlayerBank(int currentPlayer, std::string bank);
+	void PlayerBank(int currentPlayer);
 	void PlayerMaxBank(int currentPlayer, std::string bank);
 	void PlayerClearBank(int currentPlayer, std::string bank);
 
 	// Medals stuff.
-	void PlayerMedals(int currentPlayer, std::string medals);
+	void PlayerMedals(int currentPlayer);
 	void PlayerMaxMedals(int currentPlayer, std::string medals);
 	void PlayerClearMedals(int currentPlayer, std::string medals);
 
 	// Coupons Stuff.
-	void PlayerCoupons(int currentPlayer, std::string coupons);
+	void PlayerCoupons(int currentPlayer);
 	void PlayerMaxCoupons(int currentPlayer, std::string coupons);
 	void PlayerClearCoupons(int currentPlayer, std::string coupons);
 }

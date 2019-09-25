@@ -46,77 +46,126 @@ extern Save* SaveFile;
 
 
 // Player Names.
-void PlayerManagement::PlayerName(int currentPlayer, std::string name)
+void PlayerManagement::PlayerName(int currentPlayer)
 {
-	name = Input::getLine(8, Lang::playerEditor[0]);
-	if (name != "") {
-		SaveFile->players[currentPlayer]->Name = StringUtils::UTF8toUTF16(name.c_str());
-	} else {
-		Msg::DisplayWarnMsg("This is not a valid Playername!");
-	}
+	C3D_FrameEnd(0);
+	SwkbdState state;
+	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, 8);
+	swkbdSetHintText(&state, "Please type in the Player Name.");
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
+	char input[9]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[8]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		// Set stuff.
+		SaveFile->players[currentPlayer]->Name = StringUtils::UTF8toUTF16(input);
 
-	std::string log = "Current Player: ";
-	log += std::to_string(currentPlayer + 1);
-	log += " - ";
-	log += "Got a name change to: ";
-	log += name.c_str();
-	Logging::writeToLog(log.c_str());
+		// Log stuff.
+		std::string log = "Current Player: ";
+		log += std::to_string(currentPlayer + 1);
+		log += " - ";
+		log += "Got a name change to: ";
+		log += input;
+		Logging::writeToLog(log.c_str());
+	}
 }
 
-
 // Player Wallet Amounts.
-void PlayerManagement::PlayerWallet(int currentPlayer, std::string wallet)
+void PlayerManagement::PlayerWallet(int currentPlayer)
 {
-	wallet = Input::Numpad(5, Lang::keyboard[0]);
-	if (wallet != "") {
-		SaveFile->players[currentPlayer]->Wallet.value = static_cast<u32>(std::stoi(wallet.c_str()));
-	} else {
-		Msg::DisplayWarnMsg("This is not a valid Wallet Amount!");
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, 5);
+		first = false;
 	}
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[6]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[5]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		// Set stuff.
+		u32 wallet = (u32)std::min(std::stoi(input), 99999);
+		SaveFile->players[currentPlayer]->Wallet.value = wallet;
 
-	std::string log = "Current Player: ";
-	log += std::to_string(currentPlayer + 1);
-	log += " - ";
-	log += "Got a Wallet Amount change to: ";
-	log += wallet.c_str();
-	Logging::writeToLog(log.c_str());
+		// Log stuff.
+		std::string log = "Current Player: ";
+		log += std::to_string(currentPlayer + 1);
+		log += " - ";
+		log += "Got a Wallet Amount change to: ";
+		log += std::to_string(wallet);
+		Logging::writeToLog(log.c_str());
+	}
 }
 
 
 // Tan! -> To:Do :: Implement a List to select a Tan instead of the keyboard.
-void PlayerManagement::PlayerTan(int currentPlayer, std::string tan)
+void PlayerManagement::PlayerTan(int currentPlayer)
 {
-    tan = Input::Numpad(2, Lang::keyboard[1]);
-	if (tan != "") {
-			SaveFile->players[currentPlayer]->PlayerTan = static_cast<u16>(std::stoi(tan.c_str()));
-	} else {
-		Msg::DisplayWarnMsg("This is not a valid Tan!");
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, 2);
+		first = false;
 	}
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[3]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[2]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		// Set stuff.
+		u16 tan = (u16)std::min(std::stoi(input), 15);
+		SaveFile->players[currentPlayer]->PlayerTan = tan;
 
-	std::string log = "Current Player: ";
-	log += std::to_string(currentPlayer + 1);
-	log += " - ";
-	log += "Got a Tan Value change to: ";
-	log += tan.c_str();
-	Logging::writeToLog(log.c_str());
+		// Log stuff.
+		std::string log = "Current Player: ";
+		log += std::to_string(currentPlayer + 1);
+		log += " - ";
+		log += "Got a Tan Value change to: ";
+		log += std::to_string(tan);
+		Logging::writeToLog(log.c_str());
+	}
 }
 
 // Bank Stuff.
-void PlayerManagement::PlayerBank(int currentPlayer, std::string bank)
+void PlayerManagement::PlayerBank(int currentPlayer)
 {
-	bank = Input::Numpad(9, Lang::keyboard[2]);
-	if (bank != "") {
-		SaveFile->players[currentPlayer]->BankAmount.value = static_cast<u32>(std::stoi(bank.c_str()));
-	} else {
-		Msg::DisplayWarnMsg("This is not a valid Bank Amount!");
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, 9);
+		first = false;
 	}
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[10]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[9]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		// Set stuff.
+		u32 bank = (u32)std::min(std::stoi(input), 999999999);
+		SaveFile->players[currentPlayer]->BankAmount.value = bank;
 
-	std::string log = "Current Player: ";
-	log += std::to_string(currentPlayer + 1);
-	log += " - ";
-	log += "Got a Bank Amount change to: ";
-	log += bank.c_str();
-	Logging::writeToLog(log.c_str());
+		// Log stuff.
+		std::string log = "Current Player: ";
+		log += std::to_string(currentPlayer + 1);
+		log += " - ";
+		log += "Got a Bank Amount change to: ";
+		log += std::to_string(bank);
+		Logging::writeToLog(log.c_str());
+	}
 }
 
 void PlayerManagement::PlayerMaxBank(int currentPlayer, std::string bank)
@@ -145,21 +194,36 @@ void PlayerManagement::PlayerClearBank(int currentPlayer, std::string bank)
 
 
 // Medal Stuff.
-void PlayerManagement::PlayerMedals(int currentPlayer, std::string medals)
+void PlayerManagement::PlayerMedals(int currentPlayer)
 {
-	medals = Input::Numpad(4, Lang::keyboard[3]);
-	if (medals != "") {
-		SaveFile->players[currentPlayer]->IslandMedals.value = static_cast<u32>(std::stoi(medals.c_str()));
-	} else {
-		Msg::DisplayWarnMsg("This is not a valid Medals Amount!");
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, 4);
+		first = false;
 	}
 
-	std::string log = "Current Player: ";
-	log += std::to_string(currentPlayer + 1);
-	log += " - ";
-	log += "Got a Medals Amount change to: ";
-	log += medals.c_str();
-	Logging::writeToLog(log.c_str());
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[5]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[4]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+		// Set stuff.
+		u32 medals = (u32)std::min(std::stoi(input), 9999);
+		SaveFile->players[currentPlayer]->IslandMedals.value = medals;
+
+		// Log stuff.
+		std::string log = "Current Player: ";
+		log += std::to_string(currentPlayer + 1);
+		log += " - ";
+		log += "Got a Medals Amount change to: ";
+		log += std::to_string(medals);
+		Logging::writeToLog(log.c_str());
+	}
 }
 
 void PlayerManagement::PlayerMaxMedals(int currentPlayer, std::string medals)
@@ -188,21 +252,37 @@ void PlayerManagement::PlayerClearMedals(int currentPlayer, std::string medals)
 
 
 // Coupon Stuff.
-void PlayerManagement::PlayerCoupons(int currentPlayer, std::string coupons)
+void PlayerManagement::PlayerCoupons(int currentPlayer)
 {
-	coupons = Input::Numpad(4, Lang::keyboard[4]);
-	if (coupons != "") {
-		SaveFile->players[currentPlayer]->MeowCoupons.value = static_cast<u32>(std::stoi(coupons.c_str()));
-	} else {
-		Msg::DisplayWarnMsg("This is not a valid Coupon Amount!");
+	C3D_FrameEnd(0);
+	static SwkbdState state;
+	static bool first = true;
+	if (first)
+	{
+		swkbdInit(&state, SWKBD_TYPE_NUMPAD, 2, 4);
+		first = false;
 	}
 
-	std::string log = "Current Player: ";
-	log += std::to_string(currentPlayer + 1);
-	log += " - ";
-	log += "Got a Coupons Amount change to: ";
-	log += coupons.c_str();
-	Logging::writeToLog(log.c_str());
+	swkbdSetFeatures(&state, SWKBD_FIXED_WIDTH);
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, 0, 0);
+	char input[5]	= {0};
+	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
+	input[4]		= '\0';
+	if (ret == SWKBD_BUTTON_CONFIRM)
+	{
+
+		// Set stuff.
+		u32 coupons = (u32)std::min(std::stoi(input), 9999);
+		SaveFile->players[currentPlayer]->MeowCoupons.value = coupons;
+
+		// Log stuff.
+		std::string log = "Current Player: ";
+		log += std::to_string(currentPlayer + 1);
+		log += " - ";
+		log += "Got a Coupons Amount change to: ";
+		log += std::to_string(coupons);
+		Logging::writeToLog(log.c_str());
+	}
 }
 
 void PlayerManagement::PlayerMaxCoupons(int currentPlayer, std::string coupons)
