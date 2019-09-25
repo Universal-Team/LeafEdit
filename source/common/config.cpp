@@ -48,16 +48,6 @@ using std::wstring;
 
 extern C2D_SpriteSheet sprites;
 
-Structs::ButtonPos languagePos [] = {
-	{20, 40, 140, 35, -1}, // Deutsch
-	{20, 100, 140, 35, -1}, // English
-	{20, 160, 140, 35, -1}, // Español
-
-	{170, 40, 140, 35, -1}, // Français
-	{170, 100, 140, 35, -1}, // Italiano
-	{170, 160, 140, 35, -1}, // 日本語
-};
-
 Structs::ButtonPos SelectorPos [] = {
 		{90, 40, 140, 35, -1}, // Selector 1.
 		{90, 100, 140, 35, -1}, // Selector 2.

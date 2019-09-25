@@ -40,6 +40,8 @@
 C3D_RenderTarget* top;
 C3D_RenderTarget* bottom;
 
+C2D_SpriteSheet Acres;
+C2D_SpriteSheet Items;
 C2D_SpriteSheet sprites;
 C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
@@ -69,6 +71,10 @@ void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color)
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint);
 	} else if (sheet == 2) { // villagers2.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint);
+	} else if (sheet == 3) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, &tint);
+	} else if (sheet == 4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, &tint);
 	}
 }
 
@@ -82,8 +88,10 @@ Result Gui::init(void)
 	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 	sizeBuf = C2D_TextBufNew(4096);
 
-	Villager    = C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-	Villager2    = C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	Acres		= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
+	Items		= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
+	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
 
 	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
 	return 0;
@@ -92,6 +100,8 @@ Result Gui::init(void)
 // Exit GUI.
 void Gui::exit(void)
 {
+	C2D_SpriteSheetFree(Acres);
+	C2D_SpriteSheetFree(Items);
 	C2D_SpriteSheetFree(sprites);
 	C2D_SpriteSheetFree(Villager);
 	C2D_SpriteSheetFree(Villager2);
@@ -108,6 +118,10 @@ bool Gui::Draw_ImageScale(int sheet, int key, int x, int y, float scaleX, float 
 		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, scaleX, scaleY);
 	} else if (sheet == 2) { // villagers2.
 		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, scaleX, scaleY);
+	} else if (sheet == 3) {
+		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, NULL, scaleX, scaleY);
+	} else if (sheet == 4) {
+		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, NULL, scaleX, scaleY);
 	}
 }
 
@@ -120,6 +134,10 @@ void Gui::sprite(int sheet, int key, int x, int y)
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f);
 	} else if (sheet == 2) { // villagers2.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f);
+	} else if (sheet == 3) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f);
+	} else if (sheet == 4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f);
 	}
 }
 

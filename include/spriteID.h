@@ -29,6 +29,8 @@
 #ifndef SPRITEID_H
 #define SPRITEID_H
 
+#include "acres.h"
+#include "items.h"
 #include "sprites.h"
 #include "villagers.h"
 #include "villagers2.h"
