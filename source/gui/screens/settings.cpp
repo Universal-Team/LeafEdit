@@ -272,7 +272,7 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			screenMode = 0;
 		}
 
-		if (hDown & KEY_SELECT) {
+		if (hDown & KEY_X) {
 			std::string prompt = "Would you like to reset the SpriteSheet?";
 			if(Msg::promptMsg(prompt.c_str())) {
 				finalSheet = "romfs:/gfx/sprites.t3x";

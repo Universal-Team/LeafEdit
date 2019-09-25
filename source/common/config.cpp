@@ -70,9 +70,15 @@ std::string Config::sheet; // Spritesheet Path.
 
 void Config::loadSheet() {
 	Config::sheet = settingsini.GetString("MISC", "SheetPath", Config::sheet);
-	std::string sheetPath1 = Config::sheet;
-	const char *sheetPath = sheetPath1.c_str();
-	sprites    = C2D_SpriteSheetLoad(sheetPath);
+	std::string sheetFile = Config::sheet;
+
+	if((access(sheetFile.c_str(), F_OK) == 0)) {
+		sprites    = C2D_SpriteSheetLoad(sheetFile.c_str());
+	} else {
+		sprites    = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+		Config::sheet = "romfs:/gfx/sprites.t3x";
+		settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+	}
 }
 
 void Config::saveSheet(std::string sheetPath) {
