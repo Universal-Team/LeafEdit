@@ -25,6 +25,7 @@
 */
 
 #include "common/config.hpp"
+#include "common/inifile.h"
 
 #include "core/villagerManagement.hpp"
 
@@ -39,6 +40,7 @@
 #include <unistd.h>
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern CIniFile sheetFileIni;
 
 void Settings::Draw(void) const
 {
@@ -49,7 +51,7 @@ void Settings::Draw(void) const
 		Title += Lang::mainMenu[2];
 	
 		Gui::DrawTop();
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 
 		Gui::DrawBottom();
 
@@ -69,9 +71,9 @@ void Settings::Draw(void) const
 			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[2].x, settingsButtons[2].y, selectedColor);
 		}
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[0]))/2, settingsButtons[0].y+10, 0.6f, WHITE, Lang::settings[0], 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[1].y+10, 0.6f, WHITE, Lang::settings[1], 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[2].y+10, 0.6f, WHITE, "Spritesheet", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[0]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, Lang::settings[1], 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Spritesheet", 140);
 	} else if(screenMode == 1) {
 		DrawSpriteSheetSelection();
 	} else if(screenMode == 2) {
@@ -126,9 +128,9 @@ void Settings::DrawSpriteSheetSelection(void) const {
 	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Spritesheet to load."))/2, 2, 0.72f, WHITE, "Select a Spritesheet to load.", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Spritesheet to load."))/2, 2, 0.72f, Config::barText, "Select a Spritesheet to load.", 400);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, WHITE, Lang::messages2[9], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, Config::barText, Lang::messages2[9], 400);
 
 	std::string sheets;
 	for (uint i=(selectedSpriteSheet<5) ? 0 : selectedSpriteSheet-5;i<dirContents.size()&&i<((selectedSpriteSheet<5) ? 6 : selectedSpriteSheet+1);i++) {
@@ -242,16 +244,27 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			prompt += dirContents[selectedSpriteSheet].name;
 			prompt += "'";
 			if(Msg::promptMsg(prompt.c_str())) {
+
+				// Set the whole Path stuff.
 				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
 				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
 				finalSheet += selectedSheet.c_str();
+				sheetIni = finalSheet.c_str();
+				finalSheet += "/sprites.t3x";
+				sheetIni += "/sheet.ini";
+
+				// Set the SpriteSheet & Ini.
 				Msg::SheetMsg("Now freeing the SpriteSheet...");
 				C2D_SpriteSheetFree(sprites);
 				Msg::SheetMsg("Now Loading the new SpriteSheet...");
 				sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
+				sheetFileIni = sheetIni;
+				Config::loadSheetIniStuff();
 			}
+			// Clear String stuff.
 			finalSheet = "";
 			selectedSheet = "";
+			sheetIni = "";
 			screenMode = 0;
 		}
 
@@ -262,13 +275,20 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			prompt += dirContents[selectedSpriteSheet].name;
 			prompt += "'";
 			if(Msg::promptMsg(prompt.c_str())) {
+				// Set the whole Path stuff.
 				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
 				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
 				finalSheet += selectedSheet.c_str();
+				sheetIni = finalSheet.c_str();
+				finalSheet += "/sprites.t3x";
+				sheetIni += "/sheet.ini";
 				Config::saveSheet(finalSheet.c_str());
+				Config::saveSheetIni(sheetIni.c_str());
 			}
+			// Clear String stuff.
 			finalSheet = "";
 			selectedSheet = "";
+			sheetIni = "";
 			screenMode = 0;
 		}
 
@@ -276,13 +296,21 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			std::string prompt = "Would you like to reset the SpriteSheet?";
 			if(Msg::promptMsg(prompt.c_str())) {
 				finalSheet = "romfs:/gfx/sprites.t3x";
+				sheetIni = "romfs:/gfx/sheet.ini";
+
 				Config::saveSheet(finalSheet.c_str());
+				Config::saveSheetIni(sheetIni.c_str());
+
 				Msg::SheetMsg("Now freeing the SpriteSheet...");
 				C2D_SpriteSheetFree(sprites);
 				Msg::SheetMsg("Now Loading the new SpriteSheet...");
 				sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
+				sheetFileIni = sheetIni;
+				Config::loadSheetIniStuff();
 			}
+			// Clear Strings.
 			finalSheet = "";
+			sheetIni = "";
 			screenMode = 0;
 		}
 
@@ -309,7 +337,7 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 
 void Settings::DrawLangScreen(void) const {
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, WHITE, Lang::language, 398);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, Config::barText, Lang::language, 398);
 	Gui::DrawBottom();
 
 	if (Config::lang == 0) {
@@ -401,15 +429,15 @@ void Settings::DrawLangScreen(void) const {
 		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
 	}
 
-	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, WHITE, "Deutsch", 320);
-	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, WHITE, "English", 320);
-	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, WHITE, "Español", 320);
-	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, WHITE, "Français", 320);
+	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, Config::bgText, "Deutsch", 320);
+	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, Config::bgText, "English", 320);
+	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, Config::bgText, "Español", 320);
+	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, Config::bgText, "Français", 320);
 
-	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, WHITE, "Italiano", 320);
-	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, WHITE, "Lietuvių", 320);
-	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, WHITE, "Português", 320);
-	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, WHITE, "日本語", 320);
+	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, Config::bgText, "Italiano", 320);
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, Config::bgText, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, Config::bgText, "Português", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, Config::bgText, "日本語", 320);
 
 	Gui::sprite(0, sprites_back_idx, langBlocks[8].x, langBlocks[8].y);
 }

@@ -60,7 +60,7 @@ void TownManager::DrawSubMenu(void) const
 	Title += " - ";
 	Title += Lang::mainMenu[0];
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 
 	Gui::DrawBottom();
 
@@ -102,19 +102,19 @@ void TownManager::DrawSubMenu(void) const
 	}
 
 		// Launch a Town from a Backup or just start the game.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, BLACK, Lang::townmanager[0], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::townmanager[0], 130);
 
 		// Backup the Save from the installed Title / Gamecard. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, BLACK, Lang::townmanager[1], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::townmanager[1], 130);
 
 		// Restore a Backuped save.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, BLACK, Lang::townmanager[2], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::townmanager[2], 130);
 
 
 		// Delete Save from Installed Title / Gamecard.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, BLACK, "Delete Town", 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, "Delete Town", 130);
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, BLACK, "Delete Backup", 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, "Delete Backup", 130);
 }
 
 
@@ -177,14 +177,14 @@ void TownManager::DrawBrowse(void) const
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
 	if (screenMode == 1) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, WHITE, Lang::townmanager[3], 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, Config::barText, Lang::townmanager[3], 400);
 	} else if (screenMode == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[4]))/2, 2, 0.72f, WHITE, Lang::townmanager[4], 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[4]))/2, 2, 0.72f, Config::barText, Lang::townmanager[4], 400);
 	} else if (screenMode == 3) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Backup to delete."))/2, 2, 0.72f, WHITE, "Select a Backup to delete.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Backup to delete."))/2, 2, 0.72f, Config::barText, "Select a Backup to delete.", 400);
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, WHITE, Lang::messages2[9], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, Config::barText, Lang::messages2[9], 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {

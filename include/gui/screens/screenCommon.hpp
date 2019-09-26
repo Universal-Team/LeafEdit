@@ -27,6 +27,8 @@
 #ifndef SCREENCOMMON_HPP
 #define SCREENCOMMON_HPP
 
+#include "common/config.hpp"
+
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
 

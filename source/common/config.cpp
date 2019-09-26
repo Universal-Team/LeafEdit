@@ -57,6 +57,7 @@ Structs::ButtonPos SelectorPos [] = {
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
+CIniFile sheetFileIni; // Sheet color informations.
 
 int Config::check; // Update Checked.
 int Config::update; // Update Available? ;P
@@ -67,6 +68,13 @@ int Config::LangLocation; // Language Location (Romfs/SD).
 int Config::lang; // Current Language.
 int Config::selector; // Selector Design for the FileBrowse.
 std::string Config::sheet; // Spritesheet Path.
+std::string Config::sheetIni; // Sheet Ini path.
+
+
+// Config stuff for the Sprites.
+int Config::barText;
+int Config::buttonText;
+int Config::bgText;
 
 void Config::loadSheet() {
 	Config::sheet = settingsini.GetString("MISC", "SheetPath", Config::sheet);
@@ -86,6 +94,35 @@ void Config::saveSheet(std::string sheetPath) {
 	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
 }
 
+
+
+
+void Config::loadSheetIni() {
+	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", Config::sheet);
+	std::string sheetIniFile = Config::sheetIni.c_str();
+	std::string romfs = "romfs:/gfx/sheet.ini";
+
+	if((access(sheetIniFile.c_str(), F_OK) == 0)) {
+		sheetFileIni = sheetIniFile;
+	} else {
+		sheetFileIni = romfs;
+		Config::sheetIni = romfs;
+		settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+	}
+}
+
+void Config::loadSheetIniStuff() {
+	Config::barText = sheetFileIni.GetInt("COLORS", "BarText", Config::barText);
+	Config::buttonText = sheetFileIni.GetInt("COLORS", "ButtonText", Config::buttonText);
+	Config::bgText = sheetFileIni.GetInt("COLORS", "BGText", Config::bgText);
+}
+
+void Config::saveSheetIni(std::string sheetIniPath) {
+	settingsini.SetString("MISC", "SheetIniPath", sheetIniPath.c_str());
+	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+}
+
+
 void Config::loadConfig() {
 
 	// [CORE]
@@ -95,6 +132,7 @@ void Config::loadConfig() {
 	// [MISC]
 	Config::Logging = settingsini.GetInt("MISC", "LOGGING", 0);
 	Config::sheet = settingsini.GetString("MISC", "SheetPath", "romfs:/gfx/sprites.t3x");
+	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", "romfs:/gfx/sheet.ini");
 
 	// [UI]
 	Config::LangLocation = settingsini.GetInt("UI", "LANGLOCATION", 0);

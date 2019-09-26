@@ -53,18 +53,18 @@ void TitleSelection::Draw(void) const {
     Gui::sprite(0, sprites_titleTop_idx, 0, 27);
     Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-    Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, WHITE, Lang::titleSelector[0], 400);
+    Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, Config::barText, Lang::titleSelector[0], 400);
 	
     // Draw the 3DS Gamecard.
     Gui::sprite(0, sprites_card_idx, 30, 93);
     // Draw the Available Titles on the Top Screen.
     TitleDraw();
 
-    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 180, 0.6f, BLACK, Lang::titleSelector[1], 80);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 180, 0.6f, Config::bgText, Lang::titleSelector[1], 80);
 
-    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 180, 0.6f, BLACK, Lang::titleSelector[2], 270);
+    Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 180, 0.6f, Config::bgText, Lang::titleSelector[2], 270);
 
-    Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, WHITE, V_STRING, 400);
+    Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, Config::barText, V_STRING, 400);
 
     if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
@@ -73,15 +73,15 @@ void TitleSelection::Draw(void) const {
     Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
     Gui::sprite(0, sprites_titleBottom_idx, 0, 27);
     Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
-    Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, WHITE, "Press Y, to skip the Title Selection.", 320);
+    Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, Config::barText, "Press Y, to skip the Title Selection.", 320);
 
     // Draw the current Selected Title on the Bottom Screen with informations.
     if (selectedTitle != -2)
     {
         C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 1.0f);
-        Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 100, 0.7f, WHITE, titleFromIndex(selectedTitle)->name(), 400);
-        Gui::DrawString(90, 150, 0.6f, WHITE, "ID :", 50);
-        Gui::DrawString(90+30, 150, 0.6f, WHITE, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
+        Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 100, 0.7f, Config::bgText, titleFromIndex(selectedTitle)->name(), 400);
+        Gui::DrawString(90, 150, 0.6f, Config::bgText, "ID :", 50);
+        Gui::DrawString(90+30, 150, 0.6f, Config::bgText, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
     }
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }

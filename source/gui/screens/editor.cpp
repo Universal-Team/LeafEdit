@@ -73,7 +73,7 @@ void Editor::DrawSubMenu(void) const
 	Title += Lang::editor[2];
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 
 	Gui::DrawBottom();
 
@@ -96,9 +96,9 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, WHITE, Lang::editor[1], 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, WHITE, Lang::editor[6], 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, WHITE, "WIP", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, Config::buttonText, Lang::editor[1], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, Config::buttonText, Lang::editor[6], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "WIP", 140);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -139,7 +139,7 @@ void Editor::DrawBrowse(void) const
 	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, WHITE, Lang::editor[3], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, Config::barText, Lang::editor[3], 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {

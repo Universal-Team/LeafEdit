@@ -43,13 +43,21 @@ namespace Config {
 	extern int lang; // The current Language.
 	extern int selector; // The Selector Design.
 	extern std::string sheet; // SpriteSheet.
-	
-	void loadSheet();
-	void saveSheet(std::string sheetPath);
+	extern std::string sheetIni; // SpriteSheet Ini Path.
 
 	void loadConfig();
 	void saveConfig();
 	void setSelector(); // Set the Selector.
+
+	// Spritesheet stuff.
+	void loadSheet();
+	void saveSheet(std::string sheetPath);
+	void loadSheetIni();
+	void saveSheetIni(std::string sheetIniPath);
+	void loadSheetIniStuff();
+	extern int barText;
+	extern int buttonText;
+	extern int bgText;
 }
 
 #endif

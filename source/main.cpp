@@ -152,6 +152,8 @@ int main()
 	}
 
 	Config::loadSheet();
+	Config::loadSheetIni();
+	Config::loadSheetIniStuff();
 
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 

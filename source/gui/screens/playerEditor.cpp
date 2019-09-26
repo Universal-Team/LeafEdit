@@ -105,43 +105,43 @@ void PlayerEditor::DrawBottom(void) const
 	if (currentPage == 1) {
 		// Display Player Name.
 		
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[1]))/2-65, playerButtons[0].y+10, 0.6f, BLACK, Lang::playerEditor[1], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[1]))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::playerEditor[1], 130);
 
 		// Display Wallet Amount. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[2]))/2-65, playerButtons[1].y+10, 0.6f, BLACK, Lang::playerEditor[2], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[2]))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::playerEditor[2], 130);
 
 		// Display current Tan Value.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[3]))/2-65, playerButtons[2].y+10, 0.6f, BLACK, Lang::playerEditor[3], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[3]))/2-65, playerButtons[2].y+10, 0.6f, Config::buttonText, Lang::playerEditor[3], 130);
 
 
 		// Display Bank Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[4]))/2+150-65, playerButtons[3].y+10, 0.6f, BLACK, Lang::playerEditor[4], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[4]))/2+150-65, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::playerEditor[4], 130);
 
 		// Display Medal Amount. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[5]))/2+150-65, playerButtons[4].y+10, 0.6f, BLACK, Lang::playerEditor[5], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[5]))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::playerEditor[5], 130);
 
 		// Display Coupon Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[6]))/2+150-65, playerButtons[5].y+10, 0.6f, BLACK, Lang::playerEditor[6], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[6]))/2+150-65, playerButtons[5].y+10, 0.6f, Config::buttonText, Lang::playerEditor[6], 130);
 
 	} else if (currentPage == 2) {
 
 		// Max Bank.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[7]))/2-65, playerButtons[0].y+10, 0.6f, BLACK, Lang::playerEditor[7], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[7]))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::playerEditor[7], 130);
 
 		// Max Medals. 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[8]))/2-65, playerButtons[1].y+10, 0.6f, BLACK, Lang::playerEditor[8], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[8]))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::playerEditor[8], 130);
 
 		// Max Coupons.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[9]))/2-65, playerButtons[2].y+10, 0.6f, BLACK, Lang::playerEditor[9], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[9]))/2-65, playerButtons[2].y+10, 0.6f, Config::buttonText, Lang::playerEditor[9], 130);
 
 		// Clear Bank.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[10]))/2+150-65+5, playerButtons[3].y+10, 0.6f, BLACK, Lang::playerEditor[10], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[10]))/2+150-65+5, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::playerEditor[10], 130);
 
 		// Clear Medals.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[11]))/2+150-65, playerButtons[4].y+10, 0.6f, BLACK, Lang::playerEditor[11], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[11]))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::playerEditor[11], 130);
 
 		// Clear Coupons.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[12]))/2+150-65, playerButtons[5].y+10, 0.6f, BLACK, Lang::playerEditor[12], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[12]))/2+150-65, playerButtons[5].y+10, 0.6f, Config::buttonText, Lang::playerEditor[12], 130);
 	}
 }
 
@@ -324,22 +324,22 @@ void PlayerEditor::Player1Draw(void) const
 
 		// Game Specific Things.
 		Gui::sprite(0, sprites_topbox_idx, 40, 37);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, Config::bgText, PlayerName.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 65);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, Config::bgText, WalletAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 93);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, Config::bgText, TanPlayer.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 121);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, Config::bgText, BankAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 149);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, Config::bgText, MedalsAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 177);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, Config::bgText, CouponsAmount.c_str(), 400);
 }
 
 void PlayerEditor::Player2Draw(void) const
@@ -385,22 +385,22 @@ void PlayerEditor::Player2Draw(void) const
 
 		// Game Specific Things.
 		Gui::sprite(0, sprites_topbox_idx, 40, 37);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, Config::bgText, PlayerName.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 65);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, Config::bgText, WalletAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 93);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, Config::bgText, TanPlayer.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 121);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, Config::bgText, BankAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 149);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, Config::bgText, MedalsAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 177);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, Config::bgText, CouponsAmount.c_str(), 400);
 }
 
 void PlayerEditor::Player3Draw(void) const
@@ -446,22 +446,22 @@ void PlayerEditor::Player3Draw(void) const
 
 		// Game Specific Things.
 		Gui::sprite(0, sprites_topbox_idx, 40, 37);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, Config::bgText, PlayerName.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 65);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, Config::bgText, WalletAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 93);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, Config::bgText, TanPlayer.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 121);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, Config::bgText, BankAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 149);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, Config::bgText, MedalsAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 177);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, Config::bgText, CouponsAmount.c_str(), 400);
 }
 
 
@@ -508,22 +508,22 @@ void PlayerEditor::Player4Draw(void) const
 
 		// Game Specific Things.
 		Gui::sprite(0, sprites_topbox_idx, 40, 37);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, WHITE, PlayerName.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, Config::bgText, PlayerName.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 65);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, WHITE, WalletAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, Config::bgText, WalletAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 93);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, WHITE, TanPlayer.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, Config::bgText, TanPlayer.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 121);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, WHITE, BankAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, Config::bgText, BankAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 149);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, WHITE, MedalsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, Config::bgText, MedalsAmount.c_str(), 400);
 
 		Gui::sprite(0, sprites_topbox_idx, 40, 177);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, WHITE, CouponsAmount.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, Config::bgText, CouponsAmount.c_str(), 400);
 }
 
 void PlayerEditor::DrawCurrentPlayer(void) const
@@ -558,6 +558,6 @@ void PlayerEditor::DrawCurrentPlayer(void) const
 	endresult += " ";
 	endresult += activePlayer;
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, endresult.c_str()))/2, 212, 0.8f, WHITE, endresult.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, WHITE, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, endresult.c_str()))/2, 212, 0.8f, Config::barText, endresult.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 }

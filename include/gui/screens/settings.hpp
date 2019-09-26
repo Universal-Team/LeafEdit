@@ -75,6 +75,7 @@ private:
 	mutable bool dirChanged = true;
 	std::string selectedSheet = "";
 	std::string finalSheet = "";
+	std::string sheetIni = "";
 	std::vector<DirEntry> dirContents;
 };
 
