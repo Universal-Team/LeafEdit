@@ -224,6 +224,7 @@ void Settings::DrawSpriteSheetSelection(void) const {
 
 
 void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
+	std::string defaultSheetIni = "romfs:/gfx/sheet.ini";
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 		if (dirChanged) {
@@ -253,14 +254,27 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 				finalSheet += "/sprites.t3x";
 				sheetIni += "/sheet.ini";
 
-				// Set the SpriteSheet & Ini.
-				Msg::SheetMsg("Now freeing the SpriteSheet...");
-				C2D_SpriteSheetFree(sprites);
-				Msg::SheetMsg("Now Loading the new SpriteSheet...");
-				sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
-				sheetFileIni = sheetIni;
-				Config::loadSheetIniStuff();
+				// Set the SpriteSheet.
+				if((access(finalSheet.c_str(), F_OK) == 0)) {
+					Msg::SheetMsg("Now freeing the SpriteSheet...");
+					C2D_SpriteSheetFree(sprites);
+					Msg::SheetMsg("Now Loading the new SpriteSheet...");
+					sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
+				} else {
+					Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
+				}
+
+				// Set the Sheet Ini.
+				if((access(sheetIni.c_str(), F_OK) == 0)) {
+					sheetFileIni = sheetIni;
+					Config::loadSheetIniStuff();
+				} else {
+					Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
+					sheetFileIni = defaultSheetIni;
+					Config::loadSheetIniStuff();
+				}
 			}
+
 			// Clear String stuff.
 			finalSheet = "";
 			selectedSheet = "";
@@ -282,9 +296,22 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 				sheetIni = finalSheet.c_str();
 				finalSheet += "/sprites.t3x";
 				sheetIni += "/sheet.ini";
-				Config::saveSheet(finalSheet.c_str());
-				Config::saveSheetIni(sheetIni.c_str());
+
+				// Set the SpriteSheet.
+				if((access(finalSheet.c_str(), F_OK) == 0)) {
+					Config::saveSheet(finalSheet.c_str());
+				} else {
+					Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
+				}
+
+				// Set the Sheet Ini.
+				if((access(sheetIni.c_str(), F_OK) == 0)) {
+					Config::saveSheetIni(sheetIni.c_str());
+				} else {
+					Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
+				}
 			}
+
 			// Clear String stuff.
 			finalSheet = "";
 			selectedSheet = "";
