@@ -72,23 +72,45 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void PlayerEditor::DrawSubMenu(void) const {
 	std::string activePlayer;
-	std::string PlayerName;
+	std::string Player1Name;
+	std::string Player2Name;
+	std::string Player3Name;
+	std::string Player4Name;
 
 	std::string Title;
 	Title += Lang::title;
 	Title += " - ";
 	Title += "Player Selection";
 
+	if (SaveFile->players[0]->Exists()) {
+		Player1Name = StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
+	}
+
+	if (SaveFile->players[1]->Exists()) {
+		Player2Name = StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str();
+	}
+
+	if (SaveFile->players[2]->Exists()) {
+		Player3Name = StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str();
+	}
+
+	if (SaveFile->players[3]->Exists()) {
+		Player4Name = StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str();
+	}
+
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) { 
 		if (SaveFile->players[player]->Exists()) {
-			PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[player]->Name).c_str();
 			Gui::sprite(0, sprites_villagerBox_idx, 20 + x * 90, 67);
-			Gui::DrawString(20 + x * 90, 150, 0.8f, Config::barText, PlayerName.c_str(), 70);
 		}
 	}
+
+	Gui::DrawString(20 + 0 * 90, 150, 0.6f, Config::barText, Player1Name.c_str(), 70);
+	Gui::DrawString(20 + 1 * 90, 150, 0.6f, Config::barText, Player2Name.c_str(), 70);
+	Gui::DrawString(20 + 2 * 90, 150, 0.6f, Config::barText, Player3Name.c_str(), 70);
+	Gui::DrawString(20 + 3 * 90, 150, 0.6f, Config::barText, Player4Name.c_str(), 70);
 
 	if (selectedPlayer == 0)	Gui::drawAnimatedSelector(20 + 0 * 90, 67, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 	else if (selectedPlayer == 1)	Gui::drawAnimatedSelector(20 + 1 * 90, 67, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
