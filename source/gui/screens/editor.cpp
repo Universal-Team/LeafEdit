@@ -202,15 +202,19 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	}
 
 		if(hDown & KEY_A) {
-			std::string prompt = Lang::editor[4];
-			if(Msg::promptMsg(prompt.c_str())) {
+			if (dirContents.size() == 0) {
+				Msg::DisplayWarnMsg("What are you trying to do? :P");
+			} else {
+				std::string prompt = Lang::editor[4];
+				if(Msg::promptMsg(prompt.c_str())) {
 
-			selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
-				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
-				selectedSaveFolderEditor += "/garden_plus.dat";
-				const char *save = selectedSaveFolderEditor.c_str();
-				SaveFile = Save::Initialize(save, true);
-				EditorMode = 2;
+				selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
+					selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
+					selectedSaveFolderEditor += "/garden_plus.dat";
+					const char *save = selectedSaveFolderEditor.c_str();
+					SaveFile = Save::Initialize(save, true);
+					EditorMode = 2;
+				}
 			}
 		}
 

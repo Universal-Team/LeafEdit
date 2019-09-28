@@ -275,44 +275,56 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	}
 	if (screenMode == 1) {
 		if(hDown & KEY_A) {
-			std::string prompt = Lang::messages2[3];
-			prompt += "\n\n";
-			prompt += "'";
-			prompt += dirContents[selectedSave].name;
-			prompt += "'";
-			if(Msg::promptMsg(prompt.c_str())) {
-				selectedSaveFolder = dirContents[selectedSave].name.c_str();
-				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
-				selectedSaveFolder = "";
-				screenMode = 0;
+			if (dirContents.size() == 0) {
+				Msg::DisplayWarnMsg("What are you trying to do? :P");
+			} else {
+				std::string prompt = Lang::messages2[3];
+				prompt += "\n\n";
+				prompt += "'";
+				prompt += dirContents[selectedSave].name;
+				prompt += "'";
+				if(Msg::promptMsg(prompt.c_str())) {
+					selectedSaveFolder = dirContents[selectedSave].name.c_str();
+					TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
+					selectedSaveFolder = "";
+					screenMode = 0;
+				}
 			}
 		}
 
 	} else if (screenMode == 2) {
 		if(hDown & KEY_A) {
-			std::string prompt = Lang::messages2[4];
-			prompt += "\n\n";
-			prompt += "'";
-			prompt += dirContents[selectedSave].name;
-			prompt += "'";
-			if(Msg::promptMsg(prompt.c_str())) {
-				selectedSaveFolder = dirContents[selectedSave].name.c_str();
-				if(Msg::promptMsg(Lang::messages2[10])) {
-					TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
+			if (dirContents.size() == 0) {
+				Msg::DisplayWarnMsg("What are you trying to do? :P");
+			} else {
+				std::string prompt = Lang::messages2[4];
+				prompt += "\n\n";
+				prompt += "'";
+				prompt += dirContents[selectedSave].name;
+				prompt += "'";
+				if(Msg::promptMsg(prompt.c_str())) {
+					selectedSaveFolder = dirContents[selectedSave].name.c_str();
+					if(Msg::promptMsg(Lang::messages2[10])) {
+						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
+					}
+					TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
+					selectedSaveFolder = "";
+					TownManagement::LaunchTown(currentMedia, currentID);
 				}
-				TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
-				selectedSaveFolder = "";
-				TownManagement::LaunchTown(currentMedia, currentID);
 			}
 		}
 
 	} else if (screenMode == 3) {
 		if (hDown & KEY_A) {
-			if(Msg::promptMsg("Would you like, to delete this Backup?")) {
-				currentBackup += dirContents[selectedSave].name.c_str(); // Get the actual Backup Folder.
-				TownManagement::DeleteBackup(currentID, currentBackup.c_str()); // We delete the Backup now.
-				currentBackup = ""; // We reset the Backup Folder.
-				dirChanged = true; // We want to refresh the list after it.
+			if (dirContents.size() == 0) {
+				Msg::DisplayWarnMsg("What are you trying to do? :P");
+			} else {
+				if(Msg::promptMsg("Would you like, to delete this Backup?")) {
+					currentBackup += dirContents[selectedSave].name.c_str(); // Get the actual Backup Folder.
+					TownManagement::DeleteBackup(currentID, currentBackup.c_str()); // We delete the Backup now.
+					currentBackup = ""; // We reset the Backup Folder.
+					dirChanged = true; // We want to refresh the list after it.
+				}
 			}
 		}
 	}
