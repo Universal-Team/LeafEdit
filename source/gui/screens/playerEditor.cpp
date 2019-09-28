@@ -84,18 +84,42 @@ void PlayerEditor::DrawSubMenu(void) const {
 
 	if (SaveFile->players[0]->Exists()) {
 		Player1Name = StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
+		Player1Name += "\n\n      ";
+		if (SaveFile->players[0]->Gender == 0) {
+			Player1Name += male;
+		} else {
+			Player1Name += female;
+		}
 	}
 
 	if (SaveFile->players[1]->Exists()) {
 		Player2Name = StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str();
+		Player2Name += "\n\n      ";
+		if (SaveFile->players[1]->Gender == 0) {
+			Player2Name += male;
+		} else {
+			Player2Name += female;
+		}
 	}
 
 	if (SaveFile->players[2]->Exists()) {
 		Player3Name = StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str();
+		Player3Name += "\n\n      ";
+		if (SaveFile->players[2]->Gender == 0) {
+			Player3Name += male;
+		} else {
+			Player3Name += female;
+		}
 	}
 
 	if (SaveFile->players[3]->Exists()) {
 		Player4Name = StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str();
+		Player4Name += "\n\n      ";
+		if (SaveFile->players[3]->Gender == 0) {
+			Player4Name += male;
+		} else {
+			Player4Name += female;
+		}
 	}
 
 	Gui::DrawTop();
@@ -103,19 +127,19 @@ void PlayerEditor::DrawSubMenu(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) { 
 		if (SaveFile->players[player]->Exists()) {
-			Gui::sprite(0, sprites_villagerBox_idx, 20 + x * 90, 67);
+			Gui::sprite(0, sprites_villagerBox_idx, 15 + x * 100, 93);
 		}
 	}
 
-	Gui::DrawString(20 + 0 * 90, 150, 0.6f, Config::barText, Player1Name.c_str(), 70);
-	Gui::DrawString(20 + 1 * 90, 150, 0.6f, Config::barText, Player2Name.c_str(), 70);
-	Gui::DrawString(20 + 2 * 90, 150, 0.6f, Config::barText, Player3Name.c_str(), 70);
-	Gui::DrawString(20 + 3 * 90, 150, 0.6f, Config::barText, Player4Name.c_str(), 70);
+	Gui::DrawString(17 + 0 * 100, 106, 0.45f, Config::barText, Player1Name.c_str(), 65);
+	Gui::DrawString(17 + 1 * 100, 106, 0.45f, Config::barText, Player2Name.c_str(), 65);
+	Gui::DrawString(17 + 2 * 100, 106, 0.45f, Config::barText, Player3Name.c_str(), 65);
+	Gui::DrawString(17 + 3 * 100, 106, 0.45f, Config::barText, Player4Name.c_str(), 65);
 
-	if (selectedPlayer == 0)	Gui::drawAnimatedSelector(20 + 0 * 90, 67, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
-	else if (selectedPlayer == 1)	Gui::drawAnimatedSelector(20 + 1 * 90, 67, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
-	else if (selectedPlayer == 2)	Gui::drawAnimatedSelector(20 + 2 * 90, 67, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
-	else if (selectedPlayer == 3)	Gui::drawAnimatedSelector(20 + 3 * 90, 67, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	if (selectedPlayer == 0)	Gui::drawAnimatedSelector(15 + 0 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	else if (selectedPlayer == 1)	Gui::drawAnimatedSelector(15 + 1 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	else if (selectedPlayer == 2)	Gui::drawAnimatedSelector(15 + 2 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	else if (selectedPlayer == 3)	Gui::drawAnimatedSelector(15 + 3 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 
 	Gui::DrawBottom();
 	activePlayer += Lang::misc[1];

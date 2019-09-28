@@ -82,6 +82,9 @@ private:
 	std::string pBank;
 	std::string pMedals;
 	std::string pCoupons;
+
+	std::string female = "♀";
+	std::string male = "♂";
 };
 
 #endif
