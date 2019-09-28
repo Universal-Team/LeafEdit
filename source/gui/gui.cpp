@@ -49,6 +49,7 @@ C2D_SpriteSheet Villager2;
 C2D_TextBuf sizeBuf;
 C2D_Font systemFont;
 std::stack<std::unique_ptr<SCREEN>> screens;
+bool currentScreen = false;
 
 // Clear Text.
 void Gui::clearTextBufs(void)
@@ -156,6 +157,10 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 	}
 }
 
+void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
+    Gui::DrawString((currentScreen ? 400 : 320)+x-(std::min(maxWidth, (int)Gui::GetStringWidth(size, Text)/2)), y, size, color, Text, maxWidth);
+}
+
 // Draw String or Text.
 void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
 	float width = 1, height = 1;
@@ -225,6 +230,7 @@ void Gui::screenBack()
 void Gui::ScreenDraw(C3D_RenderTarget * screen)
 {
 	C2D_SceneBegin(screen);
+	currentScreen = screen == top ? 1 : 0;
 }
 
 void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour)
@@ -232,9 +238,9 @@ void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height
 	static constexpr int w     = 2;
 	static float timer         = 0.0f;
 	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = C2D_Color32(0, 191, 255, 255) & 0xFF;
-	u8 g                       = (C2D_Color32(0, 191, 255, 255) >> 8) & 0xFF;
-	u8 b                       = (C2D_Color32(0, 191, 255, 255) >> 16) & 0xFF;
+	u8 r                       = Config::SelectorColor & 0xFF;
+	u8 g                       = (Config::SelectorColor >> 8) & 0xFF;
+	u8 b                       = (Config::SelectorColor >> 16) & 0xFF;
 	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
 	// BG Color for the Selector.

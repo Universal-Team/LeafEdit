@@ -48,12 +48,6 @@ using std::wstring;
 
 extern C2D_SpriteSheet sprites;
 
-Structs::ButtonPos SelectorPos [] = {
-		{90, 40, 140, 35, -1}, // Selector 1.
-		{90, 100, 140, 35, -1}, // Selector 2.
-		{90, 160, 140, 35, -1}, // Selector 3.
-};
-
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
@@ -66,7 +60,6 @@ int Config::Logging; // Enable / Disable writing the log.
 
 int Config::LangLocation; // Language Location (Romfs/SD).
 int Config::lang; // Current Language.
-int Config::selector; // Selector Design for the FileBrowse.
 std::string Config::sheet; // Spritesheet Path.
 std::string Config::sheetIni; // Sheet Ini path.
 
@@ -75,6 +68,10 @@ std::string Config::sheetIni; // Sheet Ini path.
 int Config::barText;
 int Config::buttonText;
 int Config::bgText;
+int Config::boxText;
+int Config::SelectorColor;
+int Config::SelectorBG;
+int Config::SelectorText;
 
 void Config::loadSheet() {
 	Config::sheet = settingsini.GetString("MISC", "SheetPath", Config::sheet);
@@ -115,6 +112,10 @@ void Config::loadSheetIniStuff() {
 	Config::barText = sheetFileIni.GetInt("COLORS", "BarText", Config::barText);
 	Config::buttonText = sheetFileIni.GetInt("COLORS", "ButtonText", Config::buttonText);
 	Config::bgText = sheetFileIni.GetInt("COLORS", "BGText", Config::bgText);
+	Config::boxText = sheetFileIni.GetInt("COLORS", "BoxText", Config::boxText);
+	Config::SelectorColor = sheetFileIni.GetInt("COLORS", "Selector", Config::SelectorColor);
+	Config::SelectorBG = sheetFileIni.GetInt("COLORS", "SelectorBG", Config::SelectorBG);
+	Config::SelectorText = sheetFileIni.GetInt("COLORS", "SelectorText", Config::SelectorText);
 }
 
 void Config::saveSheetIni(std::string sheetIniPath) {
@@ -137,7 +138,6 @@ void Config::loadConfig() {
 	// [UI]
 	Config::LangLocation = settingsini.GetInt("UI", "LANGLOCATION", 0);
 	Config::lang = settingsini.GetInt("UI", "LANGUAGE", 1);
-	Config::selector = settingsini.GetInt("UI", "SELECTOR", 1);
 }
 
 void Config::saveConfig() {
@@ -151,47 +151,6 @@ void Config::saveConfig() {
 	// [UI]
 	settingsini.SetInt("UI", "LANGLOCATION", Config::LangLocation);
 	settingsini.SetInt("UI", "LANGUAGE", Config::lang);
-	settingsini.SetInt("UI", "SELECTOR", Config::selector);
 
 	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
-}
-
-
-void Config::setSelector() {
-	touchPosition touch;
-	Gui::clearTextBufs();
-	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Please Select the Selector."))/2, 2, 0.8f, WHITE, "Please Select the Selector.", 400);
-	Gui::DrawBottom();
-
-	Gui::sprite(0, sprites_button_idx, SelectorPos[0].x, SelectorPos[0].y);
-	Gui::sprite(0, sprites_button_idx, SelectorPos[1].x, SelectorPos[1].y);
-	Gui::sprite(0, sprites_button_idx, SelectorPos[2].x, SelectorPos[2].y);
-
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 1"))/2, SelectorPos[0].y+10, 0.6f, WHITE, "Selector 1", 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 2"))/2, SelectorPos[1].y+10, 0.6f, WHITE, "Selector 2", 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Selector 3"))/2, SelectorPos[2].y+10, 0.6f, WHITE, "Selector 3", 140);
-
-	C3D_FrameEnd(0);
-	while(1)
-	{
-		hidScanInput();
-		touchRead(&touch);
-		if(hidKeysDown() & KEY_TOUCH) {
-			if (touching(touch, SelectorPos[0])) {
-				Config::selector = 1;
-				break;
-			} else if (touching(touch, SelectorPos[1])) {
-				Config::selector = 2;
-				break;
-			} else if (touching(touch, SelectorPos[2])) {
-				Config::selector = 3;
-				break;
-			}
-		}
-	}
-	Config::saveConfig();
 }

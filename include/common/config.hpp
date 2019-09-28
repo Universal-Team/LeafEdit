@@ -41,13 +41,11 @@ namespace Config {
 	// [UI]
 	extern int LangLocation; // Language Location (Romfs/SD).
 	extern int lang; // The current Language.
-	extern int selector; // The Selector Design.
 	extern std::string sheet; // SpriteSheet.
 	extern std::string sheetIni; // SpriteSheet Ini Path.
 
 	void loadConfig();
 	void saveConfig();
-	void setSelector(); // Set the Selector.
 
 	// Spritesheet stuff.
 	void loadSheet();
@@ -58,6 +56,10 @@ namespace Config {
 	extern int barText;
 	extern int buttonText;
 	extern int bgText;
+	extern int boxText;
+	extern int SelectorColor;
+	extern int SelectorBG;
+	extern int SelectorText;
 }
 
 #endif

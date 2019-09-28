@@ -86,6 +86,7 @@ namespace Gui
     bool Draw_Rect(float x, float y, float w, float h, u32 color);
 
     // Text / String Functions.
+    void DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth = 0);
     void DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth = 0);
     void GetStringSize(float size, float *width, float *height, std::string Text);
     float GetStringWidth(float size, std::string Text);

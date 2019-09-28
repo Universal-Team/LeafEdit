@@ -71,9 +71,9 @@ void Settings::Draw(void) const
 			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[2].x, settingsButtons[2].y, selectedColor);
 		}
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[0]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, Lang::settings[1], 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Spritesheet", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Spritesheet", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[2]))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, Lang::settings[2], 140);
 	} else if(screenMode == 1) {
 		DrawSpriteSheetSelection();
 	} else if(screenMode == 2) {
@@ -96,10 +96,10 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 							screenMode = 2;
 							break;
 					}	case 1:
-							Config::setSelector();
+							screenMode = 1;
 							break;
 						case 2: {
-							screenMode = 1;
+							Msg::NotImplementedYet();
 							break;
 						 }
 				}
@@ -137,72 +137,30 @@ void Settings::DrawSpriteSheetSelection(void) const {
 		(i == selectedSpriteSheet);
 
 		if (selectedSpriteSheet == 0) {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 28, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSpriteSheet == 1) {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 58, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSpriteSheet == 2) {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 91, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSpriteSheet == 3) {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 125, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSpriteSheet == 4) {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 156, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 
 		} else if (selectedSpriteSheet == 5) {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 		} else {
-			if (Config::selector == 1) {
-				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(0, 0, 0, 255));
-			} else if (Config::selector == 2) {
-				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 20));
-			} else if (Config::selector == 3) {
-				Gui::drawAnimatedSelector(0, 188, 400, 25, .005, C2D_Color32(255, 255, 255, 255));
-			}
+			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
 			sheets +=  dirContents[i].name + "\n\n";
 		}
 	}
@@ -210,11 +168,7 @@ void Settings::DrawSpriteSheetSelection(void) const {
 		sheets += "\n\n";
 	}
 
-	if (Config::selector == 1) {
-		Gui::DrawString(26, 32, 0.53f, WHITE, sheets.c_str(), 400);
-	} else if (Config::selector == 2 || Config::selector == 3) {
-		Gui::DrawString(26, 32, 0.53f, BLACK, sheets.c_str(), 400);
-	}
+	Gui::DrawString(26, 32, 0.53f, Config::SelectorText, sheets.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
