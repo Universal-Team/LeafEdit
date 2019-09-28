@@ -41,31 +41,47 @@ public:
 
 private:
 	int Selection = 0; // The current option selection.
-	int currentPlayer = 1; // The current Selected Player.
+	int selectedPlayer; // current Selected Player.
 	int currentPage = 1; // Page of the Player Editor.
 	int cp = 0; // Current Player.
-	
-	void DrawBottom(void) const; // Draw the Bottom Screen with this function, because it is the same on every player.
+	int maxPlayer = 0; // Max available players.
+	int screen = 0; // Sub menu.
 
-	// Player Drawings.
-	void Player1Draw(void) const;
-	void Player2Draw(void) const;
-	void Player3Draw(void) const;
-	void Player4Draw(void) const;
+	// Screen Draws.
+	void DrawSubMenu(void) const;
+	void DrawMainEditor(void) const;
+	void DrawPlayerEditor(void) const;
 
-	// Draw Current Player.
-	void DrawCurrentPlayer(void) const;
+	// Screen Logics.
+	void SubMenuLogic(u32 hDOwn, u32 hHeld);
+	void MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	// Button Struct.
 	std::vector<Structs::ButtonPos> playerButtons = {
-    	{20, 40, 140, 35, -1}, // Player Name.
+		{20, 40, 140, 35, -1}, // Player Name.
 		{20, 100, 140, 35, -1}, // Wallet Amount.
 		{20, 160, 140, 35, -1}, // Tan.
 
-    	{170, 40, 140, 35, -1}, // Bank.
+		{170, 40, 140, 35, -1}, // Bank.
 		{170, 100, 140, 35, -1}, // Medals.
 		{170, 160, 140, 35, -1}, // Coupons.
 	};
+
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{90, 40, 140, 35, -1}, // Player.
+		{90, 100, 140, 35, -1}, // Items
+		{90, 160, 140, 35, -1}, // WIP.
+		{293, 213, 27, 27, -1}, // Back to Player Selection.
+	};
+
+	// Player Stuff. p -> Player.
+	std::string pName;
+	std::string pWallet; 
+	std::string pTan; 
+	std::string pBank;
+	std::string pMedals;
+	std::string pCoupons;
 };
 
 #endif
