@@ -192,13 +192,13 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
             titleIsLoaded = true;
         }
 		Gui::setScreen(std::make_unique<MainMenu>());
-	} else if (hDown & KEY_SELECT) {
+	} else if (hDown & KEY_X) {
         GameLoader::updateCheck2();
     } else if (hDown & KEY_Y) {
         titleIsLoaded = false;
         Gui::setScreen(std::make_unique<MainMenu>());
-    } else if (hHeld & KEY_X) {
-        Msg::HelperBox("This is a Test!");
+    } else if (hHeld & KEY_SELECT) {
+        Msg::HelperBox("Select a Title to load. if you don't have an installed title -> Press Y.\nPress Start, to exit the App or press Home.\n(You can't use the Town Manager without a Title)");
     }
 }
 

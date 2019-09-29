@@ -116,6 +116,10 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		SaveFile->Close();
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press Player to access the Player Editor.\nPress Villager to access the Villager Editor.\nPress WIP to ? (Not implemented yet)\nPress the back Icon on the bottom Screen to exit with saving or not.");
+	}
+
 	if (hDown & KEY_A) {
 			switch(Selection) {
 				case 0: {
@@ -201,6 +205,10 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		dirChanged = false;
 	}
 
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+		}
+
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg("What are you trying to do? :P");
@@ -233,7 +241,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 			Gui::screenBack();
 			return;
 		}
-	} else if (hDown & KEY_SELECT) {
+	} else if (hDown & KEY_START) {
 		dirChanged = true;
 	}
 }

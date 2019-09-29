@@ -177,6 +177,10 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 		Selection = 0;
 		screen = 1;
 	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select the Player, which you want to edit and press A.\nPress B to exit from this Screen.");
+	}
 }
 
 void PlayerEditor::DrawMainEditor(void) const {
@@ -222,6 +226,14 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if(Selection < 2)	Selection++;
 	} else if (hDown & KEY_TOUCH && touching(touch, mainButtons[3])) {
 		screen = 0;
+	}
+
+	if (hDown & KEY_B) {
+		screen = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select Player, to edit the Player Stuff.\nSelect Items, to edit the Items. (Not Implemented yet)\nSelect WIP to ?. (Not implemented yet)\nPress B to exit from this Screen.");
 	}
 
 	if (hDown & KEY_A) {
@@ -391,6 +403,9 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		Selection = 0;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press L/R to switch the Editing Pages.\nTouch or press A to edit the selected option.\nPress B to exit from this Screen.");
+	}
 
 	// Selection A / Touch.
 	if (hDown & KEY_A) {

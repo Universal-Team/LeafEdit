@@ -47,7 +47,7 @@ private:
 	void SpriteSheetLogic(u32 hDown, u32 hHeld);
 
 	void DrawLangScreen(void) const;
-	void langScreenLogic(u32 hDown, touchPosition touch);
+	void langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<Structs::ButtonPos> settingsButtons = {
     	{90, 40, 140, 35, -1}, // Language

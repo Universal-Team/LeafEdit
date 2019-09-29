@@ -108,7 +108,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if(screenMode == 1) {
 		SpriteSheetLogic(hDown, hHeld);
 	} else if(screenMode == 2) {
-		langScreenLogic(hDown, touch);
+		langScreenLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -118,6 +118,8 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
+	} else if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select Language, to select the GUI Language.\nSelect Spritsheet, to select a custom Spritesheet.\nSelect Ini Editor, to edit the 'sheet.ini' of the spritesheet.\nPress B to exit from this Screen.");
 	}
 }
 
@@ -245,6 +247,10 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			}
 		}
 
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox("Select a Spritesheet and press A to load it.\nSelect a Spritesheet and press Y to autoload it at startup.\nPress X to reset the Spritesheet.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+		}
+
 		if (hDown & KEY_Y) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg("What are you trying to do? :P");
@@ -326,7 +332,7 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 		if(Msg::promptMsg(Lang::messages[7])) {
 			screenMode = 0;
 		}
-	} else if (hDown & KEY_SELECT) {
+	} else if (hDown & KEY_START) {
 		dirChanged = true;
 	}
 }
@@ -440,9 +446,13 @@ void Settings::DrawLangScreen(void) const {
 	Gui::sprite(0, sprites_back_idx, langBlocks[8].x, langBlocks[8].y);
 }
 
-void Settings::langScreenLogic(u32 hDown, touchPosition touch) {
+void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		screenMode = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press on the Box, to select your Language.\nPress B to exit from this Screen.");
 	}
 
 	if (hDown & KEY_TOUCH && touching(touch, langBlocks[8])) {

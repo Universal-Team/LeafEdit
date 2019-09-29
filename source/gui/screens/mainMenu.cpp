@@ -96,5 +96,7 @@ void MainMenu::SelectionLogic(u32 hDown, u32 hHeld)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
+	}  else if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select Town Manager, to manage your Towns.\nSelect Editor to edit a Save from your SD Card.\nPress Settings for the Settings.\nPress B to exit from this Screen.");
 	}
 }

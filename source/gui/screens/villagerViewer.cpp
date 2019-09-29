@@ -87,6 +87,10 @@ void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Gui::screenBack();
 		return;
 	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press L/R to switch the Villager.\nPress A to open the Villager Editor. (Not implemented yet)\nPress B to exit from this Screen.");
+	}
 }
 
 void VillagerViewer::Villager1Draw(void) const

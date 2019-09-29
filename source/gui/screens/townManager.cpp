@@ -166,7 +166,9 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 4)	Selection++;
-	}
+	}  else if (hHeld & KEY_SELECT) {
+        Msg::HelperBox("Select Launch Town, to launch a Town from your SD Card.\nSelect Backup Town, to backup a Town from the selected Mediatype.\nSelect Restore Town, to restore a save from your SD Card.\nSelect Delete Town, to delete your current Mediatypes SaveFile.\nSelect Delete Backup, to delete an unneded Backup from the SD Card.\nPress B to exit from this Screen.");
+    }
 }
 
 void TownManager::DrawBrowse(void) const
@@ -290,6 +292,8 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 					screenMode = 0;
 				}
 			}
+		} else if (hHeld & KEY_SELECT) {
+			Msg::HelperBox("Select a Backup, which you like to restore and press A.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
 		}
 
 	} else if (screenMode == 2) {
@@ -326,6 +330,8 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 					dirChanged = true; // We want to refresh the list after it.
 				}
 			}
+		} else if (hHeld & KEY_SELECT) {
+			Msg::HelperBox("Select the unneded Backup and press A to delete it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
 		}
 	}
 
@@ -334,6 +340,8 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 				if(Msg::promptMsg(Lang::messages2[5])) {
 					TownManagement::LaunchTown(currentMedia, currentID);
 				}
+			} else if (hHeld & KEY_SELECT) {
+				Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
 			}
 		}
 
@@ -351,7 +359,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		if(Msg::promptMsg(Lang::messages[7])) {
 			screenMode = 0;
 		}
-	} else if (hDown & KEY_SELECT) {
+	} else if (hDown & KEY_START) {
 		dirChanged = true;
 	}
 }

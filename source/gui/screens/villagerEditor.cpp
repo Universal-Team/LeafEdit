@@ -83,6 +83,10 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select a Villager Group and press A. (Not implemented yet)\nPress L/R to switch the Pages.\nPress B to exit from this Screen.");
+	}
+
 	if (hDown & KEY_R) {
 		if(subMenuPage == 3) {
 			if(currentRow == 2) {
@@ -384,5 +388,9 @@ void VillagerEditor::DrawVillagerSelection(void) const {
 void VillagerEditor::VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		editorMode = 1;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select a Villager, which you like to replace with the selected one.\nPress B to exit from this Screen.");
 	}
 }
