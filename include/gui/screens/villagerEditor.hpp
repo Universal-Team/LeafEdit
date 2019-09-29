@@ -54,6 +54,8 @@ private:
 	void DrawSelection(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch); // SubMenu Logic.
 	
+	void DrawVillagerSelection(void) const;
+	void VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	// Villager Editor Stuff.
 	bool isSelected = false; // If the Villager is Selected, this would be true.

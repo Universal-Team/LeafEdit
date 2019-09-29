@@ -47,13 +47,16 @@ void VillagerEditor::Draw(void) const
 {
 	if (editorMode == 1) {
 		DrawSubMenu();
+	} else if (editorMode == 2) {
+		DrawVillagerSelection();
 	}
 }
-
 
 void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (editorMode == 1) {
 		SubMenuLogic(hDown, hHeld, touch);
+	} else if (editorMode == 2) {
+		VillagerSelectionLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -71,6 +74,12 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if(subMenuPage == 4) {
 		} else {
 			if(currentRow < 2)	currentRow++;
+		}
+	}
+
+	if (hDown & KEY_A) {
+		if (currentSlot == 1 && currentRow == 1 && subMenuPage == 1) {
+			editorMode = 2;
 		}
 	}
 
@@ -324,8 +333,6 @@ void VillagerEditor::DrawSubMenu(void) const
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfive.c_str()))/2+195-35, 83, 0.55f, Config::boxText, GroupThirtyfive.c_str(), 70);
 	}
 
-
-
 	// Draw Selection.
 	DrawSelection();
 
@@ -357,5 +364,25 @@ void VillagerEditor::DrawSelection(void) const
 		Gui::drawAnimatedSelector(245, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 	} else if (currentSlot == 5 && currentRow == 2) {
 		Gui::drawAnimatedSelector(325, 140, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	}
+}
+
+
+void VillagerEditor::DrawVillagerSelection(void) const {
+	Gui::DrawTop();
+	u32 villager = 93;
+	for (u32 y = 0; y < 2; y++) {
+		for (u32 x = 0; x < 5; x++, villager++) {
+			villagerNameText = g_villagerDatabase[villager];
+			Gui::sprite(0, sprites_villagerBox_idx, 15 + x * 75, 40 + y * 90);
+			VillagerManagement::DrawVillager(villager, 15 + x * 75, 35 + y * 90);
+			Gui::DrawString(15 + x * 75, 95 + y * 90, 0.45f, WHITE, villagerNameText, 400);
+		}
+	}
+}
+
+void VillagerEditor::VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		editorMode = 1;
 	}
 }

@@ -45,51 +45,6 @@ std::vector<std::string> g_villagerDatabase;
 extern C2D_SpriteSheet Villager;
 extern C2D_SpriteSheet Villager2;
 
-// Sorted with ID's!
-enum Species {
-	Anteater,
-	Bear,
-	Bird,
-	Bull,
-	Cat,
-	Cub,
-	Chicken,
-	Cow,
-	Alligator,
-	Deer,
-	Dog,
-	Duck,
-	Elephant,
-	Frog,
-	Goat,
-	Gorilla,
-	Hamster,
-	Hippo,
-	Horse,
-	Kangaroo,
-	Koala,
-	Lion,
-	Monkey,
-	Mouse,
-	Octopus,
-	Ostrich,
-	Eagle,
-	Penguin,
-	Pig,
-	Rabbit,
-	Rhino,
-	Sheep,
-	Squirrel,
-	Tiger,
-	Wolf,
-	InvalidSpecies
-};
-
-struct Villagers {
-	Species species;
-	std::string name;
-};
-
 
 std::vector<Villagers> villagers = {
 	{Anteater},
@@ -286,6 +241,160 @@ int getSpecies(int id) {
 		return Wolf;
 	} else {
 		return InvalidSpecies;
+	}
+}
+
+// Dunno if needed. :shrug:
+int getStartID(int id) {
+	if(id <= 6) {
+		return 0;
+	} else if(id <= 20) {
+		return 7;
+	} else if(id <= 34) {
+		return 21;
+	} else if(id <= 40) {
+		return 35;
+	} else if(id <= 63) {
+		return 41;
+	} else if(id <= 79) {
+		return 64;
+	} else if(id <= 88) {
+		return 80;
+	} else if(id <= 92) {
+		return 89;
+	} else if(id <= 99) {
+		return 93;
+	} else if(id <= 110) {
+		return 100;
+	} else if(id <= 126) {
+		return 111;
+	} else if(id <= 143) {
+		return 127;
+	} else if(id <= 154) {
+		return 144;
+	} else if(id <= 172) {
+		return 155;
+	} else if(id <= 179) {
+		return 173;
+	} else if(id <= 189) {
+		return 180;
+	} else if(id <= 197) {
+		return 190;
+	} else if(id <= 205) {
+		return 198;
+	} else if(id <= 221) {
+		return 206;
+	} else if(id <= 230) {
+		return 222;
+	} else if(id <= 238) {
+		return 231;
+	} else if(id <= 245) {
+		return 239;
+	} else if(id <= 253) {
+		return 246;
+	} else if(id <= 268) {
+		return 254;
+	} else if(id <= 272) {
+		return 269;
+	} else if(id <= 282) {
+		return 273;
+	} else if(id <= 291) {
+		return 283;
+	} else if(id <= 304) {
+		return 292;
+	} else if(id <= 320) {
+		return 305;
+	} else if(id <= 341) {
+		return 321;
+	} else if(id <= 347) {
+		return 342;
+	} else if(id <= 360) {
+		return 348;
+	} else if(id <= 380) {
+		return 361;
+	} else if(id <= 387) {
+		return 381;
+	} else if(id <= 398) {
+		return 388;
+	} else {
+		return 399;
+	}
+}
+
+// Dunno if needed. :shrug:
+int getEndID(int id) {
+	if(id <= 6) {
+		return 6;
+	} else if(id <= 20) {
+		return 20;
+	} else if(id <= 34) {
+		return 34;
+	} else if(id <= 40) {
+		return 40;
+	} else if(id <= 63) {
+		return 63;
+	} else if(id <= 79) {
+		return 79;
+	} else if(id <= 88) {
+		return 88;
+	} else if(id <= 92) {
+		return 92;
+	} else if(id <= 99) {
+		return 99;
+	} else if(id <= 110) {
+		return 110;
+	} else if(id <= 126) {
+		return 126;
+	} else if(id <= 143) {
+		return 143;
+	} else if(id <= 154) {
+		return 154;
+	} else if(id <= 172) {
+		return 172;
+	} else if(id <= 179) {
+		return 179;
+	} else if(id <= 189) {
+		return 189;
+	} else if(id <= 197) {
+		return 197;
+	} else if(id <= 205) {
+		return 205;
+	} else if(id <= 221) {
+		return 221;
+	} else if(id <= 230) {
+		return 230;
+	} else if(id <= 238) {
+		return 238;
+	} else if(id <= 245) {
+		return 245;
+	} else if(id <= 253) {
+		return 253;
+	} else if(id <= 268) {
+		return 268;
+	} else if(id <= 272) {
+		return 272;
+	} else if(id <= 282) {
+		return 282;
+	} else if(id <= 291) {
+		return 291;
+	} else if(id <= 304) {
+		return 304;
+	} else if(id <= 320) {
+		return 320;
+	} else if(id <= 341) {
+		return 341;
+	} else if(id <= 347) {
+		return 347;
+	} else if(id <= 360) {
+		return 360;
+	} else if(id <= 380) {
+		return 380;
+	} else if(id <= 387) {
+		return 387;
+	} else if(id <= 398) {
+		return 398;
+	} else {
+		return 399;
 	}
 }
 

@@ -30,6 +30,55 @@
 #include <3ds.h>
 #include <stdio.h>
 #include <string>
+#include <vector>
+
+// Sorted with ID's!
+enum Species {
+	Anteater,
+	Bear,
+	Bird,
+	Bull,
+	Cat,
+	Cub,
+	Chicken,
+	Cow,
+	Alligator,
+	Deer,
+	Dog,
+	Duck,
+	Elephant,
+	Frog,
+	Goat,
+	Gorilla,
+	Hamster,
+	Hippo,
+	Horse,
+	Kangaroo,
+	Koala,
+	Lion,
+	Monkey,
+	Mouse,
+	Octopus,
+	Ostrich,
+	Eagle,
+	Penguin,
+	Pig,
+	Rabbit,
+	Rhino,
+	Sheep,
+	Squirrel,
+	Tiger,
+	Wolf,
+	InvalidSpecies
+};
+
+struct Villagers {
+	Species species;
+	std::string name;
+};
+
+extern std::vector<Villagers> villagers;
+extern std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, Species species);
 
 namespace VillagerManagement
 {
