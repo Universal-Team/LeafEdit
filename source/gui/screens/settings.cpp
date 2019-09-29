@@ -231,6 +231,10 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 						sheetFileIni = defaultSheetIni;
 						Config::loadSheetIniStuff();
 					}
+					Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
+					for (int i = 0; i < 60*3; i++) {
+						gspWaitForVBlank();
+					}
 				}
 
 				// Clear String stuff.
@@ -271,6 +275,10 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 						Config::saveSheetIni(sheetIni.c_str());
 					} else {
 						Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
+					}
+					Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
+					for (int i = 0; i < 60*3; i++) {
+						gspWaitForVBlank();
 					}
 				}
 
