@@ -37,6 +37,7 @@ namespace Msg
     void NotImplementedYet(void); // Display a not Implemented Message.
     void DisplayMsg(std::string Message); // Display just a Message.
     void SheetMsg(std::string Message); // Display a Message for the reloading Sheet.
+    void HelperBox(std::string Msg); // Helper Box?
 }
 
 #endif

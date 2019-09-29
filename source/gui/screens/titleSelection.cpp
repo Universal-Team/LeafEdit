@@ -78,7 +78,7 @@ void TitleSelection::Draw(void) const {
     // Draw the current Selected Title on the Bottom Screen with informations.
     if (selectedTitle != -2)
     {
-        C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 1.0f);
+        C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 0.5f);
         Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 100, 0.7f, Config::bgText, titleFromIndex(selectedTitle)->name(), 400);
         Gui::DrawString(90, 150, 0.6f, Config::bgText, "ID :", 50);
         Gui::DrawString(90+30, 150, 0.6f, Config::bgText, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
@@ -197,6 +197,8 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
     } else if (hDown & KEY_Y) {
         titleIsLoaded = false;
         Gui::setScreen(std::make_unique<MainMenu>());
+    } else if (hHeld & KEY_X) {
+        Msg::HelperBox("This is a Test!");
     }
 }
 
@@ -207,10 +209,10 @@ void TitleSelection::TitleDraw(void) const
     // Gamecard.
     if (GameLoader::cardTitle != nullptr)
     {
-        C2D_DrawImageAt(GameLoader::cardTitle->icon(), 35, 98, 1.0f);
+        C2D_DrawImageAt(GameLoader::cardTitle->icon(), 35, 98, 0.5f);
         if (titleFromIndex(selectedTitle) == GameLoader::cardTitle)
         {
-            Gui::drawAnimatedSelector(34, 97, 50, 50, .025f, C2D_Color32(255, 255, 255, 100));
+            Gui::drawAnimatedSelector(34, 97, 50, 50, .025f, C2D_Color32(0, 0, 0, 0));
         }
     }
 
@@ -225,10 +227,10 @@ void TitleSelection::TitleDraw(void) const
             x = 165 + (i > 2 ? i - 3 : i) * 60;
         }
 
-        C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 1.0f);
+        C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 0.5f);
         if (titleFromIndex(selectedTitle) == GameLoader::installedTitles[i])
         {
-            Gui::drawAnimatedSelector(x - 1, y - 1, 50, 50, .025f, C2D_Color32(255, 255, 255, 100));
+            Gui::drawAnimatedSelector(x - 1, y - 1, 50, 50, .025f, C2D_Color32(0, 0, 0, 0));
         }
     }
 }

@@ -123,6 +123,18 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	}
 }
 
+void Msg::HelperBox(std::string Msg) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 240, DIM);
+	Gui::sprite(0, sprites_helperBox_idx, 0, 27);
+	Gui::DrawString(0, 42, 0.45f, BLACK, Msg, 400);
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 240, DIM);
+	C3D_FrameEnd(0);
+}
+
 void Msg::DisplayMsg(std::string Message) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
