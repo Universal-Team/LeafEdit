@@ -237,6 +237,14 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 	return string;
 }
 
+int Input::getUint(int max, std::string Text) {
+	std::string s = Input::Numpad(3, Text);
+	if(s == "" || (atoi(s.c_str()) == 0 && s[0] != '0')) return -1;
+	int i = atoi(s.c_str());
+	if(i>max)	return 255;
+	return i;
+}
+
 std::string Input::Numpad(std::string Text) { return Input::Numpad(-1, Text); }
 
 std::string Input::Numpad(uint maxLength, std::string Text)

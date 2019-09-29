@@ -31,6 +31,7 @@
 
 #include "gui/keyboard.hpp"
 
+#include "gui/screens/leafEditEditor.hpp"
 #include "gui/screens/settings.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -73,7 +74,7 @@ void Settings::Draw(void) const
 
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Spritesheet", 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[2]))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, Lang::settings[2], 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Ini Editor"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Ini Editor", 140);
 	} else if(screenMode == 1) {
 		DrawSpriteSheetSelection();
 	} else if(screenMode == 2) {
@@ -99,7 +100,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 							screenMode = 1;
 							break;
 						case 2: {
-							Msg::NotImplementedYet();
+							Gui::setScreen(std::make_unique<LeafEditEditor>());
 							break;
 						 }
 				}

@@ -9,6 +9,10 @@ namespace Input {
 	std::string Numpad(std::string Text);
 	std::string Numpad(uint maxLength, std::string Text);
 	void drawKeyboard();
+
+	// -1 if invaild text entered
+	int getUint(int max, std::string Text);
+	
 	std::string getLine(std::string Text);
 	std::string getLine(uint maxLength, std::string Text);
 
