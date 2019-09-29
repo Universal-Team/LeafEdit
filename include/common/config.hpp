@@ -60,6 +60,7 @@ namespace Config {
 	extern int SelectorColor;
 	extern int SelectorBG;
 	extern int SelectorText;
+	extern int MessageText;
 }
 
 #endif

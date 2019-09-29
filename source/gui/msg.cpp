@@ -41,8 +41,8 @@ bool Msg::promptMsg2(std::string promptMsg)
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, WHITE, promptMsg.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::messages2[1]))/2, 214, 0.72f, WHITE, Lang::messages2[1], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, Config::MessageText, promptMsg.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::messages2[1]))/2, 214, 0.72f, Config::MessageText, Lang::messages2[1], 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
@@ -79,7 +79,7 @@ void Msg::DisplayWarnMsg(std::string Text)
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Text.c_str()))/2, 2, 0.72f, WHITE, Text.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Text.c_str()))/2, 2, 0.72f, Config::MessageText, Text.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
@@ -105,8 +105,8 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::messages2[0]))/2, 214, 0.6f, WHITE, Lang::messages2[0], 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, WHITE, waitMsg.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::messages2[0]))/2, 214, 0.6f, Config::MessageText, Lang::messages2[0], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, Config::MessageText, waitMsg.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
@@ -134,7 +134,7 @@ void Msg::DisplayMsg(std::string Message) {
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, WHITE, Message.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, Config::MessageText, Message.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
