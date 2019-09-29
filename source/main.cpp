@@ -29,6 +29,7 @@
 #include "common/archive.hpp"
 #include "common/config.hpp"
 #include "common/structs.hpp"
+#include "common/thread.hpp"
 #include "common/title.hpp"
 #include "common/utils.hpp"
 
@@ -147,9 +148,7 @@ int main()
 		return DisplayStartupError("cfguInit failed.", res);
 	}
 
-	if (R_FAILED(res = Gui::init())) {
-		return DisplayStartupError("Gui::init failed.", res);
-	}
+	Threads::create(ThreadFunc(Gui::init));
 
 	Config::loadSheet();
 	Config::loadSheetIni();
