@@ -226,7 +226,11 @@ void LeafEditEditor::createNewSheet(std::string sheetIni) {
 }
 
 void LeafEditEditor::DrawIniEditor(void) const {
-	Gui::DrawTop();
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 27, GRAY);
+	Gui::Draw_Rect(0, 27, 400, 186, DARKGRAY);
+	Gui::Draw_Rect(0, 213, 400, 213, GRAY);
+
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "LeafEdit Ini Editor"))/2, 0, 0.72f, Sheet::barText, "LeafEdit Ini Editor", 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Press L/R to change the next Ini option."))/2, 215, 0.72f, Sheet::barText, "Press L/R to change the next Ini option.", 400);
 
@@ -235,9 +239,14 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	} else if (colorMode == 1) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BGText Color."))/2, 90, 0.72f, Sheet::bgText, "This is the BGText Color.", 400);
 	} else if (colorMode == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the ButtonText Color."))/2, 90, 0.72f, Sheet::buttonText, "This is the ButtonText Color.", 400);
+		Gui::sprite(0, sprites_button_idx, 20, 80);
+		Gui::DrawString(40, 90, 0.6f, Sheet::buttonText, "Unselected", 400);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, 220, 80, selectedColor);
+		Gui::DrawString(240, 90, 0.6f, Sheet::buttonText, "Selected", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the ButtonText Color."))/2, 150, 0.72f, Sheet::buttonText, "This is the ButtonText Color.", 400);
 	} else if (colorMode == 3) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BoxText Color."))/2, 90, 0.72f, Sheet::boxText, "This is the BoxText Color.", 400);
+		Gui::sprite(0, sprites_topbox_idx, 40, 80);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BoxText Color."))/2, 80, 0.72f, Sheet::boxText, "This is the BoxText Color.", 400);
 	} else if (colorMode == 4) {
 		drawTestSelector(0, 120);
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Selector Outline Color."))/2, 90, 0.72f, Sheet::SelectorColor, "This is the Selector Outline Color.", 400);
@@ -251,7 +260,10 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Message Text Color."))/2, 120, 0.72f, Sheet::MessageText, "This is the Message Text Color.", 400);
 	}
 
-	Gui::DrawBottom();
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 27, GRAY);
+	Gui::Draw_Rect(0, 27, 320, 186, DARKGRAY);
+	Gui::Draw_Rect(0, 213, 320, 213, GRAY);
 	
 	for (int i = 0; i < 8; i++) {
 		if (colorMode == i) {
@@ -305,6 +317,8 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::MessageText, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::MessageText, 0).c_str(), 400);
 	}
+
+	Gui::sprite(0, sprites_back_idx, buttons[3].x, buttons[3].y);
 }
 
 void LeafEditEditor::EditorLogic(u32 hDown, touchPosition touch) {
