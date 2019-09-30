@@ -44,7 +44,7 @@ u32 currentLowID;
 u32 currentHighID;
 u32 currentUniqueID;
 FS_MediaType currentMedia;
-
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 bool titleIsLoaded = false;
 
 void TitleSelection::Draw(void) const {
@@ -190,15 +190,26 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
             currentHighID = titleFromIndex(selectedTitle)->highId();
             currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
             titleIsLoaded = true;
+            Gui::setScreen(std::make_unique<MainMenu>());
         }
-		Gui::setScreen(std::make_unique<MainMenu>());
+    } else if (hDown & KEY_TOUCH && touching(touch, icon[0])) {
+        if (GameLoader::cardTitle == nullptr && GameLoader::installedTitles.empty()) {
+        } else {
+            currentID = titleFromIndex(selectedTitle)->ID();
+            currentMedia = titleFromIndex(selectedTitle)->mediaType();
+            currentLowID = titleFromIndex(selectedTitle)->lowId();
+            currentHighID = titleFromIndex(selectedTitle)->highId();
+            currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
+            titleIsLoaded = true;
+            Gui::setScreen(std::make_unique<MainMenu>());
+        }
 	} else if (hDown & KEY_X) {
         GameLoader::updateCheck2();
     } else if (hDown & KEY_Y) {
         titleIsLoaded = false;
         Gui::setScreen(std::make_unique<MainMenu>());
     } else if (hHeld & KEY_SELECT) {
-        Msg::HelperBox("Select a Title to load. if you don't have an installed title -> Press Y.\nPress Start, to exit the App or press Home.\n(You can't use the Town Manager without a Title)");
+        Msg::HelperBox("Select a Title to load. if you don't have an installed title -> Press Y.\nPress Start, to exit the App or press Home.\n(You can't use the Town Manager without a Title)\nYou can also tap on the Icon, if you have an installed Title or Gamecard.");
     }
 }
 

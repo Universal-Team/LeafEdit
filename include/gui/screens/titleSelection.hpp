@@ -26,6 +26,8 @@
 #ifndef TITLESELECTION_HPP
 #define TITLESELECTION_HPP
 
+#include "common/structs.hpp"
+
 #include "core/gameLoader.hpp"
 
 #include "gui/screens/screen.hpp"
@@ -58,6 +60,10 @@ private:
         }
         return nullptr;
     }
+
+    std::vector<Structs::ButtonPos> icon = {
+        {245, 38, 48, 48, -1}, // Icon
+	};
 };
 
 #endif
