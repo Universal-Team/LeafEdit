@@ -58,7 +58,7 @@ void Gui::clearTextBufs(void)
 }
 
 // Draw a Sprite from the Sheet, but blended.
-void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color)
+void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color, float ScaleX, float ScaleY)
 {
 	C2D_ImageTint tint;
 	C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
@@ -67,15 +67,15 @@ void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color)
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
 
 	if (sheet == 0) { // Sprites.
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, &tint);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	} else if (sheet == 1) { // villagers.
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	} else if (sheet == 2) { // villagers2.
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	} else if (sheet == 3) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, &tint);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	} else if (sheet == 4) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, &tint);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	}
 }
 

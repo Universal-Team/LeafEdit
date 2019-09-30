@@ -71,7 +71,7 @@ namespace Gui
     // Sprite Drawing, but also with Scaling Feature!
     void sprite(int sheet, int key, int x, int y, float ScaleX = 1, float ScaleY = 1);
 
-    void Draw_ImageBlend(int sheet, int key, int x, int y, u32 color);
+    void Draw_ImageBlend(int sheet, int key, int x, int y, u32 color, float ScaleX = 1, float ScaleY = 1);
 
     // float xPos -> X Position of the Selector.
     // float yPos -> Y Position of the Selector.
