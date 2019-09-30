@@ -421,15 +421,15 @@ void VillagerManagement::LoadVillagerDatabase(int lang) {
 }
 
 // Draw the Villager sprite.
-void VillagerManagement::DrawVillager(u16 villagerId, int x, int y) {
+void VillagerManagement::DrawVillager(u16 villagerId, int x, int y, float ScaleX, float ScaleY) {
 	if (villagerId > 399) {
 		villagerId = 399;
 	}
 
 	if (villagerId < 200) {
-		DrawSprite(Villager, villagerId, x, y);
+		DrawSprite(Villager, villagerId, x, y, ScaleX, ScaleY);
 	}
 	else {
-		DrawSprite(Villager2, villagerId - 200, x, y);
+		DrawSprite(Villager2, villagerId - 200, x, y, ScaleX, ScaleY);
 	}
 }

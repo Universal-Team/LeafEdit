@@ -111,34 +111,19 @@ void Gui::exit(void)
 	C3D_Fini();
 }
 
-
-bool Gui::Draw_ImageScale(int sheet, int key, int x, int y, float scaleX, float scaleY) {
-	if (sheet == 0) { // Sprites.
-		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, NULL, scaleX, scaleY);
-	} else if (sheet == 1) { // villagers.
-		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, scaleX, scaleY);
-	} else if (sheet == 2) { // villagers2.
-		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, scaleX, scaleY);
-	} else if (sheet == 3) {
-		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, NULL, scaleX, scaleY);
-	} else if (sheet == 4) {
-		return C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, NULL, scaleX, scaleY);
-	}
-}
-
 // Draw a Sprite from the Sheet.
-void Gui::sprite(int sheet, int key, int x, int y)
+void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 {
 	if (sheet == 0) { // Sprites.
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	} else if (sheet == 1) { // villagers.
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	} else if (sheet == 2) { // villagers2.
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	} else if (sheet == 3) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	} else if (sheet == 4) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	}
 }
 
@@ -256,10 +241,10 @@ void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height
 }
 
 
-void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y)
+void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float ScaleX, float ScaleY)
 {
 	C2D_Image img = C2D_SpriteSheetGetImage(sheet, imgindex);
-	C2D_DrawImageAt(img, x, y, 0.5f);
+	C2D_DrawImageAt(img, x, y, 0.5f, NULL, ScaleX, ScaleY);
 }
 
 

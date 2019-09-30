@@ -82,7 +82,7 @@ extern std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, S
 
 namespace VillagerManagement
 {
-	void DrawVillager(u16 villagerId, int x, int y); // Draw the Villager sprite.
+	void DrawVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite.
 	void LoadVillagerDatabase(int lang); // Load the Villager Names.
 }
 
