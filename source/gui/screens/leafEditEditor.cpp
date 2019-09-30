@@ -58,7 +58,7 @@ void LeafEditEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (mode == 0) {
 		IniBrowseLogic(hDown, hHeld);
 	} else if (mode == 1) {
-		EditorLogic(hDown, touch);
+		EditorLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -130,6 +130,10 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 		refresh = false;
 	}
 
+		if (hDown & KEY_START) {
+			refresh = true;
+		}
+
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg("What are you trying to do? :P");
@@ -158,15 +162,16 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 				}
 			}
 
-
+		} else if (hHeld & KEY_SELECT) {
+			Msg::HelperBox("Press A to select the Folder with the ini file.\nPress Y to a Folder, to create a blank 'sheet.ini' File.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
 		} else if (hHeld & KEY_UP) {
 			if (selectedSheetIniFile > 0 && !keyRepeatDelay) {
 				selectedSheetIniFile--;
-			if (fastMode == true) {
-				keyRepeatDelay = 3;
-			} else if (fastMode == false){
-				keyRepeatDelay = 6;
-			}
+				if (fastMode == true) {
+					keyRepeatDelay = 3;
+				} else if (fastMode == false){
+					keyRepeatDelay = 6;
+				}
 			}
 		} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
 			if (selectedSheetIniFile < dirContents.size()-1) {
@@ -321,11 +326,14 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	Gui::sprite(0, sprites_back_idx, buttons[3].x, buttons[3].y);
 }
 
-void LeafEditEditor::EditorLogic(u32 hDown, touchPosition touch) {
+void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	int red;
 	int green;
 	int blue;
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press L/R to switch the Ini Options.\nPress Start to save the options.\nPress B to revert the changes without saving.");
+	}
 	if (hDown & KEY_L || hDown & KEY_LEFT) {
 		if(colorMode > 0)	colorMode--;
 	} 
@@ -334,15 +342,15 @@ void LeafEditEditor::EditorLogic(u32 hDown, touchPosition touch) {
 		if(colorMode < 7)	colorMode++;
 	}
 
+	if (hDown & KEY_START) {
+		saveIniContents();
+		sheetsFile = "";
+		mode = 0;
+	}
+
 	if (hDown & KEY_B) {
-		if(Msg::promptMsg("Would you like, to save the Ini?")) {
-			saveIniContents();
-			sheetsFile = "";
-			mode = 0;
-		} else {
-			sheetsFile = "";
-			mode = 0;
-		}
+		sheetsFile = "";
+		mode = 0;
 	}
 
 

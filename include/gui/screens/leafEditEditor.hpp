@@ -52,7 +52,7 @@ private:
 	void IniBrowseLogic(u32 hDown, u32 hHeld);
 
 	void DrawIniEditor(void) const;
-	void EditorLogic(u32 hDown, touchPosition touch);
+	void EditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void drawTestSelector(float x, float y) const;
 
