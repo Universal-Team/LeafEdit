@@ -43,19 +43,10 @@ public:
 private:
 
 	// The current Villager.
-	int currentVillager = 1;
+	u16 currentVillager = 0;
 
-	// Villager Screens.
-	void Villager1Draw(void) const;
-	void Villager2Draw(void) const;
-	void Villager3Draw(void) const;
-	void Villager4Draw(void) const;
-	void Villager5Draw(void) const;
-	void Villager6Draw(void) const;
-	void Villager7Draw(void) const;
-	void Villager8Draw(void) const;
-	void Villager9Draw(void) const;
-	void Villager10Draw(void) const;
+	// Draw the current Villager Screen.
+	void DrawVillager(void) const;
 
 	// Current Villager and Title Draw.
 	void DrawCurrentVillager(void) const;
