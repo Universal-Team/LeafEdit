@@ -44,13 +44,25 @@ private:
 
 	// The current Villager.
 	u16 currentVillager = 0;
+	int villagerViewerSprite = 0;
+	int villagerMode = 0;
 
 	// Draw the current Villager Screen.
 	void DrawVillager(void) const;
+	void VillagerLogic(u32 hDown, u32 hHeld);
+
+	// Villager Watching List.
+	void DrawVillagerList(void) const;
+	void VillagerListLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	// Current Villager and Title Draw.
 	void DrawCurrentVillager(void) const;
 	void DrawBox(void) const;
+
+	std::vector<Structs::ButtonPos> search = {
+		{290, 3, 20, 20, -1},
+	};
+
 };
 
 #endif

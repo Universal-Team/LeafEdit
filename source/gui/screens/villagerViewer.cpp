@@ -30,6 +30,8 @@
 #include "core/save/save.h"
 #include "core/save/villager.h"
 
+#include "gui/keyboard.hpp"
+
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/villagerEditor.hpp"
 #include "gui/screens/villagerViewer.hpp"
@@ -41,14 +43,74 @@
 extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
 std::string villagerNameText = "";
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void VillagerViewer::Draw(void) const
 {
-	// Villager Viewer Part.
-	DrawVillager();
+	if (villagerMode == 0) {
+		DrawVillager();
+	} else if (villagerMode == 1) {
+		DrawVillagerList();
+	}
 }
 
+void VillagerViewer::DrawVillagerList(void) const {
+	Gui::DrawTop();
+	DrawBox();
+	std::string villagerID = "Villager ID: ";
+	for (int i = 0; i < 399; i++) {
+		if (villagerViewerSprite == i) {
+			VillagerManagement::DrawVillager(i, 160, 60);
+			villagerNameText = g_villagerDatabase[i];
+			villagerID += std::to_string(villagerViewerSprite);
+		}
+	}
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::boxText, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::boxText, villagerNameText.c_str(), 320);
+	Gui::DrawBottom();
+	Gui::sprite(0, sprites_search_idx, 290, 3);
+}
+
+void VillagerViewer::VillagerListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+
+	// Switch current Villager.
+	if (hDown & KEY_DOWN) {
+		villagerViewerSprite++;
+		if (villagerViewerSprite > 398)	villagerViewerSprite = 0;
+	} else if (hDown & KEY_UP) {
+		villagerViewerSprite--;
+		if (villagerViewerSprite < 0)	villagerViewerSprite = 398;
+
+	} else if (hDown & KEY_RIGHT) {
+		villagerViewerSprite += 10;
+		if (villagerViewerSprite > 389)	villagerViewerSprite = 0;
+
+	} else if (hDown & KEY_LEFT) {
+		villagerViewerSprite -= 10;
+		if (villagerViewerSprite < 0)	villagerViewerSprite = 398;
+	}
+
+	// Go back to the Editor Screen.
+	if (hDown & KEY_B) {
+		villagerMode = 0;
+	}
+
+	if (hDown & KEY_TOUCH && touching(touch, search[0])) {
+		villagerViewerSprite = Input::getu16(3, 398);
+	}
+}
+
+
+
 void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (villagerMode == 0) {
+		VillagerLogic(hDown, hHeld);
+	} else if (villagerMode == 1) {
+		VillagerListLogic(hDown, hHeld, touch);
+	}
+}
+
+void VillagerViewer::VillagerLogic(u32 hDown, u32 hHeld) {
 	// Switch to the Villager Editor Screen.
 	if (hDown & KEY_A) {
 		Gui::setScreen(std::make_unique<VillagerEditor>());
@@ -68,8 +130,12 @@ void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
+	if (hDown & KEY_X) {
+		villagerMode = 1;
+	}
+
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press L/R to switch the Villager.\nPress A to open the Villager Editor. (Not implemented yet)\nPress B to exit from this Screen.");
+		Msg::HelperBox("Press L/R to switch the Villager.\nPress A to open the Villager Editor. (Not implemented yet)\nPress B to exit from this Screen.\nPress X to open the Villager List.");
 	}
 }
 
