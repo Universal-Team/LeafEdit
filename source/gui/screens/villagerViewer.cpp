@@ -43,6 +43,8 @@
 extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
 std::string villagerNameText = "";
+u16 currentVillager = 0;
+
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void VillagerViewer::Draw(void) const

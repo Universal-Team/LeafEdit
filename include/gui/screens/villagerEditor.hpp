@@ -43,9 +43,10 @@ public:
 private:
 
 	// Basic Stuff.
-	int editorMode = 1;
+	int editorMode = 0;
 	int group = 1;
 	int subMenuPage = 1;
+	int Selection = 0;
 
 	/*
 		SUB MENU.
@@ -57,13 +58,22 @@ private:
 	void DrawVillagerSelection(void) const;
 	void VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
+	void EditorSubLogic(u32 hDown);
+	void DrawEditorSub(void) const;
+
+
 	// Villager Editor Stuff.
 	bool isSelected = false; // If the Villager is Selected, this would be true.
 	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
 	u16 selectedVillager; // This would be the new Selected Villager.
 	int currentRow = 1; // Return the current Selected Row.
 	int currentSlot = 1; // Return the current Selected Slot.
+	u16 manuallyVillager = 0;
 
+	std::vector<Structs::ButtonPos> Buttons = {
+		{90, 40, 140, 35, -1}, // Selection.
+		{90, 100, 140, 35, -1}, // Manually.
+	};
 };
 
 #endif

@@ -30,6 +30,8 @@
 #include "core/save/villager.h"
 #include "core/save/save.h"
 
+#include "gui/keyboard.hpp"
+
 #include "gui/screens/villagerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -40,12 +42,15 @@
 extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::string villagerNameText;
+extern u16 currentVillager;
 
 extern int getSpecies(int id);
 
 void VillagerEditor::Draw(void) const
 {
-	if (editorMode == 1) {
+	if (editorMode == 0) {
+		DrawEditorSub();
+	} else if (editorMode == 1) {
 		DrawSubMenu();
 	} else if (editorMode == 2) {
 		DrawVillagerSelection();
@@ -53,10 +58,58 @@ void VillagerEditor::Draw(void) const
 }
 
 void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (editorMode == 1) {
+	if (editorMode == 0) {
+		EditorSubLogic(hDown);
+	} else if (editorMode == 1) {
 		SubMenuLogic(hDown, hHeld, touch);
 	} else if (editorMode == 2) {
 		VillagerSelectionLogic(hDown, hHeld, touch);
+	}
+}
+
+void VillagerEditor::DrawEditorSub(void) const {
+	Gui::DrawTop();
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::title))/2, 2, 0.8f, Config::barText, Lang::title, 400);
+
+	Gui::DrawBottom();
+
+	if (Selection == 0) {
+		Gui::Draw_ImageBlend(0, sprites_button_idx, Buttons[0].x, Buttons[0].y, selectedColor);
+		Gui::sprite(0, sprites_button_idx, Buttons[1].x, Buttons[1].y);
+
+	} else if (Selection == 1) {
+		Gui::sprite(0, sprites_button_idx, Buttons[0].x, Buttons[0].y);
+		Gui::Draw_ImageBlend(0, sprites_button_idx, Buttons[1].x, Buttons[1].y, selectedColor);
+	}
+
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "selecting"))/2, Buttons[0].y+10, 0.6f, Config::buttonText, "selecting", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "manually"))/2, Buttons[1].y+10, 0.6f, Config::buttonText, "manually", 140);
+}
+
+void VillagerEditor::EditorSubLogic(u32 hDown) {
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+
+	if (hDown & KEY_UP) {
+		if(Selection > 0)	Selection--;
+	} else if (hDown & KEY_DOWN) {
+		if(Selection < 1)	Selection++;
+	}
+
+	if (hDown & KEY_A) {
+			switch(Selection) {
+				case 0: {
+						editorMode = 1;
+						break;
+				}	case 1:
+						manuallyVillager = Input::getu16(3, 398);
+						SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+						Gui::screenBack();
+						return;
+						break;
+			}
 	}
 }
 
@@ -107,8 +160,7 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
+		editorMode = 0;
 	}
 }
 

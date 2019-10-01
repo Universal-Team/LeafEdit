@@ -41,9 +41,6 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
-
-	// The current Villager.
-	u16 currentVillager = 0;
 	int villagerViewerSprite = 0;
 	int villagerMode = 0;
 
