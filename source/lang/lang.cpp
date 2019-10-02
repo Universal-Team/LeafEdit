@@ -29,8 +29,8 @@ void Lang::loadLangStrings(int lang) {
 	Lang::editor[1] = ini.GetString("editor", "player", Lang::editor[1]);
 	Lang::editor[2] = ini.GetString("editor", "editor", Lang::editor[2]);
 	Lang::editor[3] = ini.GetString("editor", "saveselect", Lang::editor[3]);
-	Lang::editor[4] = ini.GetString("editor", "saveload", Lang::editor[4]);
-	Lang::editor[5] = ini.GetString("editor", "returnmm", Lang::editor[5]);
+	Lang::editor[4] = ini.GetString("editor", "loadSave", Lang::editor[4]);
+	Lang::editor[5] = ini.GetString("editor", "returnMM", Lang::editor[5]);
 	Lang::editor[6] = ini.GetString("editor", "villager", Lang::editor[6]);
 
 	// [keyboard]
