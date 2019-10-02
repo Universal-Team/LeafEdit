@@ -89,16 +89,20 @@ Result Gui::init(void)
 	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 	sizeBuf = C2D_TextBufNew(4096);
 
-	Acres		= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
-	Items		= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
-	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
-
 	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
 	return 0;
 }
 
-// Exit GUI.
+// Loading the Sheets.
+Result Gui::loadSheets(void) {
+	Acres		= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
+	Items		= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
+	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	return 0;
+}
+
+// Exit the whole GUI.
 void Gui::exit(void)
 {
 	C2D_SpriteSheetFree(Acres);

@@ -80,39 +80,71 @@ void TestStuff(void)
 
 // If an Error while startup appears, Return this!
 
-static Result DisplayStartupError(const std::string& message, Result res)
+static Result DisplayStartupError(std::string message, Result res)
 {
-    consoleInit(GFX_TOP, nullptr);
-    printf("\x1b[2;16H\x1b[34mLeafEdit");
-    printf("\x1b[5;1HError during startup: \x1b[31m0x%08lX\x1b[0m", res);
-    printf("\x1b[8;1HDescription: \x1b[33m%s\x1b[0m", message.c_str());
-    printf("\x1b[29;16HPress START to exit.");
+		std::string errorMsg = std::to_string(res);
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(top, BLACK);
+		C2D_TargetClear(bottom, BLACK);
+		Gui::clearTextBufs();
+		Gui::ScreenDraw(top);
+		Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
+		Gui::Draw_Rect(0, 27, 400, 186, GREEN);
+		Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Oh no, an error occured!"))/2, 2, 0.8f, WHITE, "Oh no, an error occured!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Description: "+ message))/2, 155, 0.8f, WHITE, "Description: "+message, 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Press Start to exit."))/2, 213, 0.8f, WHITE, "Press Start to exit.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Error during Startup: "+errorMsg))/2, 80, 0.8f, WHITE, "Error during Startup: "+errorMsg, 400);
+		Gui::ScreenDraw(bottom);
+		Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
+		Gui::Draw_Rect(0, 27, 320, 186, GREEN);
+		Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
+		C3D_FrameEnd(0);
 
-	// For the Log.
-	std::string error = message;
-	error += ", ";
-	error += std::to_string(res);
-	Logging::writeToLog(error.c_str());
+		// For the Log.
+		std::string error = message;
+		error += ", ";
+		error += std::to_string(res);
+		Logging::writeToLog(error.c_str());
 
-    gfxFlushBuffers();
-    gfxSwapBuffers();
-    gspWaitForVBlank();
-    while (aptMainLoop() && !(hidKeysDown() & KEY_START))
-    {
-        hidScanInput();
-    }
-    return res;
+		gspWaitForVBlank();
+		while (aptMainLoop() && !(hidKeysDown() & KEY_START))
+		{
+			hidScanInput();
+		}
+	return res;
 }
 
+void loadMessage(std::string Message) {
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(top, BLACK);
+		C2D_TargetClear(bottom, BLACK);
+		Gui::clearTextBufs();
+		Gui::ScreenDraw(top);
+		Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
+		Gui::Draw_Rect(0, 27, 400, 186, GREEN);
+		Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Message))/2, 2, 0.8f, WHITE, Message, 400);
+		Gui::ScreenDraw(bottom);
+		Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
+		Gui::Draw_Rect(0, 27, 320, 186, GREEN);
+		Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
+		C3D_FrameEnd(0);
+}
 
 int main()
 {
 	// Initialize Everything and check for errors.
 	Result res;
-    gfxInitDefault();
+	gfxInitDefault();
+	Gui::init();
 
 	if (R_FAILED(res = Archive::init())) {
 		return DisplayStartupError("Archive::init failed.", res);
+	}
+
+	if (R_FAILED(res = romfsInit())) {
+		return DisplayStartupError("romfsInit failed.", res);
 	}
 
 	Config::loadConfig();
@@ -126,10 +158,6 @@ int main()
 	mkdir("sdmc:/LeafEdit/SpriteSheets", 0777); // Spritesheets path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
-
-	if (R_FAILED(res = romfsInit())) {
-		return DisplayStartupError("romfsInit failed.", res);
-	}
 
 	if (R_FAILED(res = acInit())) {
 		return DisplayStartupError("acInit failed.", res);
@@ -147,10 +175,10 @@ int main()
 		return DisplayStartupError("cfguInit failed.", res);
 	}
 
-	if (R_FAILED(res = Gui::init())) {
-		return DisplayStartupError("Gui::Init failed.", res);
-	}
+	loadMessage("Loading Spritesheets...");
+	Gui::loadSheets();
 
+	loadMessage("Loading Config stuff...");
 	Config::loadSheet();
 	Config::loadSheetIni();
 	Config::loadSheetIniStuff();
@@ -159,6 +187,7 @@ int main()
 
 	// Load The Strings from the Romfs.
 	
+	loadMessage("Loading Database...");
 	Lang::loadLangStrings(Config::lang);
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
@@ -174,6 +203,7 @@ int main()
 	}
 	
 	// Scan for available Titles to display.
+	loadMessage("Scan Titles...");
 	GameLoader::scanTitleID();
 	
 	// Set the Screen to the MainMenu.
@@ -183,15 +213,15 @@ int main()
 	Logging::writeToLog("LeafEdit launched successfully!");
 
 	// Loop as long as the status is not exit
-    while (aptMainLoop() && !exiting)
-    {
-        hidScanInput();
-        u32 hHeld = hidKeysHeld();
-        u32 hDown = hidKeysDown();
+	while (aptMainLoop() && !exiting)
+	{
+		hidScanInput();
+		u32 hHeld = hidKeysHeld();
+		u32 hDown = hidKeysDown();
 		hidTouchRead(&touch);
-        C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-        C2D_TargetClear(top, BLACK);
-        C2D_TargetClear(bottom, BLACK);
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(top, BLACK);
+		C2D_TargetClear(bottom, BLACK);
 		Gui::clearTextBufs();
 		Gui::mainLoop(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
@@ -205,14 +235,14 @@ int main()
 		}
 	}
 	// Exit every process.
+	loadMessage("Exiting Services...");
 	cfguExit();
 	sdmcExit();
 	acExit();
 	amExit();
+	Archive::exit();
 	Gui::exit();
 	gfxExit();
 	romfsExit();
-	Archive::exit();
-
-    return 0;
+	return 0;
 }
