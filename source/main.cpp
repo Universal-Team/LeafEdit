@@ -138,6 +138,7 @@ int main()
 	Result res;
 	gfxInitDefault();
 	Gui::init();
+	loadMessage("Initialize everything.. please wait.");
 
 	if (R_FAILED(res = Archive::init())) {
 		return DisplayStartupError("Archive::init failed.", res);
@@ -175,10 +176,8 @@ int main()
 		return DisplayStartupError("cfguInit failed.", res);
 	}
 
-	loadMessage("Loading Spritesheets...");
 	Gui::loadSheets();
 
-	loadMessage("Loading Config stuff...");
 	Config::loadSheet();
 	Config::loadSheetIni();
 	Config::loadSheetIniStuff();
@@ -187,7 +186,6 @@ int main()
 
 	// Load The Strings from the Romfs.
 	
-	loadMessage("Loading Database...");
 	Lang::loadLangStrings(Config::lang);
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
@@ -203,7 +201,6 @@ int main()
 	}
 	
 	// Scan for available Titles to display.
-	loadMessage("Scan Titles...");
 	GameLoader::scanTitleID();
 	
 	// Set the Screen to the MainMenu.
