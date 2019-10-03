@@ -54,6 +54,8 @@ void VillagerEditor::Draw(void) const
 		DrawSubMenu();
 	} else if (editorMode == 2) {
 		DrawVillagerSelection();
+	} else if (editorMode == 3) {
+		DrawVillagerSetTest();
 	}
 }
 
@@ -64,6 +66,8 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		SubMenuLogic(hDown, hHeld, touch);
 	} else if (editorMode == 2) {
 		VillagerSelectionLogic(hDown, hHeld, touch);
+	} else if (editorMode == 3) {
+		VillagerSetLogicTest(hDown, hHeld, touch);
 	}
 }
 
@@ -132,8 +136,113 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (currentSlot == 1 && currentRow == 1 && subMenuPage == 1) {
-			editorMode = 2;
+			startID = 93;
+			endID = 99;
+		} else if (currentSlot == 2 && currentRow == 1 && subMenuPage == 1) {
+			startID = 0;
+			endID = 6;
+		} else if (currentSlot == 3 && currentRow == 1 && subMenuPage == 1) {
+			startID = 7;
+			endID = 20;
+		} else if (currentSlot == 4 && currentRow == 1 && subMenuPage == 1) {
+			startID = 21;
+			endID = 34;
+		} else if (currentSlot == 5 && currentRow == 1 && subMenuPage == 1) {
+			startID = 35;
+			endID = 40;
+		} else if (currentSlot == 1 && currentRow == 2 && subMenuPage == 1) {
+			startID = 41;
+			endID = 63;
+		} else if (currentSlot == 2 && currentRow == 2 && subMenuPage == 1) {
+			startID = 80;
+			endID = 88;
+		} else if (currentSlot == 3 && currentRow == 2 && subMenuPage == 1) {
+			startID = 89;
+			endID = 92;
+		} else if (currentSlot == 4 && currentRow == 2 && subMenuPage == 1) {
+			startID = 64;
+			endID = 79;
+		} else if (currentSlot == 5 && currentRow == 2 && subMenuPage == 1) {
+			startID = 100;
+			endID = 110;
+		} else if (currentSlot == 1 && currentRow == 1 && subMenuPage == 2) {
+			startID = 111;
+			endID = 126;
+		} else if (currentSlot == 2 && currentRow == 1 && subMenuPage == 2) {
+			startID = 127;
+			endID = 143;
+		} else if (currentSlot == 3 && currentRow == 1 && subMenuPage == 2) {
+			startID = 283;
+			endID = 291;
+		} else if (currentSlot == 4 && currentRow == 1 && subMenuPage == 2) {
+			startID = 144;
+			endID = 154;
+		} else if (currentSlot == 5 && currentRow == 1 && subMenuPage == 2) {
+			startID = 155;
+			endID = 172;
+		} else if (currentSlot == 1 && currentRow == 2 && subMenuPage == 2) {
+			startID = 173;
+			endID = 179;
+		} else if (currentSlot == 2 && currentRow == 2 && subMenuPage == 2) {
+			startID = 180;
+			endID = 189;
+		} else if (currentSlot == 3 && currentRow == 2 && subMenuPage == 2) {
+			startID = 190;
+			endID = 198;
+		} else if (currentSlot == 4 && currentRow == 2 && subMenuPage == 2) {
+			startID = 199;
+			endID = 205;
+		} else if (currentSlot == 5 && currentRow == 2 && subMenuPage == 2) {
+			startID = 206;
+			endID = 221;
+		} else if (currentSlot == 1 && currentRow == 1 && subMenuPage == 3) {
+			startID = 231;
+			endID = 238;
+		} else if (currentSlot == 2 && currentRow == 1 && subMenuPage == 3) {
+			startID = 222;
+			endID = 230;
+		} else if (currentSlot == 3 && currentRow == 1 && subMenuPage == 3) {
+			startID = 239;
+			endID = 245;
+		} else if (currentSlot == 4 && currentRow == 1 && subMenuPage == 3) {
+			startID = 246;
+			endID = 253;
+		} else if (currentSlot == 5 && currentRow == 1 && subMenuPage == 3) {
+			startID = 254;
+			endID = 268;
+		} else if (currentSlot == 1 && currentRow == 2 && subMenuPage == 3) {
+			startID = 269;
+			endID = 272;
+		} else if (currentSlot == 2 && currentRow == 2 && subMenuPage == 3) {
+			startID = 273;
+			endID = 282;
+		} else if (currentSlot == 3 && currentRow == 2 && subMenuPage == 3) {
+			startID = 292;
+			endID = 304;
+		} else if (currentSlot == 4 && currentRow == 2 && subMenuPage == 3) {
+			startID = 305;
+			endID = 320;
+		} else if (currentSlot == 5 && currentRow == 2 && subMenuPage == 3) {
+			startID = 321;
+			endID = 341;
+		} else if (currentSlot == 1 && currentRow == 1 && subMenuPage == 4) {
+			startID = 342;
+			endID = 347;
+		} else if (currentSlot == 2 && currentRow == 1 && subMenuPage == 4) {
+			startID = 348;
+			endID = 360;
+		} else if (currentSlot == 3 && currentRow == 1 && subMenuPage == 4) {
+			startID = 361;
+			endID = 380;
+		} else if (currentSlot == 4 && currentRow == 1 && subMenuPage == 4) {
+			startID = 381;
+			endID = 387;
+		} else if (currentSlot == 5 && currentRow == 1 && subMenuPage == 4) {
+			startID = 388;
+			endID = 398;
 		}
+		currentSelectedVillager = startID;
+		editorMode = 3;
 	}
 
 	if (hHeld & KEY_SELECT) {
@@ -437,6 +546,56 @@ void VillagerEditor::DrawVillagerSelection(void) const {
 	}
 }
 
+
+void VillagerEditor::DrawVillagerSetTest(void) const {
+	Gui::DrawTop();
+	DrawBox();
+	std::string villagerID = "Villager ID: ";
+	std::string IDs;
+	for (int villager = startID; villager < endID+1; villager++) {
+		if (currentSelectedVillager == villager) {
+			VillagerManagement::DrawVillager(villager, 160, 60);
+			villagerNameText = g_villagerDatabase[villager];
+			villagerID += std::to_string(currentSelectedVillager);
+			IDs = std::to_string(villager);
+			IDs += " / ";
+			IDs += std::to_string(endID);
+		}
+	}
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Left/Right to change the Villager."))/2, 2, 0.7f, Config::boxText, "Press Left/Right to change the Villager.", 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::boxText, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::boxText, villagerNameText.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, IDs.c_str()))/2, 212, 0.8f, Config::barText, IDs.c_str(), 400);
+	Gui::DrawBottom();
+}
+
+void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition touch) {
+
+	// Switch current Villager.
+	if (hDown & KEY_RIGHT) {
+		currentSelectedVillager++;
+		if (currentSelectedVillager > endID)	currentSelectedVillager = startID;
+	} else if (hDown & KEY_LEFT) {
+		currentSelectedVillager--;
+		if (currentSelectedVillager < startID)	currentSelectedVillager = endID;
+	}
+
+	if (hDown & KEY_A) {
+		std::string prompt = "Would you like to set this Villager? \n\n";
+		prompt += villagerNameText;
+		if(Msg::promptMsg(prompt.c_str())) {
+			selectedVillager = currentSelectedVillager;
+			SaveFile->villagers[currentVillager]->SetId(selectedVillager);
+			editorMode = 0;
+		}
+	}
+
+	// Go back to the Editor Screen.
+	if (hDown & KEY_B) {
+		editorMode = 1;
+	}
+}
+
 void VillagerEditor::VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		editorMode = 1;
@@ -445,4 +604,9 @@ void VillagerEditor::VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition 
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox("Select a Villager, which you like to replace with the selected one.\nPress B to exit from this Screen.");
 	}
+}
+
+void VillagerEditor::DrawBox(void) const {
+	Gui::sprite(0, sprites_topbox_idx, 40, 162);
+	Gui::sprite(0, sprites_topbox_idx, 40, 132);
 }

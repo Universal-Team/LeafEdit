@@ -61,14 +61,21 @@ private:
 	void EditorSubLogic(u32 hDown);
 	void DrawEditorSub(void) const;
 
+	void DrawVillagerSetTest(void) const;
+	void VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition touch);
+
+	void DrawBox(void) const;
 
 	// Villager Editor Stuff.
 	bool isSelected = false; // If the Villager is Selected, this would be true.
 	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
 	u16 selectedVillager; // This would be the new Selected Villager.
+	int currentSelectedVillager; 
 	int currentRow = 1; // Return the current Selected Row.
 	int currentSlot = 1; // Return the current Selected Slot.
 	u16 manuallyVillager = 0;
+	int startID = 0;
+	int endID = 6;
 
 	std::vector<Structs::ButtonPos> Buttons = {
 		{90, 40, 140, 35, -1}, // Selection.
