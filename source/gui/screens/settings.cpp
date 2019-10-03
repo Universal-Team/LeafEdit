@@ -244,6 +244,7 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 				selectedSheet = "";
 				sheetIni = "";
 				screenMode = 0;
+				playChange();
 			}
 		}
 
@@ -293,6 +294,7 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 				selectedSheet = "";
 				sheetIni = "";
 				screenMode = 0;
+				playChange();
 			}
 		}
 
@@ -316,6 +318,7 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 			finalSheet = "";
 			sheetIni = "";
 			screenMode = 0;
+			playChange();
 		}
 
 		if (hHeld & KEY_UP) {
