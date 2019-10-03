@@ -32,6 +32,7 @@
 
 #include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
+#include "gui/screens/miscEditor.hpp"
 #include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/villagerViewer.hpp"
@@ -98,7 +99,7 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, Config::buttonText, Lang::editor[1], 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, Config::buttonText, Lang::editor[6], 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "WIP", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Misc Editor"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "Misc Editor", 140);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -129,6 +130,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 						Gui::setScreen(std::make_unique<VillagerViewer>());
 						break;
 				 	case 2: {
+						Gui::setScreen(std::make_unique<MiscEditor>());
 						break;
 					 }
 			}
