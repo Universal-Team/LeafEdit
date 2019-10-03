@@ -81,6 +81,10 @@ private:
 		{90, 40, 140, 35, -1}, // Selection.
 		{90, 100, 140, 35, -1}, // Manually.
 	};
+
+	std::vector<Structs::ButtonPos> search = {
+		{290, 3, 20, 20, -1},
+	};
 };
 
 #endif

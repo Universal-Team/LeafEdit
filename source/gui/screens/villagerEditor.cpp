@@ -44,6 +44,7 @@ extern std::vector<std::string> g_villagerDatabase;
 extern std::string villagerNameText;
 extern u16 currentVillager;
 
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern int getSpecies(int id);
 
 void VillagerEditor::Draw(void) const
@@ -567,6 +568,7 @@ void VillagerEditor::DrawVillagerSetTest(void) const {
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::boxText, villagerNameText.c_str(), 320);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, IDs.c_str()))/2, 212, 0.8f, Config::barText, IDs.c_str(), 400);
 	Gui::DrawBottom();
+	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
 
 void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -590,6 +592,15 @@ void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition to
 		}
 	}
 
+	if (hDown & KEY_TOUCH && touching(touch, search[0])) {
+		int temp = Input::getu16(3, endID);
+		if(temp < startID) {
+			Msg::DisplayWarnMsg("The Villager Group don't start with this ID!");
+			currentSelectedVillager = startID;
+		} else {
+			currentSelectedVillager = temp;
+		}
+	}
 	// Go back to the Editor Screen.
 	if (hDown & KEY_B) {
 		editorMode = 1;
