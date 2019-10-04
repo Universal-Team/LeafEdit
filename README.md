@@ -8,23 +8,30 @@ This is a work in progress Animal Crossing : New Leaf Save Manager & Editor for 
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ): App Idea and Main Developer.
 ### Translators
 
-### English
+English
 - [Epicpkmn11](https://github.com/Epicpkmn11)
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ)
-### French
+
+French
 - [antoine62](https://github.com/antoine62)
-### German
+
+German
 - [VoltZ](https://github.com/SuperSaiyajinVoltZ)
-### Italian
+
+Italian
 - [edo9300](https://github.com/edo9300)
-### Japanese
+
+Japanese
 - [Epicpkmn11](https://github.com/Epicpkmn11)
-### Lithuanian
+
+Lithuanian
 - [lemonnade0](https://github.com/lemonnade0)
-### Portuguese
+
+Portuguese
 - [Chips](https://github.com/Ch1p5)
 - [David Pires](https://github.com/DavidPires)
-### Spanish
+
+Spanish
 - [Daniyel33](https://github.com/Daniyel33)
 - [YoSoy](https://twitter.com/riku200)
 
