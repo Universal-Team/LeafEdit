@@ -25,7 +25,7 @@ Japanese
 - [Epicpkmn11](https://github.com/Epicpkmn11)
 
 Lithuanian
-- [lemonnade0](https://github.com/lemonnade0)
+- [lemonnade0](https://steamcommunity.com/profiles/76561198276444028)
 
 Portuguese
 - [Chips](https://github.com/Ch1p5)
