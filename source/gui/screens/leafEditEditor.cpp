@@ -41,8 +41,6 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 	int Sheet::bgText;
 	int Sheet::buttonText;
 	int Sheet::boxText;
-	int Sheet::SelectorColor;
-	int Sheet::SelectorBG;
 	int Sheet::fileBrowseText;
 	int Sheet::MessageText;
 
@@ -170,8 +168,6 @@ void LeafEditEditor::loadIniContents() {
 	Sheet::buttonText = sheetFile.GetInt("COLORS", "ButtonText", Sheet::buttonText);
 	Sheet::bgText = sheetFile.GetInt("COLORS", "BGText", Sheet::bgText);
 	Sheet::boxText = sheetFile.GetInt("COLORS", "BoxText", Sheet::boxText);
-	Sheet::SelectorColor = sheetFile.GetInt("COLORS", "Selector", Sheet::SelectorColor);
-	Sheet::SelectorBG = sheetFile.GetInt("COLORS", "SelectorBG", Sheet::SelectorBG);
 	Sheet::fileBrowseText = sheetFile.GetInt("COLORS", "FileBrowseText", Sheet::fileBrowseText);
 	Sheet::MessageText = sheetFile.GetInt("COLORS", "MessageText", Sheet::MessageText);
 }
@@ -181,8 +177,6 @@ void LeafEditEditor::saveIniContents() {
 	sheetFile.SetInt("COLORS", "ButtonText", Sheet::buttonText);
 	sheetFile.SetInt("COLORS", "BGText", Sheet::bgText);
 	sheetFile.SetInt("COLORS", "BoxText", Sheet::boxText);
-	sheetFile.SetInt("COLORS", "Selector", Sheet::SelectorColor);
-	sheetFile.SetInt("COLORS", "SelectorBG", Sheet::SelectorBG);
 	sheetFile.SetInt("COLORS", "FileBrowseText", Sheet::fileBrowseText);
 	sheetFile.SetInt("COLORS", "MessageText", Sheet::MessageText);
 	sheetFile.SaveIniFile(savesPath);
@@ -197,8 +191,6 @@ void LeafEditEditor::createNewSheet(std::string sheetIni) {
 	sheetFile.SetInt("COLORS", "ButtonText", BLACK);
 	sheetFile.SetInt("COLORS", "BGText", BLACK);
 	sheetFile.SetInt("COLORS", "BoxText", BLACK);
-	sheetFile.SetInt("COLORS", "Selector", BLACK);
-	sheetFile.SetInt("COLORS", "SelectorBG", BLACK);
 	sheetFile.SetInt("COLORS", "FileBrowseText", BLACK);
 	sheetFile.SetInt("COLORS", "MessageText", BLACK);
 
@@ -229,15 +221,9 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::sprite(0, sprites_topbox_idx, 40, 80);
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BoxText Color."))/2, 80, 0.72f, Sheet::boxText, "This is the BoxText Color.", 400);
 	} else if (colorMode == 4) {
-		drawTestSelector(0, 120);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Selector Outline Color."))/2, 90, 0.72f, Sheet::SelectorColor, "This is the Selector Outline Color.", 400);
-	} else if (colorMode == 5) {
-		drawTestSelector(0, 120);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Selector BG Color."))/2, 90, 0.72f, Sheet::SelectorBG, "This is the Selector BG Color.", 400);
-	} else if (colorMode == 6) {
 		Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-		Gui::DrawString(26, 32, 0.53f, Sheet::fileBrowseText, "> This is the Selector Text Color.\n\nThis is the Selector Text Color", 400);
-	} else if (colorMode == 7) {
+		Gui::DrawString(26, 32, 0.53f, Sheet::fileBrowseText, "> This is the Selector Text Color.\n\nThis is the Selector Text Color.", 400);
+	} else if (colorMode == 5) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Message Text Color."))/2, 120, 0.72f, Sheet::MessageText, "This is the Message Text Color.", 400);
 	}
 
@@ -246,7 +232,7 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	Gui::Draw_Rect(0, 27, 320, 186, DARKGRAY);
 	Gui::Draw_Rect(0, 213, 320, 213, GRAY);
 	
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 6; i++) {
 		if (colorMode == i) {
 			Gui::Draw_Rect(25 + i * 25, 5, 16, 16, DARKGRAY);
 		}
@@ -258,8 +244,6 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	Gui::DrawString(29 + 3 * 25, 5, 0.5f, Sheet::barText, "4", 400);
 	Gui::DrawString(29 + 4 * 25, 5, 0.5f, Sheet::barText, "5", 400);
 	Gui::DrawString(29 + 5 * 25, 5, 0.5f, Sheet::barText, "6", 400);
-	Gui::DrawString(29 + 6 * 25, 5, 0.5f, Sheet::barText, "7", 400);
-	Gui::DrawString(29 + 7 * 25, 5, 0.5f, Sheet::barText, "8", 400);
 
 	Gui::Draw_Rect(buttons[0].x, buttons[0].y, 95, 41, RED);
 	Gui::Draw_Rect(buttons[1].x, buttons[1].y, 95, 41, GREEN);
@@ -282,18 +266,10 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::boxText, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::boxText, 0).c_str(), 400);
 	} else if (colorMode == 4) {
-		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::SelectorColor, 2).c_str(), 400);
-		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::SelectorColor, 1).c_str(), 400);
-		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::SelectorColor, 0).c_str(), 400);
-	} else if (colorMode == 5) {
-		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::SelectorBG, 2).c_str(), 400);
-		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::SelectorBG, 1).c_str(), 400);
-		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::SelectorBG, 0).c_str(), 400);
-	} else if (colorMode == 6) {
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::fileBrowseText, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::fileBrowseText, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::fileBrowseText, 0).c_str(), 400);
-	} else if (colorMode == 7) {
+	} else if (colorMode == 5) {
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::MessageText, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::MessageText, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::MessageText, 0).c_str(), 400);
@@ -315,7 +291,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} 
 
 	if (hDown & KEY_R || hDown & KEY_RIGHT) {
-		if(colorMode < 7)	colorMode++;
+		if(colorMode < 5)	colorMode++;
 	}
 
 	if (hDown & KEY_START) {
@@ -345,12 +321,8 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (colorMode == 3) {
 					Sheet::boxText = RGBA8(red, ColorHelper::getColorValue(Sheet::boxText, 1), ColorHelper::getColorValue(Sheet::boxText, 0), 255);
 				} else if (colorMode == 4) {
-					Sheet::SelectorColor = RGBA8(red, ColorHelper::getColorValue(Sheet::SelectorColor, 1), ColorHelper::getColorValue(Sheet::SelectorColor, 0), 255);
-				} else if (colorMode == 5) {
-					Sheet::SelectorBG = RGBA8(red, ColorHelper::getColorValue(Sheet::SelectorBG, 1), ColorHelper::getColorValue(Sheet::SelectorBG, 0), 255);
-				} else if (colorMode == 6) {
 					Sheet::fileBrowseText = RGBA8(red, ColorHelper::getColorValue(Sheet::fileBrowseText, 1), ColorHelper::getColorValue(Sheet::fileBrowseText, 0), 255);
-				} else if (colorMode == 7) {
+				} else if (colorMode == 5) {
 					Sheet::MessageText = RGBA8(red, ColorHelper::getColorValue(Sheet::MessageText, 1), ColorHelper::getColorValue(Sheet::MessageText, 0), 255);
 				}
 			}
@@ -369,12 +341,8 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (colorMode == 3) {
 					Sheet::boxText = RGBA8(ColorHelper::getColorValue(Sheet::boxText, 2), green, ColorHelper::getColorValue(Sheet::boxText, 0), 255);
 				} else if (colorMode == 4) {
-					Sheet::SelectorColor = RGBA8(ColorHelper::getColorValue(Sheet::SelectorColor, 2), green, ColorHelper::getColorValue(Sheet::SelectorColor, 0), 255);
-				} else if (colorMode == 5) {
-					Sheet::SelectorBG = RGBA8(ColorHelper::getColorValue(Sheet::SelectorBG, 2), green, ColorHelper::getColorValue(Sheet::SelectorBG, 0), 255);
-				} else if (colorMode == 6) {
 					Sheet::fileBrowseText = RGBA8(ColorHelper::getColorValue(Sheet::fileBrowseText, 2), green, ColorHelper::getColorValue(Sheet::fileBrowseText, 0), 255);
-				} else if (colorMode == 7) {
+				} else if (colorMode == 5) {
 					Sheet::MessageText = RGBA8(ColorHelper::getColorValue(Sheet::MessageText, 2), green, ColorHelper::getColorValue(Sheet::MessageText, 0), 255);
 				}
 			}
@@ -393,12 +361,8 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (colorMode == 3) {
 					Sheet::boxText = RGBA8(ColorHelper::getColorValue(Sheet::boxText, 2), ColorHelper::getColorValue(Sheet::boxText, 1), blue, 255);
 				} else if (colorMode == 4) {
-					Sheet::SelectorColor = RGBA8(ColorHelper::getColorValue(Sheet::SelectorColor, 2), ColorHelper::getColorValue(Sheet::SelectorColor, 1), blue, 255);
-				} else if (colorMode == 5) {
-					Sheet::SelectorBG = RGBA8(ColorHelper::getColorValue(Sheet::SelectorBG, 2), ColorHelper::getColorValue(Sheet::SelectorBG, 1), blue, 255);
-				} else if (colorMode == 6) {
 					Sheet::fileBrowseText = RGBA8(ColorHelper::getColorValue(Sheet::fileBrowseText, 2), ColorHelper::getColorValue(Sheet::fileBrowseText, 1), blue, 255);
-				} else if (colorMode == 7) {
+				} else if (colorMode == 5) {
 					Sheet::MessageText = RGBA8(ColorHelper::getColorValue(Sheet::MessageText, 2), ColorHelper::getColorValue(Sheet::MessageText, 1), blue, 255);
 				}
 			}
@@ -413,24 +377,4 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 		}
 	}
-}
-
-
-void LeafEditEditor::drawTestSelector(float x, float y) const
-{
-	static constexpr int w     = 2;
-	static float timer         = 0.0f;
-	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = Sheet::SelectorColor & 0xFF;
-	u8 g                       = (Sheet::SelectorColor >> 8) & 0xFF;
-	u8 b                       = (Sheet::SelectorColor >> 16) & 0xFF;
-	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
-
-	Gui::Draw_Rect(x, y, 400, 25, Sheet::SelectorBG);
-	Gui::Draw_Rect(x, y, 400, w, color);                      // top
-	Gui::Draw_Rect(x, y + w, w, 25 - 2 * w, color);          // left
-	Gui::Draw_Rect(x + 400 - w, y + w, w, 25 - 2 * w, color); // right
-	Gui::Draw_Rect(x, y + 25 - w, 400, w, color);             // bottom
-
-	timer += .030f;
 }
