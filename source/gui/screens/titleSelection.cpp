@@ -74,7 +74,7 @@ void TitleSelection::Draw(void) const {
     Gui::sprite(0, sprites_titleBottom_idx, 0, 27);
     Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
     Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, Config::barText, "Press Y, to skip the Title Selection.", 320);
-
+    Gui::sprite(0, sprites_icon_idx, 245, 38);
     // Draw the current Selected Title on the Bottom Screen with informations.
     if (selectedTitle != -2)
     {
@@ -217,6 +217,14 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 // Draw all the Titles. (Game Card and Installed Titles.)
 void TitleSelection::TitleDraw(void) const
 {
+    // Display Blank boxes for placeholders.
+    u32 box = 8;
+    for (u32 y = 0; y < 2; y++) {
+        for (u32 x = 0; x < 4; x++, box++) { 
+            Gui::sprite(0, sprites_icon_idx, 143 + x * 60, y * 55 + 68);
+        }
+    }
+    
     // Gamecard.
     if (GameLoader::cardTitle != nullptr)
     {
@@ -230,12 +238,12 @@ void TitleSelection::TitleDraw(void) const
     // Installed Titles.
     for (size_t i = 0; i < GameLoader::installedTitles.size(); i++)
     {
-        int y = GameLoader::installedTitles.size() > 3 ? (i / 4) * 60 + 68 : 98;
-        int x = 145 + (5 - (GameLoader::installedTitles.size() % 4 == 0 ? 5 : GameLoader::installedTitles.size() % 4)) * 0 + (i > 3 ? i - 4 : i) * 60;
+        int y = GameLoader::installedTitles.size() > 3 ? (i / 4) * 55 + 68 : 68;
+        int x = 143 + (5 - (GameLoader::installedTitles.size() % 4 == 0 ? 5 : GameLoader::installedTitles.size() % 4)) * 0 + (i > 3 ? i - 4 : i) * 60;
         ;
         if (GameLoader::installedTitles.size() > 4 && i < 4)
         {
-            x = 145 + (i > 3 ? i - 4 : i) * 60;
+            x = 143 + (i > 3 ? i - 4 : i) * 60;
         }
 
         C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 0.5f);
