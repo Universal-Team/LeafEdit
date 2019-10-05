@@ -71,7 +71,7 @@ int Config::bgText;
 int Config::boxText;
 int Config::SelectorColor;
 int Config::SelectorBG;
-int Config::SelectorText;
+int Config::fileBrowseText;
 int Config::MessageText;
 
 void Config::loadSheet() {
@@ -116,7 +116,7 @@ void Config::loadSheetIniStuff() {
 	Config::boxText = sheetFileIni.GetInt("COLORS", "BoxText", Config::boxText);
 	Config::SelectorColor = sheetFileIni.GetInt("COLORS", "Selector", Config::SelectorColor);
 	Config::SelectorBG = sheetFileIni.GetInt("COLORS", "SelectorBG", Config::SelectorBG);
-	Config::SelectorText = sheetFileIni.GetInt("COLORS", "SelectorText", Config::SelectorText);
+	Config::fileBrowseText = sheetFileIni.GetInt("COLORS", "FileBrowseText", Config::fileBrowseText);
 	Config::MessageText = sheetFileIni.GetInt("COLORS", "MessageText", Config::MessageText);
 }
 

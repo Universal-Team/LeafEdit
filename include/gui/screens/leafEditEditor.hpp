@@ -80,5 +80,5 @@ private:
 };
 
 namespace Sheet {
-	extern int barText, bgText, buttonText, boxText, SelectorColor, SelectorBG, SelectorText, MessageText;
+	extern int barText, bgText, buttonText, boxText, SelectorColor, SelectorBG, fileBrowseText, MessageText;
 }

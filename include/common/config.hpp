@@ -59,7 +59,7 @@ namespace Config {
 	extern int boxText;
 	extern int SelectorColor;
 	extern int SelectorBG;
-	extern int SelectorText;
+	extern int fileBrowseText;
 	extern int MessageText;
 }
 

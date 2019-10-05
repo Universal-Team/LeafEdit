@@ -159,7 +159,7 @@ void Editor::DrawBrowse(void) const
 		dirs += "\n\n";
 	}
 
-	Gui::DrawString(26, 32, 0.53f, Config::SelectorText, dirs.c_str(), 400);
+	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);

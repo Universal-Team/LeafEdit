@@ -201,7 +201,7 @@ void TownManager::DrawBrowse(void) const
 		dirs += "\n\n";
 	}
 
-	Gui::DrawString(26, 32, 0.53f, Config::SelectorText, dirs.c_str(), 400);
+	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
 
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
 
