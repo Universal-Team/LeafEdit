@@ -33,7 +33,7 @@
 
 #include <array>
 
-static constexpr std::array<unsigned long long, 8> titleIds = {
+static constexpr std::array<unsigned long long, 9> titleIds = {
 
     // old version.
     0x0004000000086200, // JPN.
@@ -45,7 +45,9 @@ static constexpr std::array<unsigned long long, 8> titleIds = {
     0x0004000000198D00, // JPN.
     0x0004000000198E00, // USA.
     0x0004000000198F00, // EUR.
-    0x0004000000199000  // KOR.
+    0x0004000000199000,  // KOR.
+
+    0x00040000004C5700 // Animal Crossing: Welcome Luxury [ROM Hack] https://gitlab.com/Kyusetzu/ACWL
 };
 
 // Update the GameCard.
