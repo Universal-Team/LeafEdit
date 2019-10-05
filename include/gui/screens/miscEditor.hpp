@@ -1,5 +1,5 @@
 /*
-*   This file is part of Universal-Manager
+*   This file is part of LeafEdit
 *   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,61 +24,22 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/fileBrowse.h"
-#include "common/inifile.h"
+#ifndef MISCEDITOR_HPP
+#define MISCEDITOR_HPP
+
 #include "common/structs.hpp"
 
-#include "screens/screen.hpp"
+#include "gui/screens/screen.hpp"
 
-#include <algorithm>
-#include <fstream>
-#include <string>
-#include <unistd.h>
 #include <vector>
 
-class LeafEditEditor : public SCREEN 
+class MiscEditor : public SCREEN 
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
-	int mode = 0;
-	int colorMode = 0;
-
-	CIniFile sheetFile; // Sheet color informations.
-
-	void DrawIniBrowse(void) const;
-	void IniBrowseLogic(u32 hDown, u32 hHeld);
-
-	void DrawIniEditor(void) const;
-	void EditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	void drawTestSelector(float x, float y) const;
-
-	void loadIniContents();
-	void saveIniContents();
-	void createNewSheet(std::string sheetIni);
-
-	uint selectedSheetIniFile = 0;
-	int keyRepeatDelay = 0;
-	int fastMode = false;
-	mutable bool refresh = true;
-	std::vector<DirEntry> dirContents;
-
-	std::string sheetsFile = "";
-	std::string savesPath = "";
-
-
-
-	std::vector<Structs::ButtonPos> buttons = {
-		{10, 85, 95, 41, -1},
-		{115, 85, 95, 41, -1},
-		{220, 85, 95, 41, -1},
-		{293, 213, 27, 27, -1},
-	};
 };
 
-namespace Sheet {
-	extern int barText, bgText, buttonText, boxText, fileBrowseText, MessageText;
-}
+#endif

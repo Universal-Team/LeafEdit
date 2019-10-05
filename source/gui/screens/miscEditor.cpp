@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
@@ -24,41 +24,42 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#include "common/utils.hpp"
 
-#include <string>
+#include "gui/keyboard.hpp"
 
-namespace Config {
-	
-	// [CORE]
-	extern int check; // If checked on startup -> 1.
-	extern int update; // Tell, if an Update of AC:NL was found. (For the old version).
+#include "gui/screens/miscEditor.hpp"
+#include "gui/screens/screenCommon.hpp"
 
-	// [MISC]
-	extern int Logging; // Enable / Disable writing to the Log.
-	
-	// [UI]
-	extern int LangLocation; // Language Location (Romfs/SD).
-	extern int lang; // The current Language.
-	extern std::string sheet; // SpriteSheet.
-	extern std::string sheetIni; // SpriteSheet Ini Path.
+#include "core/save/offsets.h"
+#include "core/save/player.h"
+#include "core/save/save.h"
 
-	void loadConfig();
-	void saveConfig();
+extern Save* SaveFile;
 
-	// Spritesheet stuff.
-	void loadSheet();
-	void saveSheet(std::string sheetPath);
-	void loadSheetIni();
-	void saveSheetIni(std::string sheetIniPath);
-	void loadSheetIniStuff();
-	extern int barText;
-	extern int buttonText;
-	extern int bgText;
-	extern int boxText;
-	extern int fileBrowseText;
-	extern int MessageText;
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+void MiscEditor::Draw(void) const
+{
+	Gui::DrawTop();
+	std::string townName = StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
+	Gui::sprite(0, sprites_topbox_idx, 40, 37);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, townName.c_str()))/2, 35, 0.8f, Config::boxText, townName.c_str(), 400);
+
+	Gui::DrawBottom();
 }
 
-#endif
+
+
+void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	} else if (hDown & KEY_X) {
+		SaveFile->players[0]->TownName = Input::getu16String(8, "Please type in the new Town Name.");
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press X to edit the Town Name. \nPress B to exit from this Screen.");
+	}
+}

@@ -28,6 +28,7 @@
 
 #include "common/archive.hpp"
 #include "common/config.hpp"
+#include "common/sound.h"
 #include "common/structs.hpp"
 #include "common/title.hpp"
 #include "common/utils.hpp"
@@ -36,6 +37,7 @@
 #include "core/villagerManagement.hpp"
 
 #include "gui/gui.hpp"
+#include "gui/msg.hpp"
 
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/titleSelection.hpp"
@@ -49,6 +51,8 @@
 int fadealpha = 255;
 bool fadein = true;
 
+bool dspfirmfound = false;
+
 // Set to 1, if testing some stuff. Leave to 0, if normal use.
 int test = 0;
 
@@ -60,6 +64,8 @@ bool WelcomeAmiibo;
 // Touch Touch!
 touchPosition touch;
 
+// sound effects.
+sound *sfx_change = NULL;
 
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
@@ -78,8 +84,14 @@ void TestStuff(void)
 }
 
 
-// If an Error while startup appears, Return this!
+void loadSounds() {
+	// Load the sound effects if DSP is available.
+	if (dspfirmfound) {
+		sfx_change = new sound("romfs:/sfx/change.wav", 2, false);
+	}
+}
 
+// If an Error while startup appears, Return this!
 static Result DisplayStartupError(std::string message, Result res)
 {
 		std::string errorMsg = std::to_string(res);
@@ -140,6 +152,16 @@ int main()
 	Gui::init();
 	loadMessage("Initialize everything.. please wait.");
 
+ 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
+		ndspInit();
+		dspfirmfound = true;
+	} else{
+		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
+	}
+
+
+	loadMessage("Initialize everything.. please wait.");
+
 	if (R_FAILED(res = Archive::init())) {
 		return DisplayStartupError("Archive::init failed.", res);
 	}
@@ -181,6 +203,7 @@ int main()
 	Config::loadSheet();
 	Config::loadSheetIni();
 	Config::loadSheetIniStuff();
+	loadSounds();
 
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
@@ -208,7 +231,7 @@ int main()
 	
 	// We write a successfull Message, because it launched Successfully. Lol.
 	Logging::writeToLog("LeafEdit launched successfully!");
-
+	playChange();
 	// Loop as long as the status is not exit
 	while (aptMainLoop() && !exiting)
 	{
@@ -223,6 +246,10 @@ int main()
 		Gui::mainLoop(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 
+		if (hDown & KEY_ZR) {
+			playChange();
+		}
+
 		if (fadein == true) {
 			fadealpha -= 3;
 			if (fadealpha < 0) {
@@ -233,6 +260,10 @@ int main()
 	}
 	// Exit every process.
 	loadMessage("Exiting Services...");
+	delete sfx_change;
+	if (dspfirmfound) {
+		ndspExit();
+	}
 	cfguExit();
 	sdmcExit();
 	acExit();

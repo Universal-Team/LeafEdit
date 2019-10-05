@@ -227,9 +227,9 @@ void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height
 	static constexpr int w     = 2;
 	static float timer         = 0.0f;
 	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = Config::SelectorColor & 0xFF;
-	u8 g                       = (Config::SelectorColor >> 8) & 0xFF;
-	u8 b                       = (Config::SelectorColor >> 16) & 0xFF;
+	u8 r                       = SelectorBlue & 0xFF;
+	u8 g                       = (SelectorBlue >> 8) & 0xFF;
+	u8 b                       = (SelectorBlue >> 16) & 0xFF;
 	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
 	// BG Color for the Selector.

@@ -137,6 +137,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 				}	case 1:
 						if (Msg::promptMsg(Lang::messages2[2])) {
 						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
+						playChange();
 						}
 						break;
 				 	case 2: {
@@ -190,41 +191,17 @@ void TownManager::DrawBrowse(void) const
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
-		(i == selectedSave);
-
-		if (selectedSave == 0) {
-				Gui::drawAnimatedSelector(0, 28, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 1) {
-			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 2) {
-			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 3) {
-			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 4) {
-			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 5) {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
+		if (i == selectedSave) {
+			dirs += "> " + dirContents[i].name + "\n\n";
 		} else {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
+			dirs += dirContents[i].name + "\n\n";
 		}
 	}
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
 
-	Gui::DrawString(26, 32, 0.53f, Config::SelectorText, dirs.c_str(), 400);
+	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
 
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
 
@@ -290,6 +267,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 					TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
 					selectedSaveFolder = "";
 					screenMode = 0;
+					playChange();
 				}
 			}
 		} else if (hHeld & KEY_SELECT) {
@@ -328,6 +306,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 					TownManagement::DeleteBackup(currentID, currentBackup.c_str()); // We delete the Backup now.
 					currentBackup = ""; // We reset the Backup Folder.
 					dirChanged = true; // We want to refresh the list after it.
+					playChange();
 				}
 			}
 		} else if (hHeld & KEY_SELECT) {
@@ -339,6 +318,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			if (hDown & KEY_X) {
 				if(Msg::promptMsg(Lang::messages2[5])) {
 					TownManagement::LaunchTown(currentMedia, currentID);
+					playChange();
 				}
 			} else if (hHeld & KEY_SELECT) {
 				Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");

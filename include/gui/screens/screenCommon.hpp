@@ -28,6 +28,7 @@
 #define SCREENCOMMON_HPP
 
 #include "common/config.hpp"
+#include "common/sound.h"
 
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"

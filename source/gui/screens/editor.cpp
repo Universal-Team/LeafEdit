@@ -32,6 +32,7 @@
 
 #include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
+#include "gui/screens/miscEditor.hpp"
 #include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/villagerViewer.hpp"
@@ -98,7 +99,7 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, Config::buttonText, Lang::editor[1], 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, Config::buttonText, Lang::editor[6], 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "WIP", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Misc Editor"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "Misc Editor", 140);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -129,6 +130,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 						Gui::setScreen(std::make_unique<VillagerViewer>());
 						break;
 				 	case 2: {
+						Gui::setScreen(std::make_unique<MiscEditor>());
 						break;
 					 }
 			}
@@ -147,41 +149,17 @@ void Editor::DrawBrowse(void) const
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
-		(i == selectedSave);
-
-		if (selectedSave == 0) {
-			Gui::drawAnimatedSelector(0, 28, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 1) {
-			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 2) {
-			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 3) {
-			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 4) {
-			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 5) {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
+		if (i == selectedSave) {
+			dirs += "> " + dirContents[i].name + "\n\n";
 		} else {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
+			dirs += dirContents[i].name + "\n\n";
 		}
 	}
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
 
-	Gui::DrawString(26, 32, 0.53f, Config::SelectorText, dirs.c_str(), 400);
+	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
