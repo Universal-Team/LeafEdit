@@ -149,34 +149,10 @@ void Editor::DrawBrowse(void) const
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
-		(i == selectedSave);
-
-		if (selectedSave == 0) {
-			Gui::drawAnimatedSelector(0, 28, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 1) {
-			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 2) {
-			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 3) {
-			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 4) {
-			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSave == 5) {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
+		if (i == selectedSave) {
+			dirs += "> " + dirContents[i].name + "\n\n";
 		} else {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			dirs +=  dirContents[i].name + "\n\n";
+			dirs += dirContents[i].name + "\n\n";
 		}
 	}
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {

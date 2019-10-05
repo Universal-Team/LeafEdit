@@ -137,34 +137,10 @@ void Settings::DrawSpriteSheetSelection(void) const {
 
 	std::string sheets;
 	for (uint i=(selectedSpriteSheet<5) ? 0 : selectedSpriteSheet-5;i<dirContents.size()&&i<((selectedSpriteSheet<5) ? 6 : selectedSpriteSheet+1);i++) {
-		(i == selectedSpriteSheet);
-
-		if (selectedSpriteSheet == 0) {
-			Gui::drawAnimatedSelector(0, 28, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSpriteSheet == 1) {
-			Gui::drawAnimatedSelector(0, 58, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSpriteSheet == 2) {
-			Gui::drawAnimatedSelector(0, 91, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSpriteSheet == 3) {
-			Gui::drawAnimatedSelector(0, 125, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSpriteSheet == 4) {
-			Gui::drawAnimatedSelector(0, 156, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
-
-		} else if (selectedSpriteSheet == 5) {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
+		if (i == selectedSpriteSheet) {
+			sheets += "> " + dirContents[i].name + "\n\n";
 		} else {
-			Gui::drawAnimatedSelector(0, 188, 400, 25, .005, Config::SelectorBG);
-			sheets +=  dirContents[i].name + "\n\n";
+			sheets += dirContents[i].name + "\n\n";
 		}
 	}
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
