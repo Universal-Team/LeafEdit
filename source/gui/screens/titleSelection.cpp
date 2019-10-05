@@ -108,7 +108,7 @@ void TitleSelection::SelectionLogic(u32 hDown) {
         // Scroll with D-Pad Right to the next available Title.
         else if (hDown & KEY_RIGHT)
         {
-            if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 5)
+            if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 7)
             {
                 if (GameLoader::cardTitle)
                 {
@@ -116,13 +116,13 @@ void TitleSelection::SelectionLogic(u32 hDown) {
                 }
                 else
                 {
-                    if (GameLoader::installedTitles.size() > 6 && selectedTitle > 5)
+                    if (GameLoader::installedTitles.size() > 8 && selectedTitle > 7)
                     {
-                        if (selectedTitle > 5)
+                        if (selectedTitle > 7)
                         {
-                            selectedTitle = 6;
+                            selectedTitle = 8;
                         }
-                        else if (selectedTitle == 5)
+                        else if (selectedTitle == 7)
                         {
                             selectedTitle = 0;
                         }
@@ -144,9 +144,9 @@ void TitleSelection::SelectionLogic(u32 hDown) {
         {
             if (selectedTitle == -1)
             {
-                selectedTitle = GameLoader::installedTitles.size() < 6 ? GameLoader::installedTitles.size() - 1 : 5;
+                selectedTitle = GameLoader::installedTitles.size() < 8 ? GameLoader::installedTitles.size() - 1 : 7;
             }
-            else if (selectedTitle == 6)
+            else if (selectedTitle == 8)
             {
                 if (GameLoader::cardTitle)
                 {
@@ -165,7 +165,7 @@ void TitleSelection::SelectionLogic(u32 hDown) {
                 }
                 else
                 {
-                    selectedTitle = GameLoader::installedTitles.size() > 6 ? 5 : (int)GameLoader::installedTitles.size() - 1;
+                    selectedTitle = GameLoader::installedTitles.size() > 8 ? 7 : (int)GameLoader::installedTitles.size() - 1;
                 }
             }
             else
@@ -230,12 +230,12 @@ void TitleSelection::TitleDraw(void) const
     // Installed Titles.
     for (size_t i = 0; i < GameLoader::installedTitles.size(); i++)
     {
-        int y = GameLoader::installedTitles.size() > 3 ? (i / 3) * 60 + 68 : 98;
-        int x = 165 + (4 - (GameLoader::installedTitles.size() % 3 == 0 ? 4 : GameLoader::installedTitles.size() % 3)) * 30 + (i > 2 ? i - 3 : i) * 60;
+        int y = GameLoader::installedTitles.size() > 3 ? (i / 4) * 60 + 68 : 98;
+        int x = 145 + (5 - (GameLoader::installedTitles.size() % 4 == 0 ? 5 : GameLoader::installedTitles.size() % 4)) * 0 + (i > 3 ? i - 4 : i) * 60;
         ;
-        if (GameLoader::installedTitles.size() > 3 && i < 3)
+        if (GameLoader::installedTitles.size() > 4 && i < 4)
         {
-            x = 165 + (i > 2 ? i - 3 : i) * 60;
+            x = 145 + (i > 3 ? i - 4 : i) * 60;
         }
 
         C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 0.5f);
