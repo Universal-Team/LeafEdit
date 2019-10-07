@@ -33,7 +33,7 @@
 
 #include <vector>
 
-class Editor : public SCREEN 
+class Editor : public SCREEN
 {
 public:
 	void Draw(void) const override;
@@ -44,13 +44,13 @@ private:
 
 	void DrawBrowse(void) const;
 	void BrowseLogic(u32 hDown, u32 hHeld);
-	
+
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 
 	std::vector<Structs::ButtonPos> editorButtons = {
-    	{90, 40, 140, 35, -1}, // Player.
+		{90, 40, 140, 35, -1}, // Player.
 		{90, 100, 140, 35, -1}, // Villager.
 		{90, 160, 140, 35, -1}, // WIP.
 		{293, 213, 27, 27, -1}, // Saving.

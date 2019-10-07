@@ -35,7 +35,7 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
-	
+
 	Gui::ScreenDraw(top);
 	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);

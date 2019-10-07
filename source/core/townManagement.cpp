@@ -31,7 +31,7 @@
 #include "common/title.hpp"
 #include "common/utils.hpp"
 
-#include "core/townManagement.hpp" 
+#include "core/townManagement.hpp"
 
 #include "gui/keyboard.hpp" // For the Input Stuff.
 #include "gui/screens/screenCommon.hpp"

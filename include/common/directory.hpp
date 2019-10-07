@@ -37,19 +37,19 @@
 
 class Directory {
 public:
-    Directory(FS_Archive archive, const std::u16string& root);
-    ~Directory(void){};
+	Directory(FS_Archive archive, const std::u16string& root);
+	~Directory(void){};
 
-    Result error(void);
-    std::u16string entry(size_t index);
-    bool folder(size_t index);
-    bool good(void);
-    size_t size(void);
+	Result error(void);
+	std::u16string entry(size_t index);
+	bool folder(size_t index);
+	bool good(void);
+	size_t size(void);
 
 private:
-    std::vector<FS_DirectoryEntry> mList;
-    Result mError;
-    bool mGood;
+	std::vector<FS_DirectoryEntry> mList;
+	Result mError;
+	bool mGood;
 };
 
 #endif

@@ -33,27 +33,27 @@ SOFTWARE.
 
 class Player {
 public:
-    Player(void);
-    ~Player(void);
-    Player(u32 offset, u32 index);
+	Player(void);
+	~Player(void);
+	Player(u32 offset, u32 index);
 
-    u16 PlayerId;
-    u16 PlayerTan;
-    std::u16string Name;
-    u16 Gender; // might not be a u16, but the following byte is always? 0.
-    u16 TownId;
-    std::u16string TownName;
+	u16 PlayerId;
+	u16 PlayerTan;
+	std::u16string Name;
+	u16 Gender; // might not be a u16, but the following byte is always? 0.
+	u16 TownId;
+	std::u16string TownName;
 
-    EncryptedInt32 Wallet;
-    EncryptedInt32 BankAmount;
-    EncryptedInt32 MeowCoupons;
-    EncryptedInt32 IslandMedals;
-    
-    void Write();
-    bool Exists();
+	EncryptedInt32 Wallet;
+	EncryptedInt32 BankAmount;
+	EncryptedInt32 MeowCoupons;
+	EncryptedInt32 IslandMedals;
 
-    u32 m_offset;
-    u32 m_index;
+	void Write();
+	bool Exists();
+
+	u32 m_offset;
+	u32 m_index;
 };
 
 #endif

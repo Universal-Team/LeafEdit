@@ -50,7 +50,7 @@ void Settings::Draw(void) const
 		Title += Lang::title;
 		Title += " - ";
 		Title += Lang::mainMenu[2];
-	
+
 		Gui::DrawTop();
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 
@@ -480,7 +480,7 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
-			
+
 		} else if (touching(touch, langBlocks[7])) {
 			Config::lang = 5;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);

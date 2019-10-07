@@ -5,8 +5,8 @@
 #include <vector>
 
 namespace Threads {
-    void create(ThreadFunc entrypoint);
-    void destroy(void);
+	void create(ThreadFunc entrypoint);
+	void destroy(void);
 }
 
 #endif

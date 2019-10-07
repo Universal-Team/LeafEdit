@@ -417,7 +417,7 @@ void VillagerEditor::DrawSubMenu(void) const
 
 
 	} else if (subMenuPage == 3) {
-		
+
 		Gui::sprite(0, sprites_villagerBox_idx, 5, 30);
 		VillagerManagement::DrawVillager(232, 10, 28);
 		std::string GroupTwentyone = "Kangaroo";
@@ -472,7 +472,7 @@ void VillagerEditor::DrawSubMenu(void) const
 
 
 	} else if (subMenuPage == 4) {
-		
+
 		Gui::sprite(0, sprites_villagerBox_idx, 5, 30);
 		VillagerManagement::DrawVillager(342, 10, 28);
 		std::string GroupThirtyone = "Rhino";

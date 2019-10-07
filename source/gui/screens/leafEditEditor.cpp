@@ -231,7 +231,7 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	Gui::Draw_Rect(0, 0, 320, 27, GRAY);
 	Gui::Draw_Rect(0, 27, 320, 186, DARKGRAY);
 	Gui::Draw_Rect(0, 213, 320, 213, GRAY);
-	
+
 	for (int i = 0; i < 6; i++) {
 		if (colorMode == i) {
 			Gui::Draw_Rect(25 + i * 25, 5, 16, 16, DARKGRAY);
@@ -288,7 +288,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 	if (hDown & KEY_L || hDown & KEY_LEFT) {
 		if(colorMode > 0)	colorMode--;
-	} 
+	}
 
 	if (hDown & KEY_R || hDown & KEY_RIGHT) {
 		if(colorMode < 5)	colorMode++;

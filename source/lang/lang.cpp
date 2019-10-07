@@ -92,7 +92,7 @@ void Lang::loadLangStrings(int lang) {
 	Lang::playerEditor[10] = ini.GetString("playerEditor", "clearBank", Lang::playerEditor[10]);
 	Lang::playerEditor[11] = ini.GetString("playerEditor", "clearMedals", Lang::playerEditor[11]);
 	Lang::playerEditor[12] = ini.GetString("playerEditor", "clearCoupons", Lang::playerEditor[12]);
-	
+
 	// [settings]
 	Lang::settings[0] = ini.GetString("settings", "language", Lang::settings[0]);
 	Lang::settings[1] = ini.GetString("settings", "selector", Lang::settings[1]);

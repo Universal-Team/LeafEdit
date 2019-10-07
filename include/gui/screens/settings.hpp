@@ -33,7 +33,7 @@
 
 #include <vector>
 
-class Settings : public SCREEN 
+class Settings : public SCREEN
 {
 public:
 	void Draw(void) const override;
@@ -42,7 +42,7 @@ public:
 private:
 	int Selection = 0;
 	void SelectionLogic(u32 hDown, u32 hHeld);
-	
+
 	void DrawSpriteSheetSelection(void) const;
 	void SpriteSheetLogic(u32 hDown, u32 hHeld);
 
@@ -50,7 +50,7 @@ private:
 	void langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<Structs::ButtonPos> settingsButtons = {
-    	{90, 40, 140, 35, -1}, // Language
+		{90, 40, 140, 35, -1}, // Language
 		{90, 100, 140, 35, -1}, // Selector
 		{90, 160, 140, 35, -1}, // ?
 	};
@@ -64,7 +64,7 @@ private:
 		{177, 52, 20, 20, -1},
 		{177, 92, 20, 20, -1},
 		{177, 132, 20, 20, -1},
-		{177, 172, 20, 20, -1}, 
+		{177, 172, 20, 20, -1},
 
 		{293, 213, 27, 27, -1},
 	};

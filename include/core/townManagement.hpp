@@ -33,12 +33,12 @@
 
 namespace TownManagement
 {
-    Result BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID);
-    Result CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID, u32 uniqueID); // Doesn't really work yet.
-    Result LaunchTown(FS_MediaType Mediatype, u64 TID);
-    Result RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID, std::string saveFolder);
+	Result BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID);
+	Result CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32 highID, u32 uniqueID); // Doesn't really work yet.
+	Result LaunchTown(FS_MediaType Mediatype, u64 TID);
+	Result RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID, u32 uniqueID, std::string saveFolder);
 
-    void DeleteBackup(u64 ID, std::string backup);
+	void DeleteBackup(u64 ID, std::string backup);
 }
 
 #endif

@@ -107,7 +107,7 @@ void TownManager::DrawSubMenu(void) const
 		// Launch a Town from a Backup or just start the game.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::townmanager[0], 130);
 
-		// Backup the Save from the installed Title / Gamecard. 
+		// Backup the Save from the installed Title / Gamecard.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::townmanager[1], 130);
 
 		// Restore a Backuped save.
@@ -171,8 +171,8 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 4)	Selection++;
 	}  else if (hHeld & KEY_SELECT) {
-        Msg::HelperBox("Select Launch Town, to launch a Town from your SD Card.\nSelect Backup Town, to backup a Town from the selected Mediatype.\nSelect Restore Town, to restore a save from your SD Card.\nSelect Delete Town, to delete your current Mediatypes SaveFile.\nSelect Delete Backup, to delete an unneded Backup from the SD Card.\nPress B to exit from this Screen.");
-    }
+		Msg::HelperBox("Select Launch Town, to launch a Town from your SD Card.\nSelect Backup Town, to backup a Town from the selected Mediatype.\nSelect Restore Town, to restore a save from your SD Card.\nSelect Delete Town, to delete your current Mediatypes SaveFile.\nSelect Delete Backup, to delete an unneded Backup from the SD Card.\nPress B to exit from this Screen.");
+	}
 }
 
 void TownManager::DrawBrowse(void) const
@@ -214,7 +214,7 @@ void TownManager::DrawBrowse(void) const
 	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
 }
 
-void TownManager::BrowseLogic(u32 hDown, u32 hHeld) { 
+void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 			if (dirChanged) {

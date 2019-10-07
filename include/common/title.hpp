@@ -35,28 +35,28 @@
 class Title
 {
 public:
-    // std::make_shared stuff.
-    Title(void) = default;
-    ~Title(void);
+	// std::make_shared stuff.
+	Title(void) = default;
+	~Title(void);
 
-    // Title Handling.
-    bool load(u64 id, FS_MediaType mediaType, FS_CardType cardType);
-    u32 highId(void);
-    u32 lowId(void);
-    u64 ID(void) { return (u64)highId() << 32 | lowId(); }
-    FS_MediaType mediaType(void);
-    FS_CardType cardType(void);
-    std::string name(void);
-    C2D_Image icon(void);
-    u32 uniqueId(void);
+	// Title Handling.
+	bool load(u64 id, FS_MediaType mediaType, FS_CardType cardType);
+	u32 highId(void);
+	u32 lowId(void);
+	u64 ID(void) { return (u64)highId() << 32 | lowId(); }
+	FS_MediaType mediaType(void);
+	FS_CardType cardType(void);
+	std::string name(void);
+	C2D_Image icon(void);
+	u32 uniqueId(void);
 
 private:
-    u64 mId;
-    FS_MediaType mMedia;
-    FS_CardType mCard;
-    FS_CardType mCardType;
-    C2D_Image mIcon;
-    std::string mName;
+	u64 mId;
+	FS_MediaType mMedia;
+	FS_CardType mCard;
+	FS_CardType mCardType;
+	C2D_Image mIcon;
+	std::string mName;
 };
 
 #endif

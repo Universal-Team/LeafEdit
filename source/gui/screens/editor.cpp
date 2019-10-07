@@ -112,7 +112,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 	} else if (hDown & KEY_TOUCH && touching(touch, editorButtons[3])) {
 			if (Msg::promptMsg(Lang::editor[0])) {
 					SaveFile->Commit(false);
-				} 
+				}
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
@@ -127,13 +127,13 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 				case 0: {
 						Gui::setScreen(std::make_unique<PlayerEditor>());
 						break;
-				}   case 1:
+				}	case 1:
 						Gui::setScreen(std::make_unique<VillagerViewer>());
 						break;
-				 	case 2: {
+					case 2: {
 						Gui::setScreen(std::make_unique<MiscEditor>());
 						break;
-					 }
+					}
 			}
 	}
 }
@@ -169,25 +169,25 @@ void Editor::DrawBrowse(void) const
 }
 
 
-void Editor::BrowseLogic(u32 hDown, u32 hHeld) { 
+void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
-			if (dirChanged) {
-				dirContents.clear();
-				std::string customPath;
-				if (isROMHack == true) {
-					customPath += "sdmc:/LeafEdit/Towns/Welcome-Luxury/";
-				} else if (isROMHack == false) {
-					customPath += "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
-				}
-			chdir(customPath.c_str());
-            std::vector<DirEntry> dirContentsTemp;
-            getDirectoryContents(dirContentsTemp);
-            for(uint i=0;i<dirContentsTemp.size();i++) {
-                  dirContents.push_back(dirContentsTemp[i]);
-        }
-		dirChanged = false;
-	}
+				if (dirChanged) {
+					dirContents.clear();
+					std::string customPath;
+					if (isROMHack == true) {
+						customPath += "sdmc:/LeafEdit/Towns/Welcome-Luxury/";
+					} else if (isROMHack == false) {
+						customPath += "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
+					}
+				chdir(customPath.c_str());
+				std::vector<DirEntry> dirContentsTemp;
+				getDirectoryContents(dirContentsTemp);
+				for(uint i=0;i<dirContentsTemp.size();i++) {
+					  dirContents.push_back(dirContentsTemp[i]);
+			}
+			dirChanged = false;
+		}
 
 		if (hHeld & KEY_SELECT) {
 			Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");

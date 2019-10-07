@@ -34,7 +34,7 @@
 
 #include <vector>
 
-class VillagerViewer : public SCREEN 
+class VillagerViewer : public SCREEN
 {
 public:
 	void Draw(void) const override;

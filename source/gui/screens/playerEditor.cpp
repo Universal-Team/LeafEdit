@@ -125,7 +125,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 	u32 player = 0;
-	for (u32 x = 0; x < 4; x++, player++) { 
+	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
 			Gui::sprite(0, sprites_villagerBox_idx, 15 + x * 100, 93);
 		}
@@ -154,7 +154,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 }
 
 void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
-	for (int player = 0; player < 4; player++) { 
+	for (int player = 0; player < 4; player++) {
 		if (SaveFile->players[player]->Exists())	maxPlayer = player;
 	}
 
@@ -328,7 +328,7 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 		Gui::sprite(0, sprites_button_idx, playerButtons[4].x, playerButtons[4].y);
 		Gui::sprite(0, sprites_button_idx, playerButtons[5].x, playerButtons[5].y);
 
-		
+
 
 		if (Selection == 0) {
 			Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[0].x, playerButtons[0].y, selectedColor);
@@ -347,10 +347,10 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 
 	if (currentPage == 1) {
 		// Display Player Name.
-		
+
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[1]))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::playerEditor[1], 130);
 
-		// Display Wallet Amount. 
+		// Display Wallet Amount.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[2]))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::playerEditor[2], 130);
 
 		// Display current Tan Value.
@@ -360,7 +360,7 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 		// Display Bank Amount.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[4]))/2+150-65, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::playerEditor[4], 130);
 
-		// Display Medal Amount. 
+		// Display Medal Amount.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[5]))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::playerEditor[5], 130);
 
 		// Display Coupon Amount.
@@ -371,7 +371,7 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 		// Max Bank.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[7]))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::playerEditor[7], 130);
 
-		// Max Medals. 
+		// Max Medals.
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[8]))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::playerEditor[8], 130);
 
 		// Max Coupons.

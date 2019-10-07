@@ -79,7 +79,6 @@ void TestStuff(void)
 {
 	if (test == 1) {
 		// Currently nothing to test.
-	} else if (test == 0) {
 	}
 }
 
@@ -150,22 +149,11 @@ int main()
 	Result res;
 	gfxInitDefault();
 	Gui::init();
-	loadMessage("Initialize everything.. please wait.");
 
- 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
+	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
 		ndspInit();
 		dspfirmfound = true;
-	} else{
-		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
-	}
-
-
-	loadMessage("Initialize everything.. please wait.");
-
- 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
-		ndspInit();
-		dspfirmfound = true;
-	} else{
+	} else {
 		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
 	}
 
@@ -219,7 +207,7 @@ int main()
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
-	
+
 	Lang::loadLangStrings(Config::lang);
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
@@ -233,13 +221,13 @@ int main()
 	} else if (Config::update == 1) {
 		WelcomeAmiibo = true;
 	}
-	
+
 	// Scan for available Titles to display.
 	GameLoader::scanTitleID();
-	
+
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());
-	
+
 	// We write a successfull Message, because it launched Successfully. Lol.
 	Logging::writeToLog("LeafEdit launched successfully!");
 	playChange();

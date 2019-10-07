@@ -50,7 +50,7 @@ Structs::Key misc[] = {
 
 Structs::Key NumpadStruct[] = {
 	{"1", 10, 30},
-	{"2", 90, 30}, 
+	{"2", 90, 30},
 	{"3", 170, 30},
 
 	{"4", 10, 100},
@@ -140,8 +140,8 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			C3D_FrameEnd(0);
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-        	C2D_TargetClear(top, BLACK);
-        	C2D_TargetClear(bottom, BLACK);
+			C2D_TargetClear(top, BLACK);
+			C2D_TargetClear(bottom, BLACK);
 			Gui::DrawTop();
 			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
 			Gui::DrawBottom();
@@ -229,7 +229,7 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			string = string.substr(0, string.length()-1);
 			Gui::DrawString(0, 100, 0.5, BLACK, string.c_str(), 400);
 		}
-		
+
 		if(hDown & KEY_START || enter) {
 			break;
 		}
@@ -259,8 +259,8 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			C3D_FrameEnd(0);
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-        	C2D_TargetClear(top, BLACK);
-        	C2D_TargetClear(bottom, BLACK);
+			C2D_TargetClear(top, BLACK);
+			C2D_TargetClear(bottom, BLACK);
 			Gui::DrawTop();
 			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
 			Gui::DrawString(180, 212, 0.8, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 400);
