@@ -12,4 +12,6 @@
 #define WelcomeAmiiboEUR  0x0004000000198F00
 #define WelcomeAmiiboKOR  0x0004000000199000
 
+#define WelcomeLuxury 0x00040000004C5700
+
 #endif

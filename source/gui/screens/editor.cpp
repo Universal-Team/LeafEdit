@@ -47,6 +47,7 @@
 
 std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
+extern bool isROMHack; // For Welcome Luxury.
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Editor::Draw(void) const
@@ -172,8 +173,13 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 			if (dirChanged) {
-            dirContents.clear();
-			std::string customPath = "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
+				dirContents.clear();
+				std::string customPath;
+				if (isROMHack == true) {
+					customPath += "sdmc:/LeafEdit/Towns/Welcome-Luxury/";
+				} else if (isROMHack == false) {
+					customPath += "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
+				}
 			chdir(customPath.c_str());
             std::vector<DirEntry> dirContentsTemp;
             getDirectoryContents(dirContentsTemp);
@@ -193,8 +199,11 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 			} else {
 				std::string prompt = Lang::editor[4];
 				if(Msg::promptMsg(prompt.c_str())) {
-
-				selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
+					if (isROMHack == true) {
+						selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Luxury/";
+					} else if (isROMHack == false) {
+						selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
+					}
 					selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
 					selectedSaveFolderEditor += "/garden_plus.dat";
 					const char *save = selectedSaveFolderEditor.c_str();

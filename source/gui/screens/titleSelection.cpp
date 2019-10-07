@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/common.hpp"
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
@@ -46,6 +47,7 @@ u32 currentUniqueID;
 FS_MediaType currentMedia;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 bool titleIsLoaded = false;
+bool isROMHack = false;
 
 void TitleSelection::Draw(void) const {
     Gui::ScreenDraw(top);
@@ -184,6 +186,11 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if (hDown & KEY_A) {
         if (GameLoader::cardTitle == nullptr && GameLoader::installedTitles.empty()) {
         } else {
+            if (titleFromIndex(selectedTitle)->ID() == WelcomeLuxury) {
+                isROMHack = true;
+            } else {
+                isROMHack = false;
+            }
             currentID = titleFromIndex(selectedTitle)->ID();
             currentMedia = titleFromIndex(selectedTitle)->mediaType();
             currentLowID = titleFromIndex(selectedTitle)->lowId();
@@ -195,6 +202,11 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
     } else if (hDown & KEY_TOUCH && touching(touch, icon[0])) {
         if (GameLoader::cardTitle == nullptr && GameLoader::installedTitles.empty()) {
         } else {
+            if (titleFromIndex(selectedTitle)->ID() == WelcomeLuxury) {
+                isROMHack = true;
+            } else {
+                isROMHack = false;
+            }
             currentID = titleFromIndex(selectedTitle)->ID();
             currentMedia = titleFromIndex(selectedTitle)->mediaType();
             currentLowID = titleFromIndex(selectedTitle)->lowId();

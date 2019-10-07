@@ -44,6 +44,9 @@ extern u32 currentUniqueID;
 std::string selectedSaveFolder = "";
 std::string currentBackup = "";
 
+extern bool WelcomeAmiibo;
+extern bool isROMHack; // For Welcome Luxury.
+
 void TownManager::Draw(void) const
 {
 	if (screenMode == 0) {
@@ -218,30 +221,22 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			dirContents.clear();
 		std::string customPath = "sdmc:/LeafEdit/Towns/";
 
-		// EUR.
-		if (currentID == OldEUR && Config::update == 1) {
-			customPath += "Welcome-Amiibo/";
-		} else if (currentID == OldEUR  && Config::update == 0) {
-			customPath += "Old/";
-		}
-
-		// USA.
-		if (currentID == OldUSA  && Config::update == 1) {
-			customPath += "Welcome-Amiibo/";
-		} else if (currentID == OldUSA  && Config::update == 0) {
-			customPath += "Old/";
-		}
-
-		// JPN.
-		if (currentID == OldJPN  && Config::update == 1) {
-			customPath += "Welcome-Amiibo/";
-		} else if (currentID == OldJPN  && Config::update == 0) {
-			customPath += "Old/";
-		}
-
-		if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN) {
-			customPath += "Welcome-Amiibo/";
-		}
+		// Check for the game.
+			if (isROMHack == true) {
+				customPath += "Welcome-Luxury/";
+			} else if (isROMHack == false) {
+				if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
+					if (WelcomeAmiibo == false) {
+						customPath += "Old/";
+					} else if (WelcomeAmiibo == true) {
+						customPath += "Welcome-Amiibo/";
+					}
+				} else {
+					if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
+						customPath += "Welcome-Amiibo/";
+					}
+				}
+			}
 
 
 			chdir(customPath.c_str());
