@@ -32,7 +32,7 @@
 
 #include "gui/screens/screen.hpp"
 
-class TitleSelection : public SCREEN
+class TitleSelection : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -61,6 +61,7 @@ private:
 		return nullptr;
 	}
 
+	// Struct for the Icon position, so you can tap on the Icon.
 	std::vector<Structs::ButtonPos> icon = {
 		{245, 38, 48, 48, -1}, // Icon
 	};

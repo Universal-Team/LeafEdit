@@ -104,64 +104,63 @@ void TownManager::DrawSubMenu(void) const
 		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[4].x, townButtons[4].y, selectedColor);
 	}
 
-		// Launch a Town from a Backup or just start the game.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::townmanager[0], 130);
+	// Launch a Town from a Backup or just start the game.
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::townmanager[0], 130);
 
-		// Backup the Save from the installed Title / Gamecard.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::townmanager[1], 130);
+	// Backup the Save from the installed Title / Gamecard.
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::townmanager[1], 130);
 
-		// Restore a Backuped save.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::townmanager[2], 130);
+	// Restore a Backuped save.
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::townmanager[2], 130);
 
 
-		// Delete Save from Installed Title / Gamecard.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, "Delete Town", 130);
+	// Delete Save from Installed Title / Gamecard.
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, "Delete Town", 130);
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, "Delete Backup", 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, "Delete Backup", 130);
 }
 
 
 void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 {
 	if (screenMode == 0) {
-	SelectionLogic(hDown, hHeld);
+		SelectionLogic(hDown, hHeld);
 
-	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
-	}
+		if (hDown & KEY_B) {
+			Gui::screenBack();
+			return;
+		}
 
-	if (hDown & KEY_A) {
+		if (hDown & KEY_A) {
 			switch(Selection) {
-				case 0: {
-						screenMode = 2;
-						dirChanged = true;
-						break;
-				}	case 1:
-						if (Msg::promptMsg(Lang::messages2[2])) {
+				case 0:
+					screenMode = 2;
+					dirChanged = true;
+					break;
+				case 1:
+					if (Msg::promptMsg(Lang::messages2[2])) {
 						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
 						playChange();
 						}
-						break;
-				 	case 2: {
-						screenMode = 1;
-						dirChanged = true;
-						break;
-					 } case 3: {
-						if (Msg::promptMsg("Would you like, to delete this Game's Town?\nYour Game will start directly after it.")) {
-							TownManagement::CreateNewTown(currentMedia, currentID, currentLowID, currentHighID, currentUniqueID);
-						}
-						break;
-					 } case 4: {
-						screenMode = 3;
-						dirChanged = true;
-						break;
-					 }
-				}
+					break;
+				case 2:
+					screenMode = 1;
+					dirChanged = true;
+					break;
+				case 3:
+					if (Msg::promptMsg("Would you like, to delete this Game's Town?\nYour Game will start directly after it.")) {
+						TownManagement::CreateNewTown(currentMedia, currentID, currentLowID, currentHighID, currentUniqueID);
+					}
+					break;
+				case 4:
+					screenMode = 3;
+					dirChanged = true;
+					break;
 			}
-		} else if (screenMode == 1 || screenMode == 2 || screenMode == 3) {
-			BrowseLogic(hDown, hHeld);
 		}
+	} else if (screenMode == 1 || screenMode == 2 || screenMode == 3) {
+		BrowseLogic(hDown, hHeld);
+	}
 }
 
 void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
@@ -217,36 +216,36 @@ void TownManager::DrawBrowse(void) const
 void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
-			if (dirChanged) {
-			dirContents.clear();
+	if (dirChanged) {
+		dirContents.clear();
 		std::string customPath = "sdmc:/LeafEdit/Towns/";
 
 		// Check for the game.
-			if (isROMHack == true) {
-				customPath += "Welcome-Luxury/";
-			} else if (isROMHack == false) {
-				if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
-					if (WelcomeAmiibo == false) {
-						customPath += "Old/";
-					} else if (WelcomeAmiibo == true) {
-						customPath += "Welcome-Amiibo/";
-					}
-				} else {
-					if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
-						customPath += "Welcome-Amiibo/";
-					}
+		if (isROMHack == true) {
+			customPath += "Welcome-Luxury/";
+		} else if (isROMHack == false) {
+			if (currentID == OldJPN || currentID == OldUSA || currentID == OldEUR || currentID == OldKOR) {
+				if (WelcomeAmiibo == false) {
+					customPath += "Old/";
+				} else if (WelcomeAmiibo == true) {
+					customPath += "Welcome-Amiibo/";
+				}
+			} else {
+				if (currentID == WelcomeAmiiboUSA || currentID == WelcomeAmiiboEUR || currentID == WelcomeAmiiboJPN || currentID == WelcomeAmiiboKOR) {
+					customPath += "Welcome-Amiibo/";
 				}
 			}
+		}
 
-
-			chdir(customPath.c_str());
-			std::vector<DirEntry> dirContentsTemp;
-			getDirectoryContents(dirContentsTemp);
-			for(uint i=0;i<dirContentsTemp.size();i++) {
-				dirContents.push_back(dirContentsTemp[i]);
+		chdir(customPath.c_str());
+		std::vector<DirEntry> dirContentsTemp;
+		getDirectoryContents(dirContentsTemp);
+		for(uint i=0;i<dirContentsTemp.size();i++) {
+			dirContents.push_back(dirContentsTemp[i]);
 		}
 		dirChanged = false;
 	}
+
 	if (screenMode == 1) {
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
@@ -309,18 +308,18 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		}
 	}
 
-		if (screenMode == 2) {
-			if (hDown & KEY_X) {
-				if(Msg::promptMsg(Lang::messages2[5])) {
-					TownManagement::LaunchTown(currentMedia, currentID);
-					playChange();
-				}
-			} else if (hHeld & KEY_SELECT) {
-				Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
+	if (screenMode == 2) {
+		if (hDown & KEY_X) {
+			if(Msg::promptMsg(Lang::messages2[5])) {
+				TownManagement::LaunchTown(currentMedia, currentID);
+				playChange();
 			}
+		} else if (hHeld & KEY_SELECT) {
+			Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
 		}
+	}
 
-		if (hHeld & KEY_UP) {
+	if (hHeld & KEY_UP) {
 		if (selectedSave > 0 && !keyRepeatDelay) {
 			selectedSave--;
 			keyRepeatDelay = 6;

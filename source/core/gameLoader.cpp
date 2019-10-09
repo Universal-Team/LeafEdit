@@ -94,30 +94,30 @@ bool GameLoader::cardUpdate()
 void GameLoader::checkUpdate(void)
 {
 	if (Config::check == 0) {
-	Result res = 0;
-	u32 updateTitleCount;
+		Result res = 0;
+		u32 updateTitleCount;
 
-	res = AM_GetTitleCount(MEDIATYPE_SD, &updateTitleCount);
-	if (R_FAILED(res))
-	{
+		res = AM_GetTitleCount(MEDIATYPE_SD, &updateTitleCount);
+		if (R_FAILED(res))
+		{
+			return;
+		}
+
+		// get title list and check if a title matches the ids we want
+		std::vector<u64> updateIds;
+		updateIds.resize(updateTitleCount);
+			res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
+		if (R_FAILED(res))
+		{
 		return;
-	}
+		}
 
-	// get title list and check if a title matches the ids we want
-	std::vector<u64> updateIds;
-	updateIds.resize(updateTitleCount);
-	res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
-	if (R_FAILED(res))
-	{
-		return;
-	}
+		Msg::DisplayWarnMsg(Lang::messages2[6]);
 
-	Msg::DisplayWarnMsg(Lang::messages2[6]);
-
-	if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end() //JPN.
-		|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
-		|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
-		|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
+		if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end() //JPN.
+			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
+			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
+			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
 		{
 			Msg::DisplayWarnMsg(Lang::update[0]);
 			Config::update = 1;
@@ -125,11 +125,8 @@ void GameLoader::checkUpdate(void)
 			Msg::DisplayWarnMsg(Lang::update[1]);
 			Config::update = 0;
 		}
-
 		Config::check = 1;
 		Config::saveConfig();
-
-	} else if (Config::check == 1) {
 	}
 }
 

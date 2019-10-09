@@ -7,7 +7,7 @@
 static bool freadLine(FILE* f,std::string& str)
 {
 	str.clear();
-__read:
+	__read:
 	char p=0;
 
 	size_t readed=fread(&p,1,1,f);

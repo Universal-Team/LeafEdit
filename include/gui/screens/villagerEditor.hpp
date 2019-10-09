@@ -34,7 +34,7 @@
 
 #include <vector>
 
-class VillagerEditor : public SCREEN
+class VillagerEditor : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -82,6 +82,7 @@ private:
 		{90, 100, 140, 35, -1}, // Manually.
 	};
 
+	// Touch Position of the search Icon, so you can search for a Villager ID.
 	std::vector<Structs::ButtonPos> search = {
 		{290, 3, 20, 20, -1},
 	};

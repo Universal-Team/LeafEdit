@@ -23,4 +23,5 @@ namespace EditorUtils
 }
 
 u16	strToU16(std::string str);
+
 #endif

@@ -61,7 +61,7 @@ namespace Gui
 
 	// Screen and MainLoops.
 	void mainLoop(u32 hDown, u32 hHeld, touchPosition touch);
-	void setScreen(std::unique_ptr<SCREEN> screen);
+	void setScreen(std::unique_ptr<Screen> screen);
 	void screenBack(void);
 	C3D_RenderTarget* target(gfxScreen_t t);
 	void ScreenDraw(C3D_RenderTarget * screen);

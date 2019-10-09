@@ -67,7 +67,7 @@ void LeafEditEditor::DrawIniBrowse(void) const {
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "LeafEdit Ini Browse"))/2, 0, 0.72f, WHITE, "LeafEdit Ini Browse");
 
-		std::string dirs;
+	std::string dirs;
 	for (uint i=(selectedSheetIniFile<5) ? 0 : selectedSheetIniFile-5;i<dirContents.size()&&i<((selectedSheetIniFile<5) ? 6 : selectedSheetIniFile+1);i++) {
 		if (i == selectedSheetIniFile) {
 			dirs +=  ">" + dirContents[i].name + "\n\n";
@@ -90,77 +90,77 @@ void LeafEditEditor::DrawIniBrowse(void) const {
 void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
-			if (refresh) {
-			dirContents.clear();
-			char startPath[PATH_MAX];
-			getcwd(startPath, PATH_MAX);
-			chdir("sdmc:/LeafEdit/SpriteSheets");
-			std::vector<DirEntry> dirContentsTemp;
-			getDirectoryContents(dirContentsTemp);
-			chdir(startPath);
-			for(uint i=0;i<dirContentsTemp.size();i++) {
-				dirContents.push_back(dirContentsTemp[i]);
+	if (refresh) {
+		dirContents.clear();
+		char startPath[PATH_MAX];
+		getcwd(startPath, PATH_MAX);
+		chdir("sdmc:/LeafEdit/SpriteSheets");
+		std::vector<DirEntry> dirContentsTemp;
+		getDirectoryContents(dirContentsTemp);
+		chdir(startPath);
+		for(uint i=0;i<dirContentsTemp.size();i++) {
+			dirContents.push_back(dirContentsTemp[i]);
 		}
 		refresh = false;
 	}
 
-		if (hDown & KEY_START) {
-			refresh = true;
+	if (hDown & KEY_START) {
+		refresh = true;
+	}
+
+	if(hDown & KEY_A) {
+		if (dirContents.size() == 0) {
+			Msg::DisplayWarnMsg("What are you trying to do? :P");
+		} else {
+			if(Msg::promptMsg("Do you want edit this ini? : \n\n "+dirContents[selectedSheetIniFile].name+"")) {
+				sheetsFile = "sdmc:/LeafEdit/SpriteSheets/"+dirContents[selectedSheetIniFile].name;
+				sheetsFile += "/sheet.ini";
+				sheetFile = sheetsFile;
+				loadIniContents();
+				mode = 1;
+				savesPath = sheetsFile;
+			}
+		}
+	} else if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	} else if (hDown & KEY_Y) {
+		if (dirContents.size() == 0) {
+			Msg::DisplayWarnMsg("What are you trying to do? :P");
+		} else {
+			if(Msg::promptMsg("Are you sure, you want to create 'sheet.ini' \ninto this folder?\nIt will reset the existing Ini File, if it already exist!")) {
+				std::string newIni = "sdmc:/LeafEdit/SpriteSheets/"+dirContents[selectedSheetIniFile].name;
+				newIni += "/sheet.ini";
+				createNewSheet(newIni.c_str());
+				refresh = true;
+			}
 		}
 
-		if(hDown & KEY_A) {
-			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
-			} else {
-				if(Msg::promptMsg("Do you want edit this ini? : \n\n "+dirContents[selectedSheetIniFile].name+"")) {
-					sheetsFile = "sdmc:/LeafEdit/SpriteSheets/"+dirContents[selectedSheetIniFile].name;
-					sheetsFile += "/sheet.ini";
-					sheetFile = sheetsFile;
-					loadIniContents();
-					mode = 1;
-					savesPath = sheetsFile;
-				}
+	} else if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Press A to select the Folder with the ini file.\nPress Y to a Folder, to create a blank 'sheet.ini' File.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+	} else if (hHeld & KEY_UP) {
+		if (selectedSheetIniFile > 0 && !keyRepeatDelay) {
+			selectedSheetIniFile--;
+			if (fastMode == true) {
+				keyRepeatDelay = 3;
+			} else if (fastMode == false){
+				keyRepeatDelay = 6;
 			}
-		} else if (hDown & KEY_B) {
-			Gui::screenBack();
-			return;
-		} else if (hDown & KEY_Y) {
-			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
-			} else {
-				if(Msg::promptMsg("Are you sure, you want to create 'sheet.ini' \ninto this folder?\nIt will reset the existing Ini File, if it already exist!")) {
-					std::string newIni = "sdmc:/LeafEdit/SpriteSheets/"+dirContents[selectedSheetIniFile].name;
-					newIni += "/sheet.ini";
-					createNewSheet(newIni.c_str());
-					refresh = true;
-				}
-			}
-
-		} else if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("Press A to select the Folder with the ini file.\nPress Y to a Folder, to create a blank 'sheet.ini' File.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
-		} else if (hHeld & KEY_UP) {
-			if (selectedSheetIniFile > 0 && !keyRepeatDelay) {
-				selectedSheetIniFile--;
-				if (fastMode == true) {
-					keyRepeatDelay = 3;
-				} else if (fastMode == false){
-					keyRepeatDelay = 6;
-				}
-			}
-		} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-			if (selectedSheetIniFile < dirContents.size()-1) {
-				selectedSheetIniFile++;
-				if (fastMode == true) {
-					keyRepeatDelay = 3;
-				} else if (fastMode == false){
-					keyRepeatDelay = 6;
-				}
-			}
-		} else if (hDown & KEY_R) {
-			fastMode = true;
-		} else if (hDown & KEY_L) {
-			fastMode = false;
 		}
+	} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+		if (selectedSheetIniFile < dirContents.size()-1) {
+			selectedSheetIniFile++;
+			if (fastMode == true) {
+				keyRepeatDelay = 3;
+			} else if (fastMode == false){
+				keyRepeatDelay = 6;
+			}
+		}
+	} else if (hDown & KEY_R) {
+		fastMode = true;
+	} else if (hDown & KEY_L) {
+		fastMode = false;
+	}
 }
 
 void LeafEditEditor::loadIniContents() {
@@ -305,10 +305,8 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		mode = 0;
 	}
 
-
-
 	if (hDown & KEY_TOUCH) {
-	if (touching(touch, buttons[0])) {
+		if (touching(touch, buttons[0])) {
 			int temp = Input::getUint(255, "Please Type in the Red RGB Value.");
 			if(temp != -1) {
 				red = temp;

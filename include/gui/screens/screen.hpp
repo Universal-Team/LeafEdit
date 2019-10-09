@@ -4,10 +4,10 @@
 #include <3ds.h>
 #include <memory>
 
-class SCREEN
+class Screen
 {
 public:
-	virtual ~SCREEN() {}
+	virtual ~Screen() {}
 	virtual void Logic(u32 hDown, u32 hHeld, touchPosition touch) = 0;
 	virtual void Draw() const = 0;
 private:

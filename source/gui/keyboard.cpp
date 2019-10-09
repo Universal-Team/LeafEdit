@@ -282,29 +282,29 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 
 		if(hDown & KEY_TOUCH) {
 			touchRead(&touch);
-		if(string.length() < maxLength) {
-		if (touching(touch, Numbers[0])) {
-			string += "1";
-		} else if (touching(touch, Numbers[1])) {
-			string += "2";
-		} else if (touching(touch, Numbers[2])) {
-			string += "3";
-		} else if (touching(touch, Numbers[3])) {
-			string += "4";
-		} else if (touching(touch, Numbers[4])) {
-			string += "5";
-		} else if (touching(touch, Numbers[5])) {
-			string += "6";
-		} else if (touching(touch, Numbers[6])) {
-			string += "7";
-		} else if (touching(touch, Numbers[7])) {
-			string += "8";
-		} else if (touching(touch, Numbers[8])) {
-			string += "9";
-		} else if (touching(touch, Numbers[9])) {
-			string += "0";
-		}
-		}
+			if(string.length() < maxLength) {
+				if (touching(touch, Numbers[0])) {
+					string += "1";
+				} else if (touching(touch, Numbers[1])) {
+					string += "2";
+				} else if (touching(touch, Numbers[2])) {
+					string += "3";
+				} else if (touching(touch, Numbers[3])) {
+					string += "4";
+				} else if (touching(touch, Numbers[4])) {
+					string += "5";
+				} else if (touching(touch, Numbers[5])) {
+					string += "6";
+				} else if (touching(touch, Numbers[6])) {
+					string += "7";
+				} else if (touching(touch, Numbers[7])) {
+					string += "8";
+				} else if (touching(touch, Numbers[8])) {
+					string += "9";
+				} else if (touching(touch, Numbers[9])) {
+					string += "0";
+				}
+			}
 		}
 
 		if(hDown & KEY_B || touching(touch, Numbers[11])) {

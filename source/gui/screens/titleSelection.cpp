@@ -107,74 +107,74 @@ void TitleSelection::SelectionLogic(u32 hDown) {
 		}
 	}
 
-		// Scroll with D-Pad Right to the next available Title.
-		else if (hDown & KEY_RIGHT)
+	// Scroll with D-Pad Right to the next available Title.
+	else if (hDown & KEY_RIGHT)
+	{
+		if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 7)
 		{
-			if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 7)
+			if (GameLoader::cardTitle)
 			{
-				if (GameLoader::cardTitle)
+				selectedTitle = -1;
+			}
+			else
+			{
+				if (GameLoader::installedTitles.size() > 8 && selectedTitle > 7)
 				{
-					selectedTitle = -1;
-				}
-				else
-				{
-					if (GameLoader::installedTitles.size() > 8 && selectedTitle > 7)
+					if (selectedTitle > 7)
 					{
-						if (selectedTitle > 7)
-						{
-							selectedTitle = 8;
-						}
-						else if (selectedTitle == 7)
-						{
-							selectedTitle = 0;
-						}
+						selectedTitle = 8;
 					}
-					else
+					else if (selectedTitle == 7)
 					{
 						selectedTitle = 0;
 					}
 				}
-			}
-			else
-			{
-				selectedTitle++;
+				else
+				{
+					selectedTitle = 0;
+				}
 			}
 		}
-
-		// Scroll with D-Pad Left to the next available Title.
-		else if (hDown & KEY_LEFT)
+		else
 		{
-			if (selectedTitle == -1)
+			selectedTitle++;
+		}
+	}
+
+	// Scroll with D-Pad Left to the next available Title.
+	else if (hDown & KEY_LEFT)
+	{
+		if (selectedTitle == -1)
+		{
+			selectedTitle = GameLoader::installedTitles.size() < 8 ? GameLoader::installedTitles.size() - 1 : 7;
+		}
+		else if (selectedTitle == 8)
+		{
+			if (GameLoader::cardTitle)
 			{
-				selectedTitle = GameLoader::installedTitles.size() < 8 ? GameLoader::installedTitles.size() - 1 : 7;
-			}
-			else if (selectedTitle == 8)
-			{
-				if (GameLoader::cardTitle)
-				{
-					selectedTitle = -1;
-				}
-				else
-				{
-					selectedTitle = (int)GameLoader::installedTitles.size() - 1;
-				}
-			}
-			else if (selectedTitle == 0)
-			{
-				if (GameLoader::cardTitle)
-				{
-					selectedTitle = -1;
-				}
-				else
-				{
-					selectedTitle = GameLoader::installedTitles.size() > 8 ? 7 : (int)GameLoader::installedTitles.size() - 1;
-				}
+				selectedTitle = -1;
 			}
 			else
 			{
-				selectedTitle--;
+				selectedTitle = (int)GameLoader::installedTitles.size() - 1;
 			}
 		}
+		else if (selectedTitle == 0)
+		{
+			if (GameLoader::cardTitle)
+			{
+				selectedTitle = -1;
+			}
+			else
+			{
+				selectedTitle = GameLoader::installedTitles.size() > 8 ? 7 : (int)GameLoader::installedTitles.size() - 1;
+			}
+		}
+		else
+		{
+			selectedTitle--;
+		}
+	}
 }
 
 void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {

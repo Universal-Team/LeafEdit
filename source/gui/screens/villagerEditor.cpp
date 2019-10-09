@@ -104,17 +104,17 @@ void VillagerEditor::EditorSubLogic(u32 hDown) {
 	}
 
 	if (hDown & KEY_A) {
-			switch(Selection) {
-				case 0: {
-						editorMode = 1;
-						break;
-				}	case 1:
-						manuallyVillager = Input::getu16(3, 398);
-						SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
-						Gui::screenBack();
-						return;
-						break;
-			}
+		switch(Selection) {
+			case 0:
+				editorMode = 1;
+				break;
+			case 1:
+				manuallyVillager = Input::getu16(3, 398);
+				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+				Gui::screenBack();
+				return;
+				break;
+		}
 	}
 }
 
@@ -356,9 +356,6 @@ void VillagerEditor::DrawSubMenu(void) const
 		VillagerManagement::DrawVillager(101, 330, 138);
 		std::string GroupTen = "Deer";
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTen.c_str()))/2+195-35, 193, 0.55f, Config::boxText, GroupTen.c_str(), 70);
-
-
-
 
 
 	} else if (subMenuPage == 2) {

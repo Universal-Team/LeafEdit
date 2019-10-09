@@ -79,7 +79,6 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::DrawBottom();
 
-
 	if (Selection == 0) {
 		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y, selectedColor);
 		Gui::sprite(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y);
@@ -110,9 +109,9 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if (hDown & KEY_TOUCH && touching(touch, editorButtons[3])) {
-			if (Msg::promptMsg(Lang::editor[0])) {
-					SaveFile->Commit(false);
-				}
+		if (Msg::promptMsg(Lang::editor[0])) {
+			SaveFile->Commit(false);
+		}
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
@@ -123,18 +122,17 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 	}
 
 	if (hDown & KEY_A) {
-			switch(Selection) {
-				case 0: {
-						Gui::setScreen(std::make_unique<PlayerEditor>());
-						break;
-				}	case 1:
-						Gui::setScreen(std::make_unique<VillagerViewer>());
-						break;
-					case 2: {
-						Gui::setScreen(std::make_unique<MiscEditor>());
-						break;
-					}
-			}
+		switch(Selection) {
+			case 0:
+				Gui::setScreen(std::make_unique<PlayerEditor>());
+				break;
+			case 1:
+				Gui::setScreen(std::make_unique<VillagerViewer>());
+				break;
+			case 2:
+				Gui::setScreen(std::make_unique<MiscEditor>());
+				break;
+		}
 	}
 }
 
@@ -172,48 +170,48 @@ void Editor::DrawBrowse(void) const
 void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
-				if (dirChanged) {
-					dirContents.clear();
-					std::string customPath;
-					if (isROMHack == true) {
-						customPath += "sdmc:/LeafEdit/Towns/Welcome-Luxury/";
-					} else if (isROMHack == false) {
-						customPath += "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
-					}
-				chdir(customPath.c_str());
-				std::vector<DirEntry> dirContentsTemp;
-				getDirectoryContents(dirContentsTemp);
-				for(uint i=0;i<dirContentsTemp.size();i++) {
-					  dirContents.push_back(dirContentsTemp[i]);
-			}
-			dirChanged = false;
+	if (dirChanged) {
+		dirContents.clear();
+		std::string customPath;
+		if (isROMHack == true) {
+			customPath += "sdmc:/LeafEdit/Towns/Welcome-Luxury/";
+		} else if (isROMHack == false) {
+			customPath += "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
 		}
-
-		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+		chdir(customPath.c_str());
+		std::vector<DirEntry> dirContentsTemp;
+		getDirectoryContents(dirContentsTemp);
+		for(uint i=0;i<dirContentsTemp.size();i++) {
+		  dirContents.push_back(dirContentsTemp[i]);
 		}
+		dirChanged = false;
+	}
 
-		if(hDown & KEY_A) {
-			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
-			} else {
-				std::string prompt = Lang::editor[4];
-				if(Msg::promptMsg(prompt.c_str())) {
-					if (isROMHack == true) {
-						selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Luxury/";
-					} else if (isROMHack == false) {
-						selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
-					}
-					selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
-					selectedSaveFolderEditor += "/garden_plus.dat";
-					const char *save = selectedSaveFolderEditor.c_str();
-					SaveFile = Save::Initialize(save, true);
-					EditorMode = 2;
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+	}
+
+	if(hDown & KEY_A) {
+		if (dirContents.size() == 0) {
+			Msg::DisplayWarnMsg("What are you trying to do? :P");
+		} else {
+			std::string prompt = Lang::editor[4];
+			if(Msg::promptMsg(prompt.c_str())) {
+				if (isROMHack == true) {
+					selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Luxury/";
+				} else if (isROMHack == false) {
+					selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
 				}
+				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
+				selectedSaveFolderEditor += "/garden_plus.dat";
+				const char *save = selectedSaveFolderEditor.c_str();
+				SaveFile = Save::Initialize(save, true);
+				EditorMode = 2;
 			}
 		}
+	}
 
-		if (hHeld & KEY_UP) {
+	if (hHeld & KEY_UP) {
 		if (selectedSave > 0 && !keyRepeatDelay) {
 			selectedSave--;
 			keyRepeatDelay = 6;

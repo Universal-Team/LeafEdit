@@ -48,7 +48,7 @@ C2D_SpriteSheet Villager2;
 
 C2D_TextBuf sizeBuf;
 C2D_Font systemFont;
-std::stack<std::unique_ptr<SCREEN>> screens;
+std::stack<std::unique_ptr<Screen>> screens;
 bool currentScreen = false;
 
 // Clear Text.
@@ -204,7 +204,7 @@ void Gui::mainLoop(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 // Set the current Screen.
-void Gui::setScreen(std::unique_ptr<SCREEN> screen)
+void Gui::setScreen(std::unique_ptr<Screen> screen)
 {
 	screens.push(std::move(screen));
 }

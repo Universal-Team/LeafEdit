@@ -32,7 +32,7 @@
 
 #include <vector>
 
-class MainMenu : public SCREEN
+class MainMenu : public Screen
 {
 public:
 	void Draw(void) const override;

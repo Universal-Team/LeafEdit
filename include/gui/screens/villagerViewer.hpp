@@ -34,7 +34,7 @@
 
 #include <vector>
 
-class VillagerViewer : public SCREEN
+class VillagerViewer : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -56,6 +56,7 @@ private:
 	void DrawCurrentVillager(void) const;
 	void DrawBox(void) const;
 
+	// Touch Position of the search Icon, so you can search for a Villager ID.
 	std::vector<Structs::ButtonPos> search = {
 		{290, 3, 20, 20, -1},
 	};

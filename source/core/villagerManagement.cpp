@@ -404,10 +404,10 @@ void VillagerManagement::LoadVillagerDatabase(int lang) {
 	g_villagerDatabase.clear();
 
 	std::string currentLine;
-		std::ifstream villagerDatabase("romfs:/lang/" + villagerLanguages[lang] + "/villager.txt", std::ifstream::in);
+	std::ifstream villagerDatabase("romfs:/lang/" + villagerLanguages[lang] + "/villager.txt", std::ifstream::in);
 
 
-			// This would be the real Function one time.
+	// This would be the real Function one time.
 //	while (std::getline(villagerDatabase, currentLine)) {
 //		villagers.name = currentLine;
 //	}

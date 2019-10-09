@@ -91,8 +91,6 @@ void Config::saveSheet(std::string sheetPath) {
 }
 
 
-
-
 void Config::loadSheetIni() {
 	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", Config::sheet);
 	std::string sheetIniFile = Config::sheetIni.c_str();
@@ -123,7 +121,6 @@ void Config::saveSheetIni(std::string sheetIniPath) {
 
 
 void Config::loadConfig() {
-
 	// [CORE]
 	Config::check = settingsini.GetInt("CORE", "CHECKED", 0);
 	Config::update = settingsini.GetInt("CORE", "FOUND", 0);
