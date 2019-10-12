@@ -61,6 +61,8 @@ bool exiting = false;
 
 bool WelcomeAmiibo;
 
+bool isCitra = false; // Because Citra is kinda weird with the Initialize Message display.
+
 // Touch Touch!
 touchPosition touch;
 
@@ -149,17 +151,6 @@ int main()
 	Result res;
 	gfxInitDefault();
 	Gui::init();
-	loadMessage("Initialize everything.. please wait.");
-
- 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
-		ndspInit();
-		dspfirmfound = true;
-	} else{
-		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
-	}
-
-
-	loadMessage("Initialize everything.. please wait.");
 
 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
 		ndspInit();
@@ -168,8 +159,9 @@ int main()
 		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
 	}
 
-
-	loadMessage("Initialize everything.. please wait.");
+	if (isCitra == false) {
+		loadMessage("Initialize everything.. please wait.");
+	}
 
 	if (R_FAILED(res = Archive::init())) {
 		return DisplayStartupError("Archive::init failed.", res);

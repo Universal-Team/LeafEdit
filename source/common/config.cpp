@@ -71,6 +71,7 @@ int Config::bgText;
 int Config::boxText;
 int Config::fileBrowseText;
 int Config::MessageText;
+int Config::helpMsg;
 
 void Config::loadSheet() {
 	Config::sheet = settingsini.GetString("MISC", "SheetPath", Config::sheet);
@@ -112,6 +113,7 @@ void Config::loadSheetIniStuff() {
 	Config::boxText = sheetFileIni.GetInt("COLORS", "BoxText", Config::boxText);
 	Config::fileBrowseText = sheetFileIni.GetInt("COLORS", "FileBrowseText", Config::fileBrowseText);
 	Config::MessageText = sheetFileIni.GetInt("COLORS", "MessageText", Config::MessageText);
+	Config::helpMsg = sheetFileIni.GetInt("COLORS", "helpMsg", Config::helpMsg);
 }
 
 void Config::saveSheetIni(std::string sheetIniPath) {

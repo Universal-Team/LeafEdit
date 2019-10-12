@@ -129,7 +129,7 @@ void Msg::HelperBox(std::string Msg) {
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 240, DIM);
 	Gui::sprite(0, sprites_helperBox_idx, 0, 27);
-	Gui::DrawString(10, 42, 0.45f, BLACK, Msg, 380);
+	Gui::DrawString(10, 42, 0.45f, Config::helpMsg, Msg, 380);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);

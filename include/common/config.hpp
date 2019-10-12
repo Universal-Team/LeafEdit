@@ -59,6 +59,7 @@ namespace Config {
 	extern int boxText;
 	extern int fileBrowseText;
 	extern int MessageText;
+	extern int helpMsg;
 }
 
 #endif
