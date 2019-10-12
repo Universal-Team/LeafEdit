@@ -33,196 +33,195 @@
 
 #include <array>
 
-static constexpr std::array<unsigned long long, 8> titleIds = {
+static constexpr std::array<unsigned long long, 9> titleIds = {
 
-    // old version.
-    0x0004000000086200, // JPN.
-    0x0004000000086300, // USA.
-    0x0004000000086400, // EUR.
-    0x0004000000086500, // KOR.
+	// old version.
+	0x0004000000086200, // JPN.
+	0x0004000000086300, // USA.
+	0x0004000000086400, // EUR.
+	0x0004000000086500, // KOR.
 
-    // Welcome Amiibo.
-    0x0004000000198D00, // JPN.
-    0x0004000000198E00, // USA.
-    0x0004000000198F00, // EUR.
-    0x0004000000199000  // KOR.
+	// Welcome Amiibo.
+	0x0004000000198D00, // JPN.
+	0x0004000000198E00, // USA.
+	0x0004000000198F00, // EUR.
+	0x0004000000199000,  // KOR.
+
+	0x00040000004C5700 // Animal Crossing: Welcome Luxury [ROM Hack] https://gitlab.com/Kyusetzu/ACWL
 };
 
 // Update the GameCard.
 bool GameLoader::cardUpdate()
 {
-    static bool first     = true;
-    static bool oldCardIn = false;
-    if (first)
-    {
-        FSUSER_CardSlotIsInserted(&oldCardIn);
-        first = false;
-        return false;
-    }
-    bool cardIn = false;
+	static bool first     = true;
+	static bool oldCardIn = false;
+	if (first)
+	{
+		FSUSER_CardSlotIsInserted(&oldCardIn);
+		first = false;
+		return false;
+	}
+	bool cardIn = false;
 
-    FSUSER_CardSlotIsInserted(&cardIn);
-    if (cardIn != oldCardIn)
-    {
-        bool power;
-        FSUSER_CardSlotGetCardIFPowerStatus(&power);
-        if (cardIn)
-        {
-            if (!power)
-            {
-                FSUSER_CardSlotPowerOn(&power);
-            }
-            while (!power)
-            {
-                FSUSER_CardSlotGetCardIFPowerStatus(&power);
-            }
-            return oldCardIn = scanCard();
-        }
-        else
-        {
-            cardTitle = nullptr;
-            oldCardIn = false;
-            return true;
-        }
-    }
-    return false;
+	FSUSER_CardSlotIsInserted(&cardIn);
+	if (cardIn != oldCardIn)
+	{
+		bool power;
+		FSUSER_CardSlotGetCardIFPowerStatus(&power);
+		if (cardIn)
+		{
+			if (!power)
+			{
+				FSUSER_CardSlotPowerOn(&power);
+			}
+			while (!power)
+			{
+				FSUSER_CardSlotGetCardIFPowerStatus(&power);
+			}
+			return oldCardIn = scanCard();
+		}
+		else
+		{
+			cardTitle = nullptr;
+			oldCardIn = false;
+			return true;
+		}
+	}
+	return false;
 }
 
 // Check for Updates of the old AC:NL Version.
 void GameLoader::checkUpdate(void)
 {
-    if (Config::check == 0) {
-    Result res = 0;
-	u32 updateTitleCount;
+	if (Config::check == 0) {
+		Result res = 0;
+		u32 updateTitleCount;
 
-    res = AM_GetTitleCount(MEDIATYPE_SD, &updateTitleCount);
-    if (R_FAILED(res))
-    {
-        return;
-    }
+		res = AM_GetTitleCount(MEDIATYPE_SD, &updateTitleCount);
+		if (R_FAILED(res))
+		{
+			return;
+		}
 
-    // get title list and check if a title matches the ids we want
-    std::vector<u64> updateIds;
-    updateIds.resize(updateTitleCount);
-    res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
-    if (R_FAILED(res))
-    {
-        return;
-    }
+		// get title list and check if a title matches the ids we want
+		std::vector<u64> updateIds;
+		updateIds.resize(updateTitleCount);
+			res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
+		if (R_FAILED(res))
+		{
+		return;
+		}
 
-    Msg::DisplayWarnMsg(Lang::messages2[6]);
-    
-    if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end() //JPN.
-        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
-        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
-        || std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
-        {
-            Msg::DisplayWarnMsg(Lang::update[0]);
-            Config::update = 1;
-        } else {
-            Msg::DisplayWarnMsg(Lang::update[1]);
-            Config::update = 0;
-        }
+		Msg::DisplayWarnMsg(Lang::messages2[6]);
 
-        Config::check = 1;
-        Config::saveConfig();
-
-    } else if (Config::check == 1) {
-    }
+		if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end() //JPN.
+			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
+			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
+			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
+		{
+			Msg::DisplayWarnMsg(Lang::update[0]);
+			Config::update = 1;
+		} else {
+			Msg::DisplayWarnMsg(Lang::update[1]);
+			Config::update = 0;
+		}
+		Config::check = 1;
+		Config::saveConfig();
+	}
 }
 
 // Scan the Gamecard, if the Title ID matches with the Cartridge.
 
 bool GameLoader::scanCard()
 {
-    static bool isScanning = false;
-    if (isScanning)
-    {
-        return false;
-    }
-    else
-    {
-        isScanning = true;
-    }
-    bool ret   = false;
-    cardTitle  = nullptr;
-    Result res = 0;
-    u32 count  = 0;
-    // check for the cartridge.
-    FS_CardType cardType;
-    res = FSUSER_GetCardType(&cardType);
-    if (R_SUCCEEDED(res))
-    {
-        if (cardType == CARD_CTR)
-        {
-            res = AM_GetTitleCount(MEDIATYPE_GAME_CARD, &count);
-            if (R_SUCCEEDED(res) && count > 0)
-            {
-                ret = true;
-                u64 id;
-                res = AM_GetTitleList(NULL, MEDIATYPE_GAME_CARD, count, &id);
+	static bool isScanning = false;
+	if (isScanning)
+	{
+		return false;
+	}
+	else
+	{
+		isScanning = true;
+	}
+	bool ret   = false;
+	cardTitle  = nullptr;
+	Result res = 0;
+	u32 count  = 0;
+	// check for the cartridge.
+	FS_CardType cardType;
+	res = FSUSER_GetCardType(&cardType);
+	if (R_SUCCEEDED(res))
+	{
+		if (cardType == CARD_CTR)
+		{
+			res = AM_GetTitleCount(MEDIATYPE_GAME_CARD, &count);
+			if (R_SUCCEEDED(res) && count > 0)
+			{
+				ret = true;
+				u64 id;
+				res = AM_GetTitleList(NULL, MEDIATYPE_GAME_CARD, count, &id);
 
-                // check if this id is in our list
-                if (R_SUCCEEDED(res) && std::find(titleIds.begin(), titleIds.end(), id) != titleIds.end())
-                {
-                    auto title = std::make_shared<Title>();
-                    if (title->load(id, MEDIATYPE_GAME_CARD, cardType))
-                    {
-                        cardTitle = title;
-                    }
-                    }
-                }
-            }
-        }
-    isScanning = false;
-    return ret;
+				// check if this id is in our list
+				if (R_SUCCEEDED(res) && std::find(titleIds.begin(), titleIds.end(), id) != titleIds.end())
+				{
+					auto title = std::make_shared<Title>();
+					if (title->load(id, MEDIATYPE_GAME_CARD, cardType))
+					{
+						cardTitle = title;
+					}
+					}
+				}
+			}
+		}
+	isScanning = false;
+	return ret;
 }
 
 // Scan the installed Titles, to check if Animal Crossing : New Leaf is found.
 void GameLoader::scanTitleID(void)
 {
-    Result res = 0;
-    u32 count  = 0;
+	Result res = 0;
+	u32 count  = 0;
 
-    // clear title list if filled previously
-    installedTitles.clear();
+	// clear title list if filled previously
+	installedTitles.clear();
 
-    scanCard();
+	scanCard();
 
-    res = AM_GetTitleCount(MEDIATYPE_SD, &count);
-    if (R_FAILED(res))
-    {
-        return;
-    }
+	res = AM_GetTitleCount(MEDIATYPE_SD, &count);
+	if (R_FAILED(res))
+	{
+		return;
+	}
 
-    // get title list and check if a title matches the ids we want
-    std::vector<u64> ids(count);
-    u64* p = ids.data();
-    res    = AM_GetTitleList(NULL, MEDIATYPE_SD, count, p);
-    if (R_FAILED(res))
-    {
-        return;
-    }
+	// get title list and check if a title matches the ids we want
+	std::vector<u64> ids(count);
+	u64* p = ids.data();
+	res    = AM_GetTitleList(NULL, MEDIATYPE_SD, count, p);
+	if (R_FAILED(res))
+	{
+		return;
+	}
 
-    for (size_t i = 0; i < titleIds.size(); i++)
-    {
-        u64 id = titleIds.at(i);
-        if (std::find(ids.begin(), ids.end(), id) != ids.end())
-        {
-            auto title = std::make_shared<Title>();
-            if (title->load(id, MEDIATYPE_SD, CARD_CTR))
-            {
-                installedTitles.push_back(title);
-            }
-        }
-    }
+	for (size_t i = 0; i < titleIds.size(); i++)
+	{
+		u64 id = titleIds.at(i);
+		if (std::find(ids.begin(), ids.end(), id) != ids.end())
+		{
+			auto title = std::make_shared<Title>();
+			if (title->load(id, MEDIATYPE_SD, CARD_CTR))
+			{
+				installedTitles.push_back(title);
+			}
+		}
+	}
 
-    // sort the list alphabetically
-    std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<Title>& l, std::shared_ptr<Title>& r) { return l->ID() < r->ID(); });
+	// sort the list alphabetically
+	std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<Title>& l, std::shared_ptr<Title>& r) { return l->ID() < r->ID(); });
 }
 
 // Check for Updates, even when the Update was already checked on first startup.
 void GameLoader::updateCheck2(void) {
-    Config::check = 0;
-    checkUpdate();
+	Config::check = 0;
+	checkUpdate();
 }

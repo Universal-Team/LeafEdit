@@ -54,47 +54,47 @@
 
 namespace Gui
 {
-    // Init and Exit of the GUI.
-    Result init(void);
-    Result loadSheets(void);
-    void exit(void);
+	// Init and Exit of the GUI.
+	Result init(void);
+	Result loadSheets(void);
+	void exit(void);
 
-    // Screen and MainLoops.
+	// Screen and MainLoops.
 	void mainLoop(u32 hDown, u32 hHeld, touchPosition touch);
-	void setScreen(std::unique_ptr<SCREEN> screen);
+	void setScreen(std::unique_ptr<Screen> screen);
 	void screenBack(void);
-    C3D_RenderTarget* target(gfxScreen_t t);
-    void ScreenDraw(C3D_RenderTarget * screen);
+	C3D_RenderTarget* target(gfxScreen_t t);
+	void ScreenDraw(C3D_RenderTarget * screen);
 
-    // Clear Text.
-    void clearTextBufs(void);
-    
-    // Sprite Drawing, but also with Scaling Feature!
-    void sprite(int sheet, int key, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Clear Text.
+	void clearTextBufs(void);
 
-    void Draw_ImageBlend(int sheet, int key, int x, int y, u32 color, float ScaleX = 1, float ScaleY = 1);
+	// Sprite Drawing, but also with Scaling Feature!
+	void sprite(int sheet, int key, int x, int y, float ScaleX = 1, float ScaleY = 1);
 
-    // float xPos -> X Position of the Selector.
-    // float yPos -> Y Position of the Selector.
-    // float Width -> The Width of the Selector.
-    // float Height -> The Height of the Selector.
-    // float speed -> The speed of the Animation. For example : ".030f/.030".
-    // u32 colour -> The color Value for the Selector. example : C2D_Color32(0, 0, 0, 0) for Transparency.
-    void drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour);
+	void Draw_ImageBlend(int sheet, int key, int x, int y, u32 color, float ScaleX = 1, float ScaleY = 1);
 
-    // Misc.
-    bool Draw_Rect(float x, float y, float w, float h, u32 color);
+	// float xPos -> X Position of the Selector.
+	// float yPos -> Y Position of the Selector.
+	// float Width -> The Width of the Selector.
+	// float Height -> The Height of the Selector.
+	// float speed -> The speed of the Animation. For example : ".030f/.030".
+	// u32 colour -> The color Value for the Selector. example : C2D_Color32(0, 0, 0, 0) for Transparency.
+	void drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour);
 
-    // Text / String Functions.
-    void DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth = 0);
-    void DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth = 0);
-    void GetStringSize(float size, float *width, float *height, std::string Text);
-    float GetStringWidth(float size, std::string Text);
-    float GetStringHeight(float size, std::string Text);
+	// Misc.
+	bool Draw_Rect(float x, float y, float w, float h, u32 color);
 
-    // GUI Functions.
-    void DrawTop();
-    void DrawBottom();
+	// Text / String Functions.
+	void DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth = 0);
+	void DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth = 0);
+	void GetStringSize(float size, float *width, float *height, std::string Text);
+	float GetStringWidth(float size, std::string Text);
+	float GetStringHeight(float size, std::string Text);
+
+	// GUI Functions.
+	void DrawTop();
+	void DrawBottom();
 }
 
 void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float ScaleX = 1, float ScaleY = 1);

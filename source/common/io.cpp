@@ -28,101 +28,101 @@
 
 void io::copyFile(FS_Archive srcArch, FS_Archive dstArch, const std::u16string& srcPath, const std::u16string& dstPath)
 {
-    u32 size = 0;
-    FSStream input(srcArch, srcPath, FS_OPEN_READ);
-    if (input.good()) {
-        size = input.size() > BUFFER_SIZE ? BUFFER_SIZE : input.size();
-    }
+	u32 size = 0;
+	FSStream input(srcArch, srcPath, FS_OPEN_READ);
+	if (input.good()) {
+		size = input.size() > BUFFER_SIZE ? BUFFER_SIZE : input.size();
+	}
 
-    FSStream output(dstArch, dstPath, FS_OPEN_WRITE, input.size());
-    if (output.good()) {
-        u32 rd;
-        u8* buf = new u8[size];
-        do {
-            rd = input.read(buf, size);
-            output.write(buf, rd);
-        } while (!input.eof());
-        delete[] buf;
-    }
+	FSStream output(dstArch, dstPath, FS_OPEN_WRITE, input.size());
+	if (output.good()) {
+		u32 rd;
+		u8* buf = new u8[size];
+		do {
+			rd = input.read(buf, size);
+			output.write(buf, rd);
+		} while (!input.eof());
+		delete[] buf;
+	}
 
-    input.close();
-    output.close();
+	input.close();
+	output.close();
 }
 
 Result io::copyDirectory(FS_Archive srcArch, FS_Archive dstArch, const std::u16string& srcPath, const std::u16string& dstPath)
 {
-    Result res = 0;
-    bool quit  = false;
-    Directory items(srcArch, srcPath);
+	Result res = 0;
+	bool quit  = false;
+	Directory items(srcArch, srcPath);
 
-    if (!items.good()) {
-        return items.error();
-    }
+	if (!items.good()) {
+		return items.error();
+	}
 
-    for (size_t i = 0, sz = items.size(); i < sz && !quit; i++) {
-        std::u16string newsrc = srcPath + items.entry(i);
-        std::u16string newdst = dstPath + items.entry(i);
+	for (size_t i = 0, sz = items.size(); i < sz && !quit; i++) {
+		std::u16string newsrc = srcPath + items.entry(i);
+		std::u16string newdst = dstPath + items.entry(i);
 
-        if (items.folder(i)) {
-            res = io::createDirectory(dstArch, newdst);
-            if (R_SUCCEEDED(res) || (u32)res == 0xC82044B9) {
-                newsrc += StringUtils::UTF8toUTF16("/");
-                newdst += StringUtils::UTF8toUTF16("/");
-                res = io::copyDirectory(srcArch, dstArch, newsrc, newdst);
-            }
-            else {
-                quit = true;
-            }
-        }
-        else {
-            io::copyFile(srcArch, dstArch, newsrc, newdst);
-        }
-    }
+		if (items.folder(i)) {
+			res = io::createDirectory(dstArch, newdst);
+			if (R_SUCCEEDED(res) || (u32)res == 0xC82044B9) {
+				newsrc += StringUtils::UTF8toUTF16("/");
+				newdst += StringUtils::UTF8toUTF16("/");
+				res = io::copyDirectory(srcArch, dstArch, newsrc, newdst);
+			}
+			else {
+				quit = true;
+			}
+		}
+		else {
+			io::copyFile(srcArch, dstArch, newsrc, newdst);
+		}
+	}
 
-    return res;
+	return res;
 }
 
 Result io::createDirectory(FS_Archive archive, const std::u16string& path)
 {
-    return FSUSER_CreateDirectory(archive, fsMakePath(PATH_UTF16, path.data()), 0);
+	return FSUSER_CreateDirectory(archive, fsMakePath(PATH_UTF16, path.data()), 0);
 }
 
 Result io::deleteFolderRecursively(FS_Archive arch, const std::u16string& path)
 {
-    Directory dir(arch, path);
-    if (!dir.good()) {
-        return dir.error();
-    }
+	Directory dir(arch, path);
+	if (!dir.good()) {
+		return dir.error();
+	}
 
-    for (size_t i = 0, sz = dir.size(); i < sz; i++) {
-        if (dir.folder(i)) {
-            std::u16string newpath = path + StringUtils::UTF8toUTF16("/") + dir.entry(i) + StringUtils::UTF8toUTF16("/");
-            deleteFolderRecursively(arch, newpath);
-            newpath = path + dir.entry(i);
-            FSUSER_DeleteDirectory(arch, fsMakePath(PATH_UTF16, newpath.data()));
-        }
-        else {
-            std::u16string newpath = path + dir.entry(i);
-            FSUSER_DeleteFile(arch, fsMakePath(PATH_UTF16, newpath.data()));
-        }
-    }
+	for (size_t i = 0, sz = dir.size(); i < sz; i++) {
+		if (dir.folder(i)) {
+			std::u16string newpath = path + StringUtils::UTF8toUTF16("/") + dir.entry(i) + StringUtils::UTF8toUTF16("/");
+			deleteFolderRecursively(arch, newpath);
+			newpath = path + dir.entry(i);
+			FSUSER_DeleteDirectory(arch, fsMakePath(PATH_UTF16, newpath.data()));
+		}
+		else {
+			std::u16string newpath = path + dir.entry(i);
+			FSUSER_DeleteFile(arch, fsMakePath(PATH_UTF16, newpath.data()));
+		}
+	}
 
-    FSUSER_DeleteDirectory(arch, fsMakePath(PATH_UTF16, path.data()));
-    return 0;
+	FSUSER_DeleteDirectory(arch, fsMakePath(PATH_UTF16, path.data()));
+	return 0;
 }
 
 // Check if Folder exists.
 bool io::directoryExists(FS_Archive archive, const std::u16string& path)
 {
-    Handle handle;
+	Handle handle;
 
-    if (R_FAILED(FSUSER_OpenDirectory(&handle, archive, fsMakePath(PATH_UTF16, path.data())))) {
-        return false;
-    }
+	if (R_FAILED(FSUSER_OpenDirectory(&handle, archive, fsMakePath(PATH_UTF16, path.data())))) {
+		return false;
+	}
 
-    if (R_FAILED(FSDIR_Close(handle))) {
-        return false;
-    }
+	if (R_FAILED(FSDIR_Close(handle))) {
+		return false;
+	}
 
-    return true;
+	return true;
 }

@@ -50,7 +50,7 @@ void Settings::Draw(void) const
 		Title += Lang::title;
 		Title += " - ";
 		Title += Lang::mainMenu[2];
-	
+
 		Gui::DrawTop();
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 
@@ -92,18 +92,17 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_A) {
-				switch(Selection) {
-					case 0: {
-							screenMode = 2;
-							break;
-					}	case 1:
-							screenMode = 1;
-							break;
-						case 2: {
-							Gui::setScreen(std::make_unique<LeafEditEditor>());
-							break;
-						 }
-				}
+			switch(Selection) {
+				case 0:
+					screenMode = 2;
+					break;
+				case 1:
+					screenMode = 1;
+					break;
+				case 2:
+					Gui::setScreen(std::make_unique<LeafEditEditor>());
+					break;
+			}
 		}
 	} else if(screenMode == 1) {
 		SpriteSheetLogic(hDown, hHeld);
@@ -160,144 +159,144 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 	std::string defaultSheetIni = "romfs:/gfx/sheet.ini";
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
-		if (dirChanged) {
-			dirContents.clear();
-			chdir("sdmc:/LeafEdit/SpriteSheets/");
-			std::vector<DirEntry> dirContentsTemp;
-			getDirectoryContents(dirContentsTemp);
-			for(uint i=0;i<dirContentsTemp.size();i++) {
-				dirContents.push_back(dirContentsTemp[i]);
-			}
-			dirChanged = false;
+	if (dirChanged) {
+		dirContents.clear();
+		chdir("sdmc:/LeafEdit/SpriteSheets/");
+		std::vector<DirEntry> dirContentsTemp;
+		getDirectoryContents(dirContentsTemp);
+		for(uint i=0;i<dirContentsTemp.size();i++) {
+			dirContents.push_back(dirContentsTemp[i]);
 		}
+		dirChanged = false;
+	}
 
-		if(hDown & KEY_A) {
-			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
-			} else {
-				std::string prompt = "Would you like to load this SpriteSheet?";
-				prompt += "\n\n";
-				prompt += "'";
-				prompt += dirContents[selectedSpriteSheet].name;
-				prompt += "'";
-				if(Msg::promptMsg(prompt.c_str())) {
+	if(hDown & KEY_A) {
+		if (dirContents.size() == 0) {
+			Msg::DisplayWarnMsg("What are you trying to do? :P");
+		} else {
+			std::string prompt = "Would you like to load this SpriteSheet?";
+			prompt += "\n\n";
+			prompt += "'";
+			prompt += dirContents[selectedSpriteSheet].name;
+			prompt += "'";
+			if(Msg::promptMsg(prompt.c_str())) {
 
-					// Set the whole Path stuff.
-					selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
-					finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
-					finalSheet += selectedSheet.c_str();
-					sheetIni = finalSheet.c_str();
-					finalSheet += "/sprites.t3x";
-					sheetIni += "/sheet.ini";
+				// Set the whole Path stuff.
+				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
+				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
+				finalSheet += selectedSheet.c_str();
+				sheetIni = finalSheet.c_str();
+				finalSheet += "/sprites.t3x";
+				sheetIni += "/sheet.ini";
 
-					// Set the SpriteSheet.
-					if((access(finalSheet.c_str(), F_OK) == 0)) {
-						Msg::SheetMsg("Now freeing the SpriteSheet...");
-						C2D_SpriteSheetFree(sprites);
-						Msg::SheetMsg("Now Loading the new SpriteSheet...");
-						sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
-					} else {
-						Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
-					}
-
-						// Set the Sheet Ini.
-						if((access(sheetIni.c_str(), F_OK) == 0)) {
-						sheetFileIni = sheetIni;
-						Config::loadSheetIniStuff();
-					} else {
-						Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
-						sheetFileIni = defaultSheetIni;
-						Config::loadSheetIniStuff();
-					}
-					Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
-					for (int i = 0; i < 60*3; i++) {
-						gspWaitForVBlank();
-					}
+				// Set the SpriteSheet.
+				if((access(finalSheet.c_str(), F_OK) == 0)) {
+					Msg::SheetMsg("Now freeing the SpriteSheet...");
+					C2D_SpriteSheetFree(sprites);
+					Msg::SheetMsg("Now Loading the new SpriteSheet...");
+					sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
+				} else {
+					Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
 				}
-
-				// Clear String stuff.
-				finalSheet = "";
-				selectedSheet = "";
-				sheetIni = "";
-				screenMode = 0;
-				playChange();
-			}
-		}
-
-		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("Select a Spritesheet and press A to load it.\nSelect a Spritesheet and press Y to autoload it at startup.\nPress X to reset the Spritesheet.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
-		}
-
-		if (hDown & KEY_Y) {
-			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
-			} else {
-				std::string prompt = "Would you like to autoboot this SpriteSheet?";
-				prompt += "\n\n";
-				prompt += "'";
-				prompt += dirContents[selectedSpriteSheet].name;
-				prompt += "'";
-				if(Msg::promptMsg(prompt.c_str())) {
-					// Set the whole Path stuff.
-					selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
-					finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
-					finalSheet += selectedSheet.c_str();
-					sheetIni = finalSheet.c_str();
-					finalSheet += "/sprites.t3x";
-					sheetIni += "/sheet.ini";
-
-					// Set the SpriteSheet.
-					if((access(finalSheet.c_str(), F_OK) == 0)) {
-						Config::saveSheet(finalSheet.c_str());
-					} else {
-						Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
-					}
 
 					// Set the Sheet Ini.
 					if((access(sheetIni.c_str(), F_OK) == 0)) {
-						Config::saveSheetIni(sheetIni.c_str());
-					} else {
-						Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
-					}
-					Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
-					for (int i = 0; i < 60*3; i++) {
-						gspWaitForVBlank();
-					}
+					sheetFileIni = sheetIni;
+					Config::loadSheetIniStuff();
+				} else {
+					Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
+					sheetFileIni = defaultSheetIni;
+					Config::loadSheetIniStuff();
 				}
-
-				// Clear String stuff.
-				finalSheet = "";
-				selectedSheet = "";
-				sheetIni = "";
-				screenMode = 0;
-				playChange();
+				Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
+				for (int i = 0; i < 60*3; i++) {
+					gspWaitForVBlank();
+				}
 			}
-		}
 
-		if (hDown & KEY_X) {
-			std::string prompt = "Would you like to reset the SpriteSheet?";
-			if(Msg::promptMsg(prompt.c_str())) {
-				finalSheet = "romfs:/gfx/sprites.t3x";
-				sheetIni = "romfs:/gfx/sheet.ini";
-
-				Config::saveSheet(finalSheet.c_str());
-				Config::saveSheetIni(sheetIni.c_str());
-
-				Msg::SheetMsg("Now freeing the SpriteSheet...");
-				C2D_SpriteSheetFree(sprites);
-				Msg::SheetMsg("Now Loading the new SpriteSheet...");
-				sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
-				sheetFileIni = sheetIni;
-				Config::loadSheetIniStuff();
-			}
-			// Clear Strings.
+			// Clear String stuff.
 			finalSheet = "";
+			selectedSheet = "";
 			sheetIni = "";
 			screenMode = 0;
 			playChange();
 		}
+	}
 
-		if (hHeld & KEY_UP) {
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select a Spritesheet and press A to load it.\nSelect a Spritesheet and press Y to autoload it at startup.\nPress X to reset the Spritesheet.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+	}
+
+	if (hDown & KEY_Y) {
+		if (dirContents.size() == 0) {
+			Msg::DisplayWarnMsg("What are you trying to do? :P");
+		} else {
+			std::string prompt = "Would you like to autoboot this SpriteSheet?";
+			prompt += "\n\n";
+			prompt += "'";
+			prompt += dirContents[selectedSpriteSheet].name;
+			prompt += "'";
+			if(Msg::promptMsg(prompt.c_str())) {
+				// Set the whole Path stuff.
+				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
+				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
+				finalSheet += selectedSheet.c_str();
+				sheetIni = finalSheet.c_str();
+				finalSheet += "/sprites.t3x";
+				sheetIni += "/sheet.ini";
+
+				// Set the SpriteSheet.
+				if((access(finalSheet.c_str(), F_OK) == 0)) {
+					Config::saveSheet(finalSheet.c_str());
+				} else {
+					Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
+				}
+
+				// Set the Sheet Ini.
+				if((access(sheetIni.c_str(), F_OK) == 0)) {
+					Config::saveSheetIni(sheetIni.c_str());
+				} else {
+					Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
+				}
+				Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
+				for (int i = 0; i < 60*3; i++) {
+					gspWaitForVBlank();
+				}
+			}
+
+			// Clear String stuff.
+			finalSheet = "";
+			selectedSheet = "";
+			sheetIni = "";
+			screenMode = 0;
+			playChange();
+		}
+	}
+
+	if (hDown & KEY_X) {
+		std::string prompt = "Would you like to reset the SpriteSheet?";
+		if(Msg::promptMsg(prompt.c_str())) {
+			finalSheet = "romfs:/gfx/sprites.t3x";
+			sheetIni = "romfs:/gfx/sheet.ini";
+
+			Config::saveSheet(finalSheet.c_str());
+			Config::saveSheetIni(sheetIni.c_str());
+
+			Msg::SheetMsg("Now freeing the SpriteSheet...");
+			C2D_SpriteSheetFree(sprites);
+			Msg::SheetMsg("Now Loading the new SpriteSheet...");
+			sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
+			sheetFileIni = sheetIni;
+			Config::loadSheetIniStuff();
+		}
+		// Clear Strings.
+		finalSheet = "";
+		sheetIni = "";
+		screenMode = 0;
+		playChange();
+	}
+
+	if (hHeld & KEY_UP) {
 		if (selectedSpriteSheet > 0 && !keyRepeatDelay) {
 			selectedSpriteSheet--;
 			keyRepeatDelay = 6;
@@ -315,7 +314,6 @@ void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
 		dirChanged = true;
 	}
 }
-
 
 
 void Settings::DrawLangScreen(void) const {
@@ -480,7 +478,7 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
-			
+
 		} else if (touching(touch, langBlocks[7])) {
 			Config::lang = 5;
 			VillagerManagement::LoadVillagerDatabase(Config::lang);

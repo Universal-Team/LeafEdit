@@ -30,14 +30,14 @@
 #include <string>
 
 namespace Config {
-	
+
 	// [CORE]
 	extern int check; // If checked on startup -> 1.
 	extern int update; // Tell, if an Update of AC:NL was found. (For the old version).
 
 	// [MISC]
 	extern int Logging; // Enable / Disable writing to the Log.
-	
+
 	// [UI]
 	extern int LangLocation; // Language Location (Romfs/SD).
 	extern int lang; // The current Language.

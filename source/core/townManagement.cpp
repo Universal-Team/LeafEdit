@@ -31,7 +31,7 @@
 #include "common/title.hpp"
 #include "common/utils.hpp"
 
-#include "core/townManagement.hpp" 
+#include "core/townManagement.hpp"
 
 #include "gui/keyboard.hpp" // For the Input Stuff.
 #include "gui/screens/screenCommon.hpp"
@@ -41,6 +41,7 @@
 #include <3ds.h>
 
 extern bool WelcomeAmiibo;
+extern bool isROMHack;
 
 // Backup the current Game. If Update Found "Welcome-Amiibo" Folder -> If not "Old" Folder.
 Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 highID)
@@ -58,17 +59,21 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 		customPath += StringUtils::UTF8toUTF16("/");
 
-		// Check, if the current ID is the old one.
-		if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
-			if (WelcomeAmiibo == false) {
-				customPath += StringUtils::UTF8toUTF16("Old");
-			} else if (WelcomeAmiibo == true) {
-				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+		// Check for the game.
+		if (isROMHack == true) {
+			customPath += StringUtils::UTF8toUTF16("Welcome-Luxury");
+		} else if (isROMHack == false) {
+			if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+				if (WelcomeAmiibo == false) {
+					customPath += StringUtils::UTF8toUTF16("Old");
+				} else if (WelcomeAmiibo == true) {
+					customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+				}
+			} else {
+				if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+					customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+				}
 			}
-		}
-
-		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 		}
 
 		std::u16string folderPath = customPath;
@@ -78,14 +83,14 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
 			alreadyexists = false;
 			res = io::createDirectory(Archive::sdmc(), folderPath);
-            	if (R_FAILED(res)) {
-                	FSUSER_CloseArchive(archive);
-					Msg::DisplayWaitMsg(Lang::messages[0]);
-					return res;
-				}
-			} else if (io::directoryExists(Archive::sdmc(), folderPath) == true) {
-				alreadyexists = true;
+			if (R_FAILED(res)) {
+				FSUSER_CloseArchive(archive);
+				Msg::DisplayWaitMsg(Lang::messages[0]);
+				return res;
 			}
+		} else if (io::directoryExists(Archive::sdmc(), folderPath) == true) {
+			alreadyexists = true;
+		}
 
 
 		std::u16string savePath = folderPath;
@@ -95,8 +100,8 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 			if (Msg::promptMsg(Lang::messages2[11])) {
 				res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
 					if (R_FAILED(res)) {
-                		FSUSER_CloseArchive(archive);
-               			FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
+						FSUSER_CloseArchive(archive);
+						FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
 						Msg::DisplayWaitMsg(Lang::messages[1]);
 						return res;
 					}
@@ -107,14 +112,14 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		} else if (alreadyexists == false) {
 			res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
 				if (R_FAILED(res)) {
-                	FSUSER_CloseArchive(archive);
-                	FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
+					FSUSER_CloseArchive(archive);
+					FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
 					Msg::DisplayWaitMsg(Lang::messages[1]);
 					return res;
 				}
-				FSUSER_CloseArchive(archive);
-				Msg::DisplayWaitMsg(Lang::messages[2]);
-			}
+			FSUSER_CloseArchive(archive);
+			Msg::DisplayWaitMsg(Lang::messages[2]);
+		}
 	}
 	return 0;
 	alreadyexists = false;
@@ -155,17 +160,17 @@ Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32
 Result TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
 {
 	Result res		= 0;
-		u8 param[0x300];
-		u8 hmac[0x20];
-		memset(param, 0, sizeof(param));
-		memset(hmac, 0, sizeof(hmac));
+	u8 param[0x300];
+	u8 hmac[0x20];
+	memset(param, 0, sizeof(param));
+	memset(hmac, 0, sizeof(hmac));
 
-		APT_PrepareToDoApplicationJump(0, TID, Mediatype);
-		res = APT_DoApplicationJump(param, sizeof(param), hmac);
-		if (R_FAILED(res)) {
-			Msg::DisplayWaitMsg(Lang::messages[6]);
-			return res;
-		}
+	APT_PrepareToDoApplicationJump(0, TID, Mediatype);
+	res = APT_DoApplicationJump(param, sizeof(param), hmac);
+	if (R_FAILED(res)) {
+		Msg::DisplayWaitMsg(Lang::messages[6]);
+		return res;
+	}
 	return 0;
 }
 
@@ -174,58 +179,62 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 {
 	Result res		= 0;
 	FS_Archive archive;
-		res =  Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
+	res =  Archive::save(&archive, Media, lowID, highID); // Get the current Archive.
 
-		if (R_SUCCEEDED(res)) {
-			std::u16string customPath;
-			customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
-			customPath += StringUtils::UTF8toUTF16("/");
+	if (R_SUCCEEDED(res)) {
+		std::u16string customPath;
+		customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
+		customPath += StringUtils::UTF8toUTF16("/");
 
-		// Check, if the current ID is the old one.
-		if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
-			if (WelcomeAmiibo == false) {
-				customPath += StringUtils::UTF8toUTF16("Old/");
-			} else if (WelcomeAmiibo == true) {
-				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+	// Check for the game.
+		if (isROMHack == true) {
+			customPath += StringUtils::UTF8toUTF16("Welcome-Luxury/");
+		} else if (isROMHack == false) {
+			if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+				if (WelcomeAmiibo == false) {
+					customPath += StringUtils::UTF8toUTF16("Old/");
+				} else if (WelcomeAmiibo == true) {
+					customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+				}
+			} else {
+				if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+					customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+				}
 			}
 		}
 
-		if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo/");
+		std::u16string srcPath = customPath;
+		srcPath += StringUtils::UTF8toUTF16(saveFolder.c_str());
+		srcPath += StringUtils::UTF8toUTF16("/");
+		std::u16string dstPath = StringUtils::UTF8toUTF16("/");
+
+		FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
+		Msg::DisplayMsg(Lang::messages2[8]);
+		res = io::copyDirectory(Archive::sdmc(), archive, srcPath, dstPath);
+		if (R_FAILED(res)) {
+			Msg::DisplayWaitMsg(Lang::messages[1]);
+			FSUSER_CloseArchive(archive);
+			return res;
 		}
 
-				std::u16string srcPath = customPath;
-				srcPath += StringUtils::UTF8toUTF16(saveFolder.c_str());
-				srcPath += StringUtils::UTF8toUTF16("/");
-				std::u16string dstPath = StringUtils::UTF8toUTF16("/");
 
-				FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
-					  Msg::DisplayMsg(Lang::messages2[8]);
-				res = io::copyDirectory(Archive::sdmc(), archive, srcPath, dstPath);
-					if (R_FAILED(res)) {
-						Msg::DisplayWaitMsg(Lang::messages[1]);
-						FSUSER_CloseArchive(archive);
-						return res;
-					}
+		res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
+		if (R_FAILED(res)) {
+			FSUSER_CloseArchive(archive);
+			Msg::DisplayWaitMsg(Lang::messages[3]);
+			return res;
+		}
 
 
-			res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
-				if (R_FAILED(res)) {
-					FSUSER_CloseArchive(archive);
-					Msg::DisplayWaitMsg(Lang::messages[3]);
-					return res;
-				}
-
-
-			u8 out;
-			u64 secureValue = ((u64)SECUREVALUE_SLOT_SD << 32) | (uniqueID << 8);
-			res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
-				if (R_FAILED(res)) {
-					FSUSER_CloseArchive(archive);
-					Msg::DisplayWaitMsg(Lang::messages[4]);
-					return res;
-				}
-			}
+		u8 out;
+		u64 secureValue = ((u64)SECUREVALUE_SLOT_SD << 32) | (uniqueID << 8);
+		res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
+		if (R_FAILED(res)) {
+			FSUSER_CloseArchive(archive);
+			Msg::DisplayWaitMsg(Lang::messages[4]);
+			return res;
+		}
+	}
 	Msg::DisplayWaitMsg(Lang::messages[5]);
 	return 0;
 }
@@ -238,17 +247,21 @@ void TownManagement::DeleteBackup(u64 ID, std::string backup) {
 
 	customPath += StringUtils::UTF8toUTF16("/");
 
-	// Check, if the current ID is the old one.
-	if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
-		if (WelcomeAmiibo == false) {
-			customPath += StringUtils::UTF8toUTF16("Old");
-		} else if (WelcomeAmiibo == true) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+	// Check for the game.
+	if (isROMHack == true) {
+		customPath += StringUtils::UTF8toUTF16("Welcome-Luxury");
+	} else if (isROMHack == false) {
+		if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+			if (WelcomeAmiibo == false) {
+				customPath += StringUtils::UTF8toUTF16("Old");
+			} else if (WelcomeAmiibo == true) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+			}
+		} else {
+			if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+			}
 		}
-	}
-
-	if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
-		customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
 	}
 
 	std::u16string backupPath = customPath;

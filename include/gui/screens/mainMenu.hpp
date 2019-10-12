@@ -32,7 +32,7 @@
 
 #include <vector>
 
-class MainMenu : public SCREEN 
+class MainMenu : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -43,7 +43,7 @@ private:
 	void SelectionLogic(u32 hDown, u32 hHeld);
 
 	std::vector<Structs::ButtonPos> mainButtons = {
-    	{90, 40, 140, 35, -1}, // TownManager
+		{90, 40, 140, 35, -1}, // TownManager
 		{90, 100, 140, 35, -1}, // Editor
 		{90, 160, 140, 35, -1}, // Settings
 	};

@@ -29,8 +29,8 @@ SOFTWARE.
 
 typedef enum
 {
-    CRC_REFLECTED = 0, //Most common in ACNL checksums
-    CRC_NORMAL = 1
+	CRC_REFLECTED = 0, //Most common in ACNL checksums
+	CRC_NORMAL = 1
 } ChecksumType;
 
 u32 CalculateCRC32Reflected(u8 *buf, u32 size);

@@ -79,7 +79,6 @@ void TestStuff(void)
 {
 	if (test == 1) {
 		// Currently nothing to test.
-	} else if (test == 0) {
 	}
 }
 
@@ -94,54 +93,54 @@ void loadSounds() {
 // If an Error while startup appears, Return this!
 static Result DisplayStartupError(std::string message, Result res)
 {
-		std::string errorMsg = std::to_string(res);
-		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-		C2D_TargetClear(top, BLACK);
-		C2D_TargetClear(bottom, BLACK);
-		Gui::clearTextBufs();
-		Gui::ScreenDraw(top);
-		Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
-		Gui::Draw_Rect(0, 27, 400, 186, GREEN);
-		Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Oh no, an error occured!"))/2, 2, 0.8f, WHITE, "Oh no, an error occured!", 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Description: "+ message))/2, 155, 0.8f, WHITE, "Description: "+message, 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Press Start to exit."))/2, 213, 0.8f, WHITE, "Press Start to exit.", 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Error during Startup: "+errorMsg))/2, 80, 0.8f, WHITE, "Error during Startup: "+errorMsg, 400);
-		Gui::ScreenDraw(bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
-		Gui::Draw_Rect(0, 27, 320, 186, GREEN);
-		Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
-		C3D_FrameEnd(0);
+	std::string errorMsg = std::to_string(res);
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+	Gui::clearTextBufs();
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 27, 400, 186, GREEN);
+	Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Oh no, an error occured!"))/2, 2, 0.8f, WHITE, "Oh no, an error occured!", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Description: "+ message))/2, 155, 0.8f, WHITE, "Description: "+message, 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Press Start to exit."))/2, 213, 0.8f, WHITE, "Press Start to exit.", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Error during Startup: "+errorMsg))/2, 80, 0.8f, WHITE, "Error during Startup: "+errorMsg, 400);
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 27, 320, 186, GREEN);
+	Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
+	C3D_FrameEnd(0);
 
-		// For the Log.
-		std::string error = message;
-		error += ", ";
-		error += std::to_string(res);
-		Logging::writeToLog(error.c_str());
+	// For the Log.
+	std::string error = message;
+	error += ", ";
+	error += std::to_string(res);
+	Logging::writeToLog(error.c_str());
 
-		gspWaitForVBlank();
-		while (aptMainLoop() && !(hidKeysDown() & KEY_START))
-		{
-			hidScanInput();
-		}
+	gspWaitForVBlank();
+	while (aptMainLoop() && !(hidKeysDown() & KEY_START))
+	{
+		hidScanInput();
+	}
 	return res;
 }
 
 void loadMessage(std::string Message) {
-		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-		C2D_TargetClear(top, BLACK);
-		C2D_TargetClear(bottom, BLACK);
-		Gui::clearTextBufs();
-		Gui::ScreenDraw(top);
-		Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
-		Gui::Draw_Rect(0, 27, 400, 186, GREEN);
-		Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Message))/2, 2, 0.8f, WHITE, Message, 400);
-		Gui::ScreenDraw(bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
-		Gui::Draw_Rect(0, 27, 320, 186, GREEN);
-		Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
-		C3D_FrameEnd(0);
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+	Gui::clearTextBufs();
+	Gui::ScreenDraw(top);
+	Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 27, 400, 186, GREEN);
+	Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Message))/2, 2, 0.8f, WHITE, Message, 400);
+	Gui::ScreenDraw(bottom);
+	Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 27, 320, 186, GREEN);
+	Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
+	C3D_FrameEnd(0);
 }
 
 int main()
@@ -156,6 +155,16 @@ int main()
 		ndspInit();
 		dspfirmfound = true;
 	} else{
+		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
+	}
+
+
+	loadMessage("Initialize everything.. please wait.");
+
+	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
+		ndspInit();
+		dspfirmfound = true;
+	} else {
 		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
 	}
 
@@ -178,6 +187,7 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
 	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
+	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/SpriteSheets", 0777); // Spritesheets path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
@@ -208,7 +218,7 @@ int main()
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
-	
+
 	Lang::loadLangStrings(Config::lang);
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
@@ -222,13 +232,13 @@ int main()
 	} else if (Config::update == 1) {
 		WelcomeAmiibo = true;
 	}
-	
+
 	// Scan for available Titles to display.
 	GameLoader::scanTitleID();
-	
+
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());
-	
+
 	// We write a successfull Message, because it launched Successfully. Lol.
 	Logging::writeToLog("LeafEdit launched successfully!");
 	playChange();

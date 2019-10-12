@@ -34,16 +34,16 @@
 
 namespace GameLoader
 {
-    bool cardUpdate();
-    void checkUpdate(void);
-    bool scanCard();
-    void scanTitleID(void);
+	bool cardUpdate();
+	void checkUpdate(void);
+	bool scanCard();
+	void scanTitleID(void);
 
-    // Check for Updates, even when the Update was already checked on first startup.
-    void updateCheck2(void);
-    
-    inline std::vector<std::shared_ptr<Title>> installedTitles;
-    inline std::shared_ptr<Title> cardTitle = nullptr;
+	// Check for Updates, even when the Update was already checked on first startup.
+	void updateCheck2(void);
+
+	inline std::vector<std::shared_ptr<Title>> installedTitles;
+	inline std::shared_ptr<Title> cardTitle = nullptr;
 };
 
 #endif

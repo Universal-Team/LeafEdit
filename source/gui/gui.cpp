@@ -48,7 +48,7 @@ C2D_SpriteSheet Villager2;
 
 C2D_TextBuf sizeBuf;
 C2D_Font systemFont;
-std::stack<std::unique_ptr<SCREEN>> screens;
+std::stack<std::unique_ptr<Screen>> screens;
 bool currentScreen = false;
 
 // Clear Text.
@@ -72,9 +72,9 @@ void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color, float Sca
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	} else if (sheet == 2) { // villagers2.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
-	} else if (sheet == 3) {
+	} else if (sheet == 3) { // Items.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
-	} else if (sheet == 4) {
+	} else if (sheet == 4) { // Acres.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	}
 }
@@ -124,9 +124,9 @@ void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	} else if (sheet == 2) { // villagers2.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Villager2, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (sheet == 3) {
+	} else if (sheet == 3) { // Items.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (sheet == 4) {
+	} else if (sheet == 4) { // Acres.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	}
 }
@@ -135,7 +135,7 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 {
 	// Get the first occurrence
 	size_t pos = data.find(toSearch);
- 
+
 	// Repeat till end is reached
 	while( pos != std::string::npos)
 	{
@@ -147,7 +147,7 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 }
 
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
-    Gui::DrawString((currentScreen ? 400 : 320)+x-(std::min(maxWidth, (int)Gui::GetStringWidth(size, Text))/2), y, size, color, Text, maxWidth);
+	Gui::DrawString((currentScreen ? 200 : 160)+x-(std::min(maxWidth, (int)Gui::GetStringWidth(size, Text))/2), y, size, color, Text, maxWidth);
 }
 
 // Draw String or Text.
@@ -198,7 +198,7 @@ void Gui::mainLoop(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 // Set the current Screen.
-void Gui::setScreen(std::unique_ptr<SCREEN> screen)
+void Gui::setScreen(std::unique_ptr<Screen> screen)
 {
 	screens.push(std::move(screen));
 }
