@@ -149,6 +149,17 @@ int main()
 	Result res;
 	gfxInitDefault();
 	Gui::init();
+	loadMessage("Initialize everything.. please wait.");
+
+ 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
+		ndspInit();
+		dspfirmfound = true;
+	} else{
+		Msg::DisplayWarnMsg("dspfirm.cdc not found!");
+	}
+
+
+	loadMessage("Initialize everything.. please wait.");
 
 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
 		ndspInit();
