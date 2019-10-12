@@ -104,17 +104,17 @@ void VillagerEditor::EditorSubLogic(u32 hDown) {
 	}
 
 	if (hDown & KEY_A) {
-			switch(Selection) {
-				case 0: {
-						editorMode = 1;
-						break;
-				}	case 1:
-						manuallyVillager = Input::getu16(3, 398);
-						SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
-						Gui::screenBack();
-						return;
-						break;
-			}
+		switch(Selection) {
+			case 0:
+				editorMode = 1;
+				break;
+			case 1:
+				manuallyVillager = Input::getu16(3, 398);
+				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+				Gui::screenBack();
+				return;
+				break;
+		}
 	}
 }
 
@@ -358,9 +358,6 @@ void VillagerEditor::DrawSubMenu(void) const
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTen.c_str()))/2+195-35, 193, 0.55f, Config::boxText, GroupTen.c_str(), 70);
 
 
-
-
-
 	} else if (subMenuPage == 2) {
 
 		Gui::sprite(0, sprites_villagerBox_idx, 5, 30);
@@ -417,7 +414,7 @@ void VillagerEditor::DrawSubMenu(void) const
 
 
 	} else if (subMenuPage == 3) {
-		
+
 		Gui::sprite(0, sprites_villagerBox_idx, 5, 30);
 		VillagerManagement::DrawVillager(232, 10, 28);
 		std::string GroupTwentyone = "Kangaroo";
@@ -472,7 +469,7 @@ void VillagerEditor::DrawSubMenu(void) const
 
 
 	} else if (subMenuPage == 4) {
-		
+
 		Gui::sprite(0, sprites_villagerBox_idx, 5, 30);
 		VillagerManagement::DrawVillager(342, 10, 28);
 		std::string GroupThirtyone = "Rhino";

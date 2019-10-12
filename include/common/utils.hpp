@@ -13,7 +13,7 @@
 namespace StringUtils
 {
 	std::u16string UTF8toUTF16(const char* src);
-    std::string UTF16toUTF8(const std::u16string& src);
+	std::string UTF16toUTF8(const std::u16string& src);
 	std::string format(std::string fmt_str, ...);
 }
 
@@ -22,5 +22,6 @@ namespace EditorUtils
 	std::vector<u32> findPlayerReferences(Player *player);
 }
 
-u16             strToU16(std::string str);
+u16	strToU16(std::string str);
+
 #endif

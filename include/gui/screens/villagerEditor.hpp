@@ -34,7 +34,7 @@
 
 #include <vector>
 
-class VillagerEditor : public SCREEN 
+class VillagerEditor : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -54,7 +54,7 @@ private:
 	void DrawSubMenu(void) const;
 	void DrawSelection(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch); // SubMenu Logic.
-	
+
 	void DrawVillagerSelection(void) const;
 	void VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
@@ -70,7 +70,7 @@ private:
 	bool isSelected = false; // If the Villager is Selected, this would be true.
 	int editorPage = 1; // 30 Pages is the maximum because of ~ 299 Villagers.
 	u16 selectedVillager; // This would be the new Selected Villager.
-	int currentSelectedVillager; 
+	int currentSelectedVillager;
 	int currentRow = 1; // Return the current Selected Row.
 	int currentSlot = 1; // Return the current Selected Slot.
 	u16 manuallyVillager = 0;
@@ -82,6 +82,7 @@ private:
 		{90, 100, 140, 35, -1}, // Manually.
 	};
 
+	// Touch Position of the search Icon, so you can search for a Villager ID.
 	std::vector<Structs::ButtonPos> search = {
 		{290, 3, 20, 20, -1},
 	};

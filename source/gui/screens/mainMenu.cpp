@@ -71,22 +71,21 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-			switch(Selection) {
-				case 0: {
-						if (titleIsLoaded == false) {
-							Msg::DisplayWarnMsg("You haven't loaded a Title!!");
-						} else if (titleIsLoaded == true) {
-							Gui::setScreen(std::make_unique<TownManager>());
-						}
-						break;
-				}   case 1:
-						Gui::setScreen(std::make_unique<Editor>());
-						break;
-				 	case 2: {
-						Gui::setScreen(std::make_unique<Settings>());
-						break;
-					 }
-			}
+		switch(Selection) {
+			case 0:
+				if (titleIsLoaded == false) {
+					Msg::DisplayWarnMsg("You haven't loaded a Title!!");
+				} else if (titleIsLoaded == true) {
+					Gui::setScreen(std::make_unique<TownManager>());
+				}
+				break;
+			case 1:
+				Gui::setScreen(std::make_unique<Editor>());
+				break;
+			case 2:
+				Gui::setScreen(std::make_unique<Settings>());
+				break;
+		}
 	}
 }
 

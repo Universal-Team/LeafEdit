@@ -35,7 +35,7 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
-	
+
 	Gui::ScreenDraw(top);
 	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
@@ -79,7 +79,7 @@ void Msg::DisplayWarnMsg(std::string Text)
 	Gui::sprite(0, sprites_msgBgTop_idx, 0, 27);
 	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Text.c_str()))/2, 2, 0.72f, Config::MessageText, Text.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.72f, Config::MessageText, Text.c_str(), 400);
 
 	Gui::ScreenDraw(bottom);
 	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);

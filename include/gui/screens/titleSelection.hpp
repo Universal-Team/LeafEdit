@@ -32,37 +32,38 @@
 
 #include "gui/screens/screen.hpp"
 
-class TitleSelection : public SCREEN 
+class TitleSelection : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 private:
 	void TitleDraw(void) const;
-    void SelectionLogic(u32 hDown);
-    void DrawInformationBox(void) const;
+	void SelectionLogic(u32 hDown);
+	void DrawInformationBox(void) const;
 	int selectedTitle = -2;
 	bool GameSelected   = false;
 
-    std::shared_ptr<Title> titleFromIndex(int i) const
-    {
-        if (i == -1)
-        {
-            return GameLoader::cardTitle;
-        }
-        else if (i == -2)
-        {
-            return nullptr;
-        }
-        else if ((size_t)i < GameLoader::installedTitles.size())
-        {
-            return GameLoader::installedTitles[i];
-        }
-        return nullptr;
-    }
+	std::shared_ptr<Title> titleFromIndex(int i) const
+	{
+		if (i == -1)
+		{
+			return GameLoader::cardTitle;
+		}
+		else if (i == -2)
+		{
+			return nullptr;
+		}
+		else if ((size_t)i < GameLoader::installedTitles.size())
+		{
+			return GameLoader::installedTitles[i];
+		}
+		return nullptr;
+	}
 
-    std::vector<Structs::ButtonPos> icon = {
-        {245, 38, 48, 48, -1}, // Icon
+	// Struct for the Icon position, so you can tap on the Icon.
+	std::vector<Structs::ButtonPos> icon = {
+		{245, 38, 48, 48, -1}, // Icon
 	};
 };
 

@@ -36,7 +36,7 @@
 #include <unistd.h>
 #include <vector>
 
-class LeafEditEditor : public SCREEN 
+class LeafEditEditor : public Screen
 {
 public:
 	void Draw(void) const override;

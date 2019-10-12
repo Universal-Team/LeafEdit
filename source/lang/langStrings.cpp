@@ -6,7 +6,7 @@ namespace Lang {
 
 	// [editor]
 	editor = {"Would you like to save your changes?", "Player", "Editor", "Select a save for the Editor.",
-			   "Would you like to load this save?", "Would you like to return to the Main Menu?", 
+			   "Would you like to load this save?", "Would you like to return to the Main Menu?",
 			   "Villager"},
 
 	// [keyboard]
@@ -21,22 +21,22 @@ namespace Lang {
 
 	// [messages2]
 	messages2 = {"Press A to continue.", "Press A to confirm or B to Cancel.", "Do you want to Backup this save?",
-				 "Do you want to restore this Save?", "Do you want to launch this Town?", 
-				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...", 
+				 "Do you want to restore this Save?", "Do you want to launch this Town?",
+				 "Do you want to start the game normally?", "Checking for Old AC:NL Updates...",
 				 "Backing up files, please wait...", "Restoring files, please wait...", "Press Select to Refresh the FileBrowse.",
 				 "Would you like to backup the current town\nbefore restoring the selected one?", "A save with this name already exists.\nWould you like to overwrite the save?"},
-	
+
 	// [misc]
 	misc = {"Current Page", "Current Player"},
 
 	// [playerEditor]
-	playerEditor = {"Please type in the new player name.", "Player Name", "Wallet Amount", "Tan Value", "Bank Amount", 
+	playerEditor = {"Please type in the new player name.", "Player Name", "Wallet Amount", "Tan Value", "Bank Amount",
 					"Medal Amount", "Coupon Amount", "Maximize Bank", "Max Medals", "Max Coupons", "Clear Bank", "Clear Medals",
 					"Clear Coupons"},
 
 	// [settings]
 	settings = {"Language", "Selector", "?"},
-	
+
 	// [titleSelector]
 	titleSelector = {"Select a Title to start.", "Cartridge", "installed Titles"},
 

@@ -33,7 +33,7 @@
 
 #include <vector>
 
-class TownManager : public SCREEN 
+class TownManager : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -48,10 +48,10 @@ private:
 	void BrowseLogic(u32 hDown, u32 hHeld);
 
 	std::vector<Structs::ButtonPos> townButtons = {
-    	{20, 40, 140, 35, -1}, // Launch.
+		{20, 40, 140, 35, -1}, // Launch.
 		{20, 100, 140, 35, -1}, // Backup.
 		{20, 160, 140, 35, -1}, // Restore.
-    	{170, 40, 140, 35, -1}, // Delete Gamecard / Installed Title save.
+		{170, 40, 140, 35, -1}, // Delete Gamecard / Installed Title save.
 		{170, 100, 140, 35, -1}, // Delete Backup.
 	};
 

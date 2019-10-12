@@ -29,14 +29,14 @@
 
 #include <string>
 
-class Structs 
+class Structs
 {
 public:
 	struct ButtonPos {
-    	int x;
-    	int y;
-    	int w;
-    	int h;
+		int x;
+		int y;
+		int w;
+		int h;
 		int link;
 	};
 

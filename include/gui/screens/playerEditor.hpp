@@ -33,7 +33,7 @@
 
 #include <vector>
 
-class PlayerEditor : public SCREEN 
+class PlayerEditor : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -77,8 +77,8 @@ private:
 
 	// Player Stuff. p -> Player.
 	std::string pName;
-	std::string pWallet; 
-	std::string pTan; 
+	std::string pWallet;
+	std::string pTan;
 	std::string pBank;
 	std::string pMedals;
 	std::string pCoupons;
