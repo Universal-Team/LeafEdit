@@ -93,7 +93,7 @@ void loadSounds() {
 }
 
 // If an Error while startup appears, Return this!
-static Result DisplayStartupError(std::string message, Result res)
+static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 {
 	std::string errorMsg = std::to_string(res);
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -102,12 +102,21 @@ static Result DisplayStartupError(std::string message, Result res)
 	Gui::clearTextBufs();
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
-	Gui::Draw_Rect(0, 27, 400, 186, GREEN);
+	Gui::Draw_Rect(0, 27, 400, 187, C2D_Color32(128, 128, 128, 255));
+	Gui::Draw_Rect(5, 30, 390, 177, C2D_Color32(0, 0, 0, 190));
 	Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Oh no, an error occured!"))/2, 2, 0.8f, WHITE, "Oh no, an error occured!", 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Description: "+ message))/2, 155, 0.8f, WHITE, "Description: "+message, 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Press Start to exit."))/2, 213, 0.8f, WHITE, "Press Start to exit.", 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "Error during Startup: "+errorMsg))/2, 80, 0.8f, WHITE, "Error during Startup: "+errorMsg, 400);
+	if (isSheet == false) {
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Oh no, an error occured!"))/2, 2, 0.7f, WHITE, "Oh no, an error occured!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Description: "+ message))/2, 100, 0.7f, WHITE, "Description: "+message, 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Start to exit."))/2, 140, 0.7f, WHITE, "Press Start to exit.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Error during Startup: "+errorMsg))/2, 50, 0.7f, WHITE, "Error during Startup: "+errorMsg, 400);
+	} else {
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Oh no, an error occured!"))/2, 2, 0.7f, WHITE, "Oh no, an error occured!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Error: "+ message))/2, 40, 0.7f, WHITE, "Error: "+message, 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.45f, "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team inside\n'builds/LeafEdit/Spritesheets.zip/7z'."))/2, 70, 0.45f, WHITE, "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team inside\n'builds/LeafEdit/Spritesheets.zip/7z'.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.45f, "The easiest way is: To download Universal-Manager\nAnd then go to 'Updater', 'UNIV' and then click on\nThe version you want. It automatically checks, if the files are found.\nKeep in mind -> You need a Internet Connection to download this!"))/2, 140, 0.45f, WHITE, "The easiest way is: To download Universal-Manager\nAnd then go to 'Updater', 'UNIV' and then click on\nThe version you want. It automatically checks, if the files are found.\nKeep in mind -> You need a Internet Connection to download this!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Start to exit."))/2, 215, 0.7f, WHITE, "Press Start to exit.", 400);
+	}
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
 	Gui::Draw_Rect(0, 27, 320, 186, GREEN);
@@ -164,11 +173,11 @@ int main()
 	}
 
 	if (R_FAILED(res = Archive::init())) {
-		return DisplayStartupError("Archive::init failed.", res);
+		return DisplayStartupError("Archive::init failed.", res, false);
 	}
 
 	if (R_FAILED(res = romfsInit())) {
-		return DisplayStartupError("romfsInit failed.", res);
+		return DisplayStartupError("romfsInit failed.", res, false);
 	}
 
 	Config::loadConfig();
@@ -185,22 +194,45 @@ int main()
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 
 	if (R_FAILED(res = acInit())) {
-		return DisplayStartupError("acInit failed.", res);
+		return DisplayStartupError("acInit failed.", res, false);
 	}
 
 	if (R_FAILED(res = amInit())) {
-		return DisplayStartupError("amInit failed.", res);
+		return DisplayStartupError("amInit failed.", res, false);
 	}
 
 	if (R_FAILED(res = sdmcInit())) {
-		return DisplayStartupError("sdmcInit failed.", res);
+		return DisplayStartupError("sdmcInit failed.", res, false);
 	}
 
 	if (R_FAILED(res = cfguInit())) {
-		return DisplayStartupError("cfguInit failed.", res);
+		return DisplayStartupError("cfguInit failed.", res, false);
 	}
 
-	Gui::loadSheets();
+	if(access("sdmc:/LeafEdit/acres.t3x", F_OK) != -1 ) {
+		Gui::loadSheets(1);
+	} else {
+		return DisplayStartupError("Acres Spritesheet not found.", res, true);
+	}
+
+	if(access("sdmc:/LeafEdit/items.t3x", F_OK) != -1 ) {
+		Gui::loadSheets(2);
+	} else {
+		return DisplayStartupError("items Spritesheet not found.", res, true);
+	}
+
+	if(access("sdmc:/LeafEdit/villagers.t3x", F_OK) != -1 ) {
+		Gui::loadSheets(3);
+	} else {
+		return DisplayStartupError("villagers Spritesheet not found.", res, true);
+	}
+
+	if(access("sdmc:/LeafEdit/villagers2.t3x", F_OK) != -1 ) {
+		Gui::loadSheets(4);
+	} else {
+		return DisplayStartupError("villagers2 Spritesheet not found.", res, true);
+	}
+
 
 	Config::loadSheet();
 	Config::loadSheetIni();
