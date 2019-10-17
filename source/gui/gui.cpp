@@ -95,10 +95,10 @@ Result Gui::init(void)
 
 // Loading the Sheets.
 Result Gui::loadSheets(void) {
-	Acres		= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
-	Items		= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
-	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	Acres		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/acres.t3x");
+	Items		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/items.t3x");
+	Villager	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/villagers.t3x");
+	Villager2	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/villagers2.t3x");
 	return 0;
 }
 
