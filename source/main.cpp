@@ -105,12 +105,17 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 	Gui::Draw_Rect(0, 27, 400, 187, C2D_Color32(128, 128, 128, 255));
 	Gui::Draw_Rect(5, 30, 390, 177, C2D_Color32(0, 0, 0, 190));
 	Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Oh no, an error occured!"))/2, 2, 0.7f, WHITE, "Oh no, an error occured!", 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Description: "+ message))/2, 100, 0.7f, WHITE, "Description: "+message, 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Start to exit."))/2, 140, 0.7f, WHITE, "Press Start to exit.", 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Error during Startup: "+errorMsg))/2, 50, 0.7f, WHITE, "Error during Startup: "+errorMsg, 400);
-	if (isSheet == true) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.45f, "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team."))/2, 160, 0.45f, WHITE, "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team.", 400);
+	if (isSheet == false) {
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Oh no, an error occured!"))/2, 2, 0.7f, WHITE, "Oh no, an error occured!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Description: "+ message))/2, 100, 0.7f, WHITE, "Description: "+message, 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Start to exit."))/2, 140, 0.7f, WHITE, "Press Start to exit.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Error during Startup: "+errorMsg))/2, 50, 0.7f, WHITE, "Error during Startup: "+errorMsg, 400);
+	} else {
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Oh no, an error occured!"))/2, 2, 0.7f, WHITE, "Oh no, an error occured!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Error: "+ message))/2, 40, 0.7f, WHITE, "Error: "+message, 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.45f, "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team."))/2, 70, 0.45f, WHITE, "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.45f, "The easiest way is: To download Universal-Manager\nAnd then go to 'Updater', 'UNIV' and then click on\nThe version you want. It automatically checks, if the files are found.\nKeep in mind -> You need a Internet Connection to download this!"))/2, 140, 0.45f, WHITE, "The easiest way is: To download Universal-Manager\nAnd then go to 'Updater', 'UNIV' and then click on\nThe version you want. It automatically checks, if the files are found.\nKeep in mind -> You need a Internet Connection to download this!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Start to exit."))/2, 215, 0.7f, WHITE, "Press Start to exit.", 400);
 	}
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
