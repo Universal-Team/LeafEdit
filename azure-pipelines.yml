@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, external-sheets, cleanup]
+    exclude: [translation, external-sheets, cleanup, redo-translation-and-centering]
   tags:
     include: ['*']
 
