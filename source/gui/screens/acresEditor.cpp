@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
@@ -24,26 +24,58 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MISCEDITOR_HPP
-#define MISCEDITOR_HPP
+#include "core/acreManagement.hpp"
 
-#include "common/structs.hpp"
+#include "core/save/offsets.h"
+#include "core/save/save.h"
 
-#include "gui/screens/screen.hpp"
+#include "gui/gui.hpp"
 
-#include <vector>
+#include "gui/screens/acresEditor.hpp"
 
-class MiscEditor : public Screen
+#include <3ds.h>
+
+extern Save* SaveFile;
+
+#define MAX_ACRE 218 // Define the Max Amount of Acres.
+
+void AcresEditor::Draw(void) const {
+	Gui::DrawTop();
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit - Acre Editor"))/2, 2, 0.8f, Config::barText, "LeafEdit - Acre Editor", 400);
+	Gui::DrawBottom();
+	townMap();
+}
+
+void AcresEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+}
+
+// To-Do for the Acres Editor.
+u8 AcresEditor::selectAcre(u8 selectedAcre) {
+	return 0;
+}
+
+// Uhh.. Maps and such.
+
+void AcresEditor::fullTown() const
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+    AcreManagement::InitAcres(42, 7, 20, 0, 0, MAP_ACRES); // Ends at x = 230px (resized to 30x30 images)
+}
 
-private:
-	int Selection = 0;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Acres Editor.
-	};
-};
+void AcresEditor::fullIsland() const
+{
+    AcreManagement::InitAcres(16, 4, 80, 40, 0, ISLAND_ACRES);
+}
 
-#endif
+void AcresEditor::townMap() const
+{
+    AcreManagement::InitAcres(20, 5, 60, 40, 4, MAP_ACRES + 0x10);
+}
+
+void AcresEditor::islandMap() const
+{
+    AcreManagement::InitAcres(4, 2, 120, 80, 4, ISLAND_ACRES + 0xA);
+}

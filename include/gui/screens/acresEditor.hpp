@@ -23,27 +23,30 @@
 *         or requiring that modified versions of such material be marked in
 *         reasonable ways as different from the original version.
 */
-
-#ifndef MISCEDITOR_HPP
-#define MISCEDITOR_HPP
-
-#include "common/structs.hpp"
+#ifndef ACRESEDITOR_HPP
+#define ACRESEDITOR_HPP
 
 #include "gui/screens/screen.hpp"
+#include "gui/screens/screenCommon.hpp"
 
 #include <vector>
 
-class MiscEditor : public Screen
+class AcresEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
-	int Selection = 0;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Acres Editor.
-	};
+	int AcresMode = 0;
+	u8 selectAcre(u8 selectedAcre);
+
+	// Full.
+	void fullIsland() const;
+	void fullTown() const;
+	// Maps.
+	void islandMap() const;
+	void townMap() const;
 };
 
 #endif

@@ -24,26 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MISCEDITOR_HPP
-#define MISCEDITOR_HPP
+#ifndef ACREMANAGEMENT_HPP
+#define ACREMANAGEMENT_HPP
 
-#include "common/structs.hpp"
+#include <3ds.h>
 
-#include "gui/screens/screen.hpp"
-
-#include <vector>
-
-class MiscEditor : public Screen
+namespace AcreManagement
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
-private:
-	int Selection = 0;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Acres Editor.
-	};
-};
+	void DrawAcre(u8 AcreID, int x, int y, float ScaleX, float ScaleY); // Draw the Acres.
+	void InitAcres(const u8 LoopMax, const u8 GridXMax, const u8 GridXStartPos, const u8 GridYStartPos, const u8 ByteSkip, u32 Offset);
+}
 
 #endif

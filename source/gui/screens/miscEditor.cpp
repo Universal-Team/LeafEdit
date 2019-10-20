@@ -28,6 +28,7 @@
 
 #include "gui/keyboard.hpp"
 
+#include "gui/screens/acresEditor.hpp"
 #include "gui/screens/miscEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -42,11 +43,11 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void MiscEditor::Draw(void) const
 {
 	Gui::DrawTop();
-	std::string townName = StringUtils::UTF16toUTF8(SaveFile->players[0]->TownName).c_str();
-	Gui::sprite(0, sprites_topbox_idx, 40, 37);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, townName.c_str()))/2, 35, 0.8f, Config::boxText, townName.c_str(), 400);
-
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit - Misc Editor"))/2, 2, 0.8f, Config::barText, "LeafEdit - Misc Editor", 400);
 	Gui::DrawBottom();
+
+	Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Acres"))/2, mainButtons[0].y+10, 0.6f, Config::buttonText, "Acres", 140);
 }
 
 
@@ -55,11 +56,13 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
-	} else if (hDown & KEY_X) {
-		SaveFile->players[0]->TownName = Input::getu16String(8, "Please type in the new Town Name.");
+	}
+
+	if (hDown & KEY_A) {
+		Gui::setScreen(std::make_unique<AcresEditor>());
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press X to edit the Town Name. \nPress B to exit from this Screen.");
+		Msg::HelperBox("Press A to access the Acres Editor. \nPress B to exit from this Screen.");
 	}
 }
