@@ -30,10 +30,10 @@
 #include "common/config.hpp"
 #include "common/sound.h"
 #include "common/structs.hpp"
-#include "common/title.hpp"
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
+#include "core/titleLoader.hpp"
 #include "core/villagerManagement.hpp"
 
 #include "gui/gui.hpp"
@@ -292,8 +292,8 @@ int main()
 			}
 		}
 	}
+
 	// Exit every process.
-	loadMessage("Exiting Services...");
 	delete sfx_change;
 	if (dspfirmfound) {
 		ndspExit();

@@ -28,9 +28,9 @@
 #include "common/common.hpp"
 #include "common/config.hpp"
 #include "common/io.hpp" // Backup & Restore Part.
-#include "common/title.hpp"
 #include "common/utils.hpp"
 
+#include "core/titleLoader.hpp"
 #include "core/townManagement.hpp"
 
 #include "gui/keyboard.hpp" // For the Input Stuff.

@@ -164,8 +164,8 @@ bool GameLoader::scanCard()
 				// check if this id is in our list
 				if (R_SUCCEEDED(res) && std::find(titleIds.begin(), titleIds.end(), id) != titleIds.end())
 				{
-					auto title = std::make_shared<Title>();
-					if (title->load(id, MEDIATYPE_GAME_CARD, cardType))
+					auto title = std::make_shared<TitleLoader>();
+					if (title->loadTitle(id, MEDIATYPE_GAME_CARD))
 					{
 						cardTitle = title;
 					}
@@ -208,8 +208,8 @@ void GameLoader::scanTitleID(void)
 		u64 id = titleIds.at(i);
 		if (std::find(ids.begin(), ids.end(), id) != ids.end())
 		{
-			auto title = std::make_shared<Title>();
-			if (title->load(id, MEDIATYPE_SD, CARD_CTR))
+			auto title = std::make_shared<TitleLoader>();
+			if (title->loadTitle(id, MEDIATYPE_SD))
 			{
 				installedTitles.push_back(title);
 			}
@@ -217,7 +217,7 @@ void GameLoader::scanTitleID(void)
 	}
 
 	// sort the list alphabetically
-	std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<Title>& l, std::shared_ptr<Title>& r) { return l->ID() < r->ID(); });
+	std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<TitleLoader>& l, std::shared_ptr<TitleLoader>& r) { return l->ID() < r->ID(); });
 }
 
 // Check for Updates, even when the Update was already checked on first startup.

@@ -27,7 +27,7 @@
 #ifndef GAMELOADER_HPP
 #define GAMELOADER_HPP
 
-#include "common/title.hpp"
+#include "core/titleLoader.hpp"
 
 #include <3ds.h>
 #include <memory>
@@ -42,8 +42,8 @@ namespace GameLoader
 	// Check for Updates, even when the Update was already checked on first startup.
 	void updateCheck2(void);
 
-	inline std::vector<std::shared_ptr<Title>> installedTitles;
-	inline std::shared_ptr<Title> cardTitle = nullptr;
+	inline std::vector<std::shared_ptr<TitleLoader>> installedTitles;
+	inline std::shared_ptr<TitleLoader> cardTitle = nullptr;
 };
 
 #endif

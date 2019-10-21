@@ -44,7 +44,7 @@ private:
 	int selectedTitle = -2;
 	bool GameSelected   = false;
 
-	std::shared_ptr<Title> titleFromIndex(int i) const
+	std::shared_ptr<TitleLoader> titleFromIndex(int i) const
 	{
 		if (i == -1)
 		{
