@@ -44,6 +44,10 @@ bool TitleLoader::loadTitle(u64 id, FS_MediaType media)
 	sprintf(unique, "0x%05X ", (unsigned int)uniqueId());
 	mName   = StringUtils::UTF16toUTF8((char16_t*)smdh->applicationTitles[1].shortDescription);
 
+	// Product Code.
+	AM_GetTitleProductCode(mMedia, mId, _productCode);
+	mProductCode = _productCode;
+
 	loadTitle = true;
 	mIcon     = loadTextureIcon(smdh);
 	delete smdh;
@@ -79,4 +83,9 @@ std::string TitleLoader::name(void)
 u32 TitleLoader::uniqueId(void)
 {
 	return (lowId() >> 8);
+}
+
+char *TitleLoader::productCode(void)
+{
+	return mProductCode;
 }

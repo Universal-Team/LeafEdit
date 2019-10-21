@@ -82,8 +82,11 @@ void TitleSelection::Draw(void) const {
 	{
 		C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 0.5f);
 		Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 100, 0.7f, Config::bgText, titleFromIndex(selectedTitle)->name(), 400);
-		Gui::DrawString(90, 150, 0.6f, Config::bgText, "ID :", 50);
-		Gui::DrawString(90+30, 150, 0.6f, Config::bgText, StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId()), 100);
+		std::string IDAndCode = "ID: ";
+		IDAndCode += StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId());
+		IDAndCode += ", Prod Code: ";
+		IDAndCode += titleFromIndex(selectedTitle)->productCode();
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, IDAndCode.c_str()))/2, 150, 0.6f, Config::bgText, IDAndCode.c_str(), 320);
 	}
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }

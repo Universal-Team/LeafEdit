@@ -22,10 +22,13 @@ public:
 	std::string name(void);
 	C2D_Image icon(void);
 	u32 uniqueId(void);
+	char *productCode(void);
+	char _productCode[16];
 
 private:
 	u64 mId;
 	FS_MediaType mMedia;
+	char *mProductCode;
 	C2D_Image mIcon;
 	std::string mName;
 };
