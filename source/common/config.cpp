@@ -46,8 +46,6 @@
 using std::string;
 using std::wstring;
 
-extern C2D_SpriteSheet sprites;
-
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
@@ -60,7 +58,6 @@ int Config::Logging; // Enable / Disable writing the log.
 
 int Config::LangLocation; // Language Location (Romfs/SD).
 int Config::lang; // Current Language.
-std::string Config::sheet; // Spritesheet Path.
 std::string Config::sheetIni; // Sheet Ini path.
 
 
@@ -77,27 +74,9 @@ int Config::Color1;
 int Config::Color2;
 int Config::Color3;
 
-void Config::loadSheet() {
-	Config::sheet = settingsini.GetString("MISC", "SheetPath", Config::sheet);
-	std::string sheetFile = Config::sheet;
-
-	if((access(sheetFile.c_str(), F_OK) == 0)) {
-		sprites    = C2D_SpriteSheetLoad(sheetFile.c_str());
-	} else {
-		sprites    = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
-		Config::sheet = "romfs:/gfx/sprites.t3x";
-		settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
-	}
-}
-
-void Config::saveSheet(std::string sheetPath) {
-	settingsini.SetString("MISC", "SheetPath", sheetPath.c_str());
-	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
-}
-
 
 void Config::loadSheetIni() {
-	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", Config::sheet);
+	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", Config::sheetIni);
 	std::string sheetIniFile = Config::sheetIni.c_str();
 	std::string romfs = "romfs:/gfx/sheet.ini";
 
@@ -137,7 +116,6 @@ void Config::loadConfig() {
 
 	// [MISC]
 	Config::Logging = settingsini.GetInt("MISC", "LOGGING", 0);
-	Config::sheet = settingsini.GetString("MISC", "SheetPath", "romfs:/gfx/sprites.t3x");
 	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", "romfs:/gfx/sheet.ini");
 
 	// [UI]

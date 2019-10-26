@@ -88,14 +88,15 @@ Result Gui::init(void)
 	top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 	sizeBuf = C2D_TextBufNew(4096);
-
 	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
 	return 0;
 }
 
 // Loading the Sheets.
 Result Gui::loadSheets(int sheet) {
-	if (sheet == 1) {
+	if (sheet == 0) {
+		sprites = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+	} else if (sheet == 1) {
 		Acres		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/acres.t3x");
 	} else if (sheet == 2) {
 		Items		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/items.t3x");

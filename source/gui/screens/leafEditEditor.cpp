@@ -44,6 +44,11 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 	int Sheet::fileBrowseText;
 	int Sheet::MessageText;
 	int Sheet::helpMsg;
+	int Sheet::Color1;
+	int Sheet::Color2;
+	int Sheet::Color3;
+
+extern CIniFile sheetFileIni;
 
 void LeafEditEditor::Draw(void) const {
 	if (mode == 0) {
@@ -86,7 +91,7 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 		dirContents.clear();
 		char startPath[PATH_MAX];
 		getcwd(startPath, PATH_MAX);
-		chdir("sdmc:/LeafEdit/SpriteSheets");
+		chdir("sdmc:/LeafEdit/Sheets");
 		std::vector<DirEntry> dirContentsTemp;
 		getDirectoryContents(dirContentsTemp);
 		chdir(startPath);
@@ -99,14 +104,21 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 	if (hDown & KEY_START) {
 		refresh = true;
 	}
-
-	if(hDown & KEY_A) {
+	if (hDown & KEY_X) {
+		if (dirContents.size() == 0) {
+			Msg::DisplayWarnMsg("What are you trying to do? :P");
+		} else {
+			if(Msg::promptMsg("Do you want use this ini? : \n\n "+dirContents[selectedSheetIniFile].name+"")) {
+				sheetFileIni = "sdmc:/LeafEdit/Sheets/"+dirContents[selectedSheetIniFile].name;
+				Config::loadSheetIniStuff();
+			}
+		}
+	} else if (hDown & KEY_A) {
 		if (dirContents.size() == 0) {
 			Msg::DisplayWarnMsg("What are you trying to do? :P");
 		} else {
 			if(Msg::promptMsg("Do you want edit this ini? : \n\n "+dirContents[selectedSheetIniFile].name+"")) {
-				sheetsFile = "sdmc:/LeafEdit/SpriteSheets/"+dirContents[selectedSheetIniFile].name;
-				sheetsFile += "/sheet.ini";
+				sheetsFile = "sdmc:/LeafEdit/Sheets/"+dirContents[selectedSheetIniFile].name;
 				sheetFile = sheetsFile;
 				loadIniContents();
 				mode = 1;
@@ -117,19 +129,14 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 		Gui::screenBack();
 		return;
 	} else if (hDown & KEY_Y) {
-		if (dirContents.size() == 0) {
-			Msg::DisplayWarnMsg("What are you trying to do? :P");
-		} else {
-			if(Msg::promptMsg("Are you sure, you want to create 'sheet.ini' \ninto this folder?\nIt will reset the existing Ini File, if it already exist!")) {
-				std::string newIni = "sdmc:/LeafEdit/SpriteSheets/"+dirContents[selectedSheetIniFile].name;
-				newIni += "/sheet.ini";
-				createNewSheet(newIni.c_str());
-				refresh = true;
-			}
+		if(Msg::promptMsg("Are you sure, you want to create a new ini?\nIt will reset the existing Ini File, if it already exist!")) {
+			std::string newIni = "sdmc:/LeafEdit/Sheets/";
+			newIni += Input::getLine(20, "Enter the name of the sheet.");
+			createNewSheet(newIni.c_str());
+			refresh = true;
 		}
-
 	} else if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press A to select the Folder with the ini file.\nPress Y to a Folder, to create a blank 'sheet.ini' File.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+		Msg::HelperBox("Press A to select the ini File.\nPress Y to to create a blank ini File.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
 	} else if (hHeld & KEY_UP) {
 		if (selectedSheetIniFile > 0 && !keyRepeatDelay) {
 			selectedSheetIniFile--;
@@ -163,6 +170,10 @@ void LeafEditEditor::loadIniContents() {
 	Sheet::fileBrowseText = sheetFile.GetInt("COLORS", "FileBrowseText", Sheet::fileBrowseText);
 	Sheet::MessageText = sheetFile.GetInt("COLORS", "MessageText", Sheet::MessageText);
 	Sheet::helpMsg = sheetFile.GetInt("COLORS", "HelpMsg", Sheet::helpMsg);
+
+	Sheet::Color1 = sheetFile.GetInt("UI", "Color1", Sheet::Color1);
+	Sheet::Color2 = sheetFile.GetInt("UI", "Color2", Sheet::Color2);
+	Sheet::Color3 = sheetFile.GetInt("UI", "Color3", Sheet::Color3);
 }
 
 void LeafEditEditor::saveIniContents() {
@@ -173,6 +184,10 @@ void LeafEditEditor::saveIniContents() {
 	sheetFile.SetInt("COLORS", "FileBrowseText", Sheet::fileBrowseText);
 	sheetFile.SetInt("COLORS", "MessageText", Sheet::MessageText);
 	sheetFile.SetInt("COLORS", "HelpMsg", Sheet::helpMsg);
+
+	sheetFile.SetInt("UI", "Color1", Sheet::Color1);
+	sheetFile.SetInt("UI", "Color2", Sheet::Color2);
+	sheetFile.SetInt("UI", "Color3", Sheet::Color3);
 	sheetFile.SaveIniFile(savesPath);
 }
 
@@ -188,6 +203,10 @@ void LeafEditEditor::createNewSheet(std::string sheetIni) {
 	sheetFile.SetInt("COLORS", "FileBrowseText", BLACK);
 	sheetFile.SetInt("COLORS", "MessageText", BLACK);
 	sheetFile.SetInt("COLORS", "HelpMsg", WHITE);
+
+	sheetFile.SetInt("UI", "Color1", BLACK);
+	sheetFile.SetInt("UI", "Color2", BLACK);
+	sheetFile.SetInt("UI", "Color3", BLACK);
 
 	sheetFile.SaveIniFile(sheetIni);
 	fclose(ini);
@@ -224,11 +243,22 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	} else if (colorMode == 6) {
 		Gui::sprite(0, sprites_helperBox_idx, 0, 27);
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Example Instructions Color!"))/2, 120, 0.72f, Sheet::helpMsg, "Example Instructions Color!", 400);
+	} else if (colorMode == 7) {
+		Gui::Draw_Rect(0, 0, 400, 30, Sheet::Color1);
+		Gui::Draw_Rect(0, 210, 400, 30, Sheet::Color1);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Bar Color!"))/2, 120, 0.72f, Sheet::Color1, "Bar Color!", 400);
+	} else if (colorMode == 8) {
+		Gui::sprite(0, sprites_helperBox_idx, 0, 27);
+		Gui::Draw_Rect(0, 30, 400, 180, Sheet::Color2);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "BG Color Top Screen!"))/2, 120, 0.72f, Sheet::Color2, "BG Color Top Screen!", 400);
+	} else if (colorMode == 9) {
+		Gui::Draw_Rect(0, 30, 400, 180, Sheet::Color3);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "BG Color Bottom Screen!"))/2, 120, 0.72f, Sheet::Color3, "BG Color Bottom Screen!", 400);
 	}
 
 	Gui::DrawBottom();
 
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 10; i++) {
 		if (colorMode == i) {
 			Gui::Draw_Rect(25 + i * 25, 5, 16, 16, Config::Color2);
 		}
@@ -241,6 +271,9 @@ void LeafEditEditor::DrawIniEditor(void) const {
 	Gui::DrawString(29 + 4 * 25, 5, 0.5f, Sheet::barText, "5", 400);
 	Gui::DrawString(29 + 5 * 25, 5, 0.5f, Sheet::barText, "6", 400);
 	Gui::DrawString(29 + 6 * 25, 5, 0.5f, Sheet::barText, "7", 400);
+	Gui::DrawString(29 + 7 * 25, 5, 0.5f, Sheet::barText, "8", 400);
+	Gui::DrawString(29 + 8 * 25, 5, 0.5f, Sheet::barText, "9", 400);
+	Gui::DrawString(29 + 9 * 25, 5, 0.5f, Sheet::barText, "10", 400);
 
 	Gui::Draw_Rect(buttons[0].x, buttons[0].y, 95, 41, RED);
 	Gui::Draw_Rect(buttons[1].x, buttons[1].y, 95, 41, GREEN);
@@ -274,6 +307,18 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::helpMsg, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::helpMsg, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::helpMsg, 0).c_str(), 400);
+	} else if (colorMode == 7) {
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color1, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color1, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color1, 0).c_str(), 400);
+	} else if (colorMode == 8) {
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color2, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color2, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color2, 0).c_str(), 400);
+	} else if (colorMode == 9) {
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color3, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color3, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Sheet::Color3, 0).c_str(), 400);
 	}
 
 	Gui::sprite(0, sprites_back_idx, buttons[3].x, buttons[3].y);
@@ -292,7 +337,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_R || hDown & KEY_RIGHT) {
-		if(colorMode < 6)	colorMode++;
+		if(colorMode < 9)	colorMode++;
 	}
 
 	if (hDown & KEY_START) {
@@ -325,6 +370,12 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Sheet::MessageText = RGBA8(red, ColorHelper::getColorValue(Sheet::MessageText, 1), ColorHelper::getColorValue(Sheet::MessageText, 0), 255);
 				} else if (colorMode == 6) {
 					Sheet::helpMsg = RGBA8(red, ColorHelper::getColorValue(Sheet::helpMsg, 1), ColorHelper::getColorValue(Sheet::helpMsg, 0), 255);
+				} else if (colorMode == 7) {
+					Sheet::Color1 = RGBA8(red, ColorHelper::getColorValue(Sheet::Color1, 1), ColorHelper::getColorValue(Sheet::Color1, 0), 255);
+				} else if (colorMode == 8) {
+					Sheet::Color2 = RGBA8(red, ColorHelper::getColorValue(Sheet::Color2, 1), ColorHelper::getColorValue(Sheet::Color2, 0), 255);
+				} else if (colorMode == 9) {
+					Sheet::Color3 = RGBA8(red, ColorHelper::getColorValue(Sheet::Color3, 1), ColorHelper::getColorValue(Sheet::Color3, 0), 255);
 				}
 			}
 
@@ -347,6 +398,12 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Sheet::MessageText = RGBA8(ColorHelper::getColorValue(Sheet::MessageText, 2), green, ColorHelper::getColorValue(Sheet::MessageText, 0), 255);
 				} else if (colorMode == 6) {
 					Sheet::helpMsg = RGBA8(ColorHelper::getColorValue(Sheet::helpMsg, 2), green, ColorHelper::getColorValue(Sheet::helpMsg, 0), 255);
+				} else if (colorMode == 7) {
+					Sheet::Color1 = RGBA8(ColorHelper::getColorValue(Sheet::Color1, 2), green, ColorHelper::getColorValue(Sheet::Color1, 0), 255);
+				} else if (colorMode == 8) {
+					Sheet::Color2 = RGBA8(ColorHelper::getColorValue(Sheet::Color2, 2), green, ColorHelper::getColorValue(Sheet::Color2, 0), 255);
+				} else if (colorMode == 9) {
+					Sheet::Color3 = RGBA8(ColorHelper::getColorValue(Sheet::Color3, 2), green, ColorHelper::getColorValue(Sheet::Color3, 0), 255);
 				}
 			}
 
@@ -369,6 +426,12 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Sheet::MessageText = RGBA8(ColorHelper::getColorValue(Sheet::MessageText, 2), ColorHelper::getColorValue(Sheet::MessageText, 1), blue, 255);
 				} else if (colorMode == 6) {
 					Sheet::helpMsg = RGBA8(ColorHelper::getColorValue(Sheet::helpMsg, 2), ColorHelper::getColorValue(Sheet::helpMsg, 1), blue, 255);
+				} else if (colorMode == 7) {
+					Sheet::Color1 = RGBA8(ColorHelper::getColorValue(Sheet::Color1, 2), ColorHelper::getColorValue(Sheet::Color1, 1), blue, 255);
+				} else if (colorMode == 8) {
+					Sheet::Color2 = RGBA8(ColorHelper::getColorValue(Sheet::Color2, 2), ColorHelper::getColorValue(Sheet::Color2, 1), blue, 255);
+				} else if (colorMode == 9) {
+					Sheet::Color3 = RGBA8(ColorHelper::getColorValue(Sheet::Color3, 2), ColorHelper::getColorValue(Sheet::Color3, 1), blue, 255);
 				}
 			}
 		} else if (touching(touch, buttons[3])) {

@@ -188,7 +188,7 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
-	mkdir("sdmc:/LeafEdit/SpriteSheets", 0777); // Spritesheets path.
+	mkdir("sdmc:/LeafEdit/Sheets", 0777); // Sheet Ini path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 
@@ -207,6 +207,8 @@ int main()
 	if (R_FAILED(res = cfguInit())) {
 		return DisplayStartupError("cfguInit failed.", res, false);
 	}
+
+	Gui::loadSheets(0);
 
 	if(access("sdmc:/LeafEdit/acres.t3x", F_OK) != -1 ) {
 		Gui::loadSheets(1);
@@ -232,8 +234,6 @@ int main()
 		return DisplayStartupError("villagers2 Spritesheet not found.", res, true);
 	}
 
-
-	Config::loadSheet();
 	Config::loadSheetIni();
 	Config::loadSheetIniStuff();
 	loadSounds();

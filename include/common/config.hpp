@@ -41,15 +41,12 @@ namespace Config {
 	// [UI]
 	extern int LangLocation; // Language Location (Romfs/SD).
 	extern int lang; // The current Language.
-	extern std::string sheet; // SpriteSheet.
-	extern std::string sheetIni; // SpriteSheet Ini Path.
+	extern std::string sheetIni; // Sheet Ini Path.
 
 	void loadConfig();
 	void saveConfig();
 
 	// Spritesheet stuff.
-	void loadSheet();
-	void saveSheet(std::string sheetPath);
 	void loadSheetIni();
 	void saveSheetIni(std::string sheetIniPath);
 	void loadSheetIniStuff();
