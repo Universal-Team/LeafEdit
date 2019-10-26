@@ -125,92 +125,92 @@ void Settings::DrawLangScreen(void) const {
 	Gui::DrawBottom();
 
 	if (Config::lang == 0) {
-		Gui::sprite(0, sprites_selectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, RED);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
 	} else if (Config::lang == 1) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_selectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, RED);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
 	} else if (Config::lang == 2) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_selectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, RED);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
 	} else if (Config::lang == 3) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_selectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, RED);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
 	} else if (Config::lang == 4) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, RED);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
 	} else if (Config::lang == 5) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, RED);
 
 	} else if (Config::lang == 6) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, RED);
+		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
 	} else if (Config::lang == 7) {
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 92);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 37, 172);
+		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
+		Gui::Draw_Rect(37, 172, 20, 20, Config::Color2);
 
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 52);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 92);
-		Gui::sprite(0, sprites_selectedBox_idx, 177, 132);
-		Gui::sprite(0, sprites_unselectedBox_idx, 177, 172);
+		Gui::Draw_Rect(177, 52, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 92, 20, 20, Config::Color2);
+		Gui::Draw_Rect(177, 132, 20, 20, RED);
+		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 	}
 
 	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, Config::bgText, "Deutsch", 320);

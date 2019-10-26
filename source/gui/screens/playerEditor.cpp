@@ -127,7 +127,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::sprite(0, sprites_villagerBox_idx, 15 + x * 100, 93);
+			Gui::Draw_Rect(15 + x * 100, 93, 70, 70, Config::Color3);
 		}
 	}
 
@@ -299,22 +299,22 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 
 	// Game Specific Things.
-	Gui::sprite(0, sprites_topbox_idx, 40, 37);
+	Gui::Draw_Rect(40, 37, 320, 22, Config::Color3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, PlayerName.c_str()))/2, 35, 0.8f, Config::boxText, PlayerName.c_str(), 400);
 
-	Gui::sprite(0, sprites_topbox_idx, 40, 65);
+	Gui::Draw_Rect(40, 65, 320, 22, Config::Color3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, WalletAmount.c_str()))/2, 63, 0.8f, Config::boxText, WalletAmount.c_str(), 400);
 
-	Gui::sprite(0, sprites_topbox_idx, 40, 93);
+	Gui::Draw_Rect(40, 93, 320, 22, Config::Color3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, TanPlayer.c_str()))/2, 91, 0.8f, Config::boxText, TanPlayer.c_str(), 400);
 
-	Gui::sprite(0, sprites_topbox_idx, 40, 121);
+	Gui::Draw_Rect(40, 121, 320, 22, Config::Color3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, BankAmount.c_str()))/2, 119, 0.8f, Config::boxText, BankAmount.c_str(), 400);
 
-	Gui::sprite(0, sprites_topbox_idx, 40, 149);
+	Gui::Draw_Rect(40, 149, 320, 22, Config::Color3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, MedalsAmount.c_str()))/2, 147, 0.8f, Config::boxText, MedalsAmount.c_str(), 400);
 
-	Gui::sprite(0, sprites_topbox_idx, 40, 177);
+	Gui::Draw_Rect(40, 177, 320, 22, Config::Color3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, CouponsAmount.c_str()))/2, 175, 0.8f, Config::boxText, CouponsAmount.c_str(), 400);
 
 	// Player Bottom.

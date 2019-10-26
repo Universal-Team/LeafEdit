@@ -194,11 +194,7 @@ void LeafEditEditor::createNewSheet(std::string sheetIni) {
 }
 
 void LeafEditEditor::DrawIniEditor(void) const {
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 27, C2D_Color32(200, 200, 200, 255));
-	Gui::Draw_Rect(0, 27, 400, 186, DARKGRAY);
-	Gui::Draw_Rect(0, 213, 400, 213, C2D_Color32(200, 200, 200, 255));
-
+	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "LeafEdit Ini Editor"))/2, 0, 0.72f, Sheet::barText, "LeafEdit Ini Editor", 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Press L/R to change the next Ini option."))/2, 215, 0.72f, Sheet::barText, "Press L/R to change the next Ini option.", 400);
 
@@ -213,7 +209,7 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::DrawString(240, 90, 0.6f, Sheet::buttonText, "Selected", 400);
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the ButtonText Color."))/2, 150, 0.72f, Sheet::buttonText, "This is the ButtonText Color.", 400);
 	} else if (colorMode == 3) {
-		Gui::sprite(0, sprites_topbox_idx, 40, 80);
+		Gui::Draw_Rect(40, 80, 320, 22, Config::Color3);
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BoxText Color."))/2, 80, 0.72f, Sheet::boxText, "This is the BoxText Color.", 400);
 	} else if (colorMode == 4) {
 		Gui::Draw_Rect(0, 27, 400, 31, Config::Color2);
@@ -230,14 +226,11 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Example Instructions Color!"))/2, 120, 0.72f, Sheet::helpMsg, "Example Instructions Color!", 400);
 	}
 
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 27, GRAY);
-	Gui::Draw_Rect(0, 27, 320, 186, DARKGRAY);
-	Gui::Draw_Rect(0, 213, 320, 213, GRAY);
+	Gui::DrawBottom();
 
 	for (int i = 0; i < 7; i++) {
 		if (colorMode == i) {
-			Gui::Draw_Rect(25 + i * 25, 5, 16, 16, DARKGRAY);
+			Gui::Draw_Rect(25 + i * 25, 5, 16, 16, Config::Color2);
 		}
 	}
 

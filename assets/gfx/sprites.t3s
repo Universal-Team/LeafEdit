@@ -5,10 +5,6 @@ sprites/button.png
 sprites/card.png
 sprites/helperBox.png
 sprites/search.png
-sprites/selectedBox.png 
-sprites/topbox.png
-sprites/unselectedBox.png
-sprites/villagerBox.png
 
 sprites/keyboard/normal_key.png
 sprites/keyboard/numpad.png
