@@ -63,6 +63,12 @@
 
 #define selectedColor C2D_Color32(180, 180, 180, 255)
 
+#define green1 C2D_Color32(0, 34, 23, 255) // -15261184
+#define green2 C2D_Color32(38, 77, 52, 255) // -13012396
+#define green3 C2D_Color32(84, 114, 57, 255) // -13349594
+#define green4 C2D_Color32(168, 192, 96, 255) // -10436440
+#define green5 C2D_Color32(192, 216, 120, 255) // -8857408
+#define greentext C2D_Color32(239, 255, 173, 255) // -5373969
 typedef u32 Color;
 
 namespace ColorHelper {

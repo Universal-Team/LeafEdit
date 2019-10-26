@@ -41,6 +41,7 @@ private:
 	void TitleDraw(void) const;
 	void SelectionLogic(u32 hDown);
 	void DrawInformationBox(void) const;
+	void displayRegion(void) const;
 	int selectedTitle = -2;
 	bool GameSelected   = false;
 

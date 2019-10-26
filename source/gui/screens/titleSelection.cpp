@@ -34,6 +34,7 @@
 
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
+#include "gui/screens/settings.hpp"
 #include "gui/screens/titleSelection.hpp"
 
 extern bool exiting;
@@ -50,43 +51,45 @@ bool titleIsLoaded = false;
 bool isROMHack = false;
 
 void TitleSelection::Draw(void) const {
-	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_titleTop_idx, 0, 27);
-	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
+	Gui::DrawTop();
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, Config::barText, Lang::titleSelector[0], 400);
+	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, Config::Color3);
+	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, Config::Color3);
+
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, greentext, Lang::titleSelector[0], 400);
 
 	// Draw the 3DS Gamecard.
-	Gui::sprite(0, sprites_card_idx, 30, 93);
+	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, Config::Color2);
 	// Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 180, 0.6f, Config::bgText, Lang::titleSelector[1], 80);
+	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 180, 0.6f, BLACK, Lang::titleSelector[1], 80);
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 180, 0.6f, Config::bgText, Lang::titleSelector[2], 270);
+	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 180, 0.6f, BLACK, Lang::titleSelector[2], 270);
 
-	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, Config::barText, V_STRING, 400);
+	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, greentext, V_STRING, 400);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
 
-	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_titleBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
-	Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y, to skip the Title Selection."))/2, 2, 0.72f, Config::barText, "Press Y, to skip the Title Selection.", 320);
-	Gui::sprite(0, sprites_icon_idx, 245, 38);
+	Gui::DrawBottom();
+
+	Gui::Draw_Rect(0, 100, 320, 30, Config::Color2);
+	Gui::Draw_Rect(0, 150, 320, 30, Config::Color2);
+
+	Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y to open Settings."))/2, 2, 0.72f, greentext, "Press Y to open Settings.", 320);
+	Gui::Draw_Rect(245, 38, 48, 48, Config::Color2);
 	// Draw the current Selected Title on the Bottom Screen with informations.
 	if (selectedTitle != -2)
 	{
 		C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 0.5f);
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 100, 0.7f, Config::bgText, titleFromIndex(selectedTitle)->name(), 400);
+		displayRegion();
+		Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.7f, BLACK, titleFromIndex(selectedTitle)->name(), 400);
 		std::string IDAndCode = "ID: ";
 		IDAndCode += StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId());
 		IDAndCode += ", Prod Code: ";
 		IDAndCode += titleFromIndex(selectedTitle)->productCode();
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, IDAndCode.c_str()))/2, 150, 0.6f, Config::bgText, IDAndCode.c_str(), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, IDAndCode.c_str()))/2, 155, 0.6f, BLACK, IDAndCode.c_str(), 320);
 	}
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
@@ -222,7 +225,7 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		GameLoader::updateCheck2();
 	} else if (hDown & KEY_Y) {
 		titleIsLoaded = false;
-		Gui::setScreen(std::make_unique<MainMenu>());
+		Gui::setScreen(std::make_unique<Settings>());
 	} else if (hHeld & KEY_SELECT) {
 		Msg::HelperBox("Select a Title to load. if you don't have an installed title -> Press Y.\nPress Start, to exit the App or press Home.\n(You can't use the Town Manager without a Title)\nYou can also tap on the Icon, if you have an installed Title or Gamecard.");
 	}
@@ -236,7 +239,7 @@ void TitleSelection::TitleDraw(void) const
 	u32 box = 8;
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 4; x++, box++) {
-			Gui::sprite(0, sprites_icon_idx, 143 + x * 60, y * 55 + 68);
+			Gui::Draw_Rect(143 + x * 60, y * 55 + 68, 48, 48, Config::Color2);
 		}
 	}
 
@@ -266,5 +269,17 @@ void TitleSelection::TitleDraw(void) const
 		{
 			Gui::drawAnimatedSelector(x - 1, y - 1, 50, 50, .025f, C2D_Color32(0, 0, 0, 0));
 		}
+	}
+}
+
+void TitleSelection::displayRegion(void) const {
+	if (titleFromIndex(selectedTitle)->ID() == OldEUR || WelcomeAmiiboEUR) {
+		Gui::sprite(0, sprites_europe_idx, 50, 42, 1.5, 1.5);
+	} else if (titleFromIndex(selectedTitle)->ID() == OldJPN || WelcomeAmiiboJPN) {
+		Gui::sprite(0, sprites_japan_idx, 50, 42, 1.5, 1.5);
+	} else if (titleFromIndex(selectedTitle)->ID() == OldKOR || WelcomeAmiiboKOR) {
+		Gui::sprite(0, sprites_korea_idx, 50, 42, 1.5, 1.5);
+	} else if (titleFromIndex(selectedTitle)->ID() == OldUSA || WelcomeAmiiboUSA) {
+		Gui::sprite(0, sprites_usa_idx, 50, 42, 1.5, 1.5);
 	}
 }

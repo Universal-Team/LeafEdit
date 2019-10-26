@@ -4,7 +4,6 @@ sprites/back.png
 sprites/button.png
 sprites/card.png
 sprites/helperBox.png
-sprites/icon.png
 sprites/search.png
 sprites/selectedBox.png 
 sprites/topbox.png
@@ -21,8 +20,6 @@ sprites/bg/fbBgBottom.png
 sprites/bg/fbBgTop.png
 sprites/bg/msgBgBottom.png
 sprites/bg/msgBgTop.png
-sprites/bg/titleBottom.png
-sprites/bg/titleTop.png
 sprites/bg/topbg.png
 
 sprites/keyboard/normal_key.png
@@ -30,3 +27,8 @@ sprites/keyboard/numpad.png
 sprites/keyboard/left_shift.png
 sprites/keyboard/right_shift.png
 sprites/keyboard/space.png
+
+sprites/regions/europe.png
+sprites/regions/japan.png
+sprites/regions/korea.png
+sprites/regions/usa.png

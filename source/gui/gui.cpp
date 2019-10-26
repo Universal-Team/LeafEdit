@@ -255,14 +255,14 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_topbg_idx, 0, 27);
-	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
+	Gui::Draw_Rect(0, 0, 400, 30, Config::Color1);
+	Gui::Draw_Rect(0, 30, 400, 180, Config::Color2);
+	Gui::Draw_Rect(0, 210, 400, 30, Config::Color1);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_bottombg_idx, 0, 27);
-	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
+	Gui::Draw_Rect(0, 0, 320, 30, Config::Color1);
+	Gui::Draw_Rect(0, 30, 320, 180, Config::Color3);
+	Gui::Draw_Rect(0, 210, 320, 30, Config::Color1);
 }

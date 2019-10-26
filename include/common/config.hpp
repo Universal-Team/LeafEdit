@@ -60,6 +60,7 @@ namespace Config {
 	extern int fileBrowseText;
 	extern int MessageText;
 	extern int helpMsg;
+	extern int Color1, Color2, Color3;
 }
 
 #endif

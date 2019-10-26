@@ -101,10 +101,9 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::clearTextBufs();
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
-	Gui::Draw_Rect(0, 27, 400, 187, C2D_Color32(128, 128, 128, 255));
-	Gui::Draw_Rect(5, 30, 390, 177, C2D_Color32(0, 0, 0, 190));
-	Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 0, 400, 30, green3);
+	Gui::Draw_Rect(0, 30, 400, 180, green4);
+	Gui::Draw_Rect(0, 210, 400, 30, green3);
 	if (isSheet == false) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Oh no, an error occured!"))/2, 2, 0.7f, WHITE, "Oh no, an error occured!", 400);
 		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Description: "+ message))/2, 100, 0.7f, WHITE, "Description: "+message, 400);
@@ -118,9 +117,9 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 		Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Start to exit."))/2, 215, 0.7f, WHITE, "Press Start to exit.", 400);
 	}
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
-	Gui::Draw_Rect(0, 27, 320, 186, GREEN);
-	Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 0, 320, 30, green3);
+	Gui::Draw_Rect(0, 30, 320, 180, green2);
+	Gui::Draw_Rect(0, 210, 320, 30, green3);
 	C3D_FrameEnd(0);
 
 	// For the Log.
@@ -143,14 +142,14 @@ void loadMessage(std::string Message) {
 	C2D_TargetClear(bottom, BLACK);
 	Gui::clearTextBufs();
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 27, SelectorBlue);
-	Gui::Draw_Rect(0, 27, 400, 186, GREEN);
-	Gui::Draw_Rect(0, 213, 400, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 0, 400, 30, green3);
+	Gui::Draw_Rect(0, 30, 400, 180, green4);
+	Gui::Draw_Rect(0, 210, 400, 30, green3);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Message))/2, 2, 0.8f, WHITE, Message, 400);
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 27, SelectorBlue);
-	Gui::Draw_Rect(0, 27, 320, 186, GREEN);
-	Gui::Draw_Rect(0, 213, 320, 27, SelectorBlue);
+	Gui::Draw_Rect(0, 0, 320, 30, green3);
+	Gui::Draw_Rect(0, 30, 320, 180, green2);
+	Gui::Draw_Rect(0, 210, 320, 30, green3);
 	C3D_FrameEnd(0);
 }
 
