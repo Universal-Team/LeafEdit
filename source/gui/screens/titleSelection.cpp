@@ -273,13 +273,13 @@ void TitleSelection::TitleDraw(void) const
 }
 
 void TitleSelection::displayRegion(void) const {
-	if (titleFromIndex(selectedTitle)->ID() == OldEUR || WelcomeAmiiboEUR) {
+	if (titleFromIndex(selectedTitle)->ID() == OldEUR || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboEUR) {
 		Gui::sprite(0, sprites_europe_idx, 50, 42, 1.5, 1.5);
-	} else if (titleFromIndex(selectedTitle)->ID() == OldJPN || WelcomeAmiiboJPN) {
+	} else if (titleFromIndex(selectedTitle)->ID() == OldJPN || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboJPN) {
 		Gui::sprite(0, sprites_japan_idx, 50, 42, 1.5, 1.5);
-	} else if (titleFromIndex(selectedTitle)->ID() == OldKOR || WelcomeAmiiboKOR) {
+	} else if (titleFromIndex(selectedTitle)->ID() == OldKOR || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboKOR) {
 		Gui::sprite(0, sprites_korea_idx, 50, 42, 1.5, 1.5);
-	} else if (titleFromIndex(selectedTitle)->ID() == OldUSA || WelcomeAmiiboUSA) {
+	} else if (titleFromIndex(selectedTitle)->ID() == OldUSA || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboUSA) {
 		Gui::sprite(0, sprites_usa_idx, 50, 42, 1.5, 1.5);
 	}
 }

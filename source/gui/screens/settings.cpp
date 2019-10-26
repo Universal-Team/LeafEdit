@@ -73,11 +73,9 @@ void Settings::Draw(void) const
 		}
 
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Spritesheet"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Spritesheet", 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Ini Editor"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Ini Editor", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Ini Editor"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Ini Editor", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "?"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "?", 140);
 	} else if(screenMode == 1) {
-		DrawSpriteSheetSelection();
-	} else if(screenMode == 2) {
 		DrawLangScreen();
 	}
 }
@@ -94,19 +92,17 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_A) {
 			switch(Selection) {
 				case 0:
-					screenMode = 2;
-					break;
-				case 1:
 					screenMode = 1;
 					break;
-				case 2:
+				case 1:
 					Gui::setScreen(std::make_unique<LeafEditEditor>());
+					break;
+				case 2:
+					Msg::NotImplementedYet();
 					break;
 			}
 		}
 	} else if(screenMode == 1) {
-		SpriteSheetLogic(hDown, hHeld);
-	} else if(screenMode == 2) {
 		langScreenLogic(hDown, hHeld, touch);
 	}
 }
@@ -118,200 +114,7 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select Language, to select the GUI Language.\nSelect Spritsheet, to select a custom Spritesheet.\nSelect Ini Editor, to edit the 'sheet.ini' of the spritesheet.\nPress B to exit from this Screen.");
-	}
-}
-
-extern C2D_SpriteSheet sprites;
-
-void Settings::DrawSpriteSheetSelection(void) const {
-	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
-
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Spritesheet to load."))/2, 2, 0.72f, Config::barText, "Select a Spritesheet to load.", 400);
-
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, Config::barText, Lang::messages2[9], 400);
-
-	std::string sheets;
-	for (uint i=(selectedSpriteSheet<5) ? 0 : selectedSpriteSheet-5;i<dirContents.size()&&i<((selectedSpriteSheet<5) ? 6 : selectedSpriteSheet+1);i++) {
-		if (i == selectedSpriteSheet) {
-			sheets += "> " + dirContents[i].name + "\n\n";
-		} else {
-			sheets += dirContents[i].name + "\n\n";
-		}
-	}
-	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
-		sheets += "\n\n";
-	}
-
-	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, sheets.c_str(), 400);
-
-	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
-}
-
-
-void Settings::SpriteSheetLogic(u32 hDown, u32 hHeld) {
-	std::string defaultSheetIni = "romfs:/gfx/sheet.ini";
-	if (keyRepeatDelay)	keyRepeatDelay--;
-
-	if (dirChanged) {
-		dirContents.clear();
-		chdir("sdmc:/LeafEdit/SpriteSheets/");
-		std::vector<DirEntry> dirContentsTemp;
-		getDirectoryContents(dirContentsTemp);
-		for(uint i=0;i<dirContentsTemp.size();i++) {
-			dirContents.push_back(dirContentsTemp[i]);
-		}
-		dirChanged = false;
-	}
-
-	if(hDown & KEY_A) {
-		if (dirContents.size() == 0) {
-			Msg::DisplayWarnMsg("What are you trying to do? :P");
-		} else {
-			std::string prompt = "Would you like to load this SpriteSheet?";
-			prompt += "\n\n";
-			prompt += "'";
-			prompt += dirContents[selectedSpriteSheet].name;
-			prompt += "'";
-			if(Msg::promptMsg(prompt.c_str())) {
-
-				// Set the whole Path stuff.
-				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
-				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
-				finalSheet += selectedSheet.c_str();
-				sheetIni = finalSheet.c_str();
-				finalSheet += "/sprites.t3x";
-				sheetIni += "/sheet.ini";
-
-				// Set the SpriteSheet.
-				if((access(finalSheet.c_str(), F_OK) == 0)) {
-					Msg::SheetMsg("Now freeing the SpriteSheet...");
-					C2D_SpriteSheetFree(sprites);
-					Msg::SheetMsg("Now Loading the new SpriteSheet...");
-					sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
-				} else {
-					Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
-				}
-
-					// Set the Sheet Ini.
-					if((access(sheetIni.c_str(), F_OK) == 0)) {
-					sheetFileIni = sheetIni;
-					Config::loadSheetIniStuff();
-				} else {
-					Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
-					sheetFileIni = defaultSheetIni;
-					Config::loadSheetIniStuff();
-				}
-				Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
-				for (int i = 0; i < 60*3; i++) {
-					gspWaitForVBlank();
-				}
-			}
-
-			// Clear String stuff.
-			finalSheet = "";
-			selectedSheet = "";
-			sheetIni = "";
-			screenMode = 0;
-			playChange();
-		}
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select a Spritesheet and press A to load it.\nSelect a Spritesheet and press Y to autoload it at startup.\nPress X to reset the Spritesheet.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
-	}
-
-	if (hDown & KEY_Y) {
-		if (dirContents.size() == 0) {
-			Msg::DisplayWarnMsg("What are you trying to do? :P");
-		} else {
-			std::string prompt = "Would you like to autoboot this SpriteSheet?";
-			prompt += "\n\n";
-			prompt += "'";
-			prompt += dirContents[selectedSpriteSheet].name;
-			prompt += "'";
-			if(Msg::promptMsg(prompt.c_str())) {
-				// Set the whole Path stuff.
-				selectedSheet = dirContents[selectedSpriteSheet].name.c_str();
-				finalSheet = "sdmc:/LeafEdit/SpriteSheets/";
-				finalSheet += selectedSheet.c_str();
-				sheetIni = finalSheet.c_str();
-				finalSheet += "/sprites.t3x";
-				sheetIni += "/sheet.ini";
-
-				// Set the SpriteSheet.
-				if((access(finalSheet.c_str(), F_OK) == 0)) {
-					Config::saveSheet(finalSheet.c_str());
-				} else {
-					Msg::DisplayWarnMsg("'sprites.t3x' does not exist on this folder!");
-				}
-
-				// Set the Sheet Ini.
-				if((access(sheetIni.c_str(), F_OK) == 0)) {
-					Config::saveSheetIni(sheetIni.c_str());
-				} else {
-					Msg::DisplayWarnMsg("'sheet.ini' does not exist on this folder!");
-				}
-				Msg::SheetMsg("If something looks corrupted, then not all Graphics\nAre updated. Please inform the SpriteSheet Creator\nto update the SpriteSheet and the ini file.");
-				for (int i = 0; i < 60*3; i++) {
-					gspWaitForVBlank();
-				}
-			}
-
-			// Clear String stuff.
-			finalSheet = "";
-			selectedSheet = "";
-			sheetIni = "";
-			screenMode = 0;
-			playChange();
-		}
-	}
-
-	if (hDown & KEY_X) {
-		std::string prompt = "Would you like to reset the SpriteSheet?";
-		if(Msg::promptMsg(prompt.c_str())) {
-			finalSheet = "romfs:/gfx/sprites.t3x";
-			sheetIni = "romfs:/gfx/sheet.ini";
-
-			Config::saveSheet(finalSheet.c_str());
-			Config::saveSheetIni(sheetIni.c_str());
-
-			Msg::SheetMsg("Now freeing the SpriteSheet...");
-			C2D_SpriteSheetFree(sprites);
-			Msg::SheetMsg("Now Loading the new SpriteSheet...");
-			sprites	= C2D_SpriteSheetLoad(finalSheet.c_str());
-			sheetFileIni = sheetIni;
-			Config::loadSheetIniStuff();
-		}
-		// Clear Strings.
-		finalSheet = "";
-		sheetIni = "";
-		screenMode = 0;
-		playChange();
-	}
-
-	if (hHeld & KEY_UP) {
-		if (selectedSpriteSheet > 0 && !keyRepeatDelay) {
-			selectedSpriteSheet--;
-			keyRepeatDelay = 6;
-		}
-	} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-		if (selectedSpriteSheet < dirContents.size()-1) {
-			selectedSpriteSheet++;
-			keyRepeatDelay = 6;
-		}
-	} else if (hDown & KEY_B) {
-		if(Msg::promptMsg(Lang::messages[7])) {
-			screenMode = 0;
-		}
-	} else if (hDown & KEY_START) {
-		dirChanged = true;
+		Msg::HelperBox("Select Language, to select the GUI Language.\nSelect Ini Editor, to edit the 'sheet.ini' of the spritesheet.\nPress B to exit from this Screen.");
 	}
 }
 

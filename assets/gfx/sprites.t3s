@@ -10,18 +10,6 @@ sprites/topbox.png
 sprites/unselectedBox.png
 sprites/villagerBox.png
 
-sprites/bars/bottom-bottombar.png
-sprites/bars/bottom-topbar.png
-sprites/bars/top-bottombar.png
-sprites/bars/top-topbar.png
-
-sprites/bg/bottombg.png
-sprites/bg/fbBgBottom.png
-sprites/bg/fbBgTop.png
-sprites/bg/msgBgBottom.png
-sprites/bg/msgBgTop.png
-sprites/bg/topbg.png
-
 sprites/keyboard/normal_key.png
 sprites/keyboard/numpad.png
 sprites/keyboard/left_shift.png

@@ -62,12 +62,8 @@ void LeafEditEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void LeafEditEditor::DrawIniBrowse(void) const {
-	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
+	Gui::DrawFileBrowseBG();
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "LeafEdit Ini Browse"))/2, 0, 0.72f, WHITE, "LeafEdit Ini Browse");
-
 	std::string dirs;
 	for (uint i=(selectedSheetIniFile<5) ? 0 : selectedSheetIniFile-5;i<dirContents.size()&&i<((selectedSheetIniFile<5) ? 6 : selectedSheetIniFile+1);i++) {
 		if (i == selectedSheetIniFile) {
@@ -79,13 +75,8 @@ void LeafEditEditor::DrawIniBrowse(void) const {
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-
 	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
-
-	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
+	Gui::DrawBottom();
 }
 
 void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
@@ -225,7 +216,12 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::sprite(0, sprites_topbox_idx, 40, 80);
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BoxText Color."))/2, 80, 0.72f, Sheet::boxText, "This is the BoxText Color.", 400);
 	} else if (colorMode == 4) {
-		Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
+		Gui::Draw_Rect(0, 27, 400, 31, Config::Color2);
+		Gui::Draw_Rect(0, 58, 400, 31, Config::Color3);
+		Gui::Draw_Rect(0, 89, 400, 31, Config::Color2);
+		Gui::Draw_Rect(0, 120, 400, 31, Config::Color3);
+		Gui::Draw_Rect(0, 151, 400, 31, Config::Color2);
+		Gui::Draw_Rect(0, 182, 400, 31, Config::Color3);
 		Gui::DrawString(26, 32, 0.53f, Sheet::fileBrowseText, "> This is the Selector Text Color.\n\nThis is the Selector Text Color.", 400);
 	} else if (colorMode == 5) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Message Text Color."))/2, 120, 0.72f, Sheet::MessageText, "This is the Message Text Color.", 400);

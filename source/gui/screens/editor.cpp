@@ -139,13 +139,8 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 
 void Editor::DrawBrowse(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
-
+	Gui::DrawFileBrowseBG();
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, Config::barText, Lang::editor[3], 400);
-
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -157,13 +152,8 @@ void Editor::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-
 	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
-
-	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
+	Gui::DrawBottom();
 }
 
 

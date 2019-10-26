@@ -64,9 +64,7 @@ void TownManager::DrawSubMenu(void) const
 	Title += Lang::mainMenu[0];
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
-
 	Gui::DrawBottom();
-
 
 	if (Selection == 0) {
 		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[0].x, townButtons[0].y, selectedColor);
@@ -106,17 +104,12 @@ void TownManager::DrawSubMenu(void) const
 
 	// Launch a Town from a Backup or just start the game.
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::townmanager[0], 130);
-
 	// Backup the Save from the installed Title / Gamecard.
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::townmanager[1], 130);
-
 	// Restore a Backuped save.
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::townmanager[2], 130);
-
-
 	// Delete Save from Installed Title / Gamecard.
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, "Delete Town", 130);
-
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, "Delete Backup", 130);
 }
 
@@ -176,11 +169,7 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 
 void TownManager::DrawBrowse(void) const
 {
-	Gui::ScreenDraw(top);
-	Gui::sprite(0, sprites_top_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgTop_idx, 0, 27);
-	Gui::sprite(0, sprites_top_bottombar_idx, 0, 213);
-
+	Gui::DrawFileBrowseBG();
 	if (screenMode == 1) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, Config::barText, Lang::townmanager[3], 400);
 	} else if (screenMode == 2) {
@@ -202,15 +191,9 @@ void TownManager::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-
 	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
-
 	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
-
-	Gui::ScreenDraw(bottom);
-	Gui::sprite(0, sprites_bottom_topbar_idx, 0, 0);
-	Gui::sprite(0, sprites_fbBgBottom_idx, 0, 27);
-	Gui::sprite(0, sprites_bottom_bottombar_idx, 0, 213);
+	Gui::DrawBottom();
 }
 
 void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {

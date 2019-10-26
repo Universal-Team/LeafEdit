@@ -95,6 +95,7 @@ namespace Gui
 	// GUI Functions.
 	void DrawTop(void);
 	void DrawBottom(void);
+	void DrawFileBrowseBG(void);
 }
 
 void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float ScaleX = 1, float ScaleY = 1);

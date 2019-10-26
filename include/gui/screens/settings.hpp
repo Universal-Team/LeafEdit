@@ -43,15 +43,12 @@ private:
 	int Selection = 0;
 	void SelectionLogic(u32 hDown, u32 hHeld);
 
-	void DrawSpriteSheetSelection(void) const;
-	void SpriteSheetLogic(u32 hDown, u32 hHeld);
-
 	void DrawLangScreen(void) const;
 	void langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<Structs::ButtonPos> settingsButtons = {
-		{90, 40, 140, 35, -1}, // Language
-		{90, 100, 140, 35, -1}, // Selector
+		{90, 40, 140, 35, -1}, // Language.
+		{90, 100, 140, 35, -1}, // Ini Editor.
 		{90, 160, 140, 35, -1}, // ?
 	};
 
@@ -70,12 +67,8 @@ private:
 	};
 
 	int screenMode = 0;
-	uint selectedSpriteSheet = 0;
 	int keyRepeatDelay = 3;
 	mutable bool dirChanged = true;
-	std::string selectedSheet = "";
-	std::string finalSheet = "";
-	std::string sheetIni = "";
 	std::vector<DirEntry> dirContents;
 };
 

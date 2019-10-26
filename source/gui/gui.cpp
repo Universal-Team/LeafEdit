@@ -266,3 +266,15 @@ void Gui::DrawBottom(void) {
 	Gui::Draw_Rect(0, 30, 320, 180, Config::Color3);
 	Gui::Draw_Rect(0, 210, 320, 30, Config::Color1);
 }
+
+void Gui::DrawFileBrowseBG(void) {
+	C2D_SceneBegin(top);
+	Gui::Draw_Rect(0, 0, 400, 27, Config::Color1);
+	Gui::Draw_Rect(0, 27, 400, 31, Config::Color2);
+	Gui::Draw_Rect(0, 58, 400, 31, Config::Color3);
+	Gui::Draw_Rect(0, 89, 400, 31, Config::Color2);
+	Gui::Draw_Rect(0, 120, 400, 31, Config::Color3);
+	Gui::Draw_Rect(0, 151, 400, 31, Config::Color2);
+	Gui::Draw_Rect(0, 182, 400, 31, Config::Color3);
+	Gui::Draw_Rect(0, 213, 400, 27, Config::Color1);
+}
