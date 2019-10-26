@@ -31,6 +31,7 @@
 
 #include "gui/keyboard.hpp"
 
+#include "gui/screens/credits.hpp"
 #include "gui/screens/leafEditEditor.hpp"
 #include "gui/screens/settings.hpp"
 #include "gui/screens/screenCommon.hpp"
@@ -74,7 +75,7 @@ void Settings::Draw(void) const
 
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Ini Editor"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Ini Editor", 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "?"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "?", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Credits"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Credits", 140);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}
@@ -98,7 +99,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<LeafEditEditor>());
 					break;
 				case 2:
-					Msg::NotImplementedYet();
+					Gui::setScreen(std::make_unique<Credits>());
 					break;
 			}
 		}
