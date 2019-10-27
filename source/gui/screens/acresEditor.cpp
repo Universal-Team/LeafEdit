@@ -177,14 +177,26 @@ u8 AcresEditor::selectAcre() {
 		gspWaitForVBlank();
 		hidScanInput();
 		if (hidKeysDown() & KEY_RIGHT) {
-			selectedAcre++;
-			gspWaitForVBlank();
-		}
-		if (hidKeysDown() & KEY_LEFT) {
-			selectedAcre--;
+			if (selectedAcre < MAX_ACRE)	selectedAcre++;
 			gspWaitForVBlank();
 		}
 
+		if (hidKeysHeld() & KEY_R) {
+			if (selectedAcre < MAX_ACRE)	selectedAcre++;
+			gspWaitForVBlank();
+		}
+
+		if (hidKeysDown() & KEY_LEFT) {
+			if (selectedAcre > 0)	selectedAcre--;
+			gspWaitForVBlank();
+		}
+
+		if (hidKeysHeld() & KEY_L) {
+			if (selectedAcre > 0)	selectedAcre--;
+			gspWaitForVBlank();
+		}
+
+		
 		if (hidKeysDown() & KEY_A) {
 			acreImage = selectedAcre;
 			return acreImage;
