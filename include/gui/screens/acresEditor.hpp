@@ -38,8 +38,11 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+	int Selection = 0;
 	int AcresMode = 0;
-	u8 selectAcre(u8 selectedAcre);
+	s32 selectedAcre = 0;
+	u8 selectAcre();
+	void DrawSelection(void) const;
 
 	// Full.
 	void fullIsland() const;
@@ -47,6 +50,8 @@ private:
 	// Maps.
 	void islandMap() const;
 	void townMap() const;
+
+	void writeAcre(s32 acre, u8 newAcre);
 };
 
 #endif
