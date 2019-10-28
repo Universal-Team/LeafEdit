@@ -44,11 +44,11 @@ BANNERTOOL 	?= bannertool
 
 endif
 
-# If on a tagged commit, use the tag instead of the commit
+# If on a tagged commit, say `Release` and don't show the commit
 ifneq ($(shell echo $(shell git tag -l --points-at HEAD) | head -c 1),)
-GIT_VER := $(shell git tag -l --points-at HEAD)
+GIT_VER := "Release $(shell git tag -l --points-at HEAD)"
 else
-GIT_VER := $(shell git rev-parse --short HEAD)
+GIT_VER := "Nightly $(shell git tag -l)-$(shell git rev-parse --short HEAD)"
 endif
 
 #---------------------------------------------------------------------------------
