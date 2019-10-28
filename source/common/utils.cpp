@@ -1,5 +1,6 @@
 #include "common/utils.hpp"
 
+#include "core/save/item.h"
 #include "core/save/save.h"
 
 #include <3ds.h>
@@ -95,6 +96,15 @@ std::vector<u32> EditorUtils::findPlayerReferences(Player *player) {
 	return references;
 }
 
+std::vector<std::pair<std::string, s32>> EditorUtils::load_player_invitems(int selectedplayer) {
+    std::vector<std::pair<std::string, s32>> inventoryItemData;
+    for (int num = 0; num < 16; num++) {
+        Item* item = &Save::Instance()->players[selectedplayer]->Pockets[num];
+        inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+    }
+
+    return inventoryItemData;
+}
 
 // Villager stuff.
 u16 strToU16(std::string str) {

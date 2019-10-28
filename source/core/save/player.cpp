@@ -31,6 +31,10 @@ Player::Player() { }
 
 Player::~Player()
 {
+	if (this->Pockets != nullptr) {
+		delete[] this->Pockets;
+		this->Pockets = nullptr;
+	}
 }
 
 Player::Player(u32 offset, u32 index) {
@@ -48,6 +52,12 @@ Player::Player(u32 offset, u32 index) {
 	this->BankAmount = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6b8c));
 	this->IslandMedals = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6B9C));
 	this->MeowCoupons = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x8D1C));
+
+	this->Pockets = new Item[16];
+
+	for (int i = 0; i < 16; i++) {
+		this->Pockets[i] = Item(offset + 0x6BD0 + i * 4);
+	}
 }
 
 void Player::Write() {

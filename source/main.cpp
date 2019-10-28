@@ -33,8 +33,9 @@
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
+#include "core/management/itemManagement.hpp"
 #include "core/titleLoader.hpp"
-#include "core/villagerManagement.hpp"
+#include "core/management/villagerManagement.hpp"
 
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
@@ -243,6 +244,7 @@ int main()
 	// Load The Strings from the Romfs.
 
 	Lang::loadLangStrings(Config::lang);
+	ItemManagement::LoadDatabase(Config::lang);
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
 	TestStuff();

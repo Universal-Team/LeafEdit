@@ -24,10 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/config.hpp"
 #include "common/inifile.h"
 
-#include "core/villagerManagement.hpp"
+#include "core/management/itemManagement.hpp"
+#include "core/management/villagerManagement.hpp"
 
 #include "gui/keyboard.hpp"
 
@@ -37,9 +37,6 @@
 #include "gui/screens/screenCommon.hpp"
 
 #include "lang/lang.h"
-#include <3ds.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern CIniFile sheetFileIni;
@@ -243,48 +240,56 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, langBlocks[0])) {
 			Config::lang = 0;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[1])) {
 			Config::lang = 1;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[2])) {
 			Config::lang = 2;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[3])) {
 			Config::lang = 3;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[4])) {
 			Config::lang = 4;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[5])) {
 			Config::lang = 6;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[6])) {
 			Config::lang = 7;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[7])) {
 			Config::lang = 5;
+			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::loadLangStrings(Config::lang);
 			Config::saveConfig();

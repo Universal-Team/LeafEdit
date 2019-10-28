@@ -29,6 +29,7 @@ SOFTWARE.
 
 #include <string>
 #include "core/save/encryptedInt32.h"
+#include "core/save/item.h"
 #include "core/save/save.h"
 
 class Player {
@@ -43,7 +44,7 @@ public:
 	u16 Gender; // might not be a u16, but the following byte is always? 0.
 	u16 TownId;
 	std::u16string TownName;
-
+	Item *Pockets = nullptr;
 	EncryptedInt32 Wallet;
 	EncryptedInt32 BankAmount;
 	EncryptedInt32 MeowCoupons;

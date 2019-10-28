@@ -27,10 +27,11 @@
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
-#include "core/playerManagement.hpp"
+#include "core/management/playerManagement.hpp"
 
 #include "gui/keyboard.hpp"
 
+#include "gui/screens/itemEditor.hpp"
 #include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -46,6 +47,8 @@
 extern Save* SaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+int selectedPassedPlayer;
+
 void PlayerEditor::Draw(void) const {
 	if (screen == 0) {
 		DrawSubMenu();
@@ -53,8 +56,6 @@ void PlayerEditor::Draw(void) const {
 		DrawMainEditor();
 	} else if (screen == 2) {
 		DrawPlayerEditor();
-	} else if (screen == 3) {
-//		DrawItemEditor();
 	}
 }
 
@@ -65,8 +66,6 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		MainEditorLogic(hDown, hHeld, touch);
 	} else if (screen == 2) {
 		PlayerEditorLogic(hDown, hHeld, touch);
-	} else if (screen == 3) {
-//		ItemEditorLogic();
 	}
 }
 
@@ -243,8 +242,8 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					screen = 2;
 					break;
 				case 1:
-					Msg::NotImplementedYet();
-					//screen = 3;
+					selectedPassedPlayer = cp;
+					Gui::setScreen(std::make_unique<ItemEditor>());
 					break;
 				case 2:
 					Msg::NotImplementedYet();

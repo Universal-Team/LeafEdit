@@ -75,9 +75,9 @@ endif
 #---------------------------------------------------------------------------------
 TARGET		:=	LeafEdit
 BUILD		:=	build
-SOURCES		:=	source source/common source/core source/core/save source/gui source/gui/screens source/lang
+SOURCES		:=	source source/common source/core source/core/management source/core/save source/gui source/gui/screens source/lang
 DATA		:=	data
-INCLUDES	:=	include include/common include/core include/core/save include/gui include/gui/screens include/lang
+INCLUDES	:=	include include/common include/core include/core/management include/core/save include/gui include/gui/screens include/lang
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs

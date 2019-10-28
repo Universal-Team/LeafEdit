@@ -3,7 +3,9 @@
 
 #include "common/archive.hpp"
 #include "common/smdh.hpp"
-#include "player.h"
+
+#include "core/save/item.h"
+#include "core/save/player.h"
 
 #include <3ds.h>
 #include <stdarg.h>
@@ -20,6 +22,7 @@ namespace StringUtils
 namespace EditorUtils
 {
 	std::vector<u32> findPlayerReferences(Player *player);
+	std::vector<std::pair<std::string, s32>> load_player_invitems(int selectedplayer);
 }
 
 u16	strToU16(std::string str);

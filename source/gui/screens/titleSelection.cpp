@@ -28,7 +28,6 @@
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
-#include "core/townManagement.hpp"
 
 #include "gui/keyboard.hpp"
 

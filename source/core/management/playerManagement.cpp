@@ -29,7 +29,7 @@
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
-#include "core/playerManagement.hpp"
+#include "core/management/playerManagement.hpp"
 
 #include "gui/keyboard.hpp"
 #include "gui/msg.hpp"

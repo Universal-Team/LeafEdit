@@ -27,7 +27,7 @@
 #include "common/common.hpp" // For the TID's.
 #include "common/config.hpp"
 
-#include "core/townManagement.hpp"
+#include "core/management/townManagement.hpp"
 
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/townManager.hpp"

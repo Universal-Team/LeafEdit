@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "core/acreManagement.hpp"
+#include "core/management/acreManagement.hpp"
 
 #include "core/save/offsets.h"
 #include "core/save/save.h"
