@@ -1,3 +1,5 @@
+#include "common/config.hpp"
+
 #include "lang/lang.hpp"
 
 #include <stdio.h>
@@ -14,7 +16,12 @@ std::string Lang::get(const std::string &key) {
 std::string langs[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};
 
 void Lang::load(int lang) {
-    FILE* values = fopen(("romfs:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
+    FILE* values;
+    if (Config::LangLocation == 1) {
+        values = fopen(("sdmc:/LeafEdit/lang/"+langs[lang]+"/app.json").c_str(), "rt");
+    } else {
+        values = fopen(("romfs:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
+    }
     if(values)    appJson = nlohmann::json::parse(values, nullptr, false);
     fclose(values);
 }
