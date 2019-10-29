@@ -77,7 +77,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	std::string Player4Name;
 
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
 	Title += "Player Selection";
 
@@ -141,7 +141,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	else if (selectedPlayer == 3)	Gui::drawAnimatedSelector(15 + 3 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 
 	Gui::DrawBottom();
-	activePlayer += Lang::misc[1];
+	activePlayer += Lang::get("CURRENT_PLAYER");
 	activePlayer += ": ";
 	for (int i = 0; i < 3; i++) {
 		if (selectedPlayer == i) {
@@ -184,9 +184,9 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 
 void PlayerEditor::DrawMainEditor(void) const {
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
-	Title += Lang::editor[1];
+	Title += Lang::get("PLAYER");
 
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
@@ -212,7 +212,7 @@ void PlayerEditor::DrawMainEditor(void) const {
 
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, mainButtons[0].y+10, 0.6f, Config::buttonText, Lang::editor[1], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("PLAYER")))/2, mainButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("PLAYER"), 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Items"))/2, mainButtons[1].y+10, 0.6f, Config::buttonText, "Items", 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, mainButtons[2].y+10, 0.6f, Config::buttonText, "WIP", 140);
 }
@@ -255,42 +255,42 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void PlayerEditor::DrawPlayerEditor(void) const {
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
 	Title += "Player Selection";
 
 	// Display First Player Name.
-	std::string PlayerName = Lang::playerEditor[1];
+	std::string PlayerName = Lang::get("PLAYER_NAME");
 	PlayerName += ": ";
 	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str();
 
 	// Display the Amount of Bells inside the Wallet.
 	std::string Wallet = std::to_string((SaveFile->players[cp]->Wallet.value));
-	std::string WalletAmount = Lang::playerEditor[2];
+	std::string WalletAmount = Lang::get("WALLET_AMOUNT");
 	WalletAmount += ": ";
 	WalletAmount += Wallet.c_str();
 
 	// Display the current Tan of the Player.
 	std::string Tan = std::to_string((SaveFile->players[cp]->PlayerTan));
-	std::string TanPlayer = Lang::playerEditor[3];
+	std::string TanPlayer = Lang::get("TAN_VALUE");
 	TanPlayer += ": ";
 	TanPlayer += Tan.c_str();
 
 	// Display the Amount of Bells from the Bank.
 	std::string Bank = std::to_string((SaveFile->players[cp]->BankAmount.value));
-	std::string BankAmount = Lang::playerEditor[4];
+	std::string BankAmount = Lang::get("BANK_AMOUNT");
 	BankAmount += ": ";
 	BankAmount += Bank.c_str();
 
 	// Display the amount of medals.
 	std::string Medals = std::to_string((SaveFile->players[cp]->IslandMedals.value));
-	std::string MedalsAmount = Lang::playerEditor[5];
+	std::string MedalsAmount = Lang::get("MEDAL_AMOUNT");
 	MedalsAmount += ": ";
 	MedalsAmount += Medals.c_str();
 
 	// Display the amount of Coupons.
 	std::string Coupons = std::to_string((SaveFile->players[cp]->MeowCoupons.value));
-	std::string CouponsAmount = Lang::playerEditor[6];
+	std::string CouponsAmount = Lang::get("COUPON_AMOUNT");
 	CouponsAmount += ": ";
 	CouponsAmount += Coupons.c_str();
 
@@ -346,43 +346,43 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	if (currentPage == 1) {
 		// Display Player Name.
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[1]))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::playerEditor[1], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("PLAYER_NAME")))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("PLAYER_NAME"), 130);
 
 		// Display Wallet Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[2]))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::playerEditor[2], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("WALLET_AMOUNT")))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("WALLET_AMOUNT"), 130);
 
 		// Display current Tan Value.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[3]))/2-65, playerButtons[2].y+10, 0.6f, Config::buttonText, Lang::playerEditor[3], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("TAN_VALUE")))/2-65, playerButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("TAN_VALUE"), 130);
 
 
 		// Display Bank Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[4]))/2+150-65, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::playerEditor[4], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("BANK_AMOUNT")))/2+150-65, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::get("BANK_AMOUNT"), 130);
 
 		// Display Medal Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[5]))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::playerEditor[5], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MEDAL_AMOUNT")))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::get("MEDAL_AMOUNT"), 130);
 
 		// Display Coupon Amount.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[6]))/2+150-65, playerButtons[5].y+10, 0.6f, Config::buttonText, Lang::playerEditor[6], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("COUPON_AMOUNT")))/2+150-65, playerButtons[5].y+10, 0.6f, Config::buttonText, Lang::get("COUPON_AMOUNT"), 130);
 
 	} else if (currentPage == 2) {
 
 		// Max Bank.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[7]))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::playerEditor[7], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MAX_BANK")))/2-65, playerButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("MAX_BANK"), 130);
 
 		// Max Medals.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[8]))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::playerEditor[8], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MAX_MEDALS")))/2-65, playerButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("MAX_MEDALS"), 130);
 
 		// Max Coupons.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[9]))/2-65, playerButtons[2].y+10, 0.6f, Config::buttonText, Lang::playerEditor[9], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MAX_COUPONS")))/2-65, playerButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("MAX_COUPONS"), 130);
 
 		// Clear Bank.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[10]))/2+150-65+5, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::playerEditor[10], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("CLEAR_BANK")))/2+150-65+5, playerButtons[3].y+10, 0.6f, Config::buttonText, Lang::get("CLEAR_BANK"), 130);
 
 		// Clear Medals.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[11]))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::playerEditor[11], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("CLEAR_MEDALS")))/2+150-65, playerButtons[4].y+10, 0.6f, Config::buttonText, Lang::get("CLEAR_MEDALS"), 130);
 
 		// Clear Coupons.
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::playerEditor[12]))/2+150-65, playerButtons[5].y+10, 0.6f, Config::buttonText, Lang::playerEditor[12], 130);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("CLEAR_COUPONS")))/2+150-65, playerButtons[5].y+10, 0.6f, Config::buttonText, Lang::get("CLEAR_COUPONS"), 130);
 	}
 }
 
@@ -408,9 +408,10 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	// Selection A / Touch.
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
+			const char *playername = Lang::get("NEW_PLAYER_NAME").c_str();
 			switch(Selection) {
 				case 0:
-					SaveFile->players[cp]->Name = Input::getu16String(8, Lang::playerEditor[0].c_str());
+					SaveFile->players[cp]->Name = Input::getu16String(8, playername);
 					break;
 				case 1:
 					SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);
@@ -456,7 +457,8 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hDown & KEY_TOUCH) {
 		if (currentPage == 1) {
 			if (touching(touch, playerButtons[0])) {
-				SaveFile->players[cp]->Name = Input::getu16String(8, Lang::playerEditor[0].c_str());
+				const char *playername = Lang::get("NEW_PLAYER_NAME").c_str();
+				SaveFile->players[cp]->Name = Input::getu16String(8, playername);
 			} else if (touching(touch, playerButtons[1])) {
 				SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);
 			} else if (touching(touch, playerButtons[2])) {

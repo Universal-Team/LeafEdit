@@ -74,7 +74,7 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditor::DrawEditorSub(void) const {
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::title))/2, 2, 0.8f, Config::barText, Lang::title, 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit"))/2, 2, 0.8f, Config::barText, "LeafEdit", 400);
 
 	Gui::DrawBottom();
 
@@ -278,7 +278,7 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void VillagerEditor::DrawSubMenu(void) const
 {
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
 	Title += "Villager";
 	Title += " ";
@@ -287,7 +287,7 @@ void VillagerEditor::DrawSubMenu(void) const
 	Title += "SubMenu";
 
 	// Initial String.
-	std::string currentPage = Lang::misc[0];
+	std::string currentPage = Lang::get("CURRENT_PAGE");
 	currentPage += " ";
 
 	// currentPage

@@ -163,7 +163,7 @@ void VillagerViewer::DrawVillager(void) const {
 void VillagerViewer::DrawCurrentVillager(void) const
 {
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
 	Title += "Villager";
 	Title += " ";

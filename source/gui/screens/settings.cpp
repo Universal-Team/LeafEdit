@@ -36,8 +36,6 @@
 #include "gui/screens/settings.hpp"
 #include "gui/screens/screenCommon.hpp"
 
-#include "lang/lang.h"
-
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern CIniFile sheetFileIni;
 
@@ -45,9 +43,9 @@ void Settings::Draw(void) const
 {
 	if(screenMode == 0) {
 		std::string Title;
-		Title += Lang::title;
+		Title += "LeafEdit";
 		Title += " - ";
-		Title += Lang::mainMenu[2];
+		Title += Lang::get("SETTINGS");
 
 		Gui::DrawTop();
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
@@ -70,7 +68,7 @@ void Settings::Draw(void) const
 			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[2].x, settingsButtons[2].y, selectedColor);
 		}
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::settings[1]))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::settings[0], 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("LANGUAGE")))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("LANGUAGE"), 140);
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Ini Editor"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Ini Editor", 140);
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Credits"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Credits", 140);
 	} else if(screenMode == 1) {
@@ -119,7 +117,7 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 
 void Settings::DrawLangScreen(void) const {
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::language))/2, 2, 0.8f, Config::barText, Lang::language, 398);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("SELECT_LANG")))/2, 2, 0.8f, Config::barText, Lang::get("SELECT_LANG"), 398);
 	Gui::DrawBottom();
 
 	if (Config::lang == 0) {
@@ -242,56 +240,56 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Config::lang = 0;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[1])) {
 			Config::lang = 1;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[2])) {
 			Config::lang = 2;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[3])) {
 			Config::lang = 3;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[4])) {
 			Config::lang = 4;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[5])) {
 			Config::lang = 6;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[6])) {
 			Config::lang = 7;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[7])) {
 			Config::lang = 5;
 			ItemManagement::LoadDatabase(Config::lang);
 			VillagerManagement::LoadVillagerDatabase(Config::lang);
-			Lang::loadLangStrings(Config::lang);
+			Lang::load(Config::lang);
 			Config::saveConfig();
 		}
 	}

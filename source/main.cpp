@@ -43,7 +43,7 @@
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/titleSelection.hpp"
 
-#include "lang/lang.h"
+#include "lang/lang.hpp"
 
 #include <3ds.h>
 #include <dirent.h>
@@ -242,8 +242,7 @@ int main()
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
-
-	Lang::loadLangStrings(Config::lang);
+	Lang::load(Config::lang);
 	ItemManagement::LoadDatabase(Config::lang);
 	VillagerManagement::LoadVillagerDatabase(Config::lang);
 

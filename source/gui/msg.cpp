@@ -37,7 +37,7 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, Config::MessageText, promptMsg.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::messages2[1]))/2, 214, 0.72f, Config::MessageText, Lang::messages2[1], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("CONFIRM_OR_CANCEL")))/2, 214, 0.72f, Config::MessageText, Lang::get("CONFIRM_OR_CANCEL"), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -81,7 +81,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::messages2[0]))/2, 214, 0.6f, Config::MessageText, Lang::messages2[0], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::get("A_CONTINUE")))/2, 214, 0.6f, Config::MessageText, Lang::get("A_CONTINUE"), 400);
 	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, Config::MessageText, waitMsg.c_str(), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
@@ -119,7 +119,7 @@ void Msg::DisplayMsg(std::string Message) {
 
 
 void Msg::NotImplementedYet(void) {
-	Msg::DisplayWarnMsg(Lang::notImplemented);
+	Msg::DisplayWarnMsg(Lang::get("NOT_IMPLEMENTED"));
 }
 
 void Msg::SheetMsg(std::string Message) {

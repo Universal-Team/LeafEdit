@@ -33,7 +33,7 @@
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
 
-#include "lang/langStrings.h"
+#include "lang/lang.hpp"
 
 extern C3D_RenderTarget* top;
 extern C3D_RenderTarget* bottom;

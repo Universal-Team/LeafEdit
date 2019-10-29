@@ -27,18 +27,18 @@
 #include "common/archive.hpp"
 #include "common/common.hpp"
 #include "common/config.hpp"
-#include "common/io.hpp" // Backup & Restore Part.
+#include "common/io.hpp"
 #include "common/utils.hpp"
 
 #include "core/titleLoader.hpp"
 
 #include "core/management/townManagement.hpp"
 
-#include "gui/keyboard.hpp" // For the Input Stuff.
+#include "gui/keyboard.hpp"
 
 #include "gui/screens/screenCommon.hpp"
 
-#include "lang/langStrings.h" // For the Strings.
+#include "lang/lang.hpp"
 
 #include <3ds.h>
 
@@ -55,8 +55,8 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 	if (R_SUCCEEDED(res)) {
 		std::u16string customPath;
-
-		std::string saveName = Input::getString(20, Lang::typeName.c_str());
+		const char *enterName = Lang::get("ENTER_NAME").c_str();
+		std::string saveName = Input::getString(20, enterName);
 		customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
 
 		customPath += StringUtils::UTF8toUTF16("/");
@@ -81,13 +81,13 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		std::u16string folderPath = customPath;
 		folderPath += StringUtils::UTF8toUTF16("/");
 		folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
-		Msg::DisplayMsg(Lang::messages2[7]);
+		Msg::DisplayMsg(Lang::get("BACKUP_FILES"));
 		if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
 			alreadyexists = false;
 			res = io::createDirectory(Archive::sdmc(), folderPath);
 			if (R_FAILED(res)) {
 				FSUSER_CloseArchive(archive);
-				Msg::DisplayWaitMsg(Lang::messages[0]);
+				Msg::DisplayWaitMsg(Lang::get("DIRECTORY_CREATION_FAILED"));
 				return res;
 			}
 		} else if (io::directoryExists(Archive::sdmc(), folderPath) == true) {
@@ -99,16 +99,16 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 		savePath += StringUtils::UTF8toUTF16("/");
 
 		if (alreadyexists == true) {
-			if (Msg::promptMsg(Lang::messages2[11])) {
+			if (Msg::promptMsg(Lang::get("DIRECTORY_EXIST_ALREADY"))) {
 				res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
 					if (R_FAILED(res)) {
 						FSUSER_CloseArchive(archive);
 						FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
-						Msg::DisplayWaitMsg(Lang::messages[1]);
+						Msg::DisplayWaitMsg(Lang::get("COPY_DIRECTORY_FAILED"));
 						return res;
 					}
 				FSUSER_CloseArchive(archive);
-				Msg::DisplayWaitMsg(Lang::messages[2]);
+				Msg::DisplayWaitMsg(Lang::get("BACKUP_SUCCESS"));
 			}
 
 		} else if (alreadyexists == false) {
@@ -116,11 +116,11 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 				if (R_FAILED(res)) {
 					FSUSER_CloseArchive(archive);
 					FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
-					Msg::DisplayWaitMsg(Lang::messages[1]);
+					Msg::DisplayWaitMsg(Lang::get("COPY_DIRECTORY_FAILED"));
 					return res;
 				}
 			FSUSER_CloseArchive(archive);
-			Msg::DisplayWaitMsg(Lang::messages[2]);
+			Msg::DisplayWaitMsg(Lang::get("BACKUP_SUCCESS"));
 		}
 	}
 	return 0;
@@ -141,7 +141,7 @@ Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32
 	res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
 		if (R_FAILED(res)) {
 			FSUSER_CloseArchive(archive);
-			Msg::DisplayWaitMsg(Lang::messages[3]);
+			Msg::DisplayWaitMsg(Lang::get("COMMIT_SAVEDATA_FAILED"));
 			return res;
 		}
 
@@ -151,7 +151,7 @@ Result TownManagement::CreateNewTown(FS_MediaType Media, u64 TID, u32 lowID, u32
 	res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
 		if (R_FAILED(res)) {
 			FSUSER_CloseArchive(archive);
-			Msg::DisplayWaitMsg(Lang::messages[4]);
+			Msg::DisplayWaitMsg(Lang::get("SECUREDATA_FIX_FAILED"));
 			return res;
 		}
 	LaunchTown(Media, TID);
@@ -170,7 +170,7 @@ Result TownManagement::LaunchTown(FS_MediaType Mediatype, u64 TID)
 	APT_PrepareToDoApplicationJump(0, TID, Mediatype);
 	res = APT_DoApplicationJump(param, sizeof(param), hmac);
 	if (R_FAILED(res)) {
-		Msg::DisplayWaitMsg(Lang::messages[6]);
+		Msg::DisplayWaitMsg(Lang::get("APPJUMP_FAILED"));
 		return res;
 	}
 	return 0;
@@ -211,10 +211,10 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 		std::u16string dstPath = StringUtils::UTF8toUTF16("/");
 
 		FSUSER_DeleteDirectoryRecursively(archive, fsMakePath(PATH_UTF16, dstPath.data()));
-		Msg::DisplayMsg(Lang::messages2[8]);
+		Msg::DisplayMsg(Lang::get("RESTORING_FILES"));
 		res = io::copyDirectory(Archive::sdmc(), archive, srcPath, dstPath);
 		if (R_FAILED(res)) {
-			Msg::DisplayWaitMsg(Lang::messages[1]);
+			Msg::DisplayWaitMsg(Lang::get("COPY_DIRECTORY_FAILED"));
 			FSUSER_CloseArchive(archive);
 			return res;
 		}
@@ -223,7 +223,7 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 		res = FSUSER_ControlArchive(archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
 		if (R_FAILED(res)) {
 			FSUSER_CloseArchive(archive);
-			Msg::DisplayWaitMsg(Lang::messages[3]);
+			Msg::DisplayWaitMsg(Lang::get("COMMIT_SAVEDATA_FAILED"));
 			return res;
 		}
 
@@ -233,11 +233,11 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 		res = FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &secureValue, 8, &out, 1);
 		if (R_FAILED(res)) {
 			FSUSER_CloseArchive(archive);
-			Msg::DisplayWaitMsg(Lang::messages[4]);
+			Msg::DisplayWaitMsg(Lang::get("SECUREDATA_FIX_FAILED"));
 			return res;
 		}
 	}
-	Msg::DisplayWaitMsg(Lang::messages[5]);
+	Msg::DisplayWaitMsg(Lang::get("RESTORE_SUCCESS"));
 	return 0;
 }
 

@@ -70,9 +70,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void Editor::DrawSubMenu(void) const
 {
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
-	Title += Lang::editor[2];
+	Title += Lang::get("EDITOR");
 
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
@@ -97,8 +97,8 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[1]))/2, editorButtons[0].y+10, 0.6f, Config::buttonText, Lang::editor[1], 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::editor[6]))/2, editorButtons[1].y+10, 0.6f, Config::buttonText, Lang::editor[6], 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("PLAYER")))/2, editorButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("PLAYER"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("VILLAGER")))/2, editorButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("VILLAGER"), 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Misc Editor"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "Misc Editor", 140);
 }
 
@@ -109,7 +109,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if (hDown & KEY_TOUCH && touching(touch, editorButtons[3])) {
-		if (Msg::promptMsg(Lang::editor[0])) {
+		if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
 			SaveFile->Commit(false);
 		}
 		EditorMode = 1;
@@ -140,7 +140,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 void Editor::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::editor[3]))/2, 2, 0.72f, Config::barText, Lang::editor[3], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_A_SAVE")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_A_SAVE"), 400);
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -185,7 +185,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		if (dirContents.size() == 0) {
 			Msg::DisplayWarnMsg("What are you trying to do? :P");
 		} else {
-			std::string prompt = Lang::editor[4];
+			std::string prompt = Lang::get("LOAD_THIS_SAVE");
 			if(Msg::promptMsg(prompt.c_str())) {
 				if (isROMHack == true) {
 					selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Luxury/";
@@ -212,7 +212,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 			keyRepeatDelay = 6;
 		}
 	} else if (hDown & KEY_B) {
-		if(Msg::promptMsg(Lang::editor[5])) {
+		if(Msg::promptMsg(Lang::get("RETURN_MAINMENU"))) {
 			Gui::screenBack();
 			return;
 		}

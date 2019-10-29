@@ -137,28 +137,12 @@ void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 	}
 }
 
-void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
-{
-	// Get the first occurrence
-	size_t pos = data.find(toSearch);
-
-	// Repeat till end is reached
-	while( pos != std::string::npos)
-	{
-		// Replace this occurrence of Sub String
-		data.replace(pos, toSearch.size(), replaceStr);
-		// Get the next occurrence from the current position
-		pos =data.find(toSearch, pos + replaceStr.size());
-	}
-}
-
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
 	Gui::DrawString((currentScreen ? 200 : 160)+x-(std::min(maxWidth, (int)Gui::GetStringWidth(size, Text))/2), y, size, color, Text, maxWidth);
 }
 
 // Draw String or Text.
 void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
-	findAndReplaceAll(Text, "\\n", "\n");
 	C2D_Text c2d_text;
 	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
 
@@ -169,7 +153,6 @@ void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, 
 
 // Get String or Text Width.
 float Gui::GetStringWidth(float size, std::string Text) {
-	findAndReplaceAll(Text, "\\n", "\n");
 	float width = 0;
 	GetStringSize(size, &width, NULL, Text);
 	return width;
@@ -177,7 +160,6 @@ float Gui::GetStringWidth(float size, std::string Text) {
 
 // Get String or Text Size.
 void Gui::GetStringSize(float size, float *width, float *height, std::string Text) {
-	findAndReplaceAll(Text, "\\n", "\n");
 	C2D_Text c2d_text;
 	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
 	C2D_TextGetDimensions(&c2d_text, size, size, width, height);
@@ -186,7 +168,6 @@ void Gui::GetStringSize(float size, float *width, float *height, std::string Tex
 
 // Get String or Text Height.
 float Gui::GetStringHeight(float size, std::string Text) {
-	findAndReplaceAll(Text, "\\n", "\n");
 	float height = 0;
 	GetStringSize(size, NULL, &height, Text.c_str());
 	return height;

@@ -27,8 +27,7 @@
 #include "common/inifile.h"
 #include "common/config.hpp"
 
-#include "lang/lang.h"
-#include "lang/langStrings.h"
+#include "lang/lang.hpp"
 
 #include <3ds.h>
 #include <string>

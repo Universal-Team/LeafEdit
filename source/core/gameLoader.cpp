@@ -31,6 +31,7 @@
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
 
+#include "lang.hpp"
 #include <array>
 
 static constexpr std::array<unsigned long long, 9> titleIds = {
@@ -112,17 +113,17 @@ void GameLoader::checkUpdate(void)
 		return;
 		}
 
-		Msg::DisplayWarnMsg(Lang::messages2[6]);
+		Msg::DisplayWarnMsg(Lang::get("GAMELOADER_CHECK"));
 
 		if (std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086200) != updateIds.end() //JPN.
 			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086300) != updateIds.end() // USA.
 			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086400) != updateIds.end() // EUR.
 			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
 		{
-			Msg::DisplayWarnMsg(Lang::update[0]);
+			Msg::DisplayWarnMsg(Lang::get("UPDATE_FOUND"));
 			Config::update = 1;
 		} else {
-			Msg::DisplayWarnMsg(Lang::update[1]);
+			Msg::DisplayWarnMsg(Lang::get("UPDATE_NOTFOUND"));
 			Config::update = 0;
 		}
 		Config::check = 1;

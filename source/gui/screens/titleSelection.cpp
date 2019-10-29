@@ -55,16 +55,16 @@ void TitleSelection::Draw(void) const {
 	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, Config::Color3);
 	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, Config::Color3);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::titleSelector[0]))/2, 2, 0.72f, greentext, Lang::titleSelector[0], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TITLE")))/2, 2, 0.72f, greentext, Lang::get("SELECT_TITLE"), 400);
 
 	// Draw the 3DS Gamecard.
 	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, Config::Color2);
 	// Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[1]))/2)-100-40, 180, 0.6f, BLACK, Lang::titleSelector[1], 80);
+	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("CARD")))/2)-100-40, 180, 0.6f, BLACK, Lang::get("CARD"), 80);
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::titleSelector[2]))/2)+189-135, 180, 0.6f, BLACK, Lang::titleSelector[2], 270);
+	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("INSTALLED")))/2)+189-135, 180, 0.6f, BLACK, Lang::get("INSTALLED"), 270);
 
 	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, greentext, V_STRING, 400);
 

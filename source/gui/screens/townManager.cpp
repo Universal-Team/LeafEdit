@@ -59,9 +59,9 @@ void TownManager::Draw(void) const
 void TownManager::DrawSubMenu(void) const
 {
 	std::string Title;
-	Title += Lang::title;
+	Title += "LeafEdit";
 	Title += " - ";
-	Title += Lang::mainMenu[0];
+	Title += Lang::get("TOWN_MANAGER");
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
 	Gui::DrawBottom();
@@ -103,11 +103,11 @@ void TownManager::DrawSubMenu(void) const
 	}
 
 	// Launch a Town from a Backup or just start the game.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[0]))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::townmanager[0], 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("LAUNCH_TOWN")))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("LAUNCH_TOWN"), 130);
 	// Backup the Save from the installed Title / Gamecard.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[1]))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::townmanager[1], 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("BACKUP_TOWN")))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("BACKUP_TOWN"), 130);
 	// Restore a Backuped save.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::townmanager[2]))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::townmanager[2], 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("RESTORE_TOWN")))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("RESTORE_TOWN"), 130);
 	// Delete Save from Installed Title / Gamecard.
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, "Delete Town", 130);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, "Delete Backup", 130);
@@ -131,7 +131,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 					dirChanged = true;
 					break;
 				case 1:
-					if (Msg::promptMsg(Lang::messages2[2])) {
+					if (Msg::promptMsg(Lang::get("BACKUP_TOWN_POPUP"))) {
 						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
 						playChange();
 						}
@@ -171,14 +171,14 @@ void TownManager::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	if (screenMode == 1) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[3]))/2, 2, 0.72f, Config::barText, Lang::townmanager[3], 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_LAUNCH")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_TOWN_LAUNCH"), 400);
 	} else if (screenMode == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::townmanager[4]))/2, 2, 0.72f, Config::barText, Lang::townmanager[4], 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_RESTORE")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_TOWN_RESTORE"), 400);
 	} else if (screenMode == 3) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Backup to delete."))/2, 2, 0.72f, Config::barText, "Select a Backup to delete.", 400);
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::messages2[9]))/2, 216, 0.60f, Config::barText, Lang::messages2[9], 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::get("REFRESH")))/2, 216, 0.60f, Config::barText, Lang::get("REFRESH"), 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -234,7 +234,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg("What are you trying to do? :P");
 			} else {
-				std::string prompt = Lang::messages2[3];
+				std::string prompt = Lang::get("RESTORE_TOWN_POPUP");
 				prompt += "\n\n";
 				prompt += "'";
 				prompt += dirContents[selectedSave].name;
@@ -256,14 +256,14 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg("What are you trying to do? :P");
 			} else {
-				std::string prompt = Lang::messages2[4];
+				std::string prompt = Lang::get("LAUNCH_TOWN_POPUP_A");
 				prompt += "\n\n";
 				prompt += "'";
 				prompt += dirContents[selectedSave].name;
 				prompt += "'";
 				if(Msg::promptMsg(prompt.c_str())) {
 					selectedSaveFolder = dirContents[selectedSave].name.c_str();
-					if(Msg::promptMsg(Lang::messages2[10])) {
+					if(Msg::promptMsg(Lang::get("BACKUP_BEFORE_RESTORE"))) {
 						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
 					}
 					TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
@@ -293,7 +293,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 
 	if (screenMode == 2) {
 		if (hDown & KEY_X) {
-			if(Msg::promptMsg(Lang::messages2[5])) {
+			if(Msg::promptMsg(Lang::get("LAUNCH_TOWN_POPUP_X"))) {
 				TownManagement::LaunchTown(currentMedia, currentID);
 				playChange();
 			}
@@ -313,7 +313,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			keyRepeatDelay = 6;
 		}
 	} else if (hDown & KEY_B) {
-		if(Msg::promptMsg(Lang::messages[7])) {
+		if(Msg::promptMsg(Lang::get("CANCEL"))) {
 			screenMode = 0;
 		}
 	} else if (hDown & KEY_START) {
