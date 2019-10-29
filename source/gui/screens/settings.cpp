@@ -27,7 +27,6 @@
 #include "common/inifile.h"
 
 #include "core/management/itemManagement.hpp"
-#include "core/management/villagerManagement.hpp"
 
 #include "gui/keyboard.hpp"
 
@@ -238,56 +237,48 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, langBlocks[0])) {
 			Config::lang = 0;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[1])) {
 			Config::lang = 1;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[2])) {
 			Config::lang = 2;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[3])) {
 			Config::lang = 3;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[4])) {
 			Config::lang = 4;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[5])) {
 			Config::lang = 6;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[6])) {
 			Config::lang = 7;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 
 		} else if (touching(touch, langBlocks[7])) {
 			Config::lang = 5;
 			ItemManagement::LoadDatabase(Config::lang);
-			VillagerManagement::LoadVillagerDatabase(Config::lang);
 			Lang::load(Config::lang);
 			Config::saveConfig();
 		}

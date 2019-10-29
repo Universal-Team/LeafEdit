@@ -40,7 +40,6 @@
 
 extern Save* SaveFile;
 extern std::string villagerNameText;
-std::vector<std::string> g_villagerDatabase;
 
 extern C2D_SpriteSheet Villager;
 extern C2D_SpriteSheet Villager2;
@@ -396,28 +395,6 @@ int getEndID(int id) {
 	} else {
 		return 399;
 	}
-}
-
-std::string villagerLanguages[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};
-
-void VillagerManagement::LoadVillagerDatabase(int lang) {
-	g_villagerDatabase.clear();
-
-	std::string currentLine;
-	std::ifstream villagerDatabase("romfs:/lang/" + villagerLanguages[lang] + "/villager.txt", std::ifstream::in);
-
-
-	// This would be the real Function one time.
-//	while (std::getline(villagerDatabase, currentLine)) {
-//		villagers.name = currentLine;
-//	}
-
-	while (std::getline(villagerDatabase, currentLine)) {
-		// TODO: Read default things like personality, catchphrases, & furniture.
-		g_villagerDatabase.push_back(currentLine);
-	}
-
-	villagerDatabase.close();
 }
 
 // Draw the Villager sprite.

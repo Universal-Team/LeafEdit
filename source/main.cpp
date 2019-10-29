@@ -238,7 +238,6 @@ int main()
 	// Load The Strings from the Romfs.
 	
 	ItemManagement::LoadDatabase(Config::lang);
-	VillagerManagement::LoadVillagerDatabase(Config::lang);
 
 	TestStuff();
 
