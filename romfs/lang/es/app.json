@@ -58,7 +58,7 @@
 	"BACKUP_TOWN": "Respaldar Pueblo",
 	"RESTORE_TOWN": "Restaurar pueblo",
 	"DELETE_TOWN": "Eliminar Pueblo",
-	"DELETE_BACKUP": "Eliminar copia de seguridad",
+	"DELETE_BACKUP": "Eliminar Respaldo",
 	"BACKUP_TOWN_POPUP": "¿Quieres hacer una copia de esta pueblo?",
 	"SELECT_TOWN_LAUNCH": "Selecciona pueblo para jugar.",
 	"SELECT_TOWN_RESTORE": "Selecciona pueblo para restaurarlo.",
@@ -115,7 +115,7 @@
 	"PLAYER_SELECTION": "Selección de jugador",
 	"ITEMS": "Objetos",
 	"PLAYER_EDITOR": "Editor de Jugador",
-	"CHANGE_VILLAGER_LR": "Presiona Izquierda/Derecha para cambiar al Aldeano.",
+	"CHANGE_VILLAGER_LR": "Presiona Izquierda/Derecha para cambiar al Vecino.",
 	"VILLAGER_ID": "ID de Vecino: ",
 	"SELECTING": "seleccionando",
 	"MANUALLY": "manualmente",
@@ -157,6 +157,6 @@
 	"SQUIRREL": "Ardilla",
 	"TIGER": "Tigre",
 	"WOLF": "Lobo",
-	"VILLAGER_VIEWER": "Visor de Aldeano",
-	"CURRENT_VILLAGER": "Aldeano actual: "
+	"VILLAGER_VIEWER": "Visor de Vecinos",
+	"CURRENT_VILLAGER": "Vecino actual: "
 }
