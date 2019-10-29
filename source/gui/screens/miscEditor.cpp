@@ -42,12 +42,14 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MiscEditor::Draw(void) const
 {
+	std::string title = "LeafEdit - ";
+	title += Lang::get("MISC_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit - Misc Editor"))/2, 2, 0.8f, Config::barText, "LeafEdit - Misc Editor", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, Config::barText, title.c_str(), 400);
 	Gui::DrawBottom();
 
 	Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Acres"))/2, mainButtons[0].y+10, 0.6f, Config::buttonText, "Acres", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("ACRES")))/2, mainButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("ACRES"), 140);
 }
 
 

@@ -24,15 +24,11 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/keyboard.hpp"
-
 #include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/settings.hpp"
 #include "gui/screens/townManager.hpp"
-
-extern bool titleIsLoaded;
 
 void MainMenu::Draw(void) const
 {
@@ -73,11 +69,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				if (titleIsLoaded == false) {
-					Msg::DisplayWarnMsg("You haven't loaded a Title!!");
-				} else if (titleIsLoaded == true) {
-					Gui::setScreen(std::make_unique<TownManager>());
-				}
+				Gui::setScreen(std::make_unique<TownManager>());
 				break;
 			case 1:
 				Gui::setScreen(std::make_unique<Editor>());

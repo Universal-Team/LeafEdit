@@ -43,8 +43,7 @@ void Settings::Draw(void) const
 {
 	if(screenMode == 0) {
 		std::string Title;
-		Title += "LeafEdit";
-		Title += " - ";
+		Title += "LeafEdit - ";
 		Title += Lang::get("SETTINGS");
 
 		Gui::DrawTop();
@@ -69,8 +68,8 @@ void Settings::Draw(void) const
 		}
 
 		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("LANGUAGE")))/2, settingsButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("LANGUAGE"), 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Ini Editor"))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, "Ini Editor", 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Credits"))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, "Credits", 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("INI_EDITOR")))/2, settingsButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("INI_EDITOR"), 140);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("CREDITS")))/2, settingsButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("CREDITS"), 140);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}

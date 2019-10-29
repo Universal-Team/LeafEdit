@@ -55,12 +55,14 @@ ItemEditor::~ItemEditor()
 }
 
 void ItemEditor::DrawPocket(void) const {
+	std::string title = "LeafEdit - ";
+	title += Lang::get("ITEM_EDITOR");
 	int x = 42;
 	int y = 63;
 	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit - Item Editor"))/2, 2, 0.8f, Config::barText, "LeafEdit - Item Editor", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, Config::barText, title.c_str(), 400);
 
 	Gui::DrawBottom();
 

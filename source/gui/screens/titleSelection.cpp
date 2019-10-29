@@ -46,7 +46,6 @@ u32 currentHighID;
 u32 currentUniqueID;
 FS_MediaType currentMedia;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-bool titleIsLoaded = false;
 bool isROMHack = false;
 
 void TitleSelection::Draw(void) const {
@@ -76,7 +75,7 @@ void TitleSelection::Draw(void) const {
 	Gui::Draw_Rect(0, 100, 320, 30, Config::Color2);
 	Gui::Draw_Rect(0, 150, 320, 30, Config::Color2);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.72f, "Press Y to open Settings."))/2, 2, 0.72f, greentext, "Press Y to open Settings.", 320);
+	Gui::DrawString((320-Gui::GetStringWidth(0.72f, Lang::get("Y_SETTINGS")))/2, 2, 0.72f, greentext, Lang::get("Y_SETTINGS"), 320);
 	Gui::Draw_Rect(245, 38, 48, 48, Config::Color2);
 	// Draw the current Selected Title on the Bottom Screen with informations.
 	if (selectedTitle != -2)
@@ -201,7 +200,6 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			currentLowID = titleFromIndex(selectedTitle)->lowId();
 			currentHighID = titleFromIndex(selectedTitle)->highId();
 			currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
-			titleIsLoaded = true;
 			Gui::setScreen(std::make_unique<MainMenu>());
 		}
 	} else if (hDown & KEY_TOUCH && touching(touch, icon[0])) {
@@ -217,13 +215,11 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			currentLowID = titleFromIndex(selectedTitle)->lowId();
 			currentHighID = titleFromIndex(selectedTitle)->highId();
 			currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
-			titleIsLoaded = true;
 			Gui::setScreen(std::make_unique<MainMenu>());
 		}
 	} else if (hDown & KEY_X) {
 		GameLoader::updateCheck2();
 	} else if (hDown & KEY_Y) {
-		titleIsLoaded = false;
 		Gui::setScreen(std::make_unique<Settings>());
 	} else if (hHeld & KEY_SELECT) {
 		Msg::HelperBox("Select a Title to load. if you don't have an installed title -> Press Y.\nPress Start, to exit the App or press Home.\n(You can't use the Town Manager without a Title)\nYou can also tap on the Icon, if you have an installed Title or Gamecard.");

@@ -87,8 +87,8 @@ void VillagerEditor::DrawEditorSub(void) const {
 		Gui::Draw_ImageBlend(0, sprites_button_idx, Buttons[1].x, Buttons[1].y, selectedColor);
 	}
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "selecting"))/2, Buttons[0].y+10, 0.6f, Config::buttonText, "selecting", 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "manually"))/2, Buttons[1].y+10, 0.6f, Config::buttonText, "manually", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("SELECTING")))/2, Buttons[0].y+10, 0.6f, Config::buttonText, Lang::get("SELECTING"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MANUALLY")))/2, Buttons[1].y+10, 0.6f, Config::buttonText, Lang::get("MANUALLY"), 140);
 }
 
 void VillagerEditor::EditorSubLogic(u32 hDown) {
@@ -278,13 +278,8 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void VillagerEditor::DrawSubMenu(void) const
 {
 	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += "Villager";
-	Title += " ";
-	Title += "Editor";
-	Title += " - ";
-	Title += "SubMenu";
+	Title += "LeafEdit - ";
+	Title += Lang::get("VILLAGER_EDITOR_SUBMENU");
 
 	// Initial String.
 	std::string currentPage = Lang::get("CURRENT_PAGE");
@@ -307,54 +302,54 @@ void VillagerEditor::DrawSubMenu(void) const
 	if (subMenuPage == 1) {
 		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(93, 10, 28);
-		std::string GroupOne = "Alligator";
+		std::string GroupOne = Lang::get("ALLIGATOR");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupOne.c_str()))/2-125-35, 83, 0.55f, Config::boxText, GroupOne.c_str(), 70);
 
 		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(1, 90, 28);
-		std::string GroupTwo = "Anteater";
+		std::string GroupTwo = Lang::get("ANTEATER"); 
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwo.c_str()))/2-45-35, 83, 0.55f, Config::boxText, GroupTwo.c_str(), 70);
 
 		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(9, 170, 28);
-		std::string GroupThree = "Bear";
+		std::string GroupThree = Lang::get("BEAR");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThree.c_str()))/2+35-35, 83, 0.55f, Config::boxText, GroupThree.c_str(), 70);
 
 		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(23, 250, 28);
-		std::string GroupFour = "Bird";
+		std::string GroupFour = Lang::get("BIRD");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFour.c_str()))/2+115-35, 83, 0.55f, Config::boxText, GroupFour.c_str(), 70);
 
 		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(38, 330, 28);
-		std::string GroupFive = "Bull";
+		std::string GroupFive = Lang::get("BULL");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFive.c_str()))/2+195-35, 83, 0.55f, Config::boxText, GroupFive.c_str(), 70);
 
 		// Second Row!
 
 		Gui::Draw_Rect(5, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(48, 10, 138);
-		std::string GroupSix = "Cat";
+		std::string GroupSix = Lang::get("CAT");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSix.c_str()))/2-125-35, 193, 0.55f, Config::boxText, GroupSix.c_str(), 70);
 
 		Gui::Draw_Rect(85, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(82, 90, 138);
-		std::string GroupSeven = "Chicken";
+		std::string GroupSeven = Lang::get("CHICKEN");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSeven.c_str()))/2-45-35, 193, 0.55f, Config::boxText, GroupSeven.c_str(), 70);
 
 		Gui::Draw_Rect(165, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(89, 170, 138);
-		std::string GroupEight = "Cow";
+		std::string GroupEight = Lang::get("COW");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEight.c_str()))/2+35-35, 193, 0.55f, Config::boxText, GroupEight.c_str(), 70);
 
 		Gui::Draw_Rect(245, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(68, 250, 138);
-		std::string GroupNine = "Cub";
+		std::string GroupNine = Lang::get("CUB");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupNine.c_str()))/2+115-35, 193, 0.55f, Config::boxText, GroupNine.c_str(), 70);
 
 		Gui::Draw_Rect(325, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(101, 330, 138);
-		std::string GroupTen = "Deer";
+		std::string GroupTen = Lang::get("DEER");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTen.c_str()))/2+195-35, 193, 0.55f, Config::boxText, GroupTen.c_str(), 70);
 
 
@@ -362,54 +357,54 @@ void VillagerEditor::DrawSubMenu(void) const
 
 		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(115, 10, 28);
-		std::string GroupEleven = "Dog";
+		std::string GroupEleven = Lang::get("DOG");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEleven.c_str()))/2-125-35, 83, 0.55f, Config::boxText, GroupEleven.c_str(), 70);
 
 		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(142, 90, 28);
-		std::string GroupTwelve = "Duck";
+		std::string GroupTwelve = Lang::get("DUCK");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwelve.c_str()))/2-45-35, 83, 0.55f, Config::boxText, GroupTwelve.c_str(), 70);
 
 		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(283, 170, 28);
-		std::string GroupThirteen = "Eagle";
+		std::string GroupThirteen = Lang::get("EAGLE");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirteen.c_str()))/2+35-35, 83, 0.55f, Config::boxText, GroupThirteen.c_str(), 70);
 
 		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(148, 250, 28);
-		std::string GroupFourteen = "Elephant";
+		std::string GroupFourteen = Lang::get("ELEPHANT");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFourteen.c_str()))/2+115-35, 83, 0.55f, Config::boxText, GroupFourteen.c_str(), 70);
 
 		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(159, 330, 28);
-		std::string GroupFifteen = "Frog";
+		std::string GroupFifteen = Lang::get("FROG");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFifteen.c_str()))/2+195-35, 83, 0.55f, Config::boxText, GroupFifteen.c_str(), 70);
 
 		// Second Row!
 
 		Gui::Draw_Rect(5, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(176, 10, 138);
-		std::string GroupSixteen = "Goat";
+		std::string GroupSixteen = Lang::get("GOAT");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSixteen.c_str()))/2-125-35, 193, 0.55f, Config::boxText, GroupSixteen.c_str(), 70);
 
 		Gui::Draw_Rect(85, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(181, 90, 138);
-		std::string GroupSeventeen = "Gorilla";
+		std::string GroupSeventeen = Lang::get("GORILLA");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSeventeen.c_str()))/2-45-35, 193, 0.55f, Config::boxText, GroupSeventeen.c_str(), 70);
 
 		Gui::Draw_Rect(165, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(190, 170, 138);
-		std::string GroupEightteen = "Hamster";
+		std::string GroupEightteen = Lang::get("HAMSTER");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEightteen.c_str()))/2+35-35, 193, 0.55f, Config::boxText, GroupEightteen.c_str(), 70);
 
 		Gui::Draw_Rect(245, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(199, 250, 138);
-		std::string GroupNineteen = "Hippo";
+		std::string GroupNineteen = Lang::get("HIPPO");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupNineteen.c_str()))/2+115-35, 193, 0.55f, Config::boxText, GroupNineteen.c_str(), 70);
 
 		Gui::Draw_Rect(325, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(208, 330, 138);
-		std::string GroupTwenty = "Horse";
+		std::string GroupTwenty = Lang::get("HORSE");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwenty.c_str()))/2+195-35, 193, 0.55f, Config::boxText, GroupTwenty.c_str(), 70);
 
 
@@ -417,54 +412,54 @@ void VillagerEditor::DrawSubMenu(void) const
 
 		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(232, 10, 28);
-		std::string GroupTwentyone = "Kangaroo";
+		std::string GroupTwentyone = Lang::get("KANGAROO");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyone.c_str()))/2-125-35, 83, 0.55f, Config::boxText, GroupTwentyone.c_str(), 70);
 
 		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(224, 90, 28);
-		std::string GroupTwentytwo = "Koala";
+		std::string GroupTwentytwo = Lang::get("KOALA");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentytwo.c_str()))/2-45-35, 83, 0.55f, Config::boxText, GroupTwentytwo.c_str(), 70);
 
 		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(239, 170, 28);
-		std::string GroupTwentythree = "Lion";
+		std::string GroupTwentythree = Lang::get("LION");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentythree.c_str()))/2+35-35, 83, 0.55f, Config::boxText, GroupTwentythree.c_str(), 70);
 
 		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(247, 250, 28);
-		std::string GroupTwentyfour = "Monkey";
+		std::string GroupTwentyfour = Lang::get("MONKEY");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyfour.c_str()))/2+115-35, 83, 0.55f, Config::boxText, GroupTwentyfour.c_str(), 70);
 
 		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(258, 330, 28);
-		std::string GroupTwentyfive = "Mouse";
+		std::string GroupTwentyfive = Lang::get("MOUSE");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyfive.c_str()))/2+195-35, 83, 0.55f, Config::boxText, GroupTwentyfive.c_str(), 70);
 
 		// Second Row!
 
 		Gui::Draw_Rect(5, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(272, 10, 138);
-		std::string GroupTwentysix = "Octopus";
+		std::string GroupTwentysix = Lang::get("OCTOPUS");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentysix.c_str()))/2-125-35, 193, 0.55f, Config::boxText, GroupTwentysix.c_str(), 70);
 
 		Gui::Draw_Rect(85, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(278, 90, 138);
-		std::string GroupTwentyseven = "Ostrich";
+		std::string GroupTwentyseven = Lang::get("OSTRICH");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyseven.c_str()))/2-45-35, 193, 0.55f, Config::boxText, GroupTwentyseven.c_str(), 70);
 
 		Gui::Draw_Rect(165, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(300, 170, 138);
-		std::string GroupTwentyeight = "Penguin";
+		std::string GroupTwentyeight = Lang::get("PENGUIN");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyeight.c_str()))/2+35-35, 193, 0.55f, Config::boxText, GroupTwentyeight.c_str(), 70);
 
 		Gui::Draw_Rect(245, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(305, 250, 138);
-		std::string GroupTwentynine = "Pig";
+		std::string GroupTwentynine = Lang::get("PIG");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentynine.c_str()))/2+115-35, 193, 0.55f, Config::boxText, GroupTwentynine.c_str(), 70);
 
 		Gui::Draw_Rect(325, 140, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(337, 330, 138);
-		std::string GroupThirty = "Rabbit";
+		std::string GroupThirty = Lang::get("RABBIT");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirty.c_str()))/2+195-35, 193, 0.55f, Config::boxText, GroupThirty.c_str(), 70);
 
 
@@ -472,27 +467,27 @@ void VillagerEditor::DrawSubMenu(void) const
 
 		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(342, 10, 28);
-		std::string GroupThirtyone = "Rhino";
+		std::string GroupThirtyone = Lang::get("RHINO");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyone.c_str()))/2-125-35, 83, 0.55f, Config::boxText, GroupThirtyone.c_str(), 70);
 
 		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(349, 90, 28);
-		std::string GroupThirtytwo = "Sheep";
+		std::string GroupThirtytwo = Lang::get("SHEEP");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtytwo.c_str()))/2-45-35, 83, 0.55f, Config::boxText, GroupThirtytwo.c_str(), 70);
 
 		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(362, 170, 28);
-		std::string GroupThirtythree = "Squirrel";
+		std::string GroupThirtythree = Lang::get("SQUIRREL");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtythree.c_str()))/2+35-35, 83, 0.55f, Config::boxText, GroupThirtythree.c_str(), 70);
 
 		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(382, 250, 28);
-		std::string GroupThirtyfour = "Tiger";
+		std::string GroupThirtyfour = Lang::get("TIGER");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfour.c_str()))/2+115-35, 83, 0.55f, Config::boxText, GroupThirtyfour.c_str(), 70);
 
 		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
 		VillagerManagement::DrawVillager(388, 330, 28);
-		std::string GroupThirtyfive = "Wolf";
+		std::string GroupThirtyfive = Lang::get("WOLF");
 		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfive.c_str()))/2+195-35, 83, 0.55f, Config::boxText, GroupThirtyfive.c_str(), 70);
 	}
 
@@ -548,7 +543,7 @@ void VillagerEditor::DrawVillagerSelection(void) const {
 void VillagerEditor::DrawVillagerSetTest(void) const {
 	Gui::DrawTop();
 	DrawBox();
-	std::string villagerID = "Villager ID: ";
+	std::string villagerID = Lang::get("VILLAGER_ID");
 	std::string IDs;
 	for (int villager = startID; villager < endID+1; villager++) {
 		if (currentSelectedVillager == villager) {
@@ -560,7 +555,7 @@ void VillagerEditor::DrawVillagerSetTest(void) const {
 			IDs += std::to_string(endID);
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, "Press Left/Right to change the Villager."))/2, 2, 0.7f, Config::boxText, "Press Left/Right to change the Villager.", 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("CHANGE_VILLAGER_LR")))/2, 2, 0.7f, Config::boxText, Lang::get("CHANGE_VILLAGER_LR"), 320);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::boxText, villagerID.c_str(), 320);
 	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::boxText, villagerNameText.c_str(), 320);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, IDs.c_str()))/2, 212, 0.8f, Config::barText, IDs.c_str(), 400);
@@ -580,7 +575,8 @@ void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition to
 	}
 
 	if (hDown & KEY_A) {
-		std::string prompt = "Would you like to set this Villager? \n\n";
+		std::string prompt = Lang::get("SET_VILLAGER");
+		prompt += "\n\n";
 		prompt += villagerNameText;
 		if(Msg::promptMsg(prompt.c_str())) {
 			selectedVillager = currentSelectedVillager;
@@ -592,7 +588,7 @@ void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition to
 	if (hDown & KEY_TOUCH && touching(touch, search[0])) {
 		int temp = Input::getu16(3, endID);
 		if(temp < startID) {
-			Msg::DisplayWarnMsg("The Villager Group don't start with this ID!");
+			Msg::DisplayWarnMsg(Lang::get("VILLAGER_GROUP_DONT_START"));
 			currentSelectedVillager = startID;
 		} else {
 			currentSelectedVillager = temp;

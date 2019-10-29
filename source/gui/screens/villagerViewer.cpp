@@ -59,7 +59,7 @@ void VillagerViewer::Draw(void) const
 void VillagerViewer::DrawVillagerList(void) const {
 	Gui::DrawTop();
 	DrawBox();
-	std::string villagerID = "Villager ID: ";
+	std::string villagerID = Lang::get("VILLAGER_ID");
 	for (int i = 0; i < 399; i++) {
 		if (villagerViewerSprite == i) {
 			VillagerManagement::DrawVillager(i, 160, 60);
@@ -144,7 +144,7 @@ void VillagerViewer::VillagerLogic(u32 hDown, u32 hHeld) {
 void VillagerViewer::DrawVillager(void) const {
 	Gui::DrawTop();
 	DrawBox();
-	std::string villagerID = "Villager ID: ";
+	std::string villagerID = Lang::get("VILLAGER_ID");
 	DrawCurrentVillager();
 	for (u16 i = 0; i < 10; i++) {
 		if (currentVillager == i) {
@@ -163,13 +163,10 @@ void VillagerViewer::DrawVillager(void) const {
 void VillagerViewer::DrawCurrentVillager(void) const
 {
 	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += "Villager";
-	Title += " ";
-	Title += "Viewer";
+	Title += "LeafEdit - ";
+	Title += Lang::get("VILLAGER_VIEWER");
 
-	std::string activeVillager = "Current Villager: ";
+	std::string activeVillager = Lang::get("CURRENT_VILLAGER");
 
 	for (int i = 0; i < 10; i++) {
 		if (currentVillager == i) {

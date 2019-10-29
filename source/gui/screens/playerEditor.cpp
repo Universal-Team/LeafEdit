@@ -79,7 +79,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	std::string Title;
 	Title += "LeafEdit";
 	Title += " - ";
-	Title += "Player Selection";
+	Title += Lang::get("PLAYER_SELECTION");
 
 	if (SaveFile->players[0]->Exists()) {
 		Player1Name = StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
@@ -186,7 +186,7 @@ void PlayerEditor::DrawMainEditor(void) const {
 	std::string Title;
 	Title += "LeafEdit";
 	Title += " - ";
-	Title += Lang::get("PLAYER");
+	Title += Lang::get("PLAYER_EDITOR");
 
 	Gui::DrawTop();
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
@@ -213,7 +213,7 @@ void PlayerEditor::DrawMainEditor(void) const {
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("PLAYER")))/2, mainButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("PLAYER"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Items"))/2, mainButtons[1].y+10, 0.6f, Config::buttonText, "Items", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("ITEMS")))/2, mainButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("ITEMS"), 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "WIP"))/2, mainButtons[2].y+10, 0.6f, Config::buttonText, "WIP", 140);
 }
 
@@ -257,7 +257,7 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	std::string Title;
 	Title += "LeafEdit";
 	Title += " - ";
-	Title += "Player Selection";
+	Title += Lang::get("PLAYER_EDITOR");
 
 	// Display First Player Name.
 	std::string PlayerName = Lang::get("PLAYER_NAME");

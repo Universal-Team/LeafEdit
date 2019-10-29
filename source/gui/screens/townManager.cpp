@@ -109,8 +109,8 @@ void TownManager::DrawSubMenu(void) const
 	// Restore a Backuped save.
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("RESTORE_TOWN")))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("RESTORE_TOWN"), 130);
 	// Delete Save from Installed Title / Gamecard.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Town"))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, "Delete Town", 130);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Delete Backup"))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, "Delete Backup", 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("DELETE_TOWN")))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, Lang::get("DELETE_TOWN"), 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("DELETE_BACKUP")))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, Lang::get("DELETE_BACKUP"), 130);
 }
 
 
@@ -141,7 +141,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 					dirChanged = true;
 					break;
 				case 3:
-					if (Msg::promptMsg("Would you like, to delete this Game's Town?\nYour Game will start directly after it.")) {
+					if (Msg::promptMsg(Lang::get("DELETE_GAME_SAVE"))) {
 						TownManagement::CreateNewTown(currentMedia, currentID, currentLowID, currentHighID, currentUniqueID);
 					}
 					break;
@@ -175,7 +175,7 @@ void TownManager::DrawBrowse(void) const
 	} else if (screenMode == 2) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_RESTORE")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_TOWN_RESTORE"), 400);
 	} else if (screenMode == 3) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Select a Backup to delete."))/2, 2, 0.72f, Config::barText, "Select a Backup to delete.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_BACKUP_DELETE")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_BACKUP_DELETE"), 400);
 	}
 
 	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::get("REFRESH")))/2, 216, 0.60f, Config::barText, Lang::get("REFRESH"), 400);
@@ -232,7 +232,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (screenMode == 1) {
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
+				Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 			} else {
 				std::string prompt = Lang::get("RESTORE_TOWN_POPUP");
 				prompt += "\n\n";
@@ -254,7 +254,7 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	} else if (screenMode == 2) {
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
+				Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 			} else {
 				std::string prompt = Lang::get("LAUNCH_TOWN_POPUP_A");
 				prompt += "\n\n";
@@ -276,9 +276,9 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	} else if (screenMode == 3) {
 		if (hDown & KEY_A) {
 			if (dirContents.size() == 0) {
-				Msg::DisplayWarnMsg("What are you trying to do? :P");
+				Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 			} else {
-				if(Msg::promptMsg("Would you like, to delete this Backup?")) {
+				if(Msg::promptMsg(Lang::get("DELETE_BACKUP_MSG"))) {
 					currentBackup += dirContents[selectedSave].name.c_str(); // Get the actual Backup Folder.
 					TownManagement::DeleteBackup(currentID, currentBackup.c_str()); // We delete the Backup now.
 					currentBackup = ""; // We reset the Backup Folder.

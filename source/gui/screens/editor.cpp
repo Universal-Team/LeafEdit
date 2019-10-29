@@ -99,7 +99,7 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("PLAYER")))/2, editorButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("PLAYER"), 140);
 	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("VILLAGER")))/2, editorButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("VILLAGER"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, "Misc Editor"))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, "Misc Editor", 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MISC_EDITOR")))/2, editorButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("MISC_EDITOR"), 140);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -183,7 +183,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 
 	if(hDown & KEY_A) {
 		if (dirContents.size() == 0) {
-			Msg::DisplayWarnMsg("What are you trying to do? :P");
+			Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 		} else {
 			std::string prompt = Lang::get("LOAD_THIS_SAVE");
 			if(Msg::promptMsg(prompt.c_str())) {

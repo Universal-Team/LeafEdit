@@ -67,8 +67,11 @@ void LeafEditEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void LeafEditEditor::DrawIniBrowse(void) const {
+	std::string title = "LeafEdit - ";
+	title += Lang::get("INI_BROWSE");
+
 	Gui::DrawFileBrowseBG();
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "LeafEdit Ini Browse"))/2, 0, 0.72f, WHITE, "LeafEdit Ini Browse");
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, title.c_str()))/2, 0, 0.72f, WHITE, title.c_str(), 400);
 	std::string dirs;
 	for (uint i=(selectedSheetIniFile<5) ? 0 : selectedSheetIniFile-5;i<dirContents.size()&&i<((selectedSheetIniFile<5) ? 6 : selectedSheetIniFile+1);i++) {
 		if (i == selectedSheetIniFile) {
@@ -106,18 +109,22 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 	}
 	if (hDown & KEY_X) {
 		if (dirContents.size() == 0) {
-			Msg::DisplayWarnMsg("What are you trying to do? :P");
+			Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 		} else {
-			if(Msg::promptMsg("Do you want use this ini? : \n\n "+dirContents[selectedSheetIniFile].name+"")) {
+			std::string prompt = Lang::get("WANT_USE_INI");
+			prompt += "\n\n "+dirContents[selectedSheetIniFile].name+"";
+			if(Msg::promptMsg(prompt.c_str())) {
 				sheetFileIni = "sdmc:/LeafEdit/Sheets/"+dirContents[selectedSheetIniFile].name;
 				Config::loadSheetIniStuff();
 			}
 		}
 	} else if (hDown & KEY_A) {
 		if (dirContents.size() == 0) {
-			Msg::DisplayWarnMsg("What are you trying to do? :P");
+			Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 		} else {
-			if(Msg::promptMsg("Do you want edit this ini? : \n\n "+dirContents[selectedSheetIniFile].name+"")) {
+			std::string prompt = Lang::get("WANT_EDIT_INI");
+			prompt += "\n\n "+dirContents[selectedSheetIniFile].name+"";
+			if(Msg::promptMsg(prompt.c_str())) {
 				sheetsFile = "sdmc:/LeafEdit/Sheets/"+dirContents[selectedSheetIniFile].name;
 				sheetFile = sheetsFile;
 				loadIniContents();
@@ -129,9 +136,9 @@ void LeafEditEditor::IniBrowseLogic(u32 hDown, u32 hHeld) {
 		Gui::screenBack();
 		return;
 	} else if (hDown & KEY_Y) {
-		if(Msg::promptMsg("Are you sure, you want to create a new ini?\nIt will reset the existing Ini File, if it already exist!")) {
+		if(Msg::promptMsg(Lang::get("CREATE_INI"))) {
 			std::string newIni = "sdmc:/LeafEdit/Sheets/";
-			newIni += Input::getLine(20, "Enter the name of the sheet.");
+			newIni += Input::getLine(20, Lang::get("NEW_SHEET_NAME"));
 			createNewSheet(newIni.c_str());
 			refresh = true;
 		}
@@ -213,23 +220,25 @@ void LeafEditEditor::createNewSheet(std::string sheetIni) {
 }
 
 void LeafEditEditor::DrawIniEditor(void) const {
+	std::string title = "LeafEdit - ";
+	title += Lang::get("INI_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "LeafEdit Ini Editor"))/2, 0, 0.72f, Sheet::barText, "LeafEdit Ini Editor", 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Press L/R to change the next Ini option."))/2, 215, 0.72f, Sheet::barText, "Press L/R to change the next Ini option.", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, title.c_str()))/2, 0, 0.72f, Sheet::barText, title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("CHANGE_INI_OPTION")))/2, 215, 0.72f, Sheet::barText, Lang::get("CHANGE_INI_OPTION"), 400);
 
 	if (colorMode == 0) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BarText Color."))/2, 90, 0.72f, Sheet::barText, "This is the BarText Color.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BARTEXT_COLOR")))/2, 90, 0.72f, Sheet::barText, Lang::get("BARTEXT_COLOR"), 400);
 	} else if (colorMode == 1) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BGText Color."))/2, 90, 0.72f, Sheet::bgText, "This is the BGText Color.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BGTEXT_COLOR")))/2, 90, 0.72f, Sheet::bgText, Lang::get("BGTEXT_COLOR"), 400);
 	} else if (colorMode == 2) {
 		Gui::sprite(0, sprites_button_idx, 20, 80);
-		Gui::DrawString(40, 90, 0.6f, Sheet::buttonText, "Unselected", 400);
+		Gui::DrawString(40, 90, 0.6f, Sheet::buttonText, Lang::get("UNSELECTED"), 400);
 		Gui::Draw_ImageBlend(0, sprites_button_idx, 220, 80, selectedColor);
-		Gui::DrawString(240, 90, 0.6f, Sheet::buttonText, "Selected", 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the ButtonText Color."))/2, 150, 0.72f, Sheet::buttonText, "This is the ButtonText Color.", 400);
+		Gui::DrawString(240, 90, 0.6f, Sheet::buttonText, Lang::get("SELECTED"), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BUTTONTEXT_COLOR")))/2, 150, 0.72f, Sheet::buttonText, Lang::get("BUTTONTEXT_COLOR"), 400);
 	} else if (colorMode == 3) {
 		Gui::Draw_Rect(40, 80, 320, 22, Config::Color3);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the BoxText Color."))/2, 80, 0.72f, Sheet::boxText, "This is the BoxText Color.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BOXTEXT_COLOR")))/2, 80, 0.72f, Sheet::boxText, Lang::get("BOXTEXT_COLOR"), 400);
 	} else if (colorMode == 4) {
 		Gui::Draw_Rect(0, 27, 400, 31, Config::Color2);
 		Gui::Draw_Rect(0, 58, 400, 31, Config::Color3);
@@ -237,23 +246,23 @@ void LeafEditEditor::DrawIniEditor(void) const {
 		Gui::Draw_Rect(0, 120, 400, 31, Config::Color3);
 		Gui::Draw_Rect(0, 151, 400, 31, Config::Color2);
 		Gui::Draw_Rect(0, 182, 400, 31, Config::Color3);
-		Gui::DrawString(26, 32, 0.53f, Sheet::fileBrowseText, "> This is the Selector Text Color.\n\nThis is the Selector Text Color.", 400);
+		Gui::DrawString(26, 32, 0.53f, Sheet::fileBrowseText, Lang::get("SELTEXT_COLOR"), 400);
 	} else if (colorMode == 5) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "This is the Message Text Color."))/2, 120, 0.72f, Sheet::MessageText, "This is the Message Text Color.", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("MESTEXT_COLOR")))/2, 120, 0.72f, Sheet::MessageText, Lang::get("MESTEXT_COLOR"), 400);
 	} else if (colorMode == 6) {
 		Gui::sprite(0, sprites_helperBox_idx, 0, 27);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Example Instructions Color!"))/2, 120, 0.72f, Sheet::helpMsg, "Example Instructions Color!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("INSTRUCTION_COLOR")))/2, 120, 0.72f, Sheet::helpMsg, Lang::get("INSTRUCTION_COLOR"), 400);
 	} else if (colorMode == 7) {
 		Gui::Draw_Rect(0, 0, 400, 30, Sheet::Color1);
 		Gui::Draw_Rect(0, 210, 400, 30, Sheet::Color1);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "Bar Color!"))/2, 120, 0.72f, Sheet::Color1, "Bar Color!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BAR_COLOR")))/2, 120, 0.72f, Sheet::Color1, Lang::get("BAR_COLOR"), 400);
 	} else if (colorMode == 8) {
 		Gui::sprite(0, sprites_helperBox_idx, 0, 27);
 		Gui::Draw_Rect(0, 30, 400, 180, Sheet::Color2);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "BG Color Top Screen!"))/2, 120, 0.72f, Sheet::Color2, "BG Color Top Screen!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BG_TOP_COLOR")))/2, 120, 0.72f, Sheet::Color2, Lang::get("BG_TOP_COLOR"), 400);
 	} else if (colorMode == 9) {
 		Gui::Draw_Rect(0, 30, 400, 180, Sheet::Color3);
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, "BG Color Bottom Screen!"))/2, 120, 0.72f, Sheet::Color3, "BG Color Bottom Screen!", 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("BG_BOTTOM_COLOR")))/2, 120, 0.72f, Sheet::Color3, Lang::get("BG_BOTTOM_COLOR"), 400);
 	}
 
 	Gui::DrawBottom();
@@ -353,7 +362,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, buttons[0])) {
-			int temp = Input::getUint(255, "Please Type in the Red RGB Value.");
+			int temp = Input::getUint(255, Lang::get("ENTER_RED_RGB"));
 			if(temp != -1) {
 				red = temp;
 				if (colorMode == 0) {
@@ -381,7 +390,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 		} else if (touching(touch, buttons[1])) {
-			int temp = Input::getUint(255, "Please Type in the Green RGB Value.");
+			int temp = Input::getUint(255, Lang::get("ENTER_GREEN_RGB"));
 			if(temp != -1) {
 				green = temp;
 				if (colorMode == 0) {
@@ -409,7 +418,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 		} else if (touching(touch, buttons[2])) {
-			int temp = Input::getUint(255, "Please Type in the Blue RGB Value.");
+			int temp = Input::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 			if(temp != -1) {
 				blue = temp;
 				if (colorMode == 0) {
@@ -435,7 +444,7 @@ void LeafEditEditor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		} else if (touching(touch, buttons[3])) {
-			if(Msg::promptMsg("Would you like, to save the Ini?")) {
+			if(Msg::promptMsg(Lang::get("SAVE_INI"))) {
 				saveIniContents();
 				sheetsFile = "";
 				mode = 0;
