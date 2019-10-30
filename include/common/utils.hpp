@@ -23,6 +23,7 @@ namespace EditorUtils
 {
 	std::vector<u32> findPlayerReferences(Player *player);
 	std::vector<std::pair<std::string, s32>> load_player_invitems(int selectedplayer);
+	std::vector<std::pair<std::string, s32>> load_player_dresseritems(int selectedplayer, int dresser);
 }
 
 u16	strToU16(std::string str);

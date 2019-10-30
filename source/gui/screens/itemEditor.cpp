@@ -30,9 +30,11 @@
 
 #include "core/save/item.h"
 #include "core/save/offsets.h"
+#include "core/save/player.h"
 #include "core/save/save.h"
 
 #include "gui/gui.hpp"
+#include "gui/keyboard.hpp"
 
 #include "gui/screens/itemEditor.hpp"
 
@@ -41,9 +43,12 @@
 
 extern Save* SaveFile;
 extern std::map<u16, std::string> g_itemDatabase;
+std::vector<std::pair<std::string, s32>> testItemData; // Test. xD
 static std::vector<std::pair<std::string, s32>> inventoryData; // TODO: I dislike this. Find someother way of doing. Perhaps an item container class?
+static std::vector<std::pair<std::string, s32>> dresserData;
 Item it;
 extern int selectedPassedPlayer;
+#define maxDresser 17 // 17, because it starts with 0, so it would be basically 18.
 
 ItemEditor::ItemEditor() {
 	it.LoadItemBins();
@@ -54,9 +59,56 @@ ItemEditor::~ItemEditor()
 	it.UnloadItemBins();
 }
 
-void ItemEditor::DrawPocket(void) const {
+void ItemEditor::DisplayDresser(void) const {
 	std::string title = "LeafEdit - ";
-	title += Lang::get("ITEM_EDITOR");
+	title += Lang::get("ITEM_DRESSER");
+	title += std::to_string(currentDresser+1);
+
+	// Debug purpose.
+	char debug[50];
+	sprintf(debug, "%08lx", it.Raw);
+
+	dresserData = EditorUtils::load_player_dresseritems(selectedPassedPlayer, currentDresser);
+	std::string itemName = dresserData[currentDresserItem].first;
+
+	Gui::DrawTop();
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, Config::barText, title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, itemName.c_str()))/2, 214, 0.8f, Config::barText, itemName.c_str(), 400);
+	Gui::DrawBottom();
+
+	for (int i = 0; i < 10; ++i) {
+		for (u32 y = 0; y < 2; y++) {
+			for (u32 x = 0; x < 5; x++, i++) {
+				Gui::sprite(0, sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
+				if (dresserData[i].second > -1)
+				{
+					ItemManagement::DrawItem(dresserData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
+					//Gui::DrawString(200, 170, 0.6f, WHITE, debug, 400); // Debug Purpose.
+				}
+			}
+		}
+	}
+}
+
+
+
+// Was a Test, to display the first Item on the Pocket of Player 1. Will be used for other needed Item Tests.
+void ItemEditor::DisplayItems(void) const {
+	Gui::DrawTop();
+
+	Item *items = &Save::Instance()->players[0]->Pockets[0];
+	testItemData.push_back(std::make_pair(items->GetName(), items->GetSpritesheetID()));
+
+	ItemManagement::DrawItem(testItemData[0].second, 160, 60, 1 , 1);
+	std::string itemName = testItemData[0].first;
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, itemName.c_str()))/2, 160, 0.7f, Config::boxText, itemName.c_str(), 320);
+	Gui::DrawBottom();
+}
+
+
+void ItemEditor::DisplayPocket(void) const {
+	std::string title = "LeafEdit - ";
+	title += Lang::get("ITEM_POCKET");
 	int x = 42;
 	int y = 63;
 	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
@@ -91,12 +143,46 @@ void ItemEditor::DrawPocket(void) const {
 
 
 void ItemEditor::Draw(void) const {
-	DrawPocket();
+	if (itemMode == 0) {
+		DisplayPocket();
+	} else if (itemMode == 1) {
+		DisplayDresser();
+	}
 }
+void ItemEditor::PocketLogic(u32 hDown) {
+	if (hDown & KEY_X) {
+		itemMode = 1;
+	}
+}
+
+void ItemEditor::DresserLogic(u32 hDown) {
+	if (hDown & KEY_X) {
+		itemMode = 0;
+	}
+
+	if (hDown & KEY_R) {
+		if(currentDresser < maxDresser)	currentDresser++;
+	} else if (hDown & KEY_L) {
+		if (currentDresser > 0) currentDresser--;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if(currentDresserItem < 9)	currentDresserItem++;
+	} else if (hDown & KEY_LEFT) {
+		if (currentDresserItem > 0) currentDresserItem--;
+	}
+}
+
 
 void ItemEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (itemMode == 0) {
+		PocketLogic(hDown);
+	} else if (itemMode == 1) {
+		DresserLogic(hDown);
 	}
 }

@@ -32,7 +32,7 @@
 
 namespace ItemManagement
 {
-	void DrawItem(u8 ItemID, int x, int y, float ScaleX, float ScaleY); // Draw the Items.
+	void DrawItem(u16 ItemID, int x, int y, float ScaleX, float ScaleY); // Draw the Items.
 	void LoadDatabase(int lang); // Load Item Database.
 }
 

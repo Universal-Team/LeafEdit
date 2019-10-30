@@ -66,11 +66,11 @@ struct ItemKind_s {
 class Item {
 public:
 	union {
-		u32 Raw;
-		struct {
-			u16 ID;
-			u16 Flags;
-		};
+    	struct {
+        	u16 ID;
+        	u16 Flags;
+    	};
+    	u32 Raw;
 	};
 
 	static void LoadItemBins(void);

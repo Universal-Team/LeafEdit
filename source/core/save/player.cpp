@@ -35,6 +35,11 @@ Player::~Player()
 		delete[] this->Pockets;
 		this->Pockets = nullptr;
 	}
+
+	if (this->Dresser != nullptr) {
+		delete[] this->Dresser;
+		this->Dresser = nullptr;
+	}
 }
 
 Player::Player(u32 offset, u32 index) {
@@ -56,7 +61,12 @@ Player::Player(u32 offset, u32 index) {
 	this->Pockets = new Item[16];
 
 	for (int i = 0; i < 16; i++) {
-		this->Pockets[i] = Item(offset + 0x6BD0 + i * 4);
+		this->Pockets[i] = Item(offset + 0x6BD0 + i * sizeof(Item));
+	}
+
+	this->Dresser = new Item[180];
+	for (int i = 0; i < 180; i++) {
+		this->Dresser[i] = Item(offset + 0x92f0 + i * sizeof(Item));
 	}
 }
 
@@ -70,6 +80,9 @@ void Player::Write() {
 	Save::Instance()->Write(this->m_offset + 0x55BA, this->Gender);
 	Save::Instance()->Write(this->m_offset + 0x55BC, this->TownId);
 	Save::Instance()->Write(this->m_offset + 0x55BE, this->TownName, 8);
+
+	// Was for Testing purpose of writing an Item to slot 1 of the pocket.
+//	Save::Instance()->Write(this->m_offset + 0x6BD0 + 0 * 4, this->testItem);
 
 	this->BankAmount.encrypt(encryptedInt, encryptionData);
 	Save::Instance()->Write(this->m_offset + 0x6b8c, encryptedInt);

@@ -97,14 +97,33 @@ std::vector<u32> EditorUtils::findPlayerReferences(Player *player) {
 }
 
 std::vector<std::pair<std::string, s32>> EditorUtils::load_player_invitems(int selectedplayer) {
-    std::vector<std::pair<std::string, s32>> inventoryItemData;
-    for (int num = 0; num < 16; num++) {
-        Item* item = &Save::Instance()->players[selectedplayer]->Pockets[num];
-        inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-    }
+	std::vector<std::pair<std::string, s32>> inventoryItemData;
+	for (int num = 0; num < 16; num++) {
+		Item* item = &Save::Instance()->players[selectedplayer]->Pockets[num];
+		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+	}
 
-    return inventoryItemData;
+	return inventoryItemData;
 }
+
+
+std::vector<std::pair<std::string, s32>> EditorUtils::load_player_dresseritems(int selectedplayer, int dresser) {
+	std::vector<std::pair<std::string, s32>> dresserItemData;
+	if (dresser == 0) {
+		for (int num = 0; num < 10; num++) {
+			Item* item = &Save::Instance()->players[selectedplayer]->Dresser[num];
+			dresserItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		}
+	} else {
+		for (int num = dresser*10; num < dresser*10+10; num++) {
+			Item* item = &Save::Instance()->players[selectedplayer]->Dresser[num];
+			dresserItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		}
+	}
+
+	return dresserItemData;
+}
+
 
 // Villager stuff.
 u16 strToU16(std::string str) {

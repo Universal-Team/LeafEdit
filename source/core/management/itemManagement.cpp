@@ -36,7 +36,7 @@ std::map<u16, std::string> g_itemDatabase;
 //std::map<std::string, std::map<u16, std::string>> g_sortedItemDatabase;
 
 // Draw the Villager sprite.
-void ItemManagement::DrawItem(u8 ItemID, int x, int y, float ScaleX, float ScaleY) {
+void ItemManagement::DrawItem(u16 ItemID, int x, int y, float ScaleX, float ScaleY) {
 	DrawSprite(Items, ItemID, x, y, ScaleX, ScaleY);
 }
 

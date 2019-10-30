@@ -45,6 +45,8 @@ public:
 	u16 TownId;
 	std::u16string TownName;
 	Item *Pockets = nullptr;
+	Item *Dresser = nullptr;
+	u16 testItem;
 	EncryptedInt32 Wallet;
 	EncryptedInt32 BankAmount;
 	EncryptedInt32 MeowCoupons;

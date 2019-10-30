@@ -101,6 +101,8 @@
 	"WHAT_YOU_DO":					"What are you trying to do? :P",
 
 	"ITEM_EDITOR":					"Item Editor",
+	"ITEM_DRESSER":					"Dresser: ",
+	"ITEM_POCKET":					"Pocket",
 
 	"INI_BROWSE":					"Ini Browse",
 	"WANT_USE_INI":					"Do you want to use this ini?",

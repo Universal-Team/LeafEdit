@@ -41,7 +41,17 @@ public:
 	~ItemEditor(void);
 
 private:
-	void DrawPocket(void) const;
+	int currentDresser = 0;
+	int currentDresserItem = 0;
+	int itemMode = 0;
+
+	void DisplayPocket(void) const;
+	void PocketLogic(u32 hDown);
+
+	void DisplayItems(void) const;
+
+	void DisplayDresser(void) const;
+	void DresserLogic(u32 hDown);
 };
 
 #endif
