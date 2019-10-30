@@ -56,7 +56,7 @@ steps:
     cd extras/builds/LeafEdit/
     cp ../../../LeafEdit.3dsx LeafEdit.3dsx
     cp ../../../LeafEdit.cia LeafEdit.cia
-    qrencode -o LeafEdit.png https://github.com/Universal-Team/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.cia
+    qrencode -o LeafEdit.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.cia
     git stage .
     git commit -m "LeafEdit | $(COMMIT_TAG)"
     git push origin master
