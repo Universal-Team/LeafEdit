@@ -82,7 +82,7 @@ void Player::Write() {
 	Save::Instance()->Write(this->m_offset + 0x55BE, this->TownName, 8);
 
 	// Was for Testing purpose of writing an Item to slot 1 of the pocket.
-//	Save::Instance()->Write(this->m_offset + 0x6BD0 + 0 * 4, this->testItem);
+	Save::Instance()->Write(this->m_offset + 0x6BD0 + 0 * 4, this->testItem);
 
 	this->BankAmount.encrypt(encryptedInt, encryptionData);
 	Save::Instance()->Write(this->m_offset + 0x6b8c, encryptedInt);
