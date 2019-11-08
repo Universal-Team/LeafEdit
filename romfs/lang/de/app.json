@@ -125,5 +125,7 @@
 	"VILLAGER_GROUP_DONT_START": "Die Bewohner Gruppe startet nicht mit dieser ID!",
 	"VILLAGER_EDITOR_SUBMENU": "Bewohner Editor - SubMenu",
 	"VILLAGER_VIEWER": "Bewohner Betrachter",
-	"CURRENT_VILLAGER": "Aktueller Bewohner: "
+	"CURRENT_VILLAGER": "Aktueller Bewohner: ",
+	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
+	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!"
 }
