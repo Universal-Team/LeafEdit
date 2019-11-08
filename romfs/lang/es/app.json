@@ -125,5 +125,7 @@
 	"VILLAGER_GROUP_DONT_START": "¡El Grupo de Vecinos no comienza con este ID!",
 	"VILLAGER_EDITOR_SUBMENU": "Editor del Vecino - Submenú",
 	"VILLAGER_VIEWER": "Visor de Vecinos",
-	"CURRENT_VILLAGER": "Vecino actual: "
+	"CURRENT_VILLAGER": "Vecino actual: ",
+	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
+	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!"
 }
