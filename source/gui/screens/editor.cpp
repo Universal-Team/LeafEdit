@@ -194,9 +194,20 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 				}
 				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
 				selectedSaveFolderEditor += "/garden_plus.dat";
-				const char *save = selectedSaveFolderEditor.c_str();
-				SaveFile = Save::Initialize(save, true);
-				EditorMode = 2;
+				if( access( selectedSaveFolderEditor.c_str(), F_OK ) != -1 ) {
+					const char *save = selectedSaveFolderEditor.c_str();
+					SaveFile = Save::Initialize(save, true);
+
+					if (SaveFile->GetSaveSize() != SIZE_SAVE) {
+						Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
+						SaveFile->Close();
+						return;
+					}
+					EditorMode = 2;
+				} else {
+					Msg::DisplayWarnMsg(Lang::get("SAVE_NOT_FOUND"));
+					return;
+				}
 			}
 		}
 	}

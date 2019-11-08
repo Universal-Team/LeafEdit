@@ -185,12 +185,9 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Sheets", 0777); // Sheet Ini path.
+	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
-
-	if (R_FAILED(res = acInit())) {
-		return DisplayStartupError("acInit "+Lang::get("INIT_FAILED"), res, false);
-	}
 
 	if (R_FAILED(res = amInit())) {
 		return DisplayStartupError("amInit "+Lang::get("INIT_FAILED"), res, false);
@@ -293,7 +290,6 @@ int main()
 	}
 	cfguExit();
 	sdmcExit();
-	acExit();
 	amExit();
 	Archive::exit();
 	Gui::exit();
