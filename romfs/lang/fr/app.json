@@ -125,5 +125,7 @@
 	"VILLAGER_GROUP_DONT_START": "The Villager Group don't start with this ID!",
 	"VILLAGER_EDITOR_SUBMENU": "Villager Editor - SubMenu",
 	"VILLAGER_VIEWER": "Villager Viewer",
-	"CURRENT_VILLAGER": "Current Villager: "
+	"CURRENT_VILLAGER": "Current Villager: ",
+	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
+	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!"
 }
