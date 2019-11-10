@@ -127,7 +127,7 @@ void GameLoader::checkUpdate(void)
 			Config::update = 0;
 		}
 		Config::check = 1;
-		Config::saveConfig();
+		Config::save();
 	}
 }
 

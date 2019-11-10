@@ -163,8 +163,13 @@ int main()
 
 	romfsInit();
 	Archive::init();
-	Config::loadConfig();
-	Lang::load(Config::lang);
+
+	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
+		Config::setInitialColors();
+	}
+	
+	Config::load();
+	Lang::load(Config::getLang("lang"));
 
 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
 		ndspInit();
@@ -226,15 +231,13 @@ int main()
 		return DisplayStartupError("villagers2 "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
 	}
 
-	Config::loadSheetIni();
-	Config::loadSheetIniStuff();
 	loadSounds();
 
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
 	
-	ItemManagement::LoadDatabase(Config::lang);
+	ItemManagement::LoadDatabase(Config::getLang("lang"));
 
 	TestStuff();
 
