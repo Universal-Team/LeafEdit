@@ -114,7 +114,7 @@ void Settings::DrawLangScreen(void) const {
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("SELECT_LANG")))/2, 2, 0.8f, Config::barText, Lang::get("SELECT_LANG"), 398);
 	Gui::DrawBottom();
 
-	if (Config::lang == 0) {
+	if (Config::getInt("lang") == 0) {
 		Gui::Draw_Rect(37, 52, 20, 20, RED);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -125,7 +125,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
-	} else if (Config::lang == 1) {
+	} else if (Config::getInt("lang") == 1) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, RED);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -136,7 +136,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
-	} else if (Config::lang == 2) {
+	} else if (Config::getInt("lang") == 2) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, RED);
@@ -147,7 +147,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
-	} else if (Config::lang == 3) {
+	} else if (Config::getInt("lang") == 3) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -158,7 +158,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
-	} else if (Config::lang == 4) {
+	} else if (Config::getInt("lang") == 4) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -169,7 +169,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
-	} else if (Config::lang == 5) {
+	} else if (Config::getInt("lang") == 5) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -180,7 +180,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, RED);
 
-	} else if (Config::lang == 6) {
+	} else if (Config::getInt("lang") == 6) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -191,7 +191,7 @@ void Settings::DrawLangScreen(void) const {
 		Gui::Draw_Rect(177, 132, 20, 20, Config::Color2);
 		Gui::Draw_Rect(177, 172, 20, 20, Config::Color2);
 
-	} else if (Config::lang == 7) {
+	} else if (Config::getInt("lang") == 7) {
 		Gui::Draw_Rect(37, 52, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 92, 20, 20, Config::Color2);
 		Gui::Draw_Rect(37, 132, 20, 20, Config::Color2);
@@ -231,57 +231,49 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, langBlocks[0])) {
-			Config::lang = 0;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 0);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[1])) {
-			Config::lang = 1;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 1);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[2])) {
-			Config::lang = 2;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 2);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[3])) {
-			Config::lang = 3;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 3);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[4])) {
-			Config::lang = 4;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 4);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[5])) {
-			Config::lang = 6;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang",6);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[6])) {
-			Config::lang = 7;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 7);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));
 
 		} else if (touching(touch, langBlocks[7])) {
-			Config::lang = 5;
-			Config::setInt("lang", Config::lang);
+			Config::setInt("lang", 5);
 			Config::save();
 			ItemManagement::LoadDatabase(Config::getLang("lang"));
 			Lang::load(Config::getLang("lang"));

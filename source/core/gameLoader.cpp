@@ -94,7 +94,7 @@ bool GameLoader::cardUpdate()
 // Check for Updates of the old AC:NL Version.
 void GameLoader::checkUpdate(void)
 {
-	if (Config::check == 0) {
+	if (Config::getBool("updateCheck") == false) {
 		Result res = 0;
 		u32 updateTitleCount;
 
@@ -121,12 +121,12 @@ void GameLoader::checkUpdate(void)
 			|| std::find(updateIds.begin(), updateIds.end(), 0x0004000E00086500) != updateIds.end()) // KOR.
 		{
 			Msg::DisplayWarnMsg(Lang::get("UPDATE_FOUND"));
-			Config::update = 1;
+			Config::setBool("update", true);
 		} else {
 			Msg::DisplayWarnMsg(Lang::get("UPDATE_NOTFOUND"));
-			Config::update = 0;
+			Config::setBool("update", false);
 		}
-		Config::check = 1;
+		Config::setBool("updateCheck", true);
 		Config::save();
 	}
 }
@@ -223,6 +223,6 @@ void GameLoader::scanTitleID(void)
 
 // Check for Updates, even when the Update was already checked on first startup.
 void GameLoader::updateCheck2(void) {
-	Config::check = 0;
+	Config::setBool("updateCheck", false);
 	checkUpdate();
 }

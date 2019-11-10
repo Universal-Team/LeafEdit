@@ -165,7 +165,7 @@ int main()
 	Archive::init();
 
 	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
-		Config::setInitialColors();
+		Config::initializeNewConfig();
 	}
 	
 	Config::load();
@@ -244,9 +244,9 @@ int main()
 	GameLoader::checkUpdate();
 
 	// Return the Welcome Amiibo State.
-	if (Config::update == 0) {
+	if (Config::getBool("update") == false) {
 		WelcomeAmiibo = false;
-	} else if (Config::update == 1) {
+	} else if (Config::getBool("update") == true) {
 		WelcomeAmiibo = true;
 	}
 

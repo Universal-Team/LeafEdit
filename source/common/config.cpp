@@ -35,15 +35,6 @@
 #include <string>
 #include <unistd.h>
 
-int Config::check; // Update Checked.
-int Config::update; // Update Available? ;P
-
-int Config::Logging; // Enable / Disable writing the log.
-
-int Config::LangLocation; // Language Location (Romfs/SD).
-int Config::lang; // Current Language.
-std::string Config::sheetIni; // Sheet Ini path.
-
 
 // Config stuff for the Sprites.
 int Config::barText;
@@ -85,7 +76,8 @@ void Config::save() {
 	fclose(file);
 }
 
-void Config::setInitialColors() {
+// If no Settings File is found, set a default one. ;)
+void Config::initializeNewConfig() {
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
@@ -93,6 +85,11 @@ void Config::setInitialColors() {
 	setString("Color2", "#a8c060");
 	setString("Color3", "#2c4d26");
 	setString("TextColor", "#ffffff");
+	setBool("updateCheck", false);
+	setBool("update", false);
+	setBool("Logging", false);
+	setInt("lang", 1);
+	setInt("LangLocation", 0);
 	save();
 }
 
