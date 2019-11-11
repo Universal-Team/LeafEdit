@@ -126,6 +126,6 @@
 	"VILLAGER_EDITOR_SUBMENU": "Editor del Vecino - Submenú",
 	"VILLAGER_VIEWER": "Visor de Vecinos",
 	"CURRENT_VILLAGER": "Vecino actual: ",
-	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
-	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!"
+	"SAVE_NOT_FOUND": "garden_plus.dat no encontrado!",
+	"SAVE_INCORRECT_SIZE": "¡El archivo guardado tiene un tamaño incorrecto!"
 }
