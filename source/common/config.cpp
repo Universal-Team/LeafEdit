@@ -35,19 +35,11 @@
 #include <string>
 #include <unistd.h>
 
-
-// Config stuff for the Sprites.
-int Config::barText;
-int Config::buttonText;
-int Config::bgText;
-int Config::boxText;
-int Config::fileBrowseText;
-int Config::MessageText;
-int Config::helpMsg;
-
 int Config::Color1;
 int Config::Color2;
 int Config::Color3;
+int Config::TxtColor;
+int Config::lang;
 
 
 nlohmann::json configJson;
@@ -57,20 +49,44 @@ void Config::load() {
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	Config::Color1 = ColorHelper::getColor(getString("Color1"));
-	Config::Color2 = ColorHelper::getColor(getString("Color2"));
-	Config::Color3 = ColorHelper::getColor(getString("Color3"));
-	Config::barText = ColorHelper::getColor(getString("TextColor"));
-	Config::buttonText = ColorHelper::getColor(getString("TextColor"));
-	Config::bgText = ColorHelper::getColor(getString("TextColor"));
-	Config::boxText = ColorHelper::getColor(getString("TextColor"));
-	Config::fileBrowseText = ColorHelper::getColor(getString("TextColor"));
-	Config::MessageText = ColorHelper::getColor(getString("TextColor"));
-	Config::helpMsg = ColorHelper::getColor(getString("TextColor"));
+		if(!configJson.contains("BarColor")) {
+			Config::Color1 = green2;
+		} else {
+			Config::Color1 = getInt("BarColor");
+		}
+
+		if(!configJson.contains("TopBgColor")) {
+			Config::Color2 = green4;
+		} else {
+			Config::Color2 = getInt("TopBgColor");
+		}
+
+		if(!configJson.contains("BottomBgColor")) {
+			Config::Color3 = green3;
+		} else {
+			Config::Color3 = getInt("BottomBgColor");
+		}
+
+		if(!configJson.contains("TextColor")) {
+			Config::TxtColor = WHITE;
+		} else {
+			Config::TxtColor = getInt("TextColor");
+		}
+
+		if(!configJson.contains("Lang")) {
+			Config::lang = 1;
+		} else {
+			Config::lang = getInt("Lang");
+		}
 }
 
 
 void Config::save() {
+	Config::setInt("BarColor", Config::Color1);
+	Config::setInt("TopBgColor", Config::Color2);
+	Config::setInt("BottomBgColor", Config::Color3);
+	Config::setInt("TextColor", Config::TxtColor);
+	Config::setInt("Lang", Config::lang);
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
@@ -81,16 +97,13 @@ void Config::initializeNewConfig() {
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
-	setString("Color1", "#547239");
-	setString("Color2", "#a8c060");
-	setString("Color3", "#2c4d26");
-	setString("TextColor", "#ffffff");
-	setBool("updateCheck", false);
-	setBool("update", false);
-	setBool("Logging", false);
-	setInt("lang", 1);
-	setInt("LangLocation", 0);
-	save();
+	setInt("BarColor", green2);
+	setInt("TopBgColor", green4);
+	setInt("BottomBgColor", green3);
+	setInt("TextColor", WHITE);
+	setInt("Lang", 1);
+	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
+	fclose(file);
 }
 
 

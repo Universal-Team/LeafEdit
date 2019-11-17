@@ -36,8 +36,8 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, Config::MessageText, promptMsg.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("CONFIRM_OR_CANCEL")))/2, 214, 0.72f, Config::MessageText, Lang::get("CONFIRM_OR_CANCEL"), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, Config::TxtColor, promptMsg.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("CONFIRM_OR_CANCEL")))/2, 214, 0.72f, Config::TxtColor, Lang::get("CONFIRM_OR_CANCEL"), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -65,7 +65,7 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.72f, Config::MessageText, Text.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.72f, Config::TxtColor, Text.c_str(), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -81,8 +81,8 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::get("A_CONTINUE")))/2, 214, 0.6f, Config::MessageText, Lang::get("A_CONTINUE"), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, Config::MessageText, waitMsg.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::get("A_CONTINUE")))/2, 214, 0.6f, Config::TxtColor, Lang::get("A_CONTINUE"), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, Config::TxtColor, waitMsg.c_str(), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -100,7 +100,7 @@ void Msg::HelperBox(std::string Msg) {
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 240, DIM);
 	Gui::sprite(0, sprites_helperBox_idx, 0, 27);
-	Gui::DrawString(10, 42, 0.45f, Config::helpMsg, Msg, 380);
+	Gui::DrawString(10, 42, 0.45f, Config::TxtColor, Msg, 380);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
@@ -112,7 +112,7 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, Config::MessageText, Message.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, Config::TxtColor, Message.c_str(), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 }

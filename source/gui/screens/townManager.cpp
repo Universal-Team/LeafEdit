@@ -63,7 +63,7 @@ void TownManager::DrawSubMenu(void) const
 	Title += " - ";
 	Title += Lang::get("TOWN_MANAGER");
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::TxtColor, Title.c_str(), 400);
 	Gui::DrawBottom();
 
 	if (Selection == 0) {
@@ -103,14 +103,14 @@ void TownManager::DrawSubMenu(void) const
 	}
 
 	// Launch a Town from a Backup or just start the game.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("LAUNCH_TOWN")))/2-70+5, townButtons[0].y+10, 0.6f, Config::buttonText, Lang::get("LAUNCH_TOWN"), 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("LAUNCH_TOWN")))/2-70+5, townButtons[0].y+10, 0.6f, Config::TxtColor, Lang::get("LAUNCH_TOWN"), 130);
 	// Backup the Save from the installed Title / Gamecard.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("BACKUP_TOWN")))/2-70+5, townButtons[1].y+10, 0.6f, Config::buttonText, Lang::get("BACKUP_TOWN"), 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("BACKUP_TOWN")))/2-70+5, townButtons[1].y+10, 0.6f, Config::TxtColor, Lang::get("BACKUP_TOWN"), 130);
 	// Restore a Backuped save.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("RESTORE_TOWN")))/2-70+5, townButtons[2].y+10, 0.6f, Config::buttonText, Lang::get("RESTORE_TOWN"), 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("RESTORE_TOWN")))/2-70+5, townButtons[2].y+10, 0.6f, Config::TxtColor, Lang::get("RESTORE_TOWN"), 130);
 	// Delete Save from Installed Title / Gamecard.
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("DELETE_TOWN")))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::buttonText, Lang::get("DELETE_TOWN"), 130);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("DELETE_BACKUP")))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::buttonText, Lang::get("DELETE_BACKUP"), 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("DELETE_TOWN")))/2+150-70+5, townButtons[3].y+10, 0.6f, Config::TxtColor, Lang::get("DELETE_TOWN"), 130);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("DELETE_BACKUP")))/2+150-70+5, townButtons[4].y+10, 0.6f, Config::TxtColor, Lang::get("DELETE_BACKUP"), 130);
 }
 
 
@@ -171,14 +171,14 @@ void TownManager::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	if (screenMode == 1) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_LAUNCH")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_TOWN_LAUNCH"), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_LAUNCH")))/2, 2, 0.72f, Config::TxtColor, Lang::get("SELECT_TOWN_LAUNCH"), 400);
 	} else if (screenMode == 2) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_RESTORE")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_TOWN_RESTORE"), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TOWN_RESTORE")))/2, 2, 0.72f, Config::TxtColor, Lang::get("SELECT_TOWN_RESTORE"), 400);
 	} else if (screenMode == 3) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_BACKUP_DELETE")))/2, 2, 0.72f, Config::barText, Lang::get("SELECT_BACKUP_DELETE"), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_BACKUP_DELETE")))/2, 2, 0.72f, Config::TxtColor, Lang::get("SELECT_BACKUP_DELETE"), 400);
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::get("REFRESH")))/2, 216, 0.60f, Config::barText, Lang::get("REFRESH"), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Lang::get("REFRESH")))/2, 216, 0.60f, Config::TxtColor, Lang::get("REFRESH"), 400);
 
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
@@ -191,8 +191,8 @@ void TownManager::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.51f, Config::fileBrowseText, dirs.c_str(), 400);
-	Gui::DrawString(0, 2, 0.65f, WHITE, selectedSaveFolder.c_str(), 400);
+	Gui::DrawString(26, 32, 0.51f, Config::TxtColor, dirs.c_str(), 400);
+	Gui::DrawString(0, 2, 0.65f, Config::TxtColor, selectedSaveFolder.c_str(), 400);
 	Gui::DrawBottom();
 }
 

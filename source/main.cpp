@@ -169,7 +169,7 @@ int main()
 	}
 	
 	Config::load();
-	Lang::load(Config::getLang("lang"));
+	Lang::load(Config::getLang("Lang"));
 
 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
 		ndspInit();
@@ -237,7 +237,7 @@ int main()
 
 	// Load The Strings from the Romfs.
 	
-	ItemManagement::LoadDatabase(Config::getLang("lang"));
+	ItemManagement::LoadDatabase(Config::getLang("Lang"));
 
 	TestStuff();
 
@@ -291,6 +291,7 @@ int main()
 	if (dspfirmfound) {
 		ndspExit();
 	}
+	Config::save();
 	cfguExit();
 	sdmcExit();
 	amExit();

@@ -44,16 +44,7 @@ namespace Config {
 	void setString(const std::string &key, const std::string &v);
 
 	int getLang(const std::string &key);
-
-	
-	extern int barText;
-	extern int buttonText;
-	extern int bgText;
-	extern int boxText;
-	extern int fileBrowseText;
-	extern int MessageText;
-	extern int helpMsg;
-	extern int Color1, Color2, Color3;
+	extern int Color1, Color2, Color3, TxtColor, lang;
 }
 
 #endif

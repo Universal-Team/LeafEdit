@@ -67,8 +67,8 @@ void VillagerViewer::DrawVillagerList(void) const {
 			villagerID += std::to_string(villagerViewerSprite);
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::boxText, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::boxText, villagerNameText.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::TxtColor, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::TxtColor, villagerNameText.c_str(), 320);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
@@ -154,8 +154,8 @@ void VillagerViewer::DrawVillager(void) const {
 			villagerID += std::to_string(Save::Instance()->villagers[i]->GetId());
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::boxText, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::boxText, villagerNameText.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::TxtColor, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::TxtColor, villagerNameText.c_str(), 320);
 	Gui::DrawBottom();
 }
 
@@ -174,8 +174,8 @@ void VillagerViewer::DrawCurrentVillager(void) const
 		}
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, Config::barText, activeVillager.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::barText, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, Config::TxtColor, activeVillager.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::TxtColor, Title.c_str(), 400);
 }
 
 void VillagerViewer::DrawBox(void) const {
