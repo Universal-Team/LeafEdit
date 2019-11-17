@@ -30,34 +30,21 @@
 #include <string>
 
 namespace Config {
+	void load();
+	void save();
+	void initializeNewConfig();
 
-	// [CORE]
-	extern int check; // If checked on startup -> 1.
-	extern int update; // Tell, if an Update of AC:NL was found. (For the old version).
+	bool getBool(const std::string &key);
+	void setBool(const std::string &key, bool v);
 
-	// [MISC]
-	extern int Logging; // Enable / Disable writing to the Log.
+	int getInt(const std::string &key);
+	void setInt(const std::string &key, int v);
 
-	// [UI]
-	extern int LangLocation; // Language Location (Romfs/SD).
-	extern int lang; // The current Language.
-	extern std::string sheetIni; // Sheet Ini Path.
+	std::string getString(const std::string &key);
+	void setString(const std::string &key, const std::string &v);
 
-	void loadConfig();
-	void saveConfig();
-
-	// Spritesheet stuff.
-	void loadSheetIni();
-	void saveSheetIni(std::string sheetIniPath);
-	void loadSheetIniStuff();
-	extern int barText;
-	extern int buttonText;
-	extern int bgText;
-	extern int boxText;
-	extern int fileBrowseText;
-	extern int MessageText;
-	extern int helpMsg;
-	extern int Color1, Color2, Color3;
+	int getLang(const std::string &key);
+	extern int Color1, Color2, Color3, TxtColor, lang;
 }
 
 #endif

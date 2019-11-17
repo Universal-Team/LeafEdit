@@ -26,6 +26,8 @@
 
 #include "gui/colors.hpp"
 
+#include <regex>
+
 int ColorHelper::getColorValue(int color, int bgr)
 {
 	char colorName[10];
@@ -46,4 +48,15 @@ std::string ColorHelper::getColorName(int color, int bgr)
 	int i = getColorValue(color, bgr);
 	itoa(i, colorName, 10);
 	return colorName;
+}
+
+u32 ColorHelper::getColor(std::string colorString) {
+	if(colorString.length() < 7 || std::regex_search(colorString.substr(1), std::regex("[^0-9a-f]"))) { // invalid color
+		return 0;
+	}
+
+	int r = std::stoi(colorString.substr(1, 2), nullptr, 16);
+	int g = std::stoi(colorString.substr(3, 2), nullptr, 16);
+	int b = std::stoi(colorString.substr(5, 2), nullptr, 16);
+	return RGBA8(r, g, b, 0xFF);
 }

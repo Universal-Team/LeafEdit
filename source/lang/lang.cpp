@@ -37,7 +37,8 @@ void Lang::load(int lang) {
 	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
 	
 	FILE* values;
-	if (Config::LangLocation == 1) {
+	
+	if (Config::getInt("LangLocation") == 1) {
 		values = fopen(("sdmc:/LeafEdit/lang/"+langs[lang]+"/app.json").c_str(), "rt");
 	} else {
 		values = fopen(("romfs:/lang/"+langs[lang]+"/app.json").c_str(), "rt");

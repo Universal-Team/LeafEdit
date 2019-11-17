@@ -163,8 +163,13 @@ int main()
 
 	romfsInit();
 	Archive::init();
-	Config::loadConfig();
-	Lang::load(Config::lang);
+
+	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
+		Config::initializeNewConfig();
+	}
+	
+	Config::load();
+	Lang::load(Config::getLang("Lang"));
 
 	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
 		ndspInit();
@@ -226,24 +231,22 @@ int main()
 		return DisplayStartupError("villagers2 "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
 	}
 
-	Config::loadSheetIni();
-	Config::loadSheetIniStuff();
 	loadSounds();
 
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
 	
-	ItemManagement::LoadDatabase(Config::lang);
+	ItemManagement::LoadDatabase(Config::getLang("Lang"));
 
 	TestStuff();
 
 	GameLoader::checkUpdate();
 
 	// Return the Welcome Amiibo State.
-	if (Config::update == 0) {
+	if (Config::getBool("update") == false) {
 		WelcomeAmiibo = false;
-	} else if (Config::update == 1) {
+	} else if (Config::getBool("update") == true) {
 		WelcomeAmiibo = true;
 	}
 
@@ -288,6 +291,7 @@ int main()
 	if (dspfirmfound) {
 		ndspExit();
 	}
+	Config::save();
 	cfguExit();
 	sdmcExit();
 	amExit();

@@ -24,8 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/inifile.h"
 #include "common/config.hpp"
+#include "common/json.hpp"
+
+#include "gui/colors.hpp"
 
 #include "lang/lang.hpp"
 
@@ -33,95 +35,111 @@
 #include <string>
 #include <unistd.h>
 
-using std::string;
-using std::wstring;
-
-static CIniFile settingsini( "sdmc:/LeafEdit/Settings.ini" );
-CIniFile sheetFileIni; // Sheet color informations.
-
-int Config::check; // Update Checked.
-int Config::update; // Update Available? ;P
-
-int Config::Logging; // Enable / Disable writing the log.
-
-int Config::LangLocation; // Language Location (Romfs/SD).
-int Config::lang; // Current Language.
-std::string Config::sheetIni; // Sheet Ini path.
-
-
-// Config stuff for the Sprites.
-int Config::barText;
-int Config::buttonText;
-int Config::bgText;
-int Config::boxText;
-int Config::fileBrowseText;
-int Config::MessageText;
-int Config::helpMsg;
-
 int Config::Color1;
 int Config::Color2;
 int Config::Color3;
+int Config::TxtColor;
+int Config::lang;
 
 
-void Config::loadSheetIni() {
-	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", Config::sheetIni);
-	std::string sheetIniFile = Config::sheetIni.c_str();
-	std::string romfs = "romfs:/gfx/sheet.ini";
+nlohmann::json configJson;
 
-	if((access(sheetIniFile.c_str(), F_OK) == 0)) {
-		sheetFileIni = sheetIniFile;
-	} else {
-		sheetFileIni = romfs;
-		Config::sheetIni = romfs;
-		settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+void Config::load() {
+	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
+	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	fclose(file);
+
+		if(!configJson.contains("BarColor")) {
+			Config::Color1 = green2;
+		} else {
+			Config::Color1 = getInt("BarColor");
+		}
+
+		if(!configJson.contains("TopBgColor")) {
+			Config::Color2 = green4;
+		} else {
+			Config::Color2 = getInt("TopBgColor");
+		}
+
+		if(!configJson.contains("BottomBgColor")) {
+			Config::Color3 = green3;
+		} else {
+			Config::Color3 = getInt("BottomBgColor");
+		}
+
+		if(!configJson.contains("TextColor")) {
+			Config::TxtColor = WHITE;
+		} else {
+			Config::TxtColor = getInt("TextColor");
+		}
+
+		if(!configJson.contains("Lang")) {
+			Config::lang = 1;
+		} else {
+			Config::lang = getInt("Lang");
+		}
+}
+
+
+void Config::save() {
+	Config::setInt("BarColor", Config::Color1);
+	Config::setInt("TopBgColor", Config::Color2);
+	Config::setInt("BottomBgColor", Config::Color3);
+	Config::setInt("TextColor", Config::TxtColor);
+	Config::setInt("Lang", Config::lang);
+	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
+	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
+	fclose(file);
+}
+
+// If no Settings File is found, set a default one. ;)
+void Config::initializeNewConfig() {
+	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
+	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	fclose(file);
+	setInt("BarColor", green2);
+	setInt("TopBgColor", green4);
+	setInt("BottomBgColor", green3);
+	setInt("TextColor", WHITE);
+	setInt("Lang", 1);
+	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
+	fclose(file);
+}
+
+
+bool Config::getBool(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return false;
 	}
+	return configJson.at(key).get_ref<const bool&>();
+}
+void Config::setBool(const std::string &key, bool v) {
+	configJson[key] = v;
 }
 
-void Config::loadSheetIniStuff() {
-	Config::barText = sheetFileIni.GetInt("COLORS", "BarText", Config::barText);
-	Config::buttonText = sheetFileIni.GetInt("COLORS", "ButtonText", Config::buttonText);
-	Config::bgText = sheetFileIni.GetInt("COLORS", "BGText", Config::bgText);
-	Config::boxText = sheetFileIni.GetInt("COLORS", "BoxText", Config::boxText);
-	Config::fileBrowseText = sheetFileIni.GetInt("COLORS", "FileBrowseText", Config::fileBrowseText);
-	Config::MessageText = sheetFileIni.GetInt("COLORS", "MessageText", Config::MessageText);
-	Config::helpMsg = sheetFileIni.GetInt("COLORS", "helpMsg", Config::helpMsg);
-	// GUI Colors.
-	Config::Color1 = sheetFileIni.GetInt("UI", "Color1", Config::Color1);
-	Config::Color2 = sheetFileIni.GetInt("UI", "Color2", Config::Color2);
-	Config::Color3 = sheetFileIni.GetInt("UI", "Color3", Config::Color3);
+int Config::getInt(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return 0;
+	}
+	return configJson.at(key).get_ref<const int64_t&>();
+}
+void Config::setInt(const std::string &key, int v) {
+	configJson[key] = v;
 }
 
-void Config::saveSheetIni(std::string sheetIniPath) {
-	settingsini.SetString("MISC", "SheetIniPath", sheetIniPath.c_str());
-	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+std::string Config::getString(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return "";
+	}
+	return configJson.at(key).get_ref<const std::string&>();
+}
+void Config::setString(const std::string &key, const std::string &v) {
+	configJson[key] = v;
 }
 
-
-void Config::loadConfig() {
-	// [CORE]
-	Config::check = settingsini.GetInt("CORE", "CHECKED", 0);
-	Config::update = settingsini.GetInt("CORE", "FOUND", 0);
-
-	// [MISC]
-	Config::Logging = settingsini.GetInt("MISC", "LOGGING", 0);
-	Config::sheetIni = settingsini.GetString("MISC", "SheetIniPath", "romfs:/gfx/sheet.ini");
-
-	// [UI]
-	Config::LangLocation = settingsini.GetInt("UI", "LANGLOCATION", 0);
-	Config::lang = settingsini.GetInt("UI", "LANGUAGE", 1);
-}
-
-void Config::saveConfig() {
-	// [CORE]
-	settingsini.SetInt("CORE", "CHECKED", Config::check);
-	settingsini.SetInt("CORE", "FOUND", Config::update);
-
-	// [MISC]
-	settingsini.SetInt("MISC", "LOGGING", Config::Logging);
-
-	// [UI]
-	settingsini.SetInt("UI", "LANGLOCATION", Config::LangLocation);
-	settingsini.SetInt("UI", "LANGUAGE", Config::lang);
-
-	settingsini.SaveIniFile("sdmc:/LeafEdit/Settings.ini");
+int Config::getLang(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return 1;
+	}
+	return configJson.at(key).get_ref<const int64_t&>();
 }
