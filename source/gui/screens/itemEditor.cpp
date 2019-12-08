@@ -185,10 +185,4 @@ void ItemEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if (itemMode == 1) {
 		DresserLogic(hDown);
 	}
-
-	if (hDown & KEY_Y && itemMode == 0) {
-		std::string ID = Input::getLine(4, "Enter the ID.");
-		u16 num = std::stoi(ID, nullptr, 16);
-		SaveFile->players[0]->testItem = num;
-	}
 }
