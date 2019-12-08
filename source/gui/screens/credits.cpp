@@ -43,7 +43,7 @@ void Credits::Draw(void) const {
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("DEVELOPED_BY")))/2, 40, 0.8f, TXTCOLOR, Lang::get("DEVELOPED_BY"), 400);
 		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("MAIN_DEV")))/2, 70, 0.8f, TXTCOLOR, Lang::get("MAIN_DEV"), 400);
-		Gui::sprite(0, sprites_voltZ_idx, 150, 110);
+		Gui::sprite(0, sprites_stackZ_idx, 150, 110);
 		std::string currentVersion = Lang::get("CURRENT_VERSION");
 		currentVersion += V_STRING;
 		Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, currentVersion), 215, FONT_SIZE_18, TXTCOLOR, currentVersion, 400);
