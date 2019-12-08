@@ -59,7 +59,7 @@ void AcresEditor::Draw(void) const {
 	title += " - ";
 	title += Lang::get("ACRE_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, Config::TxtColor, title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
 	Gui::DrawBottom();
 	townMap();
 	DrawSelection();

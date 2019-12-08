@@ -67,8 +67,8 @@ void VillagerViewer::DrawVillagerList(void) const {
 			villagerID += std::to_string(villagerViewerSprite);
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::TxtColor, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::TxtColor, villagerNameText.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, TXTCOLOR, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, TXTCOLOR, villagerNameText.c_str(), 320);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
@@ -154,8 +154,8 @@ void VillagerViewer::DrawVillager(void) const {
 			villagerID += std::to_string(Save::Instance()->villagers[i]->GetId());
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::TxtColor, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::TxtColor, villagerNameText.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, TXTCOLOR, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, TXTCOLOR, villagerNameText.c_str(), 320);
 	Gui::DrawBottom();
 }
 
@@ -174,11 +174,11 @@ void VillagerViewer::DrawCurrentVillager(void) const
 		}
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, Config::TxtColor, activeVillager.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::TxtColor, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, TXTCOLOR, activeVillager.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, TXTCOLOR, Title.c_str(), 400);
 }
 
 void VillagerViewer::DrawBox(void) const {
-	Gui::Draw_Rect(40, 162, 320, 22, Config::Color3);
-	Gui::Draw_Rect(40, 132, 320, 22, Config::Color3);
+	Gui::Draw_Rect(40, 162, 320, 22, BGBOTCOLOR);
+	Gui::Draw_Rect(40, 132, 320, 22, BGBOTCOLOR);
 }

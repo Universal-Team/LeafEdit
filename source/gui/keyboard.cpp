@@ -146,7 +146,7 @@ std::string Input::getLine(uint maxLength, std::string Text) {
 			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
 			Gui::DrawBottom();
 			drawKeyboard();
-			C2D_DrawRectSolid(0, 78, 0.5f, 320, 20, GREEN);
+			C2D_DrawRectSolid(0, 78, 0.5f, 320, 20, BGTOPCOLOR);
 			Gui::DrawString(5, 79, 0.6, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 400);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			scanKeys();

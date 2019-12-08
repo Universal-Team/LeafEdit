@@ -75,7 +75,7 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditor::DrawEditorSub(void) const {
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit"))/2, 2, 0.8f, Config::TxtColor, "LeafEdit", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit"))/2, 2, 0.8f, TXTCOLOR, "LeafEdit", 400);
 
 	Gui::DrawBottom();
 
@@ -88,8 +88,8 @@ void VillagerEditor::DrawEditorSub(void) const {
 		Gui::Draw_ImageBlend(0, sprites_button_idx, Buttons[1].x, Buttons[1].y, selectedColor);
 	}
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("SELECTING")))/2, Buttons[0].y+10, 0.6f, Config::TxtColor, Lang::get("SELECTING"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MANUALLY")))/2, Buttons[1].y+10, 0.6f, Config::TxtColor, Lang::get("MANUALLY"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("SELECTING")))/2, Buttons[0].y+10, 0.6f, TXTCOLOR, Lang::get("SELECTING"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MANUALLY")))/2, Buttons[1].y+10, 0.6f, TXTCOLOR, Lang::get("MANUALLY"), 140);
 }
 
 void VillagerEditor::EditorSubLogic(u32 hDown) {
@@ -297,199 +297,199 @@ void VillagerEditor::DrawSubMenu(void) const
 
 	Gui::DrawTop();
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, currentPage.c_str()))/2, 212, 0.8f, Config::TxtColor, currentPage.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, Config::TxtColor, Title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, currentPage.c_str()))/2, 212, 0.8f, TXTCOLOR, currentPage.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, TXTCOLOR, Title.c_str(), 400);
 
 	if (subMenuPage == 1) {
-		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(93, 10, 28);
 		std::string GroupOne = g_groups[0];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupOne.c_str()))/2-125-35, 83, 0.55f, Config::TxtColor, GroupOne.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupOne.c_str()))/2-125-35, 83, 0.55f, TXTCOLOR, GroupOne.c_str(), 70);
 
-		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(1, 90, 28);
 		std::string GroupTwo = g_groups[1]; 
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwo.c_str()))/2-45-35, 83, 0.55f, Config::TxtColor, GroupTwo.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwo.c_str()))/2-45-35, 83, 0.55f, TXTCOLOR, GroupTwo.c_str(), 70);
 
-		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(9, 170, 28);
 		std::string GroupThree = g_groups[2];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThree.c_str()))/2+35-35, 83, 0.55f, Config::TxtColor, GroupThree.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThree.c_str()))/2+35-35, 83, 0.55f, TXTCOLOR, GroupThree.c_str(), 70);
 
-		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(23, 250, 28);
 		std::string GroupFour = g_groups[3];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFour.c_str()))/2+115-35, 83, 0.55f, Config::TxtColor, GroupFour.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFour.c_str()))/2+115-35, 83, 0.55f, TXTCOLOR, GroupFour.c_str(), 70);
 
-		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(38, 330, 28);
 		std::string GroupFive = g_groups[4];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFive.c_str()))/2+195-35, 83, 0.55f, Config::TxtColor, GroupFive.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFive.c_str()))/2+195-35, 83, 0.55f, TXTCOLOR, GroupFive.c_str(), 70);
 
 		// Second Row!
 
-		Gui::Draw_Rect(5, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(48, 10, 138);
 		std::string GroupSix = g_groups[5];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSix.c_str()))/2-125-35, 193, 0.55f, Config::TxtColor, GroupSix.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSix.c_str()))/2-125-35, 193, 0.55f, TXTCOLOR, GroupSix.c_str(), 70);
 
-		Gui::Draw_Rect(85, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(82, 90, 138);
 		std::string GroupSeven = g_groups[6];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSeven.c_str()))/2-45-35, 193, 0.55f, Config::TxtColor, GroupSeven.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSeven.c_str()))/2-45-35, 193, 0.55f, TXTCOLOR, GroupSeven.c_str(), 70);
 
-		Gui::Draw_Rect(165, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(89, 170, 138);
 		std::string GroupEight = g_groups[7];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEight.c_str()))/2+35-35, 193, 0.55f, Config::TxtColor, GroupEight.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEight.c_str()))/2+35-35, 193, 0.55f, TXTCOLOR, GroupEight.c_str(), 70);
 
-		Gui::Draw_Rect(245, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(68, 250, 138);
 		std::string GroupNine = g_groups[8];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupNine.c_str()))/2+115-35, 193, 0.55f, Config::TxtColor, GroupNine.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupNine.c_str()))/2+115-35, 193, 0.55f, TXTCOLOR, GroupNine.c_str(), 70);
 
-		Gui::Draw_Rect(325, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(101, 330, 138);
 		std::string GroupTen = g_groups[9];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTen.c_str()))/2+195-35, 193, 0.55f, Config::TxtColor, GroupTen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTen.c_str()))/2+195-35, 193, 0.55f, TXTCOLOR, GroupTen.c_str(), 70);
 
 
 	} else if (subMenuPage == 2) {
 
-		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(115, 10, 28);
 		std::string GroupEleven = g_groups[10];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEleven.c_str()))/2-125-35, 83, 0.55f, Config::TxtColor, GroupEleven.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEleven.c_str()))/2-125-35, 83, 0.55f, TXTCOLOR, GroupEleven.c_str(), 70);
 
-		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(142, 90, 28);
 		std::string GroupTwelve = g_groups[11];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwelve.c_str()))/2-45-35, 83, 0.55f, Config::TxtColor, GroupTwelve.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwelve.c_str()))/2-45-35, 83, 0.55f, TXTCOLOR, GroupTwelve.c_str(), 70);
 
-		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(283, 170, 28);
 		std::string GroupThirteen = g_groups[12];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirteen.c_str()))/2+35-35, 83, 0.55f, Config::TxtColor, GroupThirteen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirteen.c_str()))/2+35-35, 83, 0.55f, TXTCOLOR, GroupThirteen.c_str(), 70);
 
-		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(148, 250, 28);
 		std::string GroupFourteen = g_groups[13];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFourteen.c_str()))/2+115-35, 83, 0.55f, Config::TxtColor, GroupFourteen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFourteen.c_str()))/2+115-35, 83, 0.55f, TXTCOLOR, GroupFourteen.c_str(), 70);
 
-		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(159, 330, 28);
 		std::string GroupFifteen = g_groups[14];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFifteen.c_str()))/2+195-35, 83, 0.55f, Config::TxtColor, GroupFifteen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupFifteen.c_str()))/2+195-35, 83, 0.55f, TXTCOLOR, GroupFifteen.c_str(), 70);
 
 		// Second Row!
 
-		Gui::Draw_Rect(5, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(176, 10, 138);
 		std::string GroupSixteen = g_groups[15];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSixteen.c_str()))/2-125-35, 193, 0.55f, Config::TxtColor, GroupSixteen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSixteen.c_str()))/2-125-35, 193, 0.55f, TXTCOLOR, GroupSixteen.c_str(), 70);
 
-		Gui::Draw_Rect(85, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(181, 90, 138);
 		std::string GroupSeventeen = g_groups[16];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSeventeen.c_str()))/2-45-35, 193, 0.55f, Config::TxtColor, GroupSeventeen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupSeventeen.c_str()))/2-45-35, 193, 0.55f, TXTCOLOR, GroupSeventeen.c_str(), 70);
 
-		Gui::Draw_Rect(165, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(190, 170, 138);
 		std::string GroupEightteen = g_groups[17];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEightteen.c_str()))/2+35-35, 193, 0.55f, Config::TxtColor, GroupEightteen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupEightteen.c_str()))/2+35-35, 193, 0.55f, TXTCOLOR, GroupEightteen.c_str(), 70);
 
-		Gui::Draw_Rect(245, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(199, 250, 138);
 		std::string GroupNineteen = g_groups[18];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupNineteen.c_str()))/2+115-35, 193, 0.55f, Config::TxtColor, GroupNineteen.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupNineteen.c_str()))/2+115-35, 193, 0.55f, TXTCOLOR, GroupNineteen.c_str(), 70);
 
-		Gui::Draw_Rect(325, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(208, 330, 138);
 		std::string GroupTwenty = g_groups[19];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwenty.c_str()))/2+195-35, 193, 0.55f, Config::TxtColor, GroupTwenty.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwenty.c_str()))/2+195-35, 193, 0.55f, TXTCOLOR, GroupTwenty.c_str(), 70);
 
 
 	} else if (subMenuPage == 3) {
 
-		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(232, 10, 28);
 		std::string GroupTwentyone = g_groups[20];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyone.c_str()))/2-125-35, 83, 0.55f, Config::TxtColor, GroupTwentyone.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyone.c_str()))/2-125-35, 83, 0.55f, TXTCOLOR, GroupTwentyone.c_str(), 70);
 
-		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(224, 90, 28);
 		std::string GroupTwentytwo = g_groups[21];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentytwo.c_str()))/2-45-35, 83, 0.55f, Config::TxtColor, GroupTwentytwo.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentytwo.c_str()))/2-45-35, 83, 0.55f, TXTCOLOR, GroupTwentytwo.c_str(), 70);
 
-		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(239, 170, 28);
 		std::string GroupTwentythree = g_groups[22];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentythree.c_str()))/2+35-35, 83, 0.55f, Config::TxtColor, GroupTwentythree.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentythree.c_str()))/2+35-35, 83, 0.55f, TXTCOLOR, GroupTwentythree.c_str(), 70);
 
-		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(247, 250, 28);
 		std::string GroupTwentyfour = g_groups[23];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyfour.c_str()))/2+115-35, 83, 0.55f, Config::TxtColor, GroupTwentyfour.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyfour.c_str()))/2+115-35, 83, 0.55f, TXTCOLOR, GroupTwentyfour.c_str(), 70);
 
-		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(258, 330, 28);
 		std::string GroupTwentyfive = g_groups[24];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyfive.c_str()))/2+195-35, 83, 0.55f, Config::TxtColor, GroupTwentyfive.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyfive.c_str()))/2+195-35, 83, 0.55f, TXTCOLOR, GroupTwentyfive.c_str(), 70);
 
 		// Second Row!
 
-		Gui::Draw_Rect(5, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(272, 10, 138);
 		std::string GroupTwentysix = g_groups[25];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentysix.c_str()))/2-125-35, 193, 0.55f, Config::TxtColor, GroupTwentysix.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentysix.c_str()))/2-125-35, 193, 0.55f, TXTCOLOR, GroupTwentysix.c_str(), 70);
 
-		Gui::Draw_Rect(85, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(278, 90, 138);
 		std::string GroupTwentyseven = g_groups[26];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyseven.c_str()))/2-45-35, 193, 0.55f, Config::TxtColor, GroupTwentyseven.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyseven.c_str()))/2-45-35, 193, 0.55f, TXTCOLOR, GroupTwentyseven.c_str(), 70);
 
-		Gui::Draw_Rect(165, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(300, 170, 138);
 		std::string GroupTwentyeight = g_groups[27];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyeight.c_str()))/2+35-35, 193, 0.55f, Config::TxtColor, GroupTwentyeight.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentyeight.c_str()))/2+35-35, 193, 0.55f, TXTCOLOR, GroupTwentyeight.c_str(), 70);
 
-		Gui::Draw_Rect(245, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(305, 250, 138);
 		std::string GroupTwentynine = g_groups[28];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentynine.c_str()))/2+115-35, 193, 0.55f, Config::TxtColor, GroupTwentynine.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupTwentynine.c_str()))/2+115-35, 193, 0.55f, TXTCOLOR, GroupTwentynine.c_str(), 70);
 
-		Gui::Draw_Rect(325, 140, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 140, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(337, 330, 138);
 		std::string GroupThirty = g_groups[29];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirty.c_str()))/2+195-35, 193, 0.55f, Config::TxtColor, GroupThirty.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirty.c_str()))/2+195-35, 193, 0.55f, TXTCOLOR, GroupThirty.c_str(), 70);
 
 
 	} else if (subMenuPage == 4) {
 
-		Gui::Draw_Rect(5, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(5, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(342, 10, 28);
 		std::string GroupThirtyone = g_groups[30];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyone.c_str()))/2-125-35, 83, 0.55f, Config::TxtColor, GroupThirtyone.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyone.c_str()))/2-125-35, 83, 0.55f, TXTCOLOR, GroupThirtyone.c_str(), 70);
 
-		Gui::Draw_Rect(85, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(85, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(349, 90, 28);
 		std::string GroupThirtytwo = g_groups[31];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtytwo.c_str()))/2-45-35, 83, 0.55f, Config::TxtColor, GroupThirtytwo.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtytwo.c_str()))/2-45-35, 83, 0.55f, TXTCOLOR, GroupThirtytwo.c_str(), 70);
 
-		Gui::Draw_Rect(165, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(165, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(362, 170, 28);
 		std::string GroupThirtythree = g_groups[32];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtythree.c_str()))/2+35-35, 83, 0.55f, Config::TxtColor, GroupThirtythree.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtythree.c_str()))/2+35-35, 83, 0.55f, TXTCOLOR, GroupThirtythree.c_str(), 70);
 
-		Gui::Draw_Rect(245, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(245, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(382, 250, 28);
 		std::string GroupThirtyfour = g_groups[33];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfour.c_str()))/2+115-35, 83, 0.55f, Config::TxtColor, GroupThirtyfour.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfour.c_str()))/2+115-35, 83, 0.55f, TXTCOLOR, GroupThirtyfour.c_str(), 70);
 
-		Gui::Draw_Rect(325, 30, 70, 70, Config::Color3);
+		Gui::Draw_Rect(325, 30, 70, 70, BGBOTCOLOR);
 		VillagerManagement::DrawVillager(388, 330, 28);
 		std::string GroupThirtyfive = g_groups[34];
-		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfive.c_str()))/2+195-35, 83, 0.55f, Config::TxtColor, GroupThirtyfive.c_str(), 70);
+		Gui::DrawString((400-Gui::GetStringWidth(0.55f, GroupThirtyfive.c_str()))/2+195-35, 83, 0.55f, TXTCOLOR, GroupThirtyfive.c_str(), 70);
 	}
 
 	// Draw Selection.
@@ -533,9 +533,9 @@ void VillagerEditor::DrawVillagerSelection(void) const {
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 5; x++, villager++) {
 			villagerNameText = g_villagerDatabase[villager];
-			Gui::Draw_Rect(15 + x * 75, 40 + y * 90, 70, 70, Config::Color3);
+			Gui::Draw_Rect(15 + x * 75, 40 + y * 90, 70, 70, BGBOTCOLOR);
 			VillagerManagement::DrawVillager(villager, 15 + x * 75, 35 + y * 90);
-			Gui::DrawString(15 + x * 75, 95 + y * 90, 0.45f, Config::TxtColor, villagerNameText, 400);
+			Gui::DrawString(15 + x * 75, 95 + y * 90, 0.45f, TXTCOLOR, villagerNameText, 400);
 		}
 	}
 }
@@ -556,10 +556,10 @@ void VillagerEditor::DrawVillagerSetTest(void) const {
 			IDs += std::to_string(endID);
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("CHANGE_VILLAGER_LR")))/2, 2, 0.7f, Config::TxtColor, Lang::get("CHANGE_VILLAGER_LR"), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, Config::TxtColor, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, Config::TxtColor, villagerNameText.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, IDs.c_str()))/2, 212, 0.8f, Config::TxtColor, IDs.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("CHANGE_VILLAGER_LR")))/2, 2, 0.7f, TXTCOLOR, Lang::get("CHANGE_VILLAGER_LR"), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, TXTCOLOR, villagerID.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, TXTCOLOR, villagerNameText.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, IDs.c_str()))/2, 212, 0.8f, TXTCOLOR, IDs.c_str(), 400);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
@@ -612,6 +612,6 @@ void VillagerEditor::VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition 
 }
 
 void VillagerEditor::DrawBox(void) const {
-	Gui::Draw_Rect(40, 162, 320, 22, Config::Color3);
-	Gui::Draw_Rect(40, 132, 320, 22, Config::Color3);
+	Gui::Draw_Rect(40, 162, 320, 22, BGBOTCOLOR);
+	Gui::Draw_Rect(40, 132, 320, 22, BGBOTCOLOR);
 }

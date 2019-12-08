@@ -102,9 +102,9 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::clearTextBufs();
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, green3);
-	Gui::Draw_Rect(0, 30, 400, 180, green4);
-	Gui::Draw_Rect(0, 210, 400, 30, green3);
+	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
+	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 	if (isSheet == false) {
 		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("ERROR_OCCURED")))/2, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 400);
 		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("DESCRIPTION")+ message))/2, 100, 0.7f, WHITE, Lang::get("DESCRIPTION")+message, 400);
@@ -118,9 +118,9 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("START_EXIT")))/2, 215, 0.7f, WHITE, Lang::get("START_EXIT"), 400);
 	}
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, green3);
-	Gui::Draw_Rect(0, 30, 320, 180, green2);
-	Gui::Draw_Rect(0, 210, 320, 30, green3);
+	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
+	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
 	C3D_FrameEnd(0);
 
 	// For the Log.
@@ -143,14 +143,14 @@ void loadMessage(std::string Message) {
 	C2D_TargetClear(bottom, BLACK);
 	Gui::clearTextBufs();
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, green3);
-	Gui::Draw_Rect(0, 30, 400, 180, green4);
-	Gui::Draw_Rect(0, 210, 400, 30, green3);
+	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
+	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Message))/2, 2, 0.8f, WHITE, Message, 400);
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, green3);
-	Gui::Draw_Rect(0, 30, 320, 180, green2);
-	Gui::Draw_Rect(0, 210, 320, 30, green3);
+	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
+	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
 	C3D_FrameEnd(0);
 }
 

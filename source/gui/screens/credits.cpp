@@ -36,33 +36,33 @@ void Credits::Draw(void) const {
 		title += Lang::get("CREDITS");
 
 		Gui::ScreenDraw(top);
-		Gui::Draw_Rect(0, 0, 400, 30, green2);
-		Gui::Draw_Rect(0, 30, 400, 180, green4);
-		Gui::Draw_Rect(0, 210, 400, 30, green2);
+		Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
+		Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, greentext, title.c_str(), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("DEVELOPED_BY")))/2, 40, 0.8f, greentext, Lang::get("DEVELOPED_BY"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("MAIN_DEV")))/2, 70, 0.8f, greentext, Lang::get("MAIN_DEV"), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("DEVELOPED_BY")))/2, 40, 0.8f, TXTCOLOR, Lang::get("DEVELOPED_BY"), 400);
+		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("MAIN_DEV")))/2, 70, 0.8f, TXTCOLOR, Lang::get("MAIN_DEV"), 400);
 		Gui::sprite(0, sprites_voltZ_idx, 150, 110);
 		std::string currentVersion = Lang::get("CURRENT_VERSION");
 		currentVersion += V_STRING;
-		Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, currentVersion), 215, FONT_SIZE_18, greentext, currentVersion, 400);
+		Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, currentVersion), 215, FONT_SIZE_18, TXTCOLOR, currentVersion, 400);
 
 		Gui::ScreenDraw(bottom);
-		Gui::Draw_Rect(0, 0, 320, 30, green2);
-		Gui::Draw_Rect(0, 30, 320, 180, green3);
-		Gui::Draw_Rect(0, 210, 320, 30, green2);
+		Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
+		Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
+		Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("MANY_THANKS")))/2, 2, 0.8f, greentext, Lang::get("MANY_THANKS"), 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, "Cuyler, Slattz"))/2, 40, 0.7f, greentext, "Cuyler, Slattz", 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("CORE_NLTK")))/2, 70, 0.5f, greentext, Lang::get("CORE_NLTK"), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("MANY_THANKS")))/2, 2, 0.8f, TXTCOLOR, Lang::get("MANY_THANKS"), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.7f, "Cuyler, Slattz"))/2, 40, 0.7f, TXTCOLOR, "Cuyler, Slattz", 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("CORE_NLTK")))/2, 70, 0.5f, TXTCOLOR, Lang::get("CORE_NLTK"), 320);
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("TRANSLATORS")))/2, 100, 0.7f, greentext, Lang::get("TRANSLATORS"), 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("HELP_TRANSLATE")))/2, 130, 0.5f, greentext, Lang::get("HELP_TRANSLATE"), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("TRANSLATORS")))/2, 100, 0.7f, TXTCOLOR, Lang::get("TRANSLATORS"), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("HELP_TRANSLATE")))/2, 130, 0.5f, TXTCOLOR, Lang::get("HELP_TRANSLATE"), 320);
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, "Pk11"))/2, 160, 0.7f, greentext, "Pk11", 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("HELP_PROBLEMS")))/2, 190, 0.5f, greentext, Lang::get("HELP_PROBLEMS"), 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.55, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK")))/2, 217, 0.55, greentext, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.7f, "Pk11"))/2, 160, 0.7f, TXTCOLOR, "Pk11", 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("HELP_PROBLEMS")))/2, 190, 0.5f, TXTCOLOR, Lang::get("HELP_PROBLEMS"), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.55, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK")))/2, 217, 0.55, TXTCOLOR, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 320);
 	} else if (DisplayMode == 2) {
 		qr_code();
 	}
@@ -98,17 +98,17 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void Credits::qr_code() const
 {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, green2);
-	Gui::Draw_Rect(0, 30, 400, 180, green4);
-	Gui::Draw_Rect(0, 210, 400, 30, green2);
+	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
+	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 
 	Gui::Draw_Rect(0, 0, 400, 240, DIM);
 	Gui::sprite(0, sprites_discord_idx, 115, 35);
 
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, green2);
-	Gui::Draw_Rect(0, 30, 320, 180, green3);
-	Gui::Draw_Rect(0, 210, 320, 30, green2);
+	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
+	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
 
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	Gui::sprite(0, sprites_back_idx, touchPos[0].x, touchPos[0].y);

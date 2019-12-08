@@ -33,7 +33,7 @@
 void MainMenu::Draw(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit"))/2, 2, 0.8f, Config::TxtColor, "LeafEdit", 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, "LeafEdit"))/2, 2, 0.8f, TXTCOLOR, "LeafEdit", 400);
 
 	Gui::DrawBottom();
 
@@ -53,9 +53,9 @@ void MainMenu::Draw(void) const
 		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
 	}
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("TOWN_MANAGER")))/2, mainButtons[0].y+10, 0.6f, Config::TxtColor, Lang::get("TOWN_MANAGER"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("EDITOR")))/2, mainButtons[1].y+10, 0.6f, Config::TxtColor, Lang::get("EDITOR"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("SETTINGS")))/2, mainButtons[2].y+10, 0.6f, Config::TxtColor, Lang::get("SETTINGS"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("TOWN_MANAGER")))/2, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("TOWN_MANAGER"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("EDITOR")))/2, mainButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("EDITOR"), 140);
+	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("SETTINGS")))/2, mainButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("SETTINGS"), 140);
 }
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -87,7 +87,7 @@ void MainMenu::SelectionLogic(u32 hDown, u32 hHeld)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
-	}  else if (hHeld & KEY_SELECT) {
+	} else if (hHeld & KEY_SELECT) {
 		Msg::HelperBox("Select Town Manager, to manage your Towns.\nSelect Editor to edit a Save from your SD Card.\nPress Settings for the Settings.\nPress B to exit from this Screen.");
 	}
 }
