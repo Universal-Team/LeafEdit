@@ -44,7 +44,7 @@ namespace Config {
 	void setString(const std::string &key, const std::string &v);
 
 	int getLang(const std::string &key);
-	extern int Color1, Color2, Color3, TxtColor, lang;
+	extern int lang;
 }
 
 #endif

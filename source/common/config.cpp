@@ -27,18 +27,12 @@
 #include "common/config.hpp"
 #include "common/json.hpp"
 
-#include "gui/colors.hpp"
-
 #include "lang/lang.hpp"
 
 #include <3ds.h>
 #include <string>
 #include <unistd.h>
 
-int Config::Color1;
-int Config::Color2;
-int Config::Color3;
-int Config::TxtColor;
 int Config::lang;
 
 
@@ -48,44 +42,15 @@ void Config::load() {
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
-
-		if(!configJson.contains("BarColor")) {
-			Config::Color1 = green2;
-		} else {
-			Config::Color1 = getInt("BarColor");
-		}
-
-		if(!configJson.contains("TopBgColor")) {
-			Config::Color2 = green4;
-		} else {
-			Config::Color2 = getInt("TopBgColor");
-		}
-
-		if(!configJson.contains("BottomBgColor")) {
-			Config::Color3 = green3;
-		} else {
-			Config::Color3 = getInt("BottomBgColor");
-		}
-
-		if(!configJson.contains("TextColor")) {
-			Config::TxtColor = WHITE;
-		} else {
-			Config::TxtColor = getInt("TextColor");
-		}
-
-		if(!configJson.contains("Lang")) {
-			Config::lang = 1;
-		} else {
-			Config::lang = getInt("Lang");
-		}
+	if(!configJson.contains("Lang")) {
+		Config::lang = 1;
+	} else {
+		Config::lang = getInt("Lang");
+	}
 }
 
 
 void Config::save() {
-	Config::setInt("BarColor", Config::Color1);
-	Config::setInt("TopBgColor", Config::Color2);
-	Config::setInt("BottomBgColor", Config::Color3);
-	Config::setInt("TextColor", Config::TxtColor);
 	Config::setInt("Lang", Config::lang);
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
@@ -97,10 +62,6 @@ void Config::initializeNewConfig() {
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
-	setInt("BarColor", green2);
-	setInt("TopBgColor", green4);
-	setInt("BottomBgColor", green3);
-	setInt("TextColor", WHITE);
 	setInt("Lang", 1);
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);

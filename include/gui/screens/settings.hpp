@@ -26,7 +26,6 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
-#include "common/fileBrowse.h"
 #include "common/structs.hpp"
 
 #include "gui/screens/screen.hpp"
@@ -48,8 +47,7 @@ private:
 
 	std::vector<Structs::ButtonPos> settingsButtons = {
 		{90, 40, 140, 35, -1}, // Language.
-		{90, 100, 140, 35, -1}, // Ini Editor.
-		{90, 160, 140, 35, -1}, // ?
+		{90, 100, 140, 35, -1}, // Credits.
 	};
 
 	std::vector<Structs::ButtonPos> langBlocks = {
@@ -67,9 +65,6 @@ private:
 	};
 
 	int screenMode = 0;
-	int keyRepeatDelay = 3;
-	mutable bool dirChanged = true;
-	std::vector<DirEntry> dirContents;
 };
 
 #endif

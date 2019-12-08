@@ -51,43 +51,43 @@ bool isROMHack = false;
 void TitleSelection::Draw(void) const {
 	Gui::DrawTop();
 
-	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, Config::Color3);
-	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, Config::Color3);
+	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, BGBOTCOLOR);
+	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, BGBOTCOLOR);
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TITLE")))/2, 2, 0.72f, Config::TxtColor, Lang::get("SELECT_TITLE"), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TITLE")))/2, 2, 0.72f, TXTCOLOR, Lang::get("SELECT_TITLE"), 400);
 
 	// Draw the 3DS Gamecard.
-	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, Config::Color2);
+	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, BGTOPCOLOR);
 	// Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("CARD")))/2)-100-40, 180, 0.6f, Config::TxtColor, Lang::get("CARD"), 80);
+	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("CARD")))/2)-100-40, 180, 0.6f, TXTCOLOR, Lang::get("CARD"), 80);
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("INSTALLED")))/2)+189-135, 180, 0.6f, Config::TxtColor, Lang::get("INSTALLED"), 270);
+	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("INSTALLED")))/2)+189-135, 180, 0.6f, TXTCOLOR, Lang::get("INSTALLED"), 270);
 
-	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, Config::TxtColor, V_STRING, 400);
+	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, TXTCOLOR, V_STRING, 400);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
 
 	Gui::DrawBottom();
 
-	Gui::Draw_Rect(0, 100, 320, 30, Config::Color2);
-	Gui::Draw_Rect(0, 150, 320, 30, Config::Color2);
+	Gui::Draw_Rect(0, 100, 320, 30, BGTOPCOLOR);
+	Gui::Draw_Rect(0, 150, 320, 30, BGTOPCOLOR);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.72f, Lang::get("Y_SETTINGS")))/2, 2, 0.72f, Config::TxtColor, Lang::get("Y_SETTINGS"), 320);
-	Gui::Draw_Rect(245, 38, 48, 48, Config::Color2);
+	Gui::DrawString((320-Gui::GetStringWidth(0.72f, Lang::get("Y_SETTINGS")))/2, 2, 0.72f, TXTCOLOR, Lang::get("Y_SETTINGS"), 320);
+	Gui::Draw_Rect(245, 38, 48, 48, BGTOPCOLOR);
 	// Draw the current Selected Title on the Bottom Screen with informations.
 	if (selectedTitle != -2)
 	{
 		C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 0.5f);
 		displayRegion();
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.7f, Config::TxtColor, titleFromIndex(selectedTitle)->name(), 400);
+		Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.7f, TXTCOLOR, titleFromIndex(selectedTitle)->name(), 400);
 		std::string IDAndCode = "ID: ";
 		IDAndCode += StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId());
 		IDAndCode += ", Prod Code: ";
 		IDAndCode += titleFromIndex(selectedTitle)->productCode();
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, IDAndCode.c_str()))/2, 155, 0.6f, Config::TxtColor, IDAndCode.c_str(), 320);
+		Gui::DrawString((320-Gui::GetStringWidth(0.6f, IDAndCode.c_str()))/2, 155, 0.6f, TXTCOLOR, IDAndCode.c_str(), 320);
 	}
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
@@ -234,7 +234,7 @@ void TitleSelection::TitleDraw(void) const
 	u32 box = 8;
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 4; x++, box++) {
-			Gui::Draw_Rect(143 + x * 60, y * 55 + 68, 48, 48, Config::Color2);
+			Gui::Draw_Rect(143 + x * 60, y * 55 + 68, 48, 48, BGTOPCOLOR);
 		}
 	}
 

@@ -72,8 +72,8 @@ void ItemEditor::DisplayDresser(void) const {
 	std::string itemName = dresserData[currentDresserItem].first;
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, Config::TxtColor, title.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, itemName.c_str()))/2, 214, 0.8f, Config::TxtColor, itemName.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, itemName.c_str()))/2, 214, 0.8f, TXTCOLOR, itemName.c_str(), 400);
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 10; ++i) {
@@ -101,7 +101,7 @@ void ItemEditor::DisplayItems(void) const {
 
 	ItemManagement::DrawItem(testItemData[0].second, 160, 60, 1 , 1);
 	std::string itemName = testItemData[0].first;
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, itemName.c_str()))/2, 160, 0.7f, Config::TxtColor, itemName.c_str(), 320);
+	Gui::DrawString((400-Gui::GetStringWidth(0.7f, itemName.c_str()))/2, 160, 0.7f, TXTCOLOR, itemName.c_str(), 320);
 	Gui::DrawBottom();
 }
 
@@ -114,7 +114,7 @@ void ItemEditor::DisplayPocket(void) const {
 	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, Config::TxtColor, title.c_str(), 400);
+	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
 
 	Gui::DrawBottom();
 
@@ -184,11 +184,5 @@ void ItemEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		PocketLogic(hDown);
 	} else if (itemMode == 1) {
 		DresserLogic(hDown);
-	}
-
-	if (hDown & KEY_Y && itemMode == 0) {
-		std::string ID = Input::getLine(4, "Enter the ID.");
-		u16 num = std::stoi(ID, nullptr, 16);
-		SaveFile->players[0]->testItem = num;
 	}
 }

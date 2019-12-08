@@ -237,26 +237,26 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, Config::Color1);
-	Gui::Draw_Rect(0, 30, 400, 180, Config::Color2);
-	Gui::Draw_Rect(0, 210, 400, 30, Config::Color1);
+	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
+	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, Config::Color1);
-	Gui::Draw_Rect(0, 30, 320, 180, Config::Color3);
-	Gui::Draw_Rect(0, 210, 320, 30, Config::Color1);
+	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
+	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
 }
 
 void Gui::DrawFileBrowseBG(void) {
 	C2D_SceneBegin(top);
-	Gui::Draw_Rect(0, 0, 400, 27, Config::Color1);
-	Gui::Draw_Rect(0, 27, 400, 31, Config::Color2);
-	Gui::Draw_Rect(0, 58, 400, 31, Config::Color3);
-	Gui::Draw_Rect(0, 89, 400, 31, Config::Color2);
-	Gui::Draw_Rect(0, 120, 400, 31, Config::Color3);
-	Gui::Draw_Rect(0, 151, 400, 31, Config::Color2);
-	Gui::Draw_Rect(0, 182, 400, 31, Config::Color3);
-	Gui::Draw_Rect(0, 213, 400, 27, Config::Color1);
+	Gui::Draw_Rect(0, 0, 400, 27, BARCOLOR);
+	Gui::Draw_Rect(0, 27, 400, 31, DARKGRAY);
+	Gui::Draw_Rect(0, 58, 400, 31, GRAY);
+	Gui::Draw_Rect(0, 89, 400, 31, DARKGRAY);
+	Gui::Draw_Rect(0, 120, 400, 31, GRAY);
+	Gui::Draw_Rect(0, 151, 400, 31, DARKGRAY);
+	Gui::Draw_Rect(0, 182, 400, 31, GRAY);
+	Gui::Draw_Rect(0, 213, 400, 27, BARCOLOR);
 }
