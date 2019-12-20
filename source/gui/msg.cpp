@@ -57,7 +57,7 @@ bool Msg::promptMsg(std::string msg) {
 	return Msg::promptMsg2(msg);
 }
 
-// Displays a Message for 2 Seconds. Good for warnings like invalid Language.
+// Displays a Warn Message.
 void Msg::DisplayWarnMsg(std::string Text)
 {
 	Gui::clearTextBufs();
@@ -66,6 +66,22 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Text.c_str(), 400);
+	Gui::DrawBottom();
+	C3D_FrameEnd(0);
+	for (int i = 0; i < 60*2; i++) {
+		gspWaitForVBlank();
+	}
+}
+
+// Displays a Warn Message. This is mostly be used for things with more text.
+void Msg::DisplayWarnMsg2(std::string Text)
+{
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 40, 0.72f, TXTCOLOR, Text.c_str(), 400);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {

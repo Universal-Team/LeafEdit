@@ -60,7 +60,7 @@ void Logging::createLogFile(void) {
 
 // Only write to the Log, if it is enabled in the Settings File!
 void Logging::writeToLog(std::string debugText) {
-	if (Config::getBool("Logging") == true) {
+	if (Config::getBool("Debug") == true) {
 		std::ofstream logFile;
 		logFile.open(("sdmc:/LeafEdit/LeafEdit.log"), std::ofstream::app);
 		std::string writeDebug = "[ ";

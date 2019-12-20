@@ -61,7 +61,11 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		Gui::setScreen(std::make_unique<AcresEditor>());
+		if (Config::getBool("Debug") == true) {
+			Gui::setScreen(std::make_unique<AcresEditor>());
+		} else {
+			Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
+		}
 	}
 
 	if (hHeld & KEY_SELECT) {
