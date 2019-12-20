@@ -114,5 +114,6 @@
 	"VILLAGER_VIEWER": "Villager Viewer",
 	"CURRENT_VILLAGER": "Aldeão Atual: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat não encontrado!",
-	"SAVE_INCORRECT_SIZE": "O ficheiro de gravação possui um tamanho incorreto!"
+	"SAVE_INCORRECT_SIZE": "O ficheiro de gravação possui um tamanho incorreto!",
+	"NOT_SAVE_TO_USE": "This Feature is not save to use!!!\nIf you like to use this, set 'Debug' from the config to true."
 }
