@@ -133,8 +133,7 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 				case 1:
 					if (Msg::promptMsg(Lang::get("BACKUP_TOWN_POPUP"))) {
 						TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
-						playChange();
-						}
+					}
 					break;
 				case 2:
 					screenMode = 1;
@@ -244,7 +243,6 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 					TownManagement::RestoreTown(currentID, currentMedia, currentLowID, currentHighID, currentUniqueID, selectedSaveFolder);
 					selectedSaveFolder = "";
 					screenMode = 0;
-					playChange();
 				}
 			}
 		} else if (hHeld & KEY_SELECT) {
@@ -283,7 +281,6 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 					TownManagement::DeleteBackup(currentID, currentBackup.c_str()); // We delete the Backup now.
 					currentBackup = ""; // We reset the Backup Folder.
 					dirChanged = true; // We want to refresh the list after it.
-					playChange();
 				}
 			}
 		} else if (hHeld & KEY_SELECT) {
@@ -295,7 +292,6 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		if (hDown & KEY_X) {
 			if(Msg::promptMsg(Lang::get("LAUNCH_TOWN_POPUP_X"))) {
 				TownManagement::LaunchTown(currentMedia, currentID);
-				playChange();
 			}
 		} else if (hHeld & KEY_SELECT) {
 			Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");

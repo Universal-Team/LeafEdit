@@ -28,7 +28,6 @@
 
 #include "common/archive.hpp"
 #include "common/config.hpp"
-#include "common/sound.h"
 #include "common/structs.hpp"
 #include "common/utils.hpp"
 
@@ -52,8 +51,6 @@
 int fadealpha = 255;
 bool fadein = true;
 
-bool dspfirmfound = false;
-
 // Set to 1, if testing some stuff. Leave to 0, if normal use.
 int test = 0;
 
@@ -67,9 +64,6 @@ bool isCitra = false; // Because Citra is kinda weird with the Initialize Messag
 // Touch Touch!
 touchPosition touch;
 
-// sound effects.
-sound *sfx_change = NULL;
-
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
@@ -82,14 +76,6 @@ void TestStuff(void)
 {
 	if (test == 1) {
 		// Currently nothing to test.
-	}
-}
-
-
-void loadSounds() {
-	// Load the sound effects if DSP is available.
-	if (dspfirmfound) {
-		sfx_change = new sound("romfs:/sfx/change.wav", 2, false);
 	}
 }
 
@@ -170,13 +156,6 @@ int main()
 	
 	Config::load();
 	Lang::load(Config::getLang("Lang"));
-
-	if( access( "sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
-		ndspInit();
-		dspfirmfound = true;
-	} else {
-		Msg::DisplayWarnMsg(Lang::get("DSPFIRM_NOTFOUND"));
-	}
 	
 	if (isCitra == false) {
 		loadMessage(Lang::get("INITIALIZE_MSG"));
@@ -189,7 +168,6 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
-	mkdir("sdmc:/LeafEdit/Sheets", 0777); // Sheet Ini path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
@@ -231,8 +209,6 @@ int main()
 		return DisplayStartupError("villagers2 "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
 	}
 
-	loadSounds();
-
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
@@ -256,9 +232,6 @@ int main()
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());
 
-	// We write a successfull Message, because it launched Successfully. Lol.
-	Logging::writeToLog("LeafEdit launched successfully!");
-	playChange();
 	// Loop as long as the status is not exit
 	while (aptMainLoop() && !exiting)
 	{
@@ -273,10 +246,6 @@ int main()
 		Gui::mainLoop(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 
-		if (hDown & KEY_ZR) {
-			playChange();
-		}
-
 		if (fadein == true) {
 			fadealpha -= 3;
 			if (fadealpha < 0) {
@@ -287,10 +256,6 @@ int main()
 	}
 
 	// Exit every process.
-	delete sfx_change;
-	if (dspfirmfound) {
-		ndspExit();
-	}
 	Config::save();
 	cfguExit();
 	sdmcExit();
