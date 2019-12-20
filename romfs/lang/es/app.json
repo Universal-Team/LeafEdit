@@ -114,5 +114,6 @@
 	"VILLAGER_VIEWER": "Visor de Vecinos",
 	"CURRENT_VILLAGER": "Vecino actual: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat no encontrado!",
-	"SAVE_INCORRECT_SIZE": "¡El archivo guardado tiene un tamaño incorrecto!"
+	"SAVE_INCORRECT_SIZE": "¡El archivo guardado tiene un tamaño incorrecto!",
+	"NOT_SAVE_TO_USE": "This Feature is not save to use!!!\nIf you like to use this, set 'Debug' from the config to true."
 }
