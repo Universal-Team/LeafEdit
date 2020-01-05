@@ -149,7 +149,7 @@ void Editor::DrawBrowse(void) const
 		dirs += "\n\n";
 	}
 	Gui::DrawString(26, 32, 0.51f, TXTCOLOR, dirs.c_str(), 395);
-	Gui::DrawBottom();
+	Gui::DrawFileBrowseBG(false);
 }
 
 
