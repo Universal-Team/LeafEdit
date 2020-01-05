@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -67,8 +67,9 @@ void VillagerViewer::DrawVillagerList(void) const {
 			villagerID += std::to_string(villagerViewerSprite);
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, TXTCOLOR, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, TXTCOLOR, villagerNameText.c_str(), 320);
+
+	Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.7f, TXTCOLOR, villagerNameText, 310);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
@@ -135,10 +136,6 @@ void VillagerViewer::VillagerLogic(u32 hDown, u32 hHeld) {
 	if (hDown & KEY_X) {
 		villagerMode = 1;
 	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press L/R to switch the Villager.\nPress A to open the Villager Editor. (Not implemented yet)\nPress B to exit from this Screen.\nPress X to open the Villager List.");
-	}
 }
 
 void VillagerViewer::DrawVillager(void) const {
@@ -154,8 +151,9 @@ void VillagerViewer::DrawVillager(void) const {
 			villagerID += std::to_string(Save::Instance()->villagers[i]->GetId());
 		}
 	}
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerID.c_str()))/2, 160, 0.7f, TXTCOLOR, villagerID.c_str(), 320);
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, villagerNameText.c_str()))/2, 130, 0.7f, TXTCOLOR, villagerNameText.c_str(), 320);
+
+	Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.7f, TXTCOLOR, villagerNameText, 310);
 	Gui::DrawBottom();
 }
 
@@ -174,8 +172,8 @@ void VillagerViewer::DrawCurrentVillager(void) const
 		}
 	}
 
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, activeVillager.c_str()))/2, 212, 0.8f, TXTCOLOR, activeVillager.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, TXTCOLOR, Title.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 390);
+	Gui::DrawStringCentered(0, 212, 0.8f, TXTCOLOR, activeVillager, 390);
 }
 
 void VillagerViewer::DrawBox(void) const {

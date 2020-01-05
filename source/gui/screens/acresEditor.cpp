@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -55,11 +55,11 @@ extern Save* SaveFile;
 
 
 void AcresEditor::Draw(void) const {
-	std::string title = "LeafEdit";
-	title += " - ";
-	title += Lang::get("ACRE_EDITOR");
+	std::string Title = "LeafEdit";
+	Title += " - ";
+	Title += Lang::get("ACRE_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
 	Gui::DrawBottom();
 	townMap();
 	DrawSelection();

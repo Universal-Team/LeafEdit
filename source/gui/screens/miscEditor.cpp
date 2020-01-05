@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,14 +42,14 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MiscEditor::Draw(void) const
 {
-	std::string title = "LeafEdit - ";
-	title += Lang::get("MISC_EDITOR");
+	std::string Title = "LeafEdit - ";
+	Title += Lang::get("MISC_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 	Gui::DrawBottom();
 
 	Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("ACRES")))/2, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("ACRES"), 140);
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("ACRES"), 130);
 }
 
 
@@ -66,9 +66,5 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else {
 			Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
 		}
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press A to access the Acres Editor. \nPress B to exit from this Screen.");
 	}
 }

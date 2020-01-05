@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -60,9 +60,9 @@ ItemEditor::~ItemEditor()
 }
 
 void ItemEditor::DisplayDresser(void) const {
-	std::string title = "LeafEdit - ";
-	title += Lang::get("ITEM_DRESSER");
-	title += std::to_string(currentDresser+1);
+	std::string Title = "LeafEdit - ";
+	Title += Lang::get("ITEM_DRESSER");
+	Title += std::to_string(currentDresser+1);
 
 	// Debug purpose.
 	char debug[50];
@@ -72,8 +72,8 @@ void ItemEditor::DisplayDresser(void) const {
 	std::string itemName = dresserData[currentDresserItem].first;
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, itemName.c_str()))/2, 214, 0.8f, TXTCOLOR, itemName.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
+	Gui::DrawStringCentered(0, 214, 0.8f, TXTCOLOR, itemName, 390);
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 10; ++i) {
@@ -101,20 +101,20 @@ void ItemEditor::DisplayItems(void) const {
 
 	ItemManagement::DrawItem(testItemData[0].second, 160, 60, 1 , 1);
 	std::string itemName = testItemData[0].first;
-	Gui::DrawString((400-Gui::GetStringWidth(0.7f, itemName.c_str()))/2, 160, 0.7f, TXTCOLOR, itemName.c_str(), 320);
+	Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, itemName, 390);
 	Gui::DrawBottom();
 }
 
 
 void ItemEditor::DisplayPocket(void) const {
-	std::string title = "LeafEdit - ";
-	title += Lang::get("ITEM_POCKET");
+	std::string Title = "LeafEdit - ";
+	Title += Lang::get("ITEM_POCKET");
 	int x = 42;
 	int y = 63;
 	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 
 	Gui::DrawBottom();
 

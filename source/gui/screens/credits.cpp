@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,17 +32,17 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Credits::Draw(void) const {
 	if (DisplayMode == 1) {
-		std::string title = "LeafEdit - ";
-		title += Lang::get("CREDITS");
+		std::string Title = "LeafEdit - ";
+		Title += Lang::get("CREDITS");
 
 		Gui::ScreenDraw(top);
 		Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
 		Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
 		Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, title.c_str()))/2, 2, 0.8f, TXTCOLOR, title.c_str(), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("DEVELOPED_BY")))/2, 40, 0.8f, TXTCOLOR, Lang::get("DEVELOPED_BY"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("MAIN_DEV")))/2, 70, 0.8f, TXTCOLOR, Lang::get("MAIN_DEV"), 400);
+		Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
+		Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Lang::get("DEVELOPED_BY"), 390);
+		Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Lang::get("MAIN_DEV"), 390);
 		Gui::sprite(0, sprites_stackZ_idx, 150, 110);
 		std::string currentVersion = Lang::get("CURRENT_VERSION");
 		currentVersion += V_STRING;
@@ -53,16 +53,20 @@ void Credits::Draw(void) const {
 		Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
 		Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
 
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("MANY_THANKS")))/2, 2, 0.8f, TXTCOLOR, Lang::get("MANY_THANKS"), 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, "Cuyler, Slattz"))/2, 40, 0.7f, TXTCOLOR, "Cuyler, Slattz", 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("CORE_NLTK")))/2, 70, 0.5f, TXTCOLOR, Lang::get("CORE_NLTK"), 320);
+		Gui::DrawStringCentered(0, 2, 0.7f, TXTCOLOR, Lang::get("MANY_THANKS"), 310);
+		Gui::DrawStringCentered(0, 40, 0.7f, TXTCOLOR, "Cuyler, Slattz", 310);
+		Gui::DrawStringCentered(0, 70, 0.5f, TXTCOLOR, Lang::get("CORE_NLTK"), 310);
+
+		Gui::DrawStringCentered(0, 100, 0.7f, TXTCOLOR, Lang::get("TRANSLATORS"), 310);
+		Gui::DrawStringCentered(0, 130, 0.5f, TXTCOLOR, Lang::get("HELP_TRANSLATE"), 310);
+
+		Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, "Pk11", 310);
+		Gui::DrawStringCentered(0, 190, 0.5f, TXTCOLOR, Lang::get("HELP_PROBLEMS"), 310);
+
+		Gui::DrawStringCentered(0, 217, 0.5f, TXTCOLOR, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
 
 		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("TRANSLATORS")))/2, 100, 0.7f, TXTCOLOR, Lang::get("TRANSLATORS"), 320);
 		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("HELP_TRANSLATE")))/2, 130, 0.5f, TXTCOLOR, Lang::get("HELP_TRANSLATE"), 320);
-
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, "Pk11"))/2, 160, 0.7f, TXTCOLOR, "Pk11", 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.5f, Lang::get("HELP_PROBLEMS")))/2, 190, 0.5f, TXTCOLOR, Lang::get("HELP_PROBLEMS"), 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.55, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK")))/2, 217, 0.55, TXTCOLOR, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 320);
 	} else if (DisplayMode == 2) {
 		qr_code();
 	}

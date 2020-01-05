@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -53,17 +53,15 @@ void TitleSelection::Draw(void) const {
 
 	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, BGBOTCOLOR);
 	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, BGBOTCOLOR);
-
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_TITLE")))/2, 2, 0.72f, TXTCOLOR, Lang::get("SELECT_TITLE"), 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Lang::get("SELECT_TITLE"), 398);
 
 	// Draw the 3DS Gamecard.
 	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, BGTOPCOLOR);
 	// Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("CARD")))/2)-100-40, 180, 0.6f, TXTCOLOR, Lang::get("CARD"), 80);
-
-	Gui::DrawString(((400-Gui::GetStringWidth(0.6f, Lang::get("INSTALLED")))/2)+189-135, 180, 0.6f, TXTCOLOR, Lang::get("INSTALLED"), 270);
+	Gui::DrawStringCentered(-140, 180, 0.6f, TXTCOLOR, Lang::get("CARD"), 70);
+	Gui::DrawStringCentered(54, 180, 0.6f, TXTCOLOR, Lang::get("INSTALLED"), 260);
 
 	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, TXTCOLOR, V_STRING, 400);
 
@@ -75,19 +73,20 @@ void TitleSelection::Draw(void) const {
 	Gui::Draw_Rect(0, 100, 320, 30, BGTOPCOLOR);
 	Gui::Draw_Rect(0, 150, 320, 30, BGTOPCOLOR);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.72f, Lang::get("Y_SETTINGS")))/2, 2, 0.72f, TXTCOLOR, Lang::get("Y_SETTINGS"), 320);
+	Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Lang::get("Y_SETTINGS"), 310);
 	Gui::Draw_Rect(245, 38, 48, 48, BGTOPCOLOR);
 	// Draw the current Selected Title on the Bottom Screen with informations.
 	if (selectedTitle != -2)
 	{
 		C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 0.5f);
 		displayRegion();
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, titleFromIndex(selectedTitle)->name()))/2, 105, 0.7f, TXTCOLOR, titleFromIndex(selectedTitle)->name(), 400);
+		Gui::DrawStringCentered(0, 105, 0.7f, TXTCOLOR, titleFromIndex(selectedTitle)->name(), 310);
 		std::string IDAndCode = "ID: ";
 		IDAndCode += StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId());
 		IDAndCode += ", Prod Code: ";
 		IDAndCode += titleFromIndex(selectedTitle)->productCode();
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, IDAndCode.c_str()))/2, 155, 0.6f, TXTCOLOR, IDAndCode.c_str(), 320);
+
+		Gui::DrawStringCentered(0, 155, 0.6f, TXTCOLOR, IDAndCode, 310);
 	}
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
@@ -221,8 +220,6 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		GameLoader::updateCheck2();
 	} else if (hDown & KEY_Y) {
 		Gui::setScreen(std::make_unique<Settings>());
-	} else if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select a Title to load. if you don't have an installed title -> Press Y.\nPress Start, to exit the App or press Home.\n(You can't use the Town Manager without a Title)\nYou can also tap on the Icon, if you have an installed Title or Gamecard.");
 	}
 }
 

@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ void Settings::Draw(void) const
 		Title += "LeafEdit - ";
 		Title += Lang::get("SETTINGS");
 		Gui::DrawTop();
-		Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, TXTCOLOR, Title.c_str(), 400);
+		Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 		Gui::DrawBottom();
 		if (Selection == 0) {
 			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y, selectedColor);
@@ -50,8 +50,8 @@ void Settings::Draw(void) const
 			Gui::sprite(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y);
 			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[1].x, settingsButtons[1].y, selectedColor);
 		}
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("LANGUAGE")))/2, settingsButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LANGUAGE"), 140);
-		Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("CREDITS")))/2, settingsButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("CREDITS"), 140);
+		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LANGUAGE"), 130);
+		Gui::DrawStringCentered(0, settingsButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("CREDITS"), 130);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}
@@ -87,15 +87,13 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 1)	Selection++;
-	} else if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select Language, to select the GUI Language.\nSelect Credits to see the credits.\nPress B to exit from this Screen.");
 	}
 }
 
 
 void Settings::DrawLangScreen(void) const {
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Lang::get("SELECT_LANG")))/2, 2, 0.8f, TXTCOLOR, Lang::get("SELECT_LANG"), 398);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Lang::get("SELECT_LANG"), 398);
 	Gui::DrawBottom();
 
 	if (Config::lang == 0) {
@@ -203,10 +201,6 @@ void Settings::DrawLangScreen(void) const {
 void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		screenMode = 0;
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press on the Box, to select your Language.\nPress B to exit from this Screen.");
 	}
 
 	if (hDown & KEY_TOUCH && touching(touch, langBlocks[8])) {

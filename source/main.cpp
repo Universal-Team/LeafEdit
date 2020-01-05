@@ -1,6 +1,6 @@
-/*
+	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -92,16 +92,16 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
 	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
 	if (isSheet == false) {
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("ERROR_OCCURED")))/2, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("DESCRIPTION")+ message))/2, 100, 0.7f, WHITE, Lang::get("DESCRIPTION")+message, 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("START_EXIT")))/2, 140, 0.7f, WHITE, Lang::get("START_EXIT"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("ERROR_STARTUP")+errorMsg))/2, 50, 0.7f, WHITE, Lang::get("ERROR_STARTUP")+errorMsg, 400);
+		Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
+		Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("DESCRIPTION")+ message, 395);
+		Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
+		Gui::DrawStringCentered(0, 170, 0.7f, WHITE, Lang::get("ERROR_STARTUP")+errorMsg, 395);
 	} else {
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("ERROR_OCCURED")))/2, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, message))/2, 40, 0.7f, WHITE, message, 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.45f, Lang::get("ERRORMSG_1")))/2, 70, 0.45f, WHITE, Lang::get("ERRORMSG_1"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.45f, Lang::get("ERRORMSG_2")))/2, 140, 0.45f, WHITE, Lang::get("ERRORMSG_2"), 400);
-		Gui::DrawString((400-Gui::GetStringWidth(0.7f, Lang::get("START_EXIT")))/2, 215, 0.7f, WHITE, Lang::get("START_EXIT"), 400);
+		Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
+		Gui::DrawStringCentered(0, 40, 0.7f, WHITE, message, 395);
+		Gui::DrawStringCentered(0, 70, 0.45f, WHITE, Lang::get("ERRORMSG_1"), 395);
+		Gui::DrawStringCentered(0, 140, 0.45f, WHITE, Lang::get("ERRORMSG_2"), 395);
+		Gui::DrawStringCentered(0, 215, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
 	}
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
@@ -132,7 +132,7 @@ void loadMessage(std::string Message) {
 	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
 	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
 	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Message))/2, 2, 0.8f, WHITE, Message, 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Message, 395);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
 	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);

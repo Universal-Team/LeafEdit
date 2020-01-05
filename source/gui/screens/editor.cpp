@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ void Editor::DrawSubMenu(void) const
 	Title += Lang::get("EDITOR");
 
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.8f, Title.c_str()))/2, 2, 0.8f, TXTCOLOR, Title.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 
 	Gui::DrawBottom();
 
@@ -97,9 +97,9 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
 
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("PLAYER")))/2, editorButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("PLAYER"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("VILLAGER")))/2, editorButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("VILLAGER"), 140);
-	Gui::DrawString((320-Gui::GetStringWidth(0.6f, Lang::get("MISC_EDITOR")))/2, editorButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("MISC_EDITOR"), 140);
+	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("PLAYER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("VILLAGER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("MISC_EDITOR"), 130);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -115,10 +115,6 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
 		SaveFile->Close();
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Press Player to access the Player Editor.\nPress Villager to access the Villager Editor.\nPress WIP to ? (Not implemented yet)\nPress the back Icon on the bottom Screen to exit with saving or not.");
 	}
 
 	if (hDown & KEY_A) {
@@ -140,7 +136,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 void Editor::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("SELECT_A_SAVE")))/2, 2, 0.72f, TXTCOLOR, Lang::get("SELECT_A_SAVE"), 400);
+	Gui::DrawStringCentered(0, 2, 0.6f, TXTCOLOR, Lang::get("SELECT_A_SAVE"), 395);
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -152,7 +148,7 @@ void Editor::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.51f, TXTCOLOR, dirs.c_str(), 400);
+	Gui::DrawString(26, 32, 0.51f, TXTCOLOR, dirs.c_str(), 395);
 	Gui::DrawBottom();
 }
 

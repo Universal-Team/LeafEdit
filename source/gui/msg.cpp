@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -36,8 +36,8 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, promptMsg.c_str()))/2, 100, 0.6f, TXTCOLOR, promptMsg.c_str(), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, Lang::get("CONFIRM_OR_CANCEL")))/2, 214, 0.72f, TXTCOLOR, Lang::get("CONFIRM_OR_CANCEL"), 400);
+	Gui::DrawStringCentered(0, 100, 0.6f, TXTCOLOR, promptMsg, 390);
+	Gui::DrawStringCentered(0, 214, 0.72f, TXTCOLOR, Lang::get("CONFIRM_OR_CANCEL"), 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -65,7 +65,7 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Text.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Text, 395);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -81,7 +81,7 @@ void Msg::DisplayWarnMsg2(std::string Text)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 40, 0.72f, TXTCOLOR, Text.c_str(), 400);
+	Gui::DrawStringCentered(0, 40, 0.72f, TXTCOLOR, Text, 395);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -97,8 +97,8 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.6f, Lang::get("A_CONTINUE")))/2, 214, 0.6f, TXTCOLOR, Lang::get("A_CONTINUE"), 400);
-	Gui::DrawString((400-Gui::GetStringWidth(0.72f, waitMsg.c_str()))/2, 100, 0.72f, TXTCOLOR, waitMsg.c_str(), 400);
+	Gui::DrawStringCentered(0, 100, 0.72f, TXTCOLOR, waitMsg, 390);
+	Gui::DrawStringCentered(0, 214, 0.6f, TXTCOLOR, Lang::get("A_CONTINUE"), 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -128,7 +128,7 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, TXTCOLOR, Message.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.60f, TXTCOLOR, Message, 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 }
@@ -138,13 +138,14 @@ void Msg::NotImplementedYet(void) {
 	Msg::DisplayWarnMsg(Lang::get("NOT_IMPLEMENTED"));
 }
 
+// I think that's not used anymore? I just keep it for now.
 void Msg::SheetMsg(std::string Message) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::DrawString((400-Gui::GetStringWidth(0.60f, Message.c_str()))/2, 2, 0.60f, WHITE, Message.c_str(), 400);
+	Gui::DrawStringCentered(0, 2, 0.60f, WHITE, Message, 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 }

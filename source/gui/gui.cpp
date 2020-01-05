@@ -1,6 +1,6 @@
-/*
+	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -138,16 +138,19 @@ void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 }
 
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
-	Gui::DrawString((currentScreen ? 200 : 160)+x-(std::min(maxWidth, (int)Gui::GetStringWidth(size, Text))/2), y, size, color, Text, maxWidth);
+	Gui::DrawString((currentScreen ? 200 : 160)+x-((maxWidth == 0 ? (int)Gui::GetStringWidth(size, Text) : std::min(maxWidth, (int)Gui::GetStringWidth(size, Text)))/2), y, size, color, Text, maxWidth);
 }
 
 // Draw String or Text.
 void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
 	C2D_Text c2d_text;
 	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
-
 	C2D_TextOptimize(&c2d_text);
-	C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/Gui::GetStringWidth(size, Text))), size, color);
+	if(maxWidth == 0) {
+		C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, size, size, color);
+	} else {
+		C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/Gui::GetStringWidth(size, Text))), size, color);
+	}
 }
 
 
