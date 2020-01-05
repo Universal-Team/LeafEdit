@@ -55,7 +55,7 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 	if (R_SUCCEEDED(res)) {
 		std::u16string customPath;
-		const char *enterName = Lang::get("ENTER_NAME").c_str();
+		const std::string& enterName = Lang::get("ENTER_NAME");
 		std::string saveName = Input::getString(20, enterName);
 		customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
 

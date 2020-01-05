@@ -383,7 +383,7 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	// Selection A / Touch.
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
-			const char *playername = Lang::get("NEW_PLAYER_NAME").c_str();
+			const std::string& playername = Lang::get("NEW_PLAYER_NAME");
 			switch(Selection) {
 				case 0:
 					SaveFile->players[cp]->Name = Input::getu16String(8, playername);
@@ -432,7 +432,7 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hDown & KEY_TOUCH) {
 		if (currentPage == 1) {
 			if (touching(touch, playerButtons[0])) {
-				const char *playername = Lang::get("NEW_PLAYER_NAME").c_str();
+				const std::string& playername = Lang::get("NEW_PLAYER_NAME");
 				SaveFile->players[cp]->Name = Input::getu16String(8, playername);
 			} else if (touching(touch, playerButtons[1])) {
 				SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);

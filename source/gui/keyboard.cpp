@@ -401,13 +401,13 @@ std::uint8_t Input::getu8(uint maxLength, int maxNum)
 	}
 }
 
-std::u16string Input::getu16String(uint maxLength, const char *hint)
+std::u16string Input::getu16String(uint maxLength, const std::string& hint)
 {
 	std::u16string stringu16;
 	C3D_FrameEnd(0);
 	SwkbdState state;
 	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
-	swkbdSetHintText(&state, hint);
+	swkbdSetHintText(&state, hint.c_str());
 	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
 	char input[maxLength + 1]	= {0};
 	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
@@ -421,13 +421,13 @@ std::u16string Input::getu16String(uint maxLength, const char *hint)
 	}
 }
 
-std::string Input::getString(uint maxLength, const char *hint)
+std::string Input::getString(uint maxLength, const std::string& hint)
 {
 	std::string normalString;
 	C3D_FrameEnd(0);
 	SwkbdState state;
 	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
-	swkbdSetHintText(&state, hint);
+	swkbdSetHintText(&state, hint.c_str());
 	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
 	char input[maxLength + 1]	= {0};
 	SwkbdButton ret = swkbdInputText(&state, input, sizeof(input));
