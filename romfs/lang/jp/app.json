@@ -115,5 +115,5 @@
 	"CURRENT_VILLAGER": "現在の村の住人: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
 	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!",
-	"NOT_SAVE_TO_USE": "This Feature is not save to use!!!\nIf you like to use this, set 'Debug' from the config to true."
+	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true."
 }
