@@ -115,5 +115,5 @@
 	"CURRENT_VILLAGER": "Vecino actual: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat no encontrado!",
 	"SAVE_INCORRECT_SIZE": "¡El archivo guardado tiene un tamaño incorrecto!",
-	"NOT_SAVE_TO_USE": "Esta característica no es segura para usar!\nSi te gusta usar esto, establece la configuración 'Debug' en 'true'."
+	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true."
 }
