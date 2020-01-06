@@ -61,7 +61,7 @@ void ItemManagement::LoadDatabase(int lang) {
 		else if (currentLine.size() > 8 && currentLine.find("//") == std::string::npos)
 		{											// confirm we don't have any comments
 			itemIdStr = currentLine.substr(2, 4); 	// skip the 0x hex specifier
-			itemName = currentLine.substr(8, currentLine.size() - 9);
+			itemName = currentLine.substr(8, currentLine.size());
 
 			// Convert itemIdStr to a u16
 			u16 itemId = strToU16(itemIdStr);
