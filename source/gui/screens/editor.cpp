@@ -108,7 +108,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_TOUCH && touching(touch, editorButtons[3])) {
+	} else if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
 		if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
 			SaveFile->Commit(false);
 		}
