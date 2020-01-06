@@ -256,22 +256,22 @@ void Gui::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
 		Gui::ScreenDraw(top);
 		Gui::Draw_Rect(0, 0, 400, 27, BARCOLOR);
-		Gui::Draw_Rect(0, 27, 400, 31, DARKGRAY);
-		Gui::Draw_Rect(0, 58, 400, 31, GRAY);
-		Gui::Draw_Rect(0, 89, 400, 31, DARKGRAY);
-		Gui::Draw_Rect(0, 120, 400, 31, GRAY);
-		Gui::Draw_Rect(0, 151, 400, 31, DARKGRAY);
-		Gui::Draw_Rect(0, 182, 400, 31, GRAY);
+		Gui::Draw_Rect(0, 27, 400, 31, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 58, 400, 31, BGBOTCOLOR);
+		Gui::Draw_Rect(0, 89, 400, 31, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 120, 400, 31, BGBOTCOLOR);
+		Gui::Draw_Rect(0, 151, 400, 31, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 182, 400, 31, BGBOTCOLOR);
 		Gui::Draw_Rect(0, 213, 400, 27, BARCOLOR);
 	} else {
 		Gui::ScreenDraw(bottom);
 		Gui::Draw_Rect(0, 0, 320, 27, BARCOLOR);
-		Gui::Draw_Rect(0, 27, 320, 31, DARKGRAY);
-		Gui::Draw_Rect(0, 58, 320, 31, GRAY);
-		Gui::Draw_Rect(0, 89, 320, 31, DARKGRAY);
-		Gui::Draw_Rect(0, 120, 320, 31, GRAY);
-		Gui::Draw_Rect(0, 151, 320, 31, DARKGRAY);
-		Gui::Draw_Rect(0, 182, 320, 31, GRAY);
+		Gui::Draw_Rect(0, 27, 320, 31, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 58, 320, 31, BGBOTCOLOR);
+		Gui::Draw_Rect(0, 89, 320, 31, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 120, 320, 31, BGBOTCOLOR);
+		Gui::Draw_Rect(0, 151, 320, 31, BGTOPCOLOR);
+		Gui::Draw_Rect(0, 182, 320, 31, BGBOTCOLOR);
 		Gui::Draw_Rect(0, 213, 320, 27, BARCOLOR);
 	}
 }

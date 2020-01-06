@@ -190,20 +190,12 @@ void PlayerEditor::DrawMainEditor(void) const {
 	Gui::DrawBottom();
 
 
-	if (Selection == 0) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
-		Gui::sprite(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y);
-
-	} else if (Selection == 1) {
-		Gui::sprite(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y);
-
-	} else if (Selection == 2) {
-		Gui::sprite(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y);
-		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y, selectedColor);
+	for (int i = 0; i < 3; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, unselectedColor);
+		}
 	}
 
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
@@ -310,29 +302,13 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	// Player Bottom.
 	Gui::DrawBottom();
 
-	Gui::sprite(0, sprites_button_idx, playerButtons[0].x, playerButtons[0].y);
-	Gui::sprite(0, sprites_button_idx, playerButtons[1].x, playerButtons[1].y);
-	Gui::sprite(0, sprites_button_idx, playerButtons[2].x, playerButtons[2].y);
-	Gui::sprite(0, sprites_button_idx, playerButtons[3].x, playerButtons[3].y);
-	Gui::sprite(0, sprites_button_idx, playerButtons[4].x, playerButtons[4].y);
-	Gui::sprite(0, sprites_button_idx, playerButtons[5].x, playerButtons[5].y);
-
-
-
-	if (Selection == 0) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[0].x, playerButtons[0].y, selectedColor);
-	} else if (Selection == 1) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[1].x, playerButtons[1].y, selectedColor);
-	} else if (Selection == 2) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[2].x, playerButtons[2].y, selectedColor);
-	} else if (Selection == 3) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[3].x, playerButtons[3].y, selectedColor);
-	} else if (Selection == 4) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[4].x, playerButtons[4].y, selectedColor);
-	} else if (Selection == 5) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, playerButtons[5].x, playerButtons[5].y, selectedColor);
+	for (int i = 0; i < 6; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, unselectedColor);
+		}
 	}
-
 
 	if (currentPage == 1) {
 		// Display Player Name.

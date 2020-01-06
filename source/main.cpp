@@ -99,8 +99,7 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 	} else {
 		Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
 		Gui::DrawStringCentered(0, 40, 0.7f, WHITE, message, 395);
-		Gui::DrawStringCentered(0, 70, 0.45f, WHITE, Lang::get("ERRORMSG_1"), 395);
-		Gui::DrawStringCentered(0, 140, 0.45f, WHITE, Lang::get("ERRORMSG_2"), 395);
+		Gui::DrawStringCentered(0, 100, 0.45f, WHITE, Lang::get("ERRORMSG_1"), 395);
 		Gui::DrawStringCentered(0, 215, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
 	}
 	Gui::ScreenDraw(bottom);

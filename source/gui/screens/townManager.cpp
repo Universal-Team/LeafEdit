@@ -66,51 +66,23 @@ void TownManager::DrawSubMenu(void) const
 	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 390);
 	Gui::DrawBottom();
 
-	if (Selection == 0) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[0].x, townButtons[0].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
-
-	} else if (Selection == 1) {
-		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[1].x, townButtons[1].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
-
-	} else if (Selection == 2) {
-		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[2].x, townButtons[2].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
-
-	} else if (Selection == 3) {
-		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[3].x, townButtons[3].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, townButtons[4].x, townButtons[4].y);
-
-	} else if (Selection == 4) {
-		Gui::sprite(0, sprites_button_idx, townButtons[0].x, townButtons[0].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[1].x, townButtons[1].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[2].x, townButtons[2].y);
-		Gui::sprite(0, sprites_button_idx, townButtons[3].x, townButtons[3].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, townButtons[4].x, townButtons[4].y, selectedColor);
+	for (int i = 0; i < 5; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, unselectedColor);
+		}
 	}
 
-		// Launch a Town from a Backup or just start the game.
-		Gui::DrawStringCentered(-80, townButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LAUNCH_TOWN"), 130);
-		// Backup the Save from the installed Title / Gamecard.
-		Gui::DrawStringCentered(-80, townButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("BACKUP_TOWN"), 130);
-		// Restore a Backuped save.
-		Gui::DrawStringCentered(-80, townButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("RESTORE_TOWN"), 130);
-		// Delete Save from Installed Title / Gamecard.
-		Gui::DrawStringCentered(80, townButtons[3].y+10, 0.6f, TXTCOLOR, Lang::get("DELETE_TOWN"), 130);
-		Gui::DrawStringCentered(80, townButtons[4].y+10, 0.6f, TXTCOLOR, Lang::get("DELETE_BACKUP"), 130);
+	// Launch a Town from a Backup or just start the game.
+	Gui::DrawStringCentered(-80, townButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LAUNCH_TOWN"), 130);
+	// Backup the Save from the installed Title / Gamecard.
+	Gui::DrawStringCentered(-80, townButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("BACKUP_TOWN"), 130);
+	// Restore a Backuped save.
+	Gui::DrawStringCentered(-80, townButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("RESTORE_TOWN"), 130);
+	// Delete Save from Installed Title / Gamecard.
+	Gui::DrawStringCentered(80, townButtons[3].y+10, 0.6f, TXTCOLOR, Lang::get("DELETE_TOWN"), 130);
+	Gui::DrawStringCentered(80, townButtons[4].y+10, 0.6f, TXTCOLOR, Lang::get("DELETE_BACKUP"), 130);
 }
 
 
@@ -188,8 +160,7 @@ void TownManager::DrawBrowse(void) const
 		dirs += "\n\n";
 	}
 	Gui::DrawString(26, 32, 0.51f, TXTCOLOR, dirs.c_str(), 390);
-	//Gui::DrawString(0, 2, 0.65f, TXTCOLOR, selectedSaveFolder.c_str(), 400); // For what was it used? :thonk:
-	Gui::DrawBottom();
+	Gui::DrawFileBrowseBG(false);
 }
 
 void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {

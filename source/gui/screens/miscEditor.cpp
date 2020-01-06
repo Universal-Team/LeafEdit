@@ -48,7 +48,7 @@ void MiscEditor::Draw(void) const
 	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 	Gui::DrawBottom();
 
-	Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
+	Gui::Draw_Rect(mainButtons[0].x, mainButtons[0].y, mainButtons[0].w, mainButtons[0].h, selectedColor);
 	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("ACRES"), 130);
 }
 

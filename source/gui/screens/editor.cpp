@@ -79,22 +79,13 @@ void Editor::DrawSubMenu(void) const
 
 	Gui::DrawBottom();
 
-	if (Selection == 0) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y);
-		Gui::sprite(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y);
-
-	} else if (Selection == 1) {
-		Gui::sprite(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y);
-
-	} else if (Selection == 2) {
-		Gui::sprite(0, sprites_button_idx, editorButtons[0].x, editorButtons[0].y);
-		Gui::sprite(0, sprites_button_idx, editorButtons[1].x, editorButtons[1].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, editorButtons[2].x, editorButtons[2].y, selectedColor);
+	for (int i = 0; i < 3; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, unselectedColor);
+		}
 	}
-
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
 
 	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("PLAYER"), 130);

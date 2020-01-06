@@ -4,8 +4,7 @@
 	"DESCRIPTION":					"Description: ",
 	"START_EXIT":					"Press Start to exit.",
 	"ERROR_STARTUP":				"Error during Startup: ",
-	"ERRORMSG_1":					"It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Manager,\nOr manually under the extras Repo of Universal-Team inside\n'builds/LeafEdit/Spritesheets.zip/7z'.",
-	"ERRORMSG_2":					"The easiest way is: To download Universal-Manager\nAnd then go to 'Updater', 'UNIV' and then click on\nThe version you want. It automatically checks, if the files are found.\nKeep in mind -> You need a Internet Connection to download this!",
+	"ERRORMSG_1":					"It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Updater,\nOr manually under the extras Repo of Universal-Team inside\n'builds/LeafEdit/Spritesheets.zip/7z'.",
 	"DSPFIRM_NOTFOUND":				"dspfirm.cdc not found.",
 	"NOT_FOUND_SPRSHT":				"Spritesheet not found.",
 	"INIT_FAILED":					"failed.",
@@ -89,7 +88,7 @@
 
 	"CREDITS":						"Credits",
 	"DEVELOPED_BY":					"Developed by: Universal-Team.",
-	"MAIN_DEV":						"Main Developer: VoltZ",
+	"MAIN_DEV":						"Main Developer: StackZ",
 	"CURRENT_VERSION":				"Current Version: ",
 	"MANY_THANKS":					"Many Thanks to:",
 	"CORE_NLTK":					"- For the core part of NLTK.",

@@ -43,13 +43,14 @@ void Settings::Draw(void) const
 		Gui::DrawTop();
 		Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 		Gui::DrawBottom();
-		if (Selection == 0) {
-			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y, selectedColor);
-			Gui::sprite(0, sprites_button_idx, settingsButtons[1].x, settingsButtons[1].y);
-		} else if (Selection == 1) {
-			Gui::sprite(0, sprites_button_idx, settingsButtons[0].x, settingsButtons[0].y);
-			Gui::Draw_ImageBlend(0, sprites_button_idx, settingsButtons[1].x, settingsButtons[1].y, selectedColor);
+		for (int i = 0; i < 2; i++) {
+			if (Selection == i) {
+				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, selectedColor);
+			} else {
+				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, unselectedColor);
+			}
 		}
+
 		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LANGUAGE"), 130);
 		Gui::DrawStringCentered(0, settingsButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("CREDITS"), 130);
 	} else if(screenMode == 1) {

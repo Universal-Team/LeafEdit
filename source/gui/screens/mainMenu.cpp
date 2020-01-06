@@ -37,20 +37,12 @@ void MainMenu::Draw(void) const
 
 	Gui::DrawBottom();
 
-	if (Selection == 0) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
-		Gui::sprite(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y);
-
-	} else if (Selection == 1) {
-		Gui::sprite(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y);
-
-	} else if (Selection == 2) {
-		Gui::sprite(0, sprites_button_idx, mainButtons[0].x, mainButtons[0].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, mainButtons[2].x, mainButtons[2].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, mainButtons[1].x, mainButtons[1].y);
+	for (int i = 0; i < 3; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, unselectedColor);
+		}
 	}
 
 	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("TOWN_MANAGER"), 130);

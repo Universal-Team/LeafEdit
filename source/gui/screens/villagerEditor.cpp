@@ -79,13 +79,12 @@ void VillagerEditor::DrawEditorSub(void) const {
 
 	Gui::DrawBottom();
 
-	if (Selection == 0) {
-		Gui::Draw_ImageBlend(0, sprites_button_idx, Buttons[0].x, Buttons[0].y, selectedColor);
-		Gui::sprite(0, sprites_button_idx, Buttons[1].x, Buttons[1].y);
-
-	} else if (Selection == 1) {
-		Gui::sprite(0, sprites_button_idx, Buttons[0].x, Buttons[0].y);
-		Gui::Draw_ImageBlend(0, sprites_button_idx, Buttons[1].x, Buttons[1].y, selectedColor);
+	for (int i = 0; i < 1; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, unselectedColor);
+		}
 	}
 
 	Gui::DrawStringCentered(0, Buttons[0].y+10, 0.6f, TXTCOLOR, Lang::get("SELECTING"), 130);

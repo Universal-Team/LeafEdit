@@ -37,7 +37,8 @@
 
 // Select Colors.
 #define SelectorBlue C2D_Color32(0, 191, 255, 255)
-#define selectedColor C2D_Color32(180, 180, 180, 255)
+#define selectedColor C2D_Color32(38, 100, 40, 255)
+#define unselectedColor C2D_Color32(38, 70, 40, 180)
 
 // Other Colors.
 #define TRANSPARENT C2D_Color32(0, 0, 0, 0)
