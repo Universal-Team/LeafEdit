@@ -111,6 +111,6 @@
 	"VILLAGER_VIEWER": "Bewohner Betrachter",
 	"CURRENT_VILLAGER": "Aktueller Bewohner: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat nicht gefunden!",
-	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!",
-	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true."
+	"SAVE_INCORRECT_SIZE": "Der Speicherstand hat eine falsche Größe!",
+	"NOT_SAVE_TO_USE": "Diese Funktion ist nicht sicher zu benutzen!!!\nWenn du es benutzen möchtest, setze 'Debug' von der Konfiguration zu true."
 }
