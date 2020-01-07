@@ -53,6 +53,12 @@ Player::Player(u32 offset, u32 index) {
 	this->Gender = Save::Instance()->ReadU16(offset + 0x55BA);
 	this->TownId = Save::Instance()->ReadU16(offset + 0x55BC);
 
+	this->hairStyle = Save::Instance()->ReadU8(offset + 0x04);
+	this->hairColor = Save::Instance()->ReadU8(offset + 0x05);
+	this->face = Save::Instance()->ReadU8(offset + 0x06);
+	this->eyeColor = Save::Instance()->ReadU8(offset + 0x07);
+
+
 	this->Wallet = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6F08));
 	this->BankAmount = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6b8c));
 	this->IslandMedals = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6B9C));
@@ -80,6 +86,11 @@ void Player::Write() {
 	Save::Instance()->Write(this->m_offset + 0x55BA, this->Gender);
 	Save::Instance()->Write(this->m_offset + 0x55BC, this->TownId);
 	Save::Instance()->Write(this->m_offset + 0x55BE, this->TownName, 8);
+
+	Save::Instance()->Write(this->m_offset + 0x04, this->hairStyle);
+	Save::Instance()->Write(this->m_offset + 0x05, this->hairColor);
+	Save::Instance()->Write(this->m_offset + 0x06, this->face);
+	Save::Instance()->Write(this->m_offset + 0x07, this->eyeColor);
 
 	// Was for Testing purpose of writing an Item to slot 1 of the pocket.
 //	Save::Instance()->Write(this->m_offset + 0x6BD0 + 0 * 4, this->testItem); // Don't write Items for now.

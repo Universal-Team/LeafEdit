@@ -52,6 +52,11 @@ public:
 	EncryptedInt32 MeowCoupons;
 	EncryptedInt32 IslandMedals;
 
+	u8 hairStyle;
+	u8 hairColor;
+	u8 face;
+	u8 eyeColor;
+
 	void Write();
 	bool Exists();
 

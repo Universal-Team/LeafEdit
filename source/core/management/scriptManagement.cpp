@@ -168,6 +168,82 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 			if (!missing)	SaveFile->players[player-1]->Name = name;
 		}
 
+		else if (type == "HairStyle") {
+			bool missing = false;	int player;	u8 style;
+			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
+				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
+
+			player = json.at(choice).at(i).at("player");
+			else	missing = true;
+
+			if(json.at(choice).at(i).contains("style") && json.at(choice).at(i).at("style").is_number())
+				style = json.at(choice).at(i).contains("style");
+			else	missing = true;
+
+			if (!missing)	SaveFile->players[player-1]->hairStyle = style;
+		}
+
+		else if (type == "HairColor") {
+			bool missing = false;	int player;	u8 color;
+			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
+				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
+
+			player = json.at(choice).at(i).at("player");
+			else	missing = true;
+
+			if(json.at(choice).at(i).contains("color") && json.at(choice).at(i).at("color").is_number())
+				color = json.at(choice).at(i).contains("color");
+			else	missing = true;
+
+			if (!missing)	SaveFile->players[player-1]->hairColor = color;
+		}
+
+		else if (type == "EyeColor") {
+			bool missing = false;	int player;	u8 color;
+			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
+				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
+
+			player = json.at(choice).at(i).at("player");
+			else	missing = true;
+
+			if(json.at(choice).at(i).contains("color") && json.at(choice).at(i).at("color").is_number())
+				color = json.at(choice).at(i).contains("color");
+			else	missing = true;
+
+			if (!missing)	SaveFile->players[player-1]->eyeColor = color;
+		}
+
+		else if (type == "Face") {
+			bool missing = false;	int player;	u8 face;
+			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
+				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
+
+			player = json.at(choice).at(i).at("player");
+			else	missing = true;
+
+			if(json.at(choice).at(i).contains("face") && json.at(choice).at(i).at("face").is_number())
+				face = json.at(choice).at(i).contains("face");
+			else	missing = true;
+
+			if (!missing)	SaveFile->players[player-1]->face = face;
+		}
+
+		else if (type == "Gender") {
+			bool missing = false;	int player;	u16 gender = 0; // 0 -> Male.
+			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
+				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
+
+			player = json.at(choice).at(i).at("player");
+			else	missing = true;
+
+			if(json.at(choice).at(i).contains("gender") && json.at(choice).at(i).at("gender").is_boolean()
+				&& json.at(choice).at(i).contains("gender") == true)
+				gender = 1;
+			else	missing = true;
+
+			if (!missing)	SaveFile->players[player-1]->Gender = gender;
+		}
+
 	}
 	Msg::DisplayWarnMsg(Lang::get("DONE"));
 }
