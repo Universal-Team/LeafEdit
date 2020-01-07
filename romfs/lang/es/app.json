@@ -75,7 +75,7 @@
 	"ACRE_EDITOR": "Editor Acre",
 	"CREDITS": "Créditos",
 	"DEVELOPED_BY": "Desarrollado por: Universal-Team.",
-	"MAIN_DEV": "Main Developer: StackZ",
+	"MAIN_DEV": "Desarrollador principal: StackZ",
 	"CURRENT_VERSION": "Versión Actual: ",
 	"MANY_THANKS": "Muchas gracias a:",
 	"CORE_NLTK": "- Por la parte central de NLTK.",
@@ -112,10 +112,10 @@
 	"CURRENT_VILLAGER": "Vecino actual: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat no encontrado!",
 	"SAVE_INCORRECT_SIZE": "¡El archivo guardado tiene un tamaño incorrecto!",
-	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true.",
+	"NOT_SAVE_TO_USE": "Esta característica no es segura para usar!\nSi te gusta usar esto, establece la configuración 'Debug' en 'true'.",
 	"SCRIPTS": "Scripts",
-	"TITLE": "Title: ",
-	"AUTHOR": "Author: ",
-	"NO_SCRIPTS_FOUND": "No Scripts found.",
-	"DONE": "Done!"
+	"TITLE": "Título: ",
+	"AUTHOR": "Autor: ",
+	"NO_SCRIPTS_FOUND": "No se encontraron Scripts.",
+	"DONE": "Hecho!"
 }
