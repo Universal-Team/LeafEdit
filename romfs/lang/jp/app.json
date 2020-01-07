@@ -1,7 +1,7 @@
 {
 	"INITIALIZE_MSG": "すべてを初期化しています… お待ちください",
 	"ERROR_OCCURED": "おお! エラーが発生しました!",
-	"DESCRIPTION": "説明: ",
+	"DESCRIPTION": "Desc: ",
 	"START_EXIT": "スタートを押して終了します",
 	"ERROR_STARTUP": "スタートアップ中のエラー: ",
 	"DSPFIRM_NOTFOUND": "dspfirm.cdcが見つかりません",
@@ -112,5 +112,10 @@
 	"CURRENT_VILLAGER": "現在の村の住人: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
 	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!",
-	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true."
+	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true.",
+	"SCRIPTS": "Scripts",
+	"TITLE": "Title: ",
+	"AUTHOR": "Author: ",
+	"NO_SCRIPTS_FOUND": "No Scripts found.",
+	"DONE": "Done!"
 }
