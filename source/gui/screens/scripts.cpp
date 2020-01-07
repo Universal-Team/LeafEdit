@@ -242,7 +242,7 @@ void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (entryInformation.size() != 0) {
-			ScriptManagement::executeScript(jsonFile, entryInformation[selection2]);
+			ScriptManagement::executePlayer(jsonFile, entryInformation[selection2]);
 		}
 	}
 

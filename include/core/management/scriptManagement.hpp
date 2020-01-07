@@ -38,6 +38,7 @@ namespace ScriptManagement
 	std::string getString(nlohmann::json json, const std::string &key, const std::string &key2);
 	int getNum(nlohmann::json json, const std::string &key, const std::string &key2);
 	bool checkIfValid(std::string scriptFile);
+	void executePlayer(nlohmann::json &json, std::string choice);
 	void executeScript(nlohmann::json &json, std::string choice);
 }
 
