@@ -4,9 +4,7 @@
 	"DESCRIPTION": "Beschreibung: ",
 	"START_EXIT": "Drück Start zum verlassen.",
 	"ERROR_STARTUP": "Fehler während des Starten: ",
-	"ERRORMSG_1": "It seems like, the Spritesheet is not in 'SD:/LeafEdit/'.\nYou can download the Spritesheets through Universal-Updater,\nOr manually under the extras Repo of Universal-Team inside\n'builds/LeafEdit/Spritesheets.zip/7z'.",
 	"DSPFIRM_NOTFOUND": "dspfirm.cdc nicht gefunden.",
-	"NOT_FOUND_SPRSHT": "Spritesheet nicht gefunden.",
 	"INIT_FAILED": "fehlgeschlagen.",
 	"GAMELOADER_CHECK": "Checke AC:NL Updates...",
 	"UPDATE_FOUND": "Update Gefunden!",
@@ -77,7 +75,7 @@
 	"ACRE_EDITOR": "Acre Editor",
 	"CREDITS": "Credits",
 	"DEVELOPED_BY": "Entwickelt von: Universal-Team.",
-	"MAIN_DEV": "Main Developer: StackZ",
+	"MAIN_DEV": "Hauptentwickler: StackZ",
 	"CURRENT_VERSION": "Aktuelle Version: ",
 	"MANY_THANKS": "Vielen Dank zu:",
 	"CORE_NLTK": "- Für den Core Part von NLTK.",
@@ -112,7 +110,7 @@
 	"VILLAGER_EDITOR_SUBMENU": "Bewohner Editor - SubMenu",
 	"VILLAGER_VIEWER": "Bewohner Betrachter",
 	"CURRENT_VILLAGER": "Aktueller Bewohner: ",
-	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
+	"SAVE_NOT_FOUND": "garden_plus.dat nicht gefunden!",
 	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!",
 	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true."
 }
