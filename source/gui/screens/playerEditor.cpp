@@ -69,60 +69,7 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void PlayerEditor::DrawSubMenu(void) const {
-	std::string activePlayer;
-	std::string Player1Name;
-	std::string Player2Name;
-	std::string Player3Name;
-	std::string Player4Name;
-
-	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("PLAYER_SELECTION");
-
-	if (SaveFile->players[0]->Exists()) {
-		Player1Name = StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str();
-		Player1Name += "\n\n      ";
-		if (SaveFile->players[0]->Gender == 0) {
-			Player1Name += male;
-		} else {
-			Player1Name += female;
-		}
-	}
-
-	if (SaveFile->players[1]->Exists()) {
-		Player2Name = StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str();
-		Player2Name += "\n\n      ";
-		if (SaveFile->players[1]->Gender == 0) {
-			Player2Name += male;
-		} else {
-			Player2Name += female;
-		}
-	}
-
-	if (SaveFile->players[2]->Exists()) {
-		Player3Name = StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str();
-		Player3Name += "\n\n      ";
-		if (SaveFile->players[2]->Gender == 0) {
-			Player3Name += male;
-		} else {
-			Player3Name += female;
-		}
-	}
-
-	if (SaveFile->players[3]->Exists()) {
-		Player4Name = StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str();
-		Player4Name += "\n\n      ";
-		if (SaveFile->players[3]->Gender == 0) {
-			Player4Name += male;
-		} else {
-			Player4Name += female;
-		}
-	}
-
-	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
+void PlayerEditor::DrawNameAndGender(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
@@ -130,11 +77,53 @@ void PlayerEditor::DrawSubMenu(void) const {
 		}
 	}
 
-	Gui::DrawString(17 + 0 * 100, 106, 0.45f, TXTCOLOR, Player1Name, 65);
-	Gui::DrawString(17 + 1 * 100, 106, 0.45f, TXTCOLOR, Player2Name, 65);
-	Gui::DrawString(17 + 2 * 100, 106, 0.45f, TXTCOLOR, Player3Name, 65);
-	Gui::DrawString(17 + 3 * 100, 106, 0.45f, TXTCOLOR, Player4Name, 65);
+	if (SaveFile->players[0]->Exists()) {
+		Gui::DrawStringCentered(-150, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
+		if (SaveFile->players[0]->Gender == 0) {
+			Gui::sprite(0, sprites_male_idx, 45, 140);
+		} else {
+			Gui::sprite(0, sprites_female_idx, 45, 140);
+		}
+	}
 
+	if (SaveFile->players[1]->Exists()) {
+		Gui::DrawStringCentered(-50, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
+		if (SaveFile->players[1]->Gender == 0) {
+			Gui::sprite(0, sprites_male_idx, 145, 140);
+		} else {
+			Gui::sprite(0, sprites_female_idx, 145, 140);
+		}
+	}
+
+	if (SaveFile->players[2]->Exists()) {
+		Gui::DrawStringCentered(50, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
+		if (SaveFile->players[2]->Gender == 0) {
+			Gui::sprite(0, sprites_male_idx, 245, 140);
+		} else {
+			Gui::sprite(0, sprites_female_idx, 245, 140);
+		}
+	}
+
+	if (SaveFile->players[3]->Exists()) {
+		Gui::DrawStringCentered(150, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
+		if (SaveFile->players[3]->Gender == 0) {
+			Gui::sprite(0, sprites_male_idx, 345, 140);
+		} else {
+			Gui::sprite(0, sprites_female_idx, 345, 140);
+		}
+	}
+}
+
+void PlayerEditor::DrawSubMenu(void) const {
+	std::string activePlayer;
+	std::string Title;
+	Title += "LeafEdit";
+	Title += " - ";
+	Title += Lang::get("PLAYER_SELECTION");
+
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
+	DrawNameAndGender();
 	if (selectedPlayer == 0)	Gui::drawAnimatedSelector(15 + 0 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 	else if (selectedPlayer == 1)	Gui::drawAnimatedSelector(15 + 1 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 	else if (selectedPlayer == 2)	Gui::drawAnimatedSelector(15 + 2 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
@@ -346,14 +335,28 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	// Selection / Page.
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
-	} else if (hDown & KEY_DOWN) {
+	}
+	if (hDown & KEY_DOWN) {
 			if(Selection < 5)	Selection++;
-	} else if (hDown & KEY_R) {
+	}
+	if (hDown & KEY_RIGHT) {
+		if (Selection == 0)	Selection = 3;
+		else if (Selection == 1)	Selection = 4;
+		else if (Selection == 2)	Selection = 5;
+	}
+	if (hDown & KEY_LEFT) {
+		if (Selection == 3)	Selection = 0;
+		else if (Selection == 4)	Selection = 1;
+		else if (Selection == 5)	Selection = 2;
+	}
+
+	// Pages.
+	if (hDown & KEY_R) {
 		if(currentPage <2) currentPage++;
-		Selection = 0;
+			Selection = 0;
 	} else if (hDown & KEY_L) {
 		if(currentPage > 1)	currentPage--;
-		Selection = 0;
+			Selection = 0;
 	}
 
 	// Selection A / Touch.

@@ -57,6 +57,9 @@ private:
 	void MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
+	// Other Draws.
+	void DrawNameAndGender(void) const;
+	
 	// Button Struct.
 	std::vector<Structs::ButtonPos> playerButtons = {
 		{10, 40, 140, 35, -1}, // Player Name.
@@ -82,9 +85,6 @@ private:
 	std::string pBank;
 	std::string pMedals;
 	std::string pCoupons;
-
-	std::string female = "♀";
-	std::string male = "♂";
 };
 
 #endif

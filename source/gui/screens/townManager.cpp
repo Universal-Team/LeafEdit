@@ -131,8 +131,17 @@ void TownManager::SelectionLogic(u32 hDown, u32 hHeld)
 {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
-	} else if (hDown & KEY_DOWN) {
+	}
+	if (hDown & KEY_DOWN) {
 		if(Selection < 4)	Selection++;
+	}
+	if (hDown & KEY_RIGHT) {
+		if (Selection == 0)	Selection = 3;
+		else if (Selection == 1)	Selection = 4;
+	}
+	if (hDown & KEY_LEFT) {
+		if (Selection == 3)	Selection = 0;
+		else if (Selection == 4)	Selection = 1;
 	}
 }
 
