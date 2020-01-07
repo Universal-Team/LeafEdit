@@ -115,7 +115,8 @@ void Msg::HelperBox(std::string Msg) {
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 240, DIM);
-	Gui::sprite(0, sprites_helperBox_idx, 0, 27);
+	Gui::Draw_Rect(0, 27, 400, 187, BARCOLOR); // Outline.
+	Gui::Draw_Rect(2, 29, 396, 183, BGBOTCOLOR); // BG.
 	Gui::DrawString(10, 42, 0.45f, TXTCOLOR, Msg, 380);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);

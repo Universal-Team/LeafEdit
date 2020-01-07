@@ -50,6 +50,7 @@ Item it;
 extern int selectedPassedPlayer;
 #define maxDresser 17 // 17, because it starts with 0, so it would be basically 18.
 
+// Only load item stuff, when accessing this screen and also unload by exit of that screen.
 ItemEditor::ItemEditor() {
 	it.LoadItemBins();
 }
@@ -65,8 +66,8 @@ void ItemEditor::DisplayDresser(void) const {
 	Title += std::to_string(currentDresser+1);
 
 	// Debug purpose.
-	char debug[50];
-	sprintf(debug, "%08lx", it.Raw);
+//	char debug[50];
+//	sprintf(debug, "%08lx", it.Raw);
 
 	dresserData = EditorUtils::load_player_dresseritems(selectedPassedPlayer, currentDresser);
 	std::string itemName = dresserData[currentDresserItem].first;

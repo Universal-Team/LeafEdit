@@ -56,7 +56,7 @@ void TitleSelection::Draw(void) const {
 	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Lang::get("SELECT_TITLE"), 398);
 
 	// Draw the 3DS Gamecard.
-	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, BGTOPCOLOR);
+	Gui::sprite(0, sprites_card_idx, 30, 93);
 	// Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
