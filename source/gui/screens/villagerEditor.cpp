@@ -79,7 +79,7 @@ void VillagerEditor::DrawEditorSub(void) const {
 
 	Gui::DrawBottom();
 
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 2; i++) {
 		if (Selection == i) {
 			Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, selectedColor);
 		} else {
