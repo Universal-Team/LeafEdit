@@ -1,7 +1,7 @@
 {
 	"INITIALIZE_MSG": "Alles wird initialisiert.. bitte warten.",
 	"ERROR_OCCURED": "Oh Nein! Ein Fehler ist aufgetreten!",
-	"DESCRIPTION": "Beschreibung: ",
+	"DESCRIPTION": "Desc: ",
 	"START_EXIT": "Drück Start zum verlassen.",
 	"ERROR_STARTUP": "Fehler während des Starten: ",
 	"DSPFIRM_NOTFOUND": "dspfirm.cdc nicht gefunden.",
@@ -112,5 +112,10 @@
 	"CURRENT_VILLAGER": "Aktueller Bewohner: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat nicht gefunden!",
 	"SAVE_INCORRECT_SIZE": "Der Speicherstand hat eine falsche Größe!",
-	"NOT_SAVE_TO_USE": "Diese Funktion ist nicht sicher zu benutzen!!!\nWenn du es benutzen möchtest, setze 'Debug' von der Konfiguration zu true."
+	"NOT_SAVE_TO_USE": "Diese Funktion ist nicht sicher zu benutzen!!!\nWenn du es benutzen möchtest, setze 'Debug' von der Konfiguration zu true.",
+	"SCRIPTS": "Scripts",
+	"TITLE": "Title: ",
+	"AUTHOR": "Author: ",
+	"NO_SCRIPTS_FOUND": "No Scripts found.",
+	"DONE": "Done!"
 }
