@@ -1,7 +1,7 @@
 {
 	"INITIALIZE_MSG": "Initialize everything.. please wait.",
 	"ERROR_OCCURED": "Oh no! An Error Occured!",
-	"DESCRIPTION": "Description: ",
+	"DESCRIPTION": "Desc: ",
 	"START_EXIT": "Press Start to exit.",
 	"ERROR_STARTUP": "Error during Startup: ",
 	"DSPFIRM_NOTFOUND": "dspfirm.cdc not found.",
@@ -112,5 +112,10 @@
 	"CURRENT_VILLAGER": "Current Villager: ",
 	"SAVE_NOT_FOUND": "garden_plus.dat not found!",
 	"SAVE_INCORRECT_SIZE": "Save file has an incorrect Size!",
-	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true."
+	"NOT_SAVE_TO_USE": "This Feature is not safe to use!!!\nIf you like to use this, set 'Debug' from the config to true.",
+	"SCRIPTS": "Scripts",
+	"TITLE": "Title: ",
+	"AUTHOR": "Author: ",
+	"NO_SCRIPTS_FOUND": "No Scripts found.",
+	"DONE": "Done!"
 }
