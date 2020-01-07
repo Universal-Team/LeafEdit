@@ -80,7 +80,7 @@ void TestStuff(void)
 }
 
 // If an Error while startup appears, Return this!
-static Result DisplayStartupError(std::string message, Result res, bool isSheet)
+static Result DisplayStartupError(std::string message, Result res)
 {
 	std::string errorMsg = std::to_string(res);
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -91,17 +91,10 @@ static Result DisplayStartupError(std::string message, Result res, bool isSheet)
 	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
 	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
 	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
-	if (isSheet == false) {
-		Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
-		Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("DESCRIPTION")+ message, 395);
-		Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
-		Gui::DrawStringCentered(0, 170, 0.7f, WHITE, Lang::get("ERROR_STARTUP")+errorMsg, 395);
-	} else {
-		Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
-		Gui::DrawStringCentered(0, 40, 0.7f, WHITE, message, 395);
-		Gui::DrawStringCentered(0, 100, 0.45f, WHITE, Lang::get("ERRORMSG_1"), 395);
-		Gui::DrawStringCentered(0, 215, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
-	}
+	Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
+	Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("DESCRIPTION")+ message, 395);
+	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
+	Gui::DrawStringCentered(0, 170, 0.7f, WHITE, Lang::get("ERROR_STARTUP")+errorMsg, 395);
 	Gui::ScreenDraw(bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
 	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
@@ -172,41 +165,18 @@ int main()
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 
 	if (R_FAILED(res = amInit())) {
-		return DisplayStartupError("amInit "+Lang::get("INIT_FAILED"), res, false);
+		return DisplayStartupError("amInit "+Lang::get("INIT_FAILED"), res);
 	}
 
 	if (R_FAILED(res = sdmcInit())) {
-		return DisplayStartupError("sdmcInit "+Lang::get("INIT_FAILED"), res, false);
+		return DisplayStartupError("sdmcInit "+Lang::get("INIT_FAILED"), res);
 	}
 
 	if (R_FAILED(res = cfguInit())) {
-		return DisplayStartupError("cfguInit "+Lang::get("INIT_FAILED"), res, false);
+		return DisplayStartupError("cfguInit "+Lang::get("INIT_FAILED"), res);
 	}
 
-	Gui::loadSheets(0);
-	if(access("sdmc:/LeafEdit/acres.t3x", F_OK) != -1 ) {
-		Gui::loadSheets(1);
-	} else {
-		return DisplayStartupError("Acres "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
-	}
-
-	if(access("sdmc:/LeafEdit/items.t3x", F_OK) != -1 ) {
-		Gui::loadSheets(2);
-	} else {
-		return DisplayStartupError("items "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
-	}
-
-	if(access("sdmc:/LeafEdit/villagers.t3x", F_OK) != -1 ) {
-		Gui::loadSheets(3);
-	} else {
-		return DisplayStartupError("villagers "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
-	}
-
-	if(access("sdmc:/LeafEdit/villagers2.t3x", F_OK) != -1 ) {
-		Gui::loadSheets(4);
-	} else {
-		return DisplayStartupError("villagers2 "+Lang::get("NOT_FOUND_SPRSHT"), res, true);
-	}
+	Gui::loadSheets();
 
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
