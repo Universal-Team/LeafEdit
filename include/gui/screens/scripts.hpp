@@ -24,28 +24,41 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MISCEDITOR_HPP
-#define MISCEDITOR_HPP
+#ifndef SCRIPTS_HPP
+#define SCRIPTS_HPP
 
-#include "common/structs.hpp"
+#include "common/fileBrowse.h"
 
 #include "gui/screens/screen.hpp"
+#include "gui/screens/screenCommon.hpp"
 
 #include <vector>
 
-class MiscEditor : public Screen
+class Scripts : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
+	Scripts();
 private:
-	int Selection = 0;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Acres Editor.
-		{90, 100, 140, 35, -1}, // Scripts.
-		{90, 160, 140, 35, -1}, // ?
-	};
+	int mode = 0;
+
+	// Screen Draws.
+	void DrawSubMenu(void) const;
+	void DrawSingleObject(void) const;
+	// Logics.
+	void subMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void selectLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	int keyRepeatDelay = 0;
+	int fastMode = false;
+	
+	std::vector<DirEntry> dirContents;
+	mutable int screenPos = 0;
+	mutable int screenPos2 = 0;
+	int selection = 0;
+	int selection2 = 0;
+
 };
 
 #endif

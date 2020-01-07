@@ -31,6 +31,7 @@
 #include "gui/screens/acresEditor.hpp"
 #include "gui/screens/miscEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
+#include "gui/screens/scripts.hpp"
 
 #include "core/save/offsets.h"
 #include "core/save/player.h"
@@ -48,8 +49,16 @@ void MiscEditor::Draw(void) const
 	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
 	Gui::DrawBottom();
 
-	Gui::Draw_Rect(mainButtons[0].x, mainButtons[0].y, mainButtons[0].w, mainButtons[0].h, selectedColor);
+	for (int i = 0; i < 2; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, unselectedColor);
+		}
+	}
+
 	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("ACRES"), 130);
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("SCRIPTS"), 130);
 }
 
 
@@ -60,11 +69,25 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
+	if (hDown & KEY_UP) {
+		if(Selection > 0)	Selection--;
+	} else if (hDown & KEY_DOWN) {
+		if(Selection < 2)	Selection++;
+	}
+
 	if (hDown & KEY_A) {
-		if (Config::getBool("Debug") == true) {
-			Gui::setScreen(std::make_unique<AcresEditor>());
-		} else {
-			Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
+		if (Selection == 0) {
+			if (Config::getBool("Debug") == true) {
+				Gui::setScreen(std::make_unique<AcresEditor>());
+			} else {
+				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
+			}
+		} else if (Selection == 1) {
+			if (returnIfExist("sdmc:/LeafEdit/scripts/", {"json"}) == true) {
+				Gui::setScreen(std::make_unique<Scripts>());
+			} else {
+				Msg::DisplayWarnMsg2(Lang::get("NO_SCRIPTS_FOUND"));
+			}
 		}
 	}
 }

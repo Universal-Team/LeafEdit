@@ -24,28 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MISCEDITOR_HPP
-#define MISCEDITOR_HPP
+#ifndef SCRIPTMANAGEMENT_HPP
+#define SCRIPTMANAGEMENT_HPP
 
-#include "common/structs.hpp"
+#include "common/json.hpp"
 
-#include "gui/screens/screen.hpp"
+#include <3ds.h>
+#include <string>
 
-#include <vector>
-
-class MiscEditor : public Screen
+namespace ScriptManagement
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
-private:
-	int Selection = 0;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Acres Editor.
-		{90, 100, 140, 35, -1}, // Scripts.
-		{90, 160, 140, 35, -1}, // ?
-	};
-};
+	// Get stuff from a JSON.
+	std::string getString(nlohmann::json json, const std::string &key, const std::string &key2);
+	int getNum(nlohmann::json json, const std::string &key, const std::string &key2);
+	bool checkIfValid(std::string scriptFile);
+	void executeScript(nlohmann::json &json, std::string choice);
+}
 
 #endif
