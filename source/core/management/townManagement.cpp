@@ -55,51 +55,62 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 	if (R_SUCCEEDED(res)) {
 		std::u16string customPath;
-		const std::string& enterName = Lang::get("ENTER_NAME");
-		std::string saveName = Input::getString(20, enterName);
-		customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
+		std::string saveName = Input::handleString(20, Lang::get("ENTER_NAME"), "");
+		if (saveName != "") {
+			customPath += StringUtils::UTF8toUTF16("/LeafEdit/Towns");
 
-		customPath += StringUtils::UTF8toUTF16("/");
+			customPath += StringUtils::UTF8toUTF16("/");
 
-		// Check for the game.
-		if (isROMHack == true) {
-			customPath += StringUtils::UTF8toUTF16("Welcome-Luxury");
-		} else if (isROMHack == false) {
-			if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
-				if (WelcomeAmiibo == false) {
-					customPath += StringUtils::UTF8toUTF16("Old");
-				} else if (WelcomeAmiibo == true) {
-					customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
-				}
-			} else {
-				if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
-					customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+			// Check for the game.
+			if (isROMHack == true) {
+				customPath += StringUtils::UTF8toUTF16("Welcome-Luxury");
+			} else if (isROMHack == false) {
+				if (ID == OldJPN || ID == OldUSA || ID == OldEUR || ID == OldKOR) {
+					if (WelcomeAmiibo == false) {
+						customPath += StringUtils::UTF8toUTF16("Old");
+					} else if (WelcomeAmiibo == true) {
+						customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+					}
+				} else {
+					if (ID == WelcomeAmiiboUSA || ID == WelcomeAmiiboEUR || ID == WelcomeAmiiboJPN || ID == WelcomeAmiiboKOR) {
+						customPath += StringUtils::UTF8toUTF16("Welcome-Amiibo");
+					}
 				}
 			}
-		}
 
-		std::u16string folderPath = customPath;
-		folderPath += StringUtils::UTF8toUTF16("/");
-		folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
-		Msg::DisplayMsg(Lang::get("BACKUP_FILES"));
-		if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
-			alreadyexists = false;
-			res = io::createDirectory(Archive::sdmc(), folderPath);
-			if (R_FAILED(res)) {
-				FSUSER_CloseArchive(archive);
-				Msg::DisplayWaitMsg(Lang::get("DIRECTORY_CREATION_FAILED"));
-				return res;
+			std::u16string folderPath = customPath;
+			folderPath += StringUtils::UTF8toUTF16("/");
+			folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
+			Msg::DisplayMsg(Lang::get("BACKUP_FILES"));
+			if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
+				alreadyexists = false;
+				res = io::createDirectory(Archive::sdmc(), folderPath);
+				if (R_FAILED(res)) {
+					FSUSER_CloseArchive(archive);
+					Msg::DisplayWaitMsg(Lang::get("DIRECTORY_CREATION_FAILED"));
+					return res;
+				}
+			} else if (io::directoryExists(Archive::sdmc(), folderPath) == true) {
+				alreadyexists = true;
 			}
-		} else if (io::directoryExists(Archive::sdmc(), folderPath) == true) {
-			alreadyexists = true;
-		}
 
+			std::u16string savePath = folderPath;
+			savePath += StringUtils::UTF8toUTF16("/");
 
-		std::u16string savePath = folderPath;
-		savePath += StringUtils::UTF8toUTF16("/");
+			if (alreadyexists == true) {
+				if (Msg::promptMsg(Lang::get("DIRECTORY_EXIST_ALREADY"))) {
+					res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
+						if (R_FAILED(res)) {
+							FSUSER_CloseArchive(archive);
+							FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
+							Msg::DisplayWaitMsg(Lang::get("COPY_DIRECTORY_FAILED"));
+							return res;
+						}
+					FSUSER_CloseArchive(archive);
+					Msg::DisplayWaitMsg(Lang::get("BACKUP_SUCCESS"));
+				}
 
-		if (alreadyexists == true) {
-			if (Msg::promptMsg(Lang::get("DIRECTORY_EXIST_ALREADY"))) {
+			} else if (alreadyexists == false) {
 				res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
 					if (R_FAILED(res)) {
 						FSUSER_CloseArchive(archive);
@@ -110,17 +121,6 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 				FSUSER_CloseArchive(archive);
 				Msg::DisplayWaitMsg(Lang::get("BACKUP_SUCCESS"));
 			}
-
-		} else if (alreadyexists == false) {
-			res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), savePath);
-				if (R_FAILED(res)) {
-					FSUSER_CloseArchive(archive);
-					FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, folderPath.data()));
-					Msg::DisplayWaitMsg(Lang::get("COPY_DIRECTORY_FAILED"));
-					return res;
-				}
-			FSUSER_CloseArchive(archive);
-			Msg::DisplayWaitMsg(Lang::get("BACKUP_SUCCESS"));
 		}
 	}
 	return 0;

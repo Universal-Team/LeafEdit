@@ -362,47 +362,46 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	// Selection A / Touch.
 	if (hDown & KEY_A) {
 		if (currentPage == 1) {
-			const std::string& playername = Lang::get("NEW_PLAYER_NAME");
 			switch(Selection) {
 				case 0:
-					SaveFile->players[cp]->Name = Input::getu16String(8, playername);
+					SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
 					break;
 				case 1:
-					SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);
+					SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 					break;
 				case 2:
-					SaveFile->players[cp]->PlayerTan = Input::getu32(2, 15);
+					SaveFile->players[cp]->PlayerTan = Input::handleu32(2, Lang::get("ENTER_TAN_VALUE"), 15, SaveFile->players[cp]->PlayerTan);
 					break;
 				case 3:
-					SaveFile->players[cp]->BankAmount.value = Input::getu32(9, 999999999);
+					SaveFile->players[cp]->BankAmount.value = Input::handleu32(9, Lang::get("ENTER_BANK_AMOUNT"), 999999999, SaveFile->players[cp]->BankAmount.value);
 						break;
 				case 4:
-					SaveFile->players[cp]->IslandMedals.value = Input::getu32(4, 9999);
+					SaveFile->players[cp]->IslandMedals.value = Input::handleu32(4, Lang::get("ENTER_MEDAL_AMOUNT"), 9999, SaveFile->players[cp]->IslandMedals.value);
 					break;
 				case 5:
-					SaveFile->players[cp]->MeowCoupons.value = Input::getu32(4, 9999);
+					SaveFile->players[cp]->MeowCoupons.value = Input::handleu32(4, Lang::get("ENTER_COUPON_AMOUNT"), 9999, SaveFile->players[cp]->MeowCoupons.value);
 					break;
 			}
 
 		} else if (currentPage == 2) {
 			switch(Selection) {
 				case 0:
-					PlayerManagement::PlayerMaxBank(cp, pBank);
+					SaveFile->players[cp]->BankAmount.value = 999999999;
 					break;
 				case 1:
-					PlayerManagement::PlayerMaxMedals(cp, pMedals);
+					SaveFile->players[cp]->IslandMedals.value = 9999;
 					break;
 				case 2:
-					PlayerManagement::PlayerMaxCoupons(cp, pCoupons);
+					SaveFile->players[cp]->MeowCoupons.value = 9999;
 					break;
 				case 3:
-					PlayerManagement::PlayerClearBank(cp, pBank);
+					SaveFile->players[cp]->BankAmount.value = 0;
 					break;
 				case 4:
-					PlayerManagement::PlayerClearMedals(cp, pMedals);
+					SaveFile->players[cp]->IslandMedals.value = 0;
 					break;
 				case 5:
-					PlayerManagement::PlayerClearCoupons(cp, pCoupons);
+					SaveFile->players[cp]->MeowCoupons.value = 0;
 					break;
 			}
 		}
@@ -411,33 +410,32 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hDown & KEY_TOUCH) {
 		if (currentPage == 1) {
 			if (touching(touch, playerButtons[0])) {
-				const std::string& playername = Lang::get("NEW_PLAYER_NAME");
-				SaveFile->players[cp]->Name = Input::getu16String(8, playername);
+				SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
 			} else if (touching(touch, playerButtons[1])) {
-				SaveFile->players[cp]->Wallet.value = Input::getu32(5, 99999);
+				SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 			} else if (touching(touch, playerButtons[2])) {
-				SaveFile->players[cp]->PlayerTan = Input::getu32(2, 15);
+				SaveFile->players[cp]->PlayerTan = Input::handleu32(2, Lang::get("ENTER_TAN_VALUE"), 15, SaveFile->players[cp]->PlayerTan);
 			} else if (touching(touch, playerButtons[3])) {
-				SaveFile->players[cp]->BankAmount.value = Input::getu32(9, 999999999);
+				SaveFile->players[cp]->BankAmount.value = Input::handleu32(9, Lang::get("ENTER_BANK_AMOUNT"), 999999999, SaveFile->players[cp]->BankAmount.value);
 			} else if (touching(touch, playerButtons[4])) {
-				SaveFile->players[cp]->IslandMedals.value = Input::getu32(4, 9999);
+				SaveFile->players[cp]->IslandMedals.value = Input::handleu32(4, Lang::get("ENTER_MEDAL_AMOUNT"), 9999, SaveFile->players[cp]->IslandMedals.value);
 			} else if (touching(touch, playerButtons[5])) {
-				SaveFile->players[cp]->MeowCoupons.value = Input::getu32(4, 9999);
+				SaveFile->players[cp]->MeowCoupons.value = Input::handleu32(4, Lang::get("ENTER_COUPON_AMOUNT"), 9999, SaveFile->players[cp]->MeowCoupons.value);
 			}
 
 		} else if (currentPage == 2) {
 			if (touching(touch, playerButtons[0])) {
-				PlayerManagement::PlayerMaxBank(cp, pBank);
+				SaveFile->players[cp]->BankAmount.value = 999999999;
 			} else if (touching(touch, playerButtons[1])) {
-				PlayerManagement::PlayerMaxMedals(cp, pMedals);
+				SaveFile->players[cp]->IslandMedals.value = 9999;
 			} else if (touching(touch, playerButtons[2])) {
-				PlayerManagement::PlayerMaxCoupons(cp, pCoupons);
+				SaveFile->players[cp]->MeowCoupons.value = 9999;
 			} else if (touching(touch, playerButtons[3])) {
-				PlayerManagement::PlayerClearBank(cp, pBank);
+				SaveFile->players[cp]->BankAmount.value = 0;
 			} else if (touching(touch, playerButtons[4])) {
-				PlayerManagement::PlayerClearMedals(cp, pMedals);
+				SaveFile->players[cp]->IslandMedals.value = 0;
 			} else if (touching(touch, playerButtons[5])) {
-				PlayerManagement::PlayerClearCoupons(cp, pCoupons);
+				SaveFile->players[cp]->MeowCoupons.value = 0;
 			}
 		}
 	}

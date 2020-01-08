@@ -99,7 +99,7 @@ void VillagerViewer::VillagerListLogic(u32 hDown, u32 hHeld, touchPosition touch
 	}
 
 	if (hDown & KEY_TOUCH && touching(touch, search[0])) {
-		villagerViewerSprite = Input::getu16(3, 398);
+		villagerViewerSprite = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, villagerViewerSprite);
 	}
 }
 

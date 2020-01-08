@@ -109,7 +109,7 @@ void VillagerEditor::EditorSubLogic(u32 hDown) {
 				editorMode = 1;
 				break;
 			case 1:
-				manuallyVillager = Input::getu16(3, 398);
+				manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
 				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
 				Gui::screenBack();
 				return;
@@ -547,7 +547,7 @@ void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition to
 	}
 
 	if (hDown & KEY_TOUCH && touching(touch, search[0])) {
-		int temp = Input::getu16(3, endID);
+		int temp = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), endID, 0);
 		if(temp < startID) {
 			Msg::DisplayWarnMsg(Lang::get("VILLAGER_GROUP_DONT_START"));
 			currentSelectedVillager = startID;
