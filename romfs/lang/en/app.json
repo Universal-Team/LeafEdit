@@ -146,6 +146,7 @@
 	"ENTER_COUPON_AMOUNT":			"Enter Coupon amount.",
 
 	"MODE_ROMFS":					"Mode: RomFS",
-	"MODE_SD":						"Mode: SD Card"
-
+	"MODE_SD":						"Mode: SD Card",
+	"SCRIPT_TYPE":					"Script type: ",
+	"INVALID_TYPE":					"Invalid Script type!"
 }

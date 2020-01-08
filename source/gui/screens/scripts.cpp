@@ -44,6 +44,7 @@ struct Info {
 	std::string title;
 	std::string author;
 	std::string Description;
+	std::string Mode;
 };
 nlohmann::json jsonFile;
 std::string selectedScript = "";
@@ -61,6 +62,7 @@ Info parseInfo(std::string fileName) {
 	info.title = ScriptManagement::getString(json, "scriptInfo", "title");
 	info.author = ScriptManagement::getString(json, "scriptInfo", "author");
 	info.Description = ScriptManagement::getString(json, "scriptInfo", "description");
+	info.Mode = ScriptManagement::getString(json, "scriptInfo", "type");
 	return info;
 }
 
@@ -132,7 +134,10 @@ void Scripts::DrawSubMenu(void) const {
 		}
 		Gui::DrawStringCentered(0, 80, 0.7f, TXTCOLOR, Lang::get("TITLE") + std::string(scriptInformation[selection].title), 390);
 		Gui::DrawStringCentered(0, 100, 0.7f, TXTCOLOR, Lang::get("AUTHOR") + std::string(scriptInformation[selection].author), 390);
-		Gui::DrawStringCentered(0, 140, 0.7f, TXTCOLOR, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
+		Gui::DrawStringCentered(0, 120, 0.7f, TXTCOLOR, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
+		if (scriptInformation[selection].Mode != "MISSING: scriptInfo.type") {
+			Gui::DrawStringCentered(0, 140, 0.7f, TXTCOLOR, Lang::get("SCRIPT_TYPE") + std::string(scriptInformation[selection].Mode), 390);
+		}
 		Gui::DrawString(397-Gui::GetStringWidth(0.6f, scriptAmount), 237-Gui::GetStringHeight(0.6f, scriptAmount), 0.6f, TXTCOLOR, scriptAmount);
 		Gui::DrawBottom();
 		for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)scriptInformation.size();i++) {
@@ -239,6 +244,17 @@ void Scripts::subMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				selectedScript = scriptInformation[selection].title;
 				jsonFile = openScriptFile(dirContents[selection].name);
 				entryInformation = parseObjects(dirContents[selection].name);
+
+				if (scriptInformation[selection].Mode == "Player") {
+					executeMode = 0;
+				} else if (scriptInformation[selection].Mode == "Villager") {
+					executeMode = 1;
+				} else if (scriptInformation[selection].Mode == "Custom") {
+					executeMode = 2;
+				} else {
+					executeMode = 3;
+				}
+
 				selection2 = 0;
 				mode = 1;
 			}
@@ -287,7 +303,17 @@ void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (entryInformation.size() != 0) {
-			ScriptManagement::executePlayer(jsonFile, entryInformation[selection2]);
+			if (executeMode == 0) {
+				ScriptManagement::executePlayer(jsonFile, entryInformation[selection2]);
+			} else if (executeMode == 1) {
+				//ScriptManagement::executeVillager(jsonFile, entryInformation[selection2]);
+				Msg::NotImplementedYet();
+			} else if (executeMode == 2) {
+				//ScriptManagement::executeCustom(jsonFile, entryInformation[selection2]);
+				Msg::NotImplementedYet();
+			} else if (executeMode == 3) {
+				Msg::DisplayWarnMsg(Lang::get("INVALID_TYPE"));
+			}
 		}
 	}
 

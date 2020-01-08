@@ -1,0 +1,64 @@
+{
+	"scriptInfo": {
+		"title": "Medal Modifier",
+		"author": "StackZ",
+		"description": "Modifies the Medal amount.",
+		"type": "Player"
+	},
+	"Player 1: 9999 Medals": [
+		{
+			"type": "Medals",
+			"player": 1,
+			"amount": 9999
+		}
+	],
+	"Player 1: 0 Medals": [
+		{
+			"type": "Medals",
+			"player": 1,
+			"amount": 0
+		}
+	],
+	"Player 2: 9999 Medals": [
+		{
+			"type": "Medals",
+			"player": 2,
+			"amount": 9999
+		}
+	],
+	"Player 2: 0 Medals": [
+		{
+			"type": "Medals",
+			"player": 2,
+			"amount": 0
+		}
+	],
+	"Player 3: 9999 Medals": [
+		{
+			"type": "Medals",
+			"player": 3,
+			"amount": 9999
+		}
+	],
+	"Player 3: 0 Medals": [
+		{
+			"type": "Medals",
+			"player": 3,
+			"amount": 0
+		}
+	],
+	"Player 4: 9999 Medals": [
+		{
+			"type": "Medals",
+			"player": 4,
+			"amount": 9999
+		}
+	],
+	"Player 4: 0 Medals": [
+		{
+			"type": "Medals",
+			"player": 4,
+			"amount": 0
+		}
+	]
+}

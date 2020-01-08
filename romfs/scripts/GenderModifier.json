@@ -1,0 +1,64 @@
+{
+	"scriptInfo": {
+		"title": "Gender Modifier",
+		"author": "StackZ",
+		"description": "Modifies the Gender.",
+		"type": "Player"
+	},
+	"Player 1: Female": [
+		{
+			"type": "Gender",
+			"player": 1,
+			"gender": true
+		}
+	],
+	"Player 1: Male": [
+		{
+			"type": "Gender",
+			"player": 1,
+			"gender": false
+		}
+	],
+	"Player 2: Female": [
+		{
+			"type": "Gender",
+			"player": 2,
+			"gender": true
+		}
+	],
+	"Player 2: Male": [
+		{
+			"type": "Gender",
+			"player": 2,
+			"gender": false
+		}
+	],
+	"Player 3: Female": [
+		{
+			"type": "Gender",
+			"player": 3,
+			"gender": true
+		}
+	],
+	"Player 3: Male": [
+		{
+			"type": "Gender",
+			"player": 3,
+			"gender": false
+		}
+	],
+	"Player 4: Female": [
+		{
+			"type": "Gender",
+			"player": 4,
+			"gender": true
+		}
+	],
+	"Player 4: Male": [
+		{
+			"type": "Gender",
+			"player": 4,
+			"gender": false
+		}
+	]
+}

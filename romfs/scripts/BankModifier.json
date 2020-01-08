@@ -1,0 +1,64 @@
+{
+	"scriptInfo": {
+		"title": "Bank Modifier",
+		"author": "StackZ",
+		"description": "Modifies the bank amount.",
+		"type": "Player"
+	},
+	"Player 1: 999.999.999 Bells": [
+		{
+			"type": "Bank",
+			"player": 1,
+			"amount": 999999999
+		}
+	],
+	"Player 1: 0 Bells": [
+		{
+			"type": "Bank",
+			"player": 1,
+			"amount": 0
+		}
+	],
+	"Player 2: 999.999.999 Bells": [
+		{
+			"type": "Bank",
+			"player": 2,
+			"amount": 999999999
+		}
+	],
+	"Player 2: 0 Bells": [
+		{
+			"type": "Bank",
+			"player": 2,
+			"amount": 0
+		}
+	],
+	"Player 3: 999.999.999 Bells": [
+		{
+			"type": "Bank",
+			"player": 3,
+			"amount": 999999999
+		}
+	],
+	"Player 3: 0 Bells": [
+		{
+			"type": "Bank",
+			"player": 3,
+			"amount": 0
+		}
+	],
+	"Player 4: 999.999.999 Bells": [
+		{
+			"type": "Bank",
+			"player": 4,
+			"amount": 999999999
+		}
+	],
+	"Player 4: 0 Bells": [
+		{
+			"type": "Bank",
+			"player": 4,
+			"amount": 0
+		}
+	]
+}

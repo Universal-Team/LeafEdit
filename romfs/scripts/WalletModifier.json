@@ -2,7 +2,8 @@
 	"scriptInfo": {
 		"title": "Wallet Modifier",
 		"author": "StackZ",
-		"description": "Modifies the Bells of the Players wallet."
+		"description": "Modifies the wallet amount.",
+		"type": "Player"
 	},
 	"Player 1: 99.999 Bells": [
 		{

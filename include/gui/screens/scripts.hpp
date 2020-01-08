@@ -45,6 +45,8 @@ private:
 	void refresh(int location = 0);
 	int scriptLocation = 1;
 
+	int executeMode = 0; // 0 -> Player. 1 -> Villager? 2 -> Custom. 3 -> Invalid.
+
 	// Screen Draws.
 	void DrawSubMenu(void) const;
 	void DrawSingleObject(void) const;

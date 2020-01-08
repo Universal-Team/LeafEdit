@@ -1,0 +1,64 @@
+{
+	"scriptInfo": {
+		"title": "Coupon Modifier",
+		"author": "StackZ",
+		"description": "Modifies the Coupon amount.",
+		"type": "Player"
+	},
+	"Player 1: 9999 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 1,
+			"amount": 9999
+		}
+	],
+	"Player 1: 0 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 1,
+			"amount": 0
+		}
+	],
+	"Player 2: 9999 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 2,
+			"amount": 9999
+		}
+	],
+	"Player 2: 0 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 2,
+			"amount": 0
+		}
+	],
+	"Player 3: 9999 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 3,
+			"amount": 9999
+		}
+	],
+	"Player 3: 0 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 3,
+			"amount": 0
+		}
+	],
+	"Player 4: 9999 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 4,
+			"amount": 9999
+		}
+	],
+	"Player 4: 0 Coupons": [
+		{
+			"type": "Coupons",
+			"player": 4,
+			"amount": 0
+		}
+	]
+}
