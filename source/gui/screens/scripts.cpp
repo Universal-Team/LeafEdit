@@ -300,6 +300,7 @@ void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 void Scripts::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	gspWaitForVBlank();
 	if (mode == 0) {
 		subMenuLogic(hDown, hHeld, touch);
 	} else if (mode == 1) {
