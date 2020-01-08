@@ -1,0 +1,63 @@
+{
+	"scriptInfo": {
+		"title": "Wallet Modifier",
+		"author": "StackZ",
+		"description": "Modifies the Bells of the Players wallet."
+	},
+	"Player 1: 99.999 Bells": [
+		{
+			"type": "Wallet",
+			"player": 1,
+			"amount": 99999
+		}
+	],
+	"Player 1: 0 Bells": [
+		{
+			"type": "Wallet",
+			"player": 1,
+			"amount": 0
+		}
+	],
+	"Player 2: 99.999 Bells": [
+		{
+			"type": "Wallet",
+			"player": 2,
+			"amount": 99999
+		}
+	],
+	"Player 2: 0 Bells": [
+		{
+			"type": "Wallet",
+			"player": 2,
+			"amount": 0
+		}
+	],
+	"Player 3: 99.999 Bells": [
+		{
+			"type": "Wallet",
+			"player": 3,
+			"amount": 99999
+		}
+	],
+	"Player 3: 0 Bells": [
+		{
+			"type": "Wallet",
+			"player": 3,
+			"amount": 0
+		}
+	],
+	"Player 4: 99.999 Bells": [
+		{
+			"type": "Wallet",
+			"player": 4,
+			"amount": 99999
+		}
+	],
+	"Player 4: 0 Bells": [
+		{
+			"type": "Wallet",
+			"player": 4,
+			"amount": 0
+		}
+	]
+}

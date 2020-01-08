@@ -42,6 +42,8 @@ public:
 	Scripts();
 private:
 	int mode = 0;
+	void refresh(int location = 0);
+	int scriptLocation = 1;
 
 	// Screen Draws.
 	void DrawSubMenu(void) const;

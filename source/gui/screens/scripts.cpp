@@ -96,34 +96,68 @@ std::vector<std::string> entryInformation;
 
 Scripts::Scripts() {
 	dirContents.clear();
-	chdir("sdmc:/LeafEdit/scripts/");
+	chdir("romfs:/scripts/");
 	getDirectoryContents(dirContents, {"json"});
 	for(uint i=0;i<dirContents.size();i++) {
 		scriptInformation.push_back(parseInfo(dirContents[i].name));
 	}
 }
 
-void Scripts::DrawSubMenu(void) const {
-	std::string line1;
-	std::string line2;
-	std::string scriptAmount = std::to_string(selection +1) + " / " + std::to_string(scriptInformation.size());
-	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 80, 0.7f, TXTCOLOR, Lang::get("TITLE") + std::string(scriptInformation[selection].title), 390);
-	Gui::DrawStringCentered(0, 100, 0.7f, TXTCOLOR, Lang::get("AUTHOR") + std::string(scriptInformation[selection].author), 390);
-	Gui::DrawStringCentered(0, 140, 0.7f, TXTCOLOR, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
-	Gui::DrawBottom();
-	for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)scriptInformation.size();i++) {
-		line1 = scriptInformation[screenPos + i].title;
-		line2 = scriptInformation[screenPos + i].author;
-		if(screenPos + i == selection) {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, selectedColor);
-		} else {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, unselectedColor);
-		}
-		Gui::DrawStringCentered(0, 38+(i*57), 0.7f, TXTCOLOR, line1, 320);
-		Gui::DrawStringCentered(0, 62+(i*57), 0.7f, TXTCOLOR, line2, 320);
+// 0 -> SD Card., 1..2..3..4...-> ROMFS.
+void Scripts::refresh(int location) {
+	scriptInformation.clear();
+	dirContents.clear();
+	if (location == 0) {
+		chdir("sdmc:/LeafEdit/scripts/");
+	} else {
+		chdir("romfs:/scripts/");
+	}
+	getDirectoryContents(dirContents, {"json"});
+	for(uint i=0;i<dirContents.size();i++) {
+		scriptInformation.push_back(parseInfo(dirContents[i].name));
 	}
 }
+
+
+void Scripts::DrawSubMenu(void) const {
+	if (scriptInformation.size() != 0) {
+		std::string line1;
+		std::string line2;
+		std::string scriptAmount = std::to_string(selection +1) + " / " + std::to_string(scriptInformation.size());
+		Gui::DrawTop();
+		if (scriptLocation == 0) {
+			Gui::DrawStringCentered(0, 2, 0.7f, TXTCOLOR, Lang::get("MODE_SD"), 390);
+		} else {
+			Gui::DrawStringCentered(0, 2, 0.7f, TXTCOLOR, Lang::get("MODE_ROMFS"), 390);
+		}
+		Gui::DrawStringCentered(0, 80, 0.7f, TXTCOLOR, Lang::get("TITLE") + std::string(scriptInformation[selection].title), 390);
+		Gui::DrawStringCentered(0, 100, 0.7f, TXTCOLOR, Lang::get("AUTHOR") + std::string(scriptInformation[selection].author), 390);
+		Gui::DrawStringCentered(0, 140, 0.7f, TXTCOLOR, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
+		Gui::DrawString(397-Gui::GetStringWidth(0.6f, scriptAmount), 237-Gui::GetStringHeight(0.6f, scriptAmount), 0.6f, TXTCOLOR, scriptAmount);
+		Gui::DrawBottom();
+		for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)scriptInformation.size();i++) {
+			line1 = scriptInformation[screenPos + i].title;
+			line2 = scriptInformation[screenPos + i].author;
+			if(screenPos + i == selection) {
+				Gui::Draw_Rect(0, 40+(i*57), 320, 45, selectedColor);
+			} else {
+				Gui::Draw_Rect(0, 40+(i*57), 320, 45, unselectedColor);
+			}
+			Gui::DrawStringCentered(0, 38+(i*57), 0.7f, TXTCOLOR, line1, 320);
+			Gui::DrawStringCentered(0, 62+(i*57), 0.7f, TXTCOLOR, line2, 320);
+		}
+	} else {
+		Gui::DrawTop();
+		if (scriptLocation == 0) {
+			Gui::DrawStringCentered(0, 2, 0.7f, TXTCOLOR, Lang::get("MODE_SD"), 390);
+		} else {
+			Gui::DrawStringCentered(0, 2, 0.7f, TXTCOLOR, Lang::get("MODE_ROMFS"), 390);
+		}
+		Gui::DrawStringCentered(0, 80, 0.7f, TXTCOLOR, Lang::get("NO_SCRIPTS_FOUND"), 390);
+		Gui::DrawBottom();
+	}
+}
+
 
 void Scripts::DrawSingleObject(void) const {
 	std::string info;
@@ -159,6 +193,17 @@ void Scripts::subMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		scriptInformation.clear();
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_X) {
+		selection = 0;
+		if (scriptLocation == 0) {
+			scriptLocation = 1;
+			refresh(1);
+		} else {
+			scriptLocation = 0;
+			refresh(0);
+		}
 	}
 
 	if (hHeld & KEY_DOWN && !keyRepeatDelay) {

@@ -83,11 +83,7 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
 			}
 		} else if (Selection == 1) {
-			if (returnIfExist("sdmc:/LeafEdit/scripts/", {"json"}) == true) {
-				Gui::setScreen(std::make_unique<Scripts>());
-			} else {
-				Msg::DisplayWarnMsg2(Lang::get("NO_SCRIPTS_FOUND"));
-			}
+			Gui::setScreen(std::make_unique<Scripts>());
 		}
 	}
 }
