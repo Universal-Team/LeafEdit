@@ -117,5 +117,11 @@
 	"TITLE": "Título: ",
 	"AUTHOR": "Autor: ",
 	"NO_SCRIPTS_FOUND": "No se encontraron Scripts.",
-	"DONE": "Hecho!"
+	"DONE": "Hecho!",
+	"ENTER_VILLAGER_ID": "Enter Villager ID.",
+	"ENTER_WALLET_AMOUNT": "Enter Wallet amount.",
+	"ENTER_TAN_VALUE": "Enter Tan value.",
+	"ENTER_BANK_AMOUNT": "Enter Bank amount.",
+	"ENTER_MEDAL_AMOUNT": "Enter Medal amount.",
+	"ENTER_COUPON_AMOUNT": "Enter Coupon amount."
 }
