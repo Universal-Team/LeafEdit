@@ -127,5 +127,6 @@
 	"MODE_ROMFS": "Mode: RomFS",
 	"MODE_SD": "Mode: SD Card",
 	"SCRIPT_TYPE": "Script type: ",
-	"INVALID_TYPE": "Invalid Script type!"
+	"INVALID_TYPE": "Invalid Script type!",
+	"PREPARING_EDITOR": "Preparing Editor... please wait."
 }
