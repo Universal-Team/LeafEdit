@@ -36,7 +36,7 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_GREEN);
+	Gui::Draw_Rect(0, 80, 400, 80, colorType);
 	Gui::DrawStringCentered(0, 110, 0.6f, WHITE, promptMsg, 390);
 	Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("CONFIRM_OR_CANCEL"), 390);
 	Gui::DrawBottom();
@@ -66,7 +66,7 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_GREEN);
+	Gui::Draw_Rect(0, 80, 400, 80, colorType);
 	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, Text, 395);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
@@ -83,7 +83,7 @@ void Msg::DisplayWarnMsg2(std::string Text)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_GREEN);
+	Gui::Draw_Rect(0, 80, 400, 80, colorType);
 	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, Text, 395);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
@@ -100,7 +100,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_GREEN);
+	Gui::Draw_Rect(0, 80, 400, 80, colorType);
 	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, waitMsg, 390);
 	Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("A_CONTINUE"), 390);
 	Gui::DrawBottom();
@@ -119,7 +119,7 @@ void Msg::HelperBox(std::string Msg) {
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	Gui::ScreenDraw(top);
 	Gui::Draw_Rect(0, 0, 400, 240, DIM);
-	Gui::Draw_Rect(0, 27, 400, 187, DARKER_GREEN); // Outline.
+	Gui::Draw_Rect(0, 27, 400, 187, colorType); // Outline.
 	Gui::Draw_Rect(2, 29, 396, 183, LIGHTER_GREEN); // BG.
 	Gui::DrawString(10, 42, 0.45f, WHITE, Msg, 380);
 	Gui::ScreenDraw(bottom);
@@ -133,7 +133,7 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_GREEN);
+	Gui::Draw_Rect(0, 80, 400, 80, colorType);
 	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, Message, 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);

@@ -247,38 +247,38 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 0, 400, 30, colorType);
 	Gui::Draw_Rect(0, 30, 400, 180, LIGHTER_GREEN);
-	Gui::Draw_Rect(0, 210, 400, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 210, 400, 30, colorType);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 0, 320, 30, colorType);
 	Gui::Draw_Rect(0, 30, 320, 180, LIGHTER_GREEN);
-	Gui::Draw_Rect(0, 210, 320, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 210, 320, 30, colorType);
 }
 
 void Gui::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
 		Gui::ScreenDraw(top);
-		Gui::Draw_Rect(0, 0, 400, 27, DARKER_GREEN);
+		Gui::Draw_Rect(0, 0, 400, 27, colorType);
 		Gui::Draw_Rect(0, 27, 400, 31, LIGHTER_GREEN);
 		Gui::Draw_Rect(0, 58, 400, 31, LIGHT_GREEN);
 		Gui::Draw_Rect(0, 89, 400, 31, LIGHTER_GREEN);
 		Gui::Draw_Rect(0, 120, 400, 31, LIGHT_GREEN);
 		Gui::Draw_Rect(0, 151, 400, 31, LIGHTER_GREEN);
 		Gui::Draw_Rect(0, 182, 400, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 213, 400, 27, DARKER_GREEN);
+		Gui::Draw_Rect(0, 213, 400, 27, colorType);
 	} else {
 		Gui::ScreenDraw(bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, DARKER_GREEN);
+		Gui::Draw_Rect(0, 0, 320, 27, colorType);
 		Gui::Draw_Rect(0, 27, 320, 31, LIGHTER_GREEN);
 		Gui::Draw_Rect(0, 58, 320, 31, LIGHT_GREEN);
 		Gui::Draw_Rect(0, 89, 320, 31, LIGHTER_GREEN);
 		Gui::Draw_Rect(0, 120, 320, 31, LIGHT_GREEN);
 		Gui::Draw_Rect(0, 151, 320, 31, LIGHTER_GREEN);
 		Gui::Draw_Rect(0, 182, 320, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 213, 320, 27, DARKER_GREEN);
+		Gui::Draw_Rect(0, 213, 320, 27, colorType);
 	}
 }

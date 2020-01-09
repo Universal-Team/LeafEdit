@@ -39,9 +39,11 @@
 #define BLACK C2D_Color32(0, 0, 0, 255)
 
 // New Green tones.
+extern u32 colorType; // Dark / Light mode.
 #define DARKER_GREEN				C2D_Color32(14, 73, 32, 255)
 #define LIGHT_GREEN					C2D_Color32(23, 145, 53, 255)
 #define LIGHTER_GREEN				C2D_Color32(23, 121, 53, 255)
+#define NEW_GREEN					C2D_Color32(3,192,107, 255)
 
 typedef u32 Color;
 

@@ -288,159 +288,159 @@ void VillagerEditor::DrawSubMenu(void) const
 	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
 
 	if (subMenuPage == 1) {
-		Gui::Draw_Rect(5, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(93, 10, 28);
 		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[0], 60);
 
-		Gui::Draw_Rect(85, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(1, 90, 28);
 		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[1], 60);
 
-		Gui::Draw_Rect(165, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(9, 170, 28);
 		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[2], 60);
 
-		Gui::Draw_Rect(245, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(23, 250, 28);
 		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[3], 60);
 
-		Gui::Draw_Rect(325, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(38, 330, 28);
 		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[4], 60);
 
 		// Second Row!
-		Gui::Draw_Rect(5, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(48, 10, 138);
 		Gui::DrawStringCentered(-160, 193, 0.55f, WHITE, g_groups[5], 60);
 
-		Gui::Draw_Rect(85, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(82, 90, 138);
 		Gui::DrawStringCentered(-80, 193, 0.55f, WHITE, g_groups[6], 60);
 
-		Gui::Draw_Rect(165, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(89, 170, 138);
 		Gui::DrawStringCentered(0, 193, 0.55f, WHITE, g_groups[7], 60);
 
-		Gui::Draw_Rect(245, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(68, 250, 138);
 		Gui::DrawStringCentered(80, 193, 0.55f, WHITE, g_groups[8], 60);
 
-		Gui::Draw_Rect(325, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(101, 330, 138);
 		Gui::DrawStringCentered(160, 193, 0.55f, WHITE, g_groups[9], 60);
 
 
 	} else if (subMenuPage == 2) {
 
-		Gui::Draw_Rect(5, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(115, 10, 28);
 		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[10], 60);
 
-		Gui::Draw_Rect(85, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(142, 90, 28);
 		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[11], 60);
 
-		Gui::Draw_Rect(165, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(283, 170, 28);
 		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[12], 60);
 
-		Gui::Draw_Rect(245, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(148, 250, 28);
 		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[13], 60);
 
-		Gui::Draw_Rect(325, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(159, 330, 28);
 		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[14], 60);
 
 		// Second Row!
 
-		Gui::Draw_Rect(5, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(176, 10, 138);
 		Gui::DrawStringCentered(-160, 193, 0.55f, WHITE, g_groups[15], 60);
 
-		Gui::Draw_Rect(85, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(181, 90, 138);
 		Gui::DrawStringCentered(-80, 193, 0.55f, WHITE, g_groups[16], 60);
 
-		Gui::Draw_Rect(165, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(190, 170, 138);
 		Gui::DrawStringCentered(0, 193, 0.55f, WHITE, g_groups[17], 60);
 
-		Gui::Draw_Rect(245, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(199, 250, 138);
 		Gui::DrawStringCentered(80, 193, 0.55f, WHITE, g_groups[18], 60);
 
-		Gui::Draw_Rect(325, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(208, 330, 138);
 		Gui::DrawStringCentered(160, 193, 0.55f, WHITE, g_groups[19], 60);
 
 
 	} else if (subMenuPage == 3) {
 
-		Gui::Draw_Rect(5, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(232, 10, 28);
 		std::string GroupTwentyone = g_groups[20];
 		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[20], 60);
 
-		Gui::Draw_Rect(85, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(224, 90, 28);
 		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[21], 60);
 
-		Gui::Draw_Rect(165, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(239, 170, 28);
 		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[22], 60);
 
-		Gui::Draw_Rect(245, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(247, 250, 28);
 		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[23], 60);
 
-		Gui::Draw_Rect(325, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(258, 330, 28);
 		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[24], 60);
 
 		// Second Row!
 
-		Gui::Draw_Rect(5, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(272, 10, 138);
 		Gui::DrawStringCentered(-160, 193, 0.55f, WHITE, g_groups[25], 60);
 
-		Gui::Draw_Rect(85, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(278, 90, 138);
 		Gui::DrawStringCentered(-80, 193, 0.55f, WHITE, g_groups[26], 60);
 
-		Gui::Draw_Rect(165, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(300, 170, 138);
 		Gui::DrawStringCentered(0, 193, 0.55f, WHITE, g_groups[27], 60);
 
-		Gui::Draw_Rect(245, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(305, 250, 138);
 		Gui::DrawStringCentered(80, 193, 0.55f, WHITE, g_groups[28], 60);
 
-		Gui::Draw_Rect(325, 140, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 140, 70, 70, colorType);
 		VillagerManagement::DrawVillager(337, 330, 138);
 		Gui::DrawStringCentered(160, 193, 0.55f, WHITE, g_groups[29], 60);
 
 
 	} else if (subMenuPage == 4) {
 
-		Gui::Draw_Rect(5, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(5, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(342, 10, 28);
 		std::string GroupThirtyone = g_groups[30];
 		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[30], 60);
 
-		Gui::Draw_Rect(85, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(85, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(349, 90, 28);
 		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[31], 60);
 
-		Gui::Draw_Rect(165, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(165, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(362, 170, 28);
 		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[32], 60);
 
-		Gui::Draw_Rect(245, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(245, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(382, 250, 28);
 		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[33], 60);
 
-		Gui::Draw_Rect(325, 30, 70, 70, DARKER_GREEN);
+		Gui::Draw_Rect(325, 30, 70, 70, colorType);
 		VillagerManagement::DrawVillager(388, 330, 28);
 		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[34], 60);
 	}
@@ -485,7 +485,7 @@ void VillagerEditor::DrawVillagerSelection(void) const {
 	u32 villager = 93;
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 5; x++, villager++) {
-			Gui::Draw_Rect(15 + x * 75, 40 + y * 90, 70, 70, DARKER_GREEN);
+			Gui::Draw_Rect(15 + x * 75, 40 + y * 90, 70, 70, colorType);
 			VillagerManagement::DrawVillager(villager, 15 + x * 75, 35 + y * 90);
 			Gui::DrawString(15 + x * 75, 95 + y * 90, 0.45f, WHITE, g_villagerDatabase[villager], 400);
 		}
@@ -561,6 +561,6 @@ void VillagerEditor::VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition 
 }
 
 void VillagerEditor::DrawBox(void) const {
-	Gui::Draw_Rect(40, 162, 320, 22, DARKER_GREEN);
-	Gui::Draw_Rect(40, 132, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 162, 320, 22, colorType);
+	Gui::Draw_Rect(40, 132, 320, 22, colorType);
 }

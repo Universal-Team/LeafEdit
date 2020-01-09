@@ -49,6 +49,7 @@ private:
 	std::vector<Structs::ButtonPos> settingsButtons = {
 		{90, 40, 140, 35, -1}, // Language.
 		{90, 100, 140, 35, -1}, // Credits.
+		{90, 160, 140, 35, -1}, // Color Mode.
 	};
 
 	std::vector<Structs::ButtonPos> langBlocks = {

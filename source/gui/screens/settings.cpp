@@ -40,7 +40,7 @@ void Settings::Draw(void) const
 		Gui::DrawTop();
 		Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 400);
 		Gui::DrawBottom();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 3; i++) {
 			if (Selection == i) {
 				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, selectedColor);
 			} else {
@@ -49,6 +49,7 @@ void Settings::Draw(void) const
 		}
 		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, WHITE, Lang::get("LANGUAGE"), 130);
 		Gui::DrawStringCentered(0, settingsButtons[1].y+10, 0.6f, WHITE, Lang::get("CREDITS"), 130);
+		Gui::DrawStringCentered(0, settingsButtons[2].y+10, 0.6f, WHITE, Lang::get("COLORMODE"), 130);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}
@@ -71,6 +72,15 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				case 1:
 					Gui::setScreen(std::make_unique<Credits>());
 					break;
+				case 2:
+					if (Config::colorMode == 0) {
+						Config::colorMode = 1;
+						colorType = DARKER_GREEN;
+					} else {
+						Config::colorMode = 0;
+						colorType = NEW_GREEN;
+					}
+					break;
 			}
 		}
 	} else if(screenMode == 1) {
@@ -83,7 +93,7 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 1)	Selection++;
+		if(Selection < 2)	Selection++;
 	}
 }
 

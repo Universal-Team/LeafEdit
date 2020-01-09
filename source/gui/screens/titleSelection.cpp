@@ -51,8 +51,8 @@ bool isROMHack = false;
 void TitleSelection::Draw(void) const {
 	Gui::DrawTop();
 
-	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, DARKER_GREEN);
-	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, DARKER_GREEN);
+	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, colorType);
+	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, colorType);
 	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("SELECT_TITLE"), 398);
 
 	// Draw the 3DS Gamecard.
@@ -70,11 +70,11 @@ void TitleSelection::Draw(void) const {
 
 	Gui::DrawBottom();
 
-	Gui::Draw_Rect(0, 100, 320, 30, DARKER_GREEN);
-	Gui::Draw_Rect(0, 150, 320, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 100, 320, 30, colorType);
+	Gui::Draw_Rect(0, 150, 320, 30, colorType);
 
 	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("Y_SETTINGS"), 310);
-	Gui::Draw_Rect(245, 38, 48, 48, DARKER_GREEN);
+	Gui::Draw_Rect(245, 38, 48, 48, colorType);
 	// Draw the current Selected Title on the Bottom Screen with informations.
 	if (selectedTitle != -2)
 	{

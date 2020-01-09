@@ -73,7 +73,7 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::Draw_Rect(15 + x * 100, 93, 70, 70, DARKER_GREEN);
+			Gui::Draw_Rect(15 + x * 100, 93, 70, 70, colorType);
 		}
 	}
 
@@ -221,12 +221,12 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
 	// Draw Rectangles first, then Player Info.
-	Gui::Draw_Rect(40, 37, 320, 22, DARKER_GREEN);
-	Gui::Draw_Rect(40, 65, 320, 22, DARKER_GREEN);
-	Gui::Draw_Rect(40, 93, 320, 22, DARKER_GREEN);
-	Gui::Draw_Rect(40, 121, 320, 22, DARKER_GREEN);
-	Gui::Draw_Rect(40, 149, 320, 22, DARKER_GREEN);
-	Gui::Draw_Rect(40, 177, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 37, 320, 22, colorType);
+	Gui::Draw_Rect(40, 65, 320, 22, colorType);
+	Gui::Draw_Rect(40, 93, 320, 22, colorType);
+	Gui::Draw_Rect(40, 121, 320, 22, colorType);
+	Gui::Draw_Rect(40, 149, 320, 22, colorType);
+	Gui::Draw_Rect(40, 177, 320, 22, colorType);
 	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
 	Gui::DrawStringCentered(0, 63, 0.8f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
 	Gui::DrawStringCentered(0, 91, 0.8f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);

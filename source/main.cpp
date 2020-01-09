@@ -56,6 +56,8 @@ bool WelcomeAmiibo;
 // Touch Touch!
 touchPosition touch;
 
+u32 colorType;
+
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
@@ -95,6 +97,14 @@ int main()
 	amInit();
 	cfguInit();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
+
+	if (Config::colorMode == 0) {
+		colorType = NEW_GREEN;
+	} else {
+		colorType = DARKER_GREEN;
+	}
+
+
 	TestStuff();
 
 	GameLoader::checkUpdate();

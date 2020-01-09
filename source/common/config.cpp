@@ -33,7 +33,7 @@
 #include <string>
 #include <unistd.h>
 
-int Config::lang;
+int Config::lang, Config::colorMode;
 
 
 nlohmann::json configJson;
@@ -47,11 +47,17 @@ void Config::load() {
 	} else {
 		Config::lang = getInt("Lang");
 	}
+	if(!configJson.contains("colorMode")) {
+		Config::colorMode = 1;
+	} else {
+		Config::colorMode = getInt("colorMode");
+	}
 }
 
 
 void Config::save() {
 	Config::setInt("Lang", Config::lang);
+	Config::setInt("colorMode", Config::colorMode);
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
@@ -63,6 +69,7 @@ void Config::initializeNewConfig() {
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 	setInt("Lang", 1);
+	setInt("colorMode", 1);
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }
