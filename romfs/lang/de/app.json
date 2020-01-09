@@ -128,5 +128,6 @@
 	"MODE_SD": "Modus: SD-Karte",
 	"SCRIPT_TYPE": "Skripttyp: ",
 	"INVALID_TYPE": "Ungültiger Skripttyp!",
-	"PREPARING_EDITOR": "Preparing Editor... please wait."
+	"PREPARING_EDITOR": "Preparing Editor... please wait.",
+	"COLORMODE": "Color mode"
 }
