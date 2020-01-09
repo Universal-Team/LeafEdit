@@ -1,0 +1,15 @@
+{
+	"scriptInfo": {
+		"title": "Villager Replacer",
+		"author": "StackZ",
+		"description": "Replace first Villager.",
+		"type": "Villager"
+	},
+	"Cyrano": [
+		{
+			"type": "Replace",
+			"villager": 1,
+			"ID": 0
+		}
+	]
+}

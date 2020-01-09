@@ -53,6 +53,15 @@ void Villager::SetId(const u16 id) {
 	this->m_villagerData->Id = id;
 }
 
+// Box/unbox villager. 0 -> Unbox, 1 -> box.
+u8 Villager::getStatus() const {
+	return this->m_villagerData->Status;
+}
+
+void Villager::setStatus(const u8 status) {
+	this->m_villagerData->Status = status;
+}
+
 void Villager::Write() {
 	Save::Instance()->Write(m_offset, reinterpret_cast<u8 *>(this->m_villagerData), sizeof(Villager_s));
 }

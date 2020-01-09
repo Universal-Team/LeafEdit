@@ -70,7 +70,7 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
+		if(Selection < 1)	Selection++;
 	}
 
 	if (hDown & KEY_A) {

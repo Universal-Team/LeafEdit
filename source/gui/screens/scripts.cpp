@@ -306,11 +306,9 @@ void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (executeMode == 0) {
 				ScriptManagement::executePlayer(jsonFile, entryInformation[selection2]);
 			} else if (executeMode == 1) {
-				//ScriptManagement::executeVillager(jsonFile, entryInformation[selection2]);
-				Msg::NotImplementedYet();
+				ScriptManagement::executeVillager(jsonFile, entryInformation[selection2]);
 			} else if (executeMode == 2) {
-				//ScriptManagement::executeCustom(jsonFile, entryInformation[selection2]);
-				Msg::NotImplementedYet();
+				ScriptManagement::executeCustom(jsonFile, entryInformation[selection2]);
 			} else if (executeMode == 3) {
 				Msg::DisplayWarnMsg(Lang::get("INVALID_TYPE"));
 			}

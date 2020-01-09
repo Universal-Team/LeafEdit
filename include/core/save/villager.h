@@ -64,14 +64,17 @@ public:
 		char16_t TownName[9]; // Last character is null terminator | 24EE - 24FF
 		u8 Unknown5[0x18]; // 2500 - 2517
 	};
-	#pragma pack(pop)
 
+	#pragma pack(pop)
 	u32 GetOffset(void) const;
 	u32 GetIndex(void) const;
-
+	// ID.
 	u16 GetId(void) const;
 	void SetId(const u16);
-
+	// Box / Unbox status.
+	u8 getStatus(void) const;
+	void setStatus(const u8);
+	
 	void Write(void);
 
 private:

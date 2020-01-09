@@ -66,7 +66,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		std::string type = json.at(choice).at(i).at("type");
 
 		if (type == "Wallet") {
-			bool missing = false;	int player;	u32 amount;
+			bool missing = false;	int player = 1;	u32 amount = 0;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -83,7 +83,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "Bank") {
-			bool missing = false;	int player;	u32 amount;
+			bool missing = false;	int player = 1;	u32 amount = 0;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -100,7 +100,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "TAN") {
-			bool missing = false;	int player;	u32 value;
+			bool missing = false;	int player = 1;	u32 value = 0;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -117,7 +117,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "Medals") {
-			bool missing = false;	int player;	u32 amount;
+			bool missing = false;	int player = 1;	u32 amount = 0;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -134,7 +134,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "Coupons") {
-			bool missing = false;	int player;	u32 amount;
+			bool missing = false;	int player = 1;	u32 amount = 0;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -151,7 +151,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "Name") {
-			bool missing = false;	int player;	std::u16string name;
+			bool missing = false;	int player = 1;	std::u16string name = StringUtils::UTF8toUTF16("");
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -169,7 +169,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "HairStyle") {
-			bool missing = false;	int player;	u8 style;
+			bool missing = false;	int player = 1;	u8 style = 1;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -184,7 +184,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "HairColor") {
-			bool missing = false;	int player;	u8 color;
+			bool missing = false;	int player = 1;	u8 color = 1;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -199,7 +199,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "EyeColor") {
-			bool missing = false;	int player;	u8 color;
+			bool missing = false;	int player = 1;	u8 color = 1;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -214,7 +214,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "Face") {
-			bool missing = false;	int player;	u8 face;
+			bool missing = false;	int player = 1;	u8 face = 1;
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -229,7 +229,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 		}
 
 		else if (type == "Gender") {
-			bool missing = false;	int player;	u16 gender = 0; // 0 -> Male.
+			bool missing = false;	int player = 1;	u16 gender = 0; // 0 -> Male.
 			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
 				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
 
@@ -248,26 +248,50 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 	Msg::DisplayWarnMsg(Lang::get("DONE"));
 }
 
-void ScriptManagement::executeScript(nlohmann::json &json, std::string choice) {
+void ScriptManagement::executeVillager(nlohmann::json &json, std::string choice) {
 	for(int i=0;i<(int)json.at(choice).size();i++) {
 		std::string type = json.at(choice).at(i).at("type");
 
-		if (type == "Wallet") {
-			bool missing = false;	int player;	u32 amount;
-			if(json.at(choice).at(i).contains("player") && json.at(choice).at(i).at("player").is_number()
-				&& json.at(choice).at(i).at("player") < 5 && json.at(choice).at(i).at("player") > 0)
+		if (type == "Replace") {
+			bool missing = false;	int villager = 1;	u16 ID = 0;
+			if(json.at(choice).at(i).contains("villager") && json.at(choice).at(i).at("villager").is_number()
+				&& json.at(choice).at(i).at("villager") < 11 && json.at(choice).at(i).at("villager") > 0)
 
-			player = json.at(choice).at(i).at("player");
+			villager = json.at(choice).at(i).at("villager");
 			else	missing = true;
 
-			if(json.at(choice).at(i).contains("amount") && json.at(choice).at(i).at("amount").is_number()
-				&& json.at(choice).at(i).at("amount") < 100000 && json.at(choice).at(i).at("amount") > -1)
+			if(json.at(choice).at(i).contains("ID") && json.at(choice).at(i).at("ID").is_number()
+				&& json.at(choice).at(i).at("ID") < 399 && json.at(choice).at(i).at("ID") > -1)
 
-			amount = json.at(choice).at(i).at("amount");
+			ID = json.at(choice).at(i).at("ID");
 			else	missing = true;
 
-			if (!missing)	SaveFile->players[player-1]->Wallet.value = amount;
+			if (!missing)	SaveFile->villagers[villager-1]->SetId(ID);
 		}
+
+		else if (type == "Boxed") {
+			bool missing = false;	int villager = 1;	u8 isBoxed = 1;
+			if(json.at(choice).at(i).contains("villager") && json.at(choice).at(i).at("villager").is_number()
+				&& json.at(choice).at(i).at("villager") < 11 && json.at(choice).at(i).at("villager") > 0)
+
+			villager = json.at(choice).at(i).at("villager");
+			else	missing = true;
+
+			if(json.at(choice).at(i).contains("boxed") && json.at(choice).at(i).at("boxed").is_number()
+				&& json.at(choice).at(i).at("boxed") < 2 && json.at(choice).at(i).at("boxed") > -1)
+
+			isBoxed = json.at(choice).at(i).at("boxed");
+			else	missing = true;
+
+			if (!missing)	SaveFile->villagers[villager-1]->setStatus(isBoxed);
+		}
+	}
+	Msg::DisplayWarnMsg(Lang::get("DONE"));
+}
+
+void ScriptManagement::executeCustom(nlohmann::json &json, std::string choice) {
+	for(int i=0;i<(int)json.at(choice).size();i++) {
+		std::string type = json.at(choice).at(i).at("type");
 	}
 	Msg::DisplayWarnMsg(Lang::get("DONE"));
 }

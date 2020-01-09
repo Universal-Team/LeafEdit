@@ -1,0 +1,22 @@
+{
+	"scriptInfo": {
+		"title": "Box/Unbox Villager",
+		"author": "StackZ",
+		"description": "Box or unbox a villager.",
+		"type": "Villager"
+	},
+	"box": [
+		{
+			"type": "Boxed",
+			"villager": 1,
+			"boxed": 1
+		}
+	],
+	"Unbox": [
+		{
+			"type": "Boxed",
+			"villager": 1,
+			"boxed": 0
+		}
+	]
+}
