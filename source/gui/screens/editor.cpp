@@ -123,6 +123,7 @@ void Editor::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	Gui::DrawStringCentered(0, 2, 0.6f, WHITE, Lang::get("SELECT_A_SAVE"), 395);
+	Gui::DrawStringCentered(0, 218, 0.60f, WHITE, Lang::get("REFRESH"), 390);
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -134,7 +135,7 @@ void Editor::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.51f, WHITE, dirs.c_str(), 395);
+	Gui::DrawString(26, 32, 0.51f, WHITE, dirs.c_str(), 360);
 	Gui::DrawFileBrowseBG(false);
 }
 

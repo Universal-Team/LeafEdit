@@ -82,7 +82,6 @@ int main()
 	}
 	Config::load();
 	Lang::load(Config::getLang("Lang"));
-	Msg::DisplayMsg(Lang::get("INITIALIZE_MSG"));
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/LeafEdit", 0777); // main Path.

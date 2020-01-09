@@ -136,7 +136,7 @@ void Scripts::DrawSubMenu(void) const {
 		Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("AUTHOR") + std::string(scriptInformation[selection].author), 390);
 		Gui::DrawStringCentered(0, 120, 0.7f, WHITE, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
 		if (scriptInformation[selection].Mode != "MISSING: scriptInfo.type") {
-			Gui::DrawStringCentered(0, 215, 0.7f, WHITE, Lang::get("SCRIPT_TYPE") + std::string(scriptInformation[selection].Mode), 390);
+			Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("SCRIPT_TYPE") + std::string(scriptInformation[selection].Mode), 390);
 		}
 		Gui::DrawString(397-Gui::GetStringWidth(0.6f, scriptAmount), 237-Gui::GetStringHeight(0.6f, scriptAmount), 0.6f, WHITE, scriptAmount);
 		Gui::DrawBottom();
