@@ -102,7 +102,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	Gui::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, DARKER_GREEN);
 	Gui::DrawStringCentered(0, 100, 0.72f, WHITE, waitMsg, 390);
-	Gui::DrawStringCentered(0, 214, 0.6f, WHITE, Lang::get("A_CONTINUE"), 390);
+	Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("A_CONTINUE"), 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 

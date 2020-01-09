@@ -35,7 +35,7 @@ extern C2D_SpriteSheet Items;
 std::map<u16, std::string> g_itemDatabase;
 //std::map<std::string, std::map<u16, std::string>> g_sortedItemDatabase;
 
-// Draw the Villager sprite.
+// Draw the Item sprite.
 void ItemManagement::DrawItem(u16 ItemID, int x, int y, float ScaleX, float ScaleY) {
 	DrawSprite(Items, ItemID, x, y, ScaleX, ScaleY);
 }

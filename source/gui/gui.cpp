@@ -40,6 +40,8 @@
 C3D_RenderTarget* top;
 C3D_RenderTarget* bottom;
 
+bool editorSheetHasLoaded = false;
+
 C2D_SpriteSheet Acres;
 C2D_SpriteSheet Items;
 C2D_SpriteSheet sprites;
@@ -88,28 +90,39 @@ Result Gui::init(void)
 	top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 	sizeBuf = C2D_TextBufNew(4096);
+	sprites = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
 	return 0;
 }
 
 // Loading the Sheets.
 Result Gui::loadSheets() {
-	sprites = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
-	Acres	= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
-	Items	= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
-	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	if (editorSheetHasLoaded == false) {
+		editorSheetHasLoaded = true;
+		Acres	= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
+		Items	= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
+		Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+		Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	}
+	return 0;
+}
+
+// Unload all Sheets.
+Result Gui::unloadSheets() {
+	if (editorSheetHasLoaded == true) {
+		editorSheetHasLoaded = false;
+		C2D_SpriteSheetFree(Acres);
+		C2D_SpriteSheetFree(Items);
+		C2D_SpriteSheetFree(Villager);
+		C2D_SpriteSheetFree(Villager2);
+	}
 	return 0;
 }
 
 // Exit the whole GUI.
 void Gui::exit(void)
 {
-	C2D_SpriteSheetFree(Acres);
-	C2D_SpriteSheetFree(Items);
 	C2D_SpriteSheetFree(sprites);
-	C2D_SpriteSheetFree(Villager);
-	C2D_SpriteSheetFree(Villager2);
 	C2D_TextBufDelete(sizeBuf);
 	C2D_Fini();
 	C3D_Fini();

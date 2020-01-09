@@ -55,6 +55,7 @@ namespace Gui
 	// Init and Exit of the GUI.
 	Result init(void);
 	Result loadSheets(); // Load Spritesheets.
+	Result unloadSheets(); // Unload Spritesheets.
 	void exit(void);
 
 	// Screen and MainLoops.

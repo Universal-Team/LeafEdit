@@ -24,6 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "core/management/itemManagement.hpp"
+
 #include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
@@ -64,6 +66,9 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<TownManager>());
 				break;
 			case 1:
+				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+				Gui::loadSheets();
+				ItemManagement::LoadDatabase(Config::getLang("Lang"));
 				Gui::setScreen(std::make_unique<Editor>());
 				break;
 			case 2:

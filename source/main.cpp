@@ -32,9 +32,7 @@
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
-#include "core/management/itemManagement.hpp"
 #include "core/titleLoader.hpp"
-#include "core/management/villagerManagement.hpp"
 
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
@@ -76,17 +74,15 @@ void TestStuff(void)
 int main()
 {
 	gfxInitDefault();
-	Gui::init();
 	romfsInit();
+	Gui::init();
 	Archive::init();
 	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
 	}
 	Config::load();
 	Lang::load(Config::getLang("Lang"));
-	
 	Msg::DisplayMsg(Lang::get("INITIALIZE_MSG"));
-
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/LeafEdit", 0777); // main Path.
@@ -99,12 +95,7 @@ int main()
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 	amInit();
 	cfguInit();
-	Gui::loadSheets();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
-
-	// Load The Strings from the Romfs.
-	ItemManagement::LoadDatabase(Config::getLang("Lang"));
-
 	TestStuff();
 
 	GameLoader::checkUpdate();

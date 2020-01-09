@@ -206,6 +206,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		}
 	} else if (hDown & KEY_B) {
 		if(Msg::promptMsg(Lang::get("RETURN_MAINMENU"))) {
+			Gui::unloadSheets();
 			Gui::screenBack();
 			return;
 		}
