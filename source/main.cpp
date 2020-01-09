@@ -50,17 +50,11 @@
 // The classic Fade Effect! ;P
 int fadealpha = 255;
 bool fadein = true;
-
 // Set to 1, if testing some stuff. Leave to 0, if normal use.
 int test = 0;
-
 // If true -> Exit LeafEdit.
 bool exiting = false;
-
 bool WelcomeAmiibo;
-
-bool isCitra = false; // Because Citra is kinda weird with the Initialize Message display.
-
 // Touch Touch!
 touchPosition touch;
 
@@ -79,79 +73,19 @@ void TestStuff(void)
 	}
 }
 
-// If an Error while startup appears, Return this!
-static Result DisplayStartupError(std::string message, Result res)
-{
-	std::string errorMsg = std::to_string(res);
-	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::clearTextBufs();
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
-	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
-	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
-	Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("ERROR_OCCURED"), 395);
-	Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("DESCRIPTION")+ message, 395);
-	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("START_EXIT"), 395);
-	Gui::DrawStringCentered(0, 170, 0.7f, WHITE, Lang::get("ERROR_STARTUP")+errorMsg, 395);
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
-	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
-	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
-	C3D_FrameEnd(0);
-
-	// For the Log.
-	std::string error = message;
-	error += ", ";
-	error += std::to_string(res);
-	Logging::writeToLog(error.c_str());
-
-	gspWaitForVBlank();
-	while (aptMainLoop() && !(hidKeysDown() & KEY_START))
-	{
-		hidScanInput();
-	}
-	return res;
-}
-
-void loadMessage(std::string Message) {
-	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::clearTextBufs();
-	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
-	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
-	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Message, 395);
-	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
-	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
-	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
-	C3D_FrameEnd(0);
-}
-
 int main()
 {
-	// Initialize Everything and check for errors.
-	Result res;
 	gfxInitDefault();
 	Gui::init();
-
 	romfsInit();
 	Archive::init();
-
 	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
 	}
-	
 	Config::load();
 	Lang::load(Config::getLang("Lang"));
 	
-	if (isCitra == false) {
-		loadMessage(Lang::get("INITIALIZE_MSG"));
-	}
+	Msg::DisplayMsg(Lang::get("INITIALIZE_MSG"));
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
@@ -162,27 +96,13 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 	mkdir("sdmc:/LeafEdit/scripts", 0777); // Scripts path.
-
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
-
-	if (R_FAILED(res = amInit())) {
-		return DisplayStartupError("amInit "+Lang::get("INIT_FAILED"), res);
-	}
-
-	if (R_FAILED(res = sdmcInit())) {
-		return DisplayStartupError("sdmcInit "+Lang::get("INIT_FAILED"), res);
-	}
-
-	if (R_FAILED(res = cfguInit())) {
-		return DisplayStartupError("cfguInit "+Lang::get("INIT_FAILED"), res);
-	}
-
+	amInit();
+	cfguInit();
 	Gui::loadSheets();
-
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	// Load The Strings from the Romfs.
-	
 	ItemManagement::LoadDatabase(Config::getLang("Lang"));
 
 	TestStuff();
@@ -228,7 +148,6 @@ int main()
 	// Exit every process.
 	Config::save();
 	cfguExit();
-	sdmcExit();
 	amExit();
 	Archive::exit();
 	Gui::exit();

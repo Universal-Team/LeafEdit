@@ -69,13 +69,8 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void Editor::DrawSubMenu(void) const
 {
-	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("EDITOR");
-
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
 
 	Gui::DrawBottom();
 
@@ -88,9 +83,9 @@ void Editor::DrawSubMenu(void) const
 	}
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
 
-	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("PLAYER"), 130);
-	Gui::DrawStringCentered(0, editorButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("VILLAGER"), 130);
-	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("MISC_EDITOR"), 130);
+	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.6f, WHITE, Lang::get("PLAYER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[1].y+10, 0.6f, WHITE, Lang::get("VILLAGER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.6f, WHITE, Lang::get("MISC_EDITOR"), 130);
 }
 
 void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -127,7 +122,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 void Editor::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, 2, 0.6f, TXTCOLOR, Lang::get("SELECT_A_SAVE"), 395);
+	Gui::DrawStringCentered(0, 2, 0.6f, WHITE, Lang::get("SELECT_A_SAVE"), 395);
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -139,7 +134,7 @@ void Editor::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.51f, TXTCOLOR, dirs.c_str(), 395);
+	Gui::DrawString(26, 32, 0.51f, WHITE, dirs.c_str(), 395);
 	Gui::DrawFileBrowseBG(false);
 }
 

@@ -58,12 +58,8 @@ void TownManager::Draw(void) const
 
 void TownManager::DrawSubMenu(void) const
 {
-	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("TOWN_MANAGER");
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 390);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("TOWN_MANAGER"), 390);
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 5; i++) {
@@ -75,14 +71,14 @@ void TownManager::DrawSubMenu(void) const
 	}
 
 	// Launch a Town from a Backup or just start the game.
-	Gui::DrawStringCentered(-80, townButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LAUNCH_TOWN"), 130);
+	Gui::DrawStringCentered(-80, townButtons[0].y+10, 0.6f, WHITE, Lang::get("LAUNCH_TOWN"), 130);
 	// Backup the Save from the installed Title / Gamecard.
-	Gui::DrawStringCentered(-80, townButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("BACKUP_TOWN"), 130);
+	Gui::DrawStringCentered(-80, townButtons[1].y+10, 0.6f, WHITE, Lang::get("BACKUP_TOWN"), 130);
 	// Restore a Backuped save.
-	Gui::DrawStringCentered(-80, townButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("RESTORE_TOWN"), 130);
+	Gui::DrawStringCentered(-80, townButtons[2].y+10, 0.6f, WHITE, Lang::get("RESTORE_TOWN"), 130);
 	// Delete Save from Installed Title / Gamecard.
-	Gui::DrawStringCentered(80, townButtons[3].y+10, 0.6f, TXTCOLOR, Lang::get("DELETE_TOWN"), 130);
-	Gui::DrawStringCentered(80, townButtons[4].y+10, 0.6f, TXTCOLOR, Lang::get("DELETE_BACKUP"), 130);
+	Gui::DrawStringCentered(80, townButtons[3].y+10, 0.6f, WHITE, Lang::get("DELETE_TOWN"), 130);
+	Gui::DrawStringCentered(80, townButtons[4].y+10, 0.6f, WHITE, Lang::get("DELETE_BACKUP"), 130);
 }
 
 
@@ -149,14 +145,14 @@ void TownManager::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	if (screenMode == 1) {
-		Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Lang::get("SELECT_TOWN_LAUNCH"), 390);
+		Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("SELECT_TOWN_LAUNCH"), 390);
 	} else if (screenMode == 2) {
-		Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Lang::get("SELECT_TOWN_RESTORE"), 390);
+		Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("SELECT_TOWN_RESTORE"), 390);
 	} else if (screenMode == 3) {
-		Gui::DrawStringCentered(0, 2, 0.72f, TXTCOLOR, Lang::get("SELECT_BACKUP_DELETE"), 390);
+		Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("SELECT_BACKUP_DELETE"), 390);
 	}
 
-	Gui::DrawStringCentered(0, 216, 0.60f, TXTCOLOR, Lang::get("REFRESH"), 390);
+	Gui::DrawStringCentered(0, 216, 0.60f, WHITE, Lang::get("REFRESH"), 390);
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -168,7 +164,7 @@ void TownManager::DrawBrowse(void) const
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.51f, TXTCOLOR, dirs.c_str(), 390);
+	Gui::DrawString(26, 32, 0.51f, WHITE, dirs.c_str(), 390);
 	Gui::DrawFileBrowseBG(false);
 }
 

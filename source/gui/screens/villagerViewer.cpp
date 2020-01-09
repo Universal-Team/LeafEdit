@@ -68,8 +68,8 @@ void VillagerViewer::DrawVillagerList(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, villagerID, 310);
-	Gui::DrawStringCentered(0, 130, 0.7f, TXTCOLOR, villagerNameText, 310);
+	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.7f, WHITE, villagerNameText, 310);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
@@ -152,31 +152,25 @@ void VillagerViewer::DrawVillager(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, villagerID, 310);
-	Gui::DrawStringCentered(0, 130, 0.7f, TXTCOLOR, villagerNameText, 310);
+	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.7f, WHITE, villagerNameText, 310);
 	Gui::DrawBottom();
 }
 
 // This will draw the current Villager and Title for the Villager Viewer Screen.
 void VillagerViewer::DrawCurrentVillager(void) const
 {
-	std::string Title;
-	Title += "LeafEdit - ";
-	Title += Lang::get("VILLAGER_VIEWER");
-
 	std::string activeVillager = Lang::get("CURRENT_VILLAGER");
-
 	for (int i = 0; i < 10; i++) {
 		if (currentVillager == i) {
 			activeVillager += std::to_string(i+1);
 		}
 	}
-
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 390);
-	Gui::DrawStringCentered(0, 212, 0.8f, TXTCOLOR, activeVillager, 390);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 390);
+	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, activeVillager, 390);
 }
 
 void VillagerViewer::DrawBox(void) const {
-	Gui::Draw_Rect(40, 162, 320, 22, BGBOTCOLOR);
-	Gui::Draw_Rect(40, 132, 320, 22, BGBOTCOLOR);
+	Gui::Draw_Rect(40, 162, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 132, 320, 22, DARKER_GREEN);
 }

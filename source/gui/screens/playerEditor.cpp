@@ -73,12 +73,12 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::Draw_Rect(15 + x * 100, 93, 70, 70, BGBOTCOLOR);
+			Gui::Draw_Rect(15 + x * 100, 93, 70, 70, DARKER_GREEN);
 		}
 	}
 
 	if (SaveFile->players[0]->Exists()) {
-		Gui::DrawStringCentered(-150, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
+		Gui::DrawStringCentered(-150, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
 		if (SaveFile->players[0]->Gender == 0) {
 			Gui::sprite(0, sprites_male_idx, 45, 140);
 		} else {
@@ -87,7 +87,7 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	}
 
 	if (SaveFile->players[1]->Exists()) {
-		Gui::DrawStringCentered(-50, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
+		Gui::DrawStringCentered(-50, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
 		if (SaveFile->players[1]->Gender == 0) {
 			Gui::sprite(0, sprites_male_idx, 145, 140);
 		} else {
@@ -96,7 +96,7 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	}
 
 	if (SaveFile->players[2]->Exists()) {
-		Gui::DrawStringCentered(50, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
+		Gui::DrawStringCentered(50, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
 		if (SaveFile->players[2]->Gender == 0) {
 			Gui::sprite(0, sprites_male_idx, 245, 140);
 		} else {
@@ -105,7 +105,7 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	}
 
 	if (SaveFile->players[3]->Exists()) {
-		Gui::DrawStringCentered(150, 106, 0.45f, TXTCOLOR, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
+		Gui::DrawStringCentered(150, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
 		if (SaveFile->players[3]->Gender == 0) {
 			Gui::sprite(0, sprites_male_idx, 345, 140);
 		} else {
@@ -116,19 +116,15 @@ void PlayerEditor::DrawNameAndGender(void) const {
 
 void PlayerEditor::DrawSubMenu(void) const {
 	std::string activePlayer;
-	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("PLAYER_SELECTION");
-
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 400);
 	DrawNameAndGender();
-	if (selectedPlayer == 0)	Gui::drawAnimatedSelector(15 + 0 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
-	else if (selectedPlayer == 1)	Gui::drawAnimatedSelector(15 + 1 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
-	else if (selectedPlayer == 2)	Gui::drawAnimatedSelector(15 + 2 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
-	else if (selectedPlayer == 3)	Gui::drawAnimatedSelector(15 + 3 * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
 
+	for (int i = 0; i < 4; i++) {
+		if (i == selectedPlayer) {
+			Gui::drawAnimatedSelector(15 + i * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+		}
+	}
 	Gui::DrawBottom();
 	activePlayer += Lang::get("CURRENT_PLAYER");
 	activePlayer += ": ";
@@ -138,7 +134,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, 212, 0.8f, TXTCOLOR, activePlayer, 320);
+	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, activePlayer, 320);
 }
 
 void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
@@ -158,27 +154,20 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 	}
 
 	if (hDown & KEY_A) {
-		if (selectedPlayer == 0)	cp = 0;
-		else if (selectedPlayer == 1)	cp = 1;
-		else if (selectedPlayer == 2)	cp = 2;
-		else if (selectedPlayer == 3)	cp = 3;
-		Selection = 0;
-		screen = 1;
+		for (int i = 0; i < 4; i++) {
+			if (i == selectedPlayer) {
+				cp = i;
+				Selection = 0;
+				screen = 1;
+			}
+		}
 	}
 }
 
 void PlayerEditor::DrawMainEditor(void) const {
-	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("PLAYER_EDITOR");
-
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
-
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
 	Gui::DrawBottom();
-
-
 	for (int i = 0; i < 3; i++) {
 		if (Selection == i) {
 			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, selectedColor);
@@ -186,12 +175,10 @@ void PlayerEditor::DrawMainEditor(void) const {
 			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, unselectedColor);
 		}
 	}
-
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
-
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("PLAYER"), 130);
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("ITEMS"), 130);
-	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, TXTCOLOR, "WIP", 130);
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("PLAYER"), 130);
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("ITEMS"), 130);
+	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, "WIP", 130);
 }
 
 
@@ -231,63 +218,21 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void PlayerEditor::DrawPlayerEditor(void) const {
-	std::string Title;
-	Title += "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("PLAYER_EDITOR");
-
-	// Display First Player Name.
-	std::string PlayerName = Lang::get("PLAYER_NAME");
-	PlayerName += ": ";
-	PlayerName += StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str();
-
-	// Display the Amount of Bells inside the Wallet.
-	std::string Wallet = std::to_string((SaveFile->players[cp]->Wallet.value));
-	std::string WalletAmount = Lang::get("WALLET_AMOUNT");
-	WalletAmount += ": ";
-	WalletAmount += Wallet.c_str();
-
-	// Display the current Tan of the Player.
-	std::string Tan = std::to_string((SaveFile->players[cp]->PlayerTan));
-	std::string TanPlayer = Lang::get("TAN_VALUE");
-	TanPlayer += ": ";
-	TanPlayer += Tan.c_str();
-
-	// Display the Amount of Bells from the Bank.
-	std::string Bank = std::to_string((SaveFile->players[cp]->BankAmount.value));
-	std::string BankAmount = Lang::get("BANK_AMOUNT");
-	BankAmount += ": ";
-	BankAmount += Bank.c_str();
-
-	// Display the amount of medals.
-	std::string Medals = std::to_string((SaveFile->players[cp]->IslandMedals.value));
-	std::string MedalsAmount = Lang::get("MEDAL_AMOUNT");
-	MedalsAmount += ": ";
-	MedalsAmount += Medals.c_str();
-
-	// Display the amount of Coupons.
-	std::string Coupons = std::to_string((SaveFile->players[cp]->MeowCoupons.value));
-	std::string CouponsAmount = Lang::get("COUPON_AMOUNT");
-	CouponsAmount += ": ";
-	CouponsAmount += Coupons.c_str();
-
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
-
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
 	// Draw Rectangles first, then Player Info.
-	Gui::Draw_Rect(40, 37, 320, 22, BGBOTCOLOR);
-	Gui::Draw_Rect(40, 65, 320, 22, BGBOTCOLOR);
-	Gui::Draw_Rect(40, 93, 320, 22, BGBOTCOLOR);
-	Gui::Draw_Rect(40, 121, 320, 22, BGBOTCOLOR);
-	Gui::Draw_Rect(40, 149, 320, 22, BGBOTCOLOR);
-	Gui::Draw_Rect(40, 177, 320, 22, BGBOTCOLOR);
-	Gui::DrawStringCentered(0, 35, 0.8f, TXTCOLOR, PlayerName, 380);
-	Gui::DrawStringCentered(0, 63, 0.8f, TXTCOLOR, WalletAmount, 380);
-	Gui::DrawStringCentered(0, 91, 0.8f, TXTCOLOR, TanPlayer, 380);
-	Gui::DrawStringCentered(0, 119, 0.8f, TXTCOLOR, BankAmount, 380);
-	Gui::DrawStringCentered(0, 147, 0.8f, TXTCOLOR, MedalsAmount, 380);
-	Gui::DrawStringCentered(0, 175, 0.8f, TXTCOLOR, CouponsAmount, 380);
-
+	Gui::Draw_Rect(40, 37, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 65, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 93, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 121, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 149, 320, 22, DARKER_GREEN);
+	Gui::Draw_Rect(40, 177, 320, 22, DARKER_GREEN);
+	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
+	Gui::DrawStringCentered(0, 63, 0.8f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
+	Gui::DrawStringCentered(0, 91, 0.8f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);
+	Gui::DrawStringCentered(0, 119, 0.8f, WHITE, Lang::get("BANK_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->BankAmount.value)), 380);
+	Gui::DrawStringCentered(0, 147, 0.8f, WHITE, Lang::get("MEDAL_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->IslandMedals.value)), 380);
+	Gui::DrawStringCentered(0, 175, 0.8f, WHITE, Lang::get("COUPON_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->MeowCoupons.value)), 380);
 	// Player Bottom.
 	Gui::DrawBottom();
 
@@ -301,32 +246,32 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 
 	if (currentPage == 1) {
 		// Display Player Name.
-		Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("PLAYER_NAME"), 130);
+		Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("PLAYER_NAME"), 130);
 		// Display Wallet Amount.
-		Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("WALLET_AMOUNT"), 130);
+		Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("WALLET_AMOUNT"), 130);
 		// Display current Tan Value.
-		Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("TAN_VALUE"), 130);
+		Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("TAN_VALUE"), 130);
 		// Display Bank Amount.
-		Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, TXTCOLOR, Lang::get("BANK_AMOUNT"), 130);
+		Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, WHITE, Lang::get("BANK_AMOUNT"), 130);
 		// Display Medal Amount.
-		Gui::DrawStringCentered(80, playerButtons[4].y+10, 0.6f, TXTCOLOR, Lang::get("MEDAL_AMOUNT"), 130);
+		Gui::DrawStringCentered(80, playerButtons[4].y+10, 0.6f, WHITE, Lang::get("MEDAL_AMOUNT"), 130);
 		// Display Coupon Amount.
-		Gui::DrawStringCentered(80, playerButtons[5].y+10, 0.6f, TXTCOLOR, Lang::get("COUPON_AMOUNT"), 130);
+		Gui::DrawStringCentered(80, playerButtons[5].y+10, 0.6f, WHITE, Lang::get("COUPON_AMOUNT"), 130);
 
 	} else if (currentPage == 2) {
 
 		// Max Bank.
-		Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("MAX_BANK"), 130);
+		Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("MAX_BANK"), 130);
 		// Max Medals.
-		Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("MAX_MEDALS"), 130);
+		Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("MAX_MEDALS"), 130);
 		// Max Coupons.
-		Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("MAX_COUPONS"), 130);
+		Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("MAX_COUPONS"), 130);
 		// Clear Bank.
-		Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, TXTCOLOR, Lang::get("CLEAR_BANK"), 130);
+		Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, WHITE, Lang::get("CLEAR_BANK"), 130);
 		// Clear Medals.
-		Gui::DrawStringCentered(80, playerButtons[4].y+10, 0.6f, TXTCOLOR, Lang::get("CLEAR_MEDALS"), 130);
+		Gui::DrawStringCentered(80, playerButtons[4].y+10, 0.6f, WHITE, Lang::get("CLEAR_MEDALS"), 130);
 		// Clear Coupons.
-		Gui::DrawStringCentered(80, playerButtons[5].y+10, 0.6f, TXTCOLOR, Lang::get("CLEAR_COUPONS"), 130);
+		Gui::DrawStringCentered(80, playerButtons[5].y+10, 0.6f, WHITE, Lang::get("CLEAR_COUPONS"), 130);
 	}
 }
 
@@ -340,19 +285,20 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			if(Selection < 5)	Selection++;
 	}
 	if (hDown & KEY_RIGHT) {
-		if (Selection == 0)	Selection = 3;
-		else if (Selection == 1)	Selection = 4;
-		else if (Selection == 2)	Selection = 5;
+		if (Selection < 3) {
+			Selection += 3;
+		}
 	}
+
 	if (hDown & KEY_LEFT) {
-		if (Selection == 3)	Selection = 0;
-		else if (Selection == 4)	Selection = 1;
-		else if (Selection == 5)	Selection = 2;
+		if (Selection < 6 && Selection > 2) {
+			Selection -= 3;
+		}
 	}
 
 	// Pages.
 	if (hDown & KEY_R) {
-		if(currentPage <2) currentPage++;
+		if(currentPage < 2) currentPage++;
 			Selection = 0;
 	} else if (hDown & KEY_L) {
 		if(currentPage > 1)	currentPage--;

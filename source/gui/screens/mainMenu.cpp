@@ -33,7 +33,7 @@
 void MainMenu::Draw(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, "LeafEdit", 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit", 400);
 
 	Gui::DrawBottom();
 
@@ -45,9 +45,9 @@ void MainMenu::Draw(void) const
 		}
 	}
 
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("TOWN_MANAGER"), 130);
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("EDITOR"), 130);
-	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, TXTCOLOR, Lang::get("SETTINGS"), 130);
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("TOWN_MANAGER"), 130);
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("EDITOR"), 130);
+	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, Lang::get("SETTINGS"), 130);
 }
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {

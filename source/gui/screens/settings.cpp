@@ -37,11 +37,8 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Settings::Draw(void) const
 {
 	if(screenMode == 0) {
-		std::string Title;
-		Title += "LeafEdit - ";
-		Title += Lang::get("SETTINGS");
 		Gui::DrawTop();
-		Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
+		Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 400);
 		Gui::DrawBottom();
 		for (int i = 0; i < 2; i++) {
 			if (Selection == i) {
@@ -50,9 +47,8 @@ void Settings::Draw(void) const
 				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, unselectedColor);
 			}
 		}
-
-		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("LANGUAGE"), 130);
-		Gui::DrawStringCentered(0, settingsButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("CREDITS"), 130);
+		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, WHITE, Lang::get("LANGUAGE"), 130);
+		Gui::DrawStringCentered(0, settingsButtons[1].y+10, 0.6f, WHITE, Lang::get("CREDITS"), 130);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}
@@ -94,107 +90,26 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 
 void Settings::DrawLangScreen(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Lang::get("SELECT_LANG"), 398);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("SELECT_LANG"), 398);
 	Gui::DrawBottom();
 
-	if (Config::lang == 0) {
-		Gui::Draw_Rect(37, 52, 20, 20, RED);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
-
-	} else if (Config::lang == 1) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, RED);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
-
-	} else if (Config::lang == 2) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, RED);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
-
-	} else if (Config::lang == 3) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, RED);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
-
-	} else if (Config::lang == 4) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, RED);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
-
-	} else if (Config::lang == 5) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, RED);
-
-	} else if (Config::lang == 6) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, RED);
-		Gui::Draw_Rect(177, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
-
-	} else if (Config::lang == 7) {
-		Gui::Draw_Rect(37, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 132, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(37, 172, 20, 20, BGTOPCOLOR);
-
-		Gui::Draw_Rect(177, 52, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 92, 20, 20, BGTOPCOLOR);
-		Gui::Draw_Rect(177, 132, 20, 20, RED);
-		Gui::Draw_Rect(177, 172, 20, 20, BGTOPCOLOR);
+	for (int i = 0; i < 8; i++) {
+		if (Config::lang == i) {
+			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, unselectedColor);
+		}
 	}
 
-	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, TXTCOLOR, "Deutsch", 320);
-	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, TXTCOLOR, "English", 320);
-	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, TXTCOLOR, "Español", 320);
-	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, TXTCOLOR, "Français", 320);
+	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, WHITE, "Deutsch", 320);
+	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, WHITE, "English", 320);
+	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, WHITE, "Español", 320);
+	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, WHITE, "Français", 320);
 
-	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, TXTCOLOR, "Italiano", 320);
-	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, TXTCOLOR, "Lietuvių", 320);
-	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, TXTCOLOR, "Português", 320);
-	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, TXTCOLOR, "日本語", 320);
+	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, WHITE, "Italiano", 320);
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, WHITE, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, WHITE, "Português", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, WHITE, "日本語", 320);
 
 	Gui::sprite(0, sprites_back_idx, langBlocks[8].x, langBlocks[8].y);
 }
@@ -209,45 +124,12 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, langBlocks[0])) {
-			Config::lang = 0;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[1])) {
-			Config::lang = 1;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[2])) {
-			Config::lang = 2;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[3])) {
-			Config::lang = 3;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[4])) {
-			Config::lang = 4;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[5])) {
-			Config::lang = 6;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[6])) {
-			Config::lang = 7;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
-
-		} else if (touching(touch, langBlocks[7])) {
-			Config::lang = 5;
-			ItemManagement::LoadDatabase(Config::lang);
-			Lang::load(Config::lang);
+		for (int i = 0; i < 8; i++) {
+			if (touching(touch, langBlocks[i])) {
+				Config::lang = i;
+				ItemManagement::LoadDatabase(Config::lang);
+				Lang::load(Config::lang);
+			}
 		}
 	}
 }

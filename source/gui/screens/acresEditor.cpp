@@ -55,11 +55,8 @@ extern Save* SaveFile;
 
 
 void AcresEditor::Draw(void) const {
-	std::string Title = "LeafEdit";
-	Title += " - ";
-	Title += Lang::get("ACRE_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, TXTCOLOR, Title, 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400);
 	Gui::DrawBottom();
 	townMap();
 	DrawSelection();

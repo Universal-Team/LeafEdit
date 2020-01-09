@@ -61,22 +61,12 @@ ItemEditor::~ItemEditor()
 }
 
 void ItemEditor::DisplayDresser(void) const {
-	std::string Title = "LeafEdit - ";
-	Title += Lang::get("ITEM_DRESSER");
-	Title += std::to_string(currentDresser+1);
-
-	// Debug purpose.
-//	char debug[50];
-//	sprintf(debug, "%08lx", it.Raw);
-
 	dresserData = EditorUtils::load_player_dresseritems(selectedPassedPlayer, currentDresser);
 	std::string itemName = dresserData[currentDresserItem].first;
-
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
-	Gui::DrawStringCentered(0, 214, 0.8f, TXTCOLOR, itemName, 390);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentDresser+1), 400);
+	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, itemName, 390);
 	Gui::DrawBottom();
-
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
@@ -84,7 +74,6 @@ void ItemEditor::DisplayDresser(void) const {
 				if (dresserData[i].second > -1)
 				{
 					ItemManagement::DrawItem(dresserData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
-					//Gui::DrawString(200, 170, 0.6f, WHITE, debug, 400); // Debug Purpose.
 				}
 			}
 		}
@@ -96,48 +85,38 @@ void ItemEditor::DisplayDresser(void) const {
 // Was a Test, to display the first Item on the Pocket of Player 1. Will be used for other needed Item Tests.
 void ItemEditor::DisplayItems(void) const {
 	Gui::DrawTop();
-
 	Item *items = &Save::Instance()->players[0]->Pockets[0];
 	testItemData.push_back(std::make_pair(items->GetName(), items->GetSpritesheetID()));
-
 	ItemManagement::DrawItem(testItemData[0].second, 160, 60, 1 , 1);
 	std::string itemName = testItemData[0].first;
-	Gui::DrawStringCentered(0, 160, 0.7f, TXTCOLOR, itemName, 390);
+	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, itemName, 390);
 	Gui::DrawBottom();
 }
 
 
 void ItemEditor::DisplayPocket(void) const {
-	std::string Title = "LeafEdit - ";
-	Title += Lang::get("ITEM_POCKET");
 	int x = 42;
 	int y = 63;
 	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
-
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
-
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEM_POCKET"), 400);
 	Gui::DrawBottom();
-
 	for (int i = 0; i < 16; ++i)
 	{
 		if (i == 2)
 		{
 			x += 38 * 2;
 		}
-
 		if (i > 0 && (i == 4 || i % 10 == 0))
 		{
 			y += 38;
 			x = 42;
 		}
 		Gui::sprite(0, sprites_itemHole_idx, x - 16, y - 16);
-
 		if (inventoryData[i].second > -1)
 		{
 			ItemManagement::DrawItem(inventoryData[i].second, x, y, 1 , 1);
 		}
-
 		x += 38;
 	}
 }

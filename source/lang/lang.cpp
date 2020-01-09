@@ -30,7 +30,7 @@ std::string Lang::get(const std::string &key) {
 	return appJson.at(key).get_ref<const std::string&>();
 }
 
-std::string langs[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};
+std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
 void Lang::load(int lang) {
 	loadToVector("romfs:/lang/"+langs[1]+"/groups.txt", g_groups);

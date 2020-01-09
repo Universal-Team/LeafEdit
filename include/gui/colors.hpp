@@ -29,25 +29,19 @@
 
 #include <citro2d.h>
 
-// GUI Colors.
-#define BARCOLOR	C2D_Color32(38, 77, 52, 255)
-#define BGTOPCOLOR	C2D_Color32(168, 192, 96, 255)
-#define BGBOTCOLOR	C2D_Color32(84, 114, 57, 255)
-#define TXTCOLOR	C2D_Color32(239, 255, 173, 255)
-
 // Select Colors.
-#define SelectorBlue C2D_Color32(0, 191, 255, 255)
-#define selectedColor C2D_Color32(38, 100, 40, 255)
+#define selectedColor C2D_Color32(38, 130, 40, 255)
 #define unselectedColor C2D_Color32(38, 70, 40, 180)
 
-// Other Colors.
-#define TRANSPARENT C2D_Color32(0, 0, 0, 0)
+// Default colors i guess.
 #define DIM C2D_Color32(0, 0, 0, 190)
 #define WHITE C2D_Color32(255, 255, 255, 255)
 #define BLACK C2D_Color32(0, 0, 0, 255)
-#define GRAY C2D_Color32(127, 127, 127, 255)
-#define DARKGRAY C2D_Color32(70, 70, 70, 255)
-#define RED C2D_Color32(255, 0, 0, 255)
+
+// New Green tones.
+#define DARKER_GREEN				C2D_Color32(14, 73, 32, 255)
+#define LIGHT_GREEN					C2D_Color32(23, 145, 53, 255)
+#define LIGHTER_GREEN				C2D_Color32(23, 121, 53, 255)
 
 typedef u32 Color;
 

@@ -205,9 +205,9 @@ void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height
 	static constexpr int w     = 2;
 	static float timer         = 0.0f;
 	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = SelectorBlue & 0xFF;
-	u8 g                       = (SelectorBlue >> 8) & 0xFF;
-	u8 b                       = (SelectorBlue >> 16) & 0xFF;
+	u8 r                       = selectedColor & 0xFF;
+	u8 g                       = (selectedColor >> 8) & 0xFF;
+	u8 b                       = (selectedColor >> 16) & 0xFF;
 	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
 	// BG Color for the Selector.
@@ -234,38 +234,38 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, BARCOLOR);
-	Gui::Draw_Rect(0, 30, 400, 180, BGTOPCOLOR);
-	Gui::Draw_Rect(0, 210, 400, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 0, 400, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 30, 400, 180, LIGHTER_GREEN);
+	Gui::Draw_Rect(0, 210, 400, 30, DARKER_GREEN);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, BARCOLOR);
-	Gui::Draw_Rect(0, 30, 320, 180, BGBOTCOLOR);
-	Gui::Draw_Rect(0, 210, 320, 30, BARCOLOR);
+	Gui::Draw_Rect(0, 0, 320, 30, DARKER_GREEN);
+	Gui::Draw_Rect(0, 30, 320, 180, LIGHTER_GREEN);
+	Gui::Draw_Rect(0, 210, 320, 30, DARKER_GREEN);
 }
 
 void Gui::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
 		Gui::ScreenDraw(top);
-		Gui::Draw_Rect(0, 0, 400, 27, BARCOLOR);
-		Gui::Draw_Rect(0, 27, 400, 31, BGTOPCOLOR);
-		Gui::Draw_Rect(0, 58, 400, 31, BGBOTCOLOR);
-		Gui::Draw_Rect(0, 89, 400, 31, BGTOPCOLOR);
-		Gui::Draw_Rect(0, 120, 400, 31, BGBOTCOLOR);
-		Gui::Draw_Rect(0, 151, 400, 31, BGTOPCOLOR);
-		Gui::Draw_Rect(0, 182, 400, 31, BGBOTCOLOR);
-		Gui::Draw_Rect(0, 213, 400, 27, BARCOLOR);
+		Gui::Draw_Rect(0, 0, 400, 27, DARKER_GREEN);
+		Gui::Draw_Rect(0, 27, 400, 31, LIGHTER_GREEN);
+		Gui::Draw_Rect(0, 58, 400, 31, LIGHT_GREEN);
+		Gui::Draw_Rect(0, 89, 400, 31, LIGHTER_GREEN);
+		Gui::Draw_Rect(0, 120, 400, 31, LIGHT_GREEN);
+		Gui::Draw_Rect(0, 151, 400, 31, LIGHTER_GREEN);
+		Gui::Draw_Rect(0, 182, 400, 31, LIGHT_GREEN);
+		Gui::Draw_Rect(0, 213, 400, 27, DARKER_GREEN);
 	} else {
 		Gui::ScreenDraw(bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, BARCOLOR);
-		Gui::Draw_Rect(0, 27, 320, 31, BGTOPCOLOR);
-		Gui::Draw_Rect(0, 58, 320, 31, BGBOTCOLOR);
-		Gui::Draw_Rect(0, 89, 320, 31, BGTOPCOLOR);
-		Gui::Draw_Rect(0, 120, 320, 31, BGBOTCOLOR);
-		Gui::Draw_Rect(0, 151, 320, 31, BGTOPCOLOR);
-		Gui::Draw_Rect(0, 182, 320, 31, BGBOTCOLOR);
-		Gui::Draw_Rect(0, 213, 320, 27, BARCOLOR);
+		Gui::Draw_Rect(0, 0, 320, 27, DARKER_GREEN);
+		Gui::Draw_Rect(0, 27, 320, 31, LIGHTER_GREEN);
+		Gui::Draw_Rect(0, 58, 320, 31, LIGHT_GREEN);
+		Gui::Draw_Rect(0, 89, 320, 31, LIGHTER_GREEN);
+		Gui::Draw_Rect(0, 120, 320, 31, LIGHT_GREEN);
+		Gui::Draw_Rect(0, 151, 320, 31, LIGHTER_GREEN);
+		Gui::Draw_Rect(0, 182, 320, 31, LIGHT_GREEN);
+		Gui::Draw_Rect(0, 213, 320, 27, DARKER_GREEN);
 	}
 }

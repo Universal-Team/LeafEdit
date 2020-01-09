@@ -43,10 +43,8 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MiscEditor::Draw(void) const
 {
-	std::string Title = "LeafEdit - ";
-	Title += Lang::get("MISC_EDITOR");
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, TXTCOLOR, Title, 400);
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("MISC_EDITOR"), 400);
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {
@@ -57,8 +55,8 @@ void MiscEditor::Draw(void) const
 		}
 	}
 
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, TXTCOLOR, Lang::get("ACRES"), 130);
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, TXTCOLOR, Lang::get("SCRIPTS"), 130);
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("ACRES"), 130);
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("SCRIPTS"), 130);
 }
 
 
