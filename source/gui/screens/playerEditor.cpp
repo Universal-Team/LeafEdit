@@ -56,6 +56,8 @@ void PlayerEditor::Draw(void) const {
 		DrawMainEditor();
 	} else if (screen == 2) {
 		DrawPlayerEditor();
+	} else if (screen == 3) {
+		DrawPlayerStyle(); // Style of the Player, like Face, Hair etc.
 	}
 }
 
@@ -66,6 +68,8 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		MainEditorLogic(hDown, hHeld, touch);
 	} else if (screen == 2) {
 		PlayerEditorLogic(hDown, hHeld, touch);
+	} else if (screen == 3) {
+		PlayerStyleLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -73,43 +77,47 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::Draw_Rect(15 + x * 100, 93, 70, 70, colorType);
+			Gui::Draw_Rect(15 + x * 100, 50, 70, 130, colorType);
 		}
 	}
 
 	if (SaveFile->players[0]->Exists()) {
-		Gui::DrawStringCentered(-150, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
+		Gui::DrawStringCentered(-150, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
+		PlayerManagement::DrawHair(SaveFile->players[0]->hairStyle, 30, 120, 1, 1);
 		if (SaveFile->players[0]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 45, 140);
+			Gui::sprite(0, sprites_male_idx, 45, 100);
 		} else {
-			Gui::sprite(0, sprites_female_idx, 45, 140);
+			Gui::sprite(0, sprites_female_idx, 45, 100);
 		}
 	}
 
 	if (SaveFile->players[1]->Exists()) {
-		Gui::DrawStringCentered(-50, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
+		Gui::DrawStringCentered(-50, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
+		PlayerManagement::DrawHair(SaveFile->players[1]->hairStyle, 130, 120, 1, 1);
 		if (SaveFile->players[1]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 145, 140);
+			Gui::sprite(0, sprites_male_idx, 145, 100);
 		} else {
-			Gui::sprite(0, sprites_female_idx, 145, 140);
+			Gui::sprite(0, sprites_female_idx, 145, 100);
 		}
 	}
 
 	if (SaveFile->players[2]->Exists()) {
-		Gui::DrawStringCentered(50, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
+		Gui::DrawStringCentered(50, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
+		PlayerManagement::DrawHair(SaveFile->players[2]->hairStyle, 230, 120, 1, 1);
 		if (SaveFile->players[2]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 245, 140);
+			Gui::sprite(0, sprites_male_idx, 245, 100);
 		} else {
-			Gui::sprite(0, sprites_female_idx, 245, 140);
+			Gui::sprite(0, sprites_female_idx, 245, 100);
 		}
 	}
 
 	if (SaveFile->players[3]->Exists()) {
-		Gui::DrawStringCentered(150, 106, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
+		Gui::DrawStringCentered(150, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
+		PlayerManagement::DrawHair(SaveFile->players[3]->hairStyle, 330, 120, 1, 1);
 		if (SaveFile->players[3]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 345, 140);
+			Gui::sprite(0, sprites_male_idx, 345, 100);
 		} else {
-			Gui::sprite(0, sprites_female_idx, 345, 140);
+			Gui::sprite(0, sprites_female_idx, 345, 100);
 		}
 	}
 }
@@ -122,7 +130,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 
 	for (int i = 0; i < 4; i++) {
 		if (i == selectedPlayer) {
-			Gui::drawAnimatedSelector(15 + i * 100, 93, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::drawAnimatedSelector(15 + i * 100, 50, 70, 130, .030f, C2D_Color32(0, 0, 0, 0));
 		}
 	}
 	Gui::DrawBottom();
@@ -136,6 +144,32 @@ void PlayerEditor::DrawSubMenu(void) const {
 
 	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, activePlayer, 320);
 }
+
+void PlayerEditor::DrawPlayerStyle(void) const {
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400);
+	Gui::Draw_Rect(40, 57, 90, 40, colorType);
+	PlayerManagement::DrawHair(SaveFile->players[cp]->hairStyle, 68, 58);
+	Gui::Draw_Rect(40, 117, 90, 40, colorType);
+	PlayerManagement::DrawFace(SaveFile->players[cp]->Gender, SaveFile->players[cp]->face, 65, 128);
+	Gui::DrawBottom();
+	for (int i = 0; i < 4; i++) {
+		if (Selection == i) {
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, selectedColor);
+		} else {
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, unselectedColor);
+		}
+	}
+	// Display Hair Style.
+	Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("HAIR"), 130);
+	// Display Hair Color.
+	Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("HAIR_COLOR"), 130);
+	// Display Eye Color.
+	Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("EYE_COLOR"), 130);
+	// Display Face.
+	Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, WHITE, Lang::get("FACE"), 130);
+}
+
 
 void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 	for (int player = 0; player < 4; player++) {
@@ -178,7 +212,7 @@ void PlayerEditor::DrawMainEditor(void) const {
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
 	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("PLAYER"), 130);
 	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("ITEMS"), 130);
-	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, "WIP", 130);
+	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE,Lang::get("APPEARANCE"), 130);
 }
 
 
@@ -210,8 +244,8 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<ItemEditor>());
 					break;
 				case 2:
-					Msg::NotImplementedYet();
-					//screen = 4;
+					Selection = 0;
+					screen = 3;
 					break;
 		}
 	}
@@ -384,6 +418,58 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				SaveFile->players[cp]->MeowCoupons.value = 0;
 			}
 		}
+	}
+
+	if (hDown & KEY_B) {
+		Selection = 0;
+		screen = 1;
+	}
+}
+
+void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	// Selection A / Touch.
+	if (hDown & KEY_A) {
+		switch(Selection) {
+			case 0:
+				SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
+				break;
+			case 1:
+				Msg::NotImplementedYet();
+				break;
+			case 2:
+				Msg::NotImplementedYet();
+				break;
+			case 3:
+				Msg::NotImplementedYet();
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, playerButtons[0])) {
+			SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
+		} else if (touching(touch, playerButtons[1])) {
+			Msg::NotImplementedYet();
+		} else if (touching(touch, playerButtons[2])) {
+			Msg::NotImplementedYet();
+		} else if (touching(touch, playerButtons[3])) {
+			Msg::NotImplementedYet();
+		}
+	}
+
+	// Selection.
+	if (hDown & KEY_UP) {
+		if(Selection > 0)	Selection--;
+	}
+	if (hDown & KEY_DOWN) {
+			if(Selection < 3)	Selection++;
+	}
+	if (hDown & KEY_RIGHT) {
+		if (Selection == 0)	Selection = 3;
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (Selection == 3)	Selection = 0;
 	}
 
 	if (hDown & KEY_B) {

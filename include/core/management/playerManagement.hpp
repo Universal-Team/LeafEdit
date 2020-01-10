@@ -31,9 +31,13 @@
 #include <stdio.h>
 #include <string>
 
-	// Maybe for future stuff? At least not needed atm.
 namespace PlayerManagement
 {
+	void DrawFace(u16 Gender, u8 FaceID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Face.
+	void DrawHair(u8 HairID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Hair.
+
+	void DrawHairSelection(int selection, bool isFemale = false);
+	u8 SelectHair(u8 currentHair, u16 Gender);
 }
 
 #endif

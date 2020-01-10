@@ -142,6 +142,7 @@ void VillagerViewer::DrawVillager(void) const {
 	Gui::DrawTop();
 	DrawBox();
 	std::string villagerID = Lang::get("VILLAGER_ID");
+//	std::string status = "is boxed: ";
 	DrawCurrentVillager();
 	for (u16 i = 0; i < 10; i++) {
 		if (currentVillager == i) {
@@ -149,11 +150,13 @@ void VillagerViewer::DrawVillager(void) const {
 			VillagerManagement::DrawVillager(villager, 160, 60);
 			villagerNameText = g_villagerDatabase[villager];
 			villagerID += std::to_string(Save::Instance()->villagers[i]->GetId());
+//			status += std::to_string(Save::Instance()->villagers[i]->getStatus());
 		}
 	}
 
 	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, villagerID, 310);
 	Gui::DrawStringCentered(0, 130, 0.7f, WHITE, villagerNameText, 310);
+//	Gui::DrawStringCentered(0, 190, 0.7f, WHITE, status, 310);
 	Gui::DrawBottom();
 }
 

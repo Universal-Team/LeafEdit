@@ -151,5 +151,12 @@
 	"INVALID_TYPE":					"Invalid Script type!",
 
 	"PREPARING_EDITOR":				"Preparing Editor... please wait.",
-	"COLORMODE":					"Color mode"
+	"COLORMODE":					"Color mode",
+
+	"APPEARANCE":					"Appearance",
+	"HAIR":							"Hair",
+	"HAIR_COLOR":					"Hair Color",
+	"EYE_COLOR":					"Eye Color",
+	"FACE":							"Face",
+	"SELECT_HAIR":					"Select the Hair you like."
 }

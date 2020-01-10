@@ -43,6 +43,8 @@ C3D_RenderTarget* bottom;
 bool editorSheetHasLoaded = false;
 
 C2D_SpriteSheet Acres;
+C2D_SpriteSheet Faces;
+C2D_SpriteSheet Hairs;
 C2D_SpriteSheet Items;
 C2D_SpriteSheet sprites;
 C2D_SpriteSheet Villager;
@@ -100,6 +102,8 @@ Result Gui::loadSheets() {
 	if (editorSheetHasLoaded == false) {
 		editorSheetHasLoaded = true;
 		Acres	= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
+		Faces	= C2D_SpriteSheetLoad("romfs:/gfx/faces.t3x");
+		Hairs	= C2D_SpriteSheetLoad("romfs:/gfx/hairs.t3x");
 		Items	= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
 		Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
 		Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
@@ -112,6 +116,8 @@ Result Gui::unloadSheets() {
 	if (editorSheetHasLoaded == true) {
 		editorSheetHasLoaded = false;
 		C2D_SpriteSheetFree(Acres);
+		C2D_SpriteSheetFree(Faces);
+		C2D_SpriteSheetFree(Hairs);
 		C2D_SpriteSheetFree(Items);
 		C2D_SpriteSheetFree(Villager);
 		C2D_SpriteSheetFree(Villager2);
@@ -241,7 +247,6 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 	C2D_Image img = C2D_SpriteSheetGetImage(sheet, imgindex);
 	C2D_DrawImageAt(img, x, y, 0.5f, NULL, ScaleX, ScaleY);
 }
-
 
 // Basic GUI Functions.
 
