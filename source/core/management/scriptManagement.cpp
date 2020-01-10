@@ -177,7 +177,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 			else	missing = true;
 
 			if(json.at(choice).at(i).contains("style") && json.at(choice).at(i).at("style").is_number())
-				style = json.at(choice).at(i).contains("style");
+				style = json.at(choice).at(i).at("style");
 			else	missing = true;
 
 			if (!missing)	SaveFile->players[player-1]->hairStyle = style;
@@ -192,7 +192,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 			else	missing = true;
 
 			if(json.at(choice).at(i).contains("color") && json.at(choice).at(i).at("color").is_number())
-				color = json.at(choice).at(i).contains("color");
+				color = json.at(choice).at(i).at("color");
 			else	missing = true;
 
 			if (!missing)	SaveFile->players[player-1]->hairColor = color;
@@ -207,7 +207,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 			else	missing = true;
 
 			if(json.at(choice).at(i).contains("color") && json.at(choice).at(i).at("color").is_number())
-				color = json.at(choice).at(i).contains("color");
+				color = json.at(choice).at(i).at("color");
 			else	missing = true;
 
 			if (!missing)	SaveFile->players[player-1]->eyeColor = color;
@@ -222,7 +222,7 @@ void ScriptManagement::executePlayer(nlohmann::json &json, std::string choice) {
 			else	missing = true;
 
 			if(json.at(choice).at(i).contains("face") && json.at(choice).at(i).at("face").is_number())
-				face = json.at(choice).at(i).contains("face");
+				face = json.at(choice).at(i).at("face");
 			else	missing = true;
 
 			if (!missing)	SaveFile->players[player-1]->face = face;
