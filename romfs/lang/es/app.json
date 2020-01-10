@@ -129,5 +129,11 @@
 	"SCRIPT_TYPE": "Tipo de script: ",
 	"INVALID_TYPE": "¡Tipo de script no válido!",
 	"PREPARING_EDITOR": "Preparando el editor... por favor espere.",
-	"COLORMODE": "Modo color"
+	"COLORMODE": "Modo color",
+	"APPEARANCE": "Appearance",
+	"HAIR": "Hair",
+	"HAIR_COLOR": "Hair Color",
+	"EYE_COLOR": "Eye Color",
+	"FACE": "Face",
+	"SELECT_HAIR": "Select the Hair you like."
 }
