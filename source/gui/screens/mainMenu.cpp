@@ -25,6 +25,7 @@
 */
 
 #include "core/management/itemManagement.hpp"
+//#include "core/management/playerManagement.hpp"
 
 #include "gui/screens/editor.hpp"
 #include "gui/screens/mainMenu.hpp"
@@ -51,6 +52,12 @@ void MainMenu::Draw(void) const
 	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("EDITOR"), 130);
 	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, Lang::get("SETTINGS"), 130);
 }
+
+/* -> For testing.
+void MainMenu::Draw(void) const {
+	PlayerManagement::DrawEyeColorSelection(4);
+}
+*/
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	SelectionLogic(hDown, hHeld);

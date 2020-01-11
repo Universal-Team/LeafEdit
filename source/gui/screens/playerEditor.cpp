@@ -152,6 +152,12 @@ void PlayerEditor::DrawPlayerStyle(void) const {
 	PlayerManagement::DrawHair(SaveFile->players[cp]->hairStyle, 68, 58);
 	Gui::Draw_Rect(40, 117, 90, 40, colorType);
 	PlayerManagement::DrawFace(SaveFile->players[cp]->Gender, SaveFile->players[cp]->face, 65, 128);
+
+	// Hair Color.
+	Gui::Draw_Rect(150, 57, 90, 40, PlayerManagement::getHairColor(SaveFile->players[cp]->hairColor));
+	// Eye Color.
+	Gui::Draw_Rect(150, 117, 90, 40, PlayerManagement::getEyeColor(SaveFile->players[cp]->eyeColor));
+	
 	Gui::DrawBottom();
 	for (int i = 0; i < 4; i++) {
 		if (Selection == i) {
@@ -350,7 +356,7 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 					SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 					break;
 				case 2:
-					SaveFile->players[cp]->PlayerTan = Input::handleu32(2, Lang::get("ENTER_TAN_VALUE"), 15, SaveFile->players[cp]->PlayerTan);
+					SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
 					break;
 				case 3:
 					SaveFile->players[cp]->BankAmount.value = Input::handleu32(9, Lang::get("ENTER_BANK_AMOUNT"), 999999999, SaveFile->players[cp]->BankAmount.value);
@@ -394,7 +400,7 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			} else if (touching(touch, playerButtons[1])) {
 				SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 			} else if (touching(touch, playerButtons[2])) {
-				SaveFile->players[cp]->PlayerTan = Input::handleu32(2, Lang::get("ENTER_TAN_VALUE"), 15, SaveFile->players[cp]->PlayerTan);
+				SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
 			} else if (touching(touch, playerButtons[3])) {
 				SaveFile->players[cp]->BankAmount.value = Input::handleu32(9, Lang::get("ENTER_BANK_AMOUNT"), 999999999, SaveFile->players[cp]->BankAmount.value);
 			} else if (touching(touch, playerButtons[4])) {
@@ -434,13 +440,13 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
 				break;
 			case 1:
-				Msg::NotImplementedYet();
+				SaveFile->players[cp]->hairColor = PlayerManagement::SelectHairColor(SaveFile->players[cp]->hairColor);
 				break;
 			case 2:
-				Msg::NotImplementedYet();
+				SaveFile->players[cp]->eyeColor = PlayerManagement::SelectEyeColor(SaveFile->players[cp]->eyeColor);
 				break;
 			case 3:
-				Msg::NotImplementedYet();
+				SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
 				break;
 		}
 	}
@@ -449,11 +455,11 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, playerButtons[0])) {
 			SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
 		} else if (touching(touch, playerButtons[1])) {
-			Msg::NotImplementedYet();
+			SaveFile->players[cp]->hairColor = PlayerManagement::SelectHairColor(SaveFile->players[cp]->hairColor);
 		} else if (touching(touch, playerButtons[2])) {
-			Msg::NotImplementedYet();
+			SaveFile->players[cp]->eyeColor = PlayerManagement::SelectEyeColor(SaveFile->players[cp]->eyeColor);
 		} else if (touching(touch, playerButtons[3])) {
-			Msg::NotImplementedYet();
+			SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
 		}
 	}
 

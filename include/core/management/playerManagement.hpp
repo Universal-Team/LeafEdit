@@ -37,7 +37,20 @@ namespace PlayerManagement
 	void DrawHair(u8 HairID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Hair.
 
 	void DrawHairSelection(int selection, bool isFemale = false);
+	void DrawFaceSelection(int selection, bool isFemale = false);
+	void DrawHairColorSelection(int selection);
+	void DrawTanSelection(int selection);
+	void DrawEyeColorSelection(int selection);
+
 	u8 SelectHair(u8 currentHair, u16 Gender);
+	u8 SelectFace(u8 currentFace, u16 Gender);
+	u8 SelectHairColor(u8 currentColor);
+	u32 SelectTan(u32 currentTan);
+	u8 SelectEyeColor(u8 currentColor);
+
+	// Get Hair & Eye color.
+	u32 getHairColor(u8 hairColor);
+	u32 getEyeColor(u8 eyeColor);
 }
 
 #endif
