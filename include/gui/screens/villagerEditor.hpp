@@ -41,25 +41,28 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
-
 	// Basic Stuff.
 	int editorMode = 0;
 	int group = 1;
 	int subMenuPage = 1;
 	int Selection = 0;
+	int SubSelection = 0;
 
+	void DrawSelection(void) const;
 	/*
 		SUB MENU.
 	*/
 	void DrawSubMenu(void) const;
-	void DrawSelection(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch); // SubMenu Logic.
+	// Group Selection.
+	void DrawGroupSelection(void) const;
+	void GroupSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void DrawVillagerSelection(void) const;
 	void VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	void EditorSubLogic(u32 hDown);
-	void DrawEditorSub(void) const;
+	void ReplaceSubLogic(u32 hDown);
+	void DrawReplaceSub(void) const;
 
 	void DrawVillagerSetTest(void) const;
 	void VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition touch);
@@ -76,6 +79,17 @@ private:
 	u16 manuallyVillager = 0;
 	int startID = 0;
 	int endID = 6;
+
+	// Button Struct.
+	std::vector<Structs::ButtonPos> villagerButtons = {
+		{10, 40, 140, 35, -1}, // 
+		{10, 100, 140, 35, -1}, //
+		{10, 160, 140, 35, -1}, //
+
+		{170, 40, 140, 35, -1}, //
+		{170, 100, 140, 35, -1}, //
+		{170, 160, 140, 35, -1}, //
+	};
 
 	std::vector<Structs::ButtonPos> Buttons = {
 		{90, 40, 140, 35, -1}, // Selection.

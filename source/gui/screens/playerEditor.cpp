@@ -148,32 +148,43 @@ void PlayerEditor::DrawSubMenu(void) const {
 void PlayerEditor::DrawPlayerStyle(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400);
-	Gui::Draw_Rect(40, 57, 90, 40, colorType);
-	PlayerManagement::DrawHair(SaveFile->players[cp]->hairStyle, 68, 58);
-	Gui::Draw_Rect(40, 117, 90, 40, colorType);
-	PlayerManagement::DrawFace(SaveFile->players[cp]->Gender, SaveFile->players[cp]->face, 65, 128);
+	// Playername & TAN.
+	Gui::Draw_Rect(40, 37, 320, 22, colorType);
+	Gui::Draw_Rect(40, 72, 320, 22, colorType);
+	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
+	Gui::DrawStringCentered(0, 70, 0.8f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);
+
+	// Player Hair & Face sprites.
+	Gui::Draw_Rect(90, 105, 90, 40, colorType);
+	PlayerManagement::DrawHair(SaveFile->players[cp]->hairStyle, 118, 106);
+	Gui::Draw_Rect(90, 155, 90, 40, colorType);
+	PlayerManagement::DrawFace(SaveFile->players[cp]->Gender, SaveFile->players[cp]->face, 115, 166);
 
 	// Hair Color.
-	Gui::Draw_Rect(150, 57, 90, 40, PlayerManagement::getHairColor(SaveFile->players[cp]->hairColor));
+	Gui::Draw_Rect(200, 105, 90, 40, PlayerManagement::getHairColor(SaveFile->players[cp]->hairColor));
 	// Eye Color.
-	Gui::Draw_Rect(150, 117, 90, 40, PlayerManagement::getEyeColor(SaveFile->players[cp]->eyeColor));
-	
+	Gui::Draw_Rect(200, 155, 90, 40, PlayerManagement::getEyeColor(SaveFile->players[cp]->eyeColor));
+
 	Gui::DrawBottom();
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 6; i++) {
 		if (Selection == i) {
 			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, selectedColor);
 		} else {
 			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, unselectedColor);
 		}
 	}
+	// Display Player name.
+	Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("PLAYER_NAME"), 130);
 	// Display Hair Style.
-	Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("HAIR"), 130);
-	// Display Hair Color.
-	Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("HAIR_COLOR"), 130);
-	// Display Eye Color.
-	Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("EYE_COLOR"), 130);
+	Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("HAIRSTYLE"), 130);
 	// Display Face.
-	Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, WHITE, Lang::get("FACE"), 130);
+	Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("FACE"), 130);
+	// Display Tan.
+	Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, WHITE, Lang::get("TAN_VALUE"), 130);
+	// Display Hair Color.
+	Gui::DrawStringCentered(80, playerButtons[4].y+10, 0.6f, WHITE, Lang::get("HAIR_COLOR"), 130);
+	// Display Eye Color.
+	Gui::DrawStringCentered(80, playerButtons[5].y+10, 0.6f, WHITE, Lang::get("EYE_COLOR"), 130);
 }
 
 
@@ -265,14 +276,10 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	Gui::Draw_Rect(40, 65, 320, 22, colorType);
 	Gui::Draw_Rect(40, 93, 320, 22, colorType);
 	Gui::Draw_Rect(40, 121, 320, 22, colorType);
-	Gui::Draw_Rect(40, 149, 320, 22, colorType);
-	Gui::Draw_Rect(40, 177, 320, 22, colorType);
-	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
-	Gui::DrawStringCentered(0, 63, 0.8f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
-	Gui::DrawStringCentered(0, 91, 0.8f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);
-	Gui::DrawStringCentered(0, 119, 0.8f, WHITE, Lang::get("BANK_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->BankAmount.value)), 380);
-	Gui::DrawStringCentered(0, 147, 0.8f, WHITE, Lang::get("MEDAL_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->IslandMedals.value)), 380);
-	Gui::DrawStringCentered(0, 175, 0.8f, WHITE, Lang::get("COUPON_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->MeowCoupons.value)), 380);
+	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
+	Gui::DrawStringCentered(0, 63, 0.8f, WHITE, Lang::get("BANK_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->BankAmount.value)), 380);
+	Gui::DrawStringCentered(0, 91, 0.8f, WHITE, Lang::get("MEDAL_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->IslandMedals.value)), 380);
+	Gui::DrawStringCentered(0, 119, 0.8f, WHITE, Lang::get("COUPON_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->MeowCoupons.value)), 380);
 	// Player Bottom.
 	Gui::DrawBottom();
 
@@ -285,12 +292,12 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	}
 
 	if (currentPage == 1) {
-		// Display Player Name.
-		Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("PLAYER_NAME"), 130);
-		// Display Wallet Amount.
-		Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("WALLET_AMOUNT"), 130);
-		// Display current Tan Value.
-		Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("TAN_VALUE"), 130);
+		// Display Wallet Amount
+		Gui::DrawStringCentered(-80, playerButtons[0].y+10, 0.6f, WHITE, Lang::get("WALLET_AMOUNT"), 130);
+		// Clear Wallet.
+		Gui::DrawStringCentered(-80, playerButtons[1].y+10, 0.6f, WHITE, Lang::get("CLEAR_WALLET"), 130);
+		// Max Wallet.
+		Gui::DrawStringCentered(-80, playerButtons[2].y+10, 0.6f, WHITE, Lang::get("MAX_WALLET"), 130);
 		// Display Bank Amount.
 		Gui::DrawStringCentered(80, playerButtons[3].y+10, 0.6f, WHITE, Lang::get("BANK_AMOUNT"), 130);
 		// Display Medal Amount.
@@ -350,12 +357,14 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (currentPage == 1) {
 			switch(Selection) {
 				case 0:
-					SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
+					SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 					break;
 				case 1:
+					SaveFile->players[cp]->Wallet.value = 0;
 					SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 					break;
 				case 2:
+					SaveFile->players[cp]->Wallet.value = 99999;
 					SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
 					break;
 				case 3:
@@ -396,11 +405,11 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hDown & KEY_TOUCH) {
 		if (currentPage == 1) {
 			if (touching(touch, playerButtons[0])) {
-				SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
-			} else if (touching(touch, playerButtons[1])) {
 				SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
+			} else if (touching(touch, playerButtons[1])) {
+				SaveFile->players[cp]->Wallet.value = 0;
 			} else if (touching(touch, playerButtons[2])) {
-				SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
+				SaveFile->players[cp]->Wallet.value = 99999;
 			} else if (touching(touch, playerButtons[3])) {
 				SaveFile->players[cp]->BankAmount.value = Input::handleu32(9, Lang::get("ENTER_BANK_AMOUNT"), 999999999, SaveFile->players[cp]->BankAmount.value);
 			} else if (touching(touch, playerButtons[4])) {
@@ -437,29 +446,39 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
+				SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
 				break;
 			case 1:
-				SaveFile->players[cp]->hairColor = PlayerManagement::SelectHairColor(SaveFile->players[cp]->hairColor);
+				SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
 				break;
 			case 2:
-				SaveFile->players[cp]->eyeColor = PlayerManagement::SelectEyeColor(SaveFile->players[cp]->eyeColor);
+				SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
 				break;
 			case 3:
-				SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
+				SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
+				break;
+			case 4:
+				SaveFile->players[cp]->hairColor = PlayerManagement::SelectHairColor(SaveFile->players[cp]->hairColor);
+				break;
+			case 5:
+				SaveFile->players[cp]->eyeColor = PlayerManagement::SelectEyeColor(SaveFile->players[cp]->eyeColor);
 				break;
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, playerButtons[0])) {
-			SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
+			SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
 		} else if (touching(touch, playerButtons[1])) {
-			SaveFile->players[cp]->hairColor = PlayerManagement::SelectHairColor(SaveFile->players[cp]->hairColor);
+			SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
 		} else if (touching(touch, playerButtons[2])) {
-			SaveFile->players[cp]->eyeColor = PlayerManagement::SelectEyeColor(SaveFile->players[cp]->eyeColor);
-		} else if (touching(touch, playerButtons[3])) {
 			SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
+		} else if (touching(touch, playerButtons[3])) {
+			SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
+		} else if (touching(touch, playerButtons[4])) {
+			SaveFile->players[cp]->hairColor = PlayerManagement::SelectHairColor(SaveFile->players[cp]->hairColor);
+		} else if (touching(touch, playerButtons[5])) {
+			SaveFile->players[cp]->eyeColor = PlayerManagement::SelectEyeColor(SaveFile->players[cp]->eyeColor);
 		}
 	}
 
@@ -468,14 +487,18 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if(Selection > 0)	Selection--;
 	}
 	if (hDown & KEY_DOWN) {
-			if(Selection < 3)	Selection++;
+			if(Selection < 5)	Selection++;
 	}
 	if (hDown & KEY_RIGHT) {
-		if (Selection == 0)	Selection = 3;
+		if (Selection < 3) {
+			Selection += 3;
+		}
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (Selection == 3)	Selection = 0;
+		if (Selection < 6 && Selection > 2) {
+			Selection -= 3;
+		}
 	}
 
 	if (hDown & KEY_B) {
