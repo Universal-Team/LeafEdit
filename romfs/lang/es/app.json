@@ -131,9 +131,13 @@
 	"PREPARING_EDITOR": "Preparando el editor... por favor espere.",
 	"COLORMODE": "Modo color",
 	"APPEARANCE": "Appearance",
-	"HAIR": "Hair",
+	"HAIR": "Hairstyle",
 	"HAIR_COLOR": "Hair Color",
 	"EYE_COLOR": "Eye Color",
 	"FACE": "Face",
-	"SELECT_HAIR": "Select the Hair you like."
+	"SELECT_HAIR": "Select a hairstyle you like.",
+	"SELECT_FACE": "Select a face you like.",
+	"SELECT_HAIR_COLOR": "Select a haircolor you like.",
+	"SELECT_TAN": "Select a Tan value you like.",
+	"SELECT_EYE_COLOR": "Select an eyecolor you like."
 }
