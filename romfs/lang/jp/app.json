@@ -131,7 +131,7 @@
 	"PREPARING_EDITOR": "Preparing Editor... please wait.",
 	"COLORMODE": "Color mode",
 	"APPEARANCE": "Appearance",
-	"HAIR": "Hairstyle",
+	"HAIRSTYLE": "Hairstyle",
 	"HAIR_COLOR": "Hair Color",
 	"EYE_COLOR": "Eye Color",
 	"FACE": "Face",
@@ -139,5 +139,11 @@
 	"SELECT_FACE": "Select a face you like.",
 	"SELECT_HAIR_COLOR": "Select a haircolor you like.",
 	"SELECT_TAN": "Select a Tan value you like.",
-	"SELECT_EYE_COLOR": "Select an eyecolor you like."
+	"SELECT_EYE_COLOR": "Select an eyecolor you like.",
+	"MAX_WALLET": "Max Wallet",
+	"CLEAR_WALLET": "Clear Wallet",
+	"REPLACE": "Replace",
+	"STATUS": "Status",
+	"BOXED": "Boxed",
+	"UNBOXED": "Unboxed"
 }
