@@ -5,18 +5,28 @@
 		"description": "Box or unbox a villager.",
 		"type": "Villager"
 	},
-	"box": [
-		{
+	"scriptContent": [{
+		"info": {
+			"title": "Villager 1: Boxed",
+			"author": "StackZ",
+			"description": "Set Villager 1's status to boxed."
+		},
+		"script": [{
 			"type": "Boxed",
 			"villager": 1,
 			"boxed": 1
-		}
-	],
-	"Unbox": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Villager 1: Unboxed",
+			"author": "StackZ",
+			"description": "Set Villager 1's status to unboxed."
+		},
+		"script": [{
 			"type": "Boxed",
 			"villager": 1,
 			"boxed": 0
-		}
-	]
-}
+		}]
+	}
+]}

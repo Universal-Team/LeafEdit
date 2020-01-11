@@ -5,60 +5,100 @@
 		"description": "Modifies the Gender.",
 		"type": "Player"
 	},
-	"Player 1: Female": [
-		{
+	"scriptContent": [{
+		"info": {
+			"title": "Player 1: Female",
+			"author": "StackZ",
+			"description": "Set Player 1 to female."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 1,
 			"gender": true
-		}
-	],
-	"Player 1: Male": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 1: Male",
+			"author": "StackZ",
+			"description": "Set Player 1 to male."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 1,
 			"gender": false
-		}
-	],
-	"Player 2: Female": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 2: Female",
+			"author": "StackZ",
+			"description": "Set Player 2 to female."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 2,
 			"gender": true
-		}
-	],
-	"Player 2: Male": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 2: Male",
+			"author": "StackZ",
+			"description": "Set Player 2 to male."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 2,
 			"gender": false
-		}
-	],
-	"Player 3: Female": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 3: Female",
+			"author": "StackZ",
+			"description": "Set Player 3 to female."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 3,
 			"gender": true
-		}
-	],
-	"Player 3: Male": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 3: Male",
+			"author": "StackZ",
+			"description": "Set Player 3 to male."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 3,
 			"gender": false
-		}
-	],
-	"Player 4: Female": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 4: Female",
+			"author": "StackZ",
+			"description": "Set Player 4 to female."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 4,
 			"gender": true
-		}
-	],
-	"Player 4: Male": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 4: Male",
+			"author": "StackZ",
+			"description": "Set Player 4 to male."
+		},
+		"script": [{
 			"type": "Gender",
 			"player": 4,
 			"gender": false
-		}
-	]
-}
+		}]
+	}
+]}

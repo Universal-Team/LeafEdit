@@ -40,360 +40,87 @@
 
 extern Save* SaveFile;
 extern std::string villagerNameText;
+extern std::vector<std::string> g_villagerDatabase;
 
 extern C2D_SpriteSheet Villager;
 extern C2D_SpriteSheet Villager2;
 
+// Start & End ID.
+std::vector<std::pair<u16, u16>> villager_IDs;
 
-std::vector<Villagers> villagers = {
-	{Anteater},
-	{Anteater},
-
-	{Bear},
-	{Bear},
-
-	{Bird},
-	{Bird},
-
-	{Bull},
-	{Bull},
-
-	{Cat},
-	{Cat},
-
-	{Cub},
-	{Cub},
-
-	{Chicken},
-	{Chicken},
-
-	{Cow},
-	{Cow},
-
-	{Alligator},
-	{Alligator},
-
-	{Deer},
-	{Deer},
-
-	{Dog},
-	{Dog},
-
-	{Duck},
-	{Duck},
-
-	{Elephant},
-	{Elephant},
-
-	{Frog},
-	{Frog},
-
-	{Goat},
-	{Goat},
-
-	{Gorilla},
-	{Gorilla},
-
-	{Hamster},
-	{Hamster},
-
-	{Hippo},
-	{Hippo},
-
-	{Horse},
-	{Horse},
-
-	{Kangaroo},
-	{Kangaroo},
-
-	{Koala},
-	{Koala},
-
-	{Lion},
-	{Lion},
-
-	{Monkey},
-	{Monkey},
-
-	{Mouse},
-	{Mouse},
-
-	{Octopus},
-	{Octopus},
-
-	{Ostrich},
-	{Ostrich},
-
-	{Eagle},
-	{Eagle},
-
-	{Penguin},
-	{Penguin},
-
-	{Pig},
-	{Pig},
-
-	{Rabbit},
-	{Rabbit},
-
-	{Rhino},
-	{Rhino},
-
-	{Sheep},
-	{Sheep},
-
-	{Squirrel},
-	{Squirrel},
-
-	{Tiger},
-	{Tiger},
-
-	{Wolf},
-	{Wolf},
-};
-
-std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, Species species) {
-	std::vector<Villagers> outVector;
-
-	for(uint i=0;i<inVector.size();i++) {
-		if(inVector[i].species == species)    outVector.push_back(inVector[i]);
-	}
-
-	return outVector;
-}
-
-// example on, how to use it. (Will be deleted, when the Villager Editor is done.)
-void anotherFunction(void) {
-	std::vector<Villagers> speciesGroup = getSpeciesGroup(villagers, Bear);
-}
-
-int getSpecies(int id) {
-	if(id <= 6) {
-		return Anteater;
-	} else if(id <= 20) {
-		return Bear;
-	} else if(id <= 34) {
-		return Bird;
-	} else if(id <= 40) {
-		return Bull;
-	} else if(id <= 63) {
-		return Cat;
-	} else if(id <= 79) {
-		return Cub;
-	} else if(id <= 88) {
-		return Chicken;
-	} else if(id <= 92) {
-		return Cow;
-	} else if(id <= 99) {
-		return Alligator;
-	} else if(id <= 110) {
-		return Deer;
-	} else if(id <= 126) {
-		return Dog;
-	} else if(id <= 143) {
-		return Duck;
-	} else if(id <= 154) {
-		return Elephant;
-	} else if(id <= 172) {
-		return Frog;
-	} else if(id <= 179) {
-		return Goat;
-	} else if(id <= 189) {
-		return Gorilla;
-	} else if(id <= 197) {
-		return Hamster;
-	} else if(id <= 205) {
-		return Hippo;
-	} else if(id <= 221) {
-		return Horse;
-	} else if(id <= 230) {
-		return Koala;
-	} else if(id <= 238) {
-		return Kangaroo;
-	} else if(id <= 245) {
-		return Lion;
-	} else if(id <= 253) {
-		return Monkey;
-	} else if(id <= 268) {
-		return Mouse;
-	} else if(id <= 272) {
-		return Octopus;
-	} else if(id <= 282) {
-		return Ostrich;
-	} else if(id <= 291) {
-		return Eagle;
-	} else if(id <= 304) {
-		return Penguin;
-	} else if(id <= 320) {
-		return Pig;
-	} else if(id <= 341) {
-		return Rabbit;
-	} else if(id <= 347) {
-		return Rhino;
-	} else if(id <= 360) {
-		return Sheep;
-	} else if(id <= 380) {
-		return Squirrel;
-	} else if(id <= 387) {
-		return Tiger;
-	} else if(id <= 398) {
-		return Wolf;
-	} else {
-		return InvalidSpecies;
-	}
-}
-
-// Dunno if needed. :shrug:
-int getStartID(int id) {
-	if(id <= 6) {
-		return 0;
-	} else if(id <= 20) {
-		return 7;
-	} else if(id <= 34) {
-		return 21;
-	} else if(id <= 40) {
-		return 35;
-	} else if(id <= 63) {
-		return 41;
-	} else if(id <= 79) {
-		return 64;
-	} else if(id <= 88) {
-		return 80;
-	} else if(id <= 92) {
-		return 89;
-	} else if(id <= 99) {
-		return 93;
-	} else if(id <= 110) {
-		return 100;
-	} else if(id <= 126) {
-		return 111;
-	} else if(id <= 143) {
-		return 127;
-	} else if(id <= 154) {
-		return 144;
-	} else if(id <= 172) {
-		return 155;
-	} else if(id <= 179) {
-		return 173;
-	} else if(id <= 189) {
-		return 180;
-	} else if(id <= 197) {
-		return 190;
-	} else if(id <= 205) {
-		return 198;
-	} else if(id <= 221) {
-		return 206;
-	} else if(id <= 230) {
-		return 222;
-	} else if(id <= 238) {
-		return 231;
-	} else if(id <= 245) {
-		return 239;
-	} else if(id <= 253) {
-		return 246;
-	} else if(id <= 268) {
-		return 254;
-	} else if(id <= 272) {
-		return 269;
-	} else if(id <= 282) {
-		return 273;
-	} else if(id <= 291) {
-		return 283;
-	} else if(id <= 304) {
-		return 292;
-	} else if(id <= 320) {
-		return 305;
-	} else if(id <= 341) {
-		return 321;
-	} else if(id <= 347) {
-		return 342;
-	} else if(id <= 360) {
-		return 348;
-	} else if(id <= 380) {
-		return 361;
-	} else if(id <= 387) {
-		return 381;
-	} else if(id <= 398) {
-		return 388;
-	} else {
-		return 399;
-	}
-}
-
-// Dunno if needed. :shrug:
-int getEndID(int id) {
-	if(id <= 6) {
-		return 6;
-	} else if(id <= 20) {
-		return 20;
-	} else if(id <= 34) {
-		return 34;
-	} else if(id <= 40) {
-		return 40;
-	} else if(id <= 63) {
-		return 63;
-	} else if(id <= 79) {
-		return 79;
-	} else if(id <= 88) {
-		return 88;
-	} else if(id <= 92) {
-		return 92;
-	} else if(id <= 99) {
-		return 99;
-	} else if(id <= 110) {
-		return 110;
-	} else if(id <= 126) {
-		return 126;
-	} else if(id <= 143) {
-		return 143;
-	} else if(id <= 154) {
-		return 154;
-	} else if(id <= 172) {
-		return 172;
-	} else if(id <= 179) {
-		return 179;
-	} else if(id <= 189) {
-		return 189;
-	} else if(id <= 197) {
-		return 197;
-	} else if(id <= 205) {
-		return 205;
-	} else if(id <= 221) {
-		return 221;
-	} else if(id <= 230) {
-		return 230;
-	} else if(id <= 238) {
-		return 238;
-	} else if(id <= 245) {
-		return 245;
-	} else if(id <= 253) {
-		return 253;
-	} else if(id <= 268) {
-		return 268;
-	} else if(id <= 272) {
-		return 272;
-	} else if(id <= 282) {
-		return 282;
-	} else if(id <= 291) {
-		return 291;
-	} else if(id <= 304) {
-		return 304;
-	} else if(id <= 320) {
-		return 320;
-	} else if(id <= 341) {
-		return 341;
-	} else if(id <= 347) {
-		return 347;
-	} else if(id <= 360) {
-		return 360;
-	} else if(id <= 380) {
-		return 380;
-	} else if(id <= 387) {
-		return 387;
-	} else if(id <= 398) {
-		return 398;
-	} else {
-		return 399;
+void VillagerManagement::getVillagerIDs(int group) {
+	// Clear ID's first.
+	villager_IDs.clear();
+	if (group == 0) {
+		villager_IDs.push_back(std::make_pair(93, 99));
+	} else if (group == 1) {
+		villager_IDs.push_back(std::make_pair(0, 6));
+	} else if (group == 2) {
+		villager_IDs.push_back(std::make_pair(7, 20));
+	} else if (group == 3) {
+		villager_IDs.push_back(std::make_pair(21, 34));
+	} else if (group == 4) {
+		villager_IDs.push_back(std::make_pair(35, 40));
+	} else if (group == 5) {
+		villager_IDs.push_back(std::make_pair(41, 63));
+	} else if (group == 6) {
+		villager_IDs.push_back(std::make_pair(80, 88));
+	} else if (group == 7) {
+		villager_IDs.push_back(std::make_pair(89, 92));
+	} else if (group == 8) {
+		villager_IDs.push_back(std::make_pair(64, 79));
+	} else if (group == 9) {
+		villager_IDs.push_back(std::make_pair(100, 110));
+	} else if (group == 10) {
+		villager_IDs.push_back(std::make_pair(111, 126));
+	} else if (group == 11) {
+		villager_IDs.push_back(std::make_pair(127, 143));
+	} else if (group == 12) {
+		villager_IDs.push_back(std::make_pair(283, 291));
+	} else if (group == 13) {
+		villager_IDs.push_back(std::make_pair(144, 154));
+	} else if (group == 14) {
+		villager_IDs.push_back(std::make_pair(155, 172));
+	} else if (group == 15) {
+		villager_IDs.push_back(std::make_pair(173, 179));
+	} else if (group == 16) {
+		villager_IDs.push_back(std::make_pair(180, 189));
+	} else if (group == 17) {
+		villager_IDs.push_back(std::make_pair(190, 198));
+	} else if (group == 18) {
+		villager_IDs.push_back(std::make_pair(199, 205));
+	} else if (group == 19) {
+		villager_IDs.push_back(std::make_pair(206, 221));
+	} else if (group == 20) {
+		villager_IDs.push_back(std::make_pair(231, 238));
+	} else if (group == 21) {
+		villager_IDs.push_back(std::make_pair(222, 230));
+	} else if (group == 22) {
+		villager_IDs.push_back(std::make_pair(239, 245));
+	} else if (group == 23) {
+		villager_IDs.push_back(std::make_pair(246, 253));
+	} else if (group == 24) {
+		villager_IDs.push_back(std::make_pair(254, 268));
+	} else if (group == 25) {
+		villager_IDs.push_back(std::make_pair(269, 272));
+	} else if (group == 26) {
+		villager_IDs.push_back(std::make_pair(273, 282));
+	} else if (group == 27) {
+		villager_IDs.push_back(std::make_pair(292, 304));
+	} else if (group == 28) {
+		villager_IDs.push_back(std::make_pair(305, 320));
+	} else if (group == 29) {
+		villager_IDs.push_back(std::make_pair(321, 341));
+	} else if (group == 30) {
+		villager_IDs.push_back(std::make_pair(342, 347));
+	} else if (group == 31) {
+		villager_IDs.push_back(std::make_pair(348, 360));
+	} else if (group == 32) {
+		villager_IDs.push_back(std::make_pair(361, 380));
+	} else if (group == 33) {
+		villager_IDs.push_back(std::make_pair(381, 387));
+	} else if (group == 34) {
+		villager_IDs.push_back(std::make_pair(388, 398));
 	}
 }
 
@@ -408,5 +135,76 @@ void VillagerManagement::DrawVillager(u16 villagerId, int x, int y, float ScaleX
 	}
 	else {
 		DrawSprite(Villager2, villagerId - 200, x, y, ScaleX, ScaleY);
+	}
+}
+
+void VillagerManagement::DrawVillagerSelection(int selection, int page) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(top, BLACK);
+	C2D_TargetClear(bottom, BLACK);
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "Select the new Villager.", 400);
+	for (int i = 0; i < 10; i++) {
+		for (u32 y = 0; y < 2; y++) {
+			for (u32 x = 0; x < 5; x++, i++) {
+				Gui::Draw_Rect(5 + x * 80, 30 + y * 110, 70, 70, unselectedColor);
+				DrawVillager(i+page*10, 10 + x * 80, 28 + y * 110, 1, 1);
+				Gui::DrawString(15+x*80, 83+y*110, 0.55f, WHITE, g_villagerDatabase[i+page*10], 60);
+			}
+		}
+	}
+	int selectY = 0, selectX = 0;
+
+	if (selection < 5)	selectY = 0;	else	selectY = 1;
+	if (selection > 4)	selectX = selection - 5;	else	selectX = selection;
+
+	Gui::drawAnimatedSelector(5 + selectX * 80, 30 + selectY * 110, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(page+1) + " / 40", 400);
+	Gui::DrawBottom();
+	Gui::Draw_Rect(0, 0, 320, 240, DIM);
+	C3D_FrameEnd(0);
+}
+
+u16 VillagerManagement::SelectVillager(u16 currentVillager) {
+	s32 selection = 0;
+	int page = 0;
+	while(1)
+	{
+		u16 villagerImage;
+		for (villagerImage = 0; villagerImage < 399; villagerImage++) {
+			if (selection == villagerImage) {
+				DrawVillagerSelection(selection, page);
+			}
+		}
+		hidScanInput();
+
+		if (hidKeysDown() & KEY_DOWN) {
+			if (selection < 5)	selection += 5;
+		}
+
+		if (hidKeysDown() & KEY_UP) {
+			if (selection > 4)	selection -= 5;
+		}
+		if (hidKeysDown() & KEY_RIGHT) {
+			if (selection < 9)	selection++;
+		}
+		if (hidKeysDown() & KEY_LEFT) {
+			if (selection > 0)	selection--;
+		}
+		if (hidKeysDown() & KEY_R) {
+			if (page == 39)	page = 0;
+			else if (page < 39)	page++;
+		}
+		if (hidKeysDown() & KEY_L) {
+			if (page == 0)	page = 39;
+			else if (page > 0)	page--;
+		}
+		if (hidKeysDown() & KEY_A) {
+			return selection + page*10;
+		}
+		if (hidKeysDown() & KEY_B) {
+			return currentVillager;
+		}
 	}
 }

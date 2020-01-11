@@ -28,61 +28,15 @@
 #define VILLAGERMANAGEMENT_HPP
 
 #include <3ds.h>
-#include <stdio.h>
-#include <string>
-#include <vector>
-
-// Sorted with ID's!
-enum Species {
-	Anteater,
-	Bear,
-	Bird,
-	Bull,
-	Cat,
-	Cub,
-	Chicken,
-	Cow,
-	Alligator,
-	Deer,
-	Dog,
-	Duck,
-	Elephant,
-	Frog,
-	Goat,
-	Gorilla,
-	Hamster,
-	Hippo,
-	Horse,
-	Kangaroo,
-	Koala,
-	Lion,
-	Monkey,
-	Mouse,
-	Octopus,
-	Ostrich,
-	Eagle,
-	Penguin,
-	Pig,
-	Rabbit,
-	Rhino,
-	Sheep,
-	Squirrel,
-	Tiger,
-	Wolf,
-	InvalidSpecies
-};
-
-struct Villagers {
-	Species species;
-	std::string name;
-};
-
-extern std::vector<Villagers> villagers;
-extern std::vector<Villagers> getSpeciesGroup(std::vector<Villagers> inVector, Species species);
 
 namespace VillagerManagement
 {
+	void getVillagerIDs(int group); // Get start & End ID for the Villager Selection.
 	void DrawVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite.
+
+	void DrawVillagerSelection(int selection, int page = 0);
+
+	u16 SelectVillager(u16 currentVillager);
 }
 
 #endif

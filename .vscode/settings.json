@@ -74,6 +74,8 @@
 		"stack": "cpp",
 		"string_view": "cpp",
 		"thread": "cpp",
-		"cinttypes": "cpp"
+		"cinttypes": "cpp",
+		"forward_list": "cpp",
+		"valarray": "cpp"
 	}
 }

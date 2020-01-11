@@ -5,60 +5,100 @@
 		"description": "Modifies the Coupon amount.",
 		"type": "Player"
 	},
-	"Player 1: 9999 Coupons": [
-		{
+	"scriptContent": [{
+		"info": {
+			"title": "Player 1: 0 Coupons",
+			"author": "StackZ",
+			"description": "Set 0 Coupons to player 1."
+		},
+		"script": [{
+			"type": "Coupons",
+			"player": 1,
+			"amount": 0
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 1: 9999 Coupons",
+			"author": "StackZ",
+			"description": "Set 9999 Coupons to player 1."
+		},
+		"script": [{
 			"type": "Coupons",
 			"player": 1,
 			"amount": 9999
-		}
-	],
-	"Player 1: 0 Coupons": [
-		{
-			"type": "Coupons",
-			"player": 1,
-			"amount": 0
-		}
-	],
-	"Player 2: 9999 Coupons": [
-		{
-			"type": "Coupons",
-			"player": 2,
-			"amount": 9999
-		}
-	],
-	"Player 2: 0 Coupons": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 2: 0 Coupons",
+			"author": "StackZ",
+			"description": "Set 0 Coupons to player 2."
+		},
+		"script": [{
 			"type": "Coupons",
 			"player": 2,
 			"amount": 0
-		}
-	],
-	"Player 3: 9999 Coupons": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 2: 9999 Coupons",
+			"author": "StackZ",
+			"description": "Set 9999 Coupons to player 2."
+		},
+		"script": [{
 			"type": "Coupons",
-			"player": 3,
+			"player": 2,
 			"amount": 9999
-		}
-	],
-	"Player 3: 0 Coupons": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 3: 0 Coupons",
+			"author": "StackZ",
+			"description": "Set 0 Coupons to player 3."
+		},
+		"script": [{
 			"type": "Coupons",
 			"player": 3,
 			"amount": 0
-		}
-	],
-	"Player 4: 9999 Coupons": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 3: 9999 Coupons",
+			"author": "StackZ",
+			"description": "Set 9999 Coupons to player 3."
+		},
+		"script": [{
 			"type": "Coupons",
-			"player": 4,
+			"player": 3,
 			"amount": 9999
-		}
-	],
-	"Player 4: 0 Coupons": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 4: 0 Coupons",
+			"author": "StackZ",
+			"description": "Set 0 Coupons to player 4."
+		},
+		"script": [{
 			"type": "Coupons",
 			"player": 4,
 			"amount": 0
-		}
-	]
-}
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 4: 9999 Coupons",
+			"author": "StackZ",
+			"description": "Set 9999 Coupons to player 4."
+		},
+		"script": [{
+			"type": "Coupons",
+			"player": 4,
+			"amount": 9999
+		}]
+	}
+]}

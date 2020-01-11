@@ -40,9 +40,9 @@ namespace ScriptManagement
 	bool checkIfValid(std::string scriptFile);
 
 	// Executing stuff.
-	void executePlayer(nlohmann::json &json, std::string choice);
-	void executeVillager(nlohmann::json &json, std::string choice);
-	void executeCustom(nlohmann::json &json, std::string choice);
+	void executePlayer(nlohmann::json &json, int choice);
+	void executeVillager(nlohmann::json &json, int choice);
+	void executeCustom(nlohmann::json &json, int choice);
 }
 
 #endif

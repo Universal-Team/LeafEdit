@@ -47,7 +47,6 @@ struct Info {
 	std::string Mode;
 };
 nlohmann::json jsonFile;
-std::string selectedScript = "";
 
 Info parseInfo(std::string fileName) {
 	FILE* file = fopen(fileName.c_str(), "rt");
@@ -74,27 +73,7 @@ nlohmann::json openScriptFile(std::string currentFile) {
 	return jsonFile;
 }
 
-// Get the Entries.
-std::vector<std::string> parseObjects(std::string fileName) {
-	FILE* file = fopen(fileName.c_str(), "rt");
-	if(!file) {
-		printf("File not found.\n");
-		return {{""}};
-	}
-	nlohmann::json json = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-
-	std::vector<std::string> objs;
-	for(auto it = json.begin();it != json.end(); it++) {
-		if(it.key() != "scriptInfo") {
-			objs.push_back(it.key());
-		}
-	}
-	return objs;
-}
-
 std::vector<Info> scriptInformation;
-std::vector<std::string> entryInformation;
 
 Scripts::Scripts() {
 	dirContents.clear();
@@ -166,14 +145,17 @@ void Scripts::DrawSubMenu(void) const {
 
 void Scripts::DrawSingleObject(void) const {
 	std::string info;
-	std::string entryAmount = std::to_string(selection2+1) + " / " + std::to_string(entryInformation.size());
+	std::string entryAmount = std::to_string(selection2+1) + " / " + std::to_string((int)jsonFile.at("scriptContent").size());
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.7f, WHITE, selectedScript, 400);
-	Gui::DrawStringCentered(0, 70, 0.7f, WHITE, std::string(scriptInformation[selection].Description), 390);
+	Gui::DrawStringCentered(0, 2, 0.7f, WHITE, std::string(jsonFile["scriptInfo"]["title"]), 400);
+
+	Gui::DrawStringCentered(0, 80, 0.7f, WHITE, Lang::get("TITLE") + std::string(jsonFile["scriptContent"][selection2]["info"]["title"]), 390);
+	Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("AUTHOR") + std::string(jsonFile["scriptContent"][selection2]["info"]["author"]), 390);
+	Gui::DrawStringCentered(0, 120, 0.7f, WHITE, Lang::get("DESCRIPTION") + std::string(jsonFile["scriptContent"][selection2]["info"]["description"]), 390);
 	Gui::DrawString(397-Gui::GetStringWidth(0.6f, entryAmount), 237-Gui::GetStringHeight(0.6f, entryAmount), 0.6f, WHITE, entryAmount);
 	Gui::DrawBottom();
-	for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)entryInformation.size();i++) {
-		info = entryInformation[screenPos2 + i];
+	for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)jsonFile.at("scriptContent").size();i++) {
+		info = jsonFile["scriptContent"][screenPos2 + i]["info"]["title"];
 		if(screenPos2 + i == selection2) {
 			Gui::Draw_Rect(0, 40+(i*57), 320, 45, selectedColor);
 		} else {
@@ -241,10 +223,7 @@ void Scripts::subMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (dirContents[selection].isDirectory) {
 		} else if (scriptInformation.size() != 0) {
 			if (ScriptManagement::checkIfValid(dirContents[selection].name) == true) {
-				selectedScript = scriptInformation[selection].title;
 				jsonFile = openScriptFile(dirContents[selection].name);
-				entryInformation = parseObjects(dirContents[selection].name);
-
 				if (scriptInformation[selection].Mode == "Player") {
 					executeMode = 0;
 				} else if (scriptInformation[selection].Mode == "Villager") {
@@ -254,7 +233,6 @@ void Scripts::subMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else {
 					executeMode = 3;
 				}
-
 				selection2 = 0;
 				mode = 1;
 			}
@@ -271,12 +249,11 @@ void Scripts::subMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 	if (hDown & KEY_B) {
-		entryInformation.clear();
 		mode = 0;
 	}
 
 	if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-		if (selection2 < (int)entryInformation.size()-1) {
+		if (selection2 < (int)jsonFile.at("scriptContent").size()-1) {
 			selection2++;
 		} else {
 			selection2 = 0;
@@ -292,7 +269,7 @@ void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (selection2 > 0) {
 			selection2--;
 		} else {
-			selection2 = (int)entryInformation.size()-1;
+			selection2 = (int)jsonFile.at("scriptContent").size()-1;
 		}
 		if (fastMode == true) {
 			keyRepeatDelay = 3;
@@ -302,13 +279,13 @@ void Scripts::selectLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (entryInformation.size() != 0) {
+		if (jsonFile.size() != 0) {
 			if (executeMode == 0) {
-				ScriptManagement::executePlayer(jsonFile, entryInformation[selection2]);
+				ScriptManagement::executePlayer(jsonFile, selection2);
 			} else if (executeMode == 1) {
-				ScriptManagement::executeVillager(jsonFile, entryInformation[selection2]);
+				ScriptManagement::executeVillager(jsonFile, selection2);
 			} else if (executeMode == 2) {
-				ScriptManagement::executeCustom(jsonFile, entryInformation[selection2]);
+				ScriptManagement::executeCustom(jsonFile, selection2);
 			} else if (executeMode == 3) {
 				Msg::DisplayWarnMsg(Lang::get("INVALID_TYPE"));
 			}

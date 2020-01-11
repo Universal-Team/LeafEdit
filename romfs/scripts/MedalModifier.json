@@ -5,60 +5,100 @@
 		"description": "Modifies the Medal amount.",
 		"type": "Player"
 	},
-	"Player 1: 9999 Medals": [
-		{
+	"scriptContent": [{
+		"info": {
+			"title": "Player 1: 0 Medals",
+			"author": "StackZ",
+			"description": "Set 0 Medals to player 1."
+		},
+		"script": [{
+			"type": "Medals",
+			"player": 1,
+			"amount": 0
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 1: 9999 Medals",
+			"author": "StackZ",
+			"description": "Set 9999 Medals to player 1."
+		},
+		"script": [{
 			"type": "Medals",
 			"player": 1,
 			"amount": 9999
-		}
-	],
-	"Player 1: 0 Medals": [
-		{
-			"type": "Medals",
-			"player": 1,
-			"amount": 0
-		}
-	],
-	"Player 2: 9999 Medals": [
-		{
-			"type": "Medals",
-			"player": 2,
-			"amount": 9999
-		}
-	],
-	"Player 2: 0 Medals": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 2: 0 Medals",
+			"author": "StackZ",
+			"description": "Set 0 Medals to player 2."
+		},
+		"script": [{
 			"type": "Medals",
 			"player": 2,
 			"amount": 0
-		}
-	],
-	"Player 3: 9999 Medals": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 2: 9999 Medals",
+			"author": "StackZ",
+			"description": "Set 9999 Medals to player 2."
+		},
+		"script": [{
 			"type": "Medals",
-			"player": 3,
+			"player": 2,
 			"amount": 9999
-		}
-	],
-	"Player 3: 0 Medals": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 3: 0 Medals",
+			"author": "StackZ",
+			"description": "Set 0 Medals to player 3."
+		},
+		"script": [{
 			"type": "Medals",
 			"player": 3,
 			"amount": 0
-		}
-	],
-	"Player 4: 9999 Medals": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 3: 9999 Medals",
+			"author": "StackZ",
+			"description": "Set 9999 Medals to player 3."
+		},
+		"script": [{
 			"type": "Medals",
-			"player": 4,
+			"player": 3,
 			"amount": 9999
-		}
-	],
-	"Player 4: 0 Medals": [
-		{
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 4: 0 Medals",
+			"author": "StackZ",
+			"description": "Set 0 Medals to player 4."
+		},
+		"script": [{
 			"type": "Medals",
 			"player": 4,
 			"amount": 0
-		}
-	]
-}
+		}]
+	},
+	{
+		"info": {
+			"title": "Player 4: 9999 Medals",
+			"author": "StackZ",
+			"description": "Set 9999 Medals to player 4."
+		},
+		"script": [{
+			"type": "Medals",
+			"player": 4,
+			"amount": 9999
+		}]
+	}
+]}

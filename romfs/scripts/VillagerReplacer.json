@@ -5,11 +5,16 @@
 		"description": "Replace first Villager.",
 		"type": "Villager"
 	},
-	"Cyrano": [
-		{
+	"scriptContent": [{
+		"info": {
+			"title": "Villager 1: Cyrano",
+			"author": "StackZ",
+			"description": "Set Villager 1 to Cyrano."
+		},
+		"script": [{
 			"type": "Replace",
 			"villager": 1,
 			"ID": 0
-		}
-	]
-}
+		}]
+	}
+]}
