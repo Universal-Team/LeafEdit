@@ -138,12 +138,12 @@
 	"SELECT_HAIR": "Selecciona un peinado que te guste.",
 	"SELECT_FACE": "Selecciona una cara que te guste.",
 	"SELECT_HAIR_COLOR": "Selecciona un color de pelo que te guste.",
-	"SELECT_TAN": "Select a Tan value you like.",
-	"SELECT_EYE_COLOR": "Select an eyecolor you like.",
-	"MAX_WALLET": "Max Wallet",
-	"CLEAR_WALLET": "Clear Wallet",
-	"REPLACE": "Replace",
-	"STATUS": "Status",
-	"BOXED": "Boxed",
-	"UNBOXED": "Unboxed"
+	"SELECT_TAN": "Seleccione un valor de bronceado que te guste.",
+	"SELECT_EYE_COLOR": "Seleccione un color de ojo que le guste.",
+	"MAX_WALLET": "Cartera Máxima",
+	"CLEAR_WALLET": "Limpiar cartera",
+	"REPLACE": "Reemplazar",
+	"STATUS": "Estado",
+	"BOXED": "Empaquetando",
+	"UNBOXED": "Desempaquetando"
 }
