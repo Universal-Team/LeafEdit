@@ -140,7 +140,8 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				editorMode = 1; // Sub Menu of Selection.
 				break;
 			case 1:
-				Msg::NotImplementedYet();
+				if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
+				else	Save::Instance()->villagers[currentVillager]->setStatus(1);
 				break;
 		}
 	}
@@ -149,7 +150,8 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, villagerButtons[0])) {
 			editorMode = 1;
 		} else if (touching(touch, villagerButtons[1])) {
-			Msg::NotImplementedYet();
+			if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
+			else	Save::Instance()->villagers[currentVillager]->setStatus(1);
 		}
 	}
 }
