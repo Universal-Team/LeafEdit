@@ -361,11 +361,9 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 					break;
 				case 1:
 					SaveFile->players[cp]->Wallet.value = 0;
-					SaveFile->players[cp]->Wallet.value = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, SaveFile->players[cp]->Wallet.value);
 					break;
 				case 2:
 					SaveFile->players[cp]->Wallet.value = 99999;
-					SaveFile->players[cp]->PlayerTan = PlayerManagement::SelectTan(SaveFile->players[cp]->PlayerTan);
 					break;
 				case 3:
 					SaveFile->players[cp]->BankAmount.value = Input::handleu32(9, Lang::get("ENTER_BANK_AMOUNT"), 999999999, SaveFile->players[cp]->BankAmount.value);
