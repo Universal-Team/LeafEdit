@@ -26,6 +26,7 @@
 
 #include "common/common.hpp" // For the TID's.
 #include "common/config.hpp"
+#include "common/file.hpp"
 #include "common/utils.hpp"
 
 #include "gui/keyboard.hpp"
@@ -196,6 +197,7 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 						SaveFile->Close();
 						return;
 					}
+					Utils::createBackup();
 					EditorMode = 2;
 				} else {
 					Msg::DisplayWarnMsg(Lang::get("SAVE_NOT_FOUND"));

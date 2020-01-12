@@ -25,19 +25,26 @@
 */
 
 #include "common/config.hpp"
+#include "common/io.hpp"
 #include "common/utils.hpp"
 
 #include "core/save/item.h"
 #include "core/save/save.h"
 
 #include "gui/colors.hpp"
+#include "gui/msg.hpp"
+
+#include "lang/lang.hpp"
 
 #include <3ds.h>
+#include <ctime>
 #include <fstream>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <sys/stat.h>
 
+extern std::string selectedSaveFolderEditor;
 // StringUtils.
 
 std::u16string StringUtils::UTF8toUTF16(const char* src)
@@ -193,5 +200,20 @@ void Utils::colorLogic(int mode) {
 		SELECTED_COLOR = SELECTED_GREEN;
 		UNSELECTED_COLOR = UNSELECTED_GREEN;
 		Config::colorMode = 0;
+	}
+}
+
+void Utils::createBackup(void) {
+	if (Msg::promptMsg2(Lang::get("CREATE_BACKUP"))) {
+		char stringTime[15]   = {0};
+    	time_t unixTime       = time(NULL);
+    	struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+    	std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+		std::string path = "/LeafEdit/Backups/" + std::string(stringTime);
+		mkdir(path.c_str(), 0777); // Create folder.
+		path += "/garden_plus.dat";
+		io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(selectedSaveFolderEditor.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
+		// Display at the end, where the backup is.
+		Msg::DisplayWaitMsg(Lang::get("FIND_BACKUP") + "\n\n" + path);
 	}
 }

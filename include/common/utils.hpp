@@ -55,6 +55,7 @@ namespace EditorUtils
 namespace Utils
 {
 	void colorLogic(int mode);
+	void createBackup(void);
 }
 
 u16	strToU16(std::string str);
