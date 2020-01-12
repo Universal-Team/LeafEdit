@@ -46,7 +46,6 @@ extern std::string villagerNameText;
 extern u16 currentVillager;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-extern int getSpecies(int id);
 
 void VillagerEditor::Draw(void) const
 {
@@ -67,7 +66,7 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (editorMode == 0) {
 		SubMenuLogic(hDown, hHeld, touch);
 	} else if (editorMode == 1) {
-		ReplaceSubLogic(hDown);
+		ReplaceSubLogic(hDown, touch);
 	} else if (editorMode == 2) {
 		GroupSelectionLogic(hDown, hHeld, touch);
 	} else if (editorMode == 3) {
@@ -104,9 +103,9 @@ void VillagerEditor::DrawSubMenu(void) const {
 		}
 	}
 	// Replace.
-	Gui::DrawStringCentered(-80, villagerButtons[0].y+10, 0.6f, WHITE, Lang::get("REPLACE"), 130);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("REPLACE")))/2-80+17.5, 0.6f, WHITE, Lang::get("REPLACE"), 130, 25);
 	// Set Boxed.
-	Gui::DrawStringCentered(-80, villagerButtons[1].y+10, 0.6f, WHITE, Lang::get("STATUS"), 130);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("STATUS")))/2-20+17.5, 0.6f, WHITE, Lang::get("STATUS"), 130, 25);
 }
 
 void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -171,11 +170,11 @@ void VillagerEditor::DrawReplaceSub(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, Buttons[0].y+10, 0.6f, WHITE, Lang::get("SELECTING"), 130);
-	Gui::DrawStringCentered(0, Buttons[1].y+10, 0.6f, WHITE, Lang::get("MANUALLY"), 130);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SELECTING")))/2-80+17.5, 0.6f, WHITE, Lang::get("SELECTING"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("MANUALLY")))/2-20+17.5, 0.6f, WHITE, Lang::get("MANUALLY"), 130, 25);
 }
 
-void VillagerEditor::ReplaceSubLogic(u32 hDown) {
+void VillagerEditor::ReplaceSubLogic(u32 hDown, touchPosition touch) {
 	if (hDown & KEY_B) {
 		editorMode = 0;
 	}
@@ -196,6 +195,16 @@ void VillagerEditor::ReplaceSubLogic(u32 hDown) {
 				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
 				editorMode = 0;
 				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, Buttons[0])) {
+			editorMode = 2;
+		} else if (touching(touch, Buttons[1])) {
+			manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
+			SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+			editorMode = 0;
 		}
 	}
 }

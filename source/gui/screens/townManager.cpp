@@ -47,6 +47,8 @@ std::string currentBackup = "";
 extern bool WelcomeAmiibo;
 extern bool isROMHack; // For Welcome Luxury.
 
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
 void TownManager::Draw(void) const
 {
 	if (screenMode == 0) {
@@ -69,16 +71,15 @@ void TownManager::DrawSubMenu(void) const
 			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, UNSELECTED_COLOR);
 		}
 	}
-
 	// Launch a Town from a Backup or just start the game.
-	Gui::DrawStringCentered(-80, townButtons[0].y+10, 0.6f, WHITE, Lang::get("LAUNCH_TOWN"), 130);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("LAUNCH_TOWN")))/2-80+17.5, 0.6f, WHITE, Lang::get("LAUNCH_TOWN"), 130, 25);
 	// Backup the Save from the installed Title / Gamecard.
-	Gui::DrawStringCentered(-80, townButtons[1].y+10, 0.6f, WHITE, Lang::get("BACKUP_TOWN"), 130);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("BACKUP_TOWN")))/2-20+17.5, 0.6f, WHITE, Lang::get("BACKUP_TOWN"), 130, 25);
 	// Restore a Backuped save.
-	Gui::DrawStringCentered(-80, townButtons[2].y+10, 0.6f, WHITE, Lang::get("RESTORE_TOWN"), 130);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("RESTORE_TOWN")))/2+75-17.5, 0.6f, WHITE, Lang::get("RESTORE_TOWN"), 130, 25);
 	// Delete Save from Installed Title / Gamecard.
-	Gui::DrawStringCentered(80, townButtons[3].y+10, 0.6f, WHITE, Lang::get("DELETE_TOWN"), 130);
-	Gui::DrawStringCentered(80, townButtons[4].y+10, 0.6f, WHITE, Lang::get("DELETE_BACKUP"), 130);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("DELETE_TOWN")))/2-80+17.5, 0.6f, WHITE, Lang::get("DELETE_TOWN"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("DELETE_BACKUP")))/2-20+17.5, 0.6f, WHITE, Lang::get("DELETE_BACKUP"), 130, 25);
 }
 
 
@@ -90,6 +91,27 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 		if (hDown & KEY_B) {
 			Gui::screenBack();
 			return;
+		}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, townButtons[0])) {
+				screenMode = 2;
+				dirChanged = true;
+			} else if (touching(touch, townButtons[1])) {
+				if (Msg::promptMsg(Lang::get("BACKUP_TOWN_POPUP"))) {
+					TownManagement::BackupTown(currentID, currentMedia, currentLowID, currentHighID);
+				}
+			} else if (touching(touch, townButtons[2])) {
+				screenMode = 1;
+				dirChanged = true;
+			} else if (touching(touch, townButtons[3])) {
+				if (Msg::promptMsg(Lang::get("DELETE_GAME_SAVE"))) {
+					TownManagement::CreateNewTown(currentMedia, currentID, currentLowID, currentHighID, currentUniqueID);
+				}
+			} else if (touching(touch, townButtons[4])) {
+				screenMode = 3;
+				dirChanged = true;
+			}
 		}
 
 		if (hDown & KEY_A) {

@@ -155,20 +155,35 @@ void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 	}
 }
 
-void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
-	Gui::DrawString((currentScreen ? 200 : 160)+x-((maxWidth == 0 ? (int)Gui::GetStringWidth(size, Text) : std::min(maxWidth, (int)Gui::GetStringWidth(size, Text)))/2), y, size, color, Text, maxWidth);
+void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
+    float heightScale;
+    if(maxHeight == 0) {
+        heightScale = size;
+    } else {
+        heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
+    }
+
+	Gui::DrawString((currentScreen ? 200 : 160)+x-((maxWidth == 0 ? (int)Gui::GetStringWidth(size, Text) : std::min(maxWidth, (int)Gui::GetStringWidth(size, Text)))/2), y, size, color, Text, maxWidth, heightScale);
 }
 
 // Draw String or Text.
-void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
-	C2D_Text c2d_text;
-	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
-	C2D_TextOptimize(&c2d_text);
-	if(maxWidth == 0) {
-		C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, size, size, color);
-	} else {
-		C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/Gui::GetStringWidth(size, Text))), size, color);
-	}
+void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
+    C2D_Text c2d_text;
+    C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
+    C2D_TextOptimize(&c2d_text);
+
+    float heightScale;
+    if(maxHeight == 0) {
+        heightScale = size;
+    } else {
+        heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
+    }
+
+    if(maxWidth == 0) {
+        C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, size, heightScale, color);
+    } else {
+        C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/Gui::GetStringWidth(size, Text))), heightScale, color);
+    }
 }
 
 

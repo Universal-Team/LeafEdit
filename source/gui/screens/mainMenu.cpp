@@ -34,6 +34,7 @@
 #include "gui/screens/settings.hpp"
 #include "gui/screens/townManager.hpp"
 
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MainMenu::Draw(void) const
 {
@@ -50,9 +51,9 @@ void MainMenu::Draw(void) const
 		}
 	}
 
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("TOWN_MANAGER"), 130);
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("EDITOR"), 130);
-	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, Lang::get("SETTINGS"), 130);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.6f, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("EDITOR")))/2-20+17.5, 0.6f, WHITE, Lang::get("EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SETTINGS")))/2+75-17.5, 0.6f, WHITE, Lang::get("SETTINGS"), 130, 25);
 }
 
 
@@ -83,6 +84,19 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 2:
 				Gui::setScreen(std::make_unique<Settings>());
 				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			Gui::setScreen(std::make_unique<TownManager>());
+		} else if (touching(touch, mainButtons[1])) {
+			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+			Gui::loadSheets();
+			ItemManagement::LoadDatabase(Config::getLang("Lang"));
+			Gui::setScreen(std::make_unique<Editor>());
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<Settings>());
 		}
 	}
 }

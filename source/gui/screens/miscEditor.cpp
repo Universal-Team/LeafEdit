@@ -55,8 +55,8 @@ void MiscEditor::Draw(void) const
 		}
 	}
 
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("ACRES"), 130);
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("SCRIPTS"), 130);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("ACRES")))/2-80+17.5, 0.6f, WHITE, Lang::get("ACRES"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SCRIPTS")))/2-20+17.5, 0.6f, WHITE, Lang::get("SCRIPTS"), 130, 25);
 }
 
 
@@ -81,6 +81,18 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
 			}
 		} else if (Selection == 1) {
+			Gui::setScreen(std::make_unique<Scripts>());
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			if (Config::getBool("Debug") == true) {
+				Gui::setScreen(std::make_unique<AcresEditor>());
+			} else {
+				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
+			}
+		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<Scripts>());
 		}
 	}

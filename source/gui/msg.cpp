@@ -37,7 +37,7 @@ bool Msg::promptMsg2(std::string promptMsg)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 110, 0.6f, WHITE, promptMsg, 390);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.72f, promptMsg))/2, 0.6f, WHITE, promptMsg, 390, 70);
 	Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("CONFIRM_OR_CANCEL"), 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
@@ -67,7 +67,7 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, Text, 395);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.72f, Text))/2, 0.72f, WHITE, Text, 395, 70);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -84,7 +84,7 @@ void Msg::DisplayWarnMsg2(std::string Text)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, Text, 395);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.72f, Text))/2, 0.72f, WHITE, Text, 395, 70);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -101,7 +101,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, waitMsg, 390);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.72f, waitMsg))/2, 0.72f, WHITE, waitMsg, 390, 70);
 	Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("A_CONTINUE"), 390);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
@@ -134,7 +134,7 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(bottom, BLACK);
 	Gui::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 110, 0.72f, WHITE, Message, 390);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.72f, Message))/2, 0.72f, WHITE, Message, 390, 70);
 	Gui::DrawBottom();
 	C3D_FrameEnd(0);
 }

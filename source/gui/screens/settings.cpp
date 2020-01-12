@@ -49,9 +49,10 @@ void Settings::Draw(void) const
 				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);
 			}
 		}
-		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, WHITE, Lang::get("LANGUAGE"), 130);
-		Gui::DrawStringCentered(0, settingsButtons[1].y+10, 0.6f, WHITE, Lang::get("CREDITS"), 130);
-		Gui::DrawStringCentered(0, settingsButtons[2].y+10, 0.6f, WHITE, Lang::get("COLORMODE"), 130);
+
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("LANGUAGE")))/2-80+17.5, 0.6f, WHITE, Lang::get("LANGUAGE"), 130, 25);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("CREDITS")))/2-20+17.5, 0.6f, WHITE, Lang::get("CREDITS"), 130, 25);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("COLORMODE")))/2+75-17.5, 0.6f, WHITE, Lang::get("COLORMODE"), 130, 25);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}
@@ -79,6 +80,17 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					break;
 			}
 		}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, settingsButtons[0])) {
+				screenMode = 1;
+			} else if (touching(touch, settingsButtons[1])) {
+				Gui::setScreen(std::make_unique<Credits>());
+			} else if (touching(touch, settingsButtons[2])) {
+				Utils::colorLogic(Config::colorMode);
+			}
+		}
+
 	} else if(screenMode == 1) {
 		langScreenLogic(hDown, hHeld, touch);
 	}

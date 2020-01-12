@@ -116,6 +116,16 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 				break;
 		}
 	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, editorButtons[0])) {
+			Gui::setScreen(std::make_unique<PlayerEditor>());
+		} else if (touching(touch, editorButtons[1])) {
+			Gui::setScreen(std::make_unique<VillagerViewer>());
+		} else if (touching(touch, editorButtons[2])) {
+			Gui::setScreen(std::make_unique<MiscEditor>());
+		}
+	}
 }
 
 
