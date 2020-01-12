@@ -51,30 +51,30 @@ bool isROMHack = false;
 void TitleSelection::Draw(void) const {
 	Gui::DrawTop();
 
-	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, colorType);
-	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, colorType);
+	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, DARKER_COLOR);
+	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, DARKER_COLOR);
 	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("SELECT_TITLE"), 398);
 
 	// Draw the 3DS Gamecard.
-	Gui::sprite(0, sprites_card_idx, 30, 93);
+	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, LIGHT_COLOR);
 	// Draw the Available Titles on the Top Screen.
 	TitleDraw();
 
 	Gui::DrawStringCentered(-140, 180, 0.6f, WHITE, Lang::get("CARD"), 70);
 	Gui::DrawStringCentered(54, 180, 0.6f, WHITE, Lang::get("INSTALLED"), 260);
 
-	Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, V_STRING), 216, FONT_SIZE_18, WHITE, V_STRING, 400);
+	Gui::DrawString(395-Gui::GetStringWidth(0.72, V_STRING), 216, 0.72, WHITE, V_STRING, 400);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 
 
 	Gui::DrawBottom();
 
-	Gui::Draw_Rect(0, 100, 320, 30, colorType);
-	Gui::Draw_Rect(0, 150, 320, 30, colorType);
+	Gui::Draw_Rect(0, 100, 320, 30, DARKER_COLOR);
+	Gui::Draw_Rect(0, 150, 320, 30, DARKER_COLOR);
 
 	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("Y_SETTINGS"), 310);
-	Gui::Draw_Rect(245, 38, 48, 48, colorType);
+	Gui::Draw_Rect(245, 38, 48, 48, DARKER_COLOR);
 	// Draw the current Selected Title on the Bottom Screen with informations.
 	if (selectedTitle != -2)
 	{
@@ -231,7 +231,7 @@ void TitleSelection::TitleDraw(void) const
 	u32 box = 8;
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 4; x++, box++) {
-			Gui::Draw_Rect(143 + x * 60, y * 55 + 68, 48, 48, LIGHTER_GREEN);
+			Gui::Draw_Rect(143 + x * 60, y * 55 + 68, 48, 48, LIGHT_COLOR);
 		}
 	}
 

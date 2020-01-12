@@ -64,9 +64,9 @@ void TownManager::DrawSubMenu(void) const
 
 	for (int i = 0; i < 5; i++) {
 		if (Selection == i) {
-			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, selectedColor);
+			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, unselectedColor);
+			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, UNSELECTED_COLOR);
 		}
 	}
 

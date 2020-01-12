@@ -174,6 +174,6 @@ void VillagerViewer::DrawCurrentVillager(void) const
 }
 
 void VillagerViewer::DrawBox(void) const {
-	Gui::Draw_Rect(40, 162, 320, 22, colorType);
-	Gui::Draw_Rect(40, 132, 320, 22, colorType);
+	Gui::Draw_Rect(40, 162, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 132, 320, 22, DARKER_COLOR);
 }

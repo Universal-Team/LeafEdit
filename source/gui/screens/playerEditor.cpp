@@ -77,7 +77,7 @@ void PlayerEditor::DrawNameAndGender(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::Draw_Rect(15 + x * 100, 50, 70, 130, colorType);
+			Gui::Draw_Rect(15 + x * 100, 50, 70, 130, DARKER_COLOR);
 		}
 	}
 
@@ -149,15 +149,15 @@ void PlayerEditor::DrawPlayerStyle(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400);
 	// Playername & TAN.
-	Gui::Draw_Rect(40, 37, 320, 22, colorType);
-	Gui::Draw_Rect(40, 72, 320, 22, colorType);
+	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
 	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
 	Gui::DrawStringCentered(0, 70, 0.8f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);
 
 	// Player Hair & Face sprites.
-	Gui::Draw_Rect(90, 105, 90, 40, colorType);
+	Gui::Draw_Rect(90, 105, 90, 40, DARKER_COLOR);
 	PlayerManagement::DrawHair(SaveFile->players[cp]->hairStyle, 118, 106);
-	Gui::Draw_Rect(90, 155, 90, 40, colorType);
+	Gui::Draw_Rect(90, 155, 90, 40, DARKER_COLOR);
 	PlayerManagement::DrawFace(SaveFile->players[cp]->Gender, SaveFile->players[cp]->face, 115, 166);
 
 	// Hair Color.
@@ -168,9 +168,9 @@ void PlayerEditor::DrawPlayerStyle(void) const {
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		if (Selection == i) {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, selectedColor);
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, unselectedColor);
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		}
 	}
 	// Display Player name.
@@ -221,9 +221,9 @@ void PlayerEditor::DrawMainEditor(void) const {
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		if (Selection == i) {
-			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, selectedColor);
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, unselectedColor);
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		}
 	}
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
@@ -272,10 +272,10 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
 	// Draw Rectangles first, then Player Info.
-	Gui::Draw_Rect(40, 37, 320, 22, colorType);
-	Gui::Draw_Rect(40, 65, 320, 22, colorType);
-	Gui::Draw_Rect(40, 93, 320, 22, colorType);
-	Gui::Draw_Rect(40, 121, 320, 22, colorType);
+	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 65, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 93, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 121, 320, 22, DARKER_COLOR);
 	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
 	Gui::DrawStringCentered(0, 63, 0.8f, WHITE, Lang::get("BANK_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->BankAmount.value)), 380);
 	Gui::DrawStringCentered(0, 91, 0.8f, WHITE, Lang::get("MEDAL_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->IslandMedals.value)), 380);
@@ -285,9 +285,9 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 
 	for (int i = 0; i < 6; i++) {
 		if (Selection == i) {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, selectedColor);
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, unselectedColor);
+			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		}
 	}
 

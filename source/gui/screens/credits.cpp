@@ -37,7 +37,7 @@ void Credits::Draw(void) const {
 		Gui::DrawStringCentered(0, 40, 0.8f, WHITE, Lang::get("DEVELOPED_BY"), 390);
 		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("MAIN_DEV"), 390);
 		Gui::sprite(0, sprites_stackZ_idx, 150, 110);
-		Gui::DrawString(395-Gui::GetStringWidth(FONT_SIZE_18, Lang::get("CURRENT_VERSION") + V_STRING), 215, FONT_SIZE_18, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400);
+		Gui::DrawString(395-Gui::GetStringWidth(0.72, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.72, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400);
 		Gui::DrawBottom();
 		Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("MANY_THANKS"), 310);
 		Gui::DrawStringCentered(0, 40, 0.7f, WHITE, "Cuyler, Slattz", 310);

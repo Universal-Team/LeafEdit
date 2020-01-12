@@ -24,10 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/config.hpp"
 #include "common/utils.hpp"
 
 #include "core/save/item.h"
 #include "core/save/save.h"
+
+#include "gui/colors.hpp"
 
 #include <3ds.h>
 #include <fstream>
@@ -159,4 +162,22 @@ u16 strToU16(std::string str) {
 	ss >> out;
 
 	return out;
+}
+
+void Utils::colorLogic(int mode) {
+	if (mode == 0) {
+		DARKER_COLOR = DARKER_BLUE;
+		LIGHT_COLOR = LIGHT_BLUE;
+		LIGHTER_COLOR = LIGHTER_BLUE;
+		SELECTED_COLOR = SELECTED_BLUE;
+		UNSELECTED_COLOR = UNSELECTED_BLUE;
+		Config::colorMode = 1;
+	} else {
+		DARKER_COLOR = DARKER_GREEN;
+		LIGHT_COLOR = LIGHT_GREEN;
+		LIGHTER_COLOR = LIGHTER_GREEN;
+		SELECTED_COLOR = SELECTED_GREEN;
+		UNSELECTED_COLOR = UNSELECTED_GREEN;
+		Config::colorMode = 0;
+	}
 }

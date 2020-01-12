@@ -73,7 +73,7 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	for (int i = 0; i < 16; i++) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 4; x++, i++) {
-				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, unselectedColor);
+				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, UNSELECTED_COLOR);
 				if (isFemale == true) {
 					DrawSprite(Hairs, 16+i, 33 + x * 100, 33 + y * 45, 1, 1);
 				} else {
@@ -242,7 +242,7 @@ void PlayerManagement::DrawFaceSelection(int selection, bool isFemale) {
 	for (int i = 0; i < 12; i++) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 3; x++, i++) {
-				Gui::Draw_Rect(50 + x * 100, 32.5 + y * 45, 90, 40, unselectedColor);
+				Gui::Draw_Rect(50 + x * 100, 32.5 + y * 45, 90, 40, UNSELECTED_COLOR);
 				if (isFemale == true) {
 					DrawFace(1, i, 78 + x * 100, 45 + y * 45);
 				} else {
@@ -313,7 +313,7 @@ void PlayerManagement::DrawTanSelection(int selection) {
 	for (int i = 0; i < 16; i++) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 4; x++, i++) {
-				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, unselectedColor);
+				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, UNSELECTED_COLOR);
 				Gui::DrawString(40 + x * 100, 40 + y * 45, 0.7f, WHITE, std::to_string(i));
 			}
 		}

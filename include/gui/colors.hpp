@@ -29,22 +29,26 @@
 
 #include <citro2d.h>
 
-// Select Colors.
-#define selectedColor C2D_Color32(38, 130, 40, 255)
-#define unselectedColor C2D_Color32(38, 70, 40, 180)
-
 // Default colors i guess.
 #define DIM C2D_Color32(0, 0, 0, 190)
 #define WHITE C2D_Color32(255, 255, 255, 255)
 #define BLACK C2D_Color32(0, 0, 0, 255)
 
-// New Green tones.
-extern u32 colorType; // Dark / Light mode.
+// Green tones.
 #define DARKER_GREEN				C2D_Color32(14, 73, 32, 255)
-#define LIGHT_GREEN					C2D_Color32(23, 145, 53, 255)
-#define LIGHTER_GREEN				C2D_Color32(23, 121, 53, 255)
-#define NEW_GREEN					C2D_Color32(3,192,107, 255)
+#define LIGHT_GREEN					C2D_Color32(23, 121, 53, 255)
+#define LIGHTER_GREEN				C2D_Color32(23, 145, 53, 255)
+#define SELECTED_GREEN				C2D_Color32(38, 130, 40, 255)
+#define UNSELECTED_GREEN			C2D_Color32(38, 70, 40, 180)
 
+// Blue Tones.
+#define DARKER_BLUE					C2D_Color32(0, 0, 205, 255)
+#define LIGHT_BLUE					C2D_Color32(70, 130, 180, 255)
+#define LIGHTER_BLUE				C2D_Color32(70, 130, 155, 255)
+#define SELECTED_BLUE				C2D_Color32(30, 0, 130, 255)
+#define UNSELECTED_BLUE				C2D_Color32(30, 0, 70, 180)
+
+extern u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // C010r Typ3s.
 typedef u32 Color;
 
 #endif

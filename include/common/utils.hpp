@@ -52,6 +52,11 @@ namespace EditorUtils
 	std::vector<std::pair<std::string, s32>> load_player_dresseritems(int selectedplayer, int dresser);
 }
 
+namespace Utils
+{
+	void colorLogic(int mode);
+}
+
 u16	strToU16(std::string str);
 
 #endif

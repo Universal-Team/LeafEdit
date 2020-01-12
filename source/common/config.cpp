@@ -48,7 +48,7 @@ void Config::load() {
 		Config::lang = getInt("Lang");
 	}
 	if(!configJson.contains("colorMode")) {
-		Config::colorMode = 1;
+		Config::colorMode = 0;
 	} else {
 		Config::colorMode = getInt("colorMode");
 	}

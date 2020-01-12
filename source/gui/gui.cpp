@@ -94,6 +94,11 @@ Result Gui::init(void)
 	sizeBuf = C2D_TextBufNew(4096);
 	sprites = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
+	/*
+		Was for testing the Villager stuff.
+	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	*/
 	return 0;
 }
 
@@ -224,9 +229,9 @@ void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height
 	static constexpr int w     = 2;
 	static float timer         = 0.0f;
 	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = selectedColor & 0xFF;
-	u8 g                       = (selectedColor >> 8) & 0xFF;
-	u8 b                       = (selectedColor >> 16) & 0xFF;
+	u8 r                       = SELECTED_COLOR & 0xFF;
+	u8 g                       = (SELECTED_COLOR >> 8) & 0xFF;
+	u8 b                       = (SELECTED_COLOR >> 16) & 0xFF;
 	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 
 	// BG Color for the Selector.
@@ -252,38 +257,38 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 
 void Gui::DrawTop(void) {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, colorType);
-	Gui::Draw_Rect(0, 30, 400, 180, LIGHTER_GREEN);
-	Gui::Draw_Rect(0, 210, 400, 30, colorType);
+	Gui::Draw_Rect(0, 0, 400, 30, DARKER_COLOR);
+	Gui::Draw_Rect(0, 30, 400, 180, LIGHT_COLOR);
+	Gui::Draw_Rect(0, 210, 400, 30, DARKER_COLOR);
 }
 
 void Gui::DrawBottom(void) {
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, colorType);
-	Gui::Draw_Rect(0, 30, 320, 180, LIGHTER_GREEN);
-	Gui::Draw_Rect(0, 210, 320, 30, colorType);
+	Gui::Draw_Rect(0, 0, 320, 30, DARKER_COLOR);
+	Gui::Draw_Rect(0, 30, 320, 180, LIGHT_COLOR);
+	Gui::Draw_Rect(0, 210, 320, 30, DARKER_COLOR);
 }
 
 void Gui::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
 		Gui::ScreenDraw(top);
-		Gui::Draw_Rect(0, 0, 400, 27, colorType);
-		Gui::Draw_Rect(0, 27, 400, 31, LIGHTER_GREEN);
-		Gui::Draw_Rect(0, 58, 400, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 89, 400, 31, LIGHTER_GREEN);
-		Gui::Draw_Rect(0, 120, 400, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 151, 400, 31, LIGHTER_GREEN);
-		Gui::Draw_Rect(0, 182, 400, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 213, 400, 27, colorType);
+		Gui::Draw_Rect(0, 0, 400, 27, DARKER_COLOR);
+		Gui::Draw_Rect(0, 27, 400, 31, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 58, 400, 31, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 89, 400, 31, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 120, 400, 31, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 151, 400, 31, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 182, 400, 31, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 213, 400, 27, DARKER_COLOR);
 	} else {
 		Gui::ScreenDraw(bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, colorType);
-		Gui::Draw_Rect(0, 27, 320, 31, LIGHTER_GREEN);
-		Gui::Draw_Rect(0, 58, 320, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 89, 320, 31, LIGHTER_GREEN);
-		Gui::Draw_Rect(0, 120, 320, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 151, 320, 31, LIGHTER_GREEN);
-		Gui::Draw_Rect(0, 182, 320, 31, LIGHT_GREEN);
-		Gui::Draw_Rect(0, 213, 320, 27, colorType);
+		Gui::Draw_Rect(0, 0, 320, 27, DARKER_COLOR);
+		Gui::Draw_Rect(0, 27, 320, 31, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 58, 320, 31, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 89, 320, 31, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 120, 320, 31, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 151, 320, 31, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 182, 320, 31, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 213, 320, 27, DARKER_COLOR);
 	}
 }

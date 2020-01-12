@@ -79,7 +79,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Input::DrawNumpad()
 {
 	for(uint i=0;i<(sizeof(NumpadStruct)/sizeof(NumpadStruct[0]));i++) {
-		Gui::Draw_Rect(NumpadStruct[i].x, NumpadStruct[i].y, 60, 50, colorType);
+		Gui::Draw_Rect(NumpadStruct[i].x, NumpadStruct[i].y, 60, 50, DARKER_COLOR);
 		char c[2] = {NumpadStruct[i].character[0]};
 		Gui::DrawString(NumpadStruct[i].x+25, NumpadStruct[i].y+15, 0.72f, WHITE, c, 50);
 	}
@@ -87,7 +87,7 @@ void Input::DrawNumpad()
 
 void Input::drawKeyboard() {
 	for(uint i=0;i<(sizeof(keysQWERTY)/sizeof(keysQWERTY[0]));i++) {
-		C2D_DrawRectSolid(keysQWERTY[i].x, keysQWERTY[i].y+103, 0.5f, 20, 20, colorType & C2D_Color32(255, 255, 255, 200));
+		C2D_DrawRectSolid(keysQWERTY[i].x, keysQWERTY[i].y+103, 0.5f, 20, 20, DARKER_COLOR & C2D_Color32(255, 255, 255, 200));
 		if(shift) {
 			char c[2] = {caps ? (char)toupper(keysQWERTYShift[i].character[0]) : keysQWERTYShift[i].character[0]};
 			Gui::DrawString(keysQWERTYShift[i].x+(10-(Gui::GetStringWidth(0.50, c)/2)), keysQWERTYShift[i].y+103+(10-(Gui::GetStringHeight(0.50, c)/2)), 0.50, WHITE, c);
@@ -102,7 +102,7 @@ void Input::drawKeyboard() {
 		std::string backSpace = modifierKeys[0].character;
 		std::string caps = modifierKeys[1].character;
 
-		C2D_DrawRectSolid(modifierKeys[i].x, modifierKeys[i].y+103, 0.5f, modifierKeys[i].w, 20, colorType & C2D_Color32(255, 255, 255, 200));
+		C2D_DrawRectSolid(modifierKeys[i].x, modifierKeys[i].y+103, 0.5f, modifierKeys[i].w, 20, DARKER_COLOR & C2D_Color32(255, 255, 255, 200));
 		Gui::DrawString(modifierKeys[2].x+5, modifierKeys[2].y+105, 0.50, WHITE, enter);
 		Gui::DrawString(modifierKeys[3].x+7, modifierKeys[3].y+105, 0.45, WHITE, arrowUp);
 		Gui::DrawString(modifierKeys[4].x+10, modifierKeys[4].y+105, 0.45, WHITE, arrowUp);
@@ -130,7 +130,7 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 			Gui::DrawString((400-Gui::GetStringWidth(0.55f, Text))/2, 2, 0.55f, WHITE, Text, 400);
 			Gui::DrawBottom();
 			drawKeyboard();
-			C2D_DrawRectSolid(0, 81, 0.5f, 320, 20, colorType & C2D_Color32(200, 200, 200, 200));
+			C2D_DrawRectSolid(0, 81, 0.5f, 320, 20, DARKER_COLOR & C2D_Color32(200, 200, 200, 200));
 			Gui::DrawString(2, 82, inputTextSize, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 316);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			scanKeys();
@@ -224,7 +224,7 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			Gui::DrawString(180, 217, 0.8, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			Gui::ScreenDraw(bottom);
-			Gui::Draw_Rect(0, 0, 320, 240, LIGHTER_GREEN);
+			Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
 			DrawNumpad();
 			scanKeys();
 			hDown = keysDown();

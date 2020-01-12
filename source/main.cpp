@@ -56,6 +56,7 @@ bool WelcomeAmiibo;
 // Touch Touch!
 touchPosition touch;
 
+u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // C010r Typ3s.
 u32 colorType;
 
 // If button Position pressed -> Do something.
@@ -99,9 +100,17 @@ int main()
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	if (Config::colorMode == 0) {
-		colorType = NEW_GREEN;
+		DARKER_COLOR = DARKER_GREEN;
+		LIGHT_COLOR = LIGHT_GREEN;
+		LIGHTER_COLOR = LIGHTER_GREEN;
+		SELECTED_COLOR = SELECTED_GREEN;
+		UNSELECTED_COLOR = UNSELECTED_GREEN;
 	} else {
-		colorType = DARKER_GREEN;
+		DARKER_COLOR = DARKER_BLUE;
+		LIGHT_COLOR = LIGHT_BLUE;
+		LIGHTER_COLOR = LIGHTER_BLUE;
+		SELECTED_COLOR = SELECTED_BLUE;
+		UNSELECTED_COLOR = UNSELECTED_BLUE;
 	}
 
 

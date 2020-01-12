@@ -123,9 +123,9 @@ void Scripts::DrawSubMenu(void) const {
 			line1 = scriptInformation[screenPos + i].title;
 			line2 = scriptInformation[screenPos + i].author;
 			if(screenPos + i == selection) {
-				Gui::Draw_Rect(0, 40+(i*57), 320, 45, selectedColor);
+				Gui::Draw_Rect(0, 40+(i*57), 320, 45, SELECTED_COLOR);
 			} else {
-				Gui::Draw_Rect(0, 40+(i*57), 320, 45, unselectedColor);
+				Gui::Draw_Rect(0, 40+(i*57), 320, 45, UNSELECTED_COLOR);
 			}
 			Gui::DrawStringCentered(0, 38+(i*57), 0.7f, WHITE, line1, 320);
 			Gui::DrawStringCentered(0, 62+(i*57), 0.7f, WHITE, line2, 320);
@@ -157,9 +157,9 @@ void Scripts::DrawSingleObject(void) const {
 	for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)jsonFile.at("scriptContent").size();i++) {
 		info = jsonFile["scriptContent"][screenPos2 + i]["info"]["title"];
 		if(screenPos2 + i == selection2) {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, selectedColor);
+			Gui::Draw_Rect(0, 40+(i*57), 320, 45, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, unselectedColor);
+			Gui::Draw_Rect(0, 40+(i*57), 320, 45, UNSELECTED_COLOR);
 		}
 		Gui::DrawStringCentered(0, 50+(i*57), 0.7f, WHITE, info, 320);
 	}

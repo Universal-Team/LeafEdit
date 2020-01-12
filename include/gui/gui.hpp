@@ -34,21 +34,7 @@
 #include "gui/screens/screen.hpp"
 
 #include <3ds.h>
-#include <citro2d.h>
-#include <citro3d.h>
-#include <random>
 #include <stack>
-#include <string.h>
-#include <unordered_map>
-#include <wchar.h>
-
-#define FONT_SIZE_18 0.72f
-#define FONT_SIZE_17 0.7f
-#define FONT_SIZE_15 0.6f
-#define FONT_SIZE_14 0.56f
-#define FONT_SIZE_12 0.50f
-#define FONT_SIZE_11 0.46f
-#define FONT_SIZE_9 0.37f
 
 namespace Gui
 {

@@ -24,6 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/utils.hpp"
+
 #include "core/management/itemManagement.hpp"
 
 #include "gui/keyboard.hpp"
@@ -42,9 +44,9 @@ void Settings::Draw(void) const
 		Gui::DrawBottom();
 		for (int i = 0; i < 3; i++) {
 			if (Selection == i) {
-				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, selectedColor);
+				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, SELECTED_COLOR);
 			} else {
-				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, unselectedColor);
+				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);
 			}
 		}
 		Gui::DrawStringCentered(0, settingsButtons[0].y+10, 0.6f, WHITE, Lang::get("LANGUAGE"), 130);
@@ -73,13 +75,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<Credits>());
 					break;
 				case 2:
-					if (Config::colorMode == 0) {
-						Config::colorMode = 1;
-						colorType = DARKER_GREEN;
-					} else {
-						Config::colorMode = 0;
-						colorType = NEW_GREEN;
-					}
+					Utils::colorLogic(Config::colorMode);
 					break;
 			}
 		}
@@ -105,9 +101,9 @@ void Settings::DrawLangScreen(void) const {
 
 	for (int i = 0; i < 8; i++) {
 		if (Config::lang == i) {
-			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, selectedColor);
+			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, unselectedColor);
+			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, UNSELECTED_COLOR);
 		}
 	}
 

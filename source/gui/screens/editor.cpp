@@ -76,9 +76,9 @@ void Editor::DrawSubMenu(void) const
 
 	for (int i = 0; i < 3; i++) {
 		if (Selection == i) {
-			Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, selectedColor);
+			Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, SELECTED_COLOR);
 		} else {
-			Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, unselectedColor);
+			Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, UNSELECTED_COLOR);
 		}
 	}
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);

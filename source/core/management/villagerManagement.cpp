@@ -148,7 +148,7 @@ void VillagerManagement::DrawVillagerSelection(int selection, int page) {
 	for (int i = 0; i < 10; i++) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::Draw_Rect(5 + x * 80, 30 + y * 110, 70, 70, unselectedColor);
+				Gui::Draw_Rect(5 + x * 80, 30 + y * 110, 70, 70, UNSELECTED_COLOR);
 				DrawVillager(i+page*10, 10 + x * 80, 28 + y * 110, 1, 1);
 				Gui::DrawString(15+x*80, 83+y*110, 0.55f, WHITE, g_villagerDatabase[i+page*10], 60);
 			}
