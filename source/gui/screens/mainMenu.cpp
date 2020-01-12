@@ -76,10 +76,12 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<TownManager>());
 				break;
 			case 1:
-				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-				Gui::loadSheets();
-				ItemManagement::LoadDatabase(Config::getLang("Lang"));
-				Gui::setScreen(std::make_unique<Editor>());
+				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+					Gui::loadSheets();
+					ItemManagement::LoadDatabase(Config::getLang("Lang"));
+					Gui::setScreen(std::make_unique<Editor>());
+				}
 				break;
 			case 2:
 				Gui::setScreen(std::make_unique<Settings>());
@@ -91,10 +93,12 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownManager>());
 		} else if (touching(touch, mainButtons[1])) {
-			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-			Gui::loadSheets();
-			ItemManagement::LoadDatabase(Config::getLang("Lang"));
-			Gui::setScreen(std::make_unique<Editor>());
+			if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+				Gui::loadSheets();
+				ItemManagement::LoadDatabase(Config::getLang("Lang"));
+				Gui::setScreen(std::make_unique<Editor>());
+			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>());
 		}

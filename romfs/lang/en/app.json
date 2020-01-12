@@ -1,11 +1,4 @@
 {
-	"INITIALIZE_MSG":				"Initialize everything.. please wait.",
-	"ERROR_OCCURED":				"Oh no! An Error Occured!",
-	"DESCRIPTION":					"Description: ",
-	"START_EXIT":					"Press Start to exit.",
-	"ERROR_STARTUP":				"Error during Startup: ",
-	"DSPFIRM_NOTFOUND":				"dspfirm.cdc not found.",
-	"INIT_FAILED":					"failed.",
 	"GAMELOADER_CHECK":				"Checking for AC:NL Welcome amiibo update...",
 	"UPDATE_FOUND":					"Update found!",
 	"UPDATE_NOTFOUND":				"Update not found!",
@@ -50,7 +43,6 @@
 	"NEW_PLAYER_NAME":				"Enter new player name.",
 
 	"LANGUAGE":						"Language",
-	"COLORS":						"Colors",
 	"SELECT_LANG":					"Choose the current language.",
 
 	"SELECT_TITLE":					"Select a title to start.",
@@ -100,16 +92,6 @@
 	"ITEM_EDITOR":					"Item Editor",
 	"ITEM_DRESSER":					"Dresser: ",
 	"ITEM_POCKET":					"Pocket",
-
-	"UNSELECTED":					"Unselected",
-	"SELECTED":						"Selected",
-	"BAR_COLOR":					"This is the Bar Color.",
-	"BG_TOP_COLOR":					"This is the Top BG Color.",
-	"BG_BOTTOM_COLOR":				"This is the Bottom BG Color.",
-	"TEXT_COLOR":					"This is the Text Color.",
-	"ENTER_RED_RGB":				"Enter the Red RGB Value.",
-	"ENTER_GREEN_RGB":				"Enter the Green RGB Value.",
-	"ENTER_BLUE_RGB":				"Enter the Blue RGB Value.",
 
 	"ACRES":						"Acres",
 	"PLAYER_SELECTION":				"Player Selection",
@@ -162,7 +144,7 @@
 	"SELECT_FACE":					"Select a face you like.",
 	"SELECT_HAIR_COLOR":			"Select a haircolor you like.",
 	"SELECT_TAN":					"Select a Tan value you like.",
-	"SELECT_EYE_COLOR":				"Select an eyecolor you like.",
+	"SELECT_EYE_COLOR":				"Select an eye color you like.",
 
 	"MAX_WALLET":					"Max Wallet",
 	"CLEAR_WALLET":					"Clear Wallet",
@@ -172,5 +154,6 @@
 	"BOXED":						"Boxed",
 	"UNBOXED":						"Unboxed",
 	"CREATE_BACKUP":				"Would you like to create a backup?",
-	"FIND_BACKUP":					"You can find your backup at:"
+	"FIND_BACKUP":					"You can find your backup at:",
+	"EXPERIMENTAL_EDITOR":			"The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?"
 }
