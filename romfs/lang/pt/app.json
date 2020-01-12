@@ -145,5 +145,7 @@
 	"REPLACE": "Replace",
 	"STATUS": "Status",
 	"BOXED": "Boxed",
-	"UNBOXED": "Unboxed"
+	"UNBOXED": "Unboxed",
+	"CREATE_BACKUP": "Would you like to create a backup?",
+	"FIND_BACKUP": "You can find your backup at:"
 }
