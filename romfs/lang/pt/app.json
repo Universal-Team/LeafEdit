@@ -128,9 +128,9 @@
 	"CLEAR_WALLET": "Limpar Carteira",
 	"REPLACE": "Substituir",
 	"STATUS": "Estado",
-	"BOXED": "Boxed",
-	"UNBOXED": "Unboxed",
-	"CREATE_BACKUP": "Would you like to create a backup?",
-	"FIND_BACKUP": "You can find your backup at:",
-	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?"
+	"BOXED": "Encaixotado",
+	"UNBOXED": "Desencaixotado",
+	"CREATE_BACKUP": "Gostarias de criar uma Cópia?",
+	"FIND_BACKUP": "Podes encontrar a tua Cópia em:",
+	"EXPERIMENTAL_EDITOR": "O Editor é experimental.\nNão somos responsáveis por quaisquer erros que fizeres.\nGostarias de continuar?"
 }
