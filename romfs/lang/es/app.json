@@ -123,14 +123,14 @@
 	"SELECT_FACE": "Selecciona una cara que te guste.",
 	"SELECT_HAIR_COLOR": "Selecciona un color de pelo que te guste.",
 	"SELECT_TAN": "Seleccione un valor de bronceado que te guste.",
-	"SELECT_EYE_COLOR": "Select an eye color you like.",
+	"SELECT_EYE_COLOR": "Seleccione el color del ojo que desee.",
 	"MAX_WALLET": "Cartera Máxima",
 	"CLEAR_WALLET": "Limpiar cartera",
 	"REPLACE": "Reemplazar",
 	"STATUS": "Estado",
 	"BOXED": "Empaquetando",
 	"UNBOXED": "Desempaquetando",
-	"CREATE_BACKUP": "Would you like to create a backup?",
-	"FIND_BACKUP": "You can find your backup at:",
-	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?"
+	"CREATE_BACKUP": "¿Quieres crear una copia de seguridad?",
+	"FIND_BACKUP": "Puedes encontrar tu copia de seguridad en:",
+	"EXPERIMENTAL_EDITOR": "El editor es experimental.\nNo somos responsables de los errores que hagas.\n¿Quieres continuar?"
 }
