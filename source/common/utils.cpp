@@ -38,20 +38,34 @@
 
 #include <3ds.h>
 #include <ctime>
-#include <fstream>
 #include <memory>
 #include <sstream>
-#include <string>
 #include <sys/stat.h>
 
 extern std::string selectedSaveFolderEditor;
 // StringUtils.
 
-std::u16string StringUtils::UTF8toUTF16(const char* src)
-{
-	char16_t tmp[256] = {0};
-	utf8_to_utf16((uint16_t*)tmp, (uint8_t*)src, 256);
-	return std::u16string(tmp);
+// Convert UTF-8 (up to 0xFFFF) to a single UTF-16 character.
+std::u16string StringUtils::UTF8toUTF16(const std::string &text) {
+    std::u16string out;
+    char16_t c;
+
+    for(uint i=0;i<text.size();) {
+        if(!(text[i] & 0x80)) {
+            c = text[i++];
+        } else if((text[i] & 0xE0) == 0xC0) {
+            c  = (text[i++] & 0x1F) << 6;
+            c |=  text[i++] & 0x3F;
+        } else if((text[i] & 0xF0) == 0xE0) {
+            c  = (text[i++] & 0x0F) << 12;
+            c |= (text[i++] & 0x3F) << 6;
+            c |=  text[i++] & 0x3F;
+        } else {
+            i++; // out of range or something. (This only does up to 0xFFFF since it goes to a U16 anyways)
+        }
+        out += c;
+    }
+    return out;
 }
 
 static std::string utf16DataToUtf8(const char16_t* data, size_t size, char16_t delim = 0)
@@ -216,4 +230,74 @@ void Utils::createBackup(void) {
 		// Display at the end, where the backup is.
 		Msg::DisplayWaitMsg(Lang::get("FIND_BACKUP") + "\n\n" + path);
 	}
+}
+
+
+static inline u32   Pow2(u32 x)
+{
+    if (x <= 64)
+        return 64;
+
+    return 1u << (32 - __builtin_clz(x - 1));
+}
+
+C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat) {
+
+    u32     widthPow2 = Pow2(width);
+    u32     heightPow2 = Pow2(height);
+    u32   * buffer = (u32 *)linearAlloc(sizeof(u32) * widthPow2 * heightPow2);
+
+    // Clear buffer
+    C3D_SyncMemoryFill(buffer, 0, (u32 *)((u8 *)buffer + (sizeof(u32) * widthPow2 * heightPow2)), BIT(0) | GX_FILL_32BIT_DEPTH, nullptr, 0, nullptr, 0);
+    GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
+
+    // Copy Data
+    u32 *dst = buffer;
+    u32 *src = imageData;
+
+    for (u32 h = height; h > 0; h--)
+    {
+        memcpy(dst, src, width * sizeof(u32));
+        dst += widthPow2;
+        src += width;
+    }
+
+    GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
+
+    C3D_Tex *tex = new C3D_Tex();
+    C3D_TexInit(tex, Pow2(width), Pow2(height), colorFormat);
+
+    tex->param = GPU_TEXTURE_MAG_FILTER(GPU_NEAREST) | GPU_TEXTURE_MIN_FILTER(GPU_NEAREST)
+        | GPU_TEXTURE_WRAP_S(GPU_CLAMP_TO_BORDER) | GPU_TEXTURE_WRAP_T(GPU_CLAMP_TO_BORDER);
+    tex->border = 0xFFFFFFFF;
+
+    C3D_SyncMemoryFill((u32 *)tex->data, 0, (u32 *)((u8 *)tex->data + tex->size), BIT(0) | (tex->fmt << 8), nullptr, 0, nullptr, 0);
+    C3D_TexFlush(tex);
+
+    C3D_SyncDisplayTransfer(buffer, GX_BUFFER_DIM(tex->width, tex->height), \
+        (u32 *)tex->data, GX_BUFFER_DIM(tex->width, tex->height), TEXTURE_TRANSFER_FLAGS);
+
+    C3D_TexFlush(tex);
+    linearFree(buffer);
+
+    Tex3DS_SubTexture *subtex = new Tex3DS_SubTexture();
+    subtex->width = width;
+    subtex->height = height;
+    subtex->left = 0.f;
+    subtex->top =  1.f;
+    subtex->right = (float)width / (float)tex->width;
+    subtex->bottom = 1.f - (float)height / (float)tex->height;
+
+    C2D_Image image;
+    image.tex = tex;
+    image.subtex = subtex;
+
+    return image;
+}
+
+void C2DUtils::C2D_ImageDelete(C2D_Image image)
+{
+    C3D_TexDelete(image.tex);
+    delete image.tex;
+    delete image.subtex;
 }

@@ -73,51 +73,13 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void PlayerEditor::DrawNameAndGender(void) const {
+void PlayerEditor::DrawTPCAndName(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::Draw_Rect(15 + x * 100, 50, 70, 130, DARKER_COLOR);
-		}
-	}
-
-	if (SaveFile->players[0]->Exists()) {
-		Gui::DrawStringCentered(-150, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[0]->hairStyle, 30, 120, 1, 1);
-		if (SaveFile->players[0]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 45, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 45, 100);
-		}
-	}
-
-	if (SaveFile->players[1]->Exists()) {
-		Gui::DrawStringCentered(-50, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[1]->hairStyle, 130, 120, 1, 1);
-		if (SaveFile->players[1]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 145, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 145, 100);
-		}
-	}
-
-	if (SaveFile->players[2]->Exists()) {
-		Gui::DrawStringCentered(50, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[2]->hairStyle, 230, 120, 1, 1);
-		if (SaveFile->players[2]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 245, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 245, 100);
-		}
-	}
-
-	if (SaveFile->players[3]->Exists()) {
-		Gui::DrawStringCentered(150, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[3]->hairStyle, 330, 120, 1, 1);
-		if (SaveFile->players[3]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 345, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 345, 100);
+			//Gui::Draw_Rect(15 + x * 100, 50, 70, 130, DARKER_COLOR);
+			C2D_DrawImageAt(Save::Instance()->players[player]->m_TPCPic, (float)(100 * player) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
+			Gui::DrawString(18.0 + (player * 100.f), 150, 0.5f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[player]->Name).c_str(), 55);
 		}
 	}
 }
@@ -126,11 +88,11 @@ void PlayerEditor::DrawSubMenu(void) const {
 	std::string activePlayer;
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 400);
-	DrawNameAndGender();
+	DrawTPCAndName();
 
 	for (int i = 0; i < 4; i++) {
 		if (i == selectedPlayer) {
-			Gui::drawAnimatedSelector(15 + i * 100, 50, 70, 130, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::drawAnimatedSelector((float)(100 * i) + 18.f, 45.f, 64, 104, .030f, C2D_Color32(0, 0, 0, 0));
 		}
 	}
 	Gui::DrawBottom();

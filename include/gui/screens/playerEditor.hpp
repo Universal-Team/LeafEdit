@@ -59,7 +59,7 @@ private:
 	void PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	// Other Draws.
-	void DrawNameAndGender(void) const;
+	void DrawTPCAndName(void) const;
 	
 	// Button Struct.
 	std::vector<Structs::ButtonPos> playerButtons = {
