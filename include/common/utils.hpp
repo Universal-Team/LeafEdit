@@ -51,6 +51,8 @@ namespace EditorUtils
 	std::vector<u32> findPlayerReferences(Player *player);
 	std::vector<std::pair<std::string, s32>> load_player_invitems(int selectedplayer);
 	std::vector<std::pair<std::string, s32>> load_player_dresseritems(int selectedplayer, int dresser);
+	std::vector<std::pair<std::string, s32>> load_player_islandbox(int selectedplayer, int islandBox);
+	std::vector<std::pair<std::string, s32>> load_player_storageitems(int selectedplayer, int storage);
 }
 
 namespace Utils

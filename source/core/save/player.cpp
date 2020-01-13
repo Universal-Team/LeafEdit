@@ -63,6 +63,16 @@ Player::~Player()
 		delete[] this->Dresser;
 		this->Dresser = nullptr;
 	}
+
+	if (this->IslandBox != nullptr) {
+		delete[] this->IslandBox;
+		this->IslandBox = nullptr;
+	}
+
+	if (this->Storage != nullptr) {
+		delete[] this->Storage;
+		this->Storage = nullptr;
+	}
 }
 
 Player::Player(u32 offset, u32 index) {
@@ -100,6 +110,16 @@ Player::Player(u32 offset, u32 index) {
 	this->Dresser = new Item[180];
 	for (int i = 0; i < 180; i++) {
 		this->Dresser[i] = Item(offset + 0x92f0 + i * sizeof(Item));
+	}
+
+	this->IslandBox = new Item[40];
+	for (int i = 0; i < 40; i++) {
+		this->IslandBox[i] = Item(offset + 0x6f10 + i * sizeof(Item));
+	}
+
+	this->Storage = new Item[360];
+	for (int i = 0; i < 360; i++) {
+		this->Storage[i] = Item(offset + 0x07a778 + i * sizeof(Item));
 	}
 
     for (u32 i = 0; i < 10; i++) {

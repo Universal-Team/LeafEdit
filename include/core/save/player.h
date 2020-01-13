@@ -48,8 +48,12 @@ public:
 	u16 Gender; // might not be a u16, but the following byte is always? 0.
 	u16 TownId;
 	std::u16string TownName;
+	// Pocket, Storage and such.
 	Item *Pockets = nullptr;
 	Item *Dresser = nullptr;
+	Item *IslandBox = nullptr;
+	Item *Storage = nullptr;
+
 	u16 testItem;
 	EncryptedInt32 Wallet;
 	EncryptedInt32 BankAmount;

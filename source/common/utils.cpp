@@ -174,6 +174,39 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_dresseritems(i
 	return dresserItemData;
 }
 
+std::vector<std::pair<std::string, s32>> EditorUtils::load_player_islandbox(int selectedplayer, int islandBox) {
+	std::vector<std::pair<std::string, s32>> islandItemData;
+	if (islandBox == 0) {
+		for (int num = 0; num < 10; num++) {
+			Item* item = &Save::Instance()->players[selectedplayer]->IslandBox[num];
+			islandItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		}
+	} else {
+		for (int num = islandBox*10; num < islandBox*10+10; num++) {
+			Item* item = &Save::Instance()->players[selectedplayer]->IslandBox[num];
+			islandItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		}
+	}
+
+	return islandItemData;
+}
+
+std::vector<std::pair<std::string, s32>> EditorUtils::load_player_storageitems(int selectedplayer, int storage) {
+	std::vector<std::pair<std::string, s32>> storageItemData;
+	if (storage == 0) {
+		for (int num = 0; num < 10; num++) {
+			Item* item = &Save::Instance()->players[selectedplayer]->Storage[num];
+			storageItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		}
+	} else {
+		for (int num = storage*10; num < storage*10+10; num++) {
+			Item* item = &Save::Instance()->players[selectedplayer]->Storage[num];
+			storageItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		}
+	}
+
+	return storageItemData;
+}
 
 // Villager stuff.
 u16 strToU16(std::string str) {

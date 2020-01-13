@@ -1,5 +1,6 @@
 --atlas -f rgba -z auto
 
+sprites/arrow.png
 sprites/back.png
 sprites/card.png
 sprites/female.png
