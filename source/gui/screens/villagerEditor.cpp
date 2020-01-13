@@ -96,10 +96,9 @@ void VillagerEditor::DrawSubMenu(void) const {
 
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
+		Gui::Draw_Rect(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, UNSELECTED_COLOR);
 		if (SubSelection == i) {
-			Gui::Draw_Rect(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 	// Replace.
@@ -163,13 +162,11 @@ void VillagerEditor::DrawReplaceSub(void) const {
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {
+		Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
-
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SELECTING")))/2-80+17.5, 0.6f, WHITE, Lang::get("SELECTING"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("MANUALLY")))/2-20+17.5, 0.6f, WHITE, Lang::get("MANUALLY"), 130, 25);
 }

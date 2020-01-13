@@ -33,12 +33,15 @@ SOFTWARE.
 #include "core/save/item.h"
 #include "core/save/save.h"
 
+class Pattern;
+
 class Player {
 public:
 	Player(void);
 	~Player(void);
 	Player(u32 offset, u32 index);
 
+	Pattern *Patterns[10];
 	u16 PlayerId;
 	u16 PlayerTan;
 	std::u16string Name;

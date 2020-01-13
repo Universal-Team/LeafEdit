@@ -43,13 +43,11 @@ void Settings::Draw(void) const
 		Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 400);
 		Gui::DrawBottom();
 		for (int i = 0; i < 3; i++) {
+			Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);
 			if (Selection == i) {
-				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, SELECTED_COLOR);
-			} else {
-				Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);
+				Gui::drawAnimatedSelector(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, .030f, SELECTED_COLOR);
 			}
 		}
-
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("LANGUAGE")))/2-80+17.5, 0.6f, WHITE, Lang::get("LANGUAGE"), 130, 25);
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("CREDITS")))/2-20+17.5, 0.6f, WHITE, Lang::get("CREDITS"), 130, 25);
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("COLORMODE")))/2+75-17.5, 0.6f, WHITE, Lang::get("COLORMODE"), 130, 25);
@@ -112,13 +110,11 @@ void Settings::DrawLangScreen(void) const {
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 8; i++) {
+		Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, UNSELECTED_COLOR);
 		if (Config::lang == i) {
-			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, .030f, SELECTED_COLOR);
 		}
 	}
-
 	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, WHITE, "Deutsch", 320);
 	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, WHITE, "English", 320);
 	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, WHITE, "Español", 320);

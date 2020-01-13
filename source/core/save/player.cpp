@@ -27,6 +27,7 @@ SOFTWARE.
 #include <string>
 #include "common/jpeg.h"
 #include "common/utils.hpp"
+#include "core/save/pattern.h"
 #include "core/save/player.h"
 #include "gui/gui.hpp"
 
@@ -52,6 +53,11 @@ Player::~Player()
 		delete[] this->Pockets;
 		this->Pockets = nullptr;
 	}
+
+    for (auto pattern : Patterns) {  
+        delete pattern;
+        pattern = nullptr;
+    }
 
 	if (this->Dresser != nullptr) {
 		delete[] this->Dresser;
@@ -95,6 +101,10 @@ Player::Player(u32 offset, u32 index) {
 	for (int i = 0; i < 180; i++) {
 		this->Dresser[i] = Item(offset + 0x92f0 + i * sizeof(Item));
 	}
+
+    for (u32 i = 0; i < 10; i++) {
+        this->Patterns[i] = new Pattern(this, i);
+    }
 }
 
 void Player::Write() {

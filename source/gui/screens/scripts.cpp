@@ -123,7 +123,7 @@ void Scripts::DrawSubMenu(void) const {
 			line1 = scriptInformation[screenPos + i].title;
 			line2 = scriptInformation[screenPos + i].author;
 			if(screenPos + i == selection) {
-				Gui::Draw_Rect(0, 40+(i*57), 320, 45, SELECTED_COLOR);
+				Gui::drawAnimatedSelector(0, 40+(i*57), 320, 45, .030f, SELECTED_COLOR);
 			} else {
 				Gui::Draw_Rect(0, 40+(i*57), 320, 45, UNSELECTED_COLOR);
 			}
@@ -157,7 +157,7 @@ void Scripts::DrawSingleObject(void) const {
 	for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)jsonFile.at("scriptContent").size();i++) {
 		info = jsonFile["scriptContent"][screenPos2 + i]["info"]["title"];
 		if(screenPos2 + i == selection2) {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, SELECTED_COLOR);
+			Gui::drawAnimatedSelector(0, 40+(i*57), 320, 45, .030f, SELECTED_COLOR);
 		} else {
 			Gui::Draw_Rect(0, 40+(i*57), 320, 45, UNSELECTED_COLOR);
 		}

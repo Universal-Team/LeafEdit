@@ -155,5 +155,6 @@
 	"UNBOXED":						"Unboxed",
 	"CREATE_BACKUP":				"Would you like to create a backup?",
 	"FIND_BACKUP":					"You can find your backup at:",
-	"EXPERIMENTAL_EDITOR":			"The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?"
+	"EXPERIMENTAL_EDITOR":			"The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?",
+	"PATTERN":						"Pattern"
 }
