@@ -105,7 +105,7 @@ void ItemEditor::DrawSlotSelection(void) const {
 	int selectY = 0, selectX = 0;
 	if (currentItem < 5)	selectY = 0;	else	selectY = 1;
 	if (currentItem > 4)	selectX = currentItem - 5;	else	selectX = currentItem;
-	Gui::drawAnimatedSelector(43 + selectX * 58 - 16, 90 + selectY * 58 - 16, 32, 32, .030f, C2D_Color32(0, 0, 0, 0));
+	Gui::Draw_ImageBlend(0, sprites_itemHole_idx, 25 + selectX * 58 - 16, 75 + selectY * 58 - 16, DARKER_COLOR);
 }
 
 void ItemEditor::DrawSubMenu(void) const {
@@ -165,7 +165,7 @@ void ItemEditor::DisplayIslandBox(void) const {
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::Draw_Rect(43 + x * 58 - 16, 90 + y * 58 - 16, 32, 32, DARKER_COLOR);
+				Gui::sprite(0, sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
 				if (islandBoxData[i].second > -1)
 				{
 					ItemManagement::DrawItem(islandBoxData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
@@ -190,7 +190,7 @@ void ItemEditor::DisplayDresser(void) const {
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::Draw_Rect(43 + x * 58 - 16, 90 + y * 58 - 16, 32, 32, DARKER_COLOR);
+				Gui::sprite(0, sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
 				if (dresserData[i].second > -1)
 				{
 					ItemManagement::DrawItem(dresserData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
@@ -221,7 +221,7 @@ void ItemEditor::DisplayStorage(void) const {
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::Draw_Rect(43 + x * 58 - 16, 90 + y * 58 - 16, 32, 32, DARKER_COLOR);
+				Gui::sprite(0, sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
 				if (storageData[i].second > -1)
 				{
 					ItemManagement::DrawItem(storageData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
