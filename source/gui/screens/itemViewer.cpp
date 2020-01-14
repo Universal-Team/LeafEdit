@@ -309,7 +309,7 @@ void ItemViewer::islandBoxLogic(u32 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		Item* item = &Save::Instance()->players[selectedPassedPlayer]->IslandBox[currentItem + currentBox*10];
+		Item* item = &Save::Instance()->players[selectedPassedPlayer]->IslandBox[currentItem];
 		passItemData = std::make_pair(item->GetName(), item->GetSpritesheetID());
 		Gui::setScreen(std::make_unique<ItemEditor>());
 	}
@@ -381,7 +381,7 @@ void ItemViewer::DresserLogic(u32 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		Item* item = &Save::Instance()->players[selectedPassedPlayer]->Dresser[currentItem + currentBox*10];
+		Item* item = &Save::Instance()->players[selectedPassedPlayer]->Dresser[currentItem];
 		passItemData = std::make_pair(item->GetName(), item->GetSpritesheetID());
 		Gui::setScreen(std::make_unique<ItemEditor>());
 	}
@@ -467,7 +467,7 @@ void ItemViewer::storageLogic(u32 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		Item* item = &Save::Instance()->players[selectedPassedPlayer]->Storage[currentItem + currentBox*10];
+		Item* item = &Save::Instance()->players[selectedPassedPlayer]->Storage[currentItem];
 		passItemData = std::make_pair(item->GetName(), item->GetSpritesheetID());
 		Gui::setScreen(std::make_unique<ItemEditor>());
 	}
