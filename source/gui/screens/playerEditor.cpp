@@ -31,7 +31,7 @@
 
 #include "gui/keyboard.hpp"
 
-#include "gui/screens/itemEditor.hpp"
+#include "gui/screens/itemViewer.hpp"
 #include "gui/screens/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -244,7 +244,7 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					break;
 				case 1:
 					selectedPassedPlayer = cp;
-					Gui::setScreen(std::make_unique<ItemEditor>());
+					Gui::setScreen(std::make_unique<ItemViewer>());
 					break;
 				case 2:
 					Selection = 0;
@@ -263,7 +263,7 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			screen = 2;
 		} else if (touching(touch, playerButtons[1])) {
 			selectedPassedPlayer = cp;
-			Gui::setScreen(std::make_unique<ItemEditor>());
+			Gui::setScreen(std::make_unique<ItemViewer>());
 		} else if (touching(touch, playerButtons[2])) {
 			Selection = 0;
 			screen = 3;

@@ -34,6 +34,9 @@ namespace ItemManagement
 {
 	void DrawItem(u16 ItemID, int x, int y, float ScaleX, float ScaleY); // Draw the Items.
 	void LoadDatabase(int lang); // Load Item Database.
+	// Load and unload Item.bin.
+	void LoadItemDatabase(void);
+	void UnloadItemDatabase(void); 
 }
 
 #endif

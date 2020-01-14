@@ -28,6 +28,8 @@
 
 #include "core/management/itemManagement.hpp"
 
+#include "core/save/item.h"
+
 #include "gui/screens/screenCommon.hpp"
 
 extern C2D_SpriteSheet Items;
@@ -73,4 +75,20 @@ void ItemManagement::LoadDatabase(int lang) {
 	}
 
 	itemDatabase.close();
+}
+
+bool itemsAreLoaded = false;
+Item it;
+void ItemManagement::LoadItemDatabase(void) {
+	if (itemsAreLoaded == false) {
+		it.LoadItemBins();
+		itemsAreLoaded = true;
+	}
+}
+
+void ItemManagement::UnloadItemDatabase(void) {
+	if (itemsAreLoaded == true) {
+		it.UnloadItemBins();
+		itemsAreLoaded = false;
+	}
 }
