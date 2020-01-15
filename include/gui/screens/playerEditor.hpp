@@ -52,14 +52,17 @@ private:
 	void DrawMainEditor(void) const;
 	void DrawPlayerEditor(void) const;
 	void DrawPlayerStyle(void) const;
+	void DrawPattern(void) const;
 
 	// Screen Logics.
 	void SubMenuLogic(u32 hDOwn, u32 hHeld);
 	void MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
 	// Other Draws.
-	void DrawNameAndGender(void) const;
+	void DrawTPCAndName(void) const;
 	
 	// Button Struct.
 	std::vector<Structs::ButtonPos> playerButtons = {

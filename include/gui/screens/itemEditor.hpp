@@ -27,6 +27,8 @@
 #ifndef ITEMEDITOR_HPP
 #define ITEMEDITOR_HPP
 
+#include "common/structs.hpp"
+
 #include "gui/screens/screen.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -41,9 +43,16 @@ public:
 	~ItemEditor(void);
 
 private:
-	int currentDresser = 0;
-	int currentDresserItem = 0;
+	int currentBox = 0;
+	int currentItem = 0;
 	int itemMode = 0;
+	int Selection = 0;
+
+	int currentRow = 0;
+	int selectedCategory = 0;
+
+	void DrawSubMenu(void) const;
+	void SubMenuLogic(u32 hDown, touchPosition touch);
 
 	void DisplayPocket(void) const;
 	void PocketLogic(u32 hDown);
@@ -51,7 +60,37 @@ private:
 	void DisplayItems(void) const;
 
 	void DisplayDresser(void) const;
-	void DresserLogic(u32 hDown);
+	void DresserLogic(u32 hDown, touchPosition touch);
+
+	void DisplayIslandBox(void) const;
+	void islandBoxLogic(u32 hDown, touchPosition touch);
+
+	void DisplayStorage(void) const;
+	void storageLogic(u32 hDown, touchPosition touch);
+
+	// Other.
+	void DrawSlotSelection(void) const;
+
+	// Sub Pos.
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{10, 40, 140, 35, -1}, // Pocket.
+		{10, 100, 140, 35, -1}, // Island box.
+		{10, 160, 140, 35, -1}, // Dresser.
+		{170, 40, 140, 35, -1}, // Storage.
+		{170, 100, 140, 35, -1}, // ?.
+		{170, 160, 140, 35, -1}, // ?.
+	};
+
+	std::vector<Structs::ButtonPos> catPos = {
+		{5, 5, 25, 20, -1}, // First Category.
+		{55, 5, 25, 20, -1}, // Second Category.
+		{105, 5, 25, 20, -1}, // Third Category.
+		{155, 5, 25, 20, -1}, // Fourth Category.
+	};
+	std::vector<Structs::ButtonPos> arrowPos = {
+		{295, 0, 25, 25, -1}, // Arrow Up.
+		{295, 215, 25, 25, -1}, // Arrow Down.
+	};
 };
 
 #endif

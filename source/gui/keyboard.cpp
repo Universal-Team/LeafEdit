@@ -313,7 +313,7 @@ std::u16string Input::handleu16String(uint maxLength, std::string Text, std::u16
 	if (testString == "") {
 		return oldString;
 	} else {
-		std::u16string newString = StringUtils::UTF8toUTF16(testString.c_str());
+		std::u16string newString = StringUtils::UTF8toUTF16(testString);
 		return newString;
 	}
 }

@@ -80,7 +80,7 @@ Result TownManagement::BackupTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hig
 
 			std::u16string folderPath = customPath;
 			folderPath += StringUtils::UTF8toUTF16("/");
-			folderPath += StringUtils::UTF8toUTF16(saveName.c_str());
+			folderPath += StringUtils::UTF8toUTF16(saveName);
 			Msg::DisplayMsg(Lang::get("BACKUP_FILES"));
 			if (io::directoryExists(Archive::sdmc(), folderPath) == false) {
 				alreadyexists = false;
@@ -206,7 +206,7 @@ Result TownManagement::RestoreTown(u64 ID, FS_MediaType Media, u32 lowID, u32 hi
 		}
 
 		std::u16string srcPath = customPath;
-		srcPath += StringUtils::UTF8toUTF16(saveFolder.c_str());
+		srcPath += StringUtils::UTF8toUTF16(saveFolder);
 		srcPath += StringUtils::UTF8toUTF16("/");
 		std::u16string dstPath = StringUtils::UTF8toUTF16("/");
 
@@ -268,7 +268,7 @@ void TownManagement::DeleteBackup(u64 ID, std::string backup) {
 
 	std::u16string backupPath = customPath;
 	backupPath += StringUtils::UTF8toUTF16("/");
-	backupPath += StringUtils::UTF8toUTF16(backup.c_str());
+	backupPath += StringUtils::UTF8toUTF16(backup);
 
 	FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, backupPath.data()));
 }

@@ -155,6 +155,21 @@ void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 	}
 }
 
+void Gui::DrawArrow(int x, int y, float rotation) {
+	C2D_Sprite sprite;
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, DARKER_COLOR, 0.5);
+	C2D_SetImageTint(&tint, C2D_TopRight, DARKER_COLOR, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotLeft, DARKER_COLOR, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotRight, DARKER_COLOR, 0.5);
+
+	C2D_SpriteFromSheet(&sprite, sprites, sprites_arrow_idx);
+	C2D_SpriteRotateDegrees(&sprite, rotation);
+	C2D_SpriteSetPos(&sprite, x, y);
+	C2D_SpriteSetDepth(&sprite, 0.5);
+	C2D_DrawSpriteTinted(&sprite, &tint);
+}
+
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
     float heightScale;
     if(maxHeight == 0) {

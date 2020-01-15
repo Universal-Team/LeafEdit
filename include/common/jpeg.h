@@ -24,58 +24,20 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef JPEG_H
+#define JPEG_H
 
 #include <citro2d.h>
-#include <string>
-#include "core/save/encryptedInt32.h"
-#include "core/save/item.h"
-#include "core/save/save.h"
 
-class Pattern;
-
-class Player {
-public:
-	Player(void);
-	~Player(void);
-	Player(u32 offset, u32 index);
-
-	Pattern *Patterns[10];
-	u16 PlayerId;
-	u16 PlayerTan;
-	std::u16string Name;
-	u16 Gender; // might not be a u16, but the following byte is always? 0.
-	u16 TownId;
-	std::u16string TownName;
-	// Pocket, Storage and such.
-	Item *Pockets = nullptr;
-	Item *Dresser = nullptr;
-	Item *IslandBox = nullptr;
-	Item *Storage = nullptr;
-
-	u16 testItem;
-	EncryptedInt32 Wallet;
-	EncryptedInt32 BankAmount;
-	EncryptedInt32 MeowCoupons;
-	EncryptedInt32 IslandMedals;
-
-	u8 hairStyle;
-	u8 hairColor;
-	u8 face;
-	u8 eyeColor;
-
-	void Write();
-	u8* RefreshTPC();
-	bool Exists();
-    bool HasReset();
-    void SetHasReset(bool reset);
-
-	u32 m_offset;
-	u32 m_index;
-    bool m_HasTPC = false;
-    u8 *m_TPCData = nullptr;
-    C2D_Image m_TPCPic = {nullptr, nullptr};
+struct JPEGInfo
+{
+    u32 width;
+    u32 height;
+    void *image;
 };
+
+JPEGInfo DecompressJPEG(const void * jpegSrc, const u32 jpegSize);
+C2D_Image LoadPlayerPicture(const void *tpcData);
+
 
 #endif

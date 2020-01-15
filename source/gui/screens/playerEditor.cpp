@@ -36,6 +36,7 @@
 #include "gui/screens/screenCommon.hpp"
 
 #include "core/save/offsets.h"
+#include "core/save/pattern.h"
 #include "core/save/player.h"
 #include "core/save/save.h"
 #include "core/save/villager.h"
@@ -58,6 +59,8 @@ void PlayerEditor::Draw(void) const {
 		DrawPlayerEditor();
 	} else if (screen == 3) {
 		DrawPlayerStyle(); // Style of the Player, like Face, Hair etc.
+	} else if (screen == 4) {
+		DrawPattern(); // Pattern Screen. Maybe Editing later on too?
 	}
 }
 
@@ -70,54 +73,17 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		PlayerEditorLogic(hDown, hHeld, touch);
 	} else if (screen == 3) {
 		PlayerStyleLogic(hDown, hHeld, touch);
+	} else if (screen == 4) {
+		PatternLogic(hDown, hHeld, touch);
 	}
 }
 
-void PlayerEditor::DrawNameAndGender(void) const {
+void PlayerEditor::DrawTPCAndName(void) const {
 	u32 player = 0;
 	for (u32 x = 0; x < 4; x++, player++) {
 		if (SaveFile->players[player]->Exists()) {
-			Gui::Draw_Rect(15 + x * 100, 50, 70, 130, DARKER_COLOR);
-		}
-	}
-
-	if (SaveFile->players[0]->Exists()) {
-		Gui::DrawStringCentered(-150, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[0]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[0]->hairStyle, 30, 120, 1, 1);
-		if (SaveFile->players[0]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 45, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 45, 100);
-		}
-	}
-
-	if (SaveFile->players[1]->Exists()) {
-		Gui::DrawStringCentered(-50, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[1]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[1]->hairStyle, 130, 120, 1, 1);
-		if (SaveFile->players[1]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 145, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 145, 100);
-		}
-	}
-
-	if (SaveFile->players[2]->Exists()) {
-		Gui::DrawStringCentered(50, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[2]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[2]->hairStyle, 230, 120, 1, 1);
-		if (SaveFile->players[2]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 245, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 245, 100);
-		}
-	}
-
-	if (SaveFile->players[3]->Exists()) {
-		Gui::DrawStringCentered(150, 70, 0.45f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[3]->Name).c_str(), 55);
-		PlayerManagement::DrawHair(SaveFile->players[3]->hairStyle, 330, 120, 1, 1);
-		if (SaveFile->players[3]->Gender == 0) {
-			Gui::sprite(0, sprites_male_idx, 345, 100);
-		} else {
-			Gui::sprite(0, sprites_female_idx, 345, 100);
+			C2D_DrawImageAt(Save::Instance()->players[player]->m_TPCPic, (float)(100 * player) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
+			Gui::DrawString(18.0 + (player * 100.f), 150, 0.5f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[player]->Name).c_str(), 55);
 		}
 	}
 }
@@ -126,14 +92,13 @@ void PlayerEditor::DrawSubMenu(void) const {
 	std::string activePlayer;
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 400);
-	DrawNameAndGender();
+	DrawTPCAndName();
 
 	for (int i = 0; i < 4; i++) {
 		if (i == selectedPlayer) {
-			Gui::drawAnimatedSelector(15 + i * 100, 50, 70, 130, .030f, C2D_Color32(0, 0, 0, 0));
+			Gui::drawAnimatedSelector((float)(100 * i) + 18.f, 45.f, 64, 104, .030f, C2D_Color32(0, 0, 0, 0));
 		}
 	}
-	Gui::DrawBottom();
 	activePlayer += Lang::get("CURRENT_PLAYER");
 	activePlayer += ": ";
 	for (int i = 0; i < 4; i++) {
@@ -141,8 +106,8 @@ void PlayerEditor::DrawSubMenu(void) const {
 			activePlayer += std::to_string(i+1);
 		}
 	}
-
 	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, activePlayer, 320);
+	Gui::DrawBottom();
 }
 
 void PlayerEditor::DrawPlayerStyle(void) const {
@@ -167,10 +132,9 @@ void PlayerEditor::DrawPlayerStyle(void) const {
 
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
+		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 	// Display Player name.
@@ -218,28 +182,49 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 void PlayerEditor::DrawMainEditor(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
+
+	C2D_DrawImageAt(Save::Instance()->players[cp]->m_TPCPic, 170, 45.f, 0.5f, nullptr, 1, 1);
+	Gui::DrawStringCentered(0, 150, 0.7f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 55);
 	Gui::DrawBottom();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 6; i++) {
+		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("PLAYER")))/2-80+17.5, 0.6f, WHITE, Lang::get("PLAYER"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEMS")))/2-20+17.5, 0.6f, WHITE, Lang::get("ITEMS"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("APPEARANCE")))/2+75-17.5, 0.6f, WHITE, Lang::get("APPEARANCE"), 130, 25);
+		// Player Stuff like Wallet amount.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("PLAYER")))/2-80+17.5, 0.6f, WHITE, Lang::get("PLAYER"), 130, 25);
+		// Items.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEMS")))/2-20+17.5, 0.6f, WHITE, Lang::get("ITEMS"), 130, 25);
+		// Appearance.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("APPEARANCE")))/2+75-17.5, 0.6f, WHITE, Lang::get("APPEARANCE"), 130, 25);
+		// Pattern
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("PATTERN")))/2-80+17.5, 0.6f, WHITE, Lang::get("PATTERN"), 130, 25);
 }
 
 
 void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	// Selection.
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
-	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	} else if (hDown & KEY_TOUCH && touching(touch, mainButtons[3])) {
+	}
+	if (hDown & KEY_DOWN) {
+			if(Selection < 5)	Selection++;
+	}
+	if (hDown & KEY_RIGHT) {
+		if (Selection < 3) {
+			Selection += 3;
+		}
+	}
+	if (hDown & KEY_LEFT) {
+		if (Selection < 6 && Selection > 2) {
+			Selection -= 3;
+		}
+	}
+
+	if (hDown & KEY_TOUCH && touching(touch, mainButtons[3])) {
 		screen = 0;
 	}
 
@@ -265,19 +250,26 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Selection = 0;
 					screen = 3;
 					break;
+				case 3:
+					Selection = 0;
+					screen = 4;
+					break;
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
+		if (touching(touch, playerButtons[0])) {
 			Selection = 0;
 			screen = 2;
-		} else if (touching(touch, mainButtons[1])) {
+		} else if (touching(touch, playerButtons[1])) {
 			selectedPassedPlayer = cp;
 			Gui::setScreen(std::make_unique<ItemEditor>());
-		} else if (touching(touch, mainButtons[2])) {
+		} else if (touching(touch, playerButtons[2])) {
 			Selection = 0;
 			screen = 3;
+		} else if (touching(touch, playerButtons[3])) {
+			Selection = 0;
+			screen = 4;
 		}
 	}
 }
@@ -298,10 +290,9 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 6; i++) {
+		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 
@@ -516,5 +507,44 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Selection = 0;
 		screen = 1;
+	}
+}
+
+void PlayerEditor::DrawPattern(void) const {
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PATTERN"), 400);
+	Gui::DrawBottom();
+    for (int i = 0; i < 10; i++) {
+		for (u32 y = 0; y < 2; y++) {
+			for (u32 x = 0; x < 5; x++, i++) {
+        		C2D_DrawImageAt(Save::Instance()->players[cp]->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
+			}
+		}
+    }
+
+	int selectY = 0, selectX = 0;
+	if (Selection < 5)	selectY = 0;	else	selectY = 1;
+	if (Selection > 4)	selectX = Selection - 5;	else	selectX = Selection;
+
+	Gui::drawAnimatedSelector(17 + (selectX * 60), 60 + (selectY * 80), 48, 48, .030f, C2D_Color32(0, 0, 0, 0));
+}
+
+void PlayerEditor::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		screen = 1;
+		Selection = 0;
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (Selection < 5)	Selection += 5;
+	}
+	if (hDown & KEY_UP) {
+		if (Selection > 4)	Selection -= 5;
+	}
+	if (hDown & KEY_RIGHT) {
+		if (Selection < 9)	Selection++;
+	}
+	if (hDown & KEY_LEFT) {
+		if (Selection > 0)	Selection--;
 	}
 }

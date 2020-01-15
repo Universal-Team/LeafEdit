@@ -65,10 +65,9 @@ void TownManager::DrawSubMenu(void) const
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 5; i++) {
+		Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, SELECTED_COLOR);
-		} else {
-			Gui::Draw_Rect(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, UNSELECTED_COLOR);
+			Gui::drawAnimatedSelector(townButtons[i].x, townButtons[i].y, townButtons[i].w, townButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 	// Launch a Town from a Backup or just start the game.

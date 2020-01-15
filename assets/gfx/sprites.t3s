@@ -1,10 +1,12 @@
 --atlas -f rgba -z auto
 
+sprites/arrow.png
 sprites/back.png
 sprites/card.png
 sprites/female.png
 sprites/itemHole.png
 sprites/male.png
+sprites/noTPC.png
 sprites/search.png
 
 sprites/credits/discord.png
