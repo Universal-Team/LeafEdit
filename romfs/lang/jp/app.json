@@ -78,7 +78,7 @@
 	"LINK": "Discordの招待: https://discord.gg/KDJCfGF",
 	"WHAT_YOU_DO": "何をしようとしていますか? :P",
 	"ITEM_EDITOR": "アイテムエディター",
-	"ITEM_DRESSER": "Dresser: ",
+	"ITEM_DRESSER": "Dresser",
 	"ITEM_POCKET": "Pocket",
 	"ACRES": "エーカー",
 	"PLAYER_SELECTION": "プレイヤー選択",
@@ -132,5 +132,8 @@
 	"UNBOXED": "Unboxed",
 	"CREATE_BACKUP": "Would you like to create a backup?",
 	"FIND_BACKUP": "You can find your backup at:",
-	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?"
+	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?",
+	"PATTERN": "Pattern",
+	"ITEM_ISLAND": "Islandbox",
+	"ITEM_STORAGE": "Storage"
 }
