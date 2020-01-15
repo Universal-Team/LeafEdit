@@ -119,7 +119,7 @@ Player::Player(u32 offset, u32 index) {
 
 	this->Storage = new Item[360];
 	for (int i = 0; i < 360; i++) {
-		this->Storage[i] = Item(offset + 0x07a778 + i * sizeof(Item));
+		this->Storage[i] = Item((index*360)+ 0x07a778 + i * sizeof(Item));
 	}
 
     for (u32 i = 0; i < 10; i++) {
