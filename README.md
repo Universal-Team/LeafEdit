@@ -15,18 +15,18 @@ You also need Bannertool & Makerom.
 
 ## Credits
 ### Main Developers
-- [VoltZ](https://github.com/SuperSaiyajinVoltZ): App Idea and Main Developer.
+- [StackZ](https://github.com/SuperSaiyajinStackZ): App Idea and Main Developer.
 ### Translators
 
 English
 - [Epicpkmn11](https://github.com/Epicpkmn11)
-- [VoltZ](https://github.com/SuperSaiyajinVoltZ)
+- [StackZ](https://github.com/SuperSaiyajinStackZ)
 
 French
 - [antoine62](https://github.com/antoine62)
 
 German
-- [VoltZ](https://github.com/SuperSaiyajinVoltZ)
+- [StackZ](https://github.com/SuperSaiyajinStackZ)
 
 Italian
 - [edo9300](https://github.com/edo9300)
