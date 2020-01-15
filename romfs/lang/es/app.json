@@ -78,7 +78,7 @@
 	"LINK": "Servidor de Discord: https://discord.gg/KDJCfGF",
 	"WHAT_YOU_DO": "¿Qué estás intentando hacer? :P",
 	"ITEM_EDITOR": "Editor de items",
-	"ITEM_DRESSER": "Vestidor: ",
+	"ITEM_DRESSER": "Dresser",
 	"ITEM_POCKET": "Bolsillo",
 	"ACRES": "Acres",
 	"PLAYER_SELECTION": "Selección de jugador",
@@ -132,5 +132,8 @@
 	"UNBOXED": "Desempaquetando",
 	"CREATE_BACKUP": "¿Quieres crear una copia de seguridad?",
 	"FIND_BACKUP": "Puedes encontrar tu copia de seguridad en:",
-	"EXPERIMENTAL_EDITOR": "El editor es experimental.\nNo somos responsables de los errores que hagas.\n¿Quieres continuar?"
+	"EXPERIMENTAL_EDITOR": "El editor es experimental.\nNo somos responsables de los errores que hagas.\n¿Quieres continuar?",
+	"PATTERN": "Pattern",
+	"ITEM_ISLAND": "Islandbox",
+	"ITEM_STORAGE": "Storage"
 }
