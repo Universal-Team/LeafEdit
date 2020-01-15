@@ -78,7 +78,7 @@
 	"LINK": "Junta-te ao nosso Discord: https://discord.gg/KDJCfGF",
 	"WHAT_YOU_DO": "O que estás a tentar fazer? :P",
 	"ITEM_EDITOR": "Editor de Objetos",
-	"ITEM_DRESSER": "Vestuário: ",
+	"ITEM_DRESSER": "Dresser",
 	"ITEM_POCKET": "Bolso",
 	"ACRES": "Acres",
 	"PLAYER_SELECTION": "Seleção de Jogador",
@@ -132,5 +132,8 @@
 	"UNBOXED": "Desencaixotado",
 	"CREATE_BACKUP": "Gostarias de criar uma Cópia?",
 	"FIND_BACKUP": "Podes encontrar a tua Cópia em:",
-	"EXPERIMENTAL_EDITOR": "O Editor é experimental.\nNão somos responsáveis por quaisquer erros que fizeres.\nGostarias de continuar?"
+	"EXPERIMENTAL_EDITOR": "O Editor é experimental.\nNão somos responsáveis por quaisquer erros que fizeres.\nGostarias de continuar?",
+	"PATTERN": "Pattern",
+	"ITEM_ISLAND": "Islandbox",
+	"ITEM_STORAGE": "Storage"
 }
