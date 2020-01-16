@@ -46,8 +46,8 @@
 	"SELECT_LANG":					"Choose the current language.",
 
 	"SELECT_TITLE":					"Select a title to start.",
-	"CARD":							"Cartridge",
-	"INSTALLED":					"Installed titles",
+	"CARD":							"Gamecard",
+	"INSTALLED":					"Installed",
 	"Y_SETTINGS":					"Press Y to open Settings.",
 
 	"LAUNCH_TOWN":					"Launch Town",
@@ -163,5 +163,14 @@
 	"GAME_GROUP_SELECT":			"Select a game group.",
 	"VERSION_SELECT":				"Select the version of your game.",
 	"REGION_SELECT":				"Select the region of your game.",
-	"TITLE_NOT_FOUND":				"Title not found."
+	"TITLE_NOT_FOUND":				"Title not found.",
+
+	"NEW_LEAF":						"New\nLeaf",
+	"WELCOME_AMIIBO":				"Welcome\nAmiibo",
+	"WELCOME_LUXURY":				"Welcome\nLuxury",
+
+	"EUROPE":						"Europe",
+	"JAPAN":						"Japan",
+	"KOREA":						"Korea",
+	"USA":							"USA"
 }
