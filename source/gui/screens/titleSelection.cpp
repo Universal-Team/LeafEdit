@@ -25,11 +25,8 @@
 */
 
 #include "common/common.hpp"
-#include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
-
-#include "gui/keyboard.hpp"
 
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
@@ -40,238 +37,370 @@ extern bool exiting;
 extern int fadealpha;
 extern bool fadein;
 
-u64 currentID;
-u32 currentLowID;
-u32 currentHighID;
-u32 currentUniqueID;
-FS_MediaType currentMedia;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
 bool isROMHack = false;
 
+std::vector<u64> wlID = {
+	0x00040000004C5700, // Animal Crossing: Welcome Luxury [ROM Hack] https://gitlab.com/Kyusetzu/ACWL
+};
+
+std::vector<u64> newIDs = {
+	0x0004000000198D00, // JPN.
+	0x0004000000198E00, // USA.
+	0x0004000000198F00, // EUR.
+	0x0004000000199000,  // KOR.
+};
+
+std::vector<u64> oldIDs = {
+	0x0004000000086200, // JPN.
+	0x0004000000086300, // USA.
+	0x0004000000086400, // EUR.
+	0x0004000000086500, // KOR.
+};
+
 void TitleSelection::Draw(void) const {
-	Gui::DrawTop();
-
-	Gui::Draw_Rect(119, 30, 270.0f, 180.0f, DARKER_COLOR);
-	Gui::Draw_Rect(20, 30, 80.0f, 180.0f, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("SELECT_TITLE"), 398);
-
-	// Draw the 3DS Gamecard.
-	Gui::Draw_ImageBlend(0, sprites_card_idx, 30, 93, LIGHT_COLOR);
-	// Draw the Available Titles on the Top Screen.
-	TitleDraw();
-
-	Gui::DrawStringCentered(-140, 180, 0.6f, WHITE, Lang::get("CARD"), 70);
-	Gui::DrawStringCentered(54, 180, 0.6f, WHITE, Lang::get("INSTALLED"), 260);
-
-	Gui::DrawString(395-Gui::GetStringWidth(0.72, V_STRING), 216, 0.72, WHITE, V_STRING, 400);
-
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
-
-
-	Gui::DrawBottom();
-
-	Gui::Draw_Rect(0, 100, 320, 30, DARKER_COLOR);
-	Gui::Draw_Rect(0, 150, 320, 30, DARKER_COLOR);
-
-	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("Y_SETTINGS"), 310);
-	Gui::Draw_Rect(245, 38, 48, 48, DARKER_COLOR);
-	// Draw the current Selected Title on the Bottom Screen with informations.
-	if (selectedTitle != -2)
-	{
-		C2D_DrawImageAt(titleFromIndex(selectedTitle)->icon(), 245, 38, 0.5f);
-		displayRegion();
-		Gui::DrawStringCentered(0, 105, 0.7f, WHITE, titleFromIndex(selectedTitle)->name(), 310);
-		std::string IDAndCode = "ID: ";
-		IDAndCode += StringUtils::format("%08X", titleFromIndex(selectedTitle)->lowId());
-		IDAndCode += ", Prod Code: ";
-		IDAndCode += titleFromIndex(selectedTitle)->productCode();
-
-		Gui::DrawStringCentered(0, 155, 0.6f, WHITE, IDAndCode, 310);
-	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
-}
-
-void TitleSelection::SelectionLogic(u32 hDown) {
-	if (GameLoader::cardUpdate())
-	{
-		GameSelected  = false;
-		selectedTitle = -2;
-	}
-
-	if (selectedTitle == -2)
-	{
-		if (GameLoader::cardTitle == nullptr && !GameLoader::installedTitles.empty())
-		{
-			selectedTitle = 0;
-		}
-		else if (GameLoader::cardTitle != nullptr)
-		{
-			selectedTitle = -1;
-		}
-	}
-
-	// Scroll with D-Pad Right to the next available Title.
-	else if (hDown & KEY_RIGHT)
-	{
-		if (selectedTitle == (int)GameLoader::installedTitles.size() - 1 || selectedTitle == 7)
-		{
-			if (GameLoader::cardTitle)
-			{
-				selectedTitle = -1;
-			}
-			else
-			{
-				if (GameLoader::installedTitles.size() > 8 && selectedTitle > 7)
-				{
-					if (selectedTitle > 7)
-					{
-						selectedTitle = 8;
-					}
-					else if (selectedTitle == 7)
-					{
-						selectedTitle = 0;
-					}
-				}
-				else
-				{
-					selectedTitle = 0;
-				}
-			}
-		}
-		else
-		{
-			selectedTitle++;
-		}
-	}
-
-	// Scroll with D-Pad Left to the next available Title.
-	else if (hDown & KEY_LEFT)
-	{
-		if (selectedTitle == -1)
-		{
-			selectedTitle = GameLoader::installedTitles.size() < 8 ? GameLoader::installedTitles.size() - 1 : 7;
-		}
-		else if (selectedTitle == 8)
-		{
-			if (GameLoader::cardTitle)
-			{
-				selectedTitle = -1;
-			}
-			else
-			{
-				selectedTitle = (int)GameLoader::installedTitles.size() - 1;
-			}
-		}
-		else if (selectedTitle == 0)
-		{
-			if (GameLoader::cardTitle)
-			{
-				selectedTitle = -1;
-			}
-			else
-			{
-				selectedTitle = GameLoader::installedTitles.size() > 8 ? 7 : (int)GameLoader::installedTitles.size() - 1;
-			}
-		}
-		else
-		{
-			selectedTitle--;
-		}
+	if (selectMode == 0) {
+		DrawGameSelector();
+	} else if (selectMode == 1) {
+		DrawVersionSelector();
+	} else if (selectMode == 2) {
+		DrawRegionSelector();
 	}
 }
 
 void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// For the D-Pad Selection.
-	SelectionLogic(hDown);
+	if (selectMode == 0) {
+		gameLogic(hDown, hHeld, touch);
+	} else if (selectMode == 1) {
+		versionLogic(hDown, hHeld, touch);
+	} else if (selectMode == 2) {
+		regionLogic(hDown, hHeld, touch);
+	}
+}
+
+void TitleSelection::DrawGameSelector(void) const
+{
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("GAME_GROUP_SELECT"), 398);
+	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("Y_SETTINGS"), 398);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
+	Gui::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(gameButtons[i].x, gameButtons[i].y, gameButtons[i].w, gameButtons[i].h, UNSELECTED_COLOR);
+		if (selectedGame == i) {
+			Gui::drawAnimatedSelector(gameButtons[i].x, gameButtons[i].y, gameButtons[i].w, gameButtons[i].h, .030f, SELECTED_COLOR);
+		}
+	}
+	Gui::sprite(0, sprites_Icon_idx, 37.5, 80);
+	Gui::sprite(0, sprites_IconWA_idx, 137.5, 80);
+	Gui::sprite(0, sprites_IconWL_idx, 237.5, 80);
+
+	Gui::DrawStringCentered(-100, 140, 0.7f, WHITE, Lang::get("NEW_LEAF_1"), 70);
+	Gui::DrawStringCentered(-100, 155, 0.7f, WHITE, Lang::get("NEW_LEAF_2"), 70);
+	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 70);
+	Gui::DrawStringCentered(0, 155, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 70);
+	Gui::DrawStringCentered(100, 140, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_1"), 70);
+	Gui::DrawStringCentered(100, 155, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_2"), 70);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
+}
+
+void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_RIGHT || hDown & KEY_R) {
+		if (selectedGame < 2)	selectedGame++;
+	} else if (hDown & KEY_LEFT || hDown & KEY_L) {
+		if (selectedGame > 0)	selectedGame--;
+	}
 
 	if (hDown & KEY_START) {
 		exiting = true;
-	} else if (hDown & KEY_A) {
-		if (GameLoader::cardTitle == nullptr && GameLoader::installedTitles.empty()) {
-		} else {
-			if (titleFromIndex(selectedTitle)->ID() == WelcomeLuxury) {
-				isROMHack = true;
-			} else {
-				isROMHack = false;
-			}
-			currentID = titleFromIndex(selectedTitle)->ID();
-			currentMedia = titleFromIndex(selectedTitle)->mediaType();
-			currentLowID = titleFromIndex(selectedTitle)->lowId();
-			currentHighID = titleFromIndex(selectedTitle)->highId();
-			currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
-			Gui::setScreen(std::make_unique<MainMenu>());
-		}
-	} else if (hDown & KEY_TOUCH && touching(touch, icon[0])) {
-		if (GameLoader::cardTitle == nullptr && GameLoader::installedTitles.empty()) {
-		} else {
-			if (titleFromIndex(selectedTitle)->ID() == WelcomeLuxury) {
-				isROMHack = true;
-			} else {
-				isROMHack = false;
-			}
-			currentID = titleFromIndex(selectedTitle)->ID();
-			currentMedia = titleFromIndex(selectedTitle)->mediaType();
-			currentLowID = titleFromIndex(selectedTitle)->lowId();
-			currentHighID = titleFromIndex(selectedTitle)->highId();
-			currentUniqueID = titleFromIndex(selectedTitle)->uniqueId();
-			Gui::setScreen(std::make_unique<MainMenu>());
-		}
-	} else if (hDown & KEY_X) {
-		GameLoader::updateCheck2();
-	} else if (hDown & KEY_Y) {
+	}
+
+	if (hDown & KEY_Y) {
 		Gui::setScreen(std::make_unique<Settings>());
 	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, gameButtons[0])) {
+			selectedGame = 0;
+			selectMode = 1;
+		} else if (touching(touch, gameButtons[1])) {
+			selectedGame = 1;
+			selectMode = 1;
+		} else if (touching(touch, gameButtons[2])) {
+			if (GameLoader::checkTitle(wlID[0])) {
+				isROMHack = true;
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		}
+	}
+
+
+	if (hDown & KEY_A) {
+		if (selectedGame == 2) {
+			if (GameLoader::checkTitle(wlID[0])) {
+				isROMHack = true;
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else {
+			selectMode = 1;
+		}
+	}
 }
 
-
-// Draw all the Titles. (Game Card and Installed Titles.)
-void TitleSelection::TitleDraw(void) const
+void TitleSelection::DrawVersionSelector(void) const
 {
-	// Display Blank boxes for placeholders.
-	u32 box = 8;
-	for (u32 y = 0; y < 2; y++) {
-		for (u32 x = 0; x < 4; x++, box++) {
-			Gui::Draw_Rect(143 + x * 60, y * 55 + 68, 48, 48, LIGHT_COLOR);
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("VERSION_SELECT"), 400);
+
+	if (selectedGame == 0) {
+		Gui::sprite(0, sprites_Icon_idx, 37.5, 80, 1.5, 1.5);
+	} else if (selectedGame == 1) {
+		Gui::sprite(0, sprites_IconWA_idx, 37.5, 80, 1.5, 1.5);
+	}
+
+	Gui::DrawBottom();
+	
+	for (int i = 0; i < 2; i++) {
+		Gui::Draw_Rect(versionButtons[i].x, versionButtons[i].y, versionButtons[i].w, versionButtons[i].h, UNSELECTED_COLOR);
+		if (selectedVersion == i) {
+			Gui::drawAnimatedSelector(versionButtons[i].x, versionButtons[i].y, versionButtons[i].w, versionButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 
-	// Gamecard.
-	if (GameLoader::cardTitle != nullptr)
-	{
-		C2D_DrawImageAt(GameLoader::cardTitle->icon(), 35, 98, 0.5f);
-		if (titleFromIndex(selectedTitle) == GameLoader::cardTitle)
-		{
-			Gui::drawAnimatedSelector(34, 97, 50, 50, .025f, C2D_Color32(0, 0, 0, 0));
+	Gui::sprite(0, sprites_gameCard_idx, 78, 100);
+	Gui::sprite(0, sprites_sdCard_idx, 198, 100);
+
+	Gui::DrawStringCentered(-10-50, 80, 0.6, WHITE, Lang::get("CARD"), 80);
+	Gui::DrawStringCentered(110-50, 80, 0.6, WHITE, Lang::get("INSTALLED"), 80);
+}
+
+void TitleSelection::versionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		selectMode = 0;
+	}
+	if (hDown & KEY_RIGHT || hDown & KEY_R) {
+		if (selectedVersion < 1)	selectedVersion++;
+	} else if (hDown & KEY_LEFT || hDown & KEY_L) {
+		if (selectedVersion > 0)	selectedVersion--;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, versionButtons[0])) {
+			selectedVersion = 0;
+			selectMode = 2;
+		} else if (touching(touch, versionButtons[1])) {
+			selectedVersion = 1;
+			selectMode = 2;
 		}
 	}
 
-	// Installed Titles.
-	for (size_t i = 0; i < GameLoader::installedTitles.size(); i++)
-	{
-		int y = GameLoader::installedTitles.size() > 3 ? (i / 4) * 55 + 68 : 68;
-		int x = 143 + (5 - (GameLoader::installedTitles.size() % 4 == 0 ? 5 : GameLoader::installedTitles.size() % 4)) * 0 + (i > 3 ? i - 4 : i) * 60;
-		;
-		if (GameLoader::installedTitles.size() > 4 && i < 4)
-		{
-			x = 143 + (i > 3 ? i - 4 : i) * 60;
-		}
-
-		C2D_DrawImageAt(GameLoader::installedTitles[i]->icon(), x, y, 0.5f);
-		if (titleFromIndex(selectedTitle) == GameLoader::installedTitles[i])
-		{
-			Gui::drawAnimatedSelector(x - 1, y - 1, 50, 50, .025f, C2D_Color32(0, 0, 0, 0));
-		}
+	if (hDown & KEY_A) {
+		selectMode = 2;
 	}
 }
 
-void TitleSelection::displayRegion(void) const {
-	if (titleFromIndex(selectedTitle)->ID() == OldEUR || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboEUR) {
-		Gui::sprite(0, sprites_europe_idx, 50, 42, 1.5, 1.5);
-	} else if (titleFromIndex(selectedTitle)->ID() == OldJPN || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboJPN) {
-		Gui::sprite(0, sprites_japan_idx, 50, 42, 1.5, 1.5);
-	} else if (titleFromIndex(selectedTitle)->ID() == OldKOR || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboKOR) {
-		Gui::sprite(0, sprites_korea_idx, 50, 42, 1.5, 1.5);
-	} else if (titleFromIndex(selectedTitle)->ID() == OldUSA || titleFromIndex(selectedTitle)->ID() == WelcomeAmiiboUSA) {
-		Gui::sprite(0, sprites_usa_idx, 50, 42, 1.5, 1.5);
+void TitleSelection::DrawRegionSelector(void) const {
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("REGION_SELECT"), 400);
+
+	if (selectedGame == 0) {
+		Gui::sprite(0, sprites_Icon_idx, 37.5, 80, 1.5, 1.5);
+	} else if (selectedGame == 1) {
+		Gui::sprite(0, sprites_IconWA_idx, 37.5, 80, 1.5, 1.5);
+	}
+
+	if (selectedVersion == 0) {
+		Gui::sprite(0, sprites_gameCard_idx, 140, 80, 1.5, 1.5);
+	} else if (selectedVersion == 1) {
+		Gui::sprite(0, sprites_sdCard_idx, 140, 80, 1.5, 1.5);
+	}
+
+
+	Gui::DrawBottom();
+	
+	for (int i = 0; i < 4; i++) {
+		Gui::Draw_Rect(regionButtons[i].x, regionButtons[i].y, regionButtons[i].w, regionButtons[i].h, UNSELECTED_COLOR);
+		if (selectedRegion == i) {
+			Gui::drawAnimatedSelector(regionButtons[i].x, regionButtons[i].y, regionButtons[i].w, regionButtons[i].h, .030f, SELECTED_COLOR);
+		}
+	}
+
+	Gui::DrawStringCentered(-90-30, 95, 0.6, WHITE, Lang::get("JAPAN"), 50);
+	Gui::DrawStringCentered(-10-30, 95, 0.6, WHITE, Lang::get("USA"), 50);
+	Gui::DrawStringCentered(70-30, 95, 0.6, WHITE, Lang::get("EUROPE"), 50);
+	Gui::DrawStringCentered(150-30, 95, 0.6, WHITE, Lang::get("KOREA"), 50);
+
+	Gui::sprite(0, sprites_japan_idx, 18, 120);
+	Gui::sprite(0, sprites_usa_idx, 98, 120);
+	Gui::sprite(0, sprites_europe_idx, 178, 120);
+	Gui::sprite(0, sprites_korea_idx, 258, 120);
+}
+
+void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		selectMode = 1;
+	}
+
+	if (hDown & KEY_RIGHT || hDown & KEY_R) {
+		if (selectedRegion < 3)	selectedRegion++;
+	} else if (hDown & KEY_LEFT || hDown & KEY_L) {
+		if (selectedRegion > 0)	selectedRegion--;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		// JPN.
+		if (touching(touch, regionButtons[0])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[0])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[0])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::scanCard(oldIDs[0])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::scanCard(newIDs[0])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+			// USA.
+		} else if (touching(touch, regionButtons[1])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[1])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[1])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::scanCard(oldIDs[1])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::scanCard(newIDs[1])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+			// EUR.
+		} else if (touching(touch, regionButtons[2])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[2])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[2])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::scanCard(oldIDs[2])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::scanCard(newIDs[2])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+			// KOR.
+		} else if (touching(touch, regionButtons[3])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[3])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[3])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::scanCard(oldIDs[3])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::scanCard(newIDs[3])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+		}
+	}
+
+	if (hDown & KEY_A) {
+		// JPN.
+		if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 0) {
+			if (GameLoader::checkTitle(oldIDs[0])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 0) {
+			if (GameLoader::checkTitle(newIDs[0])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 0) {
+			if (GameLoader::scanCard(oldIDs[0])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 0) {
+			if (GameLoader::scanCard(newIDs[0])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+
+
+		// USA.
+		} else if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 1) {
+			if (GameLoader::checkTitle(oldIDs[1])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 1) {
+			if (GameLoader::checkTitle(newIDs[1])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 1) {
+			if (GameLoader::scanCard(oldIDs[1])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 1) {
+			if (GameLoader::scanCard(newIDs[1])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+
+		// EUR.
+		} else if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 2) {
+			if (GameLoader::checkTitle(oldIDs[2])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 2) {
+			if (GameLoader::checkTitle(newIDs[2])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 2) {
+			if (GameLoader::scanCard(oldIDs[2])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 2) {
+			if (GameLoader::scanCard(newIDs[2])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+
+		// KOR.
+		} else if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 3) {
+			if (GameLoader::checkTitle(oldIDs[3])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 3) {
+			if (GameLoader::checkTitle(newIDs[3])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 3) {
+			if (GameLoader::scanCard(oldIDs[3])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 3) {
+			if (GameLoader::scanCard(newIDs[3])) {
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		}
 	}
 }

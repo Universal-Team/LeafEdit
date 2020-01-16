@@ -27,23 +27,18 @@
 #ifndef GAMELOADER_HPP
 #define GAMELOADER_HPP
 
-#include "core/titleLoader.hpp"
-
 #include <3ds.h>
 #include <memory>
 
 namespace GameLoader
 {
-	bool cardUpdate();
+	// The Card / Installed Title checkers.
+	bool checkTitle(u64 TitleID);
+	bool scanCard(u64 TitleID);
+
+	// Check for the update of the regular AC:NL version, because editor only works with.
 	void checkUpdate(void);
-	bool scanCard();
-	void scanTitleID(void);
-
-	// Check for Updates, even when the Update was already checked on first startup.
 	void updateCheck2(void);
-
-	inline std::vector<std::shared_ptr<TitleLoader>> installedTitles;
-	inline std::shared_ptr<TitleLoader> cardTitle = nullptr;
 };
 
 #endif

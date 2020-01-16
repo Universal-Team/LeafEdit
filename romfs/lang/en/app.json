@@ -46,8 +46,8 @@
 	"SELECT_LANG":					"Choose the current language.",
 
 	"SELECT_TITLE":					"Select a title to start.",
-	"CARD":							"Cartridge",
-	"INSTALLED":					"Installed titles",
+	"CARD":							"Gamecard",
+	"INSTALLED":					"Installed",
 	"Y_SETTINGS":					"Press Y to open Settings.",
 
 	"LAUNCH_TOWN":					"Launch Town",
@@ -158,5 +158,22 @@
 	"EXPERIMENTAL_EDITOR":			"The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?",
 	"PATTERN":						"Pattern",
 	"ITEM_ISLAND":					"Islandbox",
-	"ITEM_STORAGE":					"Storage"
+	"ITEM_STORAGE":					"Storage",
+
+	"GAME_GROUP_SELECT":			"Select a game group.",
+	"VERSION_SELECT":				"Select the version of your game.",
+	"REGION_SELECT":				"Select the region of your game.",
+	"TITLE_NOT_FOUND":				"Title not found.",
+
+	"NEW_LEAF_1":					"New",
+	"NEW_LEAF_2":					"Leaf",
+	"WELCOME_AMIIBO_1":				"Welcome",
+	"WELCOME_AMIIBO_2":				"Amiibo",
+	"WELCOME_LUXURY_1":				"Welcome",
+	"WELCOME_LUXURY_2":				"Luxury",
+
+	"EUROPE":						"Europe",
+	"JAPAN":						"Japan",
+	"KOREA":						"Korea",
+	"USA":							"USA"
 }

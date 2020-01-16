@@ -28,7 +28,6 @@
 #define UTILS_HPP
 
 #include "common/archive.hpp"
-#include "common/smdh.hpp"
 
 #include "core/save/item.h"
 #include "core/save/player.h"

@@ -41,6 +41,7 @@ void Settings::Draw(void) const
 	if(screenMode == 0) {
 		Gui::DrawTop();
 		Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 400);
+		Gui::DrawString(395-Gui::GetStringWidth(0.72, V_STRING), 216, 0.72, WHITE, V_STRING, 390);
 		Gui::DrawBottom();
 		for (int i = 0; i < 3; i++) {
 			Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);

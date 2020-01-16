@@ -39,33 +39,36 @@ public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 private:
-	void TitleDraw(void) const;
-	void SelectionLogic(u32 hDown);
-	void DrawInformationBox(void) const;
-	void displayRegion(void) const;
-	int selectedTitle = -2;
-	bool GameSelected   = false;
+	// Screen Modes Draws.
+	void DrawGameSelector(void) const;
+	void DrawVersionSelector(void) const;
+	void DrawRegionSelector(void) const;
+	// Screen Mode Logics.
+	void gameLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void versionLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void regionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	std::shared_ptr<TitleLoader> titleFromIndex(int i) const
-	{
-		if (i == -1)
-		{
-			return GameLoader::cardTitle;
-		}
-		else if (i == -2)
-		{
-			return nullptr;
-		}
-		else if ((size_t)i < GameLoader::installedTitles.size())
-		{
-			return GameLoader::installedTitles[i];
-		}
-		return nullptr;
-	}
+	// Selectors.
+	int selectedGame = 0;
+	int selectedVersion = 0;
+	int selectedRegion = 0;
+	int selectMode = 0;
 
-	// Struct for the Icon position, so you can tap on the Icon.
-	std::vector<Structs::ButtonPos> icon = {
-		{245, 38, 48, 48, -1}, // Icon
+
+	std::vector<Structs::ButtonPos> gameButtons = {		
+		{15, 50, 90, 140, -1}, // ACNL regular.
+		{115, 50, 90, 140, -1}, // ACNL Welcome Amiibo.
+		{215, 50, 90, 140, -1}, // ACNL Welcome Luxury.
+	};
+	std::vector<Structs::ButtonPos> versionButtons = {		
+		{50, 70, 100, 100, -1}, // Card.
+		{170, 70, 100, 100, -1}, // SD.
+	};
+	std::vector<Structs::ButtonPos> regionButtons = {		
+		{10, 70, 60, 100, -1}, // Japanese.
+		{90, 70, 60, 100, -1}, // USA.
+		{170, 70, 60, 100, -1}, // Europe.
+		{250, 70, 60, 100, -1}, // Korean.
 	};
 };
 
