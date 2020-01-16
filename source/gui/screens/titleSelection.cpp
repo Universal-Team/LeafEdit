@@ -258,11 +258,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(oldIDs[0]), false) {
+				if (GameLoader::scanCard(oldIDs[0])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(newIDs[0]), false) {
+				if (GameLoader::scanCard(newIDs[0])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -277,11 +277,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(oldIDs[1]), false) {
+				if (GameLoader::scanCard(oldIDs[1])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(newIDs[1]), false) {
+				if (GameLoader::scanCard(newIDs[1])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -296,11 +296,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(oldIDs[2]), false) {
+				if (GameLoader::scanCard(oldIDs[2])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(newIDs[2]), false) {
+				if (GameLoader::scanCard(newIDs[2])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -315,11 +315,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(oldIDs[3]), false) {
+				if (GameLoader::scanCard(oldIDs[3])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
-				if (GameLoader::checkTitle(newIDs[3]), false) {
+				if (GameLoader::scanCard(newIDs[3])) {
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -337,11 +337,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 0) {
-			if (GameLoader::checkTitle(oldIDs[0]), false) {
+			if (GameLoader::scanCard(oldIDs[0])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 0) {
-			if (GameLoader::checkTitle(newIDs[0]), false) {
+			if (GameLoader::scanCard(newIDs[0])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 
@@ -356,11 +356,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 1) {
-			if (GameLoader::checkTitle(oldIDs[1]), false) {
+			if (GameLoader::scanCard(oldIDs[1])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 1) {
-			if (GameLoader::checkTitle(newIDs[1]), false) {
+			if (GameLoader::scanCard(newIDs[1])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 
@@ -374,11 +374,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 2) {
-			if (GameLoader::checkTitle(oldIDs[2]), false) {
+			if (GameLoader::scanCard(oldIDs[2])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 2) {
-			if (GameLoader::checkTitle(newIDs[2]), false) {
+			if (GameLoader::scanCard(newIDs[2])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 
@@ -392,11 +392,11 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 3) {
-			if (GameLoader::checkTitle(oldIDs[3]), false) {
+			if (GameLoader::scanCard(oldIDs[3])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 3) {
-			if (GameLoader::checkTitle(newIDs[3]), false) {
+			if (GameLoader::scanCard(newIDs[3])) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		}

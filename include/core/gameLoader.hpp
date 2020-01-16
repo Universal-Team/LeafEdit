@@ -32,8 +32,9 @@
 
 namespace GameLoader
 {
-	bool checkTitle(u64 TitleID, bool checkType = true); // True SD, False Card.
+	bool checkTitle(u64 TitleID);
 	void checkUpdate(void);
+	bool scanCard(u64 TitleID);
 	// Check for Updates, even when the Update was already checked on first startup.
 	void updateCheck2(void);
 };

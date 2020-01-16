@@ -39,11 +39,11 @@ u32 currentHighID;
 u32 currentUniqueID;
 FS_MediaType currentMedia;
 
-bool GameLoader::checkTitle(u64 TitleID, bool checkType) {
+bool GameLoader::checkTitle(u64 TitleID) {
 	Result res = 0;
 	static u32 titleCount;
 
-	res = AM_GetTitleCount(checkType ? MEDIATYPE_SD : MEDIATYPE_GAME_CARD, &titleCount);
+	res = AM_GetTitleCount(MEDIATYPE_SD, &titleCount);
 	if (R_FAILED(res))
 	{
 		return false; // cause failed.
@@ -53,7 +53,7 @@ bool GameLoader::checkTitle(u64 TitleID, bool checkType) {
 	ID.resize(titleCount);
 
 	// Get Title List.
-	res = AM_GetTitleList(nullptr, checkType ? MEDIATYPE_SD : MEDIATYPE_GAME_CARD, titleCount, &ID[0]);
+	res = AM_GetTitleList(nullptr, MEDIATYPE_SD, titleCount, &ID[0]);
 	if (R_FAILED(res))
 	{
 		return false; // cause failed.
@@ -64,11 +64,49 @@ bool GameLoader::checkTitle(u64 TitleID, bool checkType) {
 		currentLowID = (u32)currentID;
 		currentHighID = (u32)(currentID >> 32);
 		currentUniqueID = (currentLowID >> 8);
-		currentMedia = checkType ? MEDIATYPE_SD : MEDIATYPE_GAME_CARD;
+		currentMedia = MEDIATYPE_SD;
 		return true; // cause is found.
 	} else {
 		Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
 		return false; // cause isn't found.
+	}
+}
+
+bool GameLoader::scanCard(u64 TitleID)
+{
+	Result res = 0;
+	u32 count  = 0;
+	// check for the cartridge.
+	FS_CardType cardType;
+	res = FSUSER_GetCardType(&cardType);
+	if (R_SUCCEEDED(res))
+	{
+		if (cardType == CARD_CTR)
+		{
+			res = AM_GetTitleCount(MEDIATYPE_GAME_CARD, &count);
+			if (R_SUCCEEDED(res) && count > 0)
+			{
+				std::vector<u64> ID;
+				ID.resize(count);
+				res = AM_GetTitleList(NULL, MEDIATYPE_GAME_CARD, count, &ID[0]);
+
+				// check if this id is in our list
+				if (R_SUCCEEDED(res) && std::find(ID.begin(), ID.end(), TitleID) != ID.end())
+				{
+					currentID = TitleID;
+					currentLowID = (u32)currentID;
+					currentHighID = (u32)(currentID >> 32);
+					currentUniqueID = (currentLowID >> 8);
+					currentMedia = MEDIATYPE_GAME_CARD;
+					return true;
+				} else {
+					Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
+					return false; // cause isn't found.
+				}
+			}
+		}
+	} else {
+		return false;
 	}
 }
 
