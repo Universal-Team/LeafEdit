@@ -239,9 +239,7 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_RIGHT || hDown & KEY_R) {
-		if (selectedGame == 0) {
-			if (selectedRegion < 3)	selectedRegion++;
-		}
+		if (selectedRegion < 3)	selectedRegion++;
 	} else if (hDown & KEY_LEFT || hDown & KEY_L) {
 		if (selectedRegion > 0)	selectedRegion--;
 	}
