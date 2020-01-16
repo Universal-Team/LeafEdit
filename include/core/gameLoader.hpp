@@ -32,10 +32,12 @@
 
 namespace GameLoader
 {
+	// The Card / Installed Title checkers.
 	bool checkTitle(u64 TitleID);
-	void checkUpdate(void);
 	bool scanCard(u64 TitleID);
-	// Check for Updates, even when the Update was already checked on first startup.
+
+	// Check for the update of the regular AC:NL version, because editor only works with.
+	void checkUpdate(void);
 	void updateCheck2(void);
 };
 

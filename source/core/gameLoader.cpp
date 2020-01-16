@@ -75,7 +75,7 @@ bool GameLoader::checkTitle(u64 TitleID) {
 bool GameLoader::scanCard(u64 TitleID)
 {
 	Result res = 0;
-	u32 count  = 0;
+	u32 titleCount  = 0;
 	// check for the cartridge.
 	FS_CardType cardType;
 	res = FSUSER_GetCardType(&cardType);
@@ -83,12 +83,12 @@ bool GameLoader::scanCard(u64 TitleID)
 	{
 		if (cardType == CARD_CTR)
 		{
-			res = AM_GetTitleCount(MEDIATYPE_GAME_CARD, &count);
-			if (R_SUCCEEDED(res) && count > 0)
+			res = AM_GetTitleCount(MEDIATYPE_GAME_CARD, &titleCount);
+			if (R_SUCCEEDED(res) && titleCount > 0)
 			{
 				std::vector<u64> ID;
-				ID.resize(count);
-				res = AM_GetTitleList(NULL, MEDIATYPE_GAME_CARD, count, &ID[0]);
+				ID.resize(titleCount);
+				res = AM_GetTitleList(NULL, MEDIATYPE_GAME_CARD, titleCount, &ID[0]);
 
 				// check if this id is in our list
 				if (R_SUCCEEDED(res) && std::find(ID.begin(), ID.end(), TitleID) != ID.end())
@@ -98,15 +98,22 @@ bool GameLoader::scanCard(u64 TitleID)
 					currentHighID = (u32)(currentID >> 32);
 					currentUniqueID = (currentLowID >> 8);
 					currentMedia = MEDIATYPE_GAME_CARD;
-					return true;
+					return true; // cause is found.
 				} else {
 					Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
 					return false; // cause isn't found.
 				}
+			} else {
+				Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
+				return false; // cause isn't found.
 			}
+		} else {
+			Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
+			return false; // cause isn't found.
 		}
 	} else {
-		return false;
+		Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
+		return false; // cause isn't found.
 	}
 }
 

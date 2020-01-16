@@ -34,6 +34,8 @@
 #include "gui/screens/titleSelection.hpp"
 
 extern bool exiting;
+extern int fadealpha;
+extern bool fadein;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -82,6 +84,7 @@ void TitleSelection::DrawGameSelector(void) const
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("GAME_GROUP_SELECT"), 398);
 	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("Y_SETTINGS"), 398);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(gameButtons[i].x, gameButtons[i].y, gameButtons[i].w, gameButtons[i].h, UNSELECTED_COLOR);
@@ -99,6 +102,7 @@ void TitleSelection::DrawGameSelector(void) const
 	Gui::DrawStringCentered(0, 155, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 70);
 	Gui::DrawStringCentered(100, 140, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_1"), 70);
 	Gui::DrawStringCentered(100, 155, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_2"), 70);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
 void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
