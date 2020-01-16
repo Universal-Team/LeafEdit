@@ -32,7 +32,6 @@
 #include "common/utils.hpp"
 
 #include "core/gameLoader.hpp"
-#include "core/titleLoader.hpp"
 
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
@@ -57,7 +56,6 @@ bool WelcomeAmiibo;
 touchPosition touch;
 
 u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // C010r Typ3s.
-u32 colorType;
 
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
@@ -136,10 +134,7 @@ int main()
 	} else if (Config::getBool("update") == true) {
 		WelcomeAmiibo = true;
 	}
-
-	// Scan for available Titles to display.
-	GameLoader::scanTitleID();
-
+	
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<TitleSelection>());
 

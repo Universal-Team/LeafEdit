@@ -158,5 +158,10 @@
 	"EXPERIMENTAL_EDITOR":			"The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?",
 	"PATTERN":						"Pattern",
 	"ITEM_ISLAND":					"Islandbox",
-	"ITEM_STORAGE":					"Storage"
+	"ITEM_STORAGE":					"Storage",
+
+	"GAME_GROUP_SELECT":			"Select a game group.",
+	"VERSION_SELECT":				"Select the version of your game.",
+	"REGION_SELECT":				"Select the region of your game.",
+	"TITLE_NOT_FOUND":				"Title not found."
 }

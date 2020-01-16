@@ -30,8 +30,6 @@
 #include "common/io.hpp"
 #include "common/utils.hpp"
 
-#include "core/titleLoader.hpp"
-
 #include "core/management/townManagement.hpp"
 
 #include "gui/keyboard.hpp"

@@ -32,63 +32,44 @@
 #include "gui/msg.hpp"
 
 #include "lang.hpp"
-#include <array>
 
-static constexpr std::array<unsigned long long, 9> titleIds = {
+u64 currentID;
+u32 currentLowID;
+u32 currentHighID;
+u32 currentUniqueID;
+FS_MediaType currentMedia;
 
-	// old version.
-	0x0004000000086200, // JPN.
-	0x0004000000086300, // USA.
-	0x0004000000086400, // EUR.
-	0x0004000000086500, // KOR.
+bool GameLoader::checkTitle(u64 TitleID, bool checkType) {
+	Result res = 0;
+	static u32 titleCount;
 
-	// Welcome Amiibo.
-	0x0004000000198D00, // JPN.
-	0x0004000000198E00, // USA.
-	0x0004000000198F00, // EUR.
-	0x0004000000199000,  // KOR.
-
-	0x00040000004C5700 // Animal Crossing: Welcome Luxury [ROM Hack] https://gitlab.com/Kyusetzu/ACWL
-};
-
-// Update the GameCard.
-bool GameLoader::cardUpdate()
-{
-	static bool first     = true;
-	static bool oldCardIn = false;
-	if (first)
+	res = AM_GetTitleCount(checkType ? MEDIATYPE_SD : MEDIATYPE_GAME_CARD, &titleCount);
+	if (R_FAILED(res))
 	{
-		FSUSER_CardSlotIsInserted(&oldCardIn);
-		first = false;
-		return false;
+		return false; // cause failed.
 	}
-	bool cardIn = false;
 
-	FSUSER_CardSlotIsInserted(&cardIn);
-	if (cardIn != oldCardIn)
+	std::vector<u64> ID;
+	ID.resize(titleCount);
+
+	// Get Title List.
+	res = AM_GetTitleList(nullptr, checkType ? MEDIATYPE_SD : MEDIATYPE_GAME_CARD, titleCount, &ID[0]);
+	if (R_FAILED(res))
 	{
-		bool power;
-		FSUSER_CardSlotGetCardIFPowerStatus(&power);
-		if (cardIn)
-		{
-			if (!power)
-			{
-				FSUSER_CardSlotPowerOn(&power);
-			}
-			while (!power)
-			{
-				FSUSER_CardSlotGetCardIFPowerStatus(&power);
-			}
-			return oldCardIn = scanCard();
-		}
-		else
-		{
-			cardTitle = nullptr;
-			oldCardIn = false;
-			return true;
-		}
+		return false; // cause failed.
 	}
-	return false;
+	// Check, if TitleID matches.
+	if (std::find(ID.begin(), ID.end(), TitleID) != ID.end()) {
+		currentID = TitleID;
+		currentLowID = (u32)currentID;
+		currentHighID = (u32)(currentID >> 32);
+		currentUniqueID = (currentLowID >> 8);
+		currentMedia = checkType ? MEDIATYPE_SD : MEDIATYPE_GAME_CARD;
+		return true; // cause is found.
+	} else {
+		Msg::DisplayWarnMsg(Lang::get("TITLE_NOT_FOUND"));
+		return false; // cause isn't found.
+	}
 }
 
 // Check for Updates of the old AC:NL Version.
@@ -107,7 +88,7 @@ void GameLoader::checkUpdate(void)
 		// get title list and check if a title matches the ids we want
 		std::vector<u64> updateIds;
 		updateIds.resize(updateTitleCount);
-			res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
+		res    = AM_GetTitleList(nullptr, MEDIATYPE_SD, updateTitleCount, &updateIds[0]);
 		if (R_FAILED(res))
 		{
 		return;
@@ -129,96 +110,6 @@ void GameLoader::checkUpdate(void)
 		Config::setBool("updateCheck", true);
 		Config::save();
 	}
-}
-
-// Scan the Gamecard, if the Title ID matches with the Cartridge.
-
-bool GameLoader::scanCard()
-{
-	static bool isScanning = false;
-	if (isScanning)
-	{
-		return false;
-	}
-	else
-	{
-		isScanning = true;
-	}
-	bool ret   = false;
-	cardTitle  = nullptr;
-	Result res = 0;
-	u32 count  = 0;
-	// check for the cartridge.
-	FS_CardType cardType;
-	res = FSUSER_GetCardType(&cardType);
-	if (R_SUCCEEDED(res))
-	{
-		if (cardType == CARD_CTR)
-		{
-			res = AM_GetTitleCount(MEDIATYPE_GAME_CARD, &count);
-			if (R_SUCCEEDED(res) && count > 0)
-			{
-				ret = true;
-				u64 id;
-				res = AM_GetTitleList(NULL, MEDIATYPE_GAME_CARD, count, &id);
-
-				// check if this id is in our list
-				if (R_SUCCEEDED(res) && std::find(titleIds.begin(), titleIds.end(), id) != titleIds.end())
-				{
-					auto title = std::make_shared<TitleLoader>();
-					if (title->loadTitle(id, MEDIATYPE_GAME_CARD))
-					{
-						cardTitle = title;
-					}
-					}
-				}
-			}
-		}
-	isScanning = false;
-	return ret;
-}
-
-// Scan the installed Titles, to check if Animal Crossing : New Leaf is found.
-void GameLoader::scanTitleID(void)
-{
-	Result res = 0;
-	u32 count  = 0;
-
-	// clear title list if filled previously
-	installedTitles.clear();
-
-	scanCard();
-
-	res = AM_GetTitleCount(MEDIATYPE_SD, &count);
-	if (R_FAILED(res))
-	{
-		return;
-	}
-
-	// get title list and check if a title matches the ids we want
-	std::vector<u64> ids(count);
-	u64* p = ids.data();
-	res    = AM_GetTitleList(NULL, MEDIATYPE_SD, count, p);
-	if (R_FAILED(res))
-	{
-		return;
-	}
-
-	for (size_t i = 0; i < titleIds.size(); i++)
-	{
-		u64 id = titleIds.at(i);
-		if (std::find(ids.begin(), ids.end(), id) != ids.end())
-		{
-			auto title = std::make_shared<TitleLoader>();
-			if (title->loadTitle(id, MEDIATYPE_SD))
-			{
-				installedTitles.push_back(title);
-			}
-		}
-	}
-
-	// sort the list alphabetically
-	std::sort(installedTitles.begin(), installedTitles.end(), [](std::shared_ptr<TitleLoader>& l, std::shared_ptr<TitleLoader>& r) { return l->ID() < r->ID(); });
 }
 
 // Check for Updates, even when the Update was already checked on first startup.

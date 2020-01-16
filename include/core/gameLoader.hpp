@@ -27,23 +27,15 @@
 #ifndef GAMELOADER_HPP
 #define GAMELOADER_HPP
 
-#include "core/titleLoader.hpp"
-
 #include <3ds.h>
 #include <memory>
 
 namespace GameLoader
 {
-	bool cardUpdate();
+	bool checkTitle(u64 TitleID, bool checkType = true); // True SD, False Card.
 	void checkUpdate(void);
-	bool scanCard();
-	void scanTitleID(void);
-
 	// Check for Updates, even when the Update was already checked on first startup.
 	void updateCheck2(void);
-
-	inline std::vector<std::shared_ptr<TitleLoader>> installedTitles;
-	inline std::shared_ptr<TitleLoader> cardTitle = nullptr;
 };
 
 #endif
