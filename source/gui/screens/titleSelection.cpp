@@ -116,6 +116,22 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Gui::setScreen(std::make_unique<Settings>());
 	}
 
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, gameButtons[0])) {
+			selectedGame = 0;
+			selectMode = 1;
+		} else if (touching(touch, gameButtons[1])) {
+			selectedGame = 1;
+			selectMode = 1;
+		} else if (touching(touch, gameButtons[2])) {
+			if (GameLoader::checkTitle(wlID[0])) {
+				isROMHack = true;
+				Gui::setScreen(std::make_unique<MainMenu>());
+			}
+		}
+	}
+
+
 	if (hDown & KEY_A) {
 		if (selectedGame == 2) {
 			if (GameLoader::checkTitle(wlID[0])) {
@@ -164,6 +180,17 @@ void TitleSelection::versionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if (hDown & KEY_LEFT || hDown & KEY_L) {
 		if (selectedVersion > 0)	selectedVersion--;
 	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, versionButtons[0])) {
+			selectedVersion = 0;
+			selectMode = 2;
+		} else if (touching(touch, versionButtons[1])) {
+			selectedVersion = 1;
+			selectMode = 2;
+		}
+	}
+
 	if (hDown & KEY_A) {
 		selectMode = 2;
 	}
@@ -219,6 +246,86 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (selectedRegion > 0)	selectedRegion--;
 	}
 
+	if (hDown & KEY_TOUCH) {
+		// JPN.
+		if (touching(touch, regionButtons[0])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[0])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[0])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(oldIDs[0]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(newIDs[0]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+			// USA.
+		} else if (touching(touch, regionButtons[1])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[1])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[1])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(oldIDs[1]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(newIDs[1]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+			// EUR.
+		} else if (touching(touch, regionButtons[2])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[2])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[2])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(oldIDs[2]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(newIDs[2]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+			// KOR.
+		} else if (touching(touch, regionButtons[3])) {
+			if (selectedGame == 0 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(oldIDs[3])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 1) {
+				if (GameLoader::checkTitle(newIDs[3])) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 0 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(oldIDs[3]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			} else if (selectedGame == 1 && selectedVersion == 0) {
+				if (GameLoader::checkTitle(newIDs[3]), false) {
+					Gui::setScreen(std::make_unique<MainMenu>());
+				}
+			}
+		}
+	}
+
 	if (hDown & KEY_A) {
 		// JPN.
 		if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 0) {
@@ -270,7 +377,7 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (GameLoader::checkTitle(oldIDs[2]), false) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
-		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 2) {
+		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 2) {
 			if (GameLoader::checkTitle(newIDs[2]), false) {
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
