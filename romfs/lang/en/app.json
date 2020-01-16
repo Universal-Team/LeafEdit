@@ -165,9 +165,12 @@
 	"REGION_SELECT":				"Select the region of your game.",
 	"TITLE_NOT_FOUND":				"Title not found.",
 
-	"NEW_LEAF":						"New\nLeaf",
-	"WELCOME_AMIIBO":				"Welcome\nAmiibo",
-	"WELCOME_LUXURY":				"Welcome\nLuxury",
+	"NEW_LEAF_1":					"New",
+	"NEW_LEAF_2":					"Leaf",
+	"WELCOME_AMIIBO_1":				"Welcome",
+	"WELCOME_AMIIBO_2":				"Amiibo",
+	"WELCOME_LUXURY_1":				"Welcome",
+	"WELCOME_LUXURY_2":				"Luxury",
 
 	"EUROPE":						"Europe",
 	"JAPAN":						"Japan",

@@ -93,9 +93,12 @@ void TitleSelection::DrawGameSelector(void) const
 	Gui::sprite(0, sprites_IconWA_idx, 137.5, 80);
 	Gui::sprite(0, sprites_IconWL_idx, 237.5, 80);
 
-	Gui::DrawStringCentered(-100, 140, 0.7f, WHITE, Lang::get("NEW_LEAF"), 70);
-	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO"), 70);
-	Gui::DrawStringCentered(100, 140, 0.7f, WHITE, Lang::get("WELCOME_LUXURY"), 70);
+	Gui::DrawStringCentered(-100, 140, 0.7f, WHITE, Lang::get("NEW_LEAF_1"), 70);
+	Gui::DrawStringCentered(-100, 155, 0.7f, WHITE, Lang::get("NEW_LEAF_2"), 70);
+	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 70);
+	Gui::DrawStringCentered(0, 155, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 70);
+	Gui::DrawStringCentered(100, 140, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_1"), 70);
+	Gui::DrawStringCentered(100, 155, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_2"), 70);
 }
 
 void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
