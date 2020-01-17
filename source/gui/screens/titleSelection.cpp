@@ -151,12 +151,12 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void TitleSelection::DrawVersionSelector(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("VERSION_SELECT"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("VERSION_SELECT"), 400);
 
 	if (selectedGame == 0) {
-		Gui::sprite(0, sprites_Icon_idx, 37.5, 80, 1.5, 1.5);
+		Gui::sprite(0, sprites_Icon_idx, 37.5, 80);
 	} else if (selectedGame == 1) {
-		Gui::sprite(0, sprites_IconWA_idx, 37.5, 80, 1.5, 1.5);
+		Gui::sprite(0, sprites_IconWA_idx, 37.5, 80);
 	}
 
 	Gui::DrawBottom();
@@ -202,18 +202,18 @@ void TitleSelection::versionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void TitleSelection::DrawRegionSelector(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.72f, WHITE, Lang::get("REGION_SELECT"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("REGION_SELECT"), 400);
 
 	if (selectedGame == 0) {
-		Gui::sprite(0, sprites_Icon_idx, 37.5, 80, 1.5, 1.5);
+		Gui::sprite(0, sprites_Icon_idx, 37.5, 80);
 	} else if (selectedGame == 1) {
-		Gui::sprite(0, sprites_IconWA_idx, 37.5, 80, 1.5, 1.5);
+		Gui::sprite(0, sprites_IconWA_idx, 37.5, 80);
 	}
 
 	if (selectedVersion == 0) {
-		Gui::sprite(0, sprites_gameCard_idx, 140, 80, 1.5, 1.5);
+		Gui::sprite(0, sprites_gameCard_idx, 140, 80);
 	} else if (selectedVersion == 1) {
-		Gui::sprite(0, sprites_sdCard_idx, 140, 80, 1.5, 1.5);
+		Gui::sprite(0, sprites_sdCard_idx, 140, 80);
 	}
 
 

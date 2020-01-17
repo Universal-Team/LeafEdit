@@ -94,7 +94,6 @@ int main()
 	mkdir("sdmc:/LeafEdit/scripts", 0777); // Scripts path.
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 	amInit();
-	cfguInit();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users
 
 	if (Config::colorMode == 0) {
@@ -164,7 +163,6 @@ int main()
 	// Exit every process.
 	Gui::unloadSheets(); // Unload all sheets, because you don't know, if people exit properly like they should.
 	Config::save();
-	cfguExit();
 	amExit();
 	Archive::exit();
 	Gui::exit();
