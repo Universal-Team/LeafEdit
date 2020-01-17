@@ -110,7 +110,7 @@ void ItemEditor::DrawSlotSelection(void) const {
 
 void ItemEditor::DrawSubMenu(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEMS"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEMS"), 400);
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
@@ -119,13 +119,13 @@ void ItemEditor::DrawSubMenu(void) const {
 		}
 	}
 	// Pocket. (16)
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEM_POCKET")))/2-80+17.5, 0.6f, WHITE, Lang::get("ITEM_POCKET"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8f, Lang::get("ITEM_POCKET")))/2-80+17.5, 0.8, WHITE, Lang::get("ITEM_POCKET"), 130, 25);
 	// Island. (40)
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEM_ISLAND")))/2-20+17.5, 0.6f, WHITE, Lang::get("ITEM_ISLAND"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("ITEM_ISLAND")))/2-20+17.5, 0.8, WHITE, Lang::get("ITEM_ISLAND"), 130, 25);
 	// Dresser. (180)
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEM_DRESSER")))/2+75-17.5, 0.6f, WHITE, Lang::get("ITEM_DRESSER"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("ITEM_DRESSER")))/2+75-17.5, 0.8, WHITE, Lang::get("ITEM_DRESSER"), 130, 25);
 	// Storage. (360?)
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEM_STORAGE")))/2-80+17.5, 0.6f, WHITE, Lang::get("ITEM_STORAGE"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("ITEM_STORAGE")))/2-80+17.5, 0.8, WHITE, Lang::get("ITEM_STORAGE"), 130, 25);
 }
 
 void ItemEditor::DisplayPocket(void) const {
@@ -133,7 +133,7 @@ void ItemEditor::DisplayPocket(void) const {
 	int y = 63;
 	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEM_POCKET"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_POCKET"), 400);
 	Gui::DrawBottom();
 	for (int i = 0; i < 16; ++i)
 	{
@@ -159,8 +159,8 @@ void ItemEditor::DisplayIslandBox(void) const {
 	islandBoxData = EditorUtils::load_player_islandbox(selectedPassedPlayer, currentBox);
 	std::string itemName = islandBoxData[currentItem].first;
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEM_ISLAND") + std::to_string(currentBox+1), 400);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, itemName, 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_ISLAND") + std::to_string(currentBox+1), 400);
+	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, itemName, 390);
 	Gui::DrawBottom();
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
@@ -175,7 +175,7 @@ void ItemEditor::DisplayIslandBox(void) const {
 	}
 
 	DrawSlotSelection();
-	Gui::DrawString(305, 85, 0.8f, WHITE, std::to_string(currentRow + 1) + "\n-\n" + std::to_string(MAX_ISLANDBOX_ROWS), 390);
+	Gui::DrawString(305, 85, 0.9f, WHITE, std::to_string(currentRow + 1) + "\n-\n" + std::to_string(MAX_ISLANDBOX_ROWS), 390);
 	Gui::DrawArrow(295, 5);
 	Gui::DrawArrow(315, 235, 180.0);
 }
@@ -184,8 +184,8 @@ void ItemEditor::DisplayDresser(void) const {
 	dresserData = EditorUtils::load_player_dresseritems(selectedPassedPlayer, currentBox);
 	std::string itemName = dresserData[currentItem].first;
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentBox+1), 400);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, itemName, 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentBox+1), 400);
+	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, itemName, 390);
 	Gui::DrawBottom();
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
@@ -200,7 +200,7 @@ void ItemEditor::DisplayDresser(void) const {
 	}
 
 	DrawSlotSelection();
-	Gui::DrawString(305, 85, 0.8f, WHITE, std::to_string(currentRow + 1) + "\n-\n" + std::to_string(MAX_DRESSER_ROWS), 390);
+	Gui::DrawString(305, 85, 0.9f, WHITE, std::to_string(currentRow + 1) + "\n-\n" + std::to_string(MAX_DRESSER_ROWS), 390);
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(catPos[i].x, catPos[i].y, catPos[i].w, catPos[i].h, UNSELECTED_COLOR);
 		if (selectedCategory == i) {
@@ -215,8 +215,8 @@ void ItemEditor::DisplayStorage(void) const {
 	storageData = EditorUtils::load_player_storageitems(selectedPassedPlayer, currentBox);
 	std::string itemName = storageData[currentItem].first;
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("ITEM_STORAGE") + std::to_string(currentBox+1), 400);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, itemName, 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_STORAGE") + std::to_string(currentBox+1), 400);
+	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, itemName, 390);
 	Gui::DrawBottom();
 	for (int i = 0; i < 10; ++i) {
 		for (u32 y = 0; y < 2; y++) {
@@ -238,7 +238,7 @@ void ItemEditor::DisplayStorage(void) const {
 	}
 
 	DrawSlotSelection();
-	Gui::DrawString(305, 85, 0.8f, WHITE, std::to_string(currentRow + 1) + "\n-\n" + std::to_string(MAX_STORAGE_ROWS), 390);
+	Gui::DrawString(305, 85, 0.9f, WHITE, std::to_string(currentRow + 1) + "\n-\n" + std::to_string(MAX_STORAGE_ROWS), 390);
 	Gui::DrawArrow(295, 5);
 	Gui::DrawArrow(315, 235, 180.0);
 }

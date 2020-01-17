@@ -113,7 +113,7 @@ void Input::drawKeyboard() {
 
 
 std::string Input::getString(std::string Text) { return Input::getString(-1, Text); }
-std::string Input::getStringLong(std::string Text) { return Input::getString(-1, Text, 0.5f); } // For Long text.
+std::string Input::getStringLong(std::string Text) { return Input::getString(-1, Text, 0.7f); } // For Long text.
 
 std::string Input::getString(uint maxLength, std::string Text, float inputTextSize) {
 	int hDown;
@@ -127,7 +127,7 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 			Gui::DrawTop();
-			Gui::DrawString((400-Gui::GetStringWidth(0.55f, Text))/2, 2, 0.55f, WHITE, Text, 400);
+			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
 			Gui::DrawBottom();
 			drawKeyboard();
 			C2D_DrawRectSolid(0, 81, 0.5f, 320, 20, DARKER_COLOR & C2D_Color32(200, 200, 200, 200));
@@ -220,8 +220,8 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			C2D_TargetClear(top, BLACK);
 			C2D_TargetClear(bottom, BLACK);
 			Gui::DrawTop();
-			Gui::DrawStringCentered(0, 2, 0.65f, WHITE, Text, 400);
-			Gui::DrawString(180, 217, 0.8, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
+			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Text, 400);
+			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			Gui::ScreenDraw(bottom);
 			Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);

@@ -39,7 +39,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void MainMenu::Draw(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit", 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
 
 	Gui::DrawBottom();
 
@@ -50,9 +50,9 @@ void MainMenu::Draw(void) const
 		}
 	}
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.6f, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("EDITOR")))/2-20+17.5, 0.6f, WHITE, Lang::get("EDITOR"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SETTINGS")))/2+75-17.5, 0.6f, WHITE, Lang::get("SETTINGS"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SETTINGS")))/2+75-17.5, 0.8, WHITE, Lang::get("SETTINGS"), 130, 25);
 }
 
 
@@ -64,11 +64,6 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-/*	Test, bruh.
-	if (hDown & KEY_X) {
-		u16 bruh = VillagerManagement::SelectVillager(0);
-	}
-*/
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:

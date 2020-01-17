@@ -68,8 +68,8 @@ void VillagerViewer::DrawVillagerList(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, villagerID, 310);
-	Gui::DrawStringCentered(0, 130, 0.7f, WHITE, villagerNameText, 310);
+	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, villagerNameText, 310);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }
@@ -142,7 +142,6 @@ void VillagerViewer::DrawVillager(void) const {
 	Gui::DrawTop();
 	DrawBox();
 	std::string villagerID = Lang::get("VILLAGER_ID");
-//	std::string status = "is boxed: ";
 	DrawCurrentVillager();
 	for (u16 i = 0; i < 10; i++) {
 		if (currentVillager == i) {
@@ -150,13 +149,11 @@ void VillagerViewer::DrawVillager(void) const {
 			VillagerManagement::DrawVillager(villager, 160, 60);
 			villagerNameText = g_villagerDatabase[villager];
 			villagerID += std::to_string(Save::Instance()->villagers[i]->GetId());
-//			status += std::to_string(Save::Instance()->villagers[i]->getStatus());
 		}
 	}
 
-	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, villagerID, 310);
-	Gui::DrawStringCentered(0, 130, 0.7f, WHITE, villagerNameText, 310);
-//	Gui::DrawStringCentered(0, 190, 0.7f, WHITE, status, 310);
+	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, villagerNameText, 310);
 	Gui::DrawBottom();
 }
 
@@ -169,8 +166,8 @@ void VillagerViewer::DrawCurrentVillager(void) const
 			activeVillager += std::to_string(i+1);
 		}
 	}
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 390);
-	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, activeVillager, 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 390);
+	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, activeVillager, 390);
 }
 
 void VillagerViewer::DrawBox(void) const {

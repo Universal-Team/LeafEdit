@@ -40,8 +40,8 @@ void Settings::Draw(void) const
 {
 	if(screenMode == 0) {
 		Gui::DrawTop();
-		Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 400);
-		Gui::DrawString(395-Gui::GetStringWidth(0.72, V_STRING), 216, 0.72, WHITE, V_STRING, 390);
+		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 400);
+		Gui::DrawString(395-Gui::GetStringWidth(0.9, V_STRING), 216, 0.9, WHITE, V_STRING, 390);
 		Gui::DrawBottom();
 		for (int i = 0; i < 3; i++) {
 			Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);
@@ -49,9 +49,9 @@ void Settings::Draw(void) const
 				Gui::drawAnimatedSelector(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, .030f, SELECTED_COLOR);
 			}
 		}
-		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("LANGUAGE")))/2-80+17.5, 0.6f, WHITE, Lang::get("LANGUAGE"), 130, 25);
-		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("CREDITS")))/2-20+17.5, 0.6f, WHITE, Lang::get("CREDITS"), 130, 25);
-		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("COLORMODE")))/2+75-17.5, 0.6f, WHITE, Lang::get("COLORMODE"), 130, 25);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("LANGUAGE")))/2-80+17.5, 0.8, WHITE, Lang::get("LANGUAGE"), 130, 25);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("CREDITS")))/2-20+17.5, 0.8, WHITE, Lang::get("CREDITS"), 130, 25);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("COLORMODE")))/2+75-17.5, 0.8, WHITE, Lang::get("COLORMODE"), 130, 25);
 	} else if(screenMode == 1) {
 		DrawLangScreen();
 	}
@@ -107,7 +107,7 @@ void Settings::SelectionLogic(u32 hDown, u32 hHeld)
 
 void Settings::DrawLangScreen(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("SELECT_LANG"), 398);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_LANG"), 398);
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 8; i++) {
@@ -116,15 +116,15 @@ void Settings::DrawLangScreen(void) const {
 			Gui::drawAnimatedSelector(langBlocks[i].x, langBlocks[i].y, langBlocks[i].w, langBlocks[i].h, .030f, SELECTED_COLOR);
 		}
 	}
-	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.7f, WHITE, "Deutsch", 320);
-	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.7f, WHITE, "English", 320);
-	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.7f, WHITE, "Español", 320);
-	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.7f, WHITE, "Français", 320);
+	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y-2, 0.9f, WHITE, "Deutsch", 320);
+	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y-2, 0.9f, WHITE, "English", 320);
+	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y-2, 0.9f, WHITE, "Español", 320);
+	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y-2, 0.9f, WHITE, "Français", 320);
 
-	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.7f, WHITE, "Italiano", 320);
-	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.7f, WHITE, "Lietuvių", 320);
-	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.7f, WHITE, "Português", 320);
-	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.7f, WHITE, "日本語", 320);
+	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y-2, 0.9f, WHITE, "Italiano", 320);
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y-2, 0.9f, WHITE, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y-2, 0.9f, WHITE, "Português", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y-2, 0.9f, WHITE, "日本語", 320);
 
 	Gui::sprite(0, sprites_back_idx, langBlocks[8].x, langBlocks[8].y);
 }

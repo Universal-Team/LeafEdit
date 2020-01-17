@@ -78,20 +78,20 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
 
 	Gui::Draw_Rect(40, 142, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 112, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 172, 320, 22, DARKER_COLOR);
 	VillagerManagement::DrawVillager(Save::Instance()->villagers[currentVillager]->GetId(), 160, 40);
-	Gui::DrawStringCentered(0, 110, 0.7f, WHITE, g_villagerDatabase[Save::Instance()->villagers[currentVillager]->GetId()], 310);
-	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(Save::Instance()->villagers[currentVillager]->GetId()), 310);
+	Gui::DrawStringCentered(0, 110, 0.9f, WHITE, g_villagerDatabase[Save::Instance()->villagers[currentVillager]->GetId()], 310);
+	Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(Save::Instance()->villagers[currentVillager]->GetId()), 310);
 
 	// Status.
 	if (Save::Instance()->villagers[currentVillager]->getStatus() == 1) {
-		Gui::DrawStringCentered(0, 170, 0.7f, WHITE, Lang::get("STATUS") + ": " + Lang::get("BOXED"), 310);
+		Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("BOXED"), 310);
 	} else {
-		Gui::DrawStringCentered(0, 170, 0.7f, WHITE, Lang::get("STATUS") + ": " + Lang::get("UNBOXED"), 310);
+		Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("UNBOXED"), 310);
 	}
 
 	Gui::DrawBottom();
@@ -102,9 +102,9 @@ void VillagerEditor::DrawSubMenu(void) const {
 		}
 	}
 	// Replace.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("REPLACE")))/2-80+17.5, 0.6f, WHITE, Lang::get("REPLACE"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("REPLACE")))/2-80+17.5, 0.8, WHITE, Lang::get("REPLACE"), 130, 25);
 	// Set Boxed.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("STATUS")))/2-20+17.5, 0.6f, WHITE, Lang::get("STATUS"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("STATUS")))/2-20+17.5, 0.8, WHITE, Lang::get("STATUS"), 130, 25);
 }
 
 void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -157,7 +157,7 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 // Replace Sub Screen.
 void VillagerEditor::DrawReplaceSub(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit", 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
 
 	Gui::DrawBottom();
 
@@ -167,8 +167,8 @@ void VillagerEditor::DrawReplaceSub(void) const {
 			Gui::drawAnimatedSelector(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SELECTING")))/2-80+17.5, 0.6f, WHITE, Lang::get("SELECTING"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("MANUALLY")))/2-20+17.5, 0.6f, WHITE, Lang::get("MANUALLY"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SELECTING")))/2-80+17.5, 0.8, WHITE, Lang::get("SELECTING"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("MANUALLY")))/2-20+17.5, 0.8, WHITE, Lang::get("MANUALLY"), 130, 25);
 }
 
 void VillagerEditor::ReplaceSubLogic(u32 hDown, touchPosition touch) {
@@ -221,95 +221,95 @@ void VillagerEditor::DrawGroupSelection(void) const
 	}
 	currentPage += " / 4";
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, currentPage, 390);
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
+	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, currentPage, 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
 
 	if (subMenuPage == 1) {
 		Gui::Draw_Rect(5, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(93, 10, 28);
-		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[0], 60);
+		Gui::DrawStringCentered(-160, 83, 0.7, WHITE, g_groups[0], 60);
 
 		Gui::Draw_Rect(85, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(1, 90, 28);
-		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[1], 60);
+		Gui::DrawStringCentered(-80, 83, 0.7, WHITE, g_groups[1], 60);
 
 		Gui::Draw_Rect(165, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(9, 170, 28);
-		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[2], 60);
+		Gui::DrawStringCentered(0, 83, 0.7, WHITE, g_groups[2], 60);
 
 		Gui::Draw_Rect(245, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(23, 250, 28);
-		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[3], 60);
+		Gui::DrawStringCentered(80, 83, 0.7, WHITE, g_groups[3], 60);
 
 		Gui::Draw_Rect(325, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(38, 330, 28);
-		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[4], 60);
+		Gui::DrawStringCentered(160, 83, 0.7, WHITE, g_groups[4], 60);
 
 		// Second Row!
 		Gui::Draw_Rect(5, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(48, 10, 138);
-		Gui::DrawStringCentered(-160, 193, 0.55f, WHITE, g_groups[5], 60);
+		Gui::DrawStringCentered(-160, 193, 0.7, WHITE, g_groups[5], 60);
 
 		Gui::Draw_Rect(85, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(82, 90, 138);
-		Gui::DrawStringCentered(-80, 193, 0.55f, WHITE, g_groups[6], 60);
+		Gui::DrawStringCentered(-80, 193, 0.7, WHITE, g_groups[6], 60);
 
 		Gui::Draw_Rect(165, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(89, 170, 138);
-		Gui::DrawStringCentered(0, 193, 0.55f, WHITE, g_groups[7], 60);
+		Gui::DrawStringCentered(0, 193, 0.7, WHITE, g_groups[7], 60);
 
 		Gui::Draw_Rect(245, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(68, 250, 138);
-		Gui::DrawStringCentered(80, 193, 0.55f, WHITE, g_groups[8], 60);
+		Gui::DrawStringCentered(80, 193, 0.7, WHITE, g_groups[8], 60);
 
 		Gui::Draw_Rect(325, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(101, 330, 138);
-		Gui::DrawStringCentered(160, 193, 0.55f, WHITE, g_groups[9], 60);
+		Gui::DrawStringCentered(160, 193, 0.7, WHITE, g_groups[9], 60);
 
 
 	} else if (subMenuPage == 2) {
 
 		Gui::Draw_Rect(5, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(115, 10, 28);
-		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[10], 60);
+		Gui::DrawStringCentered(-160, 83, 0.7, WHITE, g_groups[10], 60);
 
 		Gui::Draw_Rect(85, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(142, 90, 28);
-		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[11], 60);
+		Gui::DrawStringCentered(-80, 83, 0.7, WHITE, g_groups[11], 60);
 
 		Gui::Draw_Rect(165, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(283, 170, 28);
-		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[12], 60);
+		Gui::DrawStringCentered(0, 83, 0.7, WHITE, g_groups[12], 60);
 
 		Gui::Draw_Rect(245, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(148, 250, 28);
-		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[13], 60);
+		Gui::DrawStringCentered(80, 83, 0.7, WHITE, g_groups[13], 60);
 
 		Gui::Draw_Rect(325, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(159, 330, 28);
-		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[14], 60);
+		Gui::DrawStringCentered(160, 83, 0.7, WHITE, g_groups[14], 60);
 
 		// Second Row!
 
 		Gui::Draw_Rect(5, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(176, 10, 138);
-		Gui::DrawStringCentered(-160, 193, 0.55f, WHITE, g_groups[15], 60);
+		Gui::DrawStringCentered(-160, 193, 0.7, WHITE, g_groups[15], 60);
 
 		Gui::Draw_Rect(85, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(181, 90, 138);
-		Gui::DrawStringCentered(-80, 193, 0.55f, WHITE, g_groups[16], 60);
+		Gui::DrawStringCentered(-80, 193, 0.7, WHITE, g_groups[16], 60);
 
 		Gui::Draw_Rect(165, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(190, 170, 138);
-		Gui::DrawStringCentered(0, 193, 0.55f, WHITE, g_groups[17], 60);
+		Gui::DrawStringCentered(0, 193, 0.7, WHITE, g_groups[17], 60);
 
 		Gui::Draw_Rect(245, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(199, 250, 138);
-		Gui::DrawStringCentered(80, 193, 0.55f, WHITE, g_groups[18], 60);
+		Gui::DrawStringCentered(80, 193, 0.7, WHITE, g_groups[18], 60);
 
 		Gui::Draw_Rect(325, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(208, 330, 138);
-		Gui::DrawStringCentered(160, 193, 0.55f, WHITE, g_groups[19], 60);
+		Gui::DrawStringCentered(160, 193, 0.7, WHITE, g_groups[19], 60);
 
 
 	} else if (subMenuPage == 3) {
@@ -317,45 +317,45 @@ void VillagerEditor::DrawGroupSelection(void) const
 		Gui::Draw_Rect(5, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(232, 10, 28);
 		std::string GroupTwentyone = g_groups[20];
-		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[20], 60);
+		Gui::DrawStringCentered(-160, 83, 0.7, WHITE, g_groups[20], 60);
 
 		Gui::Draw_Rect(85, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(224, 90, 28);
-		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[21], 60);
+		Gui::DrawStringCentered(-80, 83, 0.7, WHITE, g_groups[21], 60);
 
 		Gui::Draw_Rect(165, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(239, 170, 28);
-		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[22], 60);
+		Gui::DrawStringCentered(0, 83, 0.7, WHITE, g_groups[22], 60);
 
 		Gui::Draw_Rect(245, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(247, 250, 28);
-		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[23], 60);
+		Gui::DrawStringCentered(80, 83, 0.7, WHITE, g_groups[23], 60);
 
 		Gui::Draw_Rect(325, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(258, 330, 28);
-		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[24], 60);
+		Gui::DrawStringCentered(160, 83, 0.7, WHITE, g_groups[24], 60);
 
 		// Second Row!
 
 		Gui::Draw_Rect(5, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(272, 10, 138);
-		Gui::DrawStringCentered(-160, 193, 0.55f, WHITE, g_groups[25], 60);
+		Gui::DrawStringCentered(-160, 193, 0.7, WHITE, g_groups[25], 60);
 
 		Gui::Draw_Rect(85, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(278, 90, 138);
-		Gui::DrawStringCentered(-80, 193, 0.55f, WHITE, g_groups[26], 60);
+		Gui::DrawStringCentered(-80, 193, 0.7, WHITE, g_groups[26], 60);
 
 		Gui::Draw_Rect(165, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(300, 170, 138);
-		Gui::DrawStringCentered(0, 193, 0.55f, WHITE, g_groups[27], 60);
+		Gui::DrawStringCentered(0, 193, 0.7, WHITE, g_groups[27], 60);
 
 		Gui::Draw_Rect(245, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(305, 250, 138);
-		Gui::DrawStringCentered(80, 193, 0.55f, WHITE, g_groups[28], 60);
+		Gui::DrawStringCentered(80, 193, 0.7, WHITE, g_groups[28], 60);
 
 		Gui::Draw_Rect(325, 140, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(337, 330, 138);
-		Gui::DrawStringCentered(160, 193, 0.55f, WHITE, g_groups[29], 60);
+		Gui::DrawStringCentered(160, 193, 0.7, WHITE, g_groups[29], 60);
 
 
 	} else if (subMenuPage == 4) {
@@ -363,23 +363,23 @@ void VillagerEditor::DrawGroupSelection(void) const
 		Gui::Draw_Rect(5, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(342, 10, 28);
 		std::string GroupThirtyone = g_groups[30];
-		Gui::DrawStringCentered(-160, 83, 0.55f, WHITE, g_groups[30], 60);
+		Gui::DrawStringCentered(-160, 83, 0.7, WHITE, g_groups[30], 60);
 
 		Gui::Draw_Rect(85, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(349, 90, 28);
-		Gui::DrawStringCentered(-80, 83, 0.55f, WHITE, g_groups[31], 60);
+		Gui::DrawStringCentered(-80, 83, 0.7, WHITE, g_groups[31], 60);
 
 		Gui::Draw_Rect(165, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(362, 170, 28);
-		Gui::DrawStringCentered(0, 83, 0.55f, WHITE, g_groups[32], 60);
+		Gui::DrawStringCentered(0, 83, 0.7, WHITE, g_groups[32], 60);
 
 		Gui::Draw_Rect(245, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(382, 250, 28);
-		Gui::DrawStringCentered(80, 83, 0.55f, WHITE, g_groups[33], 60);
+		Gui::DrawStringCentered(80, 83, 0.7, WHITE, g_groups[33], 60);
 
 		Gui::Draw_Rect(325, 30, 70, 70, DARKER_COLOR);
 		VillagerManagement::DrawVillager(388, 330, 28);
-		Gui::DrawStringCentered(160, 83, 0.55f, WHITE, g_groups[34], 60);
+		Gui::DrawStringCentered(160, 83, 0.7, WHITE, g_groups[34], 60);
 	}
 
 	// Draw Selection.
@@ -575,7 +575,7 @@ void VillagerEditor::DrawVillagerSelection(void) const {
 		for (u32 x = 0; x < 5; x++, villager++) {
 			Gui::Draw_Rect(15 + x * 75, 40 + y * 90, 70, 70, DARKER_COLOR);
 			VillagerManagement::DrawVillager(villager, 15 + x * 75, 35 + y * 90);
-			Gui::DrawString(15 + x * 75, 95 + y * 90, 0.45f, WHITE, g_villagerDatabase[villager], 400);
+			Gui::DrawString(15 + x * 75, 95 + y * 90, 0.6f, WHITE, g_villagerDatabase[villager], 400);
 		}
 	}
 }
@@ -597,10 +597,10 @@ void VillagerEditor::DrawVillagerSetTest(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("CHANGE_VILLAGER_LR"), 310);
-	Gui::DrawStringCentered(0, 160, 0.7f, WHITE, villagerID, 310);
-	Gui::DrawStringCentered(0, 130, 0.7f, WHITE, villagerNameText, 310);
-	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, IDs, 390);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("CHANGE_VILLAGER_LR"), 310);
+	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, villagerID, 310);
+	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, villagerNameText, 310);
+	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, IDs, 390);
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_search_idx, 290, 3);
 }

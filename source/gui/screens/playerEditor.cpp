@@ -91,7 +91,7 @@ void PlayerEditor::DrawTPCAndName(void) const {
 void PlayerEditor::DrawSubMenu(void) const {
 	std::string activePlayer;
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 400);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 400);
 	DrawTPCAndName();
 
 	for (int i = 0; i < 4; i++) {
@@ -106,18 +106,18 @@ void PlayerEditor::DrawSubMenu(void) const {
 			activePlayer += std::to_string(i+1);
 		}
 	}
-	Gui::DrawStringCentered(0, 212, 0.8f, WHITE, activePlayer, 320);
+	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, activePlayer, 320);
 	Gui::DrawBottom();
 }
 
 void PlayerEditor::DrawPlayerStyle(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400);
 	// Playername & TAN.
 	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
-	Gui::DrawStringCentered(0, 70, 0.8f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);
+	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 380);
+	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("TAN_VALUE") + ": " + std::to_string((SaveFile->players[cp]->PlayerTan)), 380);
 
 	// Player Hair & Face sprites.
 	Gui::Draw_Rect(90, 105, 90, 40, DARKER_COLOR);
@@ -138,17 +138,17 @@ void PlayerEditor::DrawPlayerStyle(void) const {
 		}
 	}
 	// Display Player name.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("PLAYER_NAME")))/2-80+17.5, 0.6f, WHITE, Lang::get("PLAYER_NAME"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("PLAYER_NAME")))/2-80+17.5, 0.8, WHITE, Lang::get("PLAYER_NAME"), 130, 25);
 	// Display Hair Style.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("HAIRSTYLE")))/2-20+17.5, 0.6f, WHITE, Lang::get("HAIRSTYLE"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("HAIRSTYLE")))/2-20+17.5, 0.8, WHITE, Lang::get("HAIRSTYLE"), 130, 25);
 	// Display Face.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("FACE")))/2+75-17.5, 0.6f, WHITE, Lang::get("FACE"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("FACE")))/2+75-17.5, 0.8, WHITE, Lang::get("FACE"), 130, 25);
 	// Display Tan.
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("TAN_VALUE")))/2-80+17.5, 0.6f, WHITE, Lang::get("TAN_VALUE"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("TAN_VALUE")))/2-80+17.5, 0.8, WHITE, Lang::get("TAN_VALUE"), 130, 25);
 	// Display Hair Color.
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("HAIR_COLOR")))/2-20+17.5, 0.6f, WHITE, Lang::get("HAIR_COLOR"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("HAIR_COLOR")))/2-20+17.5, 0.8, WHITE, Lang::get("HAIR_COLOR"), 130, 25);
 	// Display Eye Color.
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("EYE_COLOR")))/2+75-17.5, 0.6f, WHITE, Lang::get("EYE_COLOR"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("EYE_COLOR")))/2+75-17.5, 0.8, WHITE, Lang::get("EYE_COLOR"), 130, 25);
 }
 
 
@@ -181,10 +181,10 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 
 void PlayerEditor::DrawMainEditor(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
 
 	C2D_DrawImageAt(Save::Instance()->players[cp]->m_TPCPic, 170, 45.f, 0.5f, nullptr, 1, 1);
-	Gui::DrawStringCentered(0, 150, 0.7f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 55);
+	Gui::DrawStringCentered(0, 150, 0.9f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 55);
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
@@ -195,13 +195,13 @@ void PlayerEditor::DrawMainEditor(void) const {
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
 
 		// Player Stuff like Wallet amount.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("PLAYER")))/2-80+17.5, 0.6f, WHITE, Lang::get("PLAYER"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("PLAYER")))/2-80+17.5, 0.8, WHITE, Lang::get("PLAYER"), 130, 25);
 		// Items.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("ITEMS")))/2-20+17.5, 0.6f, WHITE, Lang::get("ITEMS"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("ITEMS")))/2-20+17.5, 0.8, WHITE, Lang::get("ITEMS"), 130, 25);
 		// Appearance.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("APPEARANCE")))/2+75-17.5, 0.6f, WHITE, Lang::get("APPEARANCE"), 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("APPEARANCE")))/2+75-17.5, 0.8, WHITE, Lang::get("APPEARANCE"), 130, 25);
 		// Pattern
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("PATTERN")))/2-80+17.5, 0.6f, WHITE, Lang::get("PATTERN"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("PATTERN")))/2-80+17.5, 0.8, WHITE, Lang::get("PATTERN"), 130, 25);
 }
 
 
@@ -276,16 +276,16 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void PlayerEditor::DrawPlayerEditor(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_EDITOR"), 400);
 	// Draw Rectangles first, then Player Info.
 	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 65, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 93, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 121, 320, 22, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 35, 0.8f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
-	Gui::DrawStringCentered(0, 63, 0.8f, WHITE, Lang::get("BANK_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->BankAmount.value)), 380);
-	Gui::DrawStringCentered(0, 91, 0.8f, WHITE, Lang::get("MEDAL_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->IslandMedals.value)), 380);
-	Gui::DrawStringCentered(0, 119, 0.8f, WHITE, Lang::get("COUPON_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->MeowCoupons.value)), 380);
+	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("WALLET_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->Wallet.value)), 380);
+	Gui::DrawStringCentered(0, 63, 0.9f, WHITE, Lang::get("BANK_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->BankAmount.value)), 380);
+	Gui::DrawStringCentered(0, 91, 0.9f, WHITE, Lang::get("MEDAL_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->IslandMedals.value)), 380);
+	Gui::DrawStringCentered(0, 119, 0.9f, WHITE, Lang::get("COUPON_AMOUNT") + ": " + std::to_string((SaveFile->players[cp]->MeowCoupons.value)), 380);
 	// Player Bottom.
 	Gui::DrawBottom();
 
@@ -298,32 +298,32 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 
 	if (currentPage == 1) {
 		// Display Wallet Amount
-		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("WALLET_AMOUNT")))/2-80+17.5, 0.6f, WHITE, Lang::get("WALLET_AMOUNT"), 130, 25);
+		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("WALLET_AMOUNT")))/2-80+17.5, 0.8, WHITE, Lang::get("WALLET_AMOUNT"), 130, 25);
 		// Clear Wallet.
-		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("CLEAR_WALLET")))/2-20+17.5, 0.6f, WHITE, Lang::get("CLEAR_WALLET"), 130, 25);
+		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("CLEAR_WALLET")))/2-20+17.5, 0.8, WHITE, Lang::get("CLEAR_WALLET"), 130, 25);
 		// Max Wallet.
-		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("MAX_WALLET")))/2+75-17.5, 0.6f, WHITE, Lang::get("MAX_WALLET"), 130, 25);
+		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("MAX_WALLET")))/2+75-17.5, 0.8, WHITE, Lang::get("MAX_WALLET"), 130, 25);
 		// Display Bank Amount.
-		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("BANK_AMOUNT")))/2-80+17.5, 0.6f, WHITE, Lang::get("BANK_AMOUNT"), 130, 25);
+		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("BANK_AMOUNT")))/2-80+17.5, 0.8, WHITE, Lang::get("BANK_AMOUNT"), 130, 25);
 		// Display Medal Amount.
-		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("MEDAL_AMOUNT")))/2-20+17.5, 0.6f, WHITE, Lang::get("MEDAL_AMOUNT"), 130, 25);
+		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("MEDAL_AMOUNT")))/2-20+17.5, 0.8, WHITE, Lang::get("MEDAL_AMOUNT"), 130, 25);
 		// Display Coupon Amount.
-		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("COUPON_AMOUNT")))/2+75-17.5, 0.6f, WHITE, Lang::get("COUPON_AMOUNT"), 130, 25);
+		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("COUPON_AMOUNT")))/2+75-17.5, 0.8, WHITE, Lang::get("COUPON_AMOUNT"), 130, 25);
 
 	} else if (currentPage == 2) {
 
 		// Max Bank.
-		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("MAX_BANK")))/2-80+17.5, 0.6f, WHITE, Lang::get("MAX_BANK"), 130, 25);
+		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("MAX_BANK")))/2-80+17.5, 0.8, WHITE, Lang::get("MAX_BANK"), 130, 25);
 		// Max Medals.
-		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("MAX_MEDALS")))/2-20+17.5, 0.6f, WHITE, Lang::get("MAX_MEDALS"), 130, 25);
+		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("MAX_MEDALS")))/2-20+17.5, 0.8, WHITE, Lang::get("MAX_MEDALS"), 130, 25);
 		// Max Coupons.
-		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.6f, Lang::get("MAX_COUPONS")))/2+75-17.5, 0.6f, WHITE, Lang::get("MAX_COUPONS"), 130, 25);
+		Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("MAX_COUPONS")))/2+75-17.5, 0.8, WHITE, Lang::get("MAX_COUPONS"), 130, 25);
 		// Clear Bank.
-		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("CLEAR_BANK")))/2-80+17.5, 0.6f, WHITE, Lang::get("CLEAR_BANK"), 130, 25);
+		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("CLEAR_BANK")))/2-80+17.5, 0.8, WHITE, Lang::get("CLEAR_BANK"), 130, 25);
 		// Clear Medals.
-		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("CLEAR_MEDALS")))/2-20+17.5, 0.6f, WHITE, Lang::get("CLEAR_MEDALS"), 130, 25);
+		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("CLEAR_MEDALS")))/2-20+17.5, 0.8, WHITE, Lang::get("CLEAR_MEDALS"), 130, 25);
 		// Clear Coupons.
-		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.6f, Lang::get("CLEAR_COUPONS")))/2+75-17.5, 0.6f, WHITE, Lang::get("CLEAR_COUPONS"), 130, 25);
+		Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("CLEAR_COUPONS")))/2+75-17.5, 0.8, WHITE, Lang::get("CLEAR_COUPONS"), 130, 25);
 	}
 }
 
@@ -512,7 +512,7 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void PlayerEditor::DrawPattern(void) const {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "LeafEdit - " + Lang::get("PATTERN"), 400);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN"), 400);
 	Gui::DrawBottom();
     for (int i = 0; i < 10; i++) {
 		for (u32 y = 0; y < 2; y++) {

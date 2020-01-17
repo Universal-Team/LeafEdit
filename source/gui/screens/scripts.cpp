@@ -107,17 +107,17 @@ void Scripts::DrawSubMenu(void) const {
 		std::string scriptAmount = std::to_string(selection +1) + " / " + std::to_string(scriptInformation.size());
 		Gui::DrawTop();
 		if (scriptLocation == 0) {
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("MODE_SD"), 390);
+			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("MODE_SD"), 390);
 		} else {
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("MODE_ROMFS"), 390);
+			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("MODE_ROMFS"), 390);
 		}
-		Gui::DrawStringCentered(0, 80, 0.7f, WHITE, Lang::get("TITLE") + std::string(scriptInformation[selection].title), 390);
-		Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("AUTHOR") + std::string(scriptInformation[selection].author), 390);
-		Gui::DrawStringCentered(0, 120, 0.7f, WHITE, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
+		Gui::DrawStringCentered(0, 80, 0.9f, WHITE, Lang::get("TITLE") + std::string(scriptInformation[selection].title), 390);
+		Gui::DrawStringCentered(0, 100, 0.9f, WHITE, Lang::get("AUTHOR") + std::string(scriptInformation[selection].author), 390);
+		Gui::DrawStringCentered(0, 120, 0.9f, WHITE, Lang::get("DESCRIPTION") + std::string(scriptInformation[selection].Description), 390);
 		if (scriptInformation[selection].Mode != "MISSING: scriptInfo.type") {
-			Gui::DrawStringCentered(0, 214, 0.72f, WHITE, Lang::get("SCRIPT_TYPE") + std::string(scriptInformation[selection].Mode), 390);
+			Gui::DrawStringCentered(0, 214, 0.9f, WHITE, Lang::get("SCRIPT_TYPE") + std::string(scriptInformation[selection].Mode), 390);
 		}
-		Gui::DrawString(397-Gui::GetStringWidth(0.6f, scriptAmount), 237-Gui::GetStringHeight(0.6f, scriptAmount), 0.6f, WHITE, scriptAmount);
+		Gui::DrawString(397-Gui::GetStringWidth(0.8, scriptAmount), 237-Gui::GetStringHeight(0.8, scriptAmount), 0.8, WHITE, scriptAmount);
 		Gui::DrawBottom();
 		for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)scriptInformation.size();i++) {
 			line1 = scriptInformation[screenPos + i].title;
@@ -127,17 +127,17 @@ void Scripts::DrawSubMenu(void) const {
 			} else {
 				Gui::Draw_Rect(0, 40+(i*57), 320, 45, UNSELECTED_COLOR);
 			}
-			Gui::DrawStringCentered(0, 38+(i*57), 0.7f, WHITE, line1, 320);
-			Gui::DrawStringCentered(0, 62+(i*57), 0.7f, WHITE, line2, 320);
+			Gui::DrawStringCentered(0, 38+(i*57), 0.9f, WHITE, line1, 320);
+			Gui::DrawStringCentered(0, 62+(i*57), 0.9f, WHITE, line2, 320);
 		}
 	} else {
 		Gui::DrawTop();
 		if (scriptLocation == 0) {
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("MODE_SD"), 390);
+			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("MODE_SD"), 390);
 		} else {
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Lang::get("MODE_ROMFS"), 390);
+			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("MODE_ROMFS"), 390);
 		}
-		Gui::DrawStringCentered(0, 215, 0.7f, WHITE, Lang::get("NO_SCRIPTS_FOUND"), 390);
+		Gui::DrawStringCentered(0, 215, 0.9f, WHITE, Lang::get("NO_SCRIPTS_FOUND"), 390);
 		Gui::DrawBottom();
 	}
 }
@@ -147,12 +147,12 @@ void Scripts::DrawSingleObject(void) const {
 	std::string info;
 	std::string entryAmount = std::to_string(selection2+1) + " / " + std::to_string((int)jsonFile.at("scriptContent").size());
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.7f, WHITE, std::string(jsonFile["scriptInfo"]["title"]), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, std::string(jsonFile["scriptInfo"]["title"]), 400);
 
-	Gui::DrawStringCentered(0, 80, 0.7f, WHITE, Lang::get("TITLE") + std::string(jsonFile["scriptContent"][selection2]["info"]["title"]), 390);
-	Gui::DrawStringCentered(0, 100, 0.7f, WHITE, Lang::get("AUTHOR") + std::string(jsonFile["scriptContent"][selection2]["info"]["author"]), 390);
-	Gui::DrawStringCentered(0, 120, 0.7f, WHITE, Lang::get("DESCRIPTION") + std::string(jsonFile["scriptContent"][selection2]["info"]["description"]), 390);
-	Gui::DrawString(397-Gui::GetStringWidth(0.6f, entryAmount), 237-Gui::GetStringHeight(0.6f, entryAmount), 0.6f, WHITE, entryAmount);
+	Gui::DrawStringCentered(0, 80, 0.9f, WHITE, Lang::get("TITLE") + std::string(jsonFile["scriptContent"][selection2]["info"]["title"]), 390);
+	Gui::DrawStringCentered(0, 100, 0.9f, WHITE, Lang::get("AUTHOR") + std::string(jsonFile["scriptContent"][selection2]["info"]["author"]), 390);
+	Gui::DrawStringCentered(0, 120, 0.9f, WHITE, Lang::get("DESCRIPTION") + std::string(jsonFile["scriptContent"][selection2]["info"]["description"]), 390);
+	Gui::DrawString(397-Gui::GetStringWidth(0.8, entryAmount), 237-Gui::GetStringHeight(0.8, entryAmount), 0.8, WHITE, entryAmount);
 	Gui::DrawBottom();
 	for(int i=0;i<ENTRIES_PER_SCREEN && i<(int)jsonFile.at("scriptContent").size();i++) {
 		info = jsonFile["scriptContent"][screenPos2 + i]["info"]["title"];
@@ -161,7 +161,7 @@ void Scripts::DrawSingleObject(void) const {
 		} else {
 			Gui::Draw_Rect(0, 40+(i*57), 320, 45, UNSELECTED_COLOR);
 		}
-		Gui::DrawStringCentered(0, 50+(i*57), 0.7f, WHITE, info, 320);
+		Gui::DrawStringCentered(0, 50+(i*57), 0.9f, WHITE, info, 320);
 	}
 }
 

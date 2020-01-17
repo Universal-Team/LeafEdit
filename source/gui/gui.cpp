@@ -51,7 +51,7 @@ C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
 
 C2D_TextBuf sizeBuf;
-C2D_Font systemFont;
+C2D_Font font;
 std::stack<std::unique_ptr<Screen>> screens;
 bool currentScreen = false;
 
@@ -93,7 +93,7 @@ Result Gui::init(void)
 	bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
 	sizeBuf = C2D_TextBufNew(4096);
 	sprites = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
-	systemFont = C2D_FontLoadSystem(CFG_REGION_USA);
+	font = C2D_FontLoad("romfs:/font.bcfnt");
 	/*
 		Was for testing the Villager stuff.
 	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
@@ -134,6 +134,7 @@ Result Gui::unloadSheets() {
 void Gui::exit(void)
 {
 	C2D_SpriteSheetFree(sprites);
+	C2D_FontFree(font);
 	C2D_TextBufDelete(sizeBuf);
 	C2D_Fini();
 	C3D_Fini();
@@ -184,7 +185,7 @@ void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::strin
 // Draw String or Text.
 void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
     C2D_Text c2d_text;
-    C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
+    C2D_TextFontParse(&c2d_text, font, sizeBuf, Text.c_str());
     C2D_TextOptimize(&c2d_text);
 
     float heightScale;
@@ -212,7 +213,7 @@ float Gui::GetStringWidth(float size, std::string Text) {
 // Get String or Text Size.
 void Gui::GetStringSize(float size, float *width, float *height, std::string Text) {
 	C2D_Text c2d_text;
-	C2D_TextFontParse(&c2d_text, systemFont, sizeBuf, Text.c_str());
+	C2D_TextFontParse(&c2d_text, font, sizeBuf, Text.c_str());
 	C2D_TextGetDimensions(&c2d_text, size, size, width, height);
 }
 

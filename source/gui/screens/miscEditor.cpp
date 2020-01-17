@@ -44,7 +44,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void MiscEditor::Draw(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, "LeafEdit - " + Lang::get("MISC_EDITOR"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("MISC_EDITOR"), 400);
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {
@@ -54,8 +54,8 @@ void MiscEditor::Draw(void) const
 		}
 	}
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("ACRES")))/2-80+17.5, 0.6f, WHITE, Lang::get("ACRES"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6f, Lang::get("SCRIPTS")))/2-20+17.5, 0.6f, WHITE, Lang::get("SCRIPTS"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("ACRES")))/2-80+17.5, 0.8, WHITE, Lang::get("ACRES"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SCRIPTS")))/2-20+17.5, 0.8, WHITE, Lang::get("SCRIPTS"), 130, 25);
 }
 
 

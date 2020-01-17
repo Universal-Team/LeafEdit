@@ -82,8 +82,8 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void TitleSelection::DrawGameSelector(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("GAME_GROUP_SELECT"), 398);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("Y_SETTINGS"), 398);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("GAME_GROUP_SELECT"), 398);
+	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, Lang::get("Y_SETTINGS"), 398);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
@@ -96,12 +96,12 @@ void TitleSelection::DrawGameSelector(void) const
 	Gui::sprite(0, sprites_IconWA_idx, 137.5, 80);
 	Gui::sprite(0, sprites_IconWL_idx, 237.5, 80);
 
-	Gui::DrawStringCentered(-100, 140, 0.7f, WHITE, Lang::get("NEW_LEAF_1"), 70);
-	Gui::DrawStringCentered(-100, 155, 0.7f, WHITE, Lang::get("NEW_LEAF_2"), 70);
-	Gui::DrawStringCentered(0, 140, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 70);
-	Gui::DrawStringCentered(0, 155, 0.7f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 70);
-	Gui::DrawStringCentered(100, 140, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_1"), 70);
-	Gui::DrawStringCentered(100, 155, 0.7f, WHITE, Lang::get("WELCOME_LUXURY_2"), 70);
+	Gui::DrawStringCentered(-100, 140, 0.8f, WHITE, Lang::get("NEW_LEAF_1"), 70);
+	Gui::DrawStringCentered(-100, 155, 0.8f, WHITE, Lang::get("NEW_LEAF_2"), 70);
+	Gui::DrawStringCentered(0, 140, 0.8f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 70);
+	Gui::DrawStringCentered(0, 155, 0.8f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 70);
+	Gui::DrawStringCentered(100, 140, 0.8f, WHITE, Lang::get("WELCOME_LUXURY_1"), 70);
+	Gui::DrawStringCentered(100, 155, 0.8f, WHITE, Lang::get("WELCOME_LUXURY_2"), 70);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
@@ -171,8 +171,8 @@ void TitleSelection::DrawVersionSelector(void) const
 	Gui::sprite(0, sprites_gameCard_idx, 78, 100);
 	Gui::sprite(0, sprites_sdCard_idx, 198, 100);
 
-	Gui::DrawStringCentered(-10-50, 80, 0.6, WHITE, Lang::get("CARD"), 80);
-	Gui::DrawStringCentered(110-50, 80, 0.6, WHITE, Lang::get("INSTALLED"), 80);
+	Gui::DrawStringCentered(-10-50, 80, 0.8, WHITE, Lang::get("CARD"), 80);
+	Gui::DrawStringCentered(110-50, 80, 0.8, WHITE, Lang::get("INSTALLED"), 80);
 }
 
 void TitleSelection::versionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -226,10 +226,10 @@ void TitleSelection::DrawRegionSelector(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(-90-30, 95, 0.6, WHITE, Lang::get("JAPAN"), 50);
-	Gui::DrawStringCentered(-10-30, 95, 0.6, WHITE, Lang::get("USA"), 50);
-	Gui::DrawStringCentered(70-30, 95, 0.6, WHITE, Lang::get("EUROPE"), 50);
-	Gui::DrawStringCentered(150-30, 95, 0.6, WHITE, Lang::get("KOREA"), 50);
+	Gui::DrawStringCentered(-90-30, 95, 0.8, WHITE, Lang::get("JAPAN"), 50);
+	Gui::DrawStringCentered(-10-30, 95, 0.8, WHITE, Lang::get("USA"), 50);
+	Gui::DrawStringCentered(70-30, 95, 0.8, WHITE, Lang::get("EUROPE"), 50);
+	Gui::DrawStringCentered(150-30, 95, 0.8, WHITE, Lang::get("KOREA"), 50);
 
 	Gui::sprite(0, sprites_japan_idx, 18, 120);
 	Gui::sprite(0, sprites_usa_idx, 98, 120);
