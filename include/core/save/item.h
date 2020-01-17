@@ -27,7 +27,9 @@ SOFTWARE.
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "common/file.hpp"
+#include <3ds.h>
+#include <cstdio>
+#include <string>
 
 struct ItemBin_s {
 	u16 ItemIcon;
@@ -75,8 +77,8 @@ public:
 
 	static void LoadItemBins(void);
 	static void UnloadItemBins(void);
-	static File* GetItemBin(void);
-	static File* GetItemKindBin(void);
+	static FILE* GetItemBin(void);
+	static FILE* GetItemKindBin(void);
 	static bool IsInvWhitelisted(u16 ItemID);
 
 	Item(void);

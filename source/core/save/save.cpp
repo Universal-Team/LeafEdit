@@ -28,7 +28,6 @@ SOFTWARE.
 #include "core/save/player.h"
 #include "core/save/save.h"
 
-#include <3ds.h>
 #include <cstring>
 #include <string>
 
@@ -58,15 +57,15 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	}
 
 	m_pSave = new Save;
-
 	m_pSave->m_saveSize = 0;
-	FS_Path path = fsMakePath(PATH_ASCII, saveName);
+	m_pSave->m_saveBuffer = 0;
 
-	FSUSER_OpenFile(&m_pSave->m_handle, Archive::sdmc(), path, FS_OPEN_READ | FS_OPEN_WRITE, 0);
-	FSFILE_GetSize(m_pSave->m_handle, &m_pSave->m_saveSize);
-	m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
-
-	FSFILE_Read(m_pSave->m_handle, NULL, 0, m_pSave->m_saveBuffer, m_pSave->m_saveSize);
+    FILE* savesFile = fopen(saveName, "rb");
+    fseek(savesFile, 0, SEEK_END);
+    m_pSave->m_saveSize = ftell(savesFile);
+    fseek(savesFile, 0, SEEK_SET);
+    m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
+    fread(m_pSave->m_saveBuffer, 1, m_pSave->m_saveSize, savesFile);
 
 	m_pSave->m_changesMade = false;
 
@@ -88,7 +87,9 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	for (int i = 0; i < 10; i++) {
 		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
 	}
-
+	
+	fclose(savesFile);
+	m_pSave->m_saveFile = saveName;
 	return m_pSave;
 }
 
@@ -238,8 +239,8 @@ bool Save::Commit(bool close) {
 
 	// Update Checksums
 	FixCRC32s();
-
-	bool res = R_SUCCEEDED(FSFILE_Write(m_handle, NULL, 0, m_saveBuffer, m_saveSize, FS_WRITE_FLUSH));
+	FILE *saveFile = fopen(m_saveFile, "rb+");
+	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
 
 	if (res) {
 		m_changesMade = false;
@@ -249,5 +250,6 @@ bool Save::Commit(bool close) {
 		Close();
 	}
 
+	fclose(saveFile);
 	return res;
 }

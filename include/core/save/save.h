@@ -87,7 +87,7 @@ public:
 private:
 	u8 *m_saveBuffer = nullptr;
 	u64 m_saveSize;
-	Handle m_handle = 0;
+	const char *m_saveFile;
 	bool m_changesMade;
 
 	Save(void);

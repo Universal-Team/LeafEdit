@@ -30,6 +30,8 @@
 
 #include "gui/screens/screenCommon.hpp"
 
+#include <fstream>
+
 extern C2D_SpriteSheet Items;
 
 std::map<u16, std::string> g_itemDatabase;
