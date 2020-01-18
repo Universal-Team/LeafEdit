@@ -1,21 +1,31 @@
 {
     "configurations": [
         {
-            "name": "3DS | macOS/Linux",
+            "name": "NDS & 3DS | macOS/Linux",
             "includePath": [
                 "${workspaceFolder}/**",
                 "/opt/devkitpro/libctru/include/**",
                 "/opt/devkitpro/devkitARM/include/**",
+                "/opt/devkitpro/devkitARM/arm-none-eabi/include/**",
+                "/opt/devkitpro/libnds/include/**",
+                "/opt/devkitpro/devkitARM/include/**",
                 "/opt/devkitpro/devkitARM/arm-none-eabi/include/**"
             ],
-            "defines": [],
+            "defines": [
+                "ARM9",
+                "VER_NUMBER=\"vX.X\""
+            ],
             "macFrameworkPath": [
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "intelliSenseMode": "clang-x64",
+            "forcedInclude": [
+                "/opt/devkitpro/libnds/include/nds/arm9/input.h",
+                "/opt/devkitpro/devkitARM/arm-none-eabi/include/sys/unistd.h"
+            ]
         },
         {
             "name": "3DS | Windows",

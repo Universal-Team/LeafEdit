@@ -1,4 +1,4 @@
-SUBDIRS = 3ds dsi
+SUBDIRS = 3ds nds
 
 all:
 	@for dir in $(SUBDIRS); do $(MAKE) -C $$dir; done
