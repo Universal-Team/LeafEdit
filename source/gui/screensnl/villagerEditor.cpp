@@ -32,7 +32,7 @@
 
 #include "gui/keyboard.hpp"
 
-#include "gui/screens/villagerEditor.hpp"
+#include "gui/screensnl/villagerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
 #include <3ds.h>

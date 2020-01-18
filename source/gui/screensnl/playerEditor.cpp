@@ -31,8 +31,8 @@
 
 #include "gui/keyboard.hpp"
 
-#include "gui/screens/itemEditor.hpp"
-#include "gui/screens/playerEditor.hpp"
+#include "gui/screensnl/itemEditor.hpp"
+#include "gui/screensnl/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
 #include "core/save/offsets.h"

@@ -36,7 +36,7 @@
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
 
-#include "gui/screens/itemEditor.hpp"
+#include "gui/screensnl/itemEditor.hpp"
 
 #include <3ds.h>
 #include <map>

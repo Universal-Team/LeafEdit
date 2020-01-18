@@ -24,24 +24,33 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/common.hpp" // For the TID's.
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
-#include "gui/screens/editorWW.hpp"
-#include "gui/screens/mainMenu.hpp"
-#include "gui/screens/screenCommon.hpp"
+#include "gui/keyboard.hpp"
 
-#include "wwsave.h"
+#include "gui/screensnl/editor.hpp"
+#include "gui/screens/mainMenu.hpp"
+#include "gui/screensnl/miscEditor.hpp"
+#include "gui/screensnl/playerEditor.hpp"
+#include "gui/screens/screenCommon.hpp"
+#include "gui/screensnl/villagerViewer.hpp"
+
+#include "core/save/offsets.h"
+#include "core/save/player.h"
+#include "core/save/save.h"
 
 #include <3ds.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-std::string selectedSaveFolderEditorWW = "";
-WWSave* WWSaveFile;
+std::string selectedSaveFolderEditor = "";
+Save* SaveFile;
+extern bool isROMHack; // For Welcome Luxury.
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-void EditorWW::Draw(void) const
+void Editor::Draw(void) const
 {
 	if (EditorMode == 1) {
 		DrawBrowse();
@@ -50,7 +59,7 @@ void EditorWW::Draw(void) const
 	}
 }
 
-void EditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (EditorMode == 1) {
 		BrowseLogic(hDown, hHeld);
 	} else if (EditorMode == 2) {
@@ -58,29 +67,68 @@ void EditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void EditorWW::DrawSubMenu(void) const
+void Editor::DrawSubMenu(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "WildEdit - " + Lang::get("EDITOR"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
+
 	Gui::DrawBottom();
-	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y); // Back Icon.
+
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, UNSELECTED_COLOR);
+		if (Selection == i) {
+			Gui::drawAnimatedSelector(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, .030f, SELECTED_COLOR);
+		}
+	}
+	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
+
+	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.8f, WHITE, Lang::get("PLAYER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[1].y+10, 0.8f, WHITE, Lang::get("VILLAGER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.8f, WHITE, Lang::get("MISC_EDITOR"), 130);
 }
 
-void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
+void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
 	} else if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
+		if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
+			SaveFile->Commit(false);
+		}
 		EditorMode = 1;
-		selectedSaveFolderEditorWW = "";
-		WWSaveFile->Close();
+		selectedSaveFolderEditor = "";
+		SaveFile->Close();
+	}
+
+	if (hDown & KEY_A) {
+		switch(Selection) {
+			case 0:
+				Gui::setScreen(std::make_unique<PlayerEditor>());
+				break;
+			case 1:
+				Gui::setScreen(std::make_unique<VillagerViewer>());
+				break;
+			case 2:
+				Gui::setScreen(std::make_unique<MiscEditor>());
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, editorButtons[0])) {
+			Gui::setScreen(std::make_unique<PlayerEditor>());
+		} else if (touching(touch, editorButtons[1])) {
+			Gui::setScreen(std::make_unique<VillagerViewer>());
+		} else if (touching(touch, editorButtons[2])) {
+			Gui::setScreen(std::make_unique<MiscEditor>());
+		}
 	}
 }
 
 
-void EditorWW::DrawBrowse(void) const
+void Editor::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("SELECT_A_SAVE"), 395);
@@ -101,13 +149,17 @@ void EditorWW::DrawBrowse(void) const
 }
 
 
-void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
+void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 	if (dirChanged) {
 		dirContents.clear();
 		std::string customPath;
-		customPath += "sdmc:/LeafEdit/Towns/Wild-World/";
+		if (isROMHack == true) {
+			customPath += "sdmc:/LeafEdit/Towns/Welcome-Luxury/";
+		} else if (isROMHack == false) {
+			customPath += "sdmc:/LeafEdit/Towns/Welcome-Amiibo/";
+		}
 		chdir(customPath.c_str());
 		std::vector<DirEntry> dirContentsTemp;
 		getDirectoryContents(dirContentsTemp);
@@ -117,18 +169,33 @@ void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
 		dirChanged = false;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
+	}
+
 	if(hDown & KEY_A) {
 		if (dirContents.size() == 0) {
 			Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
 		} else {
 			std::string prompt = Lang::get("LOAD_THIS_SAVE");
 			if(Msg::promptMsg(prompt.c_str())) {
-				selectedSaveFolderEditorWW = "/LeafEdit/Towns/Wild-World/";
-				selectedSaveFolderEditorWW += dirContents[selectedSave].name.c_str();
-				selectedSaveFolderEditorWW += "/ACWW.sav";
-				if( access( selectedSaveFolderEditorWW.c_str(), F_OK ) != -1 ) {
-					const char *save = selectedSaveFolderEditorWW.c_str();
-					WWSaveFile = WWSave::Initialize(save, true);
+				if (isROMHack == true) {
+					selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Luxury/";
+				} else if (isROMHack == false) {
+					selectedSaveFolderEditor = "/LeafEdit/Towns/Welcome-Amiibo/";
+				}
+				selectedSaveFolderEditor += dirContents[selectedSave].name.c_str();
+				selectedSaveFolderEditor += "/garden_plus.dat";
+				if( access( selectedSaveFolderEditor.c_str(), F_OK ) != -1 ) {
+					const char *save = selectedSaveFolderEditor.c_str();
+					SaveFile = Save::Initialize(save, true);
+
+					if (SaveFile->GetSaveSize() != SIZE_SAVE) {
+						Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
+						SaveFile->Close();
+						return;
+					}
+					Utils::createBackup();
 					EditorMode = 2;
 				} else {
 					Msg::DisplayWarnMsg(Lang::get("SAVE_NOT_FOUND"));

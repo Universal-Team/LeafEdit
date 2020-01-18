@@ -31,7 +31,7 @@
 
 #include "gui/gui.hpp"
 
-#include "gui/screens/acresEditor.hpp"
+#include "gui/screensnl/acresEditor.hpp"
 
 #include <3ds.h>
 

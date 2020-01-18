@@ -28,12 +28,14 @@
 #include "core/management/playerManagement.hpp"
 #include "core/management/villagerManagement.hpp"
 
-#include "gui/screens/editor.hpp"
-#include "gui/screens/editorWW.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/settings.hpp"
 #include "gui/screens/townManager.hpp"
+
+#include "gui/screensnl/editor.hpp"
+
+#include "gui/screensww/editorWW.hpp"
 
 extern bool isACWW;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);

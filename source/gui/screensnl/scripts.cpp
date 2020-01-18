@@ -28,7 +28,7 @@
 
 #include "gui/gui.hpp"
 
-#include "gui/screens/scripts.hpp"
+#include "gui/screensnl/scripts.hpp"
 
 #include <3ds.h>
 

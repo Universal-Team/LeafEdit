@@ -28,10 +28,10 @@
 
 #include "gui/keyboard.hpp"
 
-#include "gui/screens/acresEditor.hpp"
-#include "gui/screens/miscEditor.hpp"
+#include "gui/screensnl/acresEditor.hpp"
+#include "gui/screensnl/miscEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
-#include "gui/screens/scripts.hpp"
+#include "gui/screensnl/scripts.hpp"
 
 #include "core/save/offsets.h"
 #include "core/save/player.h"
