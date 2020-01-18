@@ -1,4 +1,3 @@
-*.bin
 *.d
 *.o
 *.smdh
@@ -10,10 +9,7 @@
 *.lst
 .vscode/ipch
 *.DS_Store
-romfs/gfx/sprites.t3x
+3ds/romfs/gfx/sprites.t3x
 
 bannertool*
 makerom*
-*.pfs0
-*.nso
-*.nacp
