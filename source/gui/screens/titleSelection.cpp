@@ -40,6 +40,7 @@ extern bool fadein;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 bool isROMHack = false;
+bool isACWW = false;
 
 std::vector<u64> wlID = {
 	0x00040000004C5700, // Animal Crossing: Welcome Luxury [ROM Hack] https://gitlab.com/Kyusetzu/ACWL
@@ -86,28 +87,32 @@ void TitleSelection::DrawGameSelector(void) const
 	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, Lang::get("Y_SETTINGS"), 398);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	Gui::DrawBottom();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		Gui::Draw_Rect(gameButtons[i].x, gameButtons[i].y, gameButtons[i].w, gameButtons[i].h, UNSELECTED_COLOR);
 		if (selectedGame == i) {
 			Gui::drawAnimatedSelector(gameButtons[i].x, gameButtons[i].y, gameButtons[i].w, gameButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
-	Gui::sprite(0, sprites_Icon_idx, 37.5, 80);
-	Gui::sprite(0, sprites_IconWA_idx, 137.5, 80);
-	Gui::sprite(0, sprites_IconWL_idx, 237.5, 80);
 
-	Gui::DrawStringCentered(-100, 140, 0.8f, WHITE, Lang::get("NEW_LEAF_1"), 70);
-	Gui::DrawStringCentered(-100, 155, 0.8f, WHITE, Lang::get("NEW_LEAF_2"), 70);
-	Gui::DrawStringCentered(0, 140, 0.8f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 70);
-	Gui::DrawStringCentered(0, 155, 0.8f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 70);
-	Gui::DrawStringCentered(100, 140, 0.8f, WHITE, Lang::get("WELCOME_LUXURY_1"), 70);
-	Gui::DrawStringCentered(100, 155, 0.8f, WHITE, Lang::get("WELCOME_LUXURY_2"), 70);
+	Gui::sprite(0, sprites_Icon_idx, 16, 90);
+	Gui::sprite(0, sprites_IconWA_idx, 96, 90);
+	Gui::sprite(0, sprites_IconWL_idx, 176, 90);
+	Gui::sprite(0, sprites_IconWW_idx, 256, 90);
+
+	Gui::DrawStringCentered(-120, 140, 0.75f, WHITE, Lang::get("NEW_LEAF_1"), 50);
+	Gui::DrawStringCentered(-120, 155, 0.75f, WHITE, Lang::get("NEW_LEAF_2"), 50);
+	Gui::DrawStringCentered(-40, 140, 0.75f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 50);
+	Gui::DrawStringCentered(-40, 155, 0.75f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 50);
+	Gui::DrawStringCentered(40, 140, 0.75f, WHITE, Lang::get("WELCOME_LUXURY_1"), 50);
+	Gui::DrawStringCentered(40, 155, 0.75f, WHITE, Lang::get("WELCOME_LUXURY_2"), 50);
+	Gui::DrawStringCentered(120, 140, 0.75f, WHITE, Lang::get("WILD_WORLD_1"), 50);
+	Gui::DrawStringCentered(120, 155, 0.75f, WHITE, Lang::get("WILD_WORLD_2"), 50);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
 void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_RIGHT || hDown & KEY_R) {
-		if (selectedGame < 2)	selectedGame++;
+		if (selectedGame < 3)	selectedGame++;
 	} else if (hDown & KEY_LEFT || hDown & KEY_L) {
 		if (selectedGame > 0)	selectedGame--;
 	}
@@ -132,6 +137,9 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				isROMHack = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
+		} else if (touching(touch, gameButtons[3])) {
+			isACWW = true;
+			Gui::setScreen(std::make_unique<MainMenu>());
 		}
 	}
 
@@ -142,6 +150,9 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				isROMHack = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
+		} else if (selectedGame == 3) {
+				isACWW = true;
+				Gui::setScreen(std::make_unique<MainMenu>());
 		} else {
 			selectMode = 1;
 		}

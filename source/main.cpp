@@ -90,6 +90,7 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
+	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 	mkdir("sdmc:/LeafEdit/scripts", 0777); // Scripts path.
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.

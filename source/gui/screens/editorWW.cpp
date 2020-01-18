@@ -61,8 +61,9 @@ void EditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void EditorWW::DrawSubMenu(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "WildEdit - " + Lang::get("EDITOR"), 400);
 	Gui::DrawBottom();
+	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y); // Back Icon.
 }
 
 void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -114,10 +115,6 @@ void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
 		  dirContents.push_back(dirContentsTemp[i]);
 		}
 		dirChanged = false;
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
 	}
 
 	if(hDown & KEY_A) {

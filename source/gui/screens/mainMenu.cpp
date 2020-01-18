@@ -28,13 +28,16 @@
 #include "core/management/playerManagement.hpp"
 #include "core/management/villagerManagement.hpp"
 
+#include "gui/screens/editor.hpp"
 #include "gui/screens/editorWW.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/settings.hpp"
 #include "gui/screens/townManager.hpp"
 
+extern bool isACWW;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool isROMHack;
 
 void MainMenu::Draw(void) const
 {
@@ -60,6 +63,9 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	SelectionLogic(hDown, hHeld);
 
 	if (hDown & KEY_B) {
+		// Reset the status.
+		isACWW = false; 
+		isROMHack = false;
 		Gui::screenBack();
 		return;
 	}
@@ -67,11 +73,24 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				Gui::setScreen(std::make_unique<TownManager>());
+				if (!isACWW) {
+					Gui::setScreen(std::make_unique<TownManager>());
+				} else {
+					Msg::NotImplementedYet();
+				}
 				break;
 			case 1:
-				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-					Gui::setScreen(std::make_unique<EditorWW>());
+				if (!isACWW) {
+					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+						Gui::loadSheets();
+						ItemManagement::LoadDatabase(Config::getLang("Lang"));
+						Gui::setScreen(std::make_unique<Editor>());
+					}
+				} else {
+					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+						Gui::setScreen(std::make_unique<EditorWW>());
+					}
 				}
 				break;
 			case 2:
@@ -82,11 +101,23 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<TownManager>());
+			if (!isACWW) {
+				Gui::setScreen(std::make_unique<TownManager>());
+			} else {
+				Msg::NotImplementedYet();
+			}
 		} else if (touching(touch, mainButtons[1])) {
-			if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-				Gui::setScreen(std::make_unique<EditorWW>());
+			if (!isACWW) {
+				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+					Gui::loadSheets();
+					ItemManagement::LoadDatabase(Config::getLang("Lang"));
+					Gui::setScreen(std::make_unique<Editor>());
+				}
+			} else {
+				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+					Gui::setScreen(std::make_unique<EditorWW>());
+				}
 			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>());

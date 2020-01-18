@@ -56,9 +56,10 @@ private:
 
 
 	std::vector<Structs::ButtonPos> gameButtons = {		
-		{15, 50, 90, 140, -1}, // ACNL regular.
-		{115, 50, 90, 140, -1}, // ACNL Welcome Amiibo.
-		{215, 50, 90, 140, -1}, // ACNL Welcome Luxury.
+		{10, 55, 60, 140, -1}, // ACNL regular.
+		{90, 55, 60, 140, -1}, // ACNL WA.
+		{170, 55, 60, 140, -1}, // ACNL WL.
+		{250, 55, 60, 140, -1}, // ACWW.
 	};
 	std::vector<Structs::ButtonPos> versionButtons = {		
 		{50, 70, 100, 100, -1}, // Card.

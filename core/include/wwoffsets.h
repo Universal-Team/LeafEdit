@@ -60,3 +60,48 @@ typedef enum {
     TownYAcreCount = 4,
     VillagerCount = 8
 } AC_Readonly_SaveOffsets;
+
+typedef enum {
+    Patterns = 0,
+    PatternCount = 8,
+    PatternSize = 0x228, //Extra 8 bytes for the Town Name over AC
+    Messages = 0x1140,
+    MessageSize = 0xF4,
+    MessageCount = 10, //0x1AD4 = Dear Future Letter
+    Pockets = 0x1B22,
+    PocketsCount = 15,
+    Bells = 0x1B40, //0x1B44
+    Catalog = 0x1B48, //Includes Encyclopedia...
+    CatalogSize = 0x123,
+    FriendCode = 0x1E2C,
+    Savings = 0x21E4,
+    Emotions = 0x21EC,
+    EmotionCount = 4,
+    Reset = 0x21FC,
+    ResetSize = 2,
+    NookPoints = 0x2208,
+    HeldItem = 0x220A,
+    Shirt = 0x220C,
+    Hat = 0x220E,
+    FaceItem = 0x2210,
+    Bed = 0x2212,
+    InventoryBackground = 0x2214,
+    LastPlayDate = 0x2216,
+    LastPlayDateSize = 4,
+    Birthday = 0x2218,
+    BirthdaySize = 2,
+    HairType = 0x223C, //Upper Nibble is Hair Type, Lower Nibble is Face Type
+    HairColor = 0x223D, //Upper Nibble is Hair Color, Lower Nibble is Tan
+    Gender = 0x228A,
+    Identifier = 0x2280,
+    IdentifierSize = 2,
+    Name = 0x2282,
+    NameSize = 8,
+    TownIdentifier = 0x2276,
+    TownIdentifierSize = 2,
+    TownName = 0x2278,
+    TownNameSize = 8,
+    Dressers = 0,
+    DressersCount = 90,
+    DressersSize = 0,
+} AC_PLAYER_OFFSETS;
