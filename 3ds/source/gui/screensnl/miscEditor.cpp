@@ -33,12 +33,6 @@
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screensnl/scripts.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/player.h"
-#include "core/save/save.h"
-
-extern Save* SaveFile;
-
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MiscEditor::Draw(void) const

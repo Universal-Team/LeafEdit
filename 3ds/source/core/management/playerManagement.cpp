@@ -36,9 +36,8 @@
 
 #include "gui/screens/screenCommon.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/player.h"
-#include "core/save/save.h"
+#include "player.h"
+#include "save.h"
 
 #include <3ds.h>
 

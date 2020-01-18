@@ -27,9 +27,9 @@ SOFTWARE.
 #ifndef SAVE_H
 #define SAVE_H
 
-#include "core/save/offsets.h"
-#include "core/save/player.h"
-#include "core/save/villager.h"
+#include "player.h"
+#include "types.h"
+#include "villager.h"
 
 
 #include <string>

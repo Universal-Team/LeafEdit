@@ -35,11 +35,10 @@
 #include "gui/screensnl/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/pattern.h"
-#include "core/save/player.h"
-#include "core/save/save.h"
-#include "core/save/villager.h"
+#include "offsets.h"
+#include "pattern.h"
+#include "player.h"
+#include "save.h"
 
 #include <3ds.h>
 #include <sys/stat.h>

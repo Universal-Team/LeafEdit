@@ -26,9 +26,8 @@
 
 #include "core/management/villagerManagement.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/save.h"
-#include "core/save/villager.h"
+#include "save.h"
+#include "villager.h"
 
 #include "gui/screens/screenCommon.hpp"
 

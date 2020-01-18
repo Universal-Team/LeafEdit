@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "core/save/item.h"
-#include "core/save/save.h"
+#include "item.h"
+#include "save.h"
 
 #include <fstream>
 #include <map>

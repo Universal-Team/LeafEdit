@@ -27,13 +27,11 @@ SOFTWARE.
 #ifndef VILLAGER_H
 #define VILLAGER_H
 
-#include "core/save/item.h"
-#include "core/save/save.h"
+#include "item.h"
+#include "save.h"
+#include "types.h"
 
-#include <3ds.h>
 #include <string>
-// I need to place this Header here, otherwise it won't compile.
-#include "core/save/encryptedInt32.h"
 
 class Villager {
 public:

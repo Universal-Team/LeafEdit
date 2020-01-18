@@ -28,9 +28,6 @@
 #include "common/io.hpp"
 #include "common/utils.hpp"
 
-#include "core/save/item.h"
-#include "core/save/save.h"
-
 #include "gui/colors.hpp"
 #include "gui/msg.hpp"
 

@@ -37,9 +37,9 @@
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screensnl/villagerViewer.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/player.h"
-#include "core/save/save.h"
+#include "offsets.h"
+#include "player.h"
+#include "save.h"
 
 #include <3ds.h>
 #include <sys/stat.h>

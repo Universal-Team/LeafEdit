@@ -22,14 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "player.h"
+#include "pattern.h"
+#include "types.h"
+
+#ifdef _3DS
 #include "common/utils.hpp"
-
-#include "core/save/player.h"
-#include "core/save/pattern.h"
-
-#include <3ds.h>
-#include <string>
 #include <citro2d.h>
+#endif
+
+#include <string>
 
 static const u32 PaletteColors[] = {
     0xFFEEFFFF, 0xFF99AAFF, 0xEE5599FF, 0xFF66AAFF, 0xFF0066FF, 0xBB4477FF, 0xCC0055FF, 0x990033FF, 0x552233FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
@@ -62,18 +64,19 @@ Pattern::Pattern(Player *player, u32 id) :
     Save::Instance()->ReadArray(Palette.data(), Offset + 0x58, 16);
     Type = (DesignType)(Save::Instance()->ReadU8(Offset + 0x69) & 9); // TODO: Check the real max disgn type value and limit it to that.
     Save::Instance()->ReadArray(PatternData.data(), Offset + 0x6C, 0x800);
-
+    #ifdef _3DS
     Decompress();
+    #endif
 }
 
 Pattern::~Pattern() {
-
+    #ifdef _3DS
     for (u32 *data : ImageData)
         linearFree(data);
 
     for (C2D_Image& image : Images)
         C2DUtils::C2D_ImageDelete(image);
-
+    #endif
 }
 
 void Pattern::TakeOwnership(Player *player) {
@@ -86,7 +89,9 @@ void Pattern::TakeOwnership(Player *player) {
 }
 
 void Pattern::Write() {
+    #ifdef _3DS
     Compress();
+    #endif
     Save::Instance()->Write(Offset, Name, 20);
     Save::Instance()->Write(Offset + 0x2A, CreatorId);
     Save::Instance()->Write(Offset + 0x2C, CreatorName, 8);
@@ -97,6 +102,8 @@ void Pattern::Write() {
     Save::Instance()->Write(Offset + 0x69, (u8)Type);
     Save::Instance()->Write(Offset + 0x6C, PatternData.data(), 0x800);
 }
+
+#ifdef _3DS
 
 void Pattern::Decompress(void) {
 
@@ -146,3 +153,4 @@ void Pattern::Compress(void) {
         }
     }
 }
+#endif

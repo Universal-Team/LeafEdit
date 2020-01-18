@@ -27,11 +27,14 @@ SOFTWARE.
 #ifndef PATTERN_H
 #define PATTERN_H
 
-#include "core/save/save.h"
+#include "save.h"
+#include "types.h"
 
-#include <3ds.h>
-#include <string>
 #include <array>
+#ifdef _3DS
+#include <citro2d.h>
+#endif
+#include <string>
 #include <vector>
 
 class Player;
@@ -69,14 +72,17 @@ public:
     std::array<u8, 0x800>       PatternData;
 
     const u32                   Index;
+    const u32                   Offset;
+    #ifdef _3DS
     std::vector<u32 *>          ImageData;
     C2D_Image                   Images[4];
-
-    const u32                   Offset;
+    #endif
 
 private:
+    #ifdef _3DS
     void Decompress(void);
     void Compress(void);
+    #endif
 };
 
 #endif

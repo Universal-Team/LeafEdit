@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <3ds.h>
+#include "encryptedInt32.h"
+#include "types.h"
+
 #include <random>
-#include "core/save/encryptedInt32.h"
 
 EncryptedInt32::EncryptedInt32() { }
 

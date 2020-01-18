@@ -27,7 +27,8 @@ SOFTWARE.
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <3ds.h>
+#include "types.h"
+
 #include <cstdio>
 #include <string>
 

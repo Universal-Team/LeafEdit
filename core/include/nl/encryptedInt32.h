@@ -24,58 +24,25 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef ENCRYPTEDINT32
+#define ENCRYPTEDINT32
 
-#include <citro2d.h>
-#include <string>
-#include "core/save/encryptedInt32.h"
-#include "core/save/item.h"
-#include "core/save/save.h"
+#include "types.h"
 
-class Pattern;
-
-class Player {
+class EncryptedInt32 {
 public:
-	Player(void);
-	~Player(void);
-	Player(u32 offset, u32 index);
+	EncryptedInt32();
+	EncryptedInt32(u32 value);
+	EncryptedInt32(u32 intLow, u32 intHigh);
+	EncryptedInt32(u64 encryptedInt);
 
-	Pattern *Patterns[10];
-	u16 PlayerId;
-	u16 PlayerTan;
-	std::u16string Name;
-	u16 Gender; // might not be a u16, but the following byte is always? 0.
-	u16 TownId;
-	std::u16string TownName;
-	// Pocket, Storage and such.
-	Item *Pockets = nullptr;
-	Item *Dresser = nullptr;
-	Item *IslandBox = nullptr;
-	Item *Storage = nullptr;
+	u32 value;
+	void encrypt(u32 &encryptedIntOut, u32 &encryptionDataOut);
+	u32 decrypt(u32 intLow, u32 intHigh);
+	u32 decrypt(u64 encryptedInt);
 
-	u16 testItem;
-	EncryptedInt32 Wallet;
-	EncryptedInt32 BankAmount;
-	EncryptedInt32 MeowCoupons;
-	EncryptedInt32 IslandMedals;
-
-	u8 hairStyle;
-	u8 hairColor;
-	u8 face;
-	u8 eyeColor;
-
-	void Write();
-	u8* RefreshTPC();
-	bool Exists();
-    bool HasReset();
-    void SetHasReset(bool reset);
-
-	u32 m_offset;
-	u32 m_index;
-    bool m_HasTPC = false;
-    u8 *m_TPCData = nullptr;
-    C2D_Image m_TPCPic = {nullptr, nullptr};
+private:
+	u8 calculateChecksum(u32 intHigh);
 };
 
 #endif

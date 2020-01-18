@@ -26,8 +26,8 @@
 
 #include "core/management/acreManagement.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/save.h"
+#include "offsets.h"
+#include "save.h"
 
 #include "gui/gui.hpp"
 

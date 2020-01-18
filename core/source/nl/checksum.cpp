@@ -22,10 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <3ds.h>
+#include "checksum.h"
+#include "save.h"
+#include "types.h"
+
 #include <string>
-#include "core/save/checksum.h"
-#include "core/save/save.h"
 
 const u32 crcTable_1[256] = { //Polynomial: 0x1EDC6F41, 0xFFFFFFFF initial value, 0xFFFFFFFF xor, Input Reflection, Output Reflection
 	0x00000000, 0xF26B8303, 0xE13B70F7, 0x1350F3F4, 0xC79A971F,

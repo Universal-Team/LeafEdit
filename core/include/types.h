@@ -24,33 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#pragma once
+#ifndef TYPES_H
+#define TYPES_H
 
-#ifndef WWSAVE_H
-#define WWSAVE_H
-
-#include <string>
-
-typedef uint64_t u64;
-typedef uint8_t u8;
-typedef uint32_t u32;
-
-class WWSave {
-public:
-	static WWSave* Initialize(const char *saveName, bool init);
-	static WWSave* Instance();
-	u8* GetRawSaveData(void);
-	u64 GetSaveSize(void);
-	void Close(void);
-
-private:
-	u8 *m_saveBuffer;
-	u64 m_saveSize;
-	const char *m_saveFile;
-	WWSave(void);
-	WWSave(WWSave const&) {};
-	WWSave& operator=(WWSave const&) { return *WWSave::Instance(); }; // Is this right?
-	static WWSave* m_pSave;
-};
+#ifdef _3DS
+#include <3ds.h>
+#endif
+#ifdef ARM9
+#include <nds.h>
+#endif
 
 #endif

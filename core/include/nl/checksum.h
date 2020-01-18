@@ -24,23 +24,21 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef ENCRYPTEDINT32
-#define ENCRYPTEDINT32
+#ifndef CHECKSUM_H
+#define CHECKSUM_H
 
-class EncryptedInt32 {
-public:
-	EncryptedInt32();
-	EncryptedInt32(u32 value);
-	EncryptedInt32(u32 intLow, u32 intHigh);
-	EncryptedInt32(u64 encryptedInt);
+#include "types.h"
 
-	u32 value;
-	void encrypt(u32 &encryptedIntOut, u32 &encryptionDataOut);
-	u32 decrypt(u32 intLow, u32 intHigh);
-	u32 decrypt(u64 encryptedInt);
+typedef enum
+{
+	CRC_REFLECTED = 0, //Most common in ACNL checksums
+	CRC_NORMAL = 1
+} ChecksumType;
 
-private:
-	u8 calculateChecksum(u32 intHigh);
-};
+u32 CalculateCRC32Reflected(u8 *buf, u32 size);
+u32 CalculateCRC32Normal(u8 *buf, u32 size);
+bool VerifyCRC32(u32 crc, u8 *buf, u32 startOffset, u32 size, ChecksumType type = CRC_REFLECTED);
+u32 UpdateCRC32(u32 startOffset, u32 size, ChecksumType type = CRC_REFLECTED);
+void FixCRC32s();
 
 #endif

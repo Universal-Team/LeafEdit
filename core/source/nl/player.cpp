@@ -22,21 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "pattern.h"
+#include "player.h"
+#include "types.h"
 
-#include <3ds.h>
 #include <string>
-#include "common/jpeg.h"
-#include "common/utils.hpp"
-#include "core/save/pattern.h"
-#include "core/save/player.h"
-#include "gui/gui.hpp"
 
+#ifdef _3DS
+#include "common/utils.hpp"
+#include "common/jpeg.h"
+#include "gui/gui.hpp"
+#include <citro2d.h>
 extern C2D_SpriteSheet sprites;
+#endif
 
 Player::Player() { }
 
 Player::~Player()
 {
+	// 3DS only.
+#ifdef _3DS
     if (m_HasTPC && m_TPCPic.tex != nullptr) {
         C2DUtils::C2D_ImageDelete(this->m_TPCPic);
         m_TPCPic.tex = nullptr;
@@ -48,6 +53,7 @@ Player::~Player()
         delete[] this->m_TPCData;
         this->m_TPCData = nullptr;
     }
+#endif
 
 	if (this->Pockets != nullptr) {
 		delete[] this->Pockets;
@@ -97,9 +103,11 @@ Player::Player(u32 offset, u32 index) {
 	this->IslandMedals = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6B9C));
 	this->MeowCoupons = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x8D1C));
 
-    if (this->Exists()) {
+	#ifdef _3DS
+	if (this->Exists()) {
         this->RefreshTPC();
     }
+	#endif
 
 	this->Pockets = new Item[16];
 
@@ -166,6 +174,7 @@ void Player::Write() {
 	Save::Instance()->Write(this->m_offset + 0x8D20, encryptionData);
 }
 
+#ifdef _3DS
 u8* Player::RefreshTPC() {
 
     if (m_HasTPC && m_TPCPic.tex != nullptr) {
@@ -195,6 +204,7 @@ u8* Player::RefreshTPC() {
 
     return this->m_TPCData;
 }
+#endif
 
 bool Player::Exists() {
 	return Save::Instance()->ReadU16(this->m_offset + 0x55A6) != 0;

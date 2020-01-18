@@ -29,8 +29,7 @@
 
 #include "core/management/scriptManagement.hpp"
 
-#include "core/save/offsets.h"
-#include "core/save/save.h"
+#include "save.h"
 
 #include "gui/msg.hpp"
 
