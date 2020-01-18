@@ -28,7 +28,7 @@
 #include "core/management/playerManagement.hpp"
 #include "core/management/villagerManagement.hpp"
 
-#include "gui/screens/editor.hpp"
+#include "gui/screens/editorWW.hpp"
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/settings.hpp"
@@ -71,10 +71,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 			case 1:
 				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-					Gui::loadSheets();
-					ItemManagement::LoadDatabase(Config::getLang("Lang"));
-					Gui::setScreen(std::make_unique<Editor>());
+					Gui::setScreen(std::make_unique<EditorWW>());
 				}
 				break;
 			case 2:
@@ -89,9 +86,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, mainButtons[1])) {
 			if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
 				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-				Gui::loadSheets();
-				ItemManagement::LoadDatabase(Config::getLang("Lang"));
-				Gui::setScreen(std::make_unique<Editor>());
+				Gui::setScreen(std::make_unique<EditorWW>());
 			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>());
