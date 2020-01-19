@@ -25,12 +25,39 @@
 */
 
 #include "editor.hpp"
+#include "fileBrowse.hpp"
+#include "msg.hpp"
+
+#include "wwoffsets.h"
+#include "wwsave.h"
+
+WWSave* SaveFile;
+std::string save = "";
 
 void Editor::Draw(void) const {
-	Gui::DrawTop();
-	printTextCentered("LeafEdit - Editor", 0, 0, true, true);
-	Gui::DrawBottom();
+	if (EditorMode != 0) {
+		Gui::DrawTop();
+		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
+		Gui::DrawBottom();
+	}
 }
 
 void Editor::Logic(u16 hDown, touchPosition touch) {
+	if (EditorMode == 0) {
+		save = browseForSave();
+		// Clear Both Screens.
+		Gui::clearScreen(false, true);
+		Gui::clearScreen(true, true);
+		const char *saves = save.c_str();
+		SaveFile = WWSave::Initialize(saves, true);
+		EditorMode = 1;
+	}
+
+	if (EditorMode == 1) {
+		if (hDown & KEY_START) {
+			Msg::DisplayWaitMsg("Closing the File now!");
+			SaveFile->Close();
+			Gui::screenBack();
+		}
+	}
 }

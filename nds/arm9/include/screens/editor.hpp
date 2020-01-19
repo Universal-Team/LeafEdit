@@ -35,6 +35,7 @@ public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
 private:
+	int EditorMode = 0;
 };
 
 #endif

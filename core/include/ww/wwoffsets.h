@@ -30,7 +30,7 @@
 #define WWOFFSETS_H
 
 typedef enum {
-    SaveSize = 0x15FE0,
+    SaveSize = 0x2BFBF, // Actual size is: 0x15FE0.
     TownId = 0x0002,
     TownName = 0x0004,
     TownNameSize = 8,
@@ -63,7 +63,6 @@ typedef enum {
 
 typedef enum {
     Patterns = 0,
-    PatternCount = 8,
     PatternSize = 0x228, //Extra 8 bytes for the Town Name over AC
     Messages = 0x1140,
     MessageSize = 0xF4,
@@ -99,9 +98,9 @@ typedef enum {
     NameSize = 8,
     TownIdentifier = 0x2276,
     TownIdentifierSize = 2,
-    TownName = 0x2278,
-    TownNameSize = 8,
     Dressers = 0,
     DressersCount = 90,
-    DressersSize = 0,
+    DressersSize = 0
 } AC_PLAYER_OFFSETS;
+
+#endif
