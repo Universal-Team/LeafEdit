@@ -56,10 +56,9 @@ void PlayerManagement::DrawFace(u16 Gender, u8 FaceID, int x, int y, float Scale
 	}
 }
 
-// Draw the Hair sprite. Exceptions: Hair ID 16 & 33 doesn't really exist, that's called a 'Bad Hair' one.
+// Draw the Hair sprite. Exceptions: Hair ID 16 & 33 doesn't really exist, that's called a 'Bed Hair' one and they are drawn as transparent.
 void PlayerManagement::DrawHair(u8 HairID, int x, int y, float ScaleX, float ScaleY) {
-	if (HairID < 16)	DrawSprite(Hairs, HairID, x, y, ScaleX, ScaleY);
-	else if (HairID > 16)	DrawSprite(Hairs, HairID-1, x, y, ScaleX, ScaleY);
+	DrawSprite(Hairs, HairID, x, y, ScaleX, ScaleY);
 }
 
 // Hair Selection.
@@ -75,7 +74,7 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 			for (u32 x = 0; x < 4; x++, i++) {
 				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, UNSELECTED_COLOR);
 				if (isFemale == true) {
-					DrawSprite(Hairs, 16+i, 33 + x * 100, 33 + y * 45, 1, 1);
+					DrawSprite(Hairs, 17+i, 33 + x * 100, 33 + y * 45, 1, 1);
 				} else {
 					DrawSprite(Hairs, i, 33 + x * 100, 33 + y * 45, 1, 1);
 				}
