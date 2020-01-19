@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "wwsave.h"
+#include "wwsave.hpp"
 
 #include <cstring>
 #include <string>

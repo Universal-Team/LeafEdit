@@ -26,8 +26,8 @@
 
 #pragma once
 
-#ifndef WWOFFSETS_H
-#define WWOFFSETS_H
+#ifndef WWOFFSETS_HPP
+#define WWOFFSETS_HPP
 
 typedef enum {
     SaveSize = 0x2BFBF, // Actual size is: 0x15FE0.

@@ -24,66 +24,21 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef CHECKSUM_HPP
+#define CHECKSUM_HPP
 
-#include "encryptedInt32.h"
-#include "item.h"
-#include "save.h"
-#include "types.h"
+#include "types.hpp"
 
-#ifdef _3DS
-#include <citro2d.h>
-#endif
+typedef enum
+{
+	CRC_REFLECTED = 0, //Most common in ACNL checksums
+	CRC_NORMAL = 1
+} ChecksumType;
 
-#include <string>
-
-class Pattern;
-
-class Player {
-public:
-	Player(void);
-	~Player(void);
-	Player(u32 offset, u32 index);
-
-	Pattern *Patterns[10];
-	u16 PlayerId;
-	u16 PlayerTan;
-	std::u16string Name;
-	u16 Gender; // might not be a u16, but the following byte is always? 0.
-	u16 TownId;
-	std::u16string TownName;
-	// Pocket, Storage and such.
-	Item *Pockets = nullptr;
-	Item *Dresser = nullptr;
-	Item *IslandBox = nullptr;
-	Item *Storage = nullptr;
-
-	u16 testItem;
-	EncryptedInt32 Wallet;
-	EncryptedInt32 BankAmount;
-	EncryptedInt32 MeowCoupons;
-	EncryptedInt32 IslandMedals;
-
-	u8 hairStyle;
-	u8 hairColor;
-	u8 face;
-	u8 eyeColor;
-
-	void Write();
-	bool Exists();
-    bool HasReset();
-    void SetHasReset(bool reset);
-
-	u32 m_offset;
-	u32 m_index;
-
-	#ifdef _3DS
-	u8* RefreshTPC();
-    bool m_HasTPC = false;
-    u8 *m_TPCData = nullptr;
-    C2D_Image m_TPCPic = {nullptr, nullptr};
-	#endif
-};
+u32 CalculateCRC32Reflected(u8 *buf, u32 size);
+u32 CalculateCRC32Normal(u8 *buf, u32 size);
+bool VerifyCRC32(u32 crc, u8 *buf, u32 startOffset, u32 size, ChecksumType type = CRC_REFLECTED);
+u32 UpdateCRC32(u32 startOffset, u32 size, ChecksumType type = CRC_REFLECTED);
+void FixCRC32s();
 
 #endif

@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "checksum.h"
-#include "save.h"
-#include "types.h"
+#include "checksum.hpp"
+#include "save.hpp"
+#include "types.hpp"
 
 #include <string>
 

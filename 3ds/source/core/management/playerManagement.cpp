@@ -36,8 +36,8 @@
 
 #include "gui/screens/screenCommon.hpp"
 
-#include "player.h"
-#include "save.h"
+#include "player.hpp"
+#include "save.hpp"
 
 #include <3ds.h>
 

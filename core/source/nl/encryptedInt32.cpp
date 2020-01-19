@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "encryptedInt32.h"
-#include "types.h"
+#include "encryptedInt32.hpp"
+#include "types.hpp"
 
 #include <random>
 

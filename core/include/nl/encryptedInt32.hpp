@@ -24,10 +24,10 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef ENCRYPTEDINT32
-#define ENCRYPTEDINT32
+#ifndef ENCRYPTEDINT32_HPP
+#define ENCRYPTEDINT32_HPP
 
-#include "types.h"
+#include "types.hpp"
 
 class EncryptedInt32 {
 public:

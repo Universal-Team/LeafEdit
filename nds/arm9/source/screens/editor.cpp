@@ -28,8 +28,8 @@
 #include "fileBrowse.hpp"
 #include "msg.hpp"
 
-#include "wwoffsets.h"
-#include "wwsave.h"
+#include "wwoffsets.hpp"
+#include "wwsave.hpp"
 
 WWSave* SaveFile;
 std::string save = "";

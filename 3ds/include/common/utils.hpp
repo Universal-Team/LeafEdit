@@ -29,8 +29,8 @@
 
 #include "common/archive.hpp"
 
-#include "item.h"
-#include "player.h"
+#include "item.hpp"
+#include "player.hpp"
 
 #include <3ds.h>
 #include <citro2d.h>

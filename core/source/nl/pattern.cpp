@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "player.h"
-#include "pattern.h"
-#include "types.h"
+#include "player.hpp"
+#include "pattern.hpp"
+#include "types.hpp"
 
 #ifdef _3DS
 #include "common/utils.hpp"

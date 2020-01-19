@@ -24,12 +24,12 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef VILLAGER_H
-#define VILLAGER_H
+#ifndef VILLAGER_HPP
+#define VILLAGER_HPP
 
-#include "item.h"
-#include "save.h"
-#include "types.h"
+#include "item.hpp"
+#include "save.hpp"
+#include "types.hpp"
 
 #include <string>
 

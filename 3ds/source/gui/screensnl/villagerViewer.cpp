@@ -26,8 +26,8 @@
 
 #include "core/management/villagerManagement.hpp"
 
-#include "save.h"
-#include "villager.h"
+#include "save.hpp"
+#include "villager.hpp"
 
 #include "gui/keyboard.hpp"
 

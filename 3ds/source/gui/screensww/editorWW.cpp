@@ -32,7 +32,7 @@
 
 #include "gui/screensww/editorWW.hpp"
 
-#include "wwsave.h"
+#include "wwsave.hpp"
 
 #include <3ds.h>
 #include <sys/stat.h>

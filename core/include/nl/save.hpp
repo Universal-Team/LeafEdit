@@ -24,12 +24,12 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef SAVE_H
-#define SAVE_H
+#ifndef SAVE_HPP
+#define SAVE_HPP
 
-#include "player.h"
-#include "types.h"
-#include "villager.h"
+#include "player.hpp"
+#include "types.hpp"
+#include "villager.hpp"
 
 
 #include <string>

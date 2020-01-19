@@ -24,13 +24,14 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef PATTERN_H
-#define PATTERN_H
+#ifndef PATTERN_HPP
+#define PATTERN_HPP
 
-#include "save.h"
-#include "types.h"
+#include "save.hpp"
+#include "types.hpp"
 
 #include <array>
+
 #ifdef _3DS
 #include <citro2d.h>
 #endif

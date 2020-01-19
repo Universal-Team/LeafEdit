@@ -24,10 +24,10 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef ITEM_HPP
+#define ITEM_HPP
 
-#include "types.h"
+#include "types.hpp"
 
 #include <cstdio>
 #include <string>

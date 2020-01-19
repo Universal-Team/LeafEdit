@@ -24,15 +24,31 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+#ifndef WWSAVE_HPP
+#define WWSAVE_HPP
+
+#include "types.hpp"
+
+#include <string>
+
+class WWSave {
+public:
+	static WWSave* Initialize(const char *saveName, bool init);
+	static WWSave* Instance();
+	u8* GetRawSaveData(void);
+	u64 GetSaveSize(void);
+	void Close(void);
+
+private:
+	u8 *m_saveBuffer;
+	u64 m_saveSize;
+	const char *m_saveFile;
+	WWSave(void);
+	WWSave(WWSave const&) {};
+	WWSave& operator=(WWSave const&) { return *WWSave::Instance(); }; // Is this right?
+	static WWSave* m_pSave;
+};
 
 #endif

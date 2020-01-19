@@ -24,8 +24,8 @@ SOFTWARE.
 
 #pragma once
 
-#ifndef OFFSETS_H
-#define OFFSETS_H
+#ifndef OFFSETS_HPP
+#define OFFSETS_HPP
 
 typedef enum{
 	TOWN_TREESIZE=			0x04be86,

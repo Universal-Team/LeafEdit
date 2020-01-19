@@ -35,10 +35,9 @@
 #include "gui/screensnl/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
-#include "offsets.h"
-#include "pattern.h"
-#include "player.h"
-#include "save.h"
+#include "pattern.hpp"
+#include "player.hpp"
+#include "save.hpp"
 
 #include <3ds.h>
 #include <sys/stat.h>

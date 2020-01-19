@@ -28,10 +28,9 @@
 
 #include "core/management/itemManagement.hpp"
 
-#include "item.h"
-#include "offsets.h"
-#include "player.h"
-#include "save.h"
+#include "item.hpp"
+#include "player.hpp"
+#include "save.hpp"
 
 #include "gui/gui.hpp"
 #include "gui/keyboard.hpp"
