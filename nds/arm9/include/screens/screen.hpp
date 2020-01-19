@@ -24,15 +24,19 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef SCREEN_HPP
+#define SCREEN_HPP
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
+#include <memory>
 #include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+
+class Screen
+{
+public:
+	virtual ~Screen() {}
+	virtual void Logic(u16 hDown, touchPosition touch) = 0;
+	virtual void Draw() const = 0;
+private:
+};
 
 #endif

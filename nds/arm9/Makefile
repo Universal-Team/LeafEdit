@@ -22,13 +22,19 @@ include $(DEVKITARM)/ds_rules
 # all directories are relative to this makefile
 #---------------------------------------------------------------------------------
 BUILD		:=	build
-SOURCES		:=	source \
+SOURCECORE	:= ../../core/source/ww
+INCLUDECORE	:= ../../core/include ../../core/include/ww
+SOURCES		:=	$(SOURCECORE) \
+				source \
 				source/graphics \
 				source/saves \
+				source/screens \
 				source/utils
-INCLUDES	:=	include \
+INCLUDES	:=	$(INCLUDECORE) \
+				include \
 				include/graphics \
 				include/saves \
+				include/screens \
 				include/utils
 MUSIC		:=
 
@@ -43,7 +49,7 @@ CFLAGS	:=	-g -Wall -Wno-psabi -O2\
 			-DVER_NUMBER=\"$(GIT_VER)\" \
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM9
+CFLAGS	+=	$(INCLUDE) -DARM9 -D_GNU_SOURCE=1
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 
 ASFLAGS	:=	-g $(ARCH) -march=armv5te -mtune=arm946e-s

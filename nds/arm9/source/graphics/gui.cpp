@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,15 +24,44 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include "colors.hpp"
+#include "gui.hpp"
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+#include <stack>
 
-#endif
+std::stack<std::unique_ptr<Screen>> screens;
+
+void Gui::mainLoop(u16 hDown, touchPosition touch) {
+	screens.top()->Draw();
+	screens.top()->Logic(hDown, touch);
+}
+
+void Gui::setScreen(std::unique_ptr<Screen> screen)
+{
+	screens.push(std::move(screen));
+}
+
+void Gui::screenBack()
+{
+	screens.pop();
+}
+
+// Basic GUI Stuff.
+
+void Gui::DrawTop(void)
+{
+	drawRectangle(0, 20, 256, 152, BLUE, true, false);
+	drawRectangle(0, 0, 256, 20, DARK_BLUE, true, false);
+	drawRectangle(0, 172, 256, 20, DARK_BLUE, true, false);
+}
+
+void Gui::DrawBottom(void)
+{
+	drawRectangle(0, 20, 256, 152, BLUE, false, false);
+	drawRectangle(0, 0, 256, 20, DARK_BLUE, false, false);
+	drawRectangle(0, 172, 256, 20, DARK_BLUE, false, false);
+}
+
+void Gui::clearScreen(bool top, bool layer) {
+    drawRectangle(0, 0, 256, 192, CLEAR, top, layer);
+}

@@ -24,15 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include "graphics.hpp"
+#include "screen.hpp"
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+namespace Gui {
+	void mainLoop(u16 hDown, touchPosition touch);
+	void setScreen(std::unique_ptr<Screen> screen);
+	void screenBack(void);
 
-#endif
+	// GUI Stuff.
+	void DrawTop(void);
+	void DrawBottom(void);
+
+	/* 	Clear a Screen & Layer.
+ 		* bool top is whether to draw on the top or bottom screen.
+ 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
+	*/ 
+	void clearScreen(bool top, bool layer);
+};

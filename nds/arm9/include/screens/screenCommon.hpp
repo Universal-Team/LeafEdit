@@ -24,15 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef SCREENCOMMON_HPP
+#define SCREENCOMMON_HPP
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+#include "colors.hpp"
+#include "graphics.hpp"
+#include "gui.hpp"
+#include "screen.hpp"
 
 #endif

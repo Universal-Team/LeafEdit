@@ -66,11 +66,11 @@ Save* Save::Initialize(const char *saveName, bool init) {
     fread(m_pSave->m_saveBuffer, 1, m_pSave->m_saveSize, savesFile);
 
 	m_pSave->m_changesMade = false;
-
+	#ifdef _3DS
 	m_pSave->RegionLock.RawByte = m_pSave->ReadU8(0x621CE);
 	m_pSave->RegionLock.DerivedID = m_pSave->RegionLock.RawByte & 0xF;
 	m_pSave->RegionLock.RegionID = static_cast<CFG_Region>(m_pSave->RegionLock.RawByte >> 4);
-
+	#endif
 	if (!init) {
 		return m_pSave;
 	}

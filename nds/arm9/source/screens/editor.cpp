@@ -24,15 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include "editor.hpp"
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+void Editor::Draw(void) const {
+	Gui::DrawTop();
+	printTextCentered("LeafEdit - Editor", 0, 0, true, true);
+	Gui::DrawBottom();
+}
 
-#endif
+void Editor::Logic(u16 hDown, touchPosition touch) {
+}

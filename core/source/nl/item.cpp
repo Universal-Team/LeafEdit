@@ -37,12 +37,18 @@ static constexpr s32 SpritesheetIDTable[] = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2
 
 FILE *g_ItemBin;
 FILE *g_ItemKindBin;
-extern std::map<u16, std::string> g_itemDatabase;
+std::map<u16, std::string> g_itemDatabase;
 // extern std::map<std::string, std::map<u16, std::string>> g_sortedItemDatabase;
 
 void Item::LoadItemBins(void) {
+	#ifdef _3DS
 	g_ItemBin = fopen("romfs:/ItemBins/Item.bin", "rb");
 	g_ItemKindBin = fopen("romfs:/ItemBins/Kind.bin", "rb");
+	#endif
+	#ifdef ARM9
+	g_ItemBin = fopen("nitrofiles:/ItemBins/Item.bin", "rb");
+	g_ItemKindBin = fopen("nitrofiles:/ItemBins/Kind.bin", "rb");
+	#endif
 }
 
 void Item::UnloadItemBins(void) {

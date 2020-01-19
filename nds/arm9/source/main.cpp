@@ -1,21 +1,58 @@
+	/*
+*   This file is part of LeafEdit
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*
+*   This program is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*   Additional Terms 7.b and 7.c of GPLv3 apply to this file:
+*       * Requiring preservation of specified reasonable legal notices or
+*         author attributions in that material or in the Appropriate Legal
+*         Notices displayed by works containing it.
+*       * Prohibiting misrepresentation of the origin of that material,
+*         or requiring that modified versions of such material be marked in
+*         reasonable ways as different from the original version.
+*/
+
 #include <fat.h>
 
-#include "colors.hpp"
 #include "config.hpp"
 #include "fileBrowse.hpp"
 #include "flashcard.hpp"
-#include "graphics.hpp"
 #include "lang.hpp"
-#include "lang.hpp"
+#include "mainMenu.hpp"
 #include "nitrofs.h"
+#include "screenCommon.hpp"
 #include "sound.hpp"
+#include "structs.hpp"
+
+touchPosition touch;
+bool exiting = false;
+
+// If button Position pressed -> Do something.
+bool touching(touchPosition touch, Structs::ButtonPos button) {
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
+		return true;
+	else
+		return false;
+}
 
 int main(int argc, char **argv) {
 	initGraphics();
 	keysSetRepeat(25,5);
 	sysSetCardOwner(BUS_OWNER_ARM9); // Give ARM9 access to Slot-1 (for dumping/injecting saves)
 	defaultExceptionHandler();
-	scanKeys(); // So it doesn't open the SD if A is held
+	//scanKeys(); // So it doesn't open the SD if A is held
 
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, true, false);
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
@@ -63,18 +100,15 @@ int main(int argc, char **argv) {
 	// initSprites();
 	// loadGraphics();
 
-	while(1) {
-		browseForSave();
-		// check if invalid {
-		// 	drawRectangle(20, 20, 216, 152, DARK_RED, true, true);
-		// 	printTextCentered(Lang::get("invalidSave"), 0, 24, true, true);
-		// 	for(int i=0;i<120;i++)	swiWaitForVBlank();
-		// 	drawRectangle(20, 20, 216, 152, CLEAR, true, true);
-		// 	continue;
-		// }
-
-		// Enter main management or so
+	u16 hDown = 0;
+	Gui::setScreen(std::make_unique<MainMenu>());
+	Gui::clearScreen(false, true);
+	while(!exiting) {
+		scanKeys();
+		swiWaitForVBlank();
+		hDown = keysDown();
+		touchRead(&touch);
+		Gui::mainLoop(hDown, touch);
 	}
-
 	return 0;
 }

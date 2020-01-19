@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,15 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef STRUCTS_HPP
+#define STRUCTS_HPP
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+class Structs
+{
+public:
+	struct ButtonPos {
+		int x;
+		int y;
+		int w;
+		int h;
+		int link;
+	};
+private:
+};
 
 #endif

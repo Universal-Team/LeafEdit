@@ -24,15 +24,25 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef MAINMENU_HPP
+#define MAINMENU_HPP
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+#include "screenCommon.hpp"
+
+#include "structs.hpp"
+#include <vector>
+
+class MainMenu : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	int selection = 0;
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{20, 78, 88, 32, -1}, // Editor.
+		{148, 78, 88, 32, -1}, // Settings.
+	};
+};
 
 #endif

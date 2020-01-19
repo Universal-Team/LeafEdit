@@ -34,7 +34,7 @@
 
 extern C2D_SpriteSheet Items;
 
-std::map<u16, std::string> g_itemDatabase;
+extern std::map<u16, std::string> g_itemDatabase;
 //std::map<std::string, std::map<u16, std::string>> g_sortedItemDatabase;
 
 // Draw the Item sprite.

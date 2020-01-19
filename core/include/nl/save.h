@@ -34,12 +34,13 @@ SOFTWARE.
 
 #include <string>
 
+#ifdef _3DS
 struct Region_Lock {
 	u8 DerivedID;
 	CFG_Region RegionID;
 	u8 RawByte;
 };
-
+#endif
 class Player;
 class Villager;
 
@@ -82,8 +83,9 @@ public:
 
 	Player *players[4];
 	Villager* villagers[10];
+	#ifdef _3DS
 	Region_Lock RegionLock;
-
+	#endif
 private:
 	u8 *m_saveBuffer = nullptr;
 	u64 m_saveSize;

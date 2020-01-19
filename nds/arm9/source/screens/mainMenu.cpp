@@ -24,15 +24,32 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include "mainMenu.hpp"
 
-#ifdef _3DS
-#include <3ds.h>
-#endif
-#ifdef ARM9
-#include <nds.h>
-#define R_SUCCEEDED(res)   ((res)>=0)
-#endif
+extern bool exiting;
 
-#endif
+void MainMenu::Draw(void) const {
+	Gui::DrawTop();
+	printTextCentered("LeafEdit - MainMenu", 0, 1, true, true);
+	Gui::DrawBottom();
+	for (int i = 0; i < 2; i++) {
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_BLUE, DARK_BLUE, false, true);
+		if (selection == i) {
+			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARKER_GRAY, DARKER_GRAY, false, true);
+		}
+	}
+	printTextCentered("Editor", -64, 88, false, true);
+	printTextCentered("Settings", 64, 88, false, true);
+}
+
+void MainMenu::Logic(u16 hDown, touchPosition touch) {
+	if (hDown & KEY_START) {
+		exiting = true;
+	}
+	if (hDown & KEY_RIGHT) {
+		if (selection < 1)	selection++;
+	}
+	if (hDown & KEY_LEFT) {
+		if (selection > 0)	selection--;
+	}
+}
