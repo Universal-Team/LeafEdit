@@ -24,45 +24,19 @@
 *         reasonable ways as different from the original version.
 */
 
-#pragma once
-
-#ifndef WWSAVE_HPP
-#define WWSAVE_HPP
-
-#include "types.hpp"
 #include "wwPlayer.hpp"
+#include "wwsave.hpp"
 
-#include <string>
+WWPlayer::WWPlayer(u32 offset, u32 index) {
+	this->m_offset = offset;
+	this->m_index = index;
 
-class WWPlayer;
+	this->Gender = WWSave::Instance()->ReadU16(offset + 0x228A); // Seems to be right?
+}
 
-class WWSave {
-public:
-	static WWSave* Initialize(const char *saveName, bool init);
-	static WWSave* Instance();
-	u8* GetRawSaveData(void);
-	u64 GetSaveSize(void);
-	void Close(void);
+void WWPlayer::Write() {
+}
 
-	// Readings.
-	s8 ReadS8(u32 offset);
-	u8 ReadU8(u32 offset);
-	s16 ReadS16(u32 offset);
-	u16 ReadU16(u32 offset);
-	s32 ReadS32(u32 offset);
-	u32 ReadU32(u32 offset);
-	s64 ReadS64(u32 offset);
-	u64 ReadU64(u32 offset);
-
-	WWPlayer *players[4];
-private:
-	u8 *m_saveBuffer;
-	u64 m_saveSize;
-	const char *m_saveFile;
-	WWSave(void);
-	WWSave(WWSave const&) {};
-	WWSave& operator=(WWSave const&) { return *WWSave::Instance(); }; // Is this right?
-	static WWSave* m_pSave;
-};
-
-#endif
+bool WWPlayer::Exists() {
+	return WWSave::Instance()->ReadU16(this->m_offset + 0x55A6) != 0; // Wrong as of yet, just used it from NL core. xD -> TODO.
+}

@@ -24,45 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#pragma once
-
-#ifndef WWSAVE_HPP
-#define WWSAVE_HPP
+#ifndef WWPLAYER_HPP
+#define WWPLAYER_HPP
 
 #include "types.hpp"
-#include "wwPlayer.hpp"
+#include "wwsave.hpp"
 
 #include <string>
 
-class WWPlayer;
-
-class WWSave {
+class WWPlayer {
 public:
-	static WWSave* Initialize(const char *saveName, bool init);
-	static WWSave* Instance();
-	u8* GetRawSaveData(void);
-	u64 GetSaveSize(void);
-	void Close(void);
+	WWPlayer(void);
+	~WWPlayer(void);
+	WWPlayer(u32 offset, u32 index);
 
-	// Readings.
-	s8 ReadS8(u32 offset);
-	u8 ReadU8(u32 offset);
-	s16 ReadS16(u32 offset);
-	u16 ReadU16(u32 offset);
-	s32 ReadS32(u32 offset);
-	u32 ReadU32(u32 offset);
-	s64 ReadS64(u32 offset);
-	u64 ReadU64(u32 offset);
+	u16 Gender; // That was a easy one, cause only returns 0 -> Male, 1 -> Female.
 
-	WWPlayer *players[4];
-private:
-	u8 *m_saveBuffer;
-	u64 m_saveSize;
-	const char *m_saveFile;
-	WWSave(void);
-	WWSave(WWSave const&) {};
-	WWSave& operator=(WWSave const&) { return *WWSave::Instance(); }; // Is this right?
-	static WWSave* m_pSave;
+	void Write();
+	bool Exists();
+
+	u32 m_offset;
+	u32 m_index;
 };
 
 #endif

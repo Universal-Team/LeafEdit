@@ -32,6 +32,7 @@
 
 #include "gui/screensww/editorWW.hpp"
 
+#include "wwPlayer.hpp"
 #include "wwsave.hpp"
 
 #include <3ds.h>
@@ -63,6 +64,30 @@ void EditorWW::DrawSubMenu(void) const
 {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "WildEdit - " + Lang::get("EDITOR"), 400);
+	if (WWSaveFile->players[0]->Gender == 0) {
+		Gui::DrawStringCentered(0, 40, 0.9f, WHITE, "Player 1: Male!", 400);
+	} else if (WWSaveFile->players[0]->Gender == 1) {
+		Gui::DrawStringCentered(0, 40, 0.9f, WHITE, "Player 1: Female!", 400);
+	}
+
+	if (WWSaveFile->players[1]->Gender == 0) {
+		Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Player 2: Male!", 400);
+	} else if (WWSaveFile->players[1]->Gender == 1) {
+		Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Player 2: Female!", 400);
+	}
+
+	if (WWSaveFile->players[2]->Gender == 0) {
+		Gui::DrawStringCentered(0, 120, 0.9f, WHITE, "Player 3: Male!", 400);
+	} else if (WWSaveFile->players[2]->Gender == 1) {
+		Gui::DrawStringCentered(0, 120, 0.9f, WHITE, "Player 3: Female!", 400);
+	}
+
+	if (WWSaveFile->players[3]->Gender == 0) {
+		Gui::DrawStringCentered(0, 160, 0.9f, WHITE, "Player 4: Male!", 400);
+	} else if (WWSaveFile->players[3]->Gender == 1) {
+		Gui::DrawStringCentered(0, 160, 0.9f, WHITE, "Player 4: Female!", 400);
+	}
+	
 	Gui::DrawBottom();
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y); // Back Icon.
 }

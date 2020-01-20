@@ -73,6 +73,12 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 		return m_pSave;
 	}
 
+	// Load Players.
+	for (int i = 0; i < 4; i++) {
+		u32 PlayerOffset = 0x000C + (i * 0x228C);
+		m_pSave->players[i] = new WWPlayer(PlayerOffset, i);
+	}
+
 	fclose(savesFile);
 	m_pSave->m_saveFile = saveName;
 	return m_pSave;
@@ -99,4 +105,36 @@ void WWSave::Close(void) {
 		delete m_pSave;
 		m_pSave = nullptr;
 	}
+}
+
+s8 WWSave::ReadS8(u32 offset) {
+	return (s8) m_saveBuffer[offset];
+}
+
+u8 WWSave::ReadU8(u32 offset) {
+	return m_saveBuffer[offset];
+}
+
+s16 WWSave::ReadS16(u32 offset) {
+	return *(s16 *)(m_saveBuffer + offset);
+}
+
+u16 WWSave::ReadU16(u32 offset) {
+	return *(u16 *)(m_saveBuffer + offset);
+}
+
+s32 WWSave::ReadS32(u32 offset) {
+	return *(s32 *)(m_saveBuffer + offset);
+}
+
+u32 WWSave::ReadU32(u32 offset) {
+	return *(u32 *)(m_saveBuffer + offset);
+}
+
+s64 WWSave::ReadS64(u32 offset) {
+	return *(s64 *)(m_saveBuffer + offset);
+}
+
+u64 WWSave::ReadU64(u32 offset) {
+	return *(u64 *)(m_saveBuffer + offset);
 }
