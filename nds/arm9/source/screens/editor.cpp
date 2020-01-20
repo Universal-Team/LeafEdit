@@ -45,24 +45,8 @@ void Editor::Draw(void) const {
 		} else if (SaveFile->players[0]->Gender == 1) {
 			printTextCentered("Player 1: Female!", 0, 30, true, true);
 		}
-
-		if (SaveFile->players[1]->Gender == 0) {
-			printTextCentered("Player 2: Male!", 0, 60, true, true);
-		} else if (SaveFile->players[1]->Gender == 1) {
-			printTextCentered("Player 2: Female!", 0, 60, true, true);
-		}
-
-		if (SaveFile->players[2]->Gender == 0) {
-			printTextCentered("Player 3: Male!", 0, 90, true, true);
-		} else if (SaveFile->players[2]->Gender == 1) {
-			printTextCentered("Player 3: Female!", 0, 90, true, true);
-		}
-
-		if (SaveFile->players[3]->Gender == 0) {
-			printTextCentered("Player 4: Male!", 0, 120, true, true);
-		} else if (SaveFile->players[3]->Gender == 1) {
-			printTextCentered("Player 4: Female!", 0, 120, true, true);
-		}
+		// Print Bells amount.
+		printTextCentered("Player 1: " + std::to_string(SaveFile->players[0]->Bells) + " Bells", 0, 60, true, true);
 
 		Gui::DrawBottom();
 	}

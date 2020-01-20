@@ -34,6 +34,16 @@ WWSave* WWSave::m_pSave = nullptr;
 
 WWSave::WWSave() { }
 
+WWSave::~WWSave() {
+	for (auto player : players) {
+		delete player;
+		player = nullptr;
+	}
+
+	delete[] m_saveBuffer;
+	m_saveBuffer = nullptr;
+}
+
 std::vector<std::string> WwCharacterDictionary = {
     "\0", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
     "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e",
@@ -137,4 +147,103 @@ s64 WWSave::ReadS64(u32 offset) {
 
 u64 WWSave::ReadU64(u32 offset) {
 	return *(u64 *)(m_saveBuffer + offset);
+}
+
+void WWSave::ReadArray(u8 *dst, u32 offset, u32 count) {
+	u8 *src = m_saveBuffer + offset;
+	memcpy(dst, src, count);
+}
+
+void WWSave::ReadArrayU16(u16 *dst, u32 offset, u32 count) {
+	u16 *src = (u16 *)(m_saveBuffer + offset);
+	memcpy(dst, src, count << 1);
+}
+
+std::u16string WWSave::ReadString(u32 offset, u32 maxSize) {
+	return std::u16string(reinterpret_cast<char16_t *>(m_saveBuffer + offset), maxSize + 1);
+}
+
+// Actual Writing Stuff to the Save.
+
+bool WWSave::Write(u32 offset, u8 *data, u32 count) {
+	if (offset + count >= m_saveSize) {
+		return false;
+	}
+
+	memcpy(m_saveBuffer + offset, data, count);
+	m_changesMade = true;
+	return true;
+}
+
+bool WWSave::Write(u32 offset, s8 data) {
+	return Write(offset, (u8 *)&data, 1);
+}
+
+bool WWSave::Write(u32 offset, u8 data) {
+	return Write(offset, &data, 1);
+}
+
+bool WWSave::Write(u32 offset, s16 data) {
+	return Write(offset, (u8 *)&data, 2);
+}
+
+bool WWSave::Write(u32 offset, u16 data) {
+	return Write(offset, (u8 *)&data, 2);
+}
+
+bool WWSave::Write(u32 offset, s32 data) {
+	return Write(offset, (u8 *)&data, 4);
+}
+
+bool WWSave::Write(u32 offset, u32 data) {
+	return Write(offset, (u8 *)&data, 4);
+}
+
+bool WWSave::Write(u32 offset, s64 data) {
+	return Write(offset, (u8 *)&data, 8);
+}
+
+bool WWSave::Write(u32 offset, u64 data) {
+	return Write(offset, (u8 *)&data, 8);
+}
+
+bool WWSave::Write(u32 offset, std::u16string str, u32 maxSize) {
+	if (str.length() > maxSize + 1) {
+		return false;
+	}
+
+	return Write(offset, (u8 *)str.data(), maxSize * 2);
+}
+
+bool WWSave::ChangesMade(void) {
+	return m_changesMade;
+}
+
+/*
+	NOTE: This should be removed at some point. It's a hack to allow the Player encryptedInts to say they've been changed.
+*/
+void WWSave::SetChangesMade(bool changesMade) {
+	m_changesMade = changesMade;
+}
+
+bool WWSave::Commit(bool close) {
+
+	// Save Player.
+	for (int i = 0; i < 4; i++) {
+		players[i]->Write();
+	}
+
+	FILE *saveFile = fopen(m_saveFile, "rb+");
+	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
+
+	if (res) {
+		m_changesMade = false;
+	}
+
+	if (close) {
+		Close();
+	}
+
+	fclose(saveFile);
+	return res;
 }

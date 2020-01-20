@@ -40,9 +40,6 @@ class WWSave {
 public:
 	static WWSave* Initialize(const char *saveName, bool init);
 	static WWSave* Instance();
-	u8* GetRawSaveData(void);
-	u64 GetSaveSize(void);
-	void Close(void);
 
 	// Readings.
 	s8 ReadS8(u32 offset);
@@ -53,13 +50,39 @@ public:
 	u32 ReadU32(u32 offset);
 	s64 ReadS64(u32 offset);
 	u64 ReadU64(u32 offset);
+	void ReadArray(u8 *dst, u32 offset, u32 count);
+	void ReadArrayU16(u16 *dst, u32 offset, u32 count);
+	std::u16string ReadString(u32 offset, u32 maxSize);
+
+	u8* GetRawSaveData(void);
+	u64 GetSaveSize(void);
+	
+	// Writings.
+	bool Write(u32 offset, u8 *buffer, u32 count);
+	bool Write(u32 offset, s8 data);
+	bool Write(u32 offset, u8 data);
+	bool Write(u32 offset, s16 data);
+	bool Write(u32 offset, u16 data);
+	bool Write(u32 offset, s32 data);
+	bool Write(u32 offset, u32 data);
+	bool Write(u32 offset, s64 data);
+	bool Write(u32 offset, u64 data);
+	bool Write(u32 offset, std::u16string data, u32 maxSize);
+
+	bool ChangesMade(void);
+	void SetChangesMade(bool changesMade);
+
+	bool Commit(bool close);
+	void Close(void);
 
 	WWPlayer *players[4];
 private:
 	u8 *m_saveBuffer;
 	u64 m_saveSize;
 	const char *m_saveFile;
+	bool m_changesMade;
 	WWSave(void);
+	~WWSave(void);
 	WWSave(WWSave const&) {};
 	WWSave& operator=(WWSave const&) { return *WWSave::Instance(); }; // Is this right?
 	static WWSave* m_pSave;

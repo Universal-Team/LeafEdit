@@ -27,11 +27,18 @@
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
 
+WWPlayer::WWPlayer() { }
+
+WWPlayer::~WWPlayer()
+{
+}
+
 WWPlayer::WWPlayer(u32 offset, u32 index) {
 	this->m_offset = offset;
 	this->m_index = index;
 
-	this->Gender = WWSave::Instance()->ReadU16(offset + 0x228A); // Seems to be right?
+	this->Gender = WWSave::Instance()->ReadU16(offset + 0x228A); // Gender.
+	this->Bells = WWSave::Instance()->ReadU32(offset + 0x1B40); // Bells from the Wallet.
 }
 
 void WWPlayer::Write() {

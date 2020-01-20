@@ -39,6 +39,7 @@ public:
 	WWPlayer(u32 offset, u32 index);
 
 	u16 Gender; // That was a easy one, cause only returns 0 -> Male, 1 -> Female.
+	u32 Bells; // I hope this is correct? Not 100% sure atm.
 
 	void Write();
 	bool Exists();
