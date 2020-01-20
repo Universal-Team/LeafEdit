@@ -39,6 +39,9 @@
 #include <sstream>
 #include <sys/stat.h>
 
+extern u32 currentLowID;
+extern u32 currentHighID;
+extern FS_MediaType currentMedia;
 extern std::string selectedSaveFolderEditor;
 // StringUtils.
 
@@ -247,7 +250,7 @@ void Utils::colorLogic(int mode) {
 	}
 }
 
-void Utils::createBackup(void) {
+void Utils::createBackup(bool isCard) {
 	if (Msg::promptMsg2(Lang::get("CREATE_BACKUP"))) {
 		char stringTime[15]   = {0};
     	time_t unixTime       = time(NULL);
@@ -256,7 +259,19 @@ void Utils::createBackup(void) {
 		std::string path = "/LeafEdit/Backups/" + std::string(stringTime);
 		mkdir(path.c_str(), 0777); // Create folder.
 		path += "/garden_plus.dat";
-		io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(selectedSaveFolderEditor.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
+
+		// That's for Card / Installed Title saving.
+		FS_Archive archive;
+		Archive::save(&archive, currentMedia, currentLowID, currentHighID); // Get the current Archive.
+
+		Msg::DisplayMsg(Lang::get("CREATING_BACKUP"));
+		
+		if (isCard) {
+			io::copyFile(Archive::sdmc(), Archive::sdmc(), u"/garden_plus.dat", StringUtils::UTF8toUTF16(path.c_str()));
+		} else {
+			io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(selectedSaveFolderEditor.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
+		}
+
 		// Display at the end, where the backup is.
 		Msg::DisplayWaitMsg(Lang::get("FIND_BACKUP") + "\n\n" + path);
 	}

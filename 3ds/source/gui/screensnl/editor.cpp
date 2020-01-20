@@ -48,6 +48,11 @@ std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
 extern bool isROMHack; // For Welcome Luxury.
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern FS_MediaType currentMedia;
+extern u32 currentLowID;
+extern u32 currentHighID;
+
+bool isLoadedFromArchive = false;
 
 void Editor::Draw(void) const
 {
@@ -94,11 +99,25 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		if(Selection < 2)	Selection++;
 	} else if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
 		if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
-			SaveFile->Commit(false);
+			if (isLoadedFromArchive == true) {
+				SaveFile->CommitArchive(false);
+			} else {
+				SaveFile->Commit(false);
+			}
 		}
+		// Set Screen to Browse & Reset Save Folder.
 		EditorMode = 1;
 		selectedSaveFolderEditor = "";
-		SaveFile->Close();
+		// Update Save Region & fix Invalid Buildings.
+		SaveFile->FixSaveRegion();
+		SaveFile->FixInvalidBuildings();
+
+		if (isLoadedFromArchive == true) {
+			SaveFile->CloseArchive();
+		} else {
+			SaveFile->Close();
+		}
+		isLoadedFromArchive = false; // Reset status.
 	}
 
 	if (hDown & KEY_A) {
@@ -201,6 +220,30 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 					return;
 				}
 			}
+		}
+	}
+	// For loading a save from Gamecard or so!
+	if (hDown & KEY_Y) {
+		if(Msg::promptMsg(Lang::get("LOADING_SAVE_FROM_MEDIATYPE"))) {
+			FS_Archive saveArch;
+			Result res = Archive::save(&saveArch, currentMedia, currentLowID, currentHighID);
+			if (R_FAILED(res)) {
+				if (!(Archive::saveAccessible(currentMedia, currentLowID, currentHighID))) {
+					Msg::DisplayWarnMsg(Lang::get("UNABLE_OPEN_SAVEARCHIVE"));
+					return;
+				}
+			}
+					
+			SaveFile = Save::InitializeArchive(saveArch, true);
+			
+			if (SaveFile->GetSaveSize() != SIZE_SAVE) {
+				Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
+				SaveFile->CloseArchive();
+				return;
+			}
+			Utils::createBackup(true);
+			isLoadedFromArchive = true; // So it closes the right archive.
+			EditorMode = 2;
 		}
 	}
 

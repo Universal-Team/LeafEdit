@@ -78,6 +78,7 @@ int main()
 	romfsInit();
 	Gui::init();
 	Archive::init();
+	cfguInit();
 	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
 	}
@@ -167,6 +168,7 @@ int main()
 	amExit();
 	Archive::exit();
 	Gui::exit();
+	cfguExit();
 	gfxExit();
 	romfsExit();
 	return 0;

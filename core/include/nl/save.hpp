@@ -83,14 +83,29 @@ public:
 
 	Player *players[4];
 	Villager* villagers[10];
+
+	// Only works on 3DS!
 	#ifdef _3DS
 	Region_Lock RegionLock;
+	static Save* InitializeArchive(FS_Archive archive, bool init);
+	bool CommitArchive(bool close);
+	void CloseArchive(void);
+    u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
+    bool UpdateSaveRegion(void);
+    void FixSaveRegion(void);
+    void FixInvalidBuildings(void);
 	#endif
+	
 private:
 	u8 *m_saveBuffer = nullptr;
 	u64 m_saveSize;
 	const char *m_saveFile;
 	bool m_changesMade;
+
+	#ifdef _3DS
+	FS_Archive m_archive;
+	Handle m_handle = 0;
+	#endif
 
 	Save(void);
 	~Save(void);
