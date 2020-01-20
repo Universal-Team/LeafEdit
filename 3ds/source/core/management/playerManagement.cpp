@@ -49,7 +49,7 @@ extern C2D_SpriteSheet Faces;
 // Draw the Face sprite. 0-11 -> Male, 12-23 -> Female.
 void PlayerManagement::DrawFace(u16 Gender, u8 FaceID, int x, int y, float ScaleX, float ScaleY) {
 	if (Gender == 1) {
-		DrawSprite(Faces, FaceID+11, x, y, ScaleX, ScaleY);
+		DrawSprite(Faces, FaceID+12, x, y, ScaleX, ScaleY);
 	} else {
 		DrawSprite(Faces, FaceID, x, y, ScaleX, ScaleY);
 	}
