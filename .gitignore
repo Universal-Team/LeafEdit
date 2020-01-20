@@ -5,6 +5,7 @@
 *.elf
 *.cia
 *.3dsx
+*.nds
 *build
 *.map
 *.lst
