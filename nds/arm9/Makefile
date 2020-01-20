@@ -27,12 +27,14 @@ INCLUDECORE	:= ../../core/include ../../core/include/ww
 SOURCES		:=	$(SOURCECORE) \
 				source \
 				source/graphics \
+				source/management \
 				source/saves \
 				source/screens \
 				source/utils
 INCLUDES	:=	$(INCLUDECORE) \
 				include \
 				include/graphics \
+				include/management \
 				include/saves \
 				include/screens \
 				include/utils

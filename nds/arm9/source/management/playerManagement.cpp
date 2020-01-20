@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,63 +24,25 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "editor.hpp"
-#include "fileBrowse.hpp"
-#include "msg.hpp"
+#include "input.hpp"
+
+#include "graphics/gui.hpp"
 
 #include "management/playerManagement.hpp"
 
-#include "wwoffsets.hpp"
+#include "screens/screenCommon.hpp"
+
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
 
-WWSave* SaveFile;
-std::string save = "";
+#include <nds.h>
 
-void Editor::Draw(void) const {
-	if (EditorMode != 0) {
-		Gui::DrawTop();
-		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
+extern WWSave* SaveFile;
 
-		if (SaveFile->players[0]->Gender == 0) {
-			printTextCentered("Player 1: Male!", 0, 30, true, true);
-		} else if (SaveFile->players[0]->Gender == 1) {
-			printTextCentered("Player 1: Female!", 0, 30, true, true);
-		}
-		// Print Bells amount.
-		printTextCentered("Player 1: " + std::to_string(SaveFile->players[0]->Bells) + " Bells", 0, 60, true, true);
+// Placeholder file for now. There might be things like Face Drawing or so?
 
-		Gui::DrawBottom();
-	}
-}
-
-void Editor::Logic(u16 hDown, touchPosition touch) {
-	if (EditorMode == 0) {
-		save = browseForSave();
-		// Clear Both Screens.
-		Gui::clearScreen(false, true);
-		Gui::clearScreen(true, true);
-		const char *saves = save.c_str();
-		SaveFile = WWSave::Initialize(saves, true);
-
-//		if (SaveFile->GetSaveSize() != SaveSize) {
-//			Msg::DisplayWarnMsg("Incorrect SaveSize!!!");
-//			SaveFile->Close();
-//			return;
-//		}
-		EditorMode = 1;
-	}
-
-	if (hDown & KEY_Y) {
-		PlayerManagement::setBells(0); // Only Player 1 atm.
-	}
-
-	if (EditorMode == 1) {
-		if (hDown & KEY_START) {
-			Msg::DisplayWaitMsg("Closing the File now!");
-			SaveFile->Commit(false);
-			SaveFile->Close();
-			Gui::screenBack();
-		}
-	}
+void PlayerManagement::setBells(int currentPlayer) {
+	SaveFile->players[currentPlayer]->Bells = 9999;
+	//SaveFile->players[currentPlayer]->Bells = Input::getInt(99999); // Keyboard missing rn.
+	Gui::clearScreen(true, true);
 }

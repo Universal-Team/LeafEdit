@@ -107,7 +107,6 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		}
 		// Set Screen to Browse & Reset Save Folder.
 		EditorMode = 1;
-		selectedSaveFolderEditor = "";
 		// Update Save Region & fix Invalid Buildings.
 		SaveFile->FixSaveRegion();
 		SaveFile->FixInvalidBuildings();
@@ -118,6 +117,7 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 			SaveFile->Close();
 		}
 		isLoadedFromArchive = false; // Reset status.
+		selectedSaveFolderEditor = "";
 	}
 
 	if (hDown & KEY_A) {

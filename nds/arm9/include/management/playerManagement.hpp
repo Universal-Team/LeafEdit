@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,28 +24,17 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "wwPlayer.hpp"
-#include "wwsave.hpp"
+#ifndef PLAYERMANAGEMENT_HPP
+#define PLAYERMANAGEMENT_HPP
 
-WWPlayer::WWPlayer() { }
+#include <nds.h>
+#include <stdio.h>
+#include <string>
 
-WWPlayer::~WWPlayer()
+// Placeholder for now.
+namespace PlayerManagement
 {
+	void setBells(int currentPlayer);
 }
 
-WWPlayer::WWPlayer(u32 offset, u32 index) {
-	this->m_offset = offset;
-	this->m_index = index;
-
-	this->Gender = WWSave::Instance()->ReadU16(offset + 0x228A); // Gender.
-	this->Bells = WWSave::Instance()->ReadU32(offset + 0x1B40); // Bells from the Wallet.
-}
-
-void WWPlayer::Write() {
-	WWSave::Instance()->Write(this->m_offset + 0x1B40, this->Bells);
-	WWSave::Instance()->Write(this->m_offset + 0x228A, this->Gender);
-}
-
-bool WWPlayer::Exists() {
-	return WWSave::Instance()->ReadU16(this->m_offset + 0x55A6) != 0; // Wrong as of yet, just used it from NL core. xD -> TODO.
-}
+#endif

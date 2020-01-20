@@ -27,6 +27,8 @@
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
+#include "gui/keyboard.hpp"
+
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -83,11 +85,17 @@ void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 2)	Selection++;
+	}
 
-	} else if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
+	if (hDown & KEY_X) {
+		WWSaveFile->players[0]->Bells = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, WWSaveFile->players[0]->Bells);
+	}
+
+	if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
 		EditorMode = 1;
-		selectedSaveFolderEditorWW = "";
+		WWSaveFile->Commit(false);
 		WWSaveFile->Close();
+		selectedSaveFolderEditorWW = "";
 	}
 }
 
