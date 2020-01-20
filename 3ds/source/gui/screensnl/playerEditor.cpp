@@ -450,7 +450,7 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
 				break;
 			case 1:
-				SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
+				SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle);
 				break;
 			case 2:
 				SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
@@ -471,7 +471,7 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, playerButtons[0])) {
 			SaveFile->players[cp]->Name = Input::handleu16String(8, Lang::get("NEW_PLAYER_NAME"), SaveFile->players[cp]->Name);
 		} else if (touching(touch, playerButtons[1])) {
-			SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle, SaveFile->players[cp]->Gender);
+			SaveFile->players[cp]->hairStyle = PlayerManagement::SelectHair(SaveFile->players[cp]->hairStyle);
 		} else if (touching(touch, playerButtons[2])) {
 			SaveFile->players[cp]->face = PlayerManagement::SelectFace(SaveFile->players[cp]->face, SaveFile->players[cp]->Gender);
 		} else if (touching(touch, playerButtons[3])) {

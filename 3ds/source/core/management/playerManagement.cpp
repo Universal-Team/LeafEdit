@@ -63,6 +63,7 @@ void PlayerManagement::DrawHair(u8 HairID, int x, int y, float ScaleX, float Sca
 // Hair Selection.
 void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	Gui::clearTextBufs();
+	int page;
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(top, BLACK);
 	C2D_TargetClear(bottom, BLACK);
@@ -80,6 +81,13 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 			}
 		}
 	}
+	if (isFemale == true) {
+		page = 1;
+	} else {
+		page = 0;
+	}
+
+	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, Lang::get("CURRENT_PAGE") + ": " + std::to_string(page+1) + " / 2", 400);
 	int selectY = 0, selectX = 0;
 	if (selection > 3 && selection < 8)	selectX = selection - 4;	else if (selection > 7 && selection < 12)	selectX = selection - 8;
 	else if (selection > 11)	selectX = selection - 12;	else if (selection < 4)	selectX = selection;
@@ -93,14 +101,15 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	C3D_FrameEnd(0);
 }
 
-u8 PlayerManagement::SelectHair(u8 currentHair, u16 Gender) {
+u8 PlayerManagement::SelectHair(u8 currentHair) {
 	s32 selection = 0;
+	int hairPage = 0;
 	while(1)
 	{
 		u8 hairImage;
 		for (hairImage = 0; hairImage < 16; hairImage++) {
 			if (selection == hairImage) {
-				if (Gender == 0) {
+				if (hairPage == 0) {
 					DrawHairSelection(selection);
 				} else {
 					DrawHairSelection(selection, true);
@@ -108,6 +117,14 @@ u8 PlayerManagement::SelectHair(u8 currentHair, u16 Gender) {
 			}
 		}
 		hidScanInput();
+		// Switch hair pages.
+		if (hidKeysDown() & KEY_R) {
+			if (hairPage < 1)	hairPage++;
+		}
+
+		if (hidKeysDown() & KEY_L) {
+			if (hairPage > 0)	hairPage--;
+		}
 
 		if (hidKeysDown() & KEY_DOWN) {
 			if (selection < 12)	selection += 4;
@@ -123,9 +140,9 @@ u8 PlayerManagement::SelectHair(u8 currentHair, u16 Gender) {
 			if (selection > 0)	selection--;
 		}
 		if (hidKeysDown() & KEY_A) {
-			if (Gender == 0) {
+			if (hairPage == 0) {
 				return selection;
-			} else if (Gender == 1) {
+			} else if (hairPage == 1) {
 				return selection+17; // 17 -> Female 1.
 			}
 		}
