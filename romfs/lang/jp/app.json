@@ -131,7 +131,7 @@
 	"BOXED": "箱入り",
 	"UNBOXED": "箱なし",
 	"CREATE_BACKUP": "バックアップを作成しますか？",
-	"FIND_BACKUP": "バックアップは次のパスで見つかります：",
+	"FIND_BACKUP": "バックアップは\n%s\nで見つかります。",
 	"EXPERIMENTAL_EDITOR": "エディターは実験的。\n私たちはあなたの間違いに責任を負いません。\n続行しますか？",
 	"PATTERN": "型紙",
 	"ITEM_ISLAND": "南の島の箱",
