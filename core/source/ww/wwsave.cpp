@@ -25,6 +25,7 @@
 */
 
 #include "wwsave.hpp"
+#include "wwChecksum.hpp"
 
 #include <cstring>
 #include <string>
@@ -232,7 +233,8 @@ bool WWSave::Commit(bool close) {
 	for (int i = 0; i < 4; i++) {
 		players[i]->Write();
 	}
-
+	// Update checksums.
+	WWChecksum::UpdateChecksum();
 	FILE *saveFile = fopen(m_saveFile, "rb+");
 	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
 
