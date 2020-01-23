@@ -24,30 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#ifndef PLAYEREDITOR_HPP
+#define PLAYEREDITOR_HPP
 
 #include "screenCommon.hpp"
 
 #include "structs.hpp"
 #include <vector>
 
-class Editor : public Screen
+class PlayerEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
 private:
-	int EditorMode = 0;
-	int selection = 0;
-
-	void SubMenuLogic(u16 hDown, touchPosition touch);
-
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{80, 30, 88, 32, -1}, // Player.
-		{80, 80, 88, 32, -1}, // Villager.
-		{80, 130, 88, 32, -1}, // Misc.
-	};
+	void DrawPlayerBoxes(void) const;
 };
 
 #endif

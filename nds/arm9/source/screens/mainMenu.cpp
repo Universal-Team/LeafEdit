@@ -34,9 +34,9 @@ void MainMenu::Draw(void) const {
 	printTextCentered("LeafEdit - MainMenu", 0, 1, true, true);
 	Gui::DrawBottom();
 	for (int i = 0; i < 2; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_BLUE, DARK_BLUE, false, true);
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 		if (selection == i) {
-			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARKER_GRAY, DARKER_GRAY, false, true);
+			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
 		}
 	}
 	printTextCentered("Editor", -64, 88, false, true);

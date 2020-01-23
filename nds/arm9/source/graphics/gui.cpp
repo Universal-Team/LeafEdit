@@ -38,11 +38,17 @@ void Gui::mainLoop(u16 hDown, touchPosition touch) {
 
 void Gui::setScreen(std::unique_ptr<Screen> screen)
 {
+	// Clear Layer 2 then move a screen.
+	Gui::clearScreen(false, true);
+	Gui::clearScreen(true, true);
 	screens.push(std::move(screen));
 }
 
 void Gui::screenBack()
 {
+	// Clear Layer 2 then go a screen back.
+	Gui::clearScreen(false, true);
+	Gui::clearScreen(true, true);
 	screens.pop();
 }
 
@@ -50,20 +56,20 @@ void Gui::screenBack()
 
 void Gui::DrawTop(void)
 {
-	drawRectangle(0, 20, 256, 152, BLUE, true, false);
-	drawRectangle(0, 0, 256, 20, DARK_BLUE, true, false);
-	drawRectangle(0, 172, 256, 20, DARK_BLUE, true, false);
+	drawRectangle(0, 20, 256, 152, GREEN, true, false);
+	drawRectangle(0, 0, 256, 20, DARK_GREEN, true, false);
+	drawRectangle(0, 172, 256, 20, DARK_GREEN, true, false);
 }
 
 void Gui::DrawBottom(void)
 {
-	drawRectangle(0, 20, 256, 152, BLUE, false, false);
-	drawRectangle(0, 0, 256, 20, DARK_BLUE, false, false);
-	drawRectangle(0, 172, 256, 20, DARK_BLUE, false, false);
+	drawRectangle(0, 20, 256, 152, GREEN, false, false);
+	drawRectangle(0, 0, 256, 20, DARK_GREEN, false, false);
+	drawRectangle(0, 172, 256, 20, DARK_GREEN, false, false);
 }
 
 void Gui::clearScreen(bool top, bool layer) {
-    drawRectangle(0, 0, 256, 192, CLEAR, top, layer);
+	drawRectangle(0, 0, 256, 192, CLEAR, top, layer);
 }
 
 // Sprites stuff

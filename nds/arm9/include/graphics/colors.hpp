@@ -16,6 +16,9 @@
 #define DARK_RED		0xA
 #define BLUE			0xB
 #define DARK_BLUE		0xC
+#define DARK_GREEN		0xD
+#define GREEN			0xE
+#define LIGHT_GREEN		0xF
 
 // Text
 enum TextColor {
@@ -23,6 +26,7 @@ enum TextColor {
 	gray  = 5,
 	red   = 6,
 	blue  = 7,
+	green = 8,
 };
 
 namespace Colors {

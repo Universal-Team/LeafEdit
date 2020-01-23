@@ -24,11 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "editor.hpp"
 #include "fileBrowse.hpp"
 #include "msg.hpp"
 
 #include "management/playerManagement.hpp"
+
+#include "editor.hpp"
+#include "playerEditor.hpp"
 
 #include "wwoffsets.hpp"
 #include "wwPlayer.hpp"
@@ -37,51 +39,69 @@
 WWSave* SaveFile;
 std::string save = "";
 
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
 void Editor::Draw(void) const {
 	if (EditorMode != 0) {
 		Gui::DrawTop();
 		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
-
-		if (SaveFile->players[0]->Gender == 0) {
-			printTextCentered("Player 1: Male!", 0, 30, true, true);
-		} else if (SaveFile->players[0]->Gender == 1) {
-			printTextCentered("Player 1: Female!", 0, 30, true, true);
-		}
-		// Print Bells amount.
-		printTextCentered("Player 1: " + std::to_string(SaveFile->players[0]->Bells) + " Bells", 0, 60, true, true);
-
 		Gui::DrawBottom();
+
+		for (int i = 0; i < 3; i++) {
+			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+			if (selection == i) {
+				drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
+			}
+		}
+		printTextCentered("Player", 0, 40, false, true);
+		printTextCentered("Villager", 0, 90, false, true);
+		printTextCentered("Misc", 0, 140, false, true);
 	}
 }
 
 void Editor::Logic(u16 hDown, touchPosition touch) {
-	if (EditorMode == 0) {
+	if (EditorMode == 1) {
+		SubMenuLogic(hDown, touch);
+	} else {
 		save = browseForSave();
 		// Clear Both Screens.
 		Gui::clearScreen(false, true);
 		Gui::clearScreen(true, true);
 		const char *saves = save.c_str();
 		SaveFile = WWSave::Initialize(saves, true);
-
-//		if (SaveFile->GetSaveSize() != SaveSize) {
-//			Msg::DisplayWarnMsg("Incorrect SaveSize!!!");
-//			SaveFile->Close();
-//			return;
-//		}
 		EditorMode = 1;
 	}
+}
 
-	if (hDown & KEY_Y) {
-		PlayerManagement::setBells(0); // Only Player 1 atm.
-		//SaveFile->players[0]->Gender = 0;
+void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
+	if (hDown & KEY_START) {
+		Msg::DisplayWaitMsg("Closing the File now!");
+		SaveFile->Commit(false);
+		SaveFile->Close();
+		Gui::screenBack();
 	}
 
-	if (EditorMode == 1) {
-		if (hDown & KEY_START) {
-			Msg::DisplayWaitMsg("Closing the File now!");
-			SaveFile->Commit(false);
-			SaveFile->Close();
-			Gui::screenBack();
+	if (hDown & KEY_DOWN) {
+		if (selection < 2)	selection++;
+	}
+
+	if (hDown & KEY_UP) {
+		if (selection > 0)	selection--;
+	}
+
+	if (hDown & KEY_A) {
+		if (selection == 0) {
+			Gui::setScreen(std::make_unique<PlayerEditor>());
+		} else if (selection == 1) {
+//			Gui::setScreen(std::make_unique<VillagerViewer>());
+		} else if (selection == 2) {
+//			Gui::setScreen(std::make_unique<MiscEditor>());
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			Gui::setScreen(std::make_unique<PlayerEditor>());
 		}
 	}
 }

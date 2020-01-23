@@ -31,11 +31,11 @@
 void Msg::DisplayWarnMsg(const std::string &Text) {
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
-	drawRectangle(0, 20, 256, 152, BLUE, true, true);
-	drawRectangle(0, 0, 256, 20, DARK_BLUE, true, true);
-	drawRectangle(0, 172, 256, 20, DARK_BLUE, true, true);
+	drawRectangle(0, 20, 256, 152, GREEN, true, true);
+	drawRectangle(0, 0, 256, 20, DARK_GREEN, true, true);
+	drawRectangle(0, 172, 256, 20, DARK_GREEN, true, true);
 	// Draw Message box & Text. ^ Main GUI on Layer 2.
-	drawRectangle(0, 70, 256, 60, DARK_BLUE, true, true);
+	drawRectangle(0, 70, 256, 60, DARK_GREEN, true, true);
 	printTextCentered(Text, 0, 80, true, true);
 	for (int i = 0; i < 60*2; i++) {
 		swiWaitForVBlank();
@@ -48,11 +48,11 @@ void Msg::DisplayWarnMsg(const std::string &Text) {
 void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
-	drawRectangle(0, 20, 256, 152, BLUE, true, true);
-	drawRectangle(0, 0, 256, 20, DARK_BLUE, true, true);
-	drawRectangle(0, 172, 256, 20, DARK_BLUE, true, true);
+	drawRectangle(0, 20, 256, 152, GREEN, true, true);
+	drawRectangle(0, 0, 256, 20, DARK_GREEN, true, true);
+	drawRectangle(0, 172, 256, 20, DARK_GREEN, true, true);
 	// Draw Message box & Text. ^ Main GUI on Layer 2.
-	drawRectangle(0, 70, 256, 60, DARK_BLUE, true, true);
+	drawRectangle(0, 70, 256, 60, DARK_GREEN, true, true);
 	printTextCentered(waitMsg, 0, 80, true, true);
 	printTextCentered("Press A to continue.", 0, 175, true, true);
 	while(1)

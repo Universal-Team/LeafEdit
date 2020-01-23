@@ -24,30 +24,40 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#include "msg.hpp"
 
-#include "screenCommon.hpp"
+#include "management/playerManagement.hpp"
 
-#include "structs.hpp"
-#include <vector>
+#include "playerEditor.hpp"
 
-class Editor : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u16 hDown, touchPosition touch) override;
-private:
-	int EditorMode = 0;
-	int selection = 0;
+#include "wwoffsets.hpp"
+#include "wwPlayer.hpp"
+#include "wwsave.hpp"
 
-	void SubMenuLogic(u16 hDown, touchPosition touch);
+extern WWSave* SaveFile;
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{80, 30, 88, 32, -1}, // Player.
-		{80, 80, 88, 32, -1}, // Villager.
-		{80, 130, 88, 32, -1}, // Misc.
-	};
-};
 
-#endif
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+void PlayerEditor::DrawPlayerBoxes(void) const {
+	for (u32 y = 0; y < 2; y++) {
+		for (u32 x = 0; x < 2; x++) {
+			drawRectangle(20 + x*120, 35 + y*70, 100, 50, DARK_GREEN, true, true);
+		}
+	}
+}
+
+
+void PlayerEditor::Draw(void) const {
+	Gui::DrawTop();
+	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
+	DrawPlayerBoxes();
+	Gui::DrawBottom();
+}
+
+void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+}
