@@ -73,12 +73,12 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 	m_pSave->m_saveSize = 0;
 	m_pSave->m_saveBuffer = 0;
 
-    FILE* savesFile = fopen(saveName, "rb");
-    fseek(savesFile, 0, SEEK_END);
-    m_pSave->m_saveSize = ftell(savesFile);
-    fseek(savesFile, 0, SEEK_SET);
-    m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
-    fread(m_pSave->m_saveBuffer, 1, m_pSave->m_saveSize, savesFile);
+	FILE* savesFile = fopen(saveName, "rb");
+	fseek(savesFile, 0, SEEK_END);
+	m_pSave->m_saveSize = ftell(savesFile);
+	fseek(savesFile, 0, SEEK_SET);
+	m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
+	fread(m_pSave->m_saveBuffer, 1, m_pSave->m_saveSize, savesFile);
 
 	if (!init) {
 		return m_pSave;
@@ -176,44 +176,36 @@ bool WWSave::Write(u32 offset, u8 *data, u32 count) {
 	return true;
 }
 
-bool WWSave::Write(u32 offset, s8 data) {
-	return Write(offset, (u8 *)&data, 1);
+void WWSave::Write(u32 offset, s8 data) {
+	m_saveBuffer[offset] = (u8)data;
 }
 
-bool WWSave::Write(u32 offset, u8 data) {
-	return Write(offset, &data, 1);
+void WWSave::Write(u32 offset, u8 data) {
+	m_saveBuffer[offset] = data;
 }
 
-bool WWSave::Write(u32 offset, s16 data) {
-	return Write(offset, (u8 *)&data, 2);
+void WWSave::Write(u32 offset, s16 data) {
+	*reinterpret_cast<s16*>(m_saveBuffer + offset) = data;
 }
 
-bool WWSave::Write(u32 offset, u16 data) {
-	return Write(offset, (u8 *)&data, 2);
+void WWSave::Write(u32 offset, u16 data) {
+	*reinterpret_cast<u16*>(m_saveBuffer + offset) = data;
 }
 
-bool WWSave::Write(u32 offset, s32 data) {
-	return Write(offset, (u8 *)&data, 4);
+void WWSave::Write(u32 offset, s32 data) {
+	*reinterpret_cast<s32*>(m_saveBuffer + offset) = data;
 }
 
-bool WWSave::Write(u32 offset, u32 data) {
-	return Write(offset, (u8 *)&data, 4);
+void WWSave::Write(u32 offset, u32 data) {
+	*reinterpret_cast<u32*>(m_saveBuffer + offset) = data;
 }
 
-bool WWSave::Write(u32 offset, s64 data) {
-	return Write(offset, (u8 *)&data, 8);
+void WWSave::Write(u32 offset, s64 data) {
+	*reinterpret_cast<s64*>(m_saveBuffer + offset) = data;
 }
 
-bool WWSave::Write(u32 offset, u64 data) {
-	return Write(offset, (u8 *)&data, 8);
-}
-
-bool WWSave::Write(u32 offset, std::u16string str, u32 maxSize) {
-	if (str.length() > maxSize + 1) {
-		return false;
-	}
-
-	return Write(offset, (u8 *)str.data(), maxSize * 2);
+void WWSave::Write(u32 offset, u64 data) {
+	*reinterpret_cast<u64*>(m_saveBuffer + offset) = data;
 }
 
 bool WWSave::ChangesMade(void) {
@@ -234,8 +226,10 @@ bool WWSave::Commit(bool close) {
 		players[i]->Write();
 	}
 	// Update checksums.
-	WWChecksum::UpdateChecksum(m_saveBuffer, m_saveSize);
+	WWChecksum::UpdateChecksum(reinterpret_cast<u16*>(m_saveBuffer), 0x15FE0 / sizeof(u16));
+	WWSave::Instance()->Write(0x15FE0, m_saveBuffer, 0x15FE0);
 	FILE *saveFile = fopen(m_saveFile, "rb+");
+	
 	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
 
 	if (res) {

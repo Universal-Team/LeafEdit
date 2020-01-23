@@ -73,6 +73,7 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_Y) {
 		PlayerManagement::setBells(0); // Only Player 1 atm.
+		//SaveFile->players[0]->Gender = 0;
 	}
 
 	if (EditorMode == 1) {

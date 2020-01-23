@@ -32,22 +32,22 @@
 #include <string>
 
 // Checksum offset is "0x15FDC" in AC:WW's case.
-u16 WWChecksum::Calculate(const u8 *buffer, u64 size, uint checksumOffset)
+u16 WWChecksum::Calculate(const u16 *buffer, u64 size, uint checksumOffset)
 {
-	if ((checksumOffset & 1) == 1)
-		return 0; // checksumOffset must be 16-bit aligned!");
+    if ((checksumOffset & 1) == 1)
+        return 0; // checksumOffset must be 16-bit aligned!");
 
-	u16 checksum = 0;
-	for (uint i = 0; i < size - 1; i += 2)
-	{
-		if (i == checksumOffset) continue;
-		checksum += (u16) ((buffer[i + 1] << 8) | buffer[i + 0]);
-	}
+    u16 checksum = 0;
+    for (uint i = 0; i < size; i++)
+    {
+        if (i == checksumOffset) continue;
+        checksum += buffer[i];
+    }
 
-	return (u16) -checksum;
+    return (u16) -checksum;
 }
 
-bool WWChecksum::Verify(const u8 *buffer, u64 size, u16 currentChecksum, uint checksumOffset)
+bool WWChecksum::Verify(const u16 *buffer, u64 size, u16 currentChecksum, uint checksumOffset)
 {
 	if (Calculate(buffer, size, checksumOffset) == currentChecksum)	return true;
 	else	return false;
@@ -70,6 +70,6 @@ bool WWChecksum::Verify(const u8 *buffer, u64 size, u16 currentChecksum, uint ch
 	 SaveData = _saveReader.ReadBytes((int)_saveFile.Length); -> 256000 iirc.
 */
 
-void WWChecksum::UpdateChecksum(u8 *buffer, u64 size) {
-	*(u16*)(buffer+0x15FDC) = Calculate(buffer, size, 0x15FDC);
+void WWChecksum::UpdateChecksum(u16 *buffer, u64 size) {
+	WWSave::Instance()->Write(0x15FDC, Calculate(buffer, size, 0xAFEE));
 }

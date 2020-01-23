@@ -56,78 +56,78 @@ Save::~Save() {
 #ifdef _3DS
 // For Card or Installed Title reading. Can only be used on 3DS and not DS(i) or so!
 Save* Save::InitializeArchive(FS_Archive archive, bool init) {
-    if (m_pSave != nullptr) {
-        return m_pSave;
-    }
+	if (m_pSave != nullptr) {
+		return m_pSave;
+	}
 
 	m_pSave = new Save;
-    m_pSave->m_archive = archive;
-    m_pSave->m_saveSize = 0;
-    FS_Path path = fsMakePath(PATH_ASCII, "/garden_plus.dat");
+	m_pSave->m_archive = archive;
+	m_pSave->m_saveSize = 0;
+	FS_Path path = fsMakePath(PATH_ASCII, "/garden_plus.dat");
 
-    FSUSER_OpenFile(&m_pSave->m_handle, archive, path, FS_OPEN_READ | FS_OPEN_WRITE, 0);
-    FSFILE_GetSize(m_pSave->m_handle, &m_pSave->m_saveSize);
-    m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
+	FSUSER_OpenFile(&m_pSave->m_handle, archive, path, FS_OPEN_READ | FS_OPEN_WRITE, 0);
+	FSFILE_GetSize(m_pSave->m_handle, &m_pSave->m_saveSize);
+	m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
 
-    FSFILE_Read(m_pSave->m_handle, NULL, 0, m_pSave->m_saveBuffer, m_pSave->m_saveSize);
+	FSFILE_Read(m_pSave->m_handle, NULL, 0, m_pSave->m_saveBuffer, m_pSave->m_saveSize);
 
-    m_pSave->m_changesMade = false;
+	m_pSave->m_changesMade = false;
 
-    m_pSave->RegionLock.RawByte = m_pSave->ReadU8(0x621CE);
-    m_pSave->RegionLock.DerivedID = m_pSave->RegionLock.RawByte & 0xF;
-    m_pSave->RegionLock.RegionID = static_cast<CFG_Region>(m_pSave->RegionLock.RawByte >> 4);
+	m_pSave->RegionLock.RawByte = m_pSave->ReadU8(0x621CE);
+	m_pSave->RegionLock.DerivedID = m_pSave->RegionLock.RawByte & 0xF;
+	m_pSave->RegionLock.RegionID = static_cast<CFG_Region>(m_pSave->RegionLock.RawByte >> 4);
 
-    if (!init) {
-        return m_pSave;
-    }
+	if (!init) {
+		return m_pSave;
+	}
 
-    // Load Players
-    for (int i = 0; i < 4; i++) {
-        u32 PlayerOffset = 0xA0 + (i * 0xA480);
-        m_pSave->players[i] = new Player(PlayerOffset, i);
-    }
+	// Load Players
+	for (int i = 0; i < 4; i++) {
+		u32 PlayerOffset = 0xA0 + (i * 0xA480);
+		m_pSave->players[i] = new Player(PlayerOffset, i);
+	}
 
-    // Load Villagers
-    for (int i = 0; i < 10; i++) {
-        m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
-    }
+	// Load Villagers
+	for (int i = 0; i < 10; i++) {
+		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+	}
 
-    return m_pSave;
+	return m_pSave;
 }
 
 bool Save::CommitArchive(bool close) {
-    // Save Players
-    for (int i = 0; i < 4; i++) {
-        players[i]->Write();
-    }
+	// Save Players
+	for (int i = 0; i < 4; i++) {
+		players[i]->Write();
+	}
 
-    // Save Villagers
-    for (int i = 0; i < 10; i++) {
-        villagers[i]->Write();
-    }
+	// Save Villagers
+	for (int i = 0; i < 10; i++) {
+		villagers[i]->Write();
+	}
 
-    // Update Checksums
-    FixCRC32s();
+	// Update Checksums
+	FixCRC32s();
 
-    bool res = R_SUCCEEDED(FSFILE_Write(m_handle, NULL, 0, m_saveBuffer, m_saveSize, FS_WRITE_FLUSH));
+	bool res = R_SUCCEEDED(FSFILE_Write(m_handle, NULL, 0, m_saveBuffer, m_saveSize, FS_WRITE_FLUSH));
 
-    if (res) {
-        m_changesMade = false;
-    }
+	if (res) {
+		m_changesMade = false;
+	}
 
-    if (close) {
-        CloseArchive();
-    }
+	if (close) {
+		CloseArchive();
+	}
 
-    return res;
+	return res;
 }
 
 void Save::CloseArchive(void) {
-    if (R_SUCCEEDED(FSFILE_Close(m_handle))) {
-        FSUSER_ControlArchive(m_archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
-    }
+	if (R_SUCCEEDED(FSFILE_Close(m_handle))) {
+		FSUSER_ControlArchive(m_archive, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
+	}
 
-    FSUSER_CloseArchive(m_archive);
+	FSUSER_CloseArchive(m_archive);
 
 	if (m_pSave != nullptr) {
 		delete m_pSave;
@@ -137,93 +137,93 @@ void Save::CloseArchive(void) {
 
 //https://3dbrew.org/wiki/Title_list/DLC#Region_IDs
 u8 Save::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
-    if (RegionID == CFG_REGION_JPN) { //If region is JPN
-        return 0;
-    }
+	if (RegionID == CFG_REGION_JPN) { //If region is JPN
+		return 0;
+	}
 
-    else if (RegionID == CFG_REGION_USA) { //If region is USA
-        switch (LanguageID) {
-            case CFG_LANGUAGE_FR: //If lang is French
-                return 3;
-            case CFG_LANGUAGE_ES: //If lang is Spanish
-                return 2;
-            default: //If lang is English & other langs
-                return 1;
-        }
-    }
+	else if (RegionID == CFG_REGION_USA) { //If region is USA
+		switch (LanguageID) {
+			case CFG_LANGUAGE_FR: //If lang is French
+				return 3;
+			case CFG_LANGUAGE_ES: //If lang is Spanish
+				return 2;
+			default: //If lang is English & other langs
+				return 1;
+		}
+	}
 
-    else if (RegionID == CFG_REGION_EUR) { //If region is EUR
-        switch (LanguageID) {
-            case CFG_LANGUAGE_FR: //If lang is French
-                return 6;
-            case CFG_LANGUAGE_DE: //If lang is German
-                return 8;
-            case CFG_LANGUAGE_IT: //If lang is Italian
-                return 7;
-            case CFG_LANGUAGE_ES: //If lang is Spanish
-                return 5;
-            default:
-                return 4;
-        }
-    }
+	else if (RegionID == CFG_REGION_EUR) { //If region is EUR
+		switch (LanguageID) {
+			case CFG_LANGUAGE_FR: //If lang is French
+				return 6;
+			case CFG_LANGUAGE_DE: //If lang is German
+				return 8;
+			case CFG_LANGUAGE_IT: //If lang is Italian
+				return 7;
+			case CFG_LANGUAGE_ES: //If lang is Spanish
+				return 5;
+			default:
+				return 4;
+		}
+	}
 
-    else if (RegionID == CFG_REGION_KOR) { //If region is KOR
-        return 9;
-    }
+	else if (RegionID == CFG_REGION_KOR) { //If region is KOR
+		return 9;
+	}
 
-    return 0;
+	return 0;
 }
 
 bool Save::UpdateSaveRegion(void) {
-    static constexpr u8 ACNLRegionIDs[11] = {0x00, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x03, 0xFF};
+	static constexpr u8 ACNLRegionIDs[11] = {0x00, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x03, 0xFF};
 
-    u8 SystemLanguage = 0xC; //0xC is ACNL default value || max+1
-    u8 SystemRegion = 7; //7 is ACNL default value || max+1
-    u8 RegionByte = 0;
-    bool ret = false;
-    CFGU_SecureInfoGetRegion(&SystemRegion);
-    CFGU_GetSystemLanguage(&SystemLanguage);
+	u8 SystemLanguage = 0xC; //0xC is ACNL default value || max+1
+	u8 SystemRegion = 7; //7 is ACNL default value || max+1
+	u8 RegionByte = 0;
+	bool ret = false;
+	CFGU_SecureInfoGetRegion(&SystemRegion);
+	CFGU_GetSystemLanguage(&SystemLanguage);
 
-    u8 DeriveID = DeriveRegionLockID(SystemRegion, SystemLanguage);
-    if (DeriveID < 10) SystemRegion = ACNLRegionIDs[DeriveID];
-    else SystemRegion = 4;
+	u8 DeriveID = DeriveRegionLockID(SystemRegion, SystemLanguage);
+	if (DeriveID < 10) SystemRegion = ACNLRegionIDs[DeriveID];
+	else SystemRegion = 4;
 
-    RegionByte = (SystemRegion << 4) | (DeriveID & 0xF);
+	RegionByte = (SystemRegion << 4) | (DeriveID & 0xF);
 
-    if (RegionLock.RawByte != RegionByte) {
-        ret = true;
-        RegionLock.RegionID = static_cast<CFG_Region>(SystemRegion);
-        RegionLock.DerivedID = DeriveID;
-        RegionLock.RawByte = RegionByte;
-    }
+	if (RegionLock.RawByte != RegionByte) {
+		ret = true;
+		RegionLock.RegionID = static_cast<CFG_Region>(SystemRegion);
+		RegionLock.DerivedID = DeriveID;
+		RegionLock.RawByte = RegionByte;
+	}
 
-    return ret;
+	return ret;
 }
 
 void Save::FixSaveRegion(void) {
-    if (this->UpdateSaveRegion())
-    {
-        if (Msg::promptMsg(Lang::get("SAVEREGION_NOT_MATCH"))) {
-            Write(0x621CE, RegionLock.RawByte);
-        }
-    }
+	if (this->UpdateSaveRegion())
+	{
+		if (Msg::promptMsg(Lang::get("SAVEREGION_NOT_MATCH"))) {
+			Write(0x621CE, RegionLock.RawByte);
+		}
+	}
 }
 
 void Save::FixInvalidBuildings(void) {
-    bool asked = false;
-    for (int i = 0; i < 58; i++) {
-        u8 building = ReadU8(0x04be88+(i * 4)); //Get building ID
-        if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
-            if (!asked) {
-                asked = true;
-                if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
-                    return;
-                }
-            }
+	bool asked = false;
+	for (int i = 0; i < 58; i++) {
+		u8 building = ReadU8(0x04be88+(i * 4)); //Get building ID
+		if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
+			if (!asked) {
+				asked = true;
+				if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
+					return;
+				}
+			}
 
-            Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
-        }
-    }
+			Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
+		}
+	}
 }
 
 #endif
@@ -238,12 +238,12 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	m_pSave->m_saveSize = 0;
 	m_pSave->m_saveBuffer = 0;
 
-    FILE* savesFile = fopen(saveName, "rb");
-    fseek(savesFile, 0, SEEK_END);
-    m_pSave->m_saveSize = ftell(savesFile);
-    fseek(savesFile, 0, SEEK_SET);
-    m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
-    fread(m_pSave->m_saveBuffer, 1, m_pSave->m_saveSize, savesFile);
+	FILE* savesFile = fopen(saveName, "rb");
+	fseek(savesFile, 0, SEEK_END);
+	m_pSave->m_saveSize = ftell(savesFile);
+	fseek(savesFile, 0, SEEK_SET);
+	m_pSave->m_saveBuffer = new u8[m_pSave->m_saveSize];
+	fread(m_pSave->m_saveBuffer, 1, m_pSave->m_saveSize, savesFile);
 
 	m_pSave->m_changesMade = false;
 	#ifdef _3DS
@@ -352,36 +352,37 @@ bool Save::Write(u32 offset, u8 *data, u32 count) {
 	return true;
 }
 
-bool Save::Write(u32 offset, s8 data) {
-	return Write(offset, (u8 *)&data, 1);
+
+void Save::Write(u32 offset, s8 data) {
+	m_saveBuffer[offset] = (u8)data;
 }
 
-bool Save::Write(u32 offset, u8 data) {
-	return Write(offset, &data, 1);
+void Save::Write(u32 offset, u8 data) {
+	m_saveBuffer[offset] = data;
 }
 
-bool Save::Write(u32 offset, s16 data) {
-	return Write(offset, (u8 *)&data, 2);
+void Save::Write(u32 offset, s16 data) {
+	*reinterpret_cast<s16*>(m_saveBuffer + offset) = data;
 }
 
-bool Save::Write(u32 offset, u16 data) {
-	return Write(offset, (u8 *)&data, 2);
+void Save::Write(u32 offset, u16 data) {
+	*reinterpret_cast<u16*>(m_saveBuffer + offset) = data;
 }
 
-bool Save::Write(u32 offset, s32 data) {
-	return Write(offset, (u8 *)&data, 4);
+void Save::Write(u32 offset, s32 data) {
+	*reinterpret_cast<s32*>(m_saveBuffer + offset) = data;
 }
 
-bool Save::Write(u32 offset, u32 data) {
-	return Write(offset, (u8 *)&data, 4);
+void Save::Write(u32 offset, u32 data) {
+	*reinterpret_cast<u32*>(m_saveBuffer + offset) = data;
 }
 
-bool Save::Write(u32 offset, s64 data) {
-	return Write(offset, (u8 *)&data, 8);
+void Save::Write(u32 offset, s64 data) {
+	*reinterpret_cast<s64*>(m_saveBuffer + offset) = data;
 }
 
-bool Save::Write(u32 offset, u64 data) {
-	return Write(offset, (u8 *)&data, 8);
+void Save::Write(u32 offset, u64 data) {
+	*reinterpret_cast<u64*>(m_saveBuffer + offset) = data;
 }
 
 bool Save::Write(u32 offset, std::u16string str, u32 maxSize) {
