@@ -234,7 +234,7 @@ bool WWSave::Commit(bool close) {
 		players[i]->Write();
 	}
 	// Update checksums.
-	WWChecksum::UpdateChecksum();
+	WWChecksum::UpdateChecksum(m_saveBuffer, m_saveSize);
 	FILE *saveFile = fopen(m_saveFile, "rb+");
 	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
 

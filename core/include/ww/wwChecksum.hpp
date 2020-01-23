@@ -35,10 +35,9 @@
 #include <vector>
 
 namespace WWChecksum {
-	u16 Calculate(const std::vector<u8> &buffer, uint checksumOffset);
-	bool Verify(const std::vector<u8> &buffer, u16 currentChecksum, uint checksumOffset);
-	// TODO: update Checksums.
-	void UpdateChecksum(void);
+	u16 Calculate(const u8 *buffer, u64 size, uint checksumOffset);
+	bool Verify(const u8 *buffer, u64 size, u16 currentChecksum, uint checksumOffset);
+	void UpdateChecksum(u8 *buffer, u64 size);
 }
 
 #endif

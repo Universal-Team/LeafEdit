@@ -32,49 +32,44 @@
 #include <string>
 
 // Checksum offset is "0x15FDC" in AC:WW's case.
-u16 WWChecksum::Calculate(const std::vector<u8> &buffer, uint checksumOffset)
+u16 WWChecksum::Calculate(const u8 *buffer, u64 size, uint checksumOffset)
 {
-    if ((checksumOffset & 1) == 1)
-        return 0; // checksumOffset must be 16-bit aligned!");
+	if ((checksumOffset & 1) == 1)
+		return 0; // checksumOffset must be 16-bit aligned!");
 
-    u16 checksum = 0;
-    for (uint i = 0; i < buffer.size() - 1; i += 2)
-    {
-        if (i == checksumOffset) continue;
-        checksum += (u16) ((buffer[i + 1] << 8) | buffer[i + 0]);
-    }
+	u16 checksum = 0;
+	for (uint i = 0; i < size - 1; i += 2)
+	{
+		if (i == checksumOffset) continue;
+		checksum += (u16) ((buffer[i + 1] << 8) | buffer[i + 0]);
+	}
 
-    return (u16) -checksum;
+	return (u16) -checksum;
 }
 
-bool WWChecksum::Verify(const std::vector<u8> &buffer, u16 currentChecksum, uint checksumOffset)
+bool WWChecksum::Verify(const u8 *buffer, u64 size, u16 currentChecksum, uint checksumOffset)
 {
-    if (Calculate(buffer, checksumOffset) == currentChecksum)	return true;
+	if (Calculate(buffer, size, checksumOffset) == currentChecksum)	return true;
 	else	return false;
 }
 
 // From ACSE Save.cs.
 /*
-                case SaveType.WildWorld:
-                    Write(SaveDataStartOffset + SaveInfo.SaveOffsets.Checksum,
-                        new UInt16LEChecksum().Calculate(
-                            SaveData.Skip(SaveDataStartOffset).Take(SaveInfo.SaveOffsets.SaveSize).ToArray(),
-                            (uint) SaveInfo.SaveOffsets.Checksum), IsBigEndian);
+				case SaveType.WildWorld:
+					Write(SaveDataStartOffset + SaveInfo.SaveOffsets.Checksum,
+						new UInt16LEChecksum().Calculate(
+							SaveData.Skip(SaveDataStartOffset).Take(SaveInfo.SaveOffsets.SaveSize).ToArray(),
+							(uint) SaveInfo.SaveOffsets.Checksum), IsBigEndian);
 
-                    SaveData.Skip(SaveDataStartOffset).Take(SaveInfo.SaveOffsets.SaveSize).ToArray().CopyTo(
-                        SaveData,
-                        SaveDataStartOffset + SaveInfo.SaveOffsets.SaveSize);
-                    break;
+					SaveData.Skip(SaveDataStartOffset).Take(SaveInfo.SaveOffsets.SaveSize).ToArray().CopyTo(
+						SaveData,
+						SaveDataStartOffset + SaveInfo.SaveOffsets.SaveSize);
+					break;
 
 
 	 SaveData = _saveReader.ReadBytes((int)_saveFile.Length); -> 256000 iirc.
 */
 
-void WWChecksum::UpdateChecksum(void) {
-	// Is that right?
-	std::vector<u8> data;
-	data.insert(data.begin(), (u8)0x15FE0);
-
-	u16 calculation = Calculate(data, 0x15FDC);
-	WWSave::Instance()->Write(0x15FDC, calculation);
+void WWChecksum::UpdateChecksum(u8 *buffer, u64 size) {
+	*(u16*)(buffer+0x15FDC) = Calculate(buffer, size, 0x15FDC);
 }
