@@ -68,6 +68,7 @@ namespace Gui
 	// float speed -> The speed of the Animation. For example : ".030f/.030".
 	// u32 colour -> The color Value for the Selector. example : C2D_Color32(0, 0, 0, 0) for Transparency.
 	void drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour);
+	void drawGrid(float xPos, float yPos, float Width, float Height, u32 color = C2D_Color32(80, 80, 80, 100));
 
 	// Misc.
 	bool Draw_Rect(float x, float y, float w, float h, u32 color);

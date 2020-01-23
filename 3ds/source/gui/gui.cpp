@@ -172,34 +172,34 @@ void Gui::DrawArrow(int x, int y, float rotation) {
 }
 
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
-    float heightScale;
-    if(maxHeight == 0) {
-        heightScale = size;
-    } else {
-        heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
-    }
+	float heightScale;
+	if(maxHeight == 0) {
+		heightScale = size;
+	} else {
+		heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
+	}
 
 	Gui::DrawString((currentScreen ? 200 : 160)+x-((maxWidth == 0 ? (int)Gui::GetStringWidth(size, Text) : std::min(maxWidth, (int)Gui::GetStringWidth(size, Text)))/2), y, size, color, Text, maxWidth, heightScale);
 }
 
 // Draw String or Text.
 void Gui::DrawString(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
-    C2D_Text c2d_text;
-    C2D_TextFontParse(&c2d_text, font, sizeBuf, Text.c_str());
-    C2D_TextOptimize(&c2d_text);
+	C2D_Text c2d_text;
+	C2D_TextFontParse(&c2d_text, font, sizeBuf, Text.c_str());
+	C2D_TextOptimize(&c2d_text);
 
-    float heightScale;
-    if(maxHeight == 0) {
-        heightScale = size;
-    } else {
-        heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
-    }
+	float heightScale;
+	if(maxHeight == 0) {
+		heightScale = size;
+	} else {
+		heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
+	}
 
-    if(maxWidth == 0) {
-        C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, size, heightScale, color);
-    } else {
-        C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/Gui::GetStringWidth(size, Text))), heightScale, color);
-    }
+	if(maxWidth == 0) {
+		C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, size, heightScale, color);
+	} else {
+		C2D_DrawText(&c2d_text, C2D_WithColor, x, y, 0.5f, std::min(size, size*(maxWidth/Gui::GetStringWidth(size, Text))), heightScale, color);
+	}
 }
 
 
@@ -253,6 +253,19 @@ void Gui::ScreenDraw(C3D_RenderTarget * screen)
 {
 	C2D_SceneBegin(screen);
 	currentScreen = screen == top ? 1 : 0;
+}
+
+void Gui::drawGrid(float xPos, float yPos, float Width, float Height, u32 color)
+{
+	static constexpr int w	= 1;
+	// BG Color for the Grid.
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, C2D_Color32(0, 0, 0, 0));
+
+	// Grid part.
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, color);	// top
+	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, color);	// left
+	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, color); // right
+	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, color);	// bottom
 }
 
 void Gui::drawAnimatedSelector(float xPos, float yPos, float Width, float Height, float speed, u32 colour)

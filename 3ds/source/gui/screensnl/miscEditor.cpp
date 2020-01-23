@@ -32,6 +32,7 @@
 #include "gui/screensnl/miscEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screensnl/scripts.hpp"
+#include "gui/screensnl/townEditor.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -41,14 +42,14 @@ void MiscEditor::Draw(void) const
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("MISC_EDITOR"), 400);
 	Gui::DrawBottom();
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
 			Gui::drawAnimatedSelector(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, .030f, SELECTED_COLOR);
 		}
 	}
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("ACRES")))/2-80+17.5, 0.8, WHITE, Lang::get("ACRES"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SCRIPTS")))/2-20+17.5, 0.8, WHITE, Lang::get("SCRIPTS"), 130, 25);
 }
 
@@ -63,16 +64,12 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 1)	Selection++;
+		if(Selection < 2)	Selection++;
 	}
 
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
-			if (Config::getBool("Debug") == true) {
-				Gui::setScreen(std::make_unique<AcresEditor>());
-			} else {
-				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
-			}
+			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<Scripts>());
 		}
@@ -80,11 +77,7 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (Config::getBool("Debug") == true) {
-				Gui::setScreen(std::make_unique<AcresEditor>());
-			} else {
-				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
-			}
+			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<Scripts>());
 		}
