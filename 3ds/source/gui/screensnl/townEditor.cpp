@@ -87,7 +87,6 @@ void TownEditor::DrawTownMap() const
 void TownEditor::DrawTownEditor(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWNMAP_EDITOR"), 400);
-	Gui::DrawStringCentered(0, 217, 0.8f, WHITE, Lang::get("CURRENT_POSITION") + "32 | 16", 400);
 	DrawTownMap();
 
 	// Bottom Screen part. Grid & Acre.
@@ -98,27 +97,28 @@ void TownEditor::DrawTownEditor(void) const {
 }
 
 void TownEditor::DrawCurrentPos(void) const {
-	Gui::drawGrid(20 + (currentPosX*10.67), 40 + (currentPosY*10.67), 10.67, 10.67, WHITE);
+	Gui::drawGrid(20 + (currentPosX*10), 40 + (currentPosY*10), 10, 10, WHITE);
 }
 
 
 
 /* NOTES:
 	- The native acre resolution is 40x40, I scaled it x4, so it's around ~ 160x160.
-	- A Grid is 10.66667~.
+	- A Grid is 10.
 	- The Grid might be not like the actual ACNL ones, but it's the best I can do atm.
 	- Notes end.
 */
 
 void TownEditor::DrawGrid(void) const {
 	for (int i = 0; i < 256; i++) {
-		for (u32 y = 0; y < 15; y++) {
-			for (u32 x = 0; x < 15; x++, i++) {
-				Gui::drawGrid(20 + (x*10.67), 40 + (y*10.67), 10.67, 10.67);
+		for (u32 y = 0; y < 16; y++) {
+			for (u32 x = 0; x < 16; x++, i++) {
+				Gui::drawGrid(20 + (x*10), 40 + (y*10), 10, 10);
 			}
 		}
 	}
 }
+
 
 void TownEditor::updateAcre(void) {
 	// First row.
@@ -219,11 +219,11 @@ void TownEditor::editorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if (currentPosX == 14 && currentAcre < 19) {
+		if (currentPosX == 15 && currentAcre < 19) {
 			// Go one Acre next and reset X to 0.
 			currentAcre++;
 			currentPosX = 0;
-		} else if (currentPosX < 14) {
+		} else if (currentPosX < 15) {
 			currentPosX++;
 		}
 	}
@@ -232,18 +232,19 @@ void TownEditor::editorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (currentPosX == 0 && currentAcre > 0) {
 			// Go one Acre before.
 			currentAcre--;
+			currentPosX = 15;
 		} else if (currentPosX > 0) {
 			currentPosX--;
 		}
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (currentPosY == 14 && currentAcre < 15) {
+		if (currentPosY == 15 && currentAcre < 15) {
 			// Go one Acre down & reset Y to 0.
 			currentAcre += 5;
 			currentPosY = 0;
-		} else if (currentPosY < 14) {
-			currentPosY ++;
+		} else if (currentPosY < 15) {
+			currentPosY++;
 		}
 	}
 
@@ -251,6 +252,7 @@ void TownEditor::editorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (currentPosY == 0 && currentAcre > 4) {
 			// Go one Acre up.
 			currentAcre -= 5;
+			currentPosY = 15;
 		} else if (currentPosY > 0) {
 			currentPosY--;
 		}

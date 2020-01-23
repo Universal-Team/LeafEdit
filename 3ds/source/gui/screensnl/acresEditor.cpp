@@ -125,12 +125,20 @@ void AcresEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 
-	if (hDown & KEY_R) {
+	if (hDown & KEY_RIGHT) {
 		if (Selection < 19)	Selection++;
 	}
 
-	if (hDown & KEY_L) {
+	if (hDown & KEY_LEFT) {
 		if (Selection > 0)	Selection--;
+	}
+
+	if (hDown & KEY_UP) {
+		if (Selection > 4)	Selection -= 5;
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (Selection < 15)	Selection += 5;
 	}
 }
 
