@@ -7,6 +7,7 @@
 #include "config.hpp"
 #include "colors.hpp"
 #include "graphics.hpp"
+#include "gui.hpp"
 #include "lang.hpp"
 #include "sound.hpp"
 #include "stringUtils.hpp"
@@ -241,7 +242,7 @@ void drawKeyboard(int layout) {
 			drawRectangle(0, 192-prevHeight-16, 256, prevHeight+16, 0, false, true);
 		}
 	}
-	drawRectangle(0, 192-keyboard.height, 256, keyboard.height, DARKERER_GRAY, DARKER_GRAY, false, true);
+	drawRectangle(0, 192-keyboard.height, 256, keyboard.height, DARKERER_GRAY, BG_PALETTE[DARKER_GRAY], false, true);
 	drawImage(xPos, 192-keyboard.height, keyboard, false, true);
 
 	drawRectangle(0, 192-keyboard.height-16, 256, 16, DARKERER_GRAY, false, true);
@@ -341,16 +342,17 @@ void processInputABC(u16 held, unsigned maxLength) {
 				else	character = (keysHeld() & KEY_L) ? &keysDPadABCSymbols[direction] : (Config::getInt("keyboardGroupAmount") ? &keysDPadABC4[direction] : &keysDPadABC3[direction]);
 			std::pair<int, int> *pos = (Config::getInt("keyboardDirections") ? &keysDPad4[direction] : &keysDPad8[direction]);
 
-			// fillSpriteImageScaled(keyboardSpriteID, false, 32, 0, 0, 2, keyboardKey);
-			// setSpritePosition(keyboardSpriteID, false, pos->first, pos->second);
-			// setSpriteVisibility(keyboardSpriteID, false, true);
+			// fillSpriteImageScaled(Gui::keyboardSpriteID, false, 32, 0, 0, 2, keyboardKey);
+			fillSpriteColor(Gui::keyboardSpriteID, false, BG_PALETTE[DARKER_GRAY]);
+			setSpritePosition(Gui::keyboardSpriteID, false, pos->first, pos->second);
+			setSpriteVisibility(Gui::keyboardSpriteID, false, true);
 			updateOam();
 
 			std::pair<int, int> offsets[] = {{16, 0}, {24, 8}, {16, 16}, {8, 8}};
 			for(unsigned i=0;i<character->size();i++) {
 				std::u16string str = character->substr(i, 1);
 				if(upper)	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-				// fillSpriteText(keyboardSpriteID, false, str, TextColor::white, offsets[i].first-(getTextWidth(str)/2), offsets[i].second);
+				fillSpriteText(Gui::keyboardSpriteID, false, str, TextColor::white, offsets[i].first-(getTextWidth(str)/2), offsets[i].second);
 			}
 		}
 
@@ -433,13 +435,13 @@ void processInputAIU(u16 held, unsigned maxLength) {
 			std::u16string character = (kanaMode == 0) ? keysDPadAIU[direction] : (kanaMode == 1) ? keysDPadAIU2[direction] : keysDPadAIU3[direction];
 			std::pair<int, int> *pos = &keysDPad8[direction];
 
-			// fillSpriteImageScaled(keyboardSpriteID, false, 32, 0, 0, 2, keyboardKey);
-			// setSpritePosition(keyboardSpriteID, false, pos->first, pos->second);
-			// setSpriteVisibility(keyboardSpriteID, false, true);
+			fillSpriteColor(Gui::keyboardSpriteID, false, BG_PALETTE[DARKER_GRAY]);
+			setSpritePosition(Gui::keyboardSpriteID, false, pos->first, pos->second);
+			setSpriteVisibility(Gui::keyboardSpriteID, false, true);
 			updateOam();
 
 			std::u16string str; str += isKatakana ? tokatakana(character[0]) : character[0];
-			// fillSpriteText(keyboardSpriteID, false, str, TextColor::white, 16-(getTextWidth(str)/2), 8);
+			fillSpriteText(Gui::keyboardSpriteID, false, str, TextColor::white, 16-(getTextWidth(str)/2), 8);
 		}
 
 		if(held & (KEY_A | KEY_B | KEY_X | KEY_Y | KEY_START)) {
@@ -563,12 +565,12 @@ void processTouchABC(touchPosition touch, unsigned maxLength) {
 					if(selection != prevSelection) {
 						prevSelection = selection;
 						if(selection < (int)keysABC[i].character.length()) {
-						// setSpriteVisibility(keyboardSpriteID, false, true);
-						// setSpritePosition(keyboardSpriteID, false, keysABC[i].x+xPos+xOfs, keysABC[i].y+(192-keyboard.height)+yOfs);
-						// fillSpriteImageScaled(keyboardSpriteID, false, 32, 0, 0, 2, keyboardKey);
-						// fillSpriteText(keyboardSpriteID, false, keysABC[i].character.substr(selection, 1), TextColor::white, 16-(getTextWidth(keysABC[i].character.substr(selection, 1))/2), 8);
+						setSpriteVisibility(Gui::keyboardSpriteID, false, true);
+						setSpritePosition(Gui::keyboardSpriteID, false, keysABC[i].x+xPos+xOfs, keysABC[i].y+(192-keyboard.height)+yOfs);
+						fillSpriteColor(Gui::keyboardSpriteID, false, BG_PALETTE[DARKER_GRAY]);
+						fillSpriteText(Gui::keyboardSpriteID, false, keysABC[i].character.substr(selection, 1), TextColor::white, 16-(getTextWidth(keysABC[i].character.substr(selection, 1))/2), 8);
 						} else {
-							// setSpriteVisibility(keyboardSpriteID, false, false);
+							setSpriteVisibility(Gui::keyboardSpriteID, false, false);
 						}
 						updateOam();
 					}
@@ -577,7 +579,7 @@ void processTouchABC(touchPosition touch, unsigned maxLength) {
 					scanKeys();
 					touchRead(&touch);
 				}
-				// setSpriteVisibility(keyboardSpriteID, false, false);
+				setSpriteVisibility(Gui::keyboardSpriteID, false, false);
 				updateOam();
 
 				if(selection < (int)keysABC[i].character.length()) {
@@ -673,14 +675,14 @@ void processTouchAIU(touchPosition touch, unsigned maxLength) {
 					if(selection != prevSelection) {
 						prevSelection = selection;
 						if(keysAIU[i].character[selection] != 0x3000) {
-							// setSpriteVisibility(keyboardSpriteID, false, true);
-							// setSpritePosition(keyboardSpriteID, false, keysAIU[i].x+xPos+xOfs, keysAIU[i].y+(192-keyboard.height)+yOfs);
-							// fillSpriteImageScaled(keyboardSpriteID, false, 32, 0, 0, 2, keyboardKey);
+							setSpriteVisibility(Gui::keyboardSpriteID, false, true);
+							setSpritePosition(Gui::keyboardSpriteID, false, keysAIU[i].x+xPos+xOfs, keysAIU[i].y+(192-keyboard.height)+yOfs);
+							fillSpriteColor(Gui::keyboardSpriteID, false, BG_PALETTE[DARKER_GRAY]);
 							std::u16string character;
 							character += katakana ? tokatakana(keysAIU[i].character[selection]) : keysAIU[i].character[selection];
-							// fillSpriteText(keyboardSpriteID, false, character, TextColor::white, 16-(getTextWidth(character)/2), 8);
+							fillSpriteText(Gui::keyboardSpriteID, false, character, TextColor::white, 16-(getTextWidth(character)/2), 8);
 						} else {
-							// setSpriteVisibility(keyboardSpriteID, false, false);
+							setSpriteVisibility(Gui::keyboardSpriteID, false, false);
 						}
 						updateOam();
 					}
@@ -689,7 +691,7 @@ void processTouchAIU(touchPosition touch, unsigned maxLength) {
 					scanKeys();
 					touchRead(&touch);
 				}
-				// setSpriteVisibility(keyboardSpriteID, false, false);
+				setSpriteVisibility(Gui::keyboardSpriteID, false, false);
 				updateOam();
 
 				if(keysAIU[i].character[selection] != 0x3000) {
@@ -1107,7 +1109,7 @@ std::string Input::getLine(unsigned maxLength) {
 			else	processInputABC(held, maxLength);
 
 			// Hide sprite
-			// setSpriteVisibility(keyboardSpriteID, false, false);
+			setSpriteVisibility(Gui::keyboardSpriteID, false, false);
 			updateOam();
 
 			// Print string
@@ -1202,7 +1204,7 @@ int Input::getInt(unsigned max) {
 bool Input::getBool() { return getBool(Lang::get("yes"), Lang::get("no")); }
 bool Input::getBool(std::string optionTrue, std::string optionFalse) {
 	// Draw rectangles
-	drawRectangle(38, 65, 180, 61, DARKER_GRAY, false, true);
+	drawRectangle(38, 65, 180, 61, BG_PALETTE[DARKER_GRAY], false, true);
 	drawOutline(38, 65, 180, 61, BLACK, false, true);
 
 	drawRectangle(48, 75, 70, 41, LIGHT_GRAY, false, true);
@@ -1257,7 +1259,7 @@ void Input::prompt(std::string message, const std::string &confirm) {
 	}
 
 	// Draw backgruond
-	drawRectangle(20, 96-(8*lines)-3, 215, (16*lines)+5, DARKER_GRAY, false, true);
+	drawRectangle(20, 96-(8*lines)-3, 215, (16*lines)+5, BG_PALETTE[DARKER_GRAY], false, true);
 	drawOutline(20, 96-(8*lines)-3, 215, (16*lines)+5, BLACK, false, true);
 
 	// Draw confirm button

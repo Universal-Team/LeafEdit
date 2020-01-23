@@ -97,6 +97,7 @@ int main(int argc, char **argv) {
 	printTextCentered(Lang::get("loading"), 0, 32, false, true);
 
 	Sound::init();
+	Gui::initSprites();
 	// initSprites();
 	// loadGraphics();
 

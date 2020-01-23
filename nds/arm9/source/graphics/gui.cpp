@@ -65,3 +65,12 @@ void Gui::DrawBottom(void)
 void Gui::clearScreen(bool top, bool layer) {
     drawRectangle(0, 0, 256, 192, CLEAR, top, layer);
 }
+
+// Sprites stuff
+
+int Gui::keyboardSpriteID;
+
+void Gui::initSprites(void) {
+	keyboardSpriteID = initSprite(false, SpriteSize_32x32);
+	prepareSprite(keyboardSpriteID, false, 0, 0, 0);
+}
