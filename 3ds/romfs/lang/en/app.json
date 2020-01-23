@@ -186,5 +186,6 @@
 	"CREATING_BACKUP":				"Creating Backup...",
 	"TOWN_EDITOR":					"Town Editor",
 	"TOWNMAP_EDITOR":				"Town Map Editor",
-	"CURRENT_POSITION":				"Current Position: "
+	"CURRENT_POSITION":				"Current Position: ",
+	"SAVE_NOT_FOUND_ACWW":			"ACWW.sav not found!"
 }

@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,38 +24,42 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "msg.hpp"
+#include "common/config.hpp"
+#include "common/utils.hpp"
 
-#include "management/playerManagement.hpp"
+#include "gui/keyboard.hpp"
 
-#include "playerEditor.hpp"
+#include "gui/screens/mainMenu.hpp"
+#include "gui/screens/screenCommon.hpp"
 
-#include "wwoffsets.hpp"
+#include "gui/screensww/playerEditorWW.hpp"
+
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
 
-extern WWSave* SaveFile;
+#include <3ds.h>
 
-
+extern WWSave* WWSaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-void PlayerEditor::DrawPlayerBoxes(void) const {
+void PlayerEditorWW::DrawPlayerBoxes(void) const {
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 2; x++) {
-			drawRectangle(20 + x*120, 35 + y*70, 100, 50, DARK_GREEN, true, true);
+			Gui::Draw_Rect(45 + x*160, 40 + y*100, 150, 60, DARKER_COLOR);
 		}
 	}
 }
 
 
-void PlayerEditor::Draw(void) const {
+void PlayerEditorWW::Draw(void) const
+{
 	Gui::DrawTop();
-	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - Player Selection", 400);
 	DrawPlayerBoxes();
 	Gui::DrawBottom();
 }
 
-void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
+void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;

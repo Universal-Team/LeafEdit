@@ -33,6 +33,7 @@
 #include "gui/screens/screenCommon.hpp"
 
 #include "gui/screensww/editorWW.hpp"
+#include "gui/screensww/playerEditorWW.hpp"
 
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
@@ -65,18 +66,21 @@ void EditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void EditorWW::DrawSubMenu(void) const
 {
 	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "WildEdit - " + Lang::get("EDITOR"), 400);
-		// Draw Gender.
-	if (WWSaveFile->players[0]->Gender == 0) {
-		Gui::DrawStringCentered(0, 40, 0.9f, WHITE, "Player 1: Male!", 400);
-	} else if (WWSaveFile->players[0]->Gender == 1) {
-		Gui::DrawStringCentered(0, 40, 0.9f, WHITE, "Player 1: Female!", 400);
-	}
-	// Draw Bells.
-	Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Player 1: " + std::to_string(WWSaveFile->players[0]->Bells) + " Bells", 400);
-	
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
+
 	Gui::DrawBottom();
-	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y); // Back Icon.
+
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, UNSELECTED_COLOR);
+		if (Selection == i) {
+			Gui::drawAnimatedSelector(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, .030f, SELECTED_COLOR);
+		}
+	}
+	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
+
+	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.8f, WHITE, Lang::get("PLAYER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[1].y+10, 0.8f, WHITE, Lang::get("VILLAGER"), 130);
+	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.8f, WHITE, Lang::get("MISC_EDITOR"), 130);
 }
 
 void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
@@ -87,18 +91,40 @@ void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		if(Selection < 2)	Selection++;
 	}
 
-	if (hDown & KEY_X) {
-		WWSaveFile->players[0]->Bells = Input::handleu32(5, Lang::get("ENTER_WALLET_AMOUNT"), 99999, WWSaveFile->players[0]->Bells);
-	}
-
 	if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
+		if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
+			WWSaveFile->Commit(false);
+		}
+		// Set Screen to Browse & Reset Save Folder.
 		EditorMode = 1;
-		WWSaveFile->Commit(false);
 		WWSaveFile->Close();
 		selectedSaveFolderEditorWW = "";
 	}
-}
 
+	if (hDown & KEY_A) {
+		switch(Selection) {
+			case 0:
+				Gui::setScreen(std::make_unique<PlayerEditorWW>());
+				break;
+			case 1:
+//				Gui::setScreen(std::make_unique<VillagerViewerWW>());
+				break;
+			case 2:
+//				Gui::setScreen(std::make_unique<MiscEditorWW>());
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, editorButtons[0])) {
+			Gui::setScreen(std::make_unique<PlayerEditorWW>());
+		} else if (touching(touch, editorButtons[1])) {
+//			Gui::setScreen(std::make_unique<VillagerViewerWW>());
+		} else if (touching(touch, editorButtons[2])) {
+//			Gui::setScreen(std::make_unique<MiscEditorWW>());
+		}
+	}
+}
 
 void EditorWW::DrawBrowse(void) const
 {
@@ -151,7 +177,7 @@ void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
 					WWSaveFile = WWSave::Initialize(save, true);
 					EditorMode = 2;
 				} else {
-					Msg::DisplayWarnMsg(Lang::get("SAVE_NOT_FOUND"));
+					Msg::DisplayWarnMsg(Lang::get("SAVE_NOT_FOUND_ACWW"));
 					return;
 				}
 			}
@@ -170,7 +196,6 @@ void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
 		}
 	} else if (hDown & KEY_B) {
 		if(Msg::promptMsg(Lang::get("RETURN_MAINMENU"))) {
-			Gui::unloadSheets();
 			Gui::screenBack();
 			return;
 		}
