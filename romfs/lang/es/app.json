@@ -131,7 +131,7 @@
 	"BOXED": "Empaquetando",
 	"UNBOXED": "Desempaquetando",
 	"CREATE_BACKUP": "¿Quieres crear una copia de seguridad?",
-	"FIND_BACKUP": "You can find your backup at:\n\n%s",
+	"FIND_BACKUP": "Puedes encontrar tu copia de seguridad en:\n\n%s",
 	"EXPERIMENTAL_EDITOR": "El editor es experimental.\nNo somos responsables de los errores que hagas.\n¿Quieres continuar?",
 	"PATTERN": "Patrón",
 	"ITEM_ISLAND": "Caja de la isla",
