@@ -6,7 +6,7 @@ Taureau
 Chat
 Poulet
 Vache
-Cub
+Ourson
 Cerf
 Chien
 Canard
