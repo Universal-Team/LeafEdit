@@ -47,5 +47,5 @@ arm9/$(TARGET).elf:
 #---------------------------------------------------------------------------------
 clean:
 	$(MAKE) -C arm9 clean
-	$(MAKE) -C graphics clean
+	# $(MAKE) -C graphics clean
 	rm -f $(TARGET).nds $(TARGET).arm9
