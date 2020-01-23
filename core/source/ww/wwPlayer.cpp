@@ -47,5 +47,5 @@ void WWPlayer::Write() {
 }
 
 bool WWPlayer::Exists() {
-	return WWSave::Instance()->ReadU16(this->m_offset + 0x55A6) != 0; // Wrong as of yet, just used it from NL core. xD -> TODO.
+	return WWSave::Instance()->ReadU16(this->m_offset + 0x2280) != 0;
 }

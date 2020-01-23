@@ -38,7 +38,24 @@ public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
 private:
+	void DrawPlayerSelection(void) const;
+	void PlayerSelectionLogic(u16 hDown, touchPosition touch);
+
+	void DrawSubMenu(void) const;
+	void SubMenuLogic(u16 hDown, touchPosition touch);
+
+	int selection = 0; // Current Player selection.
+	int selectedPlayer = 0;
+	int maxPlayer = 0;
+	int cp = 0; // Current Player.
+	int screen = 0; // Screen Mode.
 	void DrawPlayerBoxes(void) const;
+
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{80, 30, 88, 32, -1}, // Player.
+		{80, 80, 88, 32, -1}, // Items.
+		{80, 130, 88, 32, -1}, // Appearance.
+	};
 };
 
 #endif
