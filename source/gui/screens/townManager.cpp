@@ -166,9 +166,9 @@ void TownManager::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	if (screenMode == 1) {
-		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_TOWN_LAUNCH"), 390);
-	} else if (screenMode == 2) {
 		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_TOWN_RESTORE"), 390);
+	} else if (screenMode == 2) {
+		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_TOWN_LAUNCH"), 390);
 	} else if (screenMode == 3) {
 		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_BACKUP_DELETE"), 390);
 	}
