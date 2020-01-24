@@ -27,7 +27,7 @@ std::u16string StringUtils::utf8to16(const std::string &text) {
 std::string StringUtils::utf16to8(const std::u16string &text) {
 	std::string out;
 
-	for(uint i=0;i<text.size();) {
+	for(uint i=0;i<text.size();i++) {
 		if(text[i] <= 0x7F) {
 			out += text[i];
 		} else if(text[i] <= 0x7FF) {

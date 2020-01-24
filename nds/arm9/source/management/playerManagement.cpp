@@ -41,5 +41,8 @@ extern WWSave* SaveFile;
 
 // Set Bells to Player.
 void PlayerManagement::setBells(int currentPlayer) {
-	SaveFile->players[currentPlayer]->Bells = (u32)Input::getInt(9999);
+	int num = Input::getInt(9999);
+	if(num != -1) {
+		SaveFile->players[currentPlayer]->Bells = num;
+	}
 }
