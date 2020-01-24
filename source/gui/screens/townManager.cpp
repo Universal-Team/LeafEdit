@@ -283,8 +283,6 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			if(Msg::promptMsg(Lang::get("LAUNCH_TOWN_POPUP_X"))) {
 				TownManagement::LaunchTown(currentMedia, currentID);
 			}
-		} else if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
 		}
 	}
 

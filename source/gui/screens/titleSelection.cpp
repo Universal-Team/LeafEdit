@@ -77,6 +77,10 @@ void TitleSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if (selectMode == 2) {
 		regionLogic(hDown, hHeld, touch);
 	}
+
+	if (hDown & KEY_X) {
+		GameLoader::updateCheck2();
+	}
 }
 
 void TitleSelection::DrawGameSelector(void) const

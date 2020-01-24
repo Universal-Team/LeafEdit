@@ -232,10 +232,6 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		screen = 0;
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select Player, to edit the Player Stuff.\nSelect Items, to edit the Items. (Not Implemented yet)\nSelect WIP to ?. (Not implemented yet)\nPress B to exit from this Screen.");
-	}
-
 	if (hDown & KEY_A) {
 		switch(Selection) {
 				case 0:
@@ -514,13 +510,13 @@ void PlayerEditor::DrawPattern(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN"), 400);
 	Gui::DrawBottom();
-    for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
-        		C2D_DrawImageAt(Save::Instance()->players[cp]->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
+				C2D_DrawImageAt(Save::Instance()->players[cp]->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
 			}
 		}
-    }
+	}
 
 	int selectY = 0, selectX = 0;
 	if (Selection < 5)	selectY = 0;	else	selectY = 1;
