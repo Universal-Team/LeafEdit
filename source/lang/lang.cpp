@@ -33,7 +33,7 @@ std::string Lang::get(const std::string &key) {
 std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
 void Lang::load(int lang) {
-	loadToVector("romfs:/lang/"+langs[1]+"/groups.txt", g_groups);
+	loadToVector("romfs:/lang/"+langs[lang]+"/groups.txt", g_groups);
 	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
 	
 	FILE* values;
