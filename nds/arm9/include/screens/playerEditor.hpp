@@ -44,6 +44,9 @@ private:
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u16 hDown, touchPosition touch);
 
+	void DrawPlayerScreen(void) const;
+	void PlayerLogic(u16 hDown, touchPosition touch);
+
 	int selection = 0; // Current Player selection.
 	int selectedPlayer = 0;
 	int maxPlayer = 0;
@@ -55,6 +58,15 @@ private:
 		{80, 30, 88, 32, -1}, // Player.
 		{80, 80, 88, 32, -1}, // Items.
 		{80, 130, 88, 32, -1}, // Appearance.
+	};
+
+	std::vector<Structs::ButtonPos> playerButtons = {
+		{20, 30, 88, 32, -1}, // Bells.
+		{20, 80, 88, 32, -1}, // ?.
+		{20, 130, 88, 32, -1}, // ?.
+		{148, 30, 88, 32, -1}, // ?.
+		{148, 80, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1}, // ?.
 	};
 };
 

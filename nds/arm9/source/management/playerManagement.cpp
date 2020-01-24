@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -39,10 +39,7 @@
 
 extern WWSave* SaveFile;
 
-// Placeholder file for now. There might be things like Face Drawing or so?
-
+// Set Bells to Player.
 void PlayerManagement::setBells(int currentPlayer) {
-	SaveFile->players[currentPlayer]->Bells = 9999;
-	//SaveFile->players[currentPlayer]->Bells = Input::getInt(99999); // Keyboard missing rn.
-	Gui::clearScreen(true, true);
+	SaveFile->players[currentPlayer]->Bells = (u32)Input::getInt(9999);
 }

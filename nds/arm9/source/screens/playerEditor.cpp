@@ -54,6 +54,8 @@ void PlayerEditor::Draw(void) const {
 		DrawPlayerSelection();
 	} else if (screen == 1) {
 		DrawSubMenu();
+	} else if (screen == 2) {
+		DrawPlayerScreen();
 	}
 }
 
@@ -61,14 +63,7 @@ void PlayerEditor::DrawPlayerSelection(void) const {
 	Gui::DrawTop();
 	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
 	DrawPlayerBoxes();
-	std::string activePlayer = "Current Player: ";
-
-	for (int i = 0; i < 4; i++) {
-		if (selectedPlayer == i) {
-			activePlayer += std::to_string(i+1);
-		}
-	}
-	printTextCentered(activePlayer, 0, 176, true, true);
+	printTextCentered("Current Player: " + std::to_string(selectedPlayer+1), 0, 172, true, true);
 	Gui::DrawBottom();
 }
 
@@ -77,6 +72,8 @@ void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
 		PlayerSelectionLogic(hDown, touch);
 	} else if (screen == 1) {
 		SubMenuLogic(hDown, touch);
+	} else if (screen == 2) {
+		PlayerLogic(hDown, touch);
 	}
 }
 
@@ -85,15 +82,46 @@ void PlayerEditor::DrawSubMenu(void) const {
 	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true);
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 		if (selection == i) {
 			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
+		} else {
+			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 		}
 	}
 	printTextCentered("Player", 0, 40, false, true);
 	printTextCentered("Items", 0, 90, false, true);
 	printTextCentered("Appearance", 0, 140, false, true);
 }
+
+void PlayerEditor::DrawPlayerScreen(void) const {
+	Gui::DrawTop();
+	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
+	Gui::DrawBottom();
+	for (int i = 0; i < 6; i++) {
+		if (selection == i) {
+			drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
+		} else {
+			drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		}
+	}
+	printTextCentered("Bells", -64, 40, false, true);
+}
+
+void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
+	if (hDown & KEY_A) {
+		if (selection == 0) {
+			PlayerManagement::setBells(cp);
+		}
+	}
+
+	if (hDown & KEY_B) {
+		Gui::clearScreen(true, true);
+		Gui::clearScreen(false, true);
+		selection = 0;
+		screen = 1;
+	}
+}
+
 
 void PlayerEditor::SubMenuLogic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_B) {
@@ -109,6 +137,16 @@ void PlayerEditor::SubMenuLogic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_UP) {
 		if (selection > 0)	selection--;
+	}
+
+	if (hDown & KEY_A) {
+			// Player.
+		if (selection == 0) {
+			Gui::clearScreen(true, true);
+			Gui::clearScreen(false, true);
+			selection = 0;
+			screen = 2;
+		}
 	}
 }
 
@@ -128,15 +166,11 @@ void PlayerEditor::PlayerSelectionLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		for (int i = 0; i < 4; i++) {
-			if (i == selectedPlayer) {
-				Gui::clearScreen(true, true);
-				Gui::clearScreen(false, true);
-				cp = i;
-				selection = 0;
-				screen = 1;
-			}
-		}
+		Gui::clearScreen(true, true);
+		Gui::clearScreen(false, true);
+		cp = selectedPlayer;
+		selection = 0;
+		screen = 1;
 	}
 
 	if (hDown & KEY_B) {
