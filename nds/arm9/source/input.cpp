@@ -1061,11 +1061,13 @@ void processTouchKor(touchPosition touch, unsigned maxLength) {
 	}
 }
 
-std::string Input::getLine() { return Input::getLine(-1); }
+std::string Input::getLine(std::string Text) { return Input::getLine(Text, -1); }
 
-std::string Input::getLine(unsigned maxLength) {
+std::string Input::getLine(std::string Text, unsigned maxLength) {
 	clearVars();
 	drawKeyboard(Config::getInt("keyboardLayout"));
+	drawRectangle(0, 0, 256, 20, CLEAR, true, true);
+	printTextCentered(Text, 0, 1, true, true);
 	int held, pressed, cursorBlink = 30;
 	touchPosition touch;
 	while(1) {
@@ -1140,18 +1142,21 @@ std::string Input::getLine(unsigned maxLength) {
 		}
 	}
 	drawRectangle(0, 192-keyboard.height-16, 256, keyboard.height+16, CLEAR, false, true);
+	drawRectangle(0, 0, 256, 20, CLEAR, true, true);
 	return StringUtils::utf16to8(string);
 }
 
-int Input::getInt() { return Input::getInt(-1); }
+int Input::getInt(std::string Text) { return Input::getInt(Text, -1); }
 
 // Returns -1 if nothing entered
-int Input::getInt(unsigned max) {
+int Input::getInt(std::string Text, unsigned max) {
 	char str[4];
 	__itoa(max, str, 10);
 	unsigned maxLength = strlen(str);
 	clearVars();
 	drawKeyboard(0);
+	drawRectangle(0, 0, 256, 20, CLEAR, true, true);
+	printTextCentered(Text, 0, 1, true, true);
 	int held, pressed, cursorBlink = 30;
 	touchPosition touch;
 	while(1) {
@@ -1195,6 +1200,7 @@ int Input::getInt(unsigned max) {
 		}
 	}
 	drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+	drawRectangle(0, 0, 256, 20, CLEAR, true, true);
 	if(string == u8u16("")) return -1;
 	unsigned i = std::stoi(StringUtils::utf16to8(string));
 	if(i > max)	return max;

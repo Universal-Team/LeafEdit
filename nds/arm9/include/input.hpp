@@ -3,11 +3,11 @@
 #include <string>
 
 namespace Input {
-	std::string getLine();
-	std::string getLine(unsigned maxLength);
+	std::string getLine(std::string Text);
+	std::string getLine(std::string Text, unsigned maxLength);
 
-	int getInt();
-	int getInt(unsigned max);
+	int getInt(std::string Text);
+	int getInt(std::string Text, unsigned max);
 
 	bool getBool();
 	bool getBool(std::string option1, std::string option2);

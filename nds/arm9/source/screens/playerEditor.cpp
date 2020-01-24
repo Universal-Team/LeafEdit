@@ -96,6 +96,10 @@ void PlayerEditor::DrawSubMenu(void) const {
 void PlayerEditor::DrawPlayerScreen(void) const {
 	Gui::DrawTop();
 	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
+
+	drawRectangle(20, 35, 216, 30, DARK_GREEN, true, true);
+	printTextCentered("Bells: " + std::to_string(SaveFile->players[cp]->Bells), 0, 40, true, true);
+
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		if (selection == i) {
