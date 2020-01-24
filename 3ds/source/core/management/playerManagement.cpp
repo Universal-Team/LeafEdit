@@ -38,10 +38,13 @@
 
 #include "player.hpp"
 #include "save.hpp"
+#include "wwPlayer.hpp"
+#include "wwsave.hpp"
 
 #include <3ds.h>
 
 extern Save* SaveFile;
+extern WWSave* WWSaveFile;
 
 extern C2D_SpriteSheet Hairs;
 extern C2D_SpriteSheet Faces;
@@ -523,4 +526,9 @@ u32 PlayerManagement::getEyeColor(u8 eyeColor) {
 	 else {
 		 return C2D_Color32(63, 136, 189, 255); // Actually no real color. [6/7]
 	}
+}
+
+// AC:WW part.
+void PlayerManagement::setBells(int currentPlayer) {
+	WWSaveFile->players[currentPlayer]->Bells = Input::handleu32(5, "Enter the amount of Bells.", 99999, WWSaveFile->players[currentPlayer]->Bells);
 }

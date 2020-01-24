@@ -51,6 +51,9 @@ namespace PlayerManagement
 	// Get Hair & Eye color.
 	u32 getHairColor(u8 hairColor);
 	u32 getEyeColor(u8 eyeColor);
+
+	// AC:WW.
+	void setBells(int currentPlayer);
 }
 
 #endif
