@@ -27,8 +27,6 @@
 #include "common/config.hpp"
 #include "common/utils.hpp"
 
-#include "gui/keyboard.hpp"
-
 #include "gui/screens/mainMenu.hpp"
 #include "gui/screens/screenCommon.hpp"
 
@@ -196,6 +194,7 @@ void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
 		}
 	} else if (hDown & KEY_B) {
 		if(Msg::promptMsg(Lang::get("RETURN_MAINMENU"))) {
+			Gui::unloadACWWSheets();
 			Gui::screenBack();
 			return;
 		}

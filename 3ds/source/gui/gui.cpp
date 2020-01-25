@@ -41,6 +41,7 @@ C3D_RenderTarget* top;
 C3D_RenderTarget* bottom;
 
 bool editorSheetHasLoaded = false;
+bool acwwEditorSheetHasLoaded = false;
 
 C2D_SpriteSheet Acres;
 C2D_SpriteSheet Faces;
@@ -49,6 +50,8 @@ C2D_SpriteSheet Items;
 C2D_SpriteSheet sprites;
 C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
+C2D_SpriteSheet WWAcres;
+C2D_SpriteSheet WWFaces;
 
 C2D_TextBuf sizeBuf;
 C2D_Font font;
@@ -116,6 +119,17 @@ Result Gui::loadSheets() {
 	return 0;
 }
 
+Result Gui::loadACWWSheets() {
+	if (acwwEditorSheetHasLoaded == false) {
+		acwwEditorSheetHasLoaded = true;
+		WWAcres = C2D_SpriteSheetLoad("romfs:/gfx/wwacres.t3x");
+		WWFaces = C2D_SpriteSheetLoad("romfs:/gfx/wwfaces.t3x");
+		Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
+		Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+	}
+	return 0;
+}
+
 // Unload all Sheets.
 Result Gui::unloadSheets() {
 	if (editorSheetHasLoaded == true) {
@@ -124,6 +138,17 @@ Result Gui::unloadSheets() {
 		C2D_SpriteSheetFree(Faces);
 		C2D_SpriteSheetFree(Hairs);
 		C2D_SpriteSheetFree(Items);
+		C2D_SpriteSheetFree(Villager);
+		C2D_SpriteSheetFree(Villager2);
+	}
+	return 0;
+}
+
+Result Gui::unloadACWWSheets() {
+	if (acwwEditorSheetHasLoaded == true) {
+		acwwEditorSheetHasLoaded = false;
+		C2D_SpriteSheetFree(WWAcres);
+		C2D_SpriteSheetFree(WWFaces);
 		C2D_SpriteSheetFree(Villager);
 		C2D_SpriteSheetFree(Villager2);
 	}

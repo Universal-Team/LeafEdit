@@ -34,5 +34,7 @@
 #include "sprites.h"
 #include "villagers.h"
 #include "villagers2.h"
+#include "wwacres.h"
+#include "wwface.h"
 
 #endif

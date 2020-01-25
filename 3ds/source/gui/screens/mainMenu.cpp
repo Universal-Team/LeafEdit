@@ -91,6 +91,8 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				} else {
 					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+						Gui::loadACWWSheets();
 						Gui::setScreen(std::make_unique<EditorWW>());
 					}
 				}
@@ -118,6 +120,8 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			} else {
 				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+					Gui::loadACWWSheets();
 					Gui::setScreen(std::make_unique<EditorWW>());
 				}
 			}

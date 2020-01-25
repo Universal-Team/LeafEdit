@@ -41,7 +41,9 @@ namespace Gui
 	// Init and Exit of the GUI.
 	Result init(void);
 	Result loadSheets(); // Load Spritesheets.
+	Result loadACWWSheets(); // Load AC:WW Spritesheets.
 	Result unloadSheets(); // Unload Spritesheets.
+	Result unloadACWWSheets(); // Unload AC:WW Spritesheets.
 	void exit(void);
 
 	// Screen and MainLoops.

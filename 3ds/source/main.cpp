@@ -163,7 +163,9 @@ int main()
 	}
 
 	// Exit every process.
-	Gui::unloadSheets(); // Unload all sheets, because you don't know, if people exit properly like they should.
+	 // Unload all sheets, because you don't know, if people exit properly like they should.
+	Gui::unloadSheets();
+	Gui::unloadACWWSheets();
 	Config::save();
 	amExit();
 	Archive::exit();
