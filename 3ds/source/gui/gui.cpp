@@ -52,6 +52,7 @@ C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
 C2D_SpriteSheet WWAcres;
 C2D_SpriteSheet WWFaces;
+C2D_SpriteSheet WWVillagers;
 
 C2D_TextBuf sizeBuf;
 C2D_Font font;
@@ -124,8 +125,7 @@ Result Gui::loadACWWSheets() {
 		acwwEditorSheetHasLoaded = true;
 		WWAcres = C2D_SpriteSheetLoad("romfs:/gfx/wwacres.t3x");
 		WWFaces = C2D_SpriteSheetLoad("romfs:/gfx/wwfaces.t3x");
-		Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-		Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
+		WWVillagers	= C2D_SpriteSheetLoad("romfs:/gfx/wwvillagers.t3x");
 	}
 	return 0;
 }
@@ -149,8 +149,7 @@ Result Gui::unloadACWWSheets() {
 		acwwEditorSheetHasLoaded = false;
 		C2D_SpriteSheetFree(WWAcres);
 		C2D_SpriteSheetFree(WWFaces);
-		C2D_SpriteSheetFree(Villager);
-		C2D_SpriteSheetFree(Villager2);
+		C2D_SpriteSheetFree(WWVillagers);
 	}
 	return 0;
 }

@@ -31,10 +31,12 @@
 
 #include "types.hpp"
 #include "wwPlayer.hpp"
+#include "wwVillager.hpp"
 
 #include <string>
 
 class WWPlayer;
+class WWVillager;
 
 class WWSave {
 public:
@@ -75,6 +77,8 @@ public:
 	void Close(void);
 
 	WWPlayer *players[4];
+	WWVillager* villagers[8];
+
 private:
 	u8 *m_saveBuffer;
 	u64 m_saveSize;

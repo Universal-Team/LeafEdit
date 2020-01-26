@@ -43,6 +43,7 @@ extern std::vector<std::string> g_villagerDatabase;
 
 extern C2D_SpriteSheet Villager;
 extern C2D_SpriteSheet Villager2;
+extern C2D_SpriteSheet WWVillagers;
 
 // Start & End ID.
 std::vector<std::pair<u16, u16>> villager_IDs;
@@ -135,6 +136,13 @@ void VillagerManagement::DrawVillager(u16 villagerId, int x, int y, float ScaleX
 	else {
 		DrawSprite(Villager2, villagerId - 200, x, y, ScaleX, ScaleY);
 	}
+}
+
+void VillagerManagement::DrawWWVillager(u16 villagerId, int x, int y, float ScaleX, float ScaleY) {
+	if (villagerId > 149) {
+		villagerId = 150; // 150 -> EMPTY.
+	}
+		DrawSprite(WWVillagers, villagerId, x, y, ScaleX, ScaleY);
 }
 
 void VillagerManagement::DrawVillagerSelection(int selection, int page) {

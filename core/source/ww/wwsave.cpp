@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "wwsave.hpp"
 #include "wwChecksum.hpp"
+#include "wwsave.hpp"
 
 #include <cstring>
 #include <string>
@@ -88,6 +88,11 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0x000C + (i * 0x228C);
 		m_pSave->players[i] = new WWPlayer(PlayerOffset, i);
+	}
+
+	// Load Villagers. -> Is that the right offset? Likely no, so TODO.
+	for (int i = 0; i < 8; i++) {
+		m_pSave->villagers[i] = new WWVillager(0x8A3C + (i * sizeof(WWVillager::Villager_s)), i);
 	}
 
 	fclose(savesFile);

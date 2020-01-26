@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,20 +24,45 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGERMANAGEMENT_HPP
-#define VILLAGERMANAGEMENT_HPP
+#pragma once
 
-#include <3ds.h>
+#ifndef WWVILLAGER_HPP
+#define WWVILLAGER_HPP
 
-namespace VillagerManagement
-{
-	void getVillagerIDs(int group); // Get start & End ID for the Villager Selection.
-	void DrawVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite.
-	void DrawWWVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite for AC:WW.
+#include "types.hpp"
+#include "wwsave.hpp"
 
-	void DrawVillagerSelection(int selection, int page = 0);
+#include <string>
 
-	u16 SelectVillager(u16 currentVillager);
-}
+class WWVillager {
+public:
+	WWVillager(void);
+	~WWVillager(void);
+	WWVillager(const u32 offset, const u32 index);
+
+	enum Personality : u8 {
+		Lazy, Jock, Cranky, Normal, Peppy, Snooty, NotSet
+	};
+
+	#pragma pack(push, 1)
+	struct Villager_s {
+		u16 Id; // 0x6CB
+	};
+
+	#pragma pack(pop)
+	u32 GetOffset(void) const;
+	u32 GetIndex(void) const;
+	// ID.
+	u16 GetId(void) const;
+	void SetId(const u16);
+	
+	void Write(void);
+
+private:
+	Villager_s* m_villagerData;
+
+	u32 m_offset;
+	u32 m_index;
+};
 
 #endif
