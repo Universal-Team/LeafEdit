@@ -6,7 +6,13 @@ endif
 
 include $(DEVKITARM)/ds_rules
 
-GRAPHICS	:=	acres faces
+ifeq ($(OS),Windows_NT)
+BMP2DS 	?= bmp2ds.exe
+else
+BMP2DS 	?= bmp2ds
+endif
+
+GRAPHICS	:=	acres faces villagers
 
 OUT			:=	../nitrofiles/graphics
 
@@ -14,7 +20,7 @@ INPUTS		:= $(foreach dir,$(GRAPHICS),$(addprefix $(dir)/,$(notdir $(wildcard $(d
 
 TARGETS		:= $(INPUTS:.bmp=.gfx)
 
-.PHONY	:	bmp2ds clean all directories pokemon
+.PHONY	:	bmp2ds clean all directories
 
 all	:	bmp2ds $(TARGETS)
 	@echo graphics ...
@@ -24,11 +30,11 @@ bmp2ds	:
 
 %.gfx	:	%.bmp %.txt
 	@mkdir -p $(OUT)/$(@D)
-	@./bmp2ds $< $(OUT)/$@ -o $(shell cat $(word 2,$^))
+	@./$(BMP2DS) $< $(OUT)/$@ -o $(shell cat $(word 2,$^))
 
 %.gfx	:	%.bmp
 	@mkdir -p $(OUT)/$(@D)
-	@./bmp2ds $< $(OUT)/$@
+	@./$(BMP2DS) $< $(OUT)/$@
 
 clean	:
 	@echo clean ...

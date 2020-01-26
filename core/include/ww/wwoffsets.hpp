@@ -115,16 +115,16 @@ typedef enum {
 	Song = 0x6D0, //Check this
 	HouseCoordinates = 0x6E8,
 	HouseCoordinatesCount = 2,
-	Shirt = 0x6EC,
+//	Shirt = 0x6EC,
 	Catchphrase = 0x6DE,
 	CatchphraseSize = 0xA,
 	NameId = -1, // Research
-	TownId = -1, //Research
-	TownName = -1, //Research
+//	TownId = -1, //Research
+//	TownName = -1, //Research
 	Nicknames = -1, //Research
 	Status = -1, //Research
 	Umbrella = -1 //Research
-					//Finish rest of offsets
+					//Finish rest of offsets. Commented out stuff conflicted somehow.
 } AC_VILLAGER_OFFSETS;
 
 #endif
