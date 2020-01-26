@@ -7,22 +7,6 @@
 
 nlohmann::json configJson;
 
-Lang::Language sysLang() {
-	switch(PersonalData->language) {
-		case 0:
-			return Lang::jp;
-		case 1:
-		default:
-			return Lang::en;
-		case 2:
-			return Lang::fr;
-		case 3:
-			return Lang::de;
-		case 4:
-			return Lang::es;
-	}
-}
-
 void Config::load() {
 	FILE* file = fopen(sdFound() ? "sd:/_nds/LeafEdit/config.json" : "fat:/_nds/LeafEdit/config.json", "r");
 	if(file) {
@@ -70,8 +54,5 @@ void Config::setString(const std::string &key, const std::string &v) {
 }
 
 int Config::getLang(const std::string &key) {
-	if(!configJson.contains(key)) {
-		return sysLang();
-	}
 	return configJson.at(key).get_ref<const int64_t&>();
 }

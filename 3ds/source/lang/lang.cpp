@@ -17,7 +17,7 @@ static void loadToVector(std::string path, std::vector<std::string> &vec) {
 
 	FILE* in = fopen(path.c_str(), "r");
 	while(__getline(&line, &len, in) != -1) {
-		if(line[strlen(line)-1] == '\n')    line[strlen(line)-1] = '\0';
+		if(line[strlen(line)-1] == '\n')	line[strlen(line)-1] = '\0';
 		vec.push_back(line);
 	}
 	fclose(in);
@@ -34,7 +34,6 @@ std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
 void Lang::load(int lang) {
 	loadToVector("romfs:/lang/"+langs[1]+"/groups.txt", g_groups);
-	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
 	
 	FILE* values;
 	
@@ -43,6 +42,11 @@ void Lang::load(int lang) {
 	} else {
 		values = fopen(("romfs:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
 	}
-	if(values)    appJson = nlohmann::json::parse(values, nullptr, false);
+	if(values)	appJson = nlohmann::json::parse(values, nullptr, false);
 	fclose(values);
+}
+
+void Lang::loadVillager(int lang, bool isNewLeaf) {
+	if (isNewLeaf)	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
+	else	loadToVector("romfs:/lang/"+langs[lang]+"/wwVillager.txt", g_villagerDatabase);
 }

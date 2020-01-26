@@ -8,6 +8,7 @@
 namespace Lang {
 	std::string get(const std::string &key);
 	void load(int lang);
+	void loadVillager(int lang, bool isNewLeaf);
 }
 
 #endif

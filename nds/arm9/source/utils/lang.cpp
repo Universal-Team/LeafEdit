@@ -1,9 +1,7 @@
 #include "lang.hpp"
-#include "json.hpp"
 
-std::vector<std::string> Lang::abilities, Lang::games, Lang::items, Lang::locations4, Lang::locations5, Lang::moves, Lang::natures, Lang::species;
-const std::string langs[] = {"br", "de", "en", "es", "fr", "id", "it", "lt", "pt", "ru", "jp", "ko"};
-nlohmann::json langJson;
+nlohmann::json appJson;
+std::vector<std::string> g_villagerDatabase;
 
 void loadToVector(std::string path, std::vector<std::string> &vec) {
 	char* line = NULL;
@@ -20,18 +18,24 @@ void loadToVector(std::string path, std::vector<std::string> &vec) {
 	}
 }
 
+std::string Lang::get(const std::string &key) {
+	if(!appJson.contains(key)) {
+		return "MISSING: " + key;
+	}
+	return appJson.at(key).get_ref<const std::string&>();
+}
+
+const std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
+
 void Lang::load(int lang) {
 	// Load app strings
 	FILE* file = fopen(("nitro:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
 	if(file) {
-		langJson = nlohmann::json::parse(file, nullptr, false);
+		appJson = nlohmann::json::parse(file, nullptr, false);
 		fclose(file);
 	}
 }
 
-std::string Lang::get(const std::string &key) {
-	if(!langJson.contains(key)) {
-		return "MISSING: " + key;
-	}
-	return langJson.at(key).get_ref<const std::string&>();
+void Lang::loadVillager(int lang) {
+	loadToVector("nitro:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
 }

@@ -41,6 +41,8 @@ extern bool isACWW;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern bool isROMHack;
 
+extern std::vector<std::string> g_villagerDatabase;
+
 void MainMenu::Draw(void) const
 {
 	Gui::DrawTop();
@@ -87,12 +89,21 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 						Gui::loadSheets();
 						ItemManagement::LoadDatabase(Config::getLang("Lang"));
+						// Clear Villager then reload, so we can avoid having double names.
+						g_villagerDatabase.clear();
+						Lang::loadVillager(Config::getLang("Lang"), true);
+
 						Gui::setScreen(std::make_unique<Editor>());
 					}
 				} else {
 					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
 						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 						Gui::loadACWWSheets();
+
+						// Clear Villager then reload, so we can avoid having double names.
+						g_villagerDatabase.clear();
+						Lang::loadVillager(Config::getLang("Lang"), false);
+
 						Gui::setScreen(std::make_unique<EditorWW>());
 					}
 				}
@@ -116,12 +127,21 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 					Gui::loadSheets();
 					ItemManagement::LoadDatabase(Config::getLang("Lang"));
+
+					// Clear Villager then reload, so we can avoid having double names.
+					g_villagerDatabase.clear();
+					Lang::loadVillager(Config::getLang("Lang"), true);
 					Gui::setScreen(std::make_unique<Editor>());
 				}
 			} else {
 				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
 					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 					Gui::loadACWWSheets();
+
+					// Clear Villager then reload, so we can avoid having double names.
+					g_villagerDatabase.clear();
+					Lang::loadVillager(Config::getLang("Lang"), false);
+
 					Gui::setScreen(std::make_unique<EditorWW>());
 				}
 			}
