@@ -1,14 +1,15 @@
 *.bin
 *.d
 *.o
-*.smdh
 *.elf
+*.smdh
 *.cia
 *.3dsx
 *.nds
 *build
 *.map
 *.lst
+*.gfx
 .vscode/ipch
 *.DS_Store
 3ds/romfs/gfx/sprites.t3x

@@ -35,7 +35,7 @@ checkarm9:
 	$(MAKE) -C arm9
 
 #---------------------------------------------------------------------------------
-$(TARGET).nds	: $(NITRO_FILES) arm9/$(TARGET).elf
+$(TARGET).nds	: graphics $(NITRO_FILES) arm9/$(TARGET).elf
 	ndstool	-c $(TARGET).nds -9 arm9/$(TARGET).elf \
 	-b1 icon.bmp "$(GAME_TITLE);$(GAME_SUBTITLE1)" $(_ADDFILES) \
 	-z 80040000 -u 00030004 -a 00000138
@@ -45,7 +45,11 @@ arm9/$(TARGET).elf:
 	$(MAKE) -C arm9
 
 #---------------------------------------------------------------------------------
+graphics:
+	$(MAKE) -C graphics
+
+#---------------------------------------------------------------------------------
 clean:
 	$(MAKE) -C arm9 clean
-	# $(MAKE) -C graphics clean
+	$(MAKE) -C graphics clean
 	rm -f $(TARGET).nds $(TARGET).arm9
