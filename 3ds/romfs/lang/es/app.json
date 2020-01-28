@@ -160,7 +160,7 @@
 	"TOWNMAP_EDITOR": "Editor de Mapa",
 	"CURRENT_POSITION": "Posición actual: ",
 	"SAVE_NOT_FOUND_ACWW": "¡ACWW.sav no encontrado!",
-	"LOAD_SAVE_FROM": "Would you like to load the save from ",
-	"GAMECARD": "the Gamecard",
-	"INSTALLED_TITLE": "the installed title"
+	"LOAD_SAVE_FROM": "Le gustaría cargar el guardado de ",
+	"GAMECARD": "la targeta de juego",
+	"INSTALLED_TITLE": "el título instalado"
 }
