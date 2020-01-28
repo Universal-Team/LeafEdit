@@ -12,7 +12,7 @@ pr:
 name:  $[format('{0:yyyyMMdd\-HHmmss}', pipeline.startTime)]
 
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: 'Ubuntu-latest'
 
 variables:
   CURRENT_DATE: $[format('{0:yyyyMMdd\-HHmmss}', pipeline.startTime)]
