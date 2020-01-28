@@ -152,13 +152,15 @@
 	"JAPAN": "日本",
 	"KOREA": "韓国",
 	"USA": "米国",
-	"LOADING_SAVE_FROM_MEDIATYPE": "現在のMediatypeからセーブをロードしますか？",
 	"UNABLE_OPEN_SAVEARCHIVE": "セーブアーカイブを開けません。\nセーブファイルが作成されていない可能性があります！",
-	"SAVEREGION_NOT_MATCH": "The region of the save you have selected does not\nmatch your console. Would you like to fix it?",
-	"INVALID_BUILDINGS": "Invalid building(s) have been found in your save.\nThey may cause your game to crash.\nWould you like to fix it?",
+	"SAVEREGION_NOT_MATCH": "選択のセーブのリージョンが本体と一致しません。\n修正しますか？",
+	"INVALID_BUILDINGS": "セーブに無効な建物が見つかりました。\nゲームをクラッシュします可能性があります。\n修正しますか？",
 	"CREATING_BACKUP": "バックアップを作成中…",
 	"TOWN_EDITOR": "村エディター",
 	"TOWNMAP_EDITOR": "村の地図エディター",
 	"CURRENT_POSITION": "現在のポジション：",
-	"SAVE_NOT_FOUND_ACWW": "ACWW.savが見つかりません"
+	"SAVE_NOT_FOUND_ACWW": "ACWW.savが見つかりません",
+	"LOAD_SAVE_FROM": "Would you like to load the save from ",
+	"GAMECARD": "the Gamecard",
+	"INSTALLED_TITLE": "the installed title"
 }
