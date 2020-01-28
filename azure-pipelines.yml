@@ -60,8 +60,8 @@ steps:
     git clone --depth 1 https://$GITHUB_TOKEN@github.com/Universal-Team/extras.git
     mkdir extras/builds/LeafEdit/
     cd extras/builds/LeafEdit/
-    $(Build.ArtifactStagingDirectory)/LeafEdit.3dsx .
-    $(Build.ArtifactStagingDirectory)/LeafEdit.cia .
+    cp $(Build.ArtifactStagingDirectory)/LeafEdit.3dsx .
+    cp $(Build.ArtifactStagingDirectory)/LeafEdit.cia .
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds .
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds.cia .
     qrencode -o LeafEdit.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.cia
