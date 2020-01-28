@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, rewrite]
+    exclude: [translation, multi-version]
   tags:
     include: ['*']
 
@@ -42,11 +42,17 @@ steps:
     export DEVKITPRO="/opt/devkitpro"
     export DEVKITARM="/opt/devkitpro/devkitARM"
     make
-    cp LeafEdit.3dsx $(Build.ArtifactStagingDirectory)
-    cp LeafEdit.cia $(Build.ArtifactStagingDirectory)
+  displayName: 'Build LeafEdit'
+
+- script: |
+    tools-linux/make_cia --srl="nds/LeafEdit.nds"
+    cp 3ds/LeafEdit.3dsx $(Build.ArtifactStagingDirectory)
+    cp 3ds/LeafEdit.cia $(Build.ArtifactStagingDirectory)
+    cp nds/LeafEdit.nds $(Build.ArtifactStagingDirectory)
+    cp nds/LeafEdit.cia $(Build.ArtifactStagingDirectory)/LeafEdit.nds.cia
     echo '##vso[task.setvariable variable=COMMIT_TAG]'$(git log --format=%h -1)
     echo '##vso[task.setvariable variable=COMMIT_MESSAGE]'$(git log --pretty=format:"%an - %s" -1)
-  displayName: 'Build LeafEdit'
+  displayName: 'Post-build steps'
 
 - script: |
     git config --global user.email "flamekat54@aol.com"
@@ -54,10 +60,14 @@ steps:
     git clone --depth 1 https://$GITHUB_TOKEN@github.com/Universal-Team/extras.git
     mkdir extras/builds/LeafEdit/
     cd extras/builds/LeafEdit/
-    cp ../../../LeafEdit.3dsx LeafEdit.3dsx
-    cp ../../../LeafEdit.cia LeafEdit.cia
+    $(Build.ArtifactStagingDirectory)/LeafEdit.3dsx .
+    $(Build.ArtifactStagingDirectory)/LeafEdit.cia .
+    cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds .
+    cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds.cia .
     qrencode -o LeafEdit.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.cia
+    qrencode -o LeafEdit.nds.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.nds.cia
     qrencode -o LeafEdit-release.png https://github.com/Universal-Team/LeafEdit/releases/download/$(git describe --abbrev=0 --tags)/LeafEdit.cia
+    qrencode -o LeafEdit-release.nds.png https://github.com/Universal-Team/LeafEdit/releases/download/$(git describe --abbrev=0 --tags)/LeafEdit.nds.cia
     git stage .
     git commit -m "LeafEdit | $(COMMIT_TAG)"
     git push origin master

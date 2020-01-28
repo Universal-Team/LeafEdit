@@ -48,6 +48,7 @@ Spanish
 ### Others
 
 - [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the Core part and the Acres, Face, Hair, Items and Villager Sprites!
+- [Cuyler](https://github.com/Cuyler36): For helping for fixing the AC:WW's Checksum part and improving it's write functions!
 - [devkitPro](https://github.com/devkitPro), [Fincs](https://github.com/fincs), [Smealum](https://github.com/smealum), [Wintermute](https://github.com/WinterMute): For devkitARM, Citro2D, Citro3D and Libctru.
 - [Flagbrew](https://github.com/FlagBrew): [Checkpoint](https://github.com/FlagBrew/Checkpoint)'s Code for the Backup & Restore part for Animal Crossing: New Leaf.
 - [Flame](https://github.com/FlameKat53): The Name Idea of LeafEdit.

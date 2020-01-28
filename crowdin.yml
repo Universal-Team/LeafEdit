@@ -1,5 +1,5 @@
 files:
-  - source: /romfs/lang/en/app.json
-    translation: /romfs/lang/%two_letters_code%/app.json
-  - source: /romfs/lang/en/groups.txt
-    translation: /romfs/lang/%two_letters_code%/groups.txt
+  - source: /3ds/romfs/lang/en/app.json
+    translation: /3ds/romfs/lang/%two_letters_code%/app.json
+  - source: /3ds/romfs/lang/en/groups.txt
+    translation: /3ds/romfs/lang/%two_letters_code%/groups.txt

@@ -1,19 +1,18 @@
 *.bin
 *.d
 *.o
-*.smdh
 *.elf
+*.smdh
 *.cia
 *.3dsx
+*.nds
 *build
 *.map
 *.lst
+*.gfx
 .vscode/ipch
 *.DS_Store
-romfs/gfx/sprites.t3x
+3ds/romfs/gfx/sprites.t3x
 
 bannertool*
 makerom*
-*.pfs0
-*.nso
-*.nacp
