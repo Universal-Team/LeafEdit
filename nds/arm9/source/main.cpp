@@ -93,8 +93,8 @@ int main(int argc, char **argv) {
 	Config::load();
 	Colors::load();
 	loadFont();
-	Lang::load(Config::getLang("lang"));
-	printTextCentered(Lang::get("loading"), 0, 32, false, true);
+	//Lang::load(Config::getLang("lang"));
+	printTextCentered("Loading...", 0, 32, false, true);
 
 	Sound::init();
 	Gui::initSprites();
