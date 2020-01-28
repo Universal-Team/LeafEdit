@@ -146,8 +146,8 @@
 	"WELCOME_AMIIBO_2": " ",
 	"WELCOME_LUXURY_1": "Welcome",
 	"WELCOME_LUXURY_2": "Luxury",
-	"WILD_WORLD_1": "Wild",
-	"WILD_WORLD_2": "World",
+	"WILD_WORLD_1": "おいでよ",
+	"WILD_WORLD_2": " ",
 	"EUROPE": "ヨーロッパ",
 	"JAPAN": "日本",
 	"KOREA": "韓国",
@@ -156,9 +156,9 @@
 	"UNABLE_OPEN_SAVEARCHIVE": "Unable to Open the Save Archive.\nSave file may not have been created!",
 	"SAVEREGION_NOT_MATCH": "The region of the save you have selected does not\nmatch your console. Would you like to fix it?",
 	"INVALID_BUILDINGS": "Invalid building(s) have been found in your save.\nThey may cause your game to crash.\nWould you like to fix it?",
-	"CREATING_BACKUP": "Creating Backup...",
-	"TOWN_EDITOR": "Town Editor",
+	"CREATING_BACKUP": "バックアップを作成中…",
+	"TOWN_EDITOR": "村エディター",
 	"TOWNMAP_EDITOR": "Town Map Editor",
-	"CURRENT_POSITION": "Current Position: ",
-	"SAVE_NOT_FOUND_ACWW": "ACWW.sav not found!"
+	"CURRENT_POSITION": "現在のポジション：",
+	"SAVE_NOT_FOUND_ACWW": "ACWW.savが見つかりません"
 }
