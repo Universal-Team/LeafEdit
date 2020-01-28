@@ -230,10 +230,6 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		screen = 0;
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select Player, to edit the Player Stuff.\nSelect Items, to edit the Items. (Not Implemented yet)\nSelect WIP to ?. (Not implemented yet)\nPress B to exit from this Screen.");
-	}
-
 	if (hDown & KEY_A) {
 		switch(Selection) {
 				case 0:

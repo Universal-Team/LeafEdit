@@ -273,7 +273,9 @@ void Utils::createBackup(bool isCard) {
 		}
 
 		// Display at the end, where the backup is.
-		Msg::DisplayWaitMsg(Lang::get("FIND_BACKUP") + "\n\n" + path);
+		char message [100];
+		snprintf(message, sizeof(message), Lang::get("FIND_BACKUP").c_str(), path.c_str());
+		Msg::DisplayWaitMsg(message);
 	}
 }
 

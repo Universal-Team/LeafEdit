@@ -166,9 +166,9 @@ void TownManager::DrawBrowse(void) const
 {
 	Gui::DrawFileBrowseBG();
 	if (screenMode == 1) {
-		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_TOWN_LAUNCH"), 390);
-	} else if (screenMode == 2) {
 		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_TOWN_RESTORE"), 390);
+	} else if (screenMode == 2) {
+		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_TOWN_LAUNCH"), 390);
 	} else if (screenMode == 3) {
 		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_BACKUP_DELETE"), 390);
 	}
@@ -283,8 +283,6 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 			if(Msg::promptMsg(Lang::get("LAUNCH_TOWN_POPUP_X"))) {
 				TownManagement::LaunchTown(currentMedia, currentID);
 			}
-		} else if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("Press X to launch just the current Mediatype.\nSelect a Backup and Press A to restore and launch it.\nPress Start to refresh the FileList.\nPress B to exit from this Screen.");
 		}
 	}
 

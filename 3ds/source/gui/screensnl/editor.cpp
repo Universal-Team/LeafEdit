@@ -187,10 +187,6 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		dirChanged = false;
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("Select a Save, which you like to edit.\nPress Start to refresh the filelist.\nPress B to exit from this Screen.");
-	}
-
 	if(hDown & KEY_A) {
 		if (dirContents.size() == 0) {
 			Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
