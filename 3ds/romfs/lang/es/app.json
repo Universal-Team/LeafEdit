@@ -152,7 +152,6 @@
 	"JAPAN": "Japón",
 	"KOREA": "Korea",
 	"USA": "EEUU",
-	"LOADING_SAVE_FROM_MEDIATYPE": "¿Le gustaría cargar los datos guardados del tipo de Mediatype actual?",
 	"UNABLE_OPEN_SAVEARCHIVE": "No se puede abrir el archivo de guardado.\n¡El archivo de guardado puede no haber sido creado!",
 	"SAVEREGION_NOT_MATCH": "La región de guardado que has seleccionado no coincide con\ntu consola. ¿Quieres arreglarla?",
 	"INVALID_BUILDINGS": "Se han encontrado construcciones inválidas en tu guardado.\nPueden causar que tu juego se bloquee.\n¿Quieres arreglarlo?",
@@ -160,5 +159,8 @@
 	"TOWN_EDITOR": "Editor de pueblo",
 	"TOWNMAP_EDITOR": "Editor de Mapa",
 	"CURRENT_POSITION": "Posición actual: ",
-	"SAVE_NOT_FOUND_ACWW": "¡ACWW.sav no encontrado!"
+	"SAVE_NOT_FOUND_ACWW": "¡ACWW.sav no encontrado!",
+	"LOAD_SAVE_FROM": "Would you like to load the save from ",
+	"GAMECARD": "the Gamecard",
+	"INSTALLED_TITLE": "the installed title"
 }
