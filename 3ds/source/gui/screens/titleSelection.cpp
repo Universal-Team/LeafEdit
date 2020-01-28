@@ -41,6 +41,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 bool isROMHack = false;
 bool isACWW = false;
+bool isCard = false;
 
 std::vector<u64> wlID = {
 	0x00040000004C5700, // Animal Crossing: Welcome Luxury [ROM Hack] https://gitlab.com/Kyusetzu/ACWL
@@ -139,6 +140,7 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, gameButtons[2])) {
 			if (GameLoader::checkTitle(wlID[0])) {
 				isROMHack = true;
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (touching(touch, gameButtons[3])) {
@@ -156,6 +158,7 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 		} else if (selectedGame == 3) {
 				isACWW = true;
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 		} else {
 			selectMode = 1;
@@ -268,18 +271,22 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, regionButtons[0])) {
 			if (selectedGame == 0 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(oldIDs[0])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(newIDs[0])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
 				if (GameLoader::scanCard(oldIDs[0])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
 				if (GameLoader::scanCard(newIDs[0])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -287,18 +294,22 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, regionButtons[1])) {
 			if (selectedGame == 0 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(oldIDs[1])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(newIDs[1])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
 				if (GameLoader::scanCard(oldIDs[1])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
 				if (GameLoader::scanCard(newIDs[1])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -306,18 +317,22 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, regionButtons[2])) {
 			if (selectedGame == 0 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(oldIDs[2])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(newIDs[2])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
 				if (GameLoader::scanCard(oldIDs[2])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
 				if (GameLoader::scanCard(newIDs[2])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -325,18 +340,22 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, regionButtons[3])) {
 			if (selectedGame == 0 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(oldIDs[3])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 1) {
 				if (GameLoader::checkTitle(newIDs[3])) {
+					isCard = false;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 0 && selectedVersion == 0) {
 				if (GameLoader::scanCard(oldIDs[3])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			} else if (selectedGame == 1 && selectedVersion == 0) {
 				if (GameLoader::scanCard(newIDs[3])) {
+					isCard = true;
 					Gui::setScreen(std::make_unique<MainMenu>());
 				}
 			}
@@ -347,18 +366,22 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		// JPN.
 		if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 0) {
 			if (GameLoader::checkTitle(oldIDs[0])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 0) {
 			if (GameLoader::checkTitle(newIDs[0])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 0) {
 			if (GameLoader::scanCard(oldIDs[0])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 0) {
 			if (GameLoader::scanCard(newIDs[0])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 
@@ -366,54 +389,66 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		// USA.
 		} else if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 1) {
 			if (GameLoader::checkTitle(oldIDs[1])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 1) {
 			if (GameLoader::checkTitle(newIDs[1])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 1) {
 			if (GameLoader::scanCard(oldIDs[1])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 1) {
 			if (GameLoader::scanCard(newIDs[1])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 
 		// EUR.
 		} else if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 2) {
 			if (GameLoader::checkTitle(oldIDs[2])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 2) {
 			if (GameLoader::checkTitle(newIDs[2])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 2) {
 			if (GameLoader::scanCard(oldIDs[2])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 2) {
 			if (GameLoader::scanCard(newIDs[2])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 
 		// KOR.
 		} else if (selectedGame == 0 && selectedVersion == 1 && selectedRegion == 3) {
 			if (GameLoader::checkTitle(oldIDs[3])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 1 && selectedRegion == 3) {
 			if (GameLoader::checkTitle(newIDs[3])) {
+				isCard = false;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 0 && selectedVersion == 0 && selectedRegion == 3) {
 			if (GameLoader::scanCard(oldIDs[3])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		} else if (selectedGame == 1 && selectedVersion == 0 && selectedRegion == 3) {
 			if (GameLoader::scanCard(newIDs[3])) {
+				isCard = true;
 				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		}

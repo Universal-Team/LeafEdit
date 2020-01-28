@@ -179,7 +179,6 @@
 	"KOREA":						"Korea",
 	"USA":							"USA",
 
-	"LOADING_SAVE_FROM_MEDIATYPE":	"Would you like to load the save from the current Mediatype?",
 	"UNABLE_OPEN_SAVEARCHIVE":		"Unable to Open the Save Archive.\nSave file may not have been created!",
 	"SAVEREGION_NOT_MATCH":			"The region of the save you have selected does not\nmatch your console. Would you like to fix it?",
 	"INVALID_BUILDINGS":			"Invalid building(s) have been found in your save.\nThey may cause your game to crash.\nWould you like to fix it?",
@@ -187,5 +186,9 @@
 	"TOWN_EDITOR":					"Town Editor",
 	"TOWNMAP_EDITOR":				"Town Map Editor",
 	"CURRENT_POSITION":				"Current Position: ",
-	"SAVE_NOT_FOUND_ACWW":			"ACWW.sav not found!"
+	"SAVE_NOT_FOUND_ACWW":			"ACWW.sav not found!",
+
+	"LOAD_SAVE_FROM":				"Would you like to load the save from ",
+	"GAMECARD":						"the Gamecard",
+	"INSTALLED_TITLE":				"the installed title"
 }

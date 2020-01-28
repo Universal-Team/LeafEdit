@@ -47,6 +47,7 @@
 std::string selectedSaveFolderEditor = "";
 Save* SaveFile;
 extern bool isROMHack; // For Welcome Luxury.
+extern bool isCard;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern FS_MediaType currentMedia;
 extern u32 currentLowID;
@@ -220,7 +221,10 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 	}
 	// For loading a save from Gamecard or so!
 	if (hDown & KEY_Y) {
-		if(Msg::promptMsg(Lang::get("LOADING_SAVE_FROM_MEDIATYPE"))) {
+		std::string prompt = Lang::get("LOAD_SAVE_FROM");
+		prompt += isCard ? Lang::get("GAMECARD") : Lang::get("INSTALLED_TITLE");
+		prompt += "?";
+		if(Msg::promptMsg(prompt)) {
 			FS_Archive saveArch;
 			Result res = Archive::save(&saveArch, currentMedia, currentLowID, currentHighID);
 			if (R_FAILED(res)) {
