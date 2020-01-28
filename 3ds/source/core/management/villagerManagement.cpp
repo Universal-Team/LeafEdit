@@ -138,7 +138,7 @@ void VillagerManagement::DrawVillager(u16 villagerId, int x, int y, float ScaleX
 	}
 }
 
-void VillagerManagement::DrawWWVillager(u16 villagerId, int x, int y, float ScaleX, float ScaleY) {
+void VillagerManagement::DrawWWVillager(u8 villagerId, int x, int y, float ScaleX, float ScaleY) {
 	if (villagerId > 149) {
 		villagerId = 150; // 150 -> EMPTY.
 	}

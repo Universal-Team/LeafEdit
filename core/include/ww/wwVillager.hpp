@@ -46,15 +46,17 @@ public:
 
 	#pragma pack(push, 1)
 	struct Villager_s {
-		u16 Id; // 0x6CB
+		u8 Unknown[0x6CB]; // 0 - 0x6CA.
+		u8 ID; // 0x6CB.
+		u8 Unknown2[0x34]; // Until 0x700.
 	};
 
 	#pragma pack(pop)
 	u32 GetOffset(void) const;
 	u32 GetIndex(void) const;
 	// ID.
-	u16 GetId(void) const;
-	void SetId(const u16);
+	u8 GetId(void) const;
+	void SetId(const u8);
 	
 	void Write(void);
 

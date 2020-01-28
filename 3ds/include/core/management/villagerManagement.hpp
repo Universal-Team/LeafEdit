@@ -33,7 +33,7 @@ namespace VillagerManagement
 {
 	void getVillagerIDs(int group); // Get start & End ID for the Villager Selection.
 	void DrawVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite.
-	void DrawWWVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite for AC:WW.
+	void DrawWWVillager(u8 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite for AC:WW.
 
 	void DrawVillagerSelection(int selection, int page = 0);
 

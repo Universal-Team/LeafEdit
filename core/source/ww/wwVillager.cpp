@@ -47,12 +47,12 @@ u32 WWVillager::GetIndex() const {
 	return this->m_index;
 }
 
-u16 WWVillager::GetId() const {
-	return this->m_villagerData->Id;
+u8 WWVillager::GetId() const {
+	return this->m_villagerData->ID;
 }
 
-void WWVillager::SetId(const u16 id) {
-	this->m_villagerData->Id = id;
+void WWVillager::SetId(const u8 id) {
+	this->m_villagerData->ID = id;
 }
 
 
