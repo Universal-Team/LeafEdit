@@ -26,7 +26,7 @@ all	:	bmp2ds $(TARGETS)
 	@echo graphics ...
 
 bmp2ds	:
-	@g++ bmp2ds.cpp -o bmp2ds
+	@g++ -std=c++11 bmp2ds.cpp -o bmp2ds
 
 %.gfx	:	%.bmp %.txt
 	@mkdir -p $(OUT)/$(@D)
