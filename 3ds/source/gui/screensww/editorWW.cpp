@@ -32,6 +32,7 @@
 
 #include "gui/screensww/editorWW.hpp"
 #include "gui/screensww/playerEditorWW.hpp"
+#include "gui/screensww/villagerViewerWW.hpp"
 
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
@@ -105,7 +106,7 @@ void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 				Gui::setScreen(std::make_unique<PlayerEditorWW>());
 				break;
 			case 1:
-//				Gui::setScreen(std::make_unique<VillagerViewerWW>());
+				Gui::setScreen(std::make_unique<VillagerViewerWW>());
 				break;
 			case 2:
 //				Gui::setScreen(std::make_unique<MiscEditorWW>());
@@ -117,7 +118,7 @@ void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		if (touching(touch, editorButtons[0])) {
 			Gui::setScreen(std::make_unique<PlayerEditorWW>());
 		} else if (touching(touch, editorButtons[1])) {
-//			Gui::setScreen(std::make_unique<VillagerViewerWW>());
+			Gui::setScreen(std::make_unique<VillagerViewerWW>());
 		} else if (touching(touch, editorButtons[2])) {
 //			Gui::setScreen(std::make_unique<MiscEditorWW>());
 		}

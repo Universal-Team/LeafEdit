@@ -102,7 +102,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 						// Clear Villager then reload, so we can avoid having double names.
 						g_villagerDatabase.clear();
-						Lang::loadVillager(Config::getLang("Lang"), false);
+						Lang::loadVillager(1, false);
 
 						Gui::setScreen(std::make_unique<EditorWW>());
 					}
@@ -140,7 +140,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 					// Clear Villager then reload, so we can avoid having double names.
 					g_villagerDatabase.clear();
-					Lang::loadVillager(Config::getLang("Lang"), false);
+					Lang::loadVillager(1, false);
 
 					Gui::setScreen(std::make_unique<EditorWW>());
 				}

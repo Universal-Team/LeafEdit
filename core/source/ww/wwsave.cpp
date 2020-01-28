@@ -41,6 +41,11 @@ WWSave::~WWSave() {
 		player = nullptr;
 	}
 
+	for (auto villager : villagers) {
+		delete villager;
+		villager = nullptr;
+	}
+	
 	delete[] m_saveBuffer;
 	m_saveBuffer = nullptr;
 }
