@@ -27,12 +27,14 @@
 #include "msg.hpp"
 
 #include "management/playerManagement.hpp"
+#include "management/villagerManagement.hpp"
 
 #include "playerEditor.hpp"
 
 #include "wwoffsets.hpp"
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
+#include "wwVillager.hpp"
 
 extern WWSave* SaveFile;
 
@@ -64,6 +66,7 @@ void PlayerEditor::DrawPlayerSelection(void) const {
 	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
 	DrawPlayerBoxes();
 	printTextCentered("Current Player: " + std::to_string(selectedPlayer+1), 0, 172, true, true);
+	//VillagerManagement::DrawVillager(SaveFile->villagers[0]->GetId(), 100, 100); // That was my test.
 	Gui::DrawBottom();
 }
 
