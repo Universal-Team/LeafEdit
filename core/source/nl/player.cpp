@@ -42,17 +42,17 @@ Player::~Player()
 {
 	// 3DS only.
 #ifdef _3DS
-    if (m_HasTPC && m_TPCPic.tex != nullptr) {
-        C2DUtils::C2D_ImageDelete(this->m_TPCPic);
-        m_TPCPic.tex = nullptr;
-        m_TPCPic.subtex = nullptr;
-        m_HasTPC = false;
-    }
+	if (m_HasTPC && m_TPCPic.tex != nullptr) {
+		C2DUtils::C2D_ImageDelete(this->m_TPCPic);
+		m_TPCPic.tex = nullptr;
+		m_TPCPic.subtex = nullptr;
+		m_HasTPC = false;
+	}
 
-    if (this->m_TPCData != nullptr) {
-        delete[] this->m_TPCData;
-        this->m_TPCData = nullptr;
-    }
+	if (this->m_TPCData != nullptr) {
+		delete[] this->m_TPCData;
+		this->m_TPCData = nullptr;
+	}
 #endif
 
 	if (this->Pockets != nullptr) {
@@ -60,10 +60,10 @@ Player::~Player()
 		this->Pockets = nullptr;
 	}
 
-    for (auto pattern : Patterns) {  
-        delete pattern;
-        pattern = nullptr;
-    }
+	for (auto pattern : Patterns) {  
+		delete pattern;
+		pattern = nullptr;
+	}
 
 	if (this->Dresser != nullptr) {
 		delete[] this->Dresser;
@@ -103,10 +103,12 @@ Player::Player(u32 offset, u32 index) {
 	this->IslandMedals = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x6B9C));
 	this->MeowCoupons = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x8D1C));
 
+	this->TPCText = Save::Instance()->ReadString(offset + 0x6b38, 25);
+
 	#ifdef _3DS
 	if (this->Exists()) {
-        this->RefreshTPC();
-    }
+		this->RefreshTPC();
+	}
 	#endif
 
 	this->Pockets = new Item[16];
@@ -130,17 +132,17 @@ Player::Player(u32 offset, u32 index) {
 		this->Storage[i] = Item((index*360)+ 0x07a778 + i * sizeof(Item));
 	}
 
-    for (u32 i = 0; i < 10; i++) {
-        this->Patterns[i] = new Pattern(this, i);
-    }
+	for (u32 i = 0; i < 10; i++) {
+		this->Patterns[i] = new Pattern(this, i);
+	}
 }
 
 void Player::Write() {
 	u32 encryptedInt = 0;
 	u32 encryptionData = 0;
 
-    // Always disable reset flag. TODO: Do we want this? Or should we make it a checkbox?
-    this->SetHasReset(false);
+	// Always disable reset flag. TODO: Do we want this? Or should we make it a checkbox?
+	this->SetHasReset(false);
 
 	Save::Instance()->Write(this->m_offset + 0x55A6, this->PlayerId);
 	Save::Instance()->Write(this->m_offset + 0x08, this->PlayerTan);
@@ -177,32 +179,32 @@ void Player::Write() {
 #ifdef _3DS
 u8* Player::RefreshTPC() {
 
-    if (m_HasTPC && m_TPCPic.tex != nullptr) {
-        C2DUtils::C2D_ImageDelete(this->m_TPCPic);
-        m_TPCPic.tex = nullptr;
-        m_TPCPic.subtex = nullptr;
-    }
+	if (m_HasTPC && m_TPCPic.tex != nullptr) {
+		C2DUtils::C2D_ImageDelete(this->m_TPCPic);
+		m_TPCPic.tex = nullptr;
+		m_TPCPic.subtex = nullptr;
+	}
 
-    if (Save::Instance()->ReadU32(this->m_offset + 0x5734) == 1) {
-        if (Save::Instance()->ReadU16(this->m_offset + 0x5738) == 0xD8FF) { // 0xFFD8 = JPEG File Marker
-            if (this->m_TPCData == nullptr)
-                this->m_TPCData = new u8[0x1400];
-            Save::Instance()->ReadArray(this->m_TPCData, this->m_offset + 0x5738, 0x1400);
-            this->m_TPCPic = LoadPlayerPicture(this->m_TPCData);
-            m_HasTPC = true;
-        }
-    }
+	if (Save::Instance()->ReadU32(this->m_offset + 0x5734) == 1) {
+		if (Save::Instance()->ReadU16(this->m_offset + 0x5738) == 0xD8FF) { // 0xFFD8 = JPEG File Marker
+			if (this->m_TPCData == nullptr)
+			this->m_TPCData = new u8[0x1400];
+			Save::Instance()->ReadArray(this->m_TPCData, this->m_offset + 0x5738, 0x1400);
+			this->m_TPCPic = LoadPlayerPicture(this->m_TPCData);
+			m_HasTPC = true;
+		}
+	}
 
-    else { //No TPC
-        if (this->m_TPCData != nullptr) {
-            delete[] this->m_TPCData;
-            this->m_TPCData = nullptr;
-        }
-        this->m_TPCPic = C2D_SpriteSheetGetImage(sprites, sprites_noTPC_idx);
-        m_HasTPC = false;
-    }
+	else { //No TPC
+		if (this->m_TPCData != nullptr) {
+			delete[] this->m_TPCData;
+			this->m_TPCData = nullptr;
+		}
+		this->m_TPCPic = C2D_SpriteSheetGetImage(sprites, sprites_noTPC_idx);
+		m_HasTPC = false;
+	}
 
-    return this->m_TPCData;
+	return this->m_TPCData;
 }
 #endif
 
@@ -211,15 +213,15 @@ bool Player::Exists() {
 }
 
 bool Player::HasReset() {
-    return Save::Instance()->ReadU8(this->m_offset + 0x570A) & 2;
+	return Save::Instance()->ReadU8(this->m_offset + 0x570A) & 2;
 }
 
 void Player::SetHasReset(bool reset) {
-    u8 currentFlags = Save::Instance()->ReadU8(this->m_offset + 0x570A);
-    if (reset) {
-        Save::Instance()->Write(this->m_offset + 0x570A, static_cast<u8>(currentFlags | 2));
-    }
-    else {
-        Save::Instance()->Write(this->m_offset + 0x570A, static_cast<u8>(currentFlags & ~2));
-    }
+	u8 currentFlags = Save::Instance()->ReadU8(this->m_offset + 0x570A);
+	if (reset) {
+		Save::Instance()->Write(this->m_offset + 0x570A, static_cast<u8>(currentFlags | 2));
+	}
+	else {
+		Save::Instance()->Write(this->m_offset + 0x570A, static_cast<u8>(currentFlags & ~2));
+	}
 }

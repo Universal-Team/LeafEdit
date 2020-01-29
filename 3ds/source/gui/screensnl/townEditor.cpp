@@ -24,6 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/utils.hpp"
+
 #include "core/management/acreManagement.hpp"
 
 #include "offsets.hpp"
@@ -55,9 +57,15 @@ void TownEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
+
 void TownEditor::DrawSubMenu(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_EDITOR"), 400);
+	Gui::DrawStringCentered(0, 30, 0.8f, WHITE, "Seconds: " + std::to_string(SaveFile->town[0]->TimePlayed%60), 200);
+	Gui::DrawStringCentered(0, 60, 0.8f, WHITE, "Minutes: " + std::to_string((SaveFile->town[0]->TimePlayed/60)%60), 200);
+	Gui::DrawStringCentered(0, 90, 0.8f, WHITE, "Hours: " + std::to_string((SaveFile->town[0]->TimePlayed/(60*60))%24), 200);
+	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, "Days: " + std::to_string(SaveFile->town[0]->TimePlayed/(3600*24)), 200);
+
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
@@ -67,7 +75,9 @@ void TownEditor::DrawSubMenu(void) const {
 	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("ACRES")))/2-80+17.5, 0.8, WHITE, Lang::get("ACRES"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWNMAP_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("TOWNMAP_EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2+75-17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
 }
+
 
 
 // Display full Map on top screen for a better overview.

@@ -183,6 +183,7 @@ void PlayerEditor::DrawMainEditor(void) const {
 
 	C2D_DrawImageAt(Save::Instance()->players[cp]->m_TPCPic, 170, 45.f, 0.5f, nullptr, 1, 1);
 	Gui::DrawStringCentered(0, 150, 0.9f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 55);
+	Gui::DrawStringCentered(0, 180, 0.9f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->TPCText).c_str(), 320);
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);

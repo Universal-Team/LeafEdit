@@ -32,6 +32,7 @@
 #include "gui/screensnl/miscEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screensnl/scripts.hpp"
+#include "gui/screensnl/shopEditor.hpp"
 #include "gui/screensnl/townEditor.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -51,6 +52,7 @@ void MiscEditor::Draw(void) const
 
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SCRIPTS")))/2-20+17.5, 0.8, WHITE, Lang::get("SCRIPTS"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SHOP_EDITOR")))/2+75-17.5, 0.8, WHITE, Lang::get("SHOP_EDITOR"), 130, 25);
 }
 
 
@@ -72,6 +74,8 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<Scripts>());
+		} else if (Selection == 2) {
+			Gui::setScreen(std::make_unique<ShopEditor>());
 		}
 	}
 
@@ -80,6 +84,8 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<Scripts>());
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<ShopEditor>());
 		}
 	}
 }

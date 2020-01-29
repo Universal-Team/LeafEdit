@@ -53,6 +53,7 @@ public:
 	u16 Gender; // might not be a u16, but the following byte is always? 0.
 	u16 TownId;
 	std::u16string TownName;
+	std::u16string TPCText;
 	// Pocket, Storage and such.
 	Item *Pockets = nullptr;
 	Item *Dresser = nullptr;
@@ -72,17 +73,17 @@ public:
 
 	void Write();
 	bool Exists();
-    bool HasReset();
-    void SetHasReset(bool reset);
+	bool HasReset();
+	void SetHasReset(bool reset);
 
 	u32 m_offset;
 	u32 m_index;
 
 	#ifdef _3DS
 	u8* RefreshTPC();
-    bool m_HasTPC = false;
-    u8 *m_TPCData = nullptr;
-    C2D_Image m_TPCPic = {nullptr, nullptr};
+	bool m_HasTPC = false;
+	u8 *m_TPCData = nullptr;
+	C2D_Image m_TPCPic = {nullptr, nullptr};
 	#endif
 };
 

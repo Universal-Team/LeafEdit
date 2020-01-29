@@ -49,6 +49,16 @@ Save::~Save() {
 		villager = nullptr;
 	}
 
+	for (auto Town : town) {
+		delete Town;
+		Town = nullptr;
+	}
+
+	for (auto Shop : shop) {
+		delete Shop;
+		Shop = nullptr;
+	}
+
 	delete[] m_saveBuffer;
 	m_saveBuffer = nullptr;
 }
@@ -92,6 +102,9 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
 	}
 
+	m_pSave->town[0] = new Town();
+	m_pSave->shop[0] = new Shop();
+
 	return m_pSave;
 }
 
@@ -106,6 +119,9 @@ bool Save::CommitArchive(bool close) {
 		villagers[i]->Write();
 	}
 
+	town[0]->Write();
+	shop[0]->Write();
+	
 	// Update Checksums
 	FixCRC32s();
 
@@ -265,6 +281,9 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	for (int i = 0; i < 10; i++) {
 		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
 	}
+
+	m_pSave->town[0] = new Town();
+	m_pSave->shop[0] = new Shop();
 	
 	fclose(savesFile);
 	m_pSave->m_saveFile = saveName;
@@ -415,6 +434,9 @@ bool Save::Commit(bool close) {
 	for (int i = 0; i < 10; i++) {
 		villagers[i]->Write();
 	}
+
+	town[0]->Write();
+	shop[0]->Write();
 
 	// Update Checksums
 	FixCRC32s();

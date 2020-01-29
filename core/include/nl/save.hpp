@@ -28,6 +28,8 @@ SOFTWARE.
 #define SAVE_HPP
 
 #include "player.hpp"
+#include "shop.hpp"
+#include "town.hpp"
 #include "types.hpp"
 #include "villager.hpp"
 
@@ -42,6 +44,8 @@ struct Region_Lock {
 };
 #endif
 class Player;
+class Shop;
+class Town;
 class Villager;
 
 class Save {
@@ -82,6 +86,8 @@ public:
 	void Close(void);
 
 	Player *players[4];
+	Shop *shop[1];
+	Town *town[1];
 	Villager* villagers[10];
 
 	// Only works on 3DS!
@@ -90,10 +96,10 @@ public:
 	static Save* InitializeArchive(FS_Archive archive, bool init);
 	bool CommitArchive(bool close);
 	void CloseArchive(void);
-    u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
-    bool UpdateSaveRegion(void);
-    void FixSaveRegion(void);
-    void FixInvalidBuildings(void);
+	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
+	bool UpdateSaveRegion(void);
+	void FixSaveRegion(void);
+	void FixInvalidBuildings(void);
 	#endif
 	
 private:
