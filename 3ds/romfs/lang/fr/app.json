@@ -162,5 +162,16 @@
 	"SAVE_NOT_FOUND_ACWW": "ACWW.sav not found!",
 	"LOAD_SAVE_FROM": "Would you like to load the save from ",
 	"GAMECARD": "the Gamecard",
-	"INSTALLED_TITLE": "the installed title"
+	"INSTALLED_TITLE": "the installed title",
+	"SHOP_EDITOR": "Shop Editor",
+	"TURNIP_EDITOR": "Turnip Editor",
+	"MONDAY": "Monday",
+	"TUESDAY": "Tuesday",
+	"WEDNESDAY": "Wednesday",
+	"THURSDAY": "Thursday",
+	"FRIDAY": "Friday",
+	"SATURDAY": "Saturday",
+	"PM": "PM",
+	"AM": "AM",
+	"ENTER_TURNIP_PRICE": "Enter turnip price."
 }
