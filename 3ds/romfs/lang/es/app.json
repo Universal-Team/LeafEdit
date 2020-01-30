@@ -181,5 +181,7 @@
 	"SILVER": "Silver",
 	"GOLD": "Gold",
 	"NONE": "None",
-	"SET_BADGES_TO": "Set all badges to..."
+	"SET_BADGES_TO": "Set all badges to...",
+	"TPC_DUMPED_TO": "TPC dumped to\n\n%s",
+	"ENTER_TPC_NAME": "Enter the name of the TPC backup."
 }
