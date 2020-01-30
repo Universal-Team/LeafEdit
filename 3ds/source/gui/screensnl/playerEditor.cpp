@@ -31,6 +31,7 @@
 
 #include "gui/keyboard.hpp"
 
+#include "gui/screensnl/badgeEditor.hpp"
 #include "gui/screensnl/itemEditor.hpp"
 #include "gui/screensnl/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
@@ -132,7 +133,7 @@ void PlayerEditor::DrawPlayerStyle(void) const {
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, playerButtons[i].x+130, playerButtons[i].y+25);
 		}
 	}
 	// Display Player name.
@@ -184,11 +185,12 @@ void PlayerEditor::DrawMainEditor(void) const {
 	C2D_DrawImageAt(Save::Instance()->players[cp]->m_TPCPic, 170, 45.f, 0.5f, nullptr, 1, 1);
 	Gui::DrawStringCentered(0, 150, 0.9f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->Name).c_str(), 55);
 	Gui::DrawStringCentered(0, 180, 0.9f, WHITE, StringUtils::UTF16toUTF8(SaveFile->players[cp]->TPCText).c_str(), 320);
+
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, playerButtons[i].x+130, playerButtons[i].y+25);
 		}
 	}
 	Gui::sprite(0, sprites_back_idx, mainButtons[3].x, mainButtons[3].y);
@@ -199,8 +201,10 @@ void PlayerEditor::DrawMainEditor(void) const {
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("ITEMS")))/2-20+17.5, 0.8, WHITE, Lang::get("ITEMS"), 130, 25);
 		// Appearance.
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("APPEARANCE")))/2+75-17.5, 0.8, WHITE, Lang::get("APPEARANCE"), 130, 25);
-		// Pattern
+		// Pattern.
 	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("PATTERN")))/2-80+17.5, 0.8, WHITE, Lang::get("PATTERN"), 130, 25);
+		// Badge Editor.
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("BADGE_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("BADGE_EDITOR"), 130, 25);
 }
 
 
@@ -249,6 +253,10 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Selection = 0;
 					screen = 4;
 					break;
+				case 4:
+					selectedPassedPlayer = cp;
+					Gui::setScreen(std::make_unique<BadgeEditor>());
+					break;
 		}
 	}
 
@@ -265,6 +273,9 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, playerButtons[3])) {
 			Selection = 0;
 			screen = 4;
+		} else if (touching(touch, playerButtons[4])) {
+			selectedPassedPlayer = cp;
+			Gui::setScreen(std::make_unique<BadgeEditor>());
 		}
 	}
 }
@@ -287,7 +298,7 @@ void PlayerEditor::DrawPlayerEditor(void) const {
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, playerButtons[i].x+130, playerButtons[i].y+25);
 		}
 	}
 

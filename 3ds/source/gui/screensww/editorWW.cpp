@@ -72,7 +72,7 @@ void EditorWW::DrawSubMenu(void) const
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, editorButtons[i].x+130, editorButtons[i].y+25);
 		}
 	}
 	Gui::sprite(0, sprites_back_idx, editorButtons[3].x, editorButtons[3].y);

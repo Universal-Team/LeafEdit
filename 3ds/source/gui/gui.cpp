@@ -44,9 +44,11 @@ bool editorSheetHasLoaded = false;
 bool acwwEditorSheetHasLoaded = false;
 
 C2D_SpriteSheet Acres;
+C2D_SpriteSheet Badges;
 C2D_SpriteSheet Faces;
 C2D_SpriteSheet Hairs;
 C2D_SpriteSheet Items;
+C2D_SpriteSheet NPCs;
 C2D_SpriteSheet sprites;
 C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
@@ -84,6 +86,8 @@ void Gui::Draw_ImageBlend(int sheet, int key, int x, int y, u32 color, float Sca
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	} else if (sheet == 4) { // Acres.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	} else if (sheet == 5) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(NPCs, key), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	}
 }
 
@@ -98,11 +102,6 @@ Result Gui::init(void)
 	sizeBuf = C2D_TextBufNew(4096);
 	sprites = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 	font = C2D_FontLoad("romfs:/font.bcfnt");
-	/*
-		Was for testing the Villager stuff.
-	Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
-	Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
-	*/
 	return 0;
 }
 
@@ -111,9 +110,11 @@ Result Gui::loadSheets() {
 	if (editorSheetHasLoaded == false) {
 		editorSheetHasLoaded = true;
 		Acres	= C2D_SpriteSheetLoad("romfs:/gfx/acres.t3x");
+		Badges	= C2D_SpriteSheetLoad("romfs:/gfx/badges.t3x");
 		Faces	= C2D_SpriteSheetLoad("romfs:/gfx/faces.t3x");
 		Hairs	= C2D_SpriteSheetLoad("romfs:/gfx/hairs.t3x");
 		Items	= C2D_SpriteSheetLoad("romfs:/gfx/items.t3x");
+		NPCs	= C2D_SpriteSheetLoad("romfs:/gfx/NPCs.t3x");
 		Villager	= C2D_SpriteSheetLoad("romfs:/gfx/villagers.t3x");
 		Villager2	= C2D_SpriteSheetLoad("romfs:/gfx/villagers2.t3x");
 	}
@@ -135,9 +136,11 @@ Result Gui::unloadSheets() {
 	if (editorSheetHasLoaded == true) {
 		editorSheetHasLoaded = false;
 		C2D_SpriteSheetFree(Acres);
+		C2D_SpriteSheetFree(Badges);
 		C2D_SpriteSheetFree(Faces);
 		C2D_SpriteSheetFree(Hairs);
 		C2D_SpriteSheetFree(Items);
+		C2D_SpriteSheetFree(NPCs);
 		C2D_SpriteSheetFree(Villager);
 		C2D_SpriteSheetFree(Villager2);
 	}
@@ -177,6 +180,8 @@ void Gui::sprite(int sheet, int key, int x, int y, float ScaleX, float ScaleY)
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Items, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	} else if (sheet == 4) { // Acres.
 		C2D_DrawImageAt(C2D_SpriteSheetGetImage(Acres, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (sheet == 5) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(NPCs, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 	}
 }
 

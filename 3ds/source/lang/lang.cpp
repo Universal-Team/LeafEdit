@@ -7,6 +7,7 @@
 nlohmann::json appJson;
 
 std::vector<std::string> g_groups;
+std::vector<std::string> g_badges;
 std::vector<std::string> g_villagerDatabase;
 
 // Load a Text file or such to a Vector.
@@ -34,7 +35,7 @@ std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
 void Lang::load(int lang) {
 	loadToVector("romfs:/lang/"+langs[lang]+"/groups.txt", g_groups);
-	
+	loadToVector("romfs:/lang/"+langs[1]+"/badges.txt", g_badges);
 	FILE* values;
 	
 	if (Config::getInt("LangLocation") == 1) {

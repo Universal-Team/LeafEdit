@@ -33,6 +33,7 @@
 
 namespace PlayerManagement
 {
+	void DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw Badges.
 	void DrawFace(u16 Gender, u8 FaceID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Face.
 	void DrawHair(u8 HairID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Hair.
 

@@ -97,7 +97,7 @@ void VillagerEditor::DrawSubMenu(void) const {
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, UNSELECTED_COLOR);
 		if (SubSelection == i) {
-			Gui::drawAnimatedSelector(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, villagerButtons[i].x+130, villagerButtons[i].y+25);
 		}
 	}
 	// Replace.
@@ -163,7 +163,7 @@ void VillagerEditor::DrawReplaceSub(void) const {
 	for (int i = 0; i < 2; i++) {
 		Gui::Draw_Rect(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(Buttons[i].x, Buttons[i].y, Buttons[i].w, Buttons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, Buttons[i].x+130, Buttons[i].y+25);
 		}
 	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SELECTING")))/2-80+17.5, 0.8, WHITE, Lang::get("SELECTING"), 130, 25);

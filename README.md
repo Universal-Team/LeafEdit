@@ -46,8 +46,8 @@ Spanish
 - [YoSoy](https://twitter.com/riku200)
 
 ### Others
-
-- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the Core part and the Acres, Face, Hair, Items and Villager Sprites!
+- [Animal Crossing Wiki](https://animalcrossingwiki.de/start): For the NPC Character Graphics and Badges, which are Licensed under [CC Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the Core part and the Acres, Face, Hair, Items, Villagers and the hand_pointer sprite!
 - [Cuyler](https://github.com/Cuyler36): For helping for fixing the AC:WW's Checksum part and improving it's write functions!
 - [devkitPro](https://github.com/devkitPro), [Fincs](https://github.com/fincs), [Smealum](https://github.com/smealum), [Wintermute](https://github.com/WinterMute): For devkitARM, Citro2D, Citro3D and Libctru.
 - [Flagbrew](https://github.com/FlagBrew): [Checkpoint](https://github.com/FlagBrew/Checkpoint)'s Code for the Backup & Restore part for Animal Crossing: New Leaf.

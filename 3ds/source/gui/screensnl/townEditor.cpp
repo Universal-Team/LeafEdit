@@ -70,7 +70,7 @@ void TownEditor::DrawSubMenu(void) const {
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (subSelection == i) {
-			Gui::drawAnimatedSelector(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("ACRES")))/2-80+17.5, 0.8, WHITE, Lang::get("ACRES"), 130, 25);

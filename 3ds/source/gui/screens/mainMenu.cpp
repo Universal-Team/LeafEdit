@@ -53,7 +53,7 @@ void MainMenu::Draw(void) const
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
 

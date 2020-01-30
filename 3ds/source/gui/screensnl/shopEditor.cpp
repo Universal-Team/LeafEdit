@@ -83,7 +83,7 @@ void ShopEditor::DrawSubMenu(void) const {
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
 	// Turnip editor. [Prices]
@@ -98,29 +98,30 @@ void ShopEditor::DrawTurnipScreen(void) const {
 	} else {
 		title += Lang::get("PM");
 	}
+	Gui::sprite(5, npc_joan_idx, 20, 45);
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, title, 400);
 
 	if (turnipMode == 0) {
-		Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[0].value), 370);
-		Gui::DrawStringCentered(0, 65, 0.9f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[1].value), 370);
-		Gui::DrawStringCentered(0, 95, 0.9f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[2].value), 370);
-		Gui::DrawStringCentered(0, 125, 0.9f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[3].value), 370);
-		Gui::DrawStringCentered(0, 155, 0.9f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[4].value), 370);
-		Gui::DrawStringCentered(0, 185, 0.9f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[5].value), 370);
+		Gui::DrawString(180, 35, 0.8f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[0].value), 370);
+		Gui::DrawString(180, 65, 0.8f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[1].value), 370);
+		Gui::DrawString(180, 95, 0.8f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[2].value), 370);
+		Gui::DrawString(180, 125, 0.8f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[3].value), 370);
+		Gui::DrawString(180, 155, 0.8f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[4].value), 370);
+		Gui::DrawString(180, 185, 0.8f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[5].value), 370);
 	} else {
-		Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[0].value), 370);
-		Gui::DrawStringCentered(0, 65, 0.9f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[1].value), 370);
-		Gui::DrawStringCentered(0, 95, 0.9f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[2].value), 370);
-		Gui::DrawStringCentered(0, 125, 0.9f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[3].value), 370);
-		Gui::DrawStringCentered(0, 155, 0.9f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[4].value), 370);
-		Gui::DrawStringCentered(0, 185, 0.9f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[5].value), 370);
+		Gui::DrawString(180, 35, 0.8f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[0].value), 370);
+		Gui::DrawString(180, 65, 0.8f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[1].value), 370);
+		Gui::DrawString(180, 95, 0.8f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[2].value), 370);
+		Gui::DrawString(180, 125, 0.8f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[3].value), 370);
+		Gui::DrawString(180, 155, 0.8f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[4].value), 370);
+		Gui::DrawString(180, 185, 0.8f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[5].value), 370);
 	}
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
-			Gui::drawAnimatedSelector(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
 

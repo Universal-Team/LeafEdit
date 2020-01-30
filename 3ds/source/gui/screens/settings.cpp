@@ -46,7 +46,7 @@ void Settings::Draw(void) const
 		for (int i = 0; i < 3; i++) {
 			Gui::Draw_Rect(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, UNSELECTED_COLOR);
 			if (Selection == i) {
-				Gui::drawAnimatedSelector(settingsButtons[i].x, settingsButtons[i].y, settingsButtons[i].w, settingsButtons[i].h, .030f, SELECTED_COLOR);
+				Gui::sprite(0, sprites_pointer_idx, settingsButtons[i].x+130, settingsButtons[i].y+25);
 			}
 		}
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("LANGUAGE")))/2-80+17.5, 0.8, WHITE, Lang::get("LANGUAGE"), 130, 25);

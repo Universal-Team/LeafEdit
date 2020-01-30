@@ -135,6 +135,13 @@ Player::Player(u32 offset, u32 index) {
 	for (u32 i = 0; i < 10; i++) {
 		this->Patterns[i] = new Pattern(this, i);
 	}
+
+
+	// Badges.
+	for (int i = 0; i < 24; i++) {
+		this->Badges[i] = Save::Instance()->ReadU8(offset + 0x569C + i);
+		this->BadgeValues[i] = EncryptedInt32(Save::Instance()->ReadU64(offset + 0x55DC + i*8));
+	}
 }
 
 void Player::Write() {
@@ -174,6 +181,13 @@ void Player::Write() {
 	this->MeowCoupons.encrypt(encryptedInt, encryptionData);
 	Save::Instance()->Write(this->m_offset + 0x8D1C, encryptedInt);
 	Save::Instance()->Write(this->m_offset + 0x8D20, encryptionData);
+
+	for(int i= 0; i < 24; i++){
+		Save::Instance()->Write(this->m_offset + 0x569C + i, this->Badges[i]);
+		this->BadgeValues[i].encrypt(encryptedInt, encryptionData);
+		Save::Instance()->Write(this->m_offset + 0x55DC + i*8, encryptedInt);
+		Save::Instance()->Write(this->m_offset + 0x55DC + i*8 + 4, encryptionData);
+	}
 }
 
 #ifdef _3DS

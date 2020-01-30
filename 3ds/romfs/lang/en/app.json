@@ -202,5 +202,13 @@
 	"SATURDAY":						"Saturday",
 	"PM":							"PM",
 	"AM":							"AM",
-	"ENTER_TURNIP_PRICE":			"Enter turnip price."
+	"ENTER_TURNIP_PRICE":			"Enter turnip price.",
+	"BADGE_EDITOR":					"Badge Editor",
+	"PHINEAS_TEXT":					"Hello, I'm Phineas!\nYou are currently in the Badge Editor from LeafEdit.",
+	"CURRENT_BADGE":				"Current Badge: ",
+	"BRONZE":						"Bronze",
+	"SILVER":						"Silver",
+	"GOLD":							"Gold",
+	"NONE":							"None",
+	"SET_BADGES_TO":				"Set all badges to..."
 }

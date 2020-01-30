@@ -46,8 +46,18 @@
 extern Save* SaveFile;
 extern WWSave* WWSaveFile;
 
+extern C2D_SpriteSheet Badges;
 extern C2D_SpriteSheet Hairs;
 extern C2D_SpriteSheet Faces;
+
+// There are 24 Badge Groups. One Group has 3 Badges.
+void PlayerManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX, float ScaleY) {
+	if (badge != 0) {
+		DrawSprite(Badges, 3*badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
+	} else {
+		DrawSprite(Badges, 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
+	}
+}
 
 // Draw the Face sprite. 0-11 -> Male, 12-23 -> Female.
 void PlayerManagement::DrawFace(u16 Gender, u8 FaceID, int x, int y, float ScaleX, float ScaleY) {

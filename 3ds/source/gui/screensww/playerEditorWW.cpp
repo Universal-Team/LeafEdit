@@ -87,7 +87,7 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (selection == i) {
-			Gui::drawAnimatedSelector(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
 	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.8f, WHITE, Lang::get("PLAYER"), 130);
@@ -104,7 +104,7 @@ void PlayerEditorWW::DrawPlayerScreen(void) const {
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
 		if (selection == i) {
-			Gui::drawAnimatedSelector(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, .030f, SELECTED_COLOR);
+			Gui::sprite(0, sprites_pointer_idx, playerButtons[i].x+130, playerButtons[i].y+25);
 		}
 	}
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Bells"))/2-80+17.5, 0.8, WHITE, "Bells", 130, 25);

@@ -31,6 +31,7 @@
 
 #include "acres.h"
 #include "items.h"
+#include "npc.h"
 #include "sprites.h"
 #include "villagers.h"
 #include "villagers2.h"

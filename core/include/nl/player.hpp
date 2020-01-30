@@ -71,6 +71,10 @@ public:
 	u8 face;
 	u8 eyeColor;
 
+	// Badges.
+	u8 Badges[24]; // 0x569C
+	EncryptedInt32 BadgeValues[24]; // 0x55DC
+
 	void Write();
 	bool Exists();
 	bool HasReset();
