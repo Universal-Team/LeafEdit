@@ -538,6 +538,32 @@ u32 PlayerManagement::getEyeColor(u8 eyeColor) {
 	}
 }
 
+
+void PlayerManagement::dumpTPC(int selectedPlayer) {
+	if (Save::Instance()->players[selectedPlayer]->Exists()) {
+		if (Save::Instance()->ReadU32(0xA0 + (selectedPlayer * 0xA480) + 0x5734) == 1) {
+			if (Save::Instance()->ReadU16(0xA0 + (selectedPlayer * 0xA480) + 0x5738) == 0xD8FF) {
+				FILE *CurrentTPC;
+				// Open File.
+				std::string fileName = Input::handleString(30, Lang::get("ENTER_TPC_NAME"), "NoName");
+				CurrentTPC = fopen(("sdmc:/LeafEdit/TPC/" + fileName + ".jpeg").c_str(), "w+");
+				// Set the Buffer of 0x1400 and read data to it.
+				u8* TPCBuffer = new u8[0x1400];
+				Save::Instance()->ReadArray(TPCBuffer, 0xA0 + (0 * 0xA480) + 0x5738, 0x1400);
+				// Write the Buffer to the File and close it afterward.
+				fwrite(TPCBuffer, 1, 0x1400, CurrentTPC);
+				fclose(CurrentTPC);
+				// Display a Message with the Path & Free the Buffer to avoid Buffer Overflow.
+				char message [100];
+				std::string msg = "sdmc:/LeafEdit/TPC/" + fileName + ".jpeg.";
+				snprintf(message, sizeof(message), Lang::get("TPC_DUMPED_TO").c_str(), msg.c_str());
+				Msg::DisplayWaitMsg(message);
+				free(TPCBuffer);
+			}
+		}
+	}
+}
+
 // AC:WW part.
 void PlayerManagement::setBells(int currentPlayer) {
 	WWSaveFile->players[currentPlayer]->Bells = Input::handleu32(5, "Enter the amount of Bells.", 99999, WWSaveFile->players[currentPlayer]->Bells);

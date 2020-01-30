@@ -94,6 +94,7 @@ int main()
 	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 	mkdir("sdmc:/LeafEdit/scripts", 0777); // Scripts path.
+	mkdir("sdmc:/LeafEdit/TPC", 0777); // TPC path.
 	Logging::createLogFile(); // Create Log File, if it doesn't exists already.
 	amInit();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users

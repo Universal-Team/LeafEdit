@@ -278,6 +278,10 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Gui::setScreen(std::make_unique<BadgeEditor>());
 		}
 	}
+
+	if (hDown & KEY_START) {
+		PlayerManagement::dumpTPC(cp);
+	}
 }
 
 void PlayerEditor::DrawPlayerEditor(void) const {

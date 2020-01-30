@@ -53,6 +53,9 @@ namespace PlayerManagement
 	u32 getHairColor(u8 hairColor);
 	u32 getEyeColor(u8 eyeColor);
 
+	// TPC Image.
+	void dumpTPC(int selectedPlayer);
+
 	// AC:WW.
 	void setBells(int currentPlayer);
 }
