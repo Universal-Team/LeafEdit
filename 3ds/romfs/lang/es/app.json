@@ -175,13 +175,13 @@
 	"AM": "AM",
 	"ENTER_TURNIP_PRICE": "Introduzca el precio del nabo.",
 	"BADGE_EDITOR": "Editor de Insignia",
-	"PHINEAS_TEXT": "Hello, I'm Phineas!\nYou are currently in the Badge Editor from LeafEdit.",
-	"CURRENT_BADGE": "Current Badge: ",
-	"BRONZE": "Bronze",
-	"SILVER": "Silver",
-	"GOLD": "Gold",
-	"NONE": "None",
-	"SET_BADGES_TO": "Set all badges to...",
-	"TPC_DUMPED_TO": "TPC dumped to\n\n%s",
-	"ENTER_TPC_NAME": "Enter the name of the TPC backup."
+	"PHINEAS_TEXT": "¡Hola, soy Elio\nActualmente estás en el Editor de Insignias de LeafEdit.",
+	"CURRENT_BADGE": "Insignia actual: ",
+	"BRONZE": "Bronce",
+	"SILVER": "Plata",
+	"GOLD": "Oro",
+	"NONE": "Ninguna",
+	"SET_BADGES_TO": "Establecer todas las insignias a...",
+	"TPC_DUMPED_TO": "TPC volcado a\n\n%s",
+	"ENTER_TPC_NAME": "Introduzca el nombre de la copia de seguridad de TPC."
 }
