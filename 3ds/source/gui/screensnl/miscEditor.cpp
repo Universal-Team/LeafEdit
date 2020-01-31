@@ -73,7 +73,8 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (Selection == 0) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (Selection == 1) {
-			Gui::setScreen(std::make_unique<Scripts>());
+			Msg::DisplayWarnMsg("Scripts have Issues currently.\nA fix is being worked on.");
+			//Gui::setScreen(std::make_unique<Scripts>());
 		} else if (Selection == 2) {
 			Gui::setScreen(std::make_unique<ShopEditor>());
 		}
@@ -83,7 +84,8 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<Scripts>());
+			Msg::DisplayWarnMsg("Scripts have Issues currently.\nA fix is being worked on.");
+			//Gui::setScreen(std::make_unique<Scripts>());
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<ShopEditor>());
 		}
