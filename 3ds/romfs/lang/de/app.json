@@ -152,7 +152,7 @@
 	"JAPAN": "Japan",
 	"KOREA": "Korea",
 	"USA": "USA",
-	"UNABLE_OPEN_SAVEARCHIVE": "Unable to Open the Save Archive.\nSave file may not have been created!",
+	"UNABLE_OPEN_SAVEARCHIVE": "Das Speicherarchiv konnte nicht geöffnet werden.\nDer Speicherstand wurde möglicherweise nicht erstellt!",
 	"SAVEREGION_NOT_MATCH": "The region of the save you have selected does not\nmatch your console. Would you like to fix it?",
 	"INVALID_BUILDINGS": "Invalid building(s) have been found in your save.\nThey may cause your game to crash.\nWould you like to fix it?",
 	"CREATING_BACKUP": "Creating Backup...",
