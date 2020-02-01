@@ -183,5 +183,12 @@
 	"NONE": "Ninguna",
 	"SET_BADGES_TO": "Establecer todas las insignias a...",
 	"TPC_DUMPED_TO": "TPC volcado a\n\n%s",
-	"ENTER_TPC_NAME": "Introduzca el nombre de la copia de seguridad de TPC."
+	"ENTER_TPC_NAME": "Introduzca el nombre de la copia de seguridad de TPC.",
+	"PATTERN_NAME": "Pattern name: ",
+	"CREATOR_NAME": "Creator name: ",
+	"CREATOR_ID": "Creator ID: ",
+	"TOWN_NAME": "Town name: ",
+	"TOWN_ID": "Town ID: ",
+	"CURRENT_ITEM": "Current Item: ",
+	"BUILDINGS": "Buildings"
 }
