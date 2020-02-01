@@ -139,7 +139,7 @@ void VillagerManagement::DrawVillager(u16 villagerId, int x, int y, float ScaleX
 }
 
 void VillagerManagement::DrawWWVillager(u8 villagerId, int x, int y, float ScaleX, float ScaleY) {
-	if (villagerId > 149) {
+	if (villagerId > 150) {
 		villagerId = 150; // 150 -> EMPTY.
 	}
 		DrawSprite(WWVillagers, villagerId, x, y, ScaleX, ScaleY);

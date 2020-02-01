@@ -328,18 +328,26 @@ void DrawSprite(C2D_SpriteSheet sheet, size_t imgindex, int x, int y, float Scal
 
 // Basic GUI Functions.
 
-void Gui::DrawTop(void) {
+void Gui::DrawTop(bool useBars) {
 	Gui::ScreenDraw(top);
-	Gui::Draw_Rect(0, 0, 400, 30, DARKER_COLOR);
-	Gui::Draw_Rect(0, 30, 400, 180, LIGHT_COLOR);
-	Gui::Draw_Rect(0, 210, 400, 30, DARKER_COLOR);
+	if (useBars) {
+		Gui::Draw_Rect(0, 0, 400, 30, DARKER_COLOR);
+		Gui::Draw_Rect(0, 30, 400, 180, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 210, 400, 30, DARKER_COLOR);
+	} else {
+		Gui::Draw_Rect(0, 0, 400, 240, LIGHT_COLOR);
+	}
 }
 
-void Gui::DrawBottom(void) {
+void Gui::DrawBottom(bool useBars) {
 	Gui::ScreenDraw(bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, DARKER_COLOR);
-	Gui::Draw_Rect(0, 30, 320, 180, LIGHT_COLOR);
-	Gui::Draw_Rect(0, 210, 320, 30, DARKER_COLOR);
+	if (useBars) {
+		Gui::Draw_Rect(0, 0, 320, 30, DARKER_COLOR);
+		Gui::Draw_Rect(0, 30, 320, 180, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 210, 320, 30, DARKER_COLOR);
+	} else {
+		Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
+	}
 }
 
 void Gui::DrawFileBrowseBG(bool isTop) {

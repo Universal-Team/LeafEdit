@@ -24,69 +24,52 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITOR_HPP
-#define PLAYEREDITOR_HPP
+#ifndef MAPEDITOR_HPP
+#define MAPEDITOR_HPP
 
 #include "common/structs.hpp"
 
 #include "gui/screens/screen.hpp"
+#include "gui/screens/screenCommon.hpp"
 
 #include <vector>
 
-class PlayerEditor : public Screen
+class MapEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
-	int Selection = 0; // The current option selection.
-	int selectedPlayer; // current Selected Player.
-	int currentPage = 1; // Page of the Player Editor.
-	int cp = 0; // Current Player.
-	int maxPlayer = 0; // Max available players.
-	int screen = 0; // Sub menu.
+	/* Mostly selection stuff. */
+	int Mode = 0;
+	int selection = 0; // Selection for "Items" / "Buildings".
+	int selectionMode = 0;
+	int currentPosX = 0;
+	int currentPosY = 0;
+	int currentAcre = 0;
+	u8 acreImage = 0x10;
+	int BuildingSelection = 0; // For the Building list indicator.
 
-	// Screen Draws.
-	void DrawSubMenu(void) const;
-	void DrawMainEditor(void) const;
-	void DrawPlayerEditor(void) const;
-	void DrawPlayerStyle(void) const;
+	/* Main Screen. */
+	void DrawMapScreen(void) const;
+	void MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Screen Logics.
-	void SubMenuLogic(u32 hDOwn, u32 hHeld);
-	void MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	/* Building List. */
+	void DrawBuildingList(void) const;
+	void BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Other Draws.
-	void DrawTPCAndName(void) const;
-	
-	// Button Struct.
-	std::vector<Structs::ButtonPos> playerButtons = {
-		{10, 40, 140, 35, -1}, // Player Name.
-		{10, 100, 140, 35, -1}, // Wallet Amount.
-		{10, 160, 140, 35, -1}, // Tan.
+	/* Utilities. */
+	void DrawGrid(void) const;
+	void DrawTownMap() const;
+	void DrawCurrentPos(void) const;
+	void updateAcre(void);
 
-		{170, 40, 140, 35, -1}, // Bank.
-		{170, 100, 140, 35, -1}, // Medals.
-		{170, 160, 140, 35, -1}, // Coupons.
+	std::vector<Structs::ButtonPos> mapButtons = {
+		{230, 75, 75, 30, -1}, // Items.
+		{230, 140, 75, 30, -1}, // Buildings.
 	};
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Player.
-		{90, 100, 140, 35, -1}, // Items
-		{90, 160, 140, 35, -1}, // WIP.
-		{293, 213, 27, 27, -1}, // Back to Player Selection.
-	};
-
-	// Player Stuff. p -> Player.
-	std::string pName;
-	std::string pWallet;
-	std::string pTan;
-	std::string pBank;
-	std::string pMedals;
-	std::string pCoupons;
 };
 
 #endif

@@ -83,8 +83,8 @@ namespace Gui
 	float GetStringHeight(float size, std::string Text);
 
 	// GUI Functions.
-	void DrawTop(void);
-	void DrawBottom(void);
+	void DrawTop(bool useBars = true);
+	void DrawBottom(bool useBars = true);
 	void DrawFileBrowseBG(bool isTop = true);
 }
 

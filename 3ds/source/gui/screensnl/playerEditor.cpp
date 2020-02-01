@@ -33,10 +33,10 @@
 
 #include "gui/screensnl/badgeEditor.hpp"
 #include "gui/screensnl/itemEditor.hpp"
+#include "gui/screensnl/patternEditor.hpp"
 #include "gui/screensnl/playerEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
 
-#include "pattern.hpp"
 #include "player.hpp"
 #include "save.hpp"
 
@@ -58,8 +58,6 @@ void PlayerEditor::Draw(void) const {
 		DrawPlayerEditor();
 	} else if (screen == 3) {
 		DrawPlayerStyle(); // Style of the Player, like Face, Hair etc.
-	} else if (screen == 4) {
-		DrawPattern(); // Pattern Screen. Maybe Editing later on too?
 	}
 }
 
@@ -72,8 +70,6 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		PlayerEditorLogic(hDown, hHeld, touch);
 	} else if (screen == 3) {
 		PlayerStyleLogic(hDown, hHeld, touch);
-	} else if (screen == 4) {
-		PatternLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -171,6 +167,7 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 		for (int i = 0; i < 4; i++) {
 			if (i == selectedPlayer) {
 				cp = i;
+				selectedPassedPlayer = cp;
 				Selection = 0;
 				screen = 1;
 			}
@@ -242,7 +239,6 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					screen = 2;
 					break;
 				case 1:
-					selectedPassedPlayer = cp;
 					Gui::setScreen(std::make_unique<ItemEditor>());
 					break;
 				case 2:
@@ -250,11 +246,9 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					screen = 3;
 					break;
 				case 3:
-					Selection = 0;
-					screen = 4;
+					Gui::setScreen(std::make_unique<PatternEditor>());
 					break;
 				case 4:
-					selectedPassedPlayer = cp;
 					Gui::setScreen(std::make_unique<BadgeEditor>());
 					break;
 		}
@@ -265,16 +259,13 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Selection = 0;
 			screen = 2;
 		} else if (touching(touch, playerButtons[1])) {
-			selectedPassedPlayer = cp;
 			Gui::setScreen(std::make_unique<ItemEditor>());
 		} else if (touching(touch, playerButtons[2])) {
 			Selection = 0;
 			screen = 3;
 		} else if (touching(touch, playerButtons[3])) {
-			Selection = 0;
-			screen = 4;
+			Gui::setScreen(std::make_unique<PatternEditor>());
 		} else if (touching(touch, playerButtons[4])) {
-			selectedPassedPlayer = cp;
 			Gui::setScreen(std::make_unique<BadgeEditor>());
 		}
 	}
@@ -517,44 +508,5 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Selection = 0;
 		screen = 1;
-	}
-}
-
-void PlayerEditor::DrawPattern(void) const {
-	Gui::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN"), 400);
-	Gui::DrawBottom();
-	for (int i = 0; i < 10; i++) {
-		for (u32 y = 0; y < 2; y++) {
-			for (u32 x = 0; x < 5; x++, i++) {
-				C2D_DrawImageAt(Save::Instance()->players[cp]->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
-			}
-		}
-	}
-
-	int selectY = 0, selectX = 0;
-	if (Selection < 5)	selectY = 0;	else	selectY = 1;
-	if (Selection > 4)	selectX = Selection - 5;	else	selectX = Selection;
-
-	Gui::drawAnimatedSelector(17 + (selectX * 60), 60 + (selectY * 80), 48, 48, .030f, C2D_Color32(0, 0, 0, 0));
-}
-
-void PlayerEditor::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_B) {
-		screen = 1;
-		Selection = 0;
-	}
-
-	if (hDown & KEY_DOWN) {
-		if (Selection < 5)	Selection += 5;
-	}
-	if (hDown & KEY_UP) {
-		if (Selection > 4)	Selection -= 5;
-	}
-	if (hDown & KEY_RIGHT) {
-		if (Selection < 9)	Selection++;
-	}
-	if (hDown & KEY_LEFT) {
-		if (Selection > 0)	Selection--;
 	}
 }

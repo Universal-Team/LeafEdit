@@ -48,23 +48,6 @@ private:
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	/* Mostly selection stuff. */
-	int currentPosX = 0;
-	int currentPosY = 0;
-	int currentAcre = 0;
-	u8 acreImage = 0x10;
-
-	/* Town Map Editor. */
-	void DrawTownEditor(void) const;
-	void editorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/* Utilities */
-	void DrawGrid(void) const;
-	void DrawTownMap() const;
-	void DrawCurrentPos(void) const;
-	void updateAcre(void);
-
-
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{90, 40, 140, 35, -1}, // Acres Editor.
 		{90, 100, 140, 35, -1}, // Town Map Editor.

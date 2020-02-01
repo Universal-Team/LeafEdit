@@ -24,69 +24,32 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITOR_HPP
-#define PLAYEREDITOR_HPP
+#ifndef PATTERNEDITOR_HPP
+#define PATTERNEDITOR_HPP
 
 #include "common/structs.hpp"
 
 #include "gui/screens/screen.hpp"
+#include "gui/screens/screenCommon.hpp"
 
 #include <vector>
 
-class PlayerEditor : public Screen
+class PatternEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
 private:
-	int Selection = 0; // The current option selection.
-	int selectedPlayer; // current Selected Player.
-	int currentPage = 1; // Page of the Player Editor.
-	int cp = 0; // Current Player.
-	int maxPlayer = 0; // Max available players.
-	int screen = 0; // Sub menu.
+	int patternMode = 0;
+	int Selection = 0;
+	int SelectedPattern = 0;
 
 	// Screen Draws.
-	void DrawSubMenu(void) const;
-	void DrawMainEditor(void) const;
-	void DrawPlayerEditor(void) const;
-	void DrawPlayerStyle(void) const;
-
-	// Screen Logics.
-	void SubMenuLogic(u32 hDOwn, u32 hHeld);
-	void MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	// Other Draws.
-	void DrawTPCAndName(void) const;
-	
-	// Button Struct.
-	std::vector<Structs::ButtonPos> playerButtons = {
-		{10, 40, 140, 35, -1}, // Player Name.
-		{10, 100, 140, 35, -1}, // Wallet Amount.
-		{10, 160, 140, 35, -1}, // Tan.
-
-		{170, 40, 140, 35, -1}, // Bank.
-		{170, 100, 140, 35, -1}, // Medals.
-		{170, 160, 140, 35, -1}, // Coupons.
-	};
-
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35, -1}, // Player.
-		{90, 100, 140, 35, -1}, // Items
-		{90, 160, 140, 35, -1}, // WIP.
-		{293, 213, 27, 27, -1}, // Back to Player Selection.
-	};
-
-	// Player Stuff. p -> Player.
-	std::string pName;
-	std::string pWallet;
-	std::string pTan;
-	std::string pBank;
-	std::string pMedals;
-	std::string pCoupons;
+	void DrawPatternMenu(void) const;
+	//void DrawPatternEditor(void) const;
+	// Logics.
+	void PatternMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	//void PatternEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 };
 
 #endif
