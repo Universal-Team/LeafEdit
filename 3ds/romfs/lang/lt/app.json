@@ -183,5 +183,12 @@
 	"NONE": "None",
 	"SET_BADGES_TO": "Set all badges to...",
 	"TPC_DUMPED_TO": "TPC dumped to\n\n%s",
-	"ENTER_TPC_NAME": "Enter the name of the TPC backup."
+	"ENTER_TPC_NAME": "Enter the name of the TPC backup.",
+	"PATTERN_NAME": "Pattern name: ",
+	"CREATOR_NAME": "Creator name: ",
+	"CREATOR_ID": "Creator ID: ",
+	"TOWN_NAME": "Town name: ",
+	"TOWN_ID": "Town ID: ",
+	"CURRENT_ITEM": "Current Item: ",
+	"BUILDINGS": "Buildings"
 }
