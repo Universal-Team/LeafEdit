@@ -190,5 +190,8 @@
 	"TOWN_NAME": "Town name: ",
 	"TOWN_ID": "Town ID: ",
 	"CURRENT_ITEM": "Current Item: ",
-	"BUILDINGS": "Buildings"
+	"BUILDINGS": "Buildings",
+	"YES": "Yes",
+	"NO": "No",
+	"OK": "OK"
 }
