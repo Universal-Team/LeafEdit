@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, multi-version]
+    exclude: [translation, building-and-townmap]
   tags:
     include: ['*']
 

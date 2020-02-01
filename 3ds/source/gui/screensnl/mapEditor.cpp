@@ -254,6 +254,8 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void MapEditor::DrawBuildingList(void) const {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("BUILDINGS"), 400);
+	Gui::DrawStringCentered(0, 50, 0.9f, WHITE, "Building 1 ID: " + std::to_string(SaveFile->buildings[0]->returnID()) + " - " + std::to_string(SaveFile->buildings[0]->returnXPos()) + " | " + std::to_string(SaveFile->buildings[0]->returnYPos()), 400);
+	Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Build exist: " + SaveFile->buildings[0]->returnExistState() ? "Exist." : "Don't exist.", 400);
 	Gui::DrawBottom();
 }
 

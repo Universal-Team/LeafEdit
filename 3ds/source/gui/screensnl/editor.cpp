@@ -76,7 +76,6 @@ void Editor::DrawSubMenu(void) const
 {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
-
 	Gui::DrawBottom();
 
 	for (int i = 0; i < 3; i++) {
@@ -100,6 +99,8 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		if(Selection < 2)	Selection++;
 	} else if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
 		if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
+			// Update Save Region.
+			SaveFile->FixSaveRegion();
 			if (isLoadedFromArchive == true) {
 				SaveFile->CommitArchive(false);
 			} else {
@@ -108,9 +109,6 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		}
 		// Set Screen to Browse & Reset Save Folder.
 		EditorMode = 1;
-		// Update Save Region & fix Invalid Buildings.
-		SaveFile->FixSaveRegion();
-		SaveFile->FixInvalidBuildings();
 
 		if (isLoadedFromArchive == true) {
 			SaveFile->CloseArchive();

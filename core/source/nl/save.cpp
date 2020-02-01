@@ -39,6 +39,11 @@ Save* Save::m_pSave = nullptr;
 Save::Save() { }
 
 Save::~Save() {
+	for (auto building : buildings) {
+		delete building;
+		building = nullptr;
+	}
+
 	for (auto player : players) {
 		delete player;
 		player = nullptr;
@@ -91,6 +96,12 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 		return m_pSave;
 	}
 
+	// Load Buildings.
+	for (int i = 0; i < 58; i++) {
+		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
+		m_pSave->buildings[i] = new Building(m_pSave->ReadU8(buildingData), m_pSave->ReadU8(buildingData + 2), m_pSave->ReadU8(buildingData + 3));
+	}
+
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
@@ -117,6 +128,10 @@ bool Save::CommitArchive(bool close) {
 	// Save Villagers
 	for (int i = 0; i < 10; i++) {
 		villagers[i]->Write();
+	}
+	// Save Buildings.
+	for (int i = 0; i < 58; i++) {
+		buildings[i]->Write();
 	}
 
 	town[0]->Write();
@@ -225,23 +240,6 @@ void Save::FixSaveRegion(void) {
 	}
 }
 
-void Save::FixInvalidBuildings(void) {
-	bool asked = false;
-	for (int i = 0; i < 58; i++) {
-		u8 building = ReadU8(0x04be88+(i * 4)); //Get building ID
-		if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
-			if (!asked) {
-				asked = true;
-				if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
-					return;
-				}
-			}
-
-			Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
-		}
-	}
-}
-
 #endif
 
 // For RAW saves.
@@ -269,6 +267,12 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	#endif
 	if (!init) {
 		return m_pSave;
+	}
+
+	// Load Buildings.
+	for (int i = 0; i < 58; i++) {
+		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
+		m_pSave->buildings[i] = new Building(m_pSave->ReadU8(buildingData), m_pSave->ReadU8(buildingData + 2), m_pSave->ReadU8(buildingData + 3));
 	}
 
 	// Load Players
@@ -433,6 +437,10 @@ bool Save::Commit(bool close) {
 	// Save Villagers
 	for (int i = 0; i < 10; i++) {
 		villagers[i]->Write();
+	}
+
+	for (int i = 0; i < 58; i++) {
+		buildings[i]->Write();
 	}
 
 	town[0]->Write();

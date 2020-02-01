@@ -27,6 +27,7 @@ SOFTWARE.
 #ifndef SAVE_HPP
 #define SAVE_HPP
 
+#include "building.hpp"
 #include "player.hpp"
 #include "shop.hpp"
 #include "town.hpp"
@@ -43,6 +44,7 @@ struct Region_Lock {
 	u8 RawByte;
 };
 #endif
+class Building;
 class Player;
 class Shop;
 class Town;
@@ -89,6 +91,7 @@ public:
 	Shop *shop[1];
 	Town *town[1];
 	Villager* villagers[10];
+	Building *buildings[58];
 
 	// Only works on 3DS!
 	#ifdef _3DS
@@ -99,7 +102,6 @@ public:
 	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
 	bool UpdateSaveRegion(void);
 	void FixSaveRegion(void);
-	void FixInvalidBuildings(void);
 	#endif
 	
 private:
