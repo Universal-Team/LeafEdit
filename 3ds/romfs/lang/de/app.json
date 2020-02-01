@@ -183,5 +183,12 @@
 	"NONE": "Kein(e)",
 	"SET_BADGES_TO": "Setze alle Abzeichen auf...",
 	"TPC_DUMPED_TO": "TPC gedumpt zu\n\n%s",
-	"ENTER_TPC_NAME": "Gebe den Namen des TPC-Backups ein."
+	"ENTER_TPC_NAME": "Gebe den Namen des TPC-Backups ein.",
+	"PATTERN_NAME": "Pattern name: ",
+	"CREATOR_NAME": "Creator name: ",
+	"CREATOR_ID": "Creator ID: ",
+	"TOWN_NAME": "Town name: ",
+	"TOWN_ID": "Town ID: ",
+	"CURRENT_ITEM": "Current Item: ",
+	"BUILDINGS": "Buildings"
 }
