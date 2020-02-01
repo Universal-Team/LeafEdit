@@ -24,31 +24,64 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common/structs.hpp"
+
 #include "gui/msg.hpp"
 
 #include "gui/screens/screenCommon.hpp"
 
+std::vector<Structs::ButtonPos> promptBtn = {
+	{10, 100, 140, 35, -1}, // Yes.
+	{170, 100, 140, 35, -1}, // No.
+	{100, 100, 140, 35, -1}, // OK.
+};
+
+extern touchPosition touch;
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
 // Display a Message, which needs to be confirmed with A/B.
 bool Msg::promptMsg2(std::string promptMsg)
 {
-	Gui::clearTextBufs();
-	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("CONFIRM_OR_CANCEL"), 390);
-	Gui::DrawBottom();
-	C3D_FrameEnd(0);
-
+	s32 selection = 1;
 	while(1)
 	{
+		Gui::clearTextBufs();
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(top, BLACK);
+		C2D_TargetClear(bottom, BLACK);
+		Gui::DrawTop();
+		Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70);
+		Gui::DrawBottom();
+		// Draw Bottom Screen part.
+		Gui::Draw_Rect(10, 100, 140, 35, DARKER_COLOR);
+		Gui::Draw_Rect(170, 100, 140, 35, DARKER_COLOR);
+		Gui::DrawStringCentered(-150+70, 110, 0.8f, WHITE, Lang::get("YES"), 140);
+		Gui::DrawStringCentered(150-70, 110, 0.8f, WHITE, Lang::get("NO"), 140);
+		Gui::sprite(0, sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
+		C3D_FrameEnd(0);
+
+		// Selection part.
 		gspWaitForVBlank();
 		hidScanInput();
-		if(hidKeysDown() & KEY_A) {
+		hidTouchRead(&touch);
+
+		if(hidKeysDown() & KEY_LEFT) {
+			selection = 0;
+		} else if(hidKeysDown() & KEY_RIGHT) {
+			selection = 1;
+		}
+		if (hidKeysDown() & KEY_A) {
+			if (selection == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[0])) {
 			return true;
-		} else if(hidKeysDown() & KEY_B) {
+		}
+		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[1])) {
 			return false;
 		}
 	}
@@ -104,12 +137,16 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
 	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("A_CONTINUE"), 390);
 	Gui::DrawBottom();
+	Gui::Draw_Rect(100, 100, 140, 35, DARKER_COLOR);
+	Gui::DrawStringCentered(-60+70, 110, 0.8f, WHITE, Lang::get("OK"), 140);
+	Gui::sprite(0, sprites_pointer_idx, promptBtn[2].x+120, promptBtn[2].y+25);
 	C3D_FrameEnd(0);
 
 	while(1)
 	{
 		hidScanInput();
-		if(hidKeysDown() & KEY_A)
+		hidTouchRead(&touch);
+		if((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))
 			break;
 	}
 }

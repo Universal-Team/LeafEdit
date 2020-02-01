@@ -221,5 +221,8 @@
 	"TOWN_ID":						"Town ID: ",
 	"CURRENT_ITEM":					"Current Item: ",
 	"BUILDINGS":					"Buildings",
-	"ITEMS":						"Items"
+	"ITEMS":						"Items",
+	"YES":							"Yes",
+	"NO":							"No",
+	"OK":							"OK"
 }
