@@ -97,10 +97,7 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 	}
 
 	// Load Buildings.
-	for (int i = 0; i < 58; i++) {
-		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
-		m_pSave->buildings[i] = new Building(m_pSave->ReadU8(buildingData), m_pSave->ReadU8(buildingData + 2), m_pSave->ReadU8(buildingData + 3));
-	}
+	m_pSave->buildings[0] = new BuildingArray();
 
 	// Load Players
 	for (int i = 0; i < 4; i++) {
@@ -129,10 +126,9 @@ bool Save::CommitArchive(bool close) {
 	for (int i = 0; i < 10; i++) {
 		villagers[i]->Write();
 	}
+
 	// Save Buildings.
-	for (int i = 0; i < 58; i++) {
-		buildings[i]->Write();
-	}
+	buildings[0]->Write();
 
 	town[0]->Write();
 	shop[0]->Write();
@@ -270,10 +266,7 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	}
 
 	// Load Buildings.
-	for (int i = 0; i < 58; i++) {
-		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
-		m_pSave->buildings[i] = new Building(m_pSave->ReadU8(buildingData), m_pSave->ReadU8(buildingData + 2), m_pSave->ReadU8(buildingData + 3));
-	}
+	m_pSave->buildings[0] = new BuildingArray();
 
 	// Load Players
 	for (int i = 0; i < 4; i++) {
@@ -439,9 +432,8 @@ bool Save::Commit(bool close) {
 		villagers[i]->Write();
 	}
 
-	for (int i = 0; i < 58; i++) {
-		buildings[i]->Write();
-	}
+	// Save Buildings.
+	buildings[0]->Write();
 
 	town[0]->Write();
 	shop[0]->Write();

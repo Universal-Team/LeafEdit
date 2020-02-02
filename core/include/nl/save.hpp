@@ -27,7 +27,7 @@ SOFTWARE.
 #ifndef SAVE_HPP
 #define SAVE_HPP
 
-#include "building.hpp"
+#include "buildingArray.hpp"
 #include "player.hpp"
 #include "shop.hpp"
 #include "town.hpp"
@@ -44,7 +44,7 @@ struct Region_Lock {
 	u8 RawByte;
 };
 #endif
-class Building;
+class BuildingArray;
 class Player;
 class Shop;
 class Town;
@@ -91,7 +91,7 @@ public:
 	Shop *shop[1];
 	Town *town[1];
 	Villager* villagers[10];
-	Building *buildings[58];
+	BuildingArray *buildings[1]; // 1 -> Cause all Buildings are loaded into that.
 
 	// Only works on 3DS!
 	#ifdef _3DS

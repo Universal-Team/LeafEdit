@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "core/management/buildingManagement.hpp"
 #include "core/management/itemManagement.hpp"
 #include "core/management/playerManagement.hpp"
 #include "core/management/villagerManagement.hpp"
@@ -88,6 +89,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
 						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 						Gui::loadSheets();
+						BuildingManagement::loadDatabase();
 						ItemManagement::LoadDatabase(Config::getLang("Lang"));
 						// Clear Villager then reload, so we can avoid having double names.
 						g_villagerDatabase.clear();
@@ -126,6 +128,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
 					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 					Gui::loadSheets();
+					BuildingManagement::loadDatabase();
 					ItemManagement::LoadDatabase(Config::getLang("Lang"));
 
 					// Clear Villager then reload, so we can avoid having double names.

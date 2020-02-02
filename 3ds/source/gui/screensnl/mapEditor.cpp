@@ -250,18 +250,37 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
+
 // The Building list.
 void MapEditor::DrawBuildingList(void) const {
-	Gui::DrawTop();
+	std::string buildings;
+	Gui::DrawFileBrowseBG();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("BUILDINGS"), 400);
-	Gui::DrawStringCentered(0, 50, 0.9f, WHITE, "Building 1 ID: " + std::to_string(SaveFile->buildings[0]->returnID()) + " - " + std::to_string(SaveFile->buildings[0]->returnXPos()) + " | " + std::to_string(SaveFile->buildings[0]->returnYPos()), 400);
-	Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Build exist: " + SaveFile->buildings[0]->returnExistState() ? "Exist." : "Don't exist.", 400);
-	Gui::DrawBottom();
+	for (int i = (BuildingSelection<5) ? 0 : BuildingSelection-5;i< 58 && i <((BuildingSelection<5) ? 6 : BuildingSelection+1);i++) {
+		if (i == BuildingSelection) {
+			buildings += "> " + std::to_string(i+1) + ".) " + SaveFile->buildings[0]->GetName(i) + " - " + std::to_string(SaveFile->buildings[0]->returnXPos(i)) + " | " + std::to_string(SaveFile->buildings[0]->returnYPos(i)) + "\n\n";
+		} else {
+			buildings += std::to_string(i+1) + ".) " + SaveFile->buildings[0]->GetName(i) + " - " + std::to_string(SaveFile->buildings[0]->returnXPos(i)) + " | " + std::to_string(SaveFile->buildings[0]->returnYPos(i)) + "\n\n";
+		}
+	}
+	for (int i=0;i<((58<6) ? 6-58 : 0);i++) {
+		buildings += "\n\n";
+	}
+	Gui::DrawString(26, 32, 0.65f, WHITE, buildings, 360);
+	Gui::DrawStringCentered(0, 215, 0.9f, WHITE, Lang::get("BUILDING_COUNT") + std::to_string(SaveFile->buildings[0]->getBuildCount()), 400);
+	Gui::DrawFileBrowseBG(false);
 }
 
 void MapEditor::BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Mode = 0;
 		BuildingSelection = 0; // Reset that one too.
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (BuildingSelection < 57)	BuildingSelection++;
+	}
+	if (hDown & KEY_UP) {
+		if (BuildingSelection > 0)	BuildingSelection--;
 	}
 }

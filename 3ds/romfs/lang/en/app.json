@@ -224,5 +224,6 @@
 	"ITEMS":						"Items",
 	"YES":							"Yes",
 	"NO":							"No",
-	"OK":							"OK"
+	"OK":							"OK",
+	"BUILDING_COUNT":				"Building count: "
 }

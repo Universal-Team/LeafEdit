@@ -24,7 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "building.hpp"
+#include "buildingArray.hpp"
+
+#include <map>
 
 #ifdef _3DS
 #include "gui/msg.hpp"
@@ -211,36 +213,59 @@
 0xFC, "No Building"
 */
 
-Building::Building(u8 id, u8 x, u8 y) {
-	m_ID = id;
-	m_xPos = x;
-	m_yPos = y;
-	m_exist = ((m_ID != 0xFC) || (m_ID >= 0x12 && m_ID <= 0x4B));
+std::map<u16, std::string> g_buildingDatabase; // ID & name.
+
+BuildingArray::BuildingArray() {
+	// Load Buildings from Town.
+	for (int i = 0; i < 58; i++) {
+		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
+		m_ID[i] = Save::Instance()->ReadU16(buildingData);
+		m_xPos[i] = Save::Instance()->ReadU8(buildingData + 2);
+		m_yPos[i] = Save::Instance()->ReadU8(buildingData + 3);
+		m_exist[i] = ((m_ID[i] < 0xFC) && !(m_ID[i] >= 0x12 && m_ID[i] <= 0x4B)); // Returns true, always.
+	}
+	// Load Building informations.
+	m_Buildings = Save::Instance()->ReadU8(0x04BE84);
+	m_BuildingsEvent = Save::Instance()->ReadU8(0x04BE85);
 }
 
-Building::~Building() {
+std::string BuildingArray::GetName(int pos) {
+	for (auto const& entry : g_buildingDatabase) {
+		if (entry.first == m_ID[pos]) {
+			return entry.second;
+		}
+	}
+	return std::string("???");
+}
+
+u8 BuildingArray::getBuildCount() {
+	return m_Buildings + m_BuildingsEvent;
+}
+
+BuildingArray::~BuildingArray() {
 }
 
 // Return some stuff. ;)
-u8 Building::returnID() {
-	return m_ID;
+u16 BuildingArray::returnID(int pos) {
+	return m_ID[pos];
 }
 
-bool Building::returnExistState() {
-	return m_exist;
+bool BuildingArray::returnExistState(int pos) {
+	return m_exist[pos];
 }
 
-u8 Building::returnXPos() {
-	return m_xPos;
+u8 BuildingArray::returnXPos(int pos) {
+	return m_xPos[pos];
 }
 
-u8 Building::returnYPos() {
-	return m_yPos;
+u8 BuildingArray::returnYPos(int pos) {
+	return m_yPos[pos];
 }
+
 
 // Fix invalid buildings. Only works on 3DS for now, since "Msg::promptMsg()".
 #ifdef _3DS
-void Building::FixInvalidBuildings(void) {
+void BuildingArray::FixInvalidBuildings(void) {
 	bool asked = false;
 	for (int i = 0; i < 58; i++) {
 		u8 building = Save::Instance()->ReadU8(0x04be88+(i * 4)); //Get building ID
@@ -259,7 +284,7 @@ void Building::FixInvalidBuildings(void) {
 #endif
 
 // TODO?
-void Building::Write() {
+void BuildingArray::Write() {
 	#ifdef _3DS
 	FixInvalidBuildings();
 	#endif

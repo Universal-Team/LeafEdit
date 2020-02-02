@@ -26,34 +26,38 @@
 
 #pragma once
 
-#ifndef BUILDING_HPP
-#define BUILDING_HPP
+#ifndef BUILDINGARRAY_HPP
+#define BUILDINGARRAY_HPP
 
 #include "save.hpp"
 #include "types.hpp"
 
 #include <string>
 
-class Building {
+class BuildingArray {
 public:
-	Building(u8 id, u8 x, u8 y);
-	~Building(void);
+	BuildingArray();
+	~BuildingArray(void);
 	void Write(void);
 
-	bool returnExistState();
-	u8 returnXPos();
-	u8 returnYPos();
-	u8 returnID();
+	bool returnExistState(int pos);
+	u8 returnXPos(int pos);
+	u8 returnYPos(int pos);
+	u16 returnID(int pos);
+	std::string GetName(int pos); // Get Building name.
+	u8 getBuildCount();
 
 	#ifdef _3DS
 	void FixInvalidBuildings(void);
 	#endif
 
 private:
-	bool m_exist;
-	u8 m_xPos;
-	u8 m_yPos;
-	u8 m_ID;
+	bool m_exist[58];
+	u8 m_xPos[58];
+	u8 m_yPos[58];
+	u16 m_ID[58];
+	u8 m_Buildings;
+	u8 m_BuildingsEvent;
 };
 
 #endif
