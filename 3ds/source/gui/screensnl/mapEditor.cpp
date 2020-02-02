@@ -28,6 +28,7 @@
 
 #include "core/management/acreManagement.hpp"
 
+#include "item.hpp"
 #include "offsets.hpp"
 #include "save.hpp"
 
@@ -38,21 +39,70 @@
 extern Save* SaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+static std::vector<std::pair<std::string, s32>> townMapData; // townMapData.
+
+Item ITM;
+
+int SELECTION = 0;
+
+MapEditor::MapEditor() {
+	ITM.LoadItemBins();
+	townMapData = EditorUtils::load_town_items();
+}
+
+MapEditor::~MapEditor()
+{
+	ITM.UnloadItemBins();
+}
+
 void MapEditor::Draw(void) const {
+	DrawTest();
+	/*
 	if (Mode == 0) {
 		DrawMapScreen();
 	} else {
 		DrawBuildingList(); // TODO.
-	}
+	}*/
 }
 
 void MapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	TestLogic(hDown, hHeld, touch);
+	/*
 	if (Mode == 0) {
 		MapScreenLogic(hDown, hHeld, touch);
 	} else {
 		BuildingListLogic(hDown, hHeld, touch); // TODO.
+	}*/
+}
+
+void MapEditor::DrawTest(void) const {
+	Gui::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWNMAP_EDITOR"), 400);
+	DrawTownMap();
+	std::string itemName = townMapData[SELECTION].first;
+	Gui::DrawStringCentered(0, 215, 0.9f, WHITE, "Current Item: " + itemName + "    " + std::to_string(SELECTION), 400);
+
+	// Bottom Screen part. Grid & Acre.
+	Gui::DrawBottom(false);
+	AcreManagement::DrawAcre(SaveFile->ReadU8(MAP_ACRES + acreImage), 20, 20, 5, 5);
+	DrawGrid();
+	DrawCurrentPos();
+}
+
+void MapEditor::TestLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		SELECTION++;
+	}
+	if (hDown & KEY_LEFT) {
+		SELECTION--;
 	}
 }
+
 
 // Display full Map on top screen for a better overview.
 void MapEditor::DrawTownMap() const

@@ -29,11 +29,13 @@
 #ifndef TOWN_HPP
 #define TOWN_HPP
 
+#include "item.hpp"
 #include "save.hpp"
 #include "types.hpp"
 
 #include <string>
 
+class Item;
 class Town {
 public:
 	Town(void);
@@ -43,6 +45,8 @@ public:
 	std::u16string TownName; // 0x0621BA [8]
 	u8 NativeFruit; // 0x06223A
 	u16 TimePlayed; // 0x06223E
+
+	Item *MapItem = nullptr; // First Acre -> 256 Items -> 0x0534d8 + i * sizeof(Item).
 private:
 	u32 m_offset; // Needed?
 };

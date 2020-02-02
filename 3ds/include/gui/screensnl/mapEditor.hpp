@@ -39,6 +39,8 @@ class MapEditor : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	MapEditor();
+	~MapEditor();
 
 private:
 	/* Mostly selection stuff. */
@@ -51,6 +53,9 @@ private:
 	u8 acreImage = 0x10;
 	int BuildingSelection = 0; // For the Building list indicator.
 
+	void DrawTest(void) const;
+	void TestLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	
 	/* Main Screen. */
 	void DrawMapScreen(void) const;
 	void MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);

@@ -30,9 +30,21 @@ Town::Town() {
 	this->TownName = Save::Instance()->ReadString(0x0621BA, 8); // Works fine.
 	this->NativeFruit = Save::Instance()->ReadU8(0x06223A); // Might be wrong?
 	this->TimePlayed = Save::Instance()->ReadU16(0x0621b0); // Should be right?
+
+	// *Only* first acre for now. TODO: Do it for every acre (20) -> 256x20 -> 5120 Items.
+	this->MapItem = new Item[256];
+	for (int i = 0; i < 256; i++) {
+		this->MapItem[i] = Item(0x0534d8 + 0 * sizeof(Item));
+	}
 }
 
-Town::~Town() { }
+Town::~Town() {
+	// Delete MapItem.
+	if (this->MapItem != nullptr) {
+		delete[] this->MapItem;
+		this->MapItem = nullptr;
+	}
+}
 
 void Town::Write() {
 	Save::Instance()->Write(0x0621BA, this->TownName, 8);
