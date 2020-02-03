@@ -41,9 +41,9 @@ Shop::Shop() {
 		this->Retail[i] = Item(0x668B4 + i * sizeof(Item));
 	}
 
-	this->TT = new Item[24];
-	for (int i = 0; i < 24; i++) {
-		this->TT[i] = Item(0x6ACCE + i * sizeof(Item));
+	this->NooksHome = new Item[8];
+	for (int i = 0; i < 8; i++) {
+		this->NooksHome[i] = Item(0x6ACCE + i * sizeof(Item));
 	}
 
 	this->Gracie = new Item[18];
@@ -51,9 +51,9 @@ Shop::Shop() {
 		this->Gracie[i] = Item(0x6ACF8 + i * sizeof(Item));
 	}
 
-	this->NooksHome = new Item[8];
-	for (int i = 0; i < 8; i++) {
-		this->NooksHome[i] = Item(0x62270 + i * sizeof(Item));
+	this->TTStore = new Item[24];
+	for (int i = 0; i < 24; i++) {
+		this->TTStore[i] = Item(0x62270 + i * sizeof(Item));
 	}
 
 	this->Leif = new Item[11];
@@ -114,9 +114,9 @@ Shop::~Shop() {
 		this->Retail = nullptr;
 	}
 
-	if (this->TT != nullptr) {
-		delete[] this->TT;
-		this->TT = nullptr;
+	if (this->TTStore != nullptr) {
+		delete[] this->TTStore;
+		this->TTStore = nullptr;
 	}
 
 	if (this->Gracie != nullptr) {

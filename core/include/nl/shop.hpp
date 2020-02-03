@@ -52,9 +52,9 @@ public:
 
 	// Stores Inventory.
 	Item *Retail = nullptr; // 0x668b4 [8]
-	Item *TT = nullptr; // 0x6acce? [24]
+	Item *TTStore = nullptr; // 0x62270 [24]
 	Item *Gracie = nullptr; // 0x6acf8 [18]
-	Item *NooksHome = nullptr; // 0x62270 [8]
+	Item *NooksHome = nullptr; // 0x6ACCE [8]
 	Item *Leif = nullptr; // 0x666f6 [11]
 	Item *AbleSisterClothes = nullptr; // 0x622ec [5]
 	Item *AbleSisterAccesories = nullptr; // 0x666b8 [7]

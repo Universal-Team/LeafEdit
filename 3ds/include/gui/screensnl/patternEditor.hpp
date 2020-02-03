@@ -43,13 +43,20 @@ private:
 	int patternMode = 0;
 	int Selection = 0;
 	int SelectedPattern = 0;
+	int patternIndex = 0; // Goes up to 1024. 32 x 32.
+	int patternEditorMode = 0; // 0 -> Pattern, 1 -> Palette / Color?.
 
 	// Screen Draws.
 	void DrawPatternMenu(void) const;
-	//void DrawPatternEditor(void) const;
+	void DrawPatternEditor(void) const;
+
 	// Logics.
 	void PatternMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	//void PatternEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void PatternEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	// Utilities.
+	void DrawGrid(void) const; // TODO.
+	void DrawPalette(void) const; // TODO.
 };
 
 #endif
