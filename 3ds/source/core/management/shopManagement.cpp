@@ -45,7 +45,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_Retail() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_TT() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 24; num++) {
-		Item* item = &Save::Instance()->shop[0]->TT[num];
+		Item* item = &Save::Instance()->shop[0]->TTStore[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 

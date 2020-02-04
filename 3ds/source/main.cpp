@@ -36,6 +36,7 @@
 #include "gui/gui.hpp"
 #include "gui/msg.hpp"
 
+#include "gui/screens/initial.hpp"
 #include "gui/screens/screenCommon.hpp"
 #include "gui/screens/titleSelection.hpp"
 
@@ -138,7 +139,11 @@ int main()
 	}
 	
 	// Set the Screen to the MainMenu.
-	Gui::setScreen(std::make_unique<TitleSelection>());
+	if (Config::getBool("InitialSetup") != true) {
+		Gui::setScreen(std::make_unique<Initial>());
+	} else {
+		Gui::setScreen(std::make_unique<TitleSelection>());
+	}
 
 	// Loop as long as the status is not exit
 	while (aptMainLoop() && !exiting)

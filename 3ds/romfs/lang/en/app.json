@@ -225,5 +225,14 @@
 	"YES":							"Yes",
 	"NO":							"No",
 	"OK":							"OK",
-	"BUILDING_COUNT":				"Building count: "
+	"BUILDING_COUNT":				"Building count: ",
+	"WELCOME_TO_LEAFEDIT":			"Welcome to LeafEdit!",
+	"OFFSET_EDITOR":				"Offset Editor",
+	"ENTER_VALUE":					"Enter %s value.",
+	"ENTER_OFFSET":					"Enter offset.",
+	"OUTPUT":						"Output: %s",
+	"WRITE_MODE":					"Write Mode",
+	"READ_MODE":					"Read Mode",
+	"ENTER_LENGTH":					"Enter length.",
+	"ENTER_U16_STRING":				"Enter u16 String."
 }

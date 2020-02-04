@@ -126,6 +126,9 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		exiting = true;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("<A>: Select Title.\nBruh\nBruh");
+	}
 	if (hDown & KEY_Y) {
 		Gui::setScreen(std::make_unique<Settings>());
 	}

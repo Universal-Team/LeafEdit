@@ -30,8 +30,8 @@
 
 #include "gui/screensnl/acresEditor.hpp"
 #include "gui/screensnl/miscEditor.hpp"
+#include "gui/screensnl/offsetEditor.hpp"
 #include "gui/screens/screenCommon.hpp"
-#include "gui/screensnl/scripts.hpp"
 #include "gui/screensnl/shopEditor.hpp"
 #include "gui/screensnl/townEditor.hpp"
 
@@ -51,7 +51,7 @@ void MiscEditor::Draw(void) const
 	}
 
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SCRIPTS")))/2-20+17.5, 0.8, WHITE, Lang::get("SCRIPTS"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("OFFSET_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("OFFSET_EDITOR"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SHOP_EDITOR")))/2+75-17.5, 0.8, WHITE, Lang::get("SHOP_EDITOR"), 130, 25);
 }
 
@@ -73,8 +73,11 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (Selection == 0) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (Selection == 1) {
-			Msg::DisplayWarnMsg("Scripts have Issues currently.\nA fix is being worked on.");
-			//Gui::setScreen(std::make_unique<Scripts>());
+			if (Config::getBool("Debug") == true) {
+				Gui::setScreen(std::make_unique<OffsetEditor>());
+			} else {
+				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
+			}
 		} else if (Selection == 2) {
 			Gui::setScreen(std::make_unique<ShopEditor>());
 		}
@@ -84,8 +87,11 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (touching(touch, mainButtons[1])) {
-			Msg::DisplayWarnMsg("Scripts have Issues currently.\nA fix is being worked on.");
-			//Gui::setScreen(std::make_unique<Scripts>());
+			if (Config::getBool("Debug") == true) {
+				Gui::setScreen(std::make_unique<OffsetEditor>());
+			} else {
+				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
+			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<ShopEditor>());
 		}

@@ -49,9 +49,9 @@ Structs::Key NumpadStruct[] = {
 
 	{"0", 250, 100},
 
-	{"Enter", 250, 170},
+	{"E", 250, 170},
 
-	{"Backspace", 250, 30},
+	{"B", 250, 30},
 };
 Structs::ButtonPos Numbers [] = {
 	{10, 30, 60, 50}, // 1
@@ -73,8 +73,69 @@ Structs::ButtonPos Numbers [] = {
 	{250, 30, 60, 50}, // Backspace.
 };
 
+
+Structs::Key HexStruct[] = {
+	// Num struct.
+	{"1", 70, 50},
+	{"2", 110, 50},
+	{"3", 150, 50},
+	{"4", 190, 50},
+	{"5", 230, 50},
+
+	{"6", 70, 90},
+	{"7", 110, 90},
+	{"8", 150, 90},
+	{"9", 190, 90},
+	{"0", 230, 90},
+
+	// Letter.
+	{"A", 10, 10},
+	{"B", 10, 50},
+	{"C", 10, 90},
+	{"D", 10, 130},
+	{"E", 10, 170},
+	{"F", 10, 210},
+	// Special cases.
+	{"x", 110, 150},
+	{"B", 150, 150},
+	{"E", 190, 150},
+};
+
+Structs::ButtonPos Hex [] = {
+	{70, 50, 30, 20}, // 1.
+	{110, 50, 30, 20}, // 2.
+	{150, 50, 30, 20}, // 3.
+	{190, 50, 30, 20}, // 4.
+	{230, 50, 30, 20}, // 5.
+
+	{70, 90, 30, 20}, // 6.
+	{110, 90, 30, 20}, // 7.
+	{150, 90, 30, 20}, // 8.
+	{190, 90, 30, 20}, // 9.
+	{230, 90, 30, 20}, // 0.
+
+	{10, 10, 30, 20}, // A.
+	{10, 50, 30, 20}, // B.
+	{10, 90, 30, 20}, // C.
+	{10, 130, 30, 20}, // D.
+	{10, 170, 30, 20}, // E.
+	{10, 210, 30, 20}, // F.
+
+	{110, 150, 30, 20}, // x.
+	{150, 150, 30, 20}, // Backspace.
+	{190, 150, 30, 20}, // Enter.
+};
+
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+void Input::DrawHex()
+{
+	for(uint i=0;i<(sizeof(HexStruct)/sizeof(HexStruct[0]));i++) {
+		Gui::Draw_Rect(HexStruct[i].x, HexStruct[i].y, 30, 20, DARKER_COLOR);
+		char c[2] = {HexStruct[i].character[0]};
+		Gui::DrawString(HexStruct[i].x+12, HexStruct[i].y+4, 0.5f, WHITE, c, 50);
+	}
+}
 
 void Input::DrawNumpad()
 {
@@ -270,6 +331,94 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 		}
 
 		if(hDown & KEY_START || touching(touch, Numbers[10]) || enter) {
+			break;
+		}
+	}
+
+	return string;
+	enter = false;
+}
+
+
+std::string Input::getHex(int max, std::string Text)
+{
+	int hDown;
+	touchPosition touch;
+	std::string string;
+	int keyDownDelay = 10, cursorBlink = 20;
+	enter = false;
+	while(1) {
+		do {
+			C3D_FrameEnd(0);
+			Gui::clearTextBufs();
+			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+			C2D_TargetClear(top, BLACK);
+			C2D_TargetClear(bottom, BLACK);
+			Gui::DrawTop();
+			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Text, 400);
+			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
+			if(cursorBlink < -20)	cursorBlink = 20;
+			Gui::ScreenDraw(bottom);
+			Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
+			DrawHex();
+			scanKeys();
+			hDown = keysDown();
+			if(keyDownDelay > 0) {
+				keyDownDelay--;
+			} else if(keyDownDelay == 0) {
+				keyDownDelay--;
+			}
+		} while(!hDown);
+		if(keyDownDelay > 0) {
+		}
+		keyDownDelay = 10;
+
+		if(hDown & KEY_TOUCH) {
+			touchRead(&touch);
+			if((int)string.length() < max) {
+				if (touching(touch, Hex[0])) {
+					string += "1";
+				} else if (touching(touch, Hex[1])) {
+					string += "2";
+				} else if (touching(touch, Hex[2])) {
+					string += "3";
+				} else if (touching(touch, Hex[3])) {
+					string += "4";
+				} else if (touching(touch, Hex[4])) {
+					string += "5";
+				} else if (touching(touch, Hex[5])) {
+					string += "6";
+				} else if (touching(touch, Hex[6])) {
+					string += "7";
+				} else if (touching(touch, Hex[7])) {
+					string += "8";
+				} else if (touching(touch, Hex[8])) {
+					string += "9";
+				} else if (touching(touch, Hex[9])) {
+					string += "0";
+				} else if (touching(touch, Hex[10])) {
+					string += "A";
+				} else if (touching(touch, Hex[11])) {
+					string += "B";
+				} else if (touching(touch, Hex[12])) {
+					string += "C";
+				} else if (touching(touch, Hex[13])) {
+					string += "D";
+				} else if (touching(touch, Hex[14])) {
+					string += "E";
+				} else if (touching(touch, Hex[15])) {
+					string += "F";
+				} else if (touching(touch, Hex[16])) {
+					string += "x";
+				}
+			}
+		}
+
+		if(hDown & KEY_B || touching(touch, Hex[17])) {
+			string = string.substr(0, string.length()-1);
+		}
+
+		if(hDown & KEY_START || touching(touch, Hex[18]) || enter) {
 			break;
 		}
 	}

@@ -201,14 +201,31 @@ void Gui::DrawArrow(int x, int y, float rotation) {
 }
 
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
-	float heightScale;
+	float lineHeight, heightScale, widthScale;
 	if(maxHeight == 0) {
 		heightScale = size;
+		lineHeight = Gui::GetStringHeight(size, Text);
 	} else {
 		heightScale = std::min(size, size*(maxHeight/Gui::GetStringHeight(size, Text)));
+		lineHeight = heightScale * Gui::GetStringHeight(size, Text);
 	}
-
-	Gui::DrawString((currentScreen ? 200 : 160)+x-((maxWidth == 0 ? (int)Gui::GetStringWidth(size, Text) : std::min(maxWidth, (int)Gui::GetStringWidth(size, Text)))/2), y, size, color, Text, maxWidth, heightScale);
+	int line = 0;
+	while(Text.find('\n') != Text.npos) {
+		if(maxWidth == 0) {
+			widthScale = Gui::GetStringWidth(size, Text.substr(0, Text.find('\n')));
+		} else {
+			widthScale = std::min((float)maxWidth, Gui::GetStringWidth(size, Text.substr(0, Text.find('\n'))));
+		}
+		Gui::DrawString((currentScreen ? 200 : 160)+x-(widthScale/2), y+(lineHeight*line), size, color, Text.substr(0, Text.find('\n')), maxWidth, heightScale);
+		Text = Text.substr(Text.find('\n')+1);
+		line++;
+	}
+	if(maxWidth == 0) {
+		widthScale = Gui::GetStringWidth(size, Text.substr(0, Text.find('\n')));
+	} else {
+		widthScale = std::min((float)maxWidth, Gui::GetStringWidth(size, Text.substr(0, Text.find('\n'))));
+	}
+	Gui::DrawString((currentScreen ? 200 : 160)+x-(widthScale/2), y+(lineHeight*line), size, color, Text.substr(0, Text.find('\n')), maxWidth, heightScale);
 }
 
 // Draw String or Text.

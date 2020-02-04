@@ -30,6 +30,7 @@ SOFTWARE.
 #include <string>
 
 #ifdef _3DS
+#include "common/config.hpp"
 #include "gui/msg.hpp"
 #include "lang/lang.hpp"
 #endif
@@ -117,21 +118,23 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 }
 
 bool Save::CommitArchive(bool close) {
-	// Save Players
-	for (int i = 0; i < 4; i++) {
-		players[i]->Write();
+	// For the Offset Editor. ;)
+	if (Config::getBool("OffsetEditor") != true) {
+		// Save Players
+		for (int i = 0; i < 4; i++) {
+			players[i]->Write();
+		}
+		// Save Villagers
+		for (int i = 0; i < 10; i++) {
+			villagers[i]->Write();
+		}
+
+		// Save Buildings.
+		buildings[0]->Write();
+
+		town[0]->Write();
+		shop[0]->Write();
 	}
-
-	// Save Villagers
-	for (int i = 0; i < 10; i++) {
-		villagers[i]->Write();
-	}
-
-	// Save Buildings.
-	buildings[0]->Write();
-
-	town[0]->Write();
-	shop[0]->Write();
 	
 	// Update Checksums
 	FixCRC32s();
@@ -421,22 +424,21 @@ void Save::SetChangesMade(bool changesMade) {
 }
 
 bool Save::Commit(bool close) {
-
-	// Save Players
-	for (int i = 0; i < 4; i++) {
-		players[i]->Write();
+	// For the Offset Editor. ;)
+	if (Config::getBool("OffsetEditor") != true) {
+		// Save Players
+		for (int i = 0; i < 4; i++) {
+			players[i]->Write();
+		}
+		// Save Villagers
+		for (int i = 0; i < 10; i++) {
+			villagers[i]->Write();
+		}
+		// Save Buildings.
+		buildings[0]->Write();
+		town[0]->Write();
+		shop[0]->Write();
 	}
-
-	// Save Villagers
-	for (int i = 0; i < 10; i++) {
-		villagers[i]->Write();
-	}
-
-	// Save Buildings.
-	buildings[0]->Write();
-
-	town[0]->Write();
-	shop[0]->Write();
 
 	// Update Checksums
 	FixCRC32s();
