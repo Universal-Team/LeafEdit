@@ -104,6 +104,10 @@ void PatternEditor::PatternMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (Selection > 0)	Selection--;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
 	if (hDown & KEY_A) {
 		SelectedPattern = Selection;
 		patternMode = 1;
@@ -240,5 +244,9 @@ void PatternEditor::DrawPatternEditor(void) const {
 void PatternEditor::PatternEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		patternMode = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK"));
 	}
 }

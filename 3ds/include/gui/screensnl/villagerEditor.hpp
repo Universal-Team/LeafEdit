@@ -61,7 +61,7 @@ private:
 	void DrawVillagerSelection(void) const;
 	void VillagerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	void ReplaceSubLogic(u32 hDown, touchPosition touch);
+	void ReplaceSubLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void DrawReplaceSub(void) const;
 
 	void DrawVillagerSetTest(void) const;

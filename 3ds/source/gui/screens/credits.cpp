@@ -57,6 +57,10 @@ void Credits::Draw(void) const {
 void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	Loop();
 	if (DisplayMode == 1) {
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("TOUCHBAR_FOR_QR") + "\n" + Lang::get("B_BACK"));
+		}
+
 		if (hDown & KEY_B) {
 			Gui::screenBack();
 			return;
@@ -68,6 +72,10 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 	} else if (DisplayMode == 2) {
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("B_BACK"));
+		}
+
 		if (hDown & KEY_TOUCH) {
 			if (touching(touch, touchPos[0])) {
 				DisplayMode = 1;

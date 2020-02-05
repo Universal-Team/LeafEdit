@@ -65,7 +65,7 @@ void VillagerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (editorMode == 0) {
 		SubMenuLogic(hDown, hHeld, touch);
 	} else if (editorMode == 1) {
-		ReplaceSubLogic(hDown, touch);
+		ReplaceSubLogic(hDown, hHeld, touch);
 	} else if (editorMode == 2) {
 		GroupSelectionLogic(hDown, hHeld, touch);
 	} else if (editorMode == 3) {
@@ -110,6 +110,10 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	// Selection.
@@ -170,9 +174,13 @@ void VillagerEditor::DrawReplaceSub(void) const {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("MANUALLY")))/2-20+17.5, 0.8, WHITE, Lang::get("MANUALLY"), 130, 25);
 }
 
-void VillagerEditor::ReplaceSubLogic(u32 hDown, touchPosition touch) {
+void VillagerEditor::ReplaceSubLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		editorMode = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_UP) {
@@ -389,6 +397,10 @@ void VillagerEditor::DrawGroupSelection(void) const
 
 void VillagerEditor::GroupSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
+	}
+
 	// Selection Logic.
 	if (hDown & KEY_RIGHT) {
 		if(currentSlot < 5)	currentSlot++;
@@ -596,7 +608,6 @@ void VillagerEditor::DrawVillagerSetTest(void) const {
 		}
 	}
 
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("CHANGE_VILLAGER_LR"), 310);
 	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, villagerID, 310);
 	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, villagerNameText, 310);
 	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, IDs, 390);
@@ -605,6 +616,9 @@ void VillagerEditor::DrawVillagerSetTest(void) const {
 }
 
 void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("CHANGE_VILLAGER_LR"));
+	}
 
 	// Switch current Villager.
 	if (hDown & KEY_RIGHT) {

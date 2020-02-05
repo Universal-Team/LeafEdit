@@ -79,6 +79,10 @@ void AcresEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
 			writeAcre(0x08, selectAcre());
@@ -182,7 +186,7 @@ u8 AcresEditor::selectAcre() {
 				C3D_FrameEnd(0);
 			}
 		}
-		gspWaitForVBlank();
+		//gspWaitForVBlank();
 		hidScanInput();
 		if (hidKeysDown() & KEY_RIGHT) {
 			if (selectedAcre < MAX_ACRE)	selectedAcre++;

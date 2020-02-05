@@ -69,6 +69,10 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if(Selection < 2)	Selection++;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+	
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
 			Gui::setScreen(std::make_unique<TownEditor>());

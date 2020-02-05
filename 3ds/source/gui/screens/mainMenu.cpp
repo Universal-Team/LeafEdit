@@ -152,6 +152,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Gui::setScreen(std::make_unique<Settings>());
 		}
 	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
 }
 
 void MainMenu::SelectionLogic(u32 hDown, u32 hHeld)

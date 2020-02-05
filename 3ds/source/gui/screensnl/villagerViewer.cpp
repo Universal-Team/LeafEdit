@@ -74,6 +74,9 @@ void VillagerViewer::DrawVillagerList(void) const {
 }
 
 void VillagerViewer::VillagerListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK"));
+	}
 
 	// Switch current Villager.
 	if (hDown & KEY_DOWN) {
@@ -113,10 +116,13 @@ void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void VillagerViewer::VillagerLogic(u32 hDown, u32 hHeld) {
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
+	}
+
 	// Switch to the Villager Editor Screen.
 	if (hDown & KEY_A) {
 		Gui::setScreen(std::make_unique<VillagerEditor>());
-		// Set the Screen to the Editor Class. -> To-Do.
 	}
 
 	// Switch current Villager.

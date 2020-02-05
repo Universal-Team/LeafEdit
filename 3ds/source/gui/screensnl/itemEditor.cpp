@@ -87,15 +87,15 @@ void ItemEditor::Draw(void) const {
 
 void ItemEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (itemMode == 0) {
-		SubMenuLogic(hDown, touch);
+		SubMenuLogic(hDown, hHeld, touch);
 	} else if (itemMode == 1) {
-		PocketLogic(hDown);
+		PocketLogic(hDown, hHeld);
 	} else if (itemMode == 2) {
-		islandBoxLogic(hDown, touch);
+		islandBoxLogic(hDown, hHeld, touch);
 	} else if (itemMode == 3) {
-		DresserLogic(hDown, touch);
+		DresserLogic(hDown, hHeld, touch);
 	} else if (itemMode == 4) {
-		storageLogic(hDown, touch);
+		storageLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -242,10 +242,14 @@ void ItemEditor::DisplayStorage(void) const {
 	Gui::DrawArrow(315, 235, 180.0);
 }
 
-void ItemEditor::SubMenuLogic(u32 hDown, touchPosition touch) {
+void ItemEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_A) {
@@ -295,19 +299,27 @@ void ItemEditor::SubMenuLogic(u32 hDown, touchPosition touch) {
 	}
 }
 
-void ItemEditor::PocketLogic(u32 hDown) {
+void ItemEditor::PocketLogic(u32 hDown, u32 hHeld) {
 	if (hDown & KEY_B) {
 		itemMode = 0;
 	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK"));
+	}
 }
 
-void ItemEditor::islandBoxLogic(u32 hDown, touchPosition touch) {
+void ItemEditor::islandBoxLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		currentBox = 0;
 		currentRow = 0;
 		selectedCategory = 0;
 		currentItem = 0;
 		itemMode = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
 	}
 
 	if (currentBox == 0) {
@@ -345,13 +357,17 @@ void ItemEditor::islandBoxLogic(u32 hDown, touchPosition touch) {
 	}
 }
 
-void ItemEditor::DresserLogic(u32 hDown, touchPosition touch) {
+void ItemEditor::DresserLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (currentBox < 6) {
 		selectedCategory = 0;
 	} else if (currentBox > 5 && currentBox < 12) {
 		selectedCategory = 1;
 	} else {
 		selectedCategory = 2;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
 	}
 
 	if (currentBox == 0 || currentBox == 6 || currentBox == 12) {
@@ -411,13 +427,17 @@ void ItemEditor::DresserLogic(u32 hDown, touchPosition touch) {
 }
 
 
-void ItemEditor::storageLogic(u32 hDown, touchPosition touch) {
+void ItemEditor::storageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		currentBox = 0;
 		currentRow = 0;
 		selectedCategory = 0;
 		currentItem = 0;
 		itemMode = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
 	}
 
 	if (currentBox < 9) {

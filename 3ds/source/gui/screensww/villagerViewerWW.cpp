@@ -73,6 +73,9 @@ void VillagerViewerWW::DrawVillagerList(void) const {
 }
 
 void VillagerViewerWW::VillagerListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK"));
+	}
 
 	// Switch current Villager.
 	if (hDown & KEY_DOWN) {
@@ -118,6 +121,10 @@ void VillagerViewerWW::VillagerLogic(u32 hDown, u32 hHeld) {
 		// Set the Screen to the Editor Class. -> To-Do.
 	}
 	*/
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
+	}
+
 	// Switch current Villager.
 	if (hDown & KEY_R) {
 		if(wwCurrentVillager < 7)	wwCurrentVillager++;

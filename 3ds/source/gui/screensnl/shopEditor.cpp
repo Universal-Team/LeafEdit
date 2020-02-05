@@ -70,9 +70,9 @@ void ShopEditor::Draw(void) const {
 
 void ShopEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (shopMode == 0) {
-		SubMenuLogic(hDown, touch);
+		SubMenuLogic(hDown, hHeld, touch);
 	} else if (shopMode == 1) {
-		TurnipLogic(hDown, touch);
+		TurnipLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -134,7 +134,7 @@ void ShopEditor::DrawTurnipScreen(void) const {
 }
 
 
-void ShopEditor::SubMenuLogic(u32 hDown, touchPosition touch) {
+void ShopEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
@@ -147,6 +147,10 @@ void ShopEditor::SubMenuLogic(u32 hDown, touchPosition touch) {
 				shopMode = 1;
 				break;
 		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	// Selection.
@@ -174,7 +178,7 @@ void ShopEditor::SubMenuLogic(u32 hDown, touchPosition touch) {
 	}
 }
 
-void ShopEditor::TurnipLogic(u32 hDown, touchPosition touch) {
+void ShopEditor::TurnipLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Selection = 0;
 		shopMode = 0;
@@ -206,6 +210,10 @@ void ShopEditor::TurnipLogic(u32 hDown, touchPosition touch) {
 		if (Selection < 6 && Selection > 2) {
 			Selection -= 3;
 		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("LR_MODESWITCH"));
 	}
 
 	if (hDown & KEY_A) {

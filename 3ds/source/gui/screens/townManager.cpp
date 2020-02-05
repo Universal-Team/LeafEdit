@@ -87,6 +87,10 @@ void TownManager::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	if (screenMode == 0) {
 		SelectionLogic(hDown, hHeld);
 
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+		}
+
 		if (hDown & KEY_B) {
 			Gui::screenBack();
 			return;
@@ -173,7 +177,6 @@ void TownManager::DrawBrowse(void) const
 		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("SELECT_BACKUP_DELETE"), 390);
 	}
 
-	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("REFRESH"), 390);
 	std::string dirs;
 	for (uint i=(selectedSave<5) ? 0 : selectedSave-5;i<dirContents.size()&&i<((selectedSave<5) ? 6 : selectedSave+1);i++) {
 		if (i == selectedSave) {
@@ -223,6 +226,10 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 	}
 
 	if (screenMode == 1) {
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("REFRESH"));
+		}
+
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
@@ -242,6 +249,10 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		}
 
 	} else if (screenMode == 2) {
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("REFRESH") + "\n" + Lang::get("X_LAUNCH_GAME_NORMALLY"));
+		}
+
 		if(hDown & KEY_A) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));
@@ -264,6 +275,10 @@ void TownManager::BrowseLogic(u32 hDown, u32 hHeld) {
 		}
 
 	} else if (screenMode == 3) {
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("REFRESH"));
+		}
+
 		if (hDown & KEY_A) {
 			if (dirContents.size() == 0) {
 				Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));

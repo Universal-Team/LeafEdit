@@ -117,6 +117,10 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
 	if (hDown & KEY_B) {
 		selection = 0;
 		screen = 1;
@@ -127,6 +131,10 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		selection = 0;
 		screen = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_DOWN) {
@@ -151,6 +159,10 @@ void PlayerEditorWW::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition to
 		if (WWSaveFile->players[player]->Exists())	maxPlayer = player;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+	
 	if (hDown & KEY_RIGHT) {
 		selectedPlayer++;
 		if(selectedPlayer > maxPlayer)	selectedPlayer = 0;

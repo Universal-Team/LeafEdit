@@ -224,6 +224,10 @@ void MapEditor::updateAcre(void) {
 void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	updateAcre();
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("X_MODESWITCH") + "\n" + Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
@@ -325,6 +329,10 @@ void MapEditor::BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Mode = 0;
 		BuildingSelection = 0; // Reset that one too.
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_DOWN) {

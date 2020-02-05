@@ -125,6 +125,9 @@ void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("LR_MODESWITCH"));
+	}
 
 	if (hDown & KEY_A) {
 		if (isReadMode == false) {

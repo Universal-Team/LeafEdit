@@ -48,10 +48,10 @@ private:
 
 	int turnipMode = 0; // 0 -> AM, 1 -> PM.
 	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, touchPosition touch);
+	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void DrawTurnipScreen(void) const;
-	void TurnipLogic(u32 hDown, touchPosition touch);
+	void TurnipLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	// Sub Pos.
 	std::vector<Structs::ButtonPos> mainButtons = {

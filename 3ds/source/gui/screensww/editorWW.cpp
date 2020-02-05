@@ -84,6 +84,10 @@ void EditorWW::DrawSubMenu(void) const
 
 void EditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 {
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("START_SAVE"));
+	}
+	
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
@@ -160,6 +164,10 @@ void EditorWW::BrowseLogic(u32 hDown, u32 hHeld) {
 		  dirContents.push_back(dirContentsTemp[i]);
 		}
 		dirChanged = false;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("REFRESH"));
 	}
 
 	if(hDown & KEY_A) {

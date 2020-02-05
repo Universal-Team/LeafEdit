@@ -52,21 +52,21 @@ private:
 	int selectedCategory = 0;
 
 	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, touchPosition touch);
+	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void DisplayPocket(void) const;
-	void PocketLogic(u32 hDown);
+	void PocketLogic(u32 hDown, u32 hHeld);
 
 	void DisplayItems(void) const;
 
 	void DisplayDresser(void) const;
-	void DresserLogic(u32 hDown, touchPosition touch);
+	void DresserLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void DisplayIslandBox(void) const;
-	void islandBoxLogic(u32 hDown, touchPosition touch);
+	void islandBoxLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void DisplayStorage(void) const;
-	void storageLogic(u32 hDown, touchPosition touch);
+	void storageLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	// Other.
 	void DrawSlotSelection(void) const;

@@ -89,7 +89,6 @@ void TitleSelection::DrawGameSelector(void) const
 {
 	Gui::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("GAME_GROUP_SELECT"), 398);
-	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, Lang::get("Y_SETTINGS"), 398);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	Gui::DrawBottom();
 	for (int i = 0; i < 4; i++) {
@@ -104,14 +103,10 @@ void TitleSelection::DrawGameSelector(void) const
 	Gui::sprite(0, sprites_IconWL_idx, 176, 90);
 	Gui::sprite(0, sprites_IconWW_idx, 256, 90);
 
-	Gui::DrawStringCentered(-120, 140, 0.75f, WHITE, Lang::get("NEW_LEAF_1"), 50);
-	Gui::DrawStringCentered(-120, 155, 0.75f, WHITE, Lang::get("NEW_LEAF_2"), 50);
-	Gui::DrawStringCentered(-40, 140, 0.75f, WHITE, Lang::get("WELCOME_AMIIBO_1"), 50);
-	Gui::DrawStringCentered(-40, 155, 0.75f, WHITE, Lang::get("WELCOME_AMIIBO_2"), 50);
-	Gui::DrawStringCentered(40, 140, 0.75f, WHITE, Lang::get("WELCOME_LUXURY_1"), 50);
-	Gui::DrawStringCentered(40, 155, 0.75f, WHITE, Lang::get("WELCOME_LUXURY_2"), 50);
-	Gui::DrawStringCentered(120, 140, 0.75f, WHITE, Lang::get("WILD_WORLD_1"), 50);
-	Gui::DrawStringCentered(120, 155, 0.75f, WHITE, Lang::get("WILD_WORLD_2"), 50);
+	Gui::DrawStringCentered(-120, 140, 0.75f, WHITE, Lang::get("NEW_LEAF"), 50);
+	Gui::DrawStringCentered(-40, 140, 0.75f, WHITE, Lang::get("WELCOME_AMIIBO"), 50);
+	Gui::DrawStringCentered(40, 140, 0.75f, WHITE, Lang::get("WELCOME_LUXURY"), 50);
+	Gui::DrawStringCentered(120, 140, 0.75f, WHITE, Lang::get("WILD_WORLD"), 50);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
@@ -127,8 +122,9 @@ void TitleSelection::gameLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("<A>: Select Title.\nBruh\nBruh");
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("X_UPDATE_CHECK") + "\n" + Lang::get("Y_SETTINGS") + "\n" + Lang::get("START_EXIT"));
 	}
+
 	if (hDown & KEY_Y) {
 		Gui::setScreen(std::make_unique<Settings>());
 	}
@@ -214,6 +210,10 @@ void TitleSelection::versionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			selectedVersion = 1;
 			selectMode = 2;
 		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_A) {
@@ -363,6 +363,10 @@ void TitleSelection::regionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_A) {

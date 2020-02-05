@@ -133,6 +133,10 @@ void Editor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch)
 		}
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("START_SAVE"));
+	}
+
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, editorButtons[0])) {
 			Gui::setScreen(std::make_unique<PlayerEditor>());
@@ -186,6 +190,10 @@ void Editor::BrowseLogic(u32 hDown, u32 hHeld) {
 		dirChanged = false;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("Y_EDIT_MEDIATYPE") + "\n" + Lang::get("REFRESH"));
+	}
+	
 	if(hDown & KEY_A) {
 		if (dirContents.size() == 0) {
 			Msg::DisplayWarnMsg(Lang::get("WHAT_YOU_DO"));

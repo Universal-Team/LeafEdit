@@ -202,7 +202,7 @@ void Gui::DrawArrow(int x, int y, float rotation) {
 
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth, int maxHeight) {
 	float lineHeight, widthScale;
-	lineHeight = Gui::GetStringHeight(size, " ") * 0.8f;
+	lineHeight = Gui::GetStringHeight(size, " ");
 	int line = 0;
 	while(Text.find('\n') != Text.npos) {
 		if(maxWidth == 0) {

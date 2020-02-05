@@ -152,6 +152,10 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld) {
 		if (SaveFile->players[player]->Exists())	maxPlayer = player;
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
 	if (hDown & KEY_RIGHT) {
 		selectedPlayer++;
 		if(selectedPlayer > maxPlayer)	selectedPlayer = 0;
@@ -222,6 +226,10 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (Selection < 6 && Selection > 2) {
 			Selection -= 3;
 		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_TOUCH && touching(touch, mainButtons[3])) {
@@ -439,6 +447,10 @@ void PlayerEditor::PlayerEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		}
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
+	}
+
 	if (hDown & KEY_B) {
 		Selection = 0;
 		screen = 1;
@@ -503,6 +515,10 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (Selection < 6 && Selection > 2) {
 			Selection -= 3;
 		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_B) {

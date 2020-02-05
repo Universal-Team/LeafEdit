@@ -117,6 +117,10 @@ void BadgeEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK") + "\n" + Lang::get("Y_MULTISET") + "\n" + Lang::get("TOUCH_BADGE"));
+	}
+
 	if (hDown & KEY_Y) {
 		u8 value = setAll();
 		for (int i = 0; i < 24; i++) {

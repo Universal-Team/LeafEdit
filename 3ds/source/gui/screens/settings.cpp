@@ -66,6 +66,10 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			return;
 		}
 
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+		}
+
 		if (hDown & KEY_A) {
 			switch(Selection) {
 				case 0:
@@ -132,6 +136,10 @@ void Settings::DrawLangScreen(void) const {
 void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		screenMode = 0;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("TOUCH_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_TOUCH && touching(touch, langBlocks[8])) {
