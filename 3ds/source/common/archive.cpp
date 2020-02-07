@@ -1,4 +1,4 @@
-#include "common/archive.hpp"
+#include "archive.hpp"
 
 static FS_Archive mSdmc;
 

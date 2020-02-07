@@ -29,9 +29,9 @@ SOFTWARE.
 #include <string>
 
 #ifdef _3DS
-#include "common/utils.hpp"
-#include "common/jpeg.h"
-#include "gui/gui.hpp"
+#include "gfx.hpp"
+#include "jpeg.h"
+#include "utils.hpp"
 #include <citro2d.h>
 extern C2D_SpriteSheet sprites;
 #endif

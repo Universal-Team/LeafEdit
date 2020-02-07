@@ -24,11 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/utils.hpp"
-
-#include "core/management/itemManagement.hpp"
-
-#include "gui/screens/screenCommon.hpp"
+#include "itemManagement.hpp"
+#include "screenCommon.hpp"
+#include "utils.hpp"
 
 #include <fstream>
 
@@ -39,7 +37,7 @@ extern std::map<u16, std::string> g_itemDatabase;
 
 // Draw the Item sprite.
 void ItemManagement::DrawItem(u16 ItemID, int x, int y, float ScaleX, float ScaleY) {
-	DrawSprite(Items, ItemID, x, y, ScaleX, ScaleY);
+	Gui::DrawSprite(Items, ItemID, x, y, ScaleX, ScaleY);
 }
 
 std::string itemLanguages[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};

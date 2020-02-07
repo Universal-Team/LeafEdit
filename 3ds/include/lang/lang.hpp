@@ -1,7 +1,7 @@
 #ifndef LANG_HPP
 #define LANG_HPP
 
-#include "common/json.hpp"
+#include "json.hpp"
 
 #include <string>
 

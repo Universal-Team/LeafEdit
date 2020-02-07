@@ -1,6 +1,5 @@
-#include "common/fileBrowse.h"
-
-#include "gui/msg.hpp"
+#include "fileBrowse.hpp"
+#include "msg.hpp"
 
 #include <3ds.h>
 #include <cstring>

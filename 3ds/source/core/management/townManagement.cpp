@@ -24,19 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/archive.hpp"
-#include "common/common.hpp"
-#include "common/config.hpp"
-#include "common/io.hpp"
-#include "common/utils.hpp"
-
-#include "core/management/townManagement.hpp"
-
-#include "gui/keyboard.hpp"
-
-#include "gui/screens/screenCommon.hpp"
-
-#include "lang/lang.hpp"
+#include "archive.hpp"
+#include "common.hpp"
+#include "config.hpp"
+#include "io.hpp"
+#include "keyboard.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
+#include "screenCommon.hpp"
+#include "townManagement.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 

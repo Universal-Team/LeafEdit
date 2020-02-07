@@ -24,20 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "logging.hpp"
-
-#include "common/config.hpp"
-#include "common/utils.hpp"
-
-#include "core/management/playerManagement.hpp"
-
-#include "gui/keyboard.hpp"
-#include "gui/msg.hpp"
-
-#include "gui/screens/screenCommon.hpp"
-
+#include "config.hpp"
+#include "keyboard.hpp"
+#include "msg.hpp"
 #include "player.hpp"
+#include "playerManagement.hpp"
 #include "save.hpp"
+#include "screenCommon.hpp"
+#include "utils.hpp"
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
 
@@ -53,24 +47,24 @@ extern C2D_SpriteSheet Faces;
 // There are 24 Badge Groups. One Group has 3 Badges.
 void PlayerManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX, float ScaleY) {
 	if (badge != 0) {
-		DrawSprite(Badges, 3*badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
+		Gui::DrawSprite(Badges, 3*badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
 	} else {
-		DrawSprite(Badges, 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
+		Gui::DrawSprite(Badges, 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
 	}
 }
 
 // Draw the Face sprite. 0-11 -> Male, 12-23 -> Female.
 void PlayerManagement::DrawFace(u16 Gender, u8 FaceID, int x, int y, float ScaleX, float ScaleY) {
 	if (Gender == 1) {
-		DrawSprite(Faces, FaceID+12, x, y, ScaleX, ScaleY);
+		Gui::DrawSprite(Faces, FaceID+12, x, y, ScaleX, ScaleY);
 	} else {
-		DrawSprite(Faces, FaceID, x, y, ScaleX, ScaleY);
+		Gui::DrawSprite(Faces, FaceID, x, y, ScaleX, ScaleY);
 	}
 }
 
 // Draw the Hair sprite. Exceptions: Hair ID 16 & 33 doesn't really exist, that's called a 'Bed Hair' one and they are drawn as transparent.
 void PlayerManagement::DrawHair(u8 HairID, int x, int y, float ScaleX, float ScaleY) {
-	DrawSprite(Hairs, HairID, x, y, ScaleX, ScaleY);
+	Gui::DrawSprite(Hairs, HairID, x, y, ScaleX, ScaleY);
 }
 
 // Hair Selection.
@@ -78,18 +72,18 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	Gui::clearTextBufs();
 	int page;
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, Lang::get("SELECT_HAIR"), 400);
 	for (int i = 0; i < 16; i++) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 4; x++, i++) {
 				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, UNSELECTED_COLOR);
 				if (isFemale == true) {
-					DrawSprite(Hairs, 17+i, 33 + x * 100, 33 + y * 45, 1, 1);
+					Gui::DrawSprite(Hairs, 17+i, 33 + x * 100, 33 + y * 45, 1, 1);
 				} else {
-					DrawSprite(Hairs, i, 33 + x * 100, 33 + y * 45, 1, 1);
+					Gui::DrawSprite(Hairs, i, 33 + x * 100, 33 + y * 45, 1, 1);
 				}
 			}
 		}
@@ -108,8 +102,8 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	if (selection < 4)	selectY = 0;	else if (selection > 3 && selection < 8)	selectY = 1;
 	else if (selection > 7 && selection < 12)	selectY = 2;	else	selectY = 3;
 
-	Gui::drawAnimatedSelector(5 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, C2D_Color32(0, 0, 0, 0));
-	Gui::DrawBottom();
+	Gui::drawAnimatedSelector(5 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
+	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
 }
@@ -189,9 +183,9 @@ u8 PlayerManagement::SelectHair(u8 currentHair) {
 void PlayerManagement::DrawHairColorSelection(int selection) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, Lang::get("SELECT_HAIR_COLOR"), 400);
 
 	Gui::Draw_Rect(5 + 0 * 100, 32.5 + 0 * 45, 90, 40, C2D_Color32(89, 58, 56, 255)); // Dark Brown.
@@ -221,8 +215,8 @@ void PlayerManagement::DrawHairColorSelection(int selection) {
 	if (selection < 4)	selectY = 0;	else if (selection > 3 && selection < 8)	selectY = 1;
 	else if (selection > 7 && selection < 12)	selectY = 2;	else	selectY = 3;
 
-	Gui::drawAnimatedSelector(5 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, C2D_Color32(0, 0, 0, 0));
-	Gui::DrawBottom();
+	Gui::drawAnimatedSelector(5 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
+	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
 }
@@ -263,9 +257,9 @@ u8 PlayerManagement::SelectHairColor(u8 currentColor) {
 void PlayerManagement::DrawFaceSelection(int selection, bool isFemale) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, Lang::get("SELECT_FACE"), 400);
 	for (int i = 0; i < 12; i++) {
 		for (u32 y = 0; y < 4; y++) {
@@ -286,8 +280,8 @@ void PlayerManagement::DrawFaceSelection(int selection, bool isFemale) {
 	if (selection < 3)	selectY = 0;	else if (selection > 2 && selection < 6)	selectY = 1;
 	else if (selection > 5 && selection < 9)	selectY = 2;	else	selectY = 3;
 
-	Gui::drawAnimatedSelector(50 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, C2D_Color32(0, 0, 0, 0));
-	Gui::DrawBottom();
+	Gui::drawAnimatedSelector(50 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
+	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
 }
@@ -334,9 +328,9 @@ u8 PlayerManagement::SelectFace(u8 currentFace, u16 Gender) {
 void PlayerManagement::DrawTanSelection(int selection) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, Lang::get("SELECT_TAN"), 400);
 	for (int i = 0; i < 16; i++) {
 		for (u32 y = 0; y < 4; y++) {
@@ -353,8 +347,8 @@ void PlayerManagement::DrawTanSelection(int selection) {
 	if (selection < 4)	selectY = 0;	else if (selection > 3 && selection < 8)	selectY = 1;
 	else if (selection > 7 && selection < 12)	selectY = 2;	else	selectY = 3;
 
-	Gui::drawAnimatedSelector(5 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, C2D_Color32(0, 0, 0, 0));
-	Gui::DrawBottom();
+	Gui::drawAnimatedSelector(5 + selectX * 100, 32.5 + selectY * 45, 90, 40, .030f, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
+	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
 }
@@ -405,9 +399,9 @@ u32 PlayerManagement::SelectTan(u32 currentTan) {
 void PlayerManagement::DrawEyeColorSelection(int selection) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, Lang::get("SELECT_EYE_COLOR"), 400);
 
 	Gui::Draw_Rect(50 + 0 * 100, 80 + 0 * 45, 90, 40, C2D_Color32(50, 54, 39, 255)); // 0.
@@ -424,8 +418,8 @@ void PlayerManagement::DrawEyeColorSelection(int selection) {
 	if (selection < 3)	selectY = 0;	else	selectY = 1;
 	
 
-	Gui::drawAnimatedSelector(50 + selectX * 100, 80 + selectY * 45, 90, 40, .030f, C2D_Color32(0, 0, 0, 0));
-	Gui::DrawBottom();
+	Gui::drawAnimatedSelector(50 + selectX * 100, 80 + selectY * 45, 90, 40, .030f, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
+	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
 }

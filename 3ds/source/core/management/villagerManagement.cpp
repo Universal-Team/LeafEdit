@@ -24,12 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "core/management/villagerManagement.hpp"
-
 #include "save.hpp"
+#include "screenCommon.hpp"
 #include "villager.hpp"
-
-#include "gui/screens/screenCommon.hpp"
+#include "villagerManagement.hpp"
 
 #include <3ds.h>
 #include <fstream>
@@ -131,10 +129,10 @@ void VillagerManagement::DrawVillager(u16 villagerId, int x, int y, float ScaleX
 	}
 
 	if (villagerId < 200) {
-		DrawSprite(Villager, villagerId, x, y, ScaleX, ScaleY);
+		Gui::DrawSprite(Villager, villagerId, x, y, ScaleX, ScaleY);
 	}
 	else {
-		DrawSprite(Villager2, villagerId - 200, x, y, ScaleX, ScaleY);
+		Gui::DrawSprite(Villager2, villagerId - 200, x, y, ScaleX, ScaleY);
 	}
 }
 
@@ -142,15 +140,15 @@ void VillagerManagement::DrawWWVillager(u8 villagerId, int x, int y, float Scale
 	if (villagerId > 150) {
 		villagerId = 150; // 150 -> EMPTY.
 	}
-		DrawSprite(WWVillagers, villagerId, x, y, ScaleX, ScaleY);
+		Gui::DrawSprite(WWVillagers, villagerId, x, y, ScaleX, ScaleY);
 }
 
 void VillagerManagement::DrawVillagerSelection(int selection, int page) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(top, BLACK);
-	C2D_TargetClear(bottom, BLACK);
-	Gui::DrawTop();
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "Select the new Villager.", 400);
 	for (int i = 0; i < 10; i++) {
 		for (u32 y = 0; y < 2; y++) {
@@ -166,9 +164,9 @@ void VillagerManagement::DrawVillagerSelection(int selection, int page) {
 	if (selection < 5)	selectY = 0;	else	selectY = 1;
 	if (selection > 4)	selectX = selection - 5;	else	selectX = selection;
 
-	Gui::drawAnimatedSelector(5 + selectX * 80, 30 + selectY * 110, 70, 70, .030f, C2D_Color32(0, 0, 0, 0));
+	Gui::drawAnimatedSelector(5 + selectX * 80, 30 + selectY * 110, 70, 70, .030f, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
 	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(page+1) + " / 40", 400);
-	Gui::DrawBottom();
+	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);
 }

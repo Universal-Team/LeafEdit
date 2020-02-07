@@ -27,8 +27,7 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "common/archive.hpp"
-
+#include "archive.hpp"
 #include "item.hpp"
 #include "player.hpp"
 

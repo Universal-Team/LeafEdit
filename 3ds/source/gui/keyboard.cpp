@@ -1,15 +1,16 @@
-#include "common/structs.hpp"
-#include "common/utils.hpp"
-
-#include "gui/gui.hpp"
-#include "gui/keyboard.hpp"
+#include "gfx.hpp"
+#include "gui.hpp"
+#include "keyboard.hpp"
+#include "screenCommon.hpp"
+#include "structs.hpp"
+#include "utils.hpp"
 
 #include <string>
 #include <stdio.h>
 #include <ctype.h>
 
-extern C3D_RenderTarget* top;
-extern C3D_RenderTarget* bottom;
+extern C3D_RenderTarget* Top;
+extern C3D_RenderTarget* Bottom;
 
 bool caps = false, enter = false;
 int shift = 0;
@@ -187,9 +188,9 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 			C3D_FrameEnd(0);
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-			Gui::DrawTop();
+			GFX::DrawTop();
 			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400);
-			Gui::DrawBottom();
+			GFX::DrawBottom();
 			drawKeyboard();
 			C2D_DrawRectSolid(0, 81, 0.5f, 320, 20, DARKER_COLOR & C2D_Color32(200, 200, 200, 200));
 			Gui::DrawString(2, 82, inputTextSize, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 316);
@@ -278,13 +279,13 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			C3D_FrameEnd(0);
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-			C2D_TargetClear(top, BLACK);
-			C2D_TargetClear(bottom, BLACK);
-			Gui::DrawTop();
+			C2D_TargetClear(Top, BLACK);
+			C2D_TargetClear(Bottom, BLACK);
+			GFX::DrawTop();
 			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Text, 400);
 			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
-			Gui::ScreenDraw(bottom);
+			Gui::ScreenDraw(Bottom);
 			Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
 			DrawNumpad();
 			scanKeys();
@@ -352,13 +353,13 @@ std::string Input::getHex(int max, std::string Text)
 			C3D_FrameEnd(0);
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-			C2D_TargetClear(top, BLACK);
-			C2D_TargetClear(bottom, BLACK);
-			Gui::DrawTop();
+			C2D_TargetClear(Top, BLACK);
+			C2D_TargetClear(Bottom, BLACK);
+			GFX::DrawTop();
 			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Text, 400);
 			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
-			Gui::ScreenDraw(bottom);
+			Gui::ScreenDraw(Bottom);
 			Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
 			DrawHex();
 			scanKeys();

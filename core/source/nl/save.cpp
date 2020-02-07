@@ -30,9 +30,9 @@ SOFTWARE.
 #include <string>
 
 #ifdef _3DS
-#include "common/config.hpp"
-#include "gui/msg.hpp"
-#include "lang/lang.hpp"
+#include "config.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
 #endif
 
 Save* Save::m_pSave = nullptr;

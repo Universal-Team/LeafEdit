@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,14 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/config.hpp"
-#include "common/io.hpp"
-#include "common/utils.hpp"
-
-#include "gui/colors.hpp"
-#include "gui/msg.hpp"
-
-#include "lang/lang.hpp"
+#include "config.hpp"
+#include "gfx.hpp"
+#include "io.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 #include <ctime>

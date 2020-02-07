@@ -24,11 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/utils.hpp"
-
-#include "core/management/shopManagement.hpp"
-
-#include "gui/screens/screenCommon.hpp"
+#include "screenCommon.hpp"
+#include "shopManagement.hpp"
+#include "utils.hpp"
 
 // 8 Slots.
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Retail() {

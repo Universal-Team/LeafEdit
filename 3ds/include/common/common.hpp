@@ -1,6 +1,14 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+// This is the new "screenCommon.hpp", lol.
+#include "config.hpp"
+#include "gfx.hpp"
+#include "gui.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
+#include "screenCommon.hpp"
+
 //Title IDs
 #define OldJPN     0x0004000000086200
 #define OldUSA     0x0004000000086300

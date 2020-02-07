@@ -27,6 +27,8 @@
 #ifndef PLAYERMANAGEMENT_HPP
 #define PLAYERMANAGEMENT_HPP
 
+#include "common.hpp"
+
 #include <3ds.h>
 #include <stdio.h>
 #include <string>
