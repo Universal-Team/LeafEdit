@@ -22,11 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "common/jpeg.h"
-#include "common/utils.hpp"
-
-#include "gui/gui.hpp"
-#include "gui/msg.hpp"
+#include "gfx.hpp"
+#include "jpeg.h"
+#include "msg.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 #include <citro2d.h>

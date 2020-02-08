@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, building-and-townmap]
+    exclude: [translation, building-and-townmap, full-rewrite]
   tags:
     include: ['*']
 
@@ -35,6 +35,7 @@ steps:
     sudo 7z e makerom_015_ctrtool.zip Linux_x86_64/makerom
     sudo chmod +x makerom
     rm makerom_015_ctrtool.zip
+    git submodule update --init --recursive
   displayName: 'Setup devkitPro'
   
 - script: |

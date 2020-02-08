@@ -24,7 +24,7 @@
  *         reasonable ways as different from the original version.
  */
 
-#include "common/io.hpp"
+#include "io.hpp"
 
 void io::copyFile(FS_Archive srcArch, FS_Archive dstArch, const std::u16string& srcPath, const std::u16string& dstPath)
 {

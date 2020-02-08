@@ -1,8 +1,8 @@
 #ifndef ARCHIVE_HPP
 #define ARCHIVE_HPP
 
-#include "common/fsstream.hpp"
-#include "common/utils.hpp"
+#include "fsstream.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 

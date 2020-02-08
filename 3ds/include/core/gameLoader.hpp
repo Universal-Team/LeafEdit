@@ -28,7 +28,6 @@
 #define GAMELOADER_HPP
 
 #include <3ds.h>
-#include <memory>
 
 namespace GameLoader
 {

@@ -1,6 +1,5 @@
-#include "common/config.hpp"
-
-#include "lang/lang.hpp"
+#include "config.hpp"
+#include "lang.hpp"
 
 #include <stdio.h>
 

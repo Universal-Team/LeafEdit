@@ -24,9 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/utils.hpp"
-
-#include "core/management/buildingManagement.hpp"
+#include "buildingManagement.hpp"
+#include "utils.hpp"
 
 #include <fstream>
 #include <map>

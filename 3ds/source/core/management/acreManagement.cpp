@@ -24,18 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "core/management/acreManagement.hpp"
-
+#include "acreManagement.hpp"
 #include "save.hpp"
-
-#include "gui/screens/screenCommon.hpp"
+#include "screenCommon.hpp"
 
 extern Save* SaveFile;
 extern C2D_SpriteSheet Acres;
 
 // Draw the Villager sprite.
 void AcreManagement::DrawAcre(u8 AcreID, int x, int y, float ScaleX, float ScaleY) {
-	DrawSprite(Acres, AcreID, x, y, ScaleX, ScaleY);
+	Gui::DrawSprite(Acres, AcreID, x, y, ScaleX, ScaleY);
 }
 
 void AcreManagement::InitAcres(const u8 LoopMax, const u8 GridXMax,

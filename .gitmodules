@@ -1,0 +1,3 @@
+[submodule "3ds/Universal-Core"]
+	path = 3ds/Universal-Core
+	url = https://github.com/Universal-Team/Universal-Core.git

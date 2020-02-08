@@ -27,6 +27,8 @@
 #ifndef VILLAGERMANAGEMENT_HPP
 #define VILLAGERMANAGEMENT_HPP
 
+#include "common.hpp"
+
 #include <3ds.h>
 
 namespace VillagerManagement

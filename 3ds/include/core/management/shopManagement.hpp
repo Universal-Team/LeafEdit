@@ -27,7 +27,7 @@
 #ifndef SHOPMANAGEMENT_HPP
 #define SHOPMANAGEMENT_HPP
 
-#include "common/utils.hpp"
+#include "utils.hpp"
 
 // Loads Shops.
 namespace ShopManagement

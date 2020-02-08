@@ -1,6 +1,7 @@
 #ifndef KEYBOARD_HPP
 #define KEYBOARD_HPP
 
+#include <3ds.h>
 #include <string>
 
 namespace Input {
