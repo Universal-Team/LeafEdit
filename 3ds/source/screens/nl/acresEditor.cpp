@@ -77,7 +77,7 @@ void AcresEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+		Msg::HelperBox(Lang::get("NOTE_ACRE_EDITOR") + "\n\n" + Lang::get("A_SELECTION") +  "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_A) {

@@ -59,6 +59,8 @@ void MapEditor::Draw(void) const {
 		DrawBuildingList(); // TODO.
 	} else if (Mode == 2) {
 		DrawBuildingEditor();
+	} else if (Mode == 3) {
+		DisplayMap();
 	}
 }
 
@@ -69,6 +71,8 @@ void MapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		BuildingListLogic(hDown, hHeld, touch); // TODO.
 	} else if (Mode == 2) {
 		BuildingEditorLogic(hDown, hHeld, touch);
+	} else if (Mode == 3) {
+		BuildingSetLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -227,7 +231,7 @@ void MapEditor::updateStuff() {
 
 void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("X_MODESWITCH") + "\n" + Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+		Msg::HelperBox(Lang::get("NOTE_TOWN_MAP_EDITOR") + "\n\n" + Lang::get("X_MODESWITCH") + "\n" + Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
 	if (hDown & KEY_B) {
@@ -314,7 +318,6 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-
 // The Building list.
 void MapEditor::DrawBuildingList(void) const {
 	std::string buildings;
@@ -342,12 +345,14 @@ void MapEditor::BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("B_BACK"));
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("A_SELECTION"));
 	}
 
 	if (hDown & KEY_A) {
-		Mode = 2;
-		selection = 0;
+		if (SaveFile->buildings[0]->returnID(BuildingSelection) != 0xFC) {
+			Mode = 2;
+			selection = 0;
+		}
 	}
 
 	if (hDown & KEY_DOWN) {
@@ -358,6 +363,7 @@ void MapEditor::BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
+
 void MapEditor::DrawBuildingEditor(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("BUILDINGS"), 400);
@@ -367,15 +373,14 @@ void MapEditor::DrawBuildingEditor(void) const {
 	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, Lang::get("BUILDING_XPOS") + std::to_string(SaveFile->buildings[0]->returnXPos(BuildingSelection)), 400);
 	Gui::DrawStringCentered(0, 160, 0.8f, WHITE, Lang::get("BUILDING_YPOS") + std::to_string(SaveFile->buildings[0]->returnYPos(BuildingSelection)), 400);
 	GFX::DrawBottom();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 2; i++) {
 		Gui::Draw_Rect(buildingButtons[i].x, buildingButtons[i].y, buildingButtons[i].w, buildingButtons[i].h, UNSELECTED_COLOR);
 		if (selection == i) {
 			GFX::DrawSprite(sprites_pointer_idx, buildingButtons[i].x+130, buildingButtons[i].y+25);
 		}
 	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_ID")))/2-80+17.5, 0.8, WHITE, Lang::get("SET_ID"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_XPOS")))/2-20+17.5, 0.8, WHITE, Lang::get("SET_XPOS"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_YPOS")))/2+75-17.5, 0.8, WHITE, Lang::get("SET_YPOS"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_POSITION")))/2-20+17.5, 0.8, WHITE, Lang::get("SET_POSITION"), 130, 25);
 }
 
 void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -392,7 +397,7 @@ void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("B_BACK"));
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("A_SELECTION"));
 	}
 
 	if (hDown & KEY_A) {
@@ -400,11 +405,8 @@ void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->buildings[0]->returnID(BuildingSelection));
 			SaveFile->buildings[0]->setBuilding(BuildingSelection, newID);
 		} else if (selection == 1) {
-			u8 newXPos = Input::handleu8(2, Lang::get("ENTER_NEW_X_POS"), 95, SaveFile->buildings[0]->returnXPos(BuildingSelection));
-			SaveFile->buildings[0]->setXPos(BuildingSelection, newXPos);
-		} else if (selection == 2) {
-			u8 newYPos = Input::handleu8(2, Lang::get("ENTER_NEW_Y_POS"), 95, SaveFile->buildings[0]->returnYPos(BuildingSelection));
-			SaveFile->buildings[0]->setYPos(BuildingSelection, newYPos);
+			ResetPositions();
+			Mode = 3;
 		}
 	}
 
@@ -413,11 +415,106 @@ void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->buildings[0]->returnID(BuildingSelection));
 			SaveFile->buildings[0]->setBuilding(BuildingSelection, newID);
 		} else if (touching(touch, buildingButtons[1])) {
-			u8 newXPos = Input::handleu8(2, Lang::get("ENTER_NEW_X_POS"), 95, SaveFile->buildings[0]->returnXPos(BuildingSelection));
-			SaveFile->buildings[0]->setXPos(BuildingSelection, newXPos);
-		} else if (touching(touch, buildingButtons[2])) {
-			u8 newYPos = Input::handleu8(2, Lang::get("ENTER_NEW_Y_POS"), 95, SaveFile->buildings[0]->returnYPos(BuildingSelection));
-			SaveFile->buildings[0]->setYPos(BuildingSelection, newYPos);
+			ResetPositions();
+			Mode = 3;
+		}
+	}
+}
+
+// Display the Map, so you can set the Building position.
+void MapEditor::DisplayMap(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Lang::get("SELECT_POSITION"), 400);
+	AcreManagement::InitAcres(20, 5, 5, 40, 4, MAP_ACRES + 0x10);
+	Gui::DrawString(210, 60, 0.7f, WHITE, Lang::get("NEW_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150);
+	Gui::DrawString(210, 100, 0.7f, WHITE, Lang::get("OLD_POSITION") + std::to_string(SaveFile->buildings[0]->returnXPos(BuildingSelection)) + " | " + std::to_string(SaveFile->buildings[0]->returnYPos(BuildingSelection)), 150);
+	// Selection Logic.
+	int x;
+	if (currentAcre < 5)	x = currentAcre;
+	else if (currentAcre > 4 && currentAcre < 10)	x = currentAcre - 5;
+	else if (currentAcre > 9 && currentAcre < 15)	x = currentAcre - 10;
+	else	x = currentAcre - 15;
+	Gui::drawGrid(5 + x * 40, 40 + currentAcre/5 * 40, 40, 40, WHITE);
+	Gui::DrawStringCentered(0, 216, 0.9f, WHITE, Lang::get("BUILDING_NOTE"), 400);
+	// Bottom Screen part. Grid & Acre.
+	GFX::DrawBottom(false);
+	AcreManagement::DrawAcre(SaveFile->ReadU8(MAP_ACRES + acreImage), 20, 20, 5, 5);
+	DrawGrid();
+	DrawCurrentPos();
+}
+
+// Reset everything to the begin.
+void MapEditor::ResetPositions() {
+	currentAcre = 0;
+	currentPosX = 0;
+	currentPosY = 0;
+	// Update Acre Image and such after setting it.
+	updateStuff();
+}
+
+void MapEditor::BuildingSetLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_A) {
+		if (Msg::promptMsg2(Lang::get("PLACE_BUILDING_HERE") + "\n" + std::to_string(PositionX) + " | " + std::to_string(PositionY))) {
+			SaveFile->buildings[0]->setXPos(BuildingSelection, (u8)PositionX);
+			SaveFile->buildings[0]->setYPos(BuildingSelection, (u8)PositionY);
+			ResetPositions();
+			Mode = 2;
+		}
+	}
+
+	if (hDown & KEY_B) {
+		ResetPositions();
+		Mode = 2;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("A_SELECTION"));
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (currentPosX == 15 && currentAcre < 19) {
+			// Go one Acre next and reset X to 0.
+			currentAcre++;
+			currentPosX = 0;
+			updateStuff();
+		} else if (currentPosX < 15) {
+			currentPosX++;
+			updateStuff();
+		}
+	}
+		if (hDown & KEY_LEFT) {
+		if (currentPosX == 0 && currentAcre > 0) {
+			// Go one Acre before.
+			currentAcre--;
+			currentPosX = 15;
+			updateStuff();
+		} else if (currentPosX > 0) {
+			currentPosX--;
+			updateStuff();
+		}
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (currentPosY == 15 && currentAcre < 15) {
+			// Go one Acre down & reset Y to 0.
+			currentAcre += 5;
+			currentPosY = 0;
+			updateStuff();
+		} else if (currentPosY < 15) {
+			currentPosY++;
+			updateStuff();
+		}
+	}
+
+	if (hDown & KEY_UP) {
+		if (currentPosY == 0 && currentAcre > 4) {
+			// Go one Acre up.
+			currentAcre -= 5;
+			currentPosY = 15;
+			updateStuff();
+		} else if (currentPosY > 0) {
+			currentPosY--;
+			updateStuff();
 		}
 	}
 }
