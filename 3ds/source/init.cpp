@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "archive.hpp"
 #include "config.hpp"
 #include "init.hpp"
 #include "initial.hpp"
@@ -132,6 +133,7 @@ Result Init::Initialize() {
 	gfxInitDefault();
 	romfsInit();
 	amInit();
+	Archive::init();
 	Gui::init();
     Gui::loadFont(false, "romfs:/font.bcfnt");
     Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
@@ -234,6 +236,7 @@ Result Init::Exit() {
 	unloadNLSheets();
 	unloadWWSheets();
 	Config::save();
+	Archive::exit();
 	Gui::exit();
     Gui::unloadFont();
     Gui::unloadSheet(sprites);

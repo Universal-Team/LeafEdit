@@ -189,11 +189,11 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_islandbox(int 
 	return islandItemData;
 }
 
-std::vector<std::pair<std::string, s32>> EditorUtils::load_town_items() {
-	std::vector<std::pair<std::string, s32>> townItems;
+std::vector<std::pair<std::string, u8>> EditorUtils::load_town_items() {
+	std::vector<std::pair<std::string, u8>> townItems;
 	for (int num = 0; num < 5120; num++) {
 		Item* item = &Save::Instance()->town[0]->MapItem[num];
-		townItems.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+		townItems.push_back(std::make_pair(item->GetName(), item->GetCategory()));
 	}
 	return townItems;
 }

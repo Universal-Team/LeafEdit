@@ -47,6 +47,11 @@ public:
 	std::string GetName(int pos); // Get Building name.
 	u8 getBuildCount();
 
+	// Set.
+	u8 setXPos(int pos, u8 newPosition);
+	u8 setYPos(int pos, u8 newPosition);
+	u16 setBuilding(int pos, u16 newID);
+
 	#ifdef _3DS
 	void FixInvalidBuildings(void);
 	#endif

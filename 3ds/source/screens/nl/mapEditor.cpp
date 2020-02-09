@@ -26,6 +26,7 @@
 
 #include "acreManagement.hpp"
 #include "item.hpp"
+#include "keyboard.hpp"
 #include "mapEditor.hpp"
 #include "offsets.hpp"
 #include "save.hpp"
@@ -36,7 +37,7 @@
 extern Save* SaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-static std::vector<std::pair<std::string, s32>> townMapData; // townMapData.
+static std::vector<std::pair<std::string, u8>> townMapData; // townMapData. name & Category.
 
 Item ITM;
 
@@ -54,16 +55,20 @@ MapEditor::~MapEditor()
 void MapEditor::Draw(void) const {
 	if (Mode == 0) {
 		DrawMapScreen();
-	} else {
+	} else if (Mode == 1) {
 		DrawBuildingList(); // TODO.
+	} else if (Mode == 2) {
+		DrawBuildingEditor();
 	}
 }
 
 void MapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Mode == 0) {
 		MapScreenLogic(hDown, hHeld, touch);
-	} else {
+	} else if (Mode == 1) {
 		BuildingListLogic(hDown, hHeld, touch); // TODO.
+	} else if (Mode == 2) {
+		BuildingEditorLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -340,10 +345,79 @@ void MapEditor::BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Msg::HelperBox(Lang::get("B_BACK"));
 	}
 
+	if (hDown & KEY_A) {
+		Mode = 2;
+		selection = 0;
+	}
+
 	if (hDown & KEY_DOWN) {
 		if (BuildingSelection < 57)	BuildingSelection++;
 	}
 	if (hDown & KEY_UP) {
 		if (BuildingSelection > 0)	BuildingSelection--;
+	}
+}
+
+void MapEditor::DrawBuildingEditor(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("BUILDINGS"), 400);
+
+	Gui::DrawStringCentered(0, 40, 0.8f, WHITE, Lang::get("CURRENT_BUILDING") + SaveFile->buildings[0]->GetName(BuildingSelection), 400);
+	Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("BUILDING_ID") + std::to_string(SaveFile->buildings[0]->returnID(BuildingSelection)), 400);
+	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, Lang::get("BUILDING_XPOS") + std::to_string(SaveFile->buildings[0]->returnXPos(BuildingSelection)), 400);
+	Gui::DrawStringCentered(0, 160, 0.8f, WHITE, Lang::get("BUILDING_YPOS") + std::to_string(SaveFile->buildings[0]->returnYPos(BuildingSelection)), 400);
+	GFX::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(buildingButtons[i].x, buildingButtons[i].y, buildingButtons[i].w, buildingButtons[i].h, UNSELECTED_COLOR);
+		if (selection == i) {
+			GFX::DrawSprite(sprites_pointer_idx, buildingButtons[i].x+130, buildingButtons[i].y+25);
+		}
+	}
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_ID")))/2-80+17.5, 0.8, WHITE, Lang::get("SET_ID"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_XPOS")))/2-20+17.5, 0.8, WHITE, Lang::get("SET_XPOS"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SET_YPOS")))/2+75-17.5, 0.8, WHITE, Lang::get("SET_YPOS"), 130, 25);
+}
+
+void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Mode = 1;
+		selection = 0;
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (selection < 2)	selection++;
+	}
+	if (hDown & KEY_UP) {
+		if (selection > 0)	selection--;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("B_BACK"));
+	}
+
+	if (hDown & KEY_A) {
+		if (selection == 0) {
+			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->buildings[0]->returnID(BuildingSelection));
+			SaveFile->buildings[0]->setBuilding(BuildingSelection, newID);
+		} else if (selection == 1) {
+			u8 newXPos = Input::handleu8(2, Lang::get("ENTER_NEW_X_POS"), 95, SaveFile->buildings[0]->returnXPos(BuildingSelection));
+			SaveFile->buildings[0]->setXPos(BuildingSelection, newXPos);
+		} else if (selection == 2) {
+			u8 newYPos = Input::handleu8(2, Lang::get("ENTER_NEW_Y_POS"), 95, SaveFile->buildings[0]->returnYPos(BuildingSelection));
+			SaveFile->buildings[0]->setYPos(BuildingSelection, newYPos);
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, buildingButtons[0])) {
+			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->buildings[0]->returnID(BuildingSelection));
+			SaveFile->buildings[0]->setBuilding(BuildingSelection, newID);
+		} else if (touching(touch, buildingButtons[1])) {
+			u8 newXPos = Input::handleu8(2, Lang::get("ENTER_NEW_X_POS"), 95, SaveFile->buildings[0]->returnXPos(BuildingSelection));
+			SaveFile->buildings[0]->setXPos(BuildingSelection, newXPos);
+		} else if (touching(touch, buildingButtons[2])) {
+			u8 newYPos = Input::handleu8(2, Lang::get("ENTER_NEW_Y_POS"), 95, SaveFile->buildings[0]->returnYPos(BuildingSelection));
+			SaveFile->buildings[0]->setYPos(BuildingSelection, newYPos);
+		}
 	}
 }

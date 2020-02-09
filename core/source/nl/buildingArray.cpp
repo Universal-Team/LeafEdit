@@ -262,6 +262,18 @@ u8 BuildingArray::returnYPos(int pos) {
 	return m_yPos[pos];
 }
 
+// Set Positions.
+u8 BuildingArray::setXPos(int pos, u8 newPosition) {
+	return m_xPos[pos] = newPosition;
+}
+
+u8 BuildingArray::setYPos(int pos, u8 newPosition) {
+	return m_yPos[pos] = newPosition;
+}
+
+u16 BuildingArray::setBuilding(int pos, u16 newID) {
+	return m_ID[pos] = newID;
+}
 
 // Fix invalid buildings. Only works on 3DS for now, since "Msg::promptMsg()".
 #ifdef _3DS
@@ -285,6 +297,13 @@ void BuildingArray::FixInvalidBuildings(void) {
 
 // TODO?
 void BuildingArray::Write() {
+	for (int i = 0; i < 58; i++) {
+		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
+		Save::Instance()->Write(buildingData, m_ID[i]);
+		Save::Instance()->Write(buildingData + 2, m_xPos[i]);
+		Save::Instance()->Write(buildingData + 3, m_yPos[i]);
+	}
+
 	#ifdef _3DS
 	FixInvalidBuildings();
 	#endif

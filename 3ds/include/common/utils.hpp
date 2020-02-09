@@ -52,7 +52,7 @@ namespace EditorUtils
 	std::vector<std::pair<std::string, s32>> load_player_islandbox(int selectedplayer, int islandBox);
 	std::vector<std::pair<std::string, s32>> load_player_storageitems(int selectedplayer, int storage);
 
-	std::vector<std::pair<std::string, s32>> load_town_items();
+	std::vector<std::pair<std::string, u8>> load_town_items();
 }
 
 namespace Utils

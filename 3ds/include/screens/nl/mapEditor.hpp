@@ -39,7 +39,6 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	MapEditor();
 	~MapEditor();
-
 private:
 	/* Mostly selection stuff. */
 	int Mode = 0;
@@ -62,6 +61,10 @@ private:
 	void DrawBuildingList(void) const;
 	void BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
+	/* Building Editor. */
+	void DrawBuildingEditor(void) const;
+	void BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
 	/* Utilities. */
 	void DrawGrid(void) const;
 	void DrawTownMap() const;
@@ -74,6 +77,12 @@ private:
 	std::vector<Structs::ButtonPos> mapButtons = {
 		{230, 75, 75, 30}, // Items.
 		{230, 140, 75, 30}, // Buildings.
+	};
+
+	std::vector<Structs::ButtonPos> buildingButtons = {
+		{90, 40, 140, 35}, // ID.
+		{90, 100, 140, 35}, // PosX.
+		{90, 160, 140, 35}, // PosY.
 	};
 
 };
