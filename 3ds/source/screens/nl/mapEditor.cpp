@@ -40,9 +40,8 @@ static std::vector<std::pair<std::string, s32>> townMapData; // townMapData.
 
 Item ITM;
 
-int SELECTION = 0;
-
 MapEditor::MapEditor() {
+	Msg::DisplayMsg(Lang::get("PREPARING_TOWN_EDITOR"));
 	ITM.LoadItemBins();
 	townMapData = EditorUtils::load_town_items();
 }
@@ -53,61 +52,57 @@ MapEditor::~MapEditor()
 }
 
 void MapEditor::Draw(void) const {
-	DrawTest();
-	/*
 	if (Mode == 0) {
 		DrawMapScreen();
 	} else {
 		DrawBuildingList(); // TODO.
-	}*/
+	}
 }
 
 void MapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	TestLogic(hDown, hHeld, touch);
-	/*
 	if (Mode == 0) {
 		MapScreenLogic(hDown, hHeld, touch);
 	} else {
 		BuildingListLogic(hDown, hHeld, touch); // TODO.
-	}*/
-}
-
-void MapEditor::DrawTest(void) const {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWNMAP_EDITOR"), 400);
-	DrawTownMap();
-	std::string itemName = townMapData[SELECTION].first;
-	Gui::DrawStringCentered(0, 215, 0.9f, WHITE, "Current Item: " + itemName + "    " + std::to_string(SELECTION), 400);
-
-	// Bottom Screen part. Grid & Acre.
-	GFX::DrawBottom(false);
-	AcreManagement::DrawAcre(SaveFile->ReadU8(MAP_ACRES + acreImage), 20, 20, 5, 5);
-	DrawGrid();
-	DrawCurrentPos();
-}
-
-void MapEditor::TestLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
-	}
-
-	if (hDown & KEY_RIGHT) {
-		SELECTION++;
-	}
-	if (hDown & KEY_LEFT) {
-		SELECTION--;
 	}
 }
 
+void MapEditor::convertToSelection() {
+	MapSelection = (currentAcre * 256) + (currentPosY * 16) + currentPosX;
+}
+
+void MapEditor::convertToPosition() {
+	if (currentAcre < 5) {
+		PositionX = (16 + (currentAcre * 16)) + currentPosX;
+	} else if (currentAcre > 4 && currentAcre < 10) {
+		PositionX = (16 + ((currentAcre - 5) * 16)) + currentPosX;
+	} else if (currentAcre > 9 && currentAcre < 15) {
+		PositionX = (16 + ((currentAcre - 10) * 16)) + currentPosX;
+	} else if (currentAcre > 14 && currentAcre < 20) {
+		PositionX = (16 + ((currentAcre - 15) * 16)) + currentPosX;
+	}
+
+	int acre = 0;
+	if (currentAcre < 5) {
+		acre = 0;
+	} else if (currentAcre > 4 && currentAcre < 10) {
+		acre = 1;
+	} else if (currentAcre > 9 && currentAcre < 15) {
+		acre = 2;
+	} else if (currentAcre > 14 && currentAcre < 20) {
+		acre = 3;
+	}
+
+	PositionY = (16 + acre * 16) + currentPosY;
+}
 
 // Display full Map on top screen for a better overview.
 void MapEditor::DrawTownMap() const
 {
-	AcreManagement::InitAcres(20, 5, 20, 40, 4, MAP_ACRES + 0x10);
+	AcreManagement::InitAcres(20, 5, 5, 40, 4, MAP_ACRES + 0x10);
 	// Display Informations. The informations are placeholder for now, BTW.
-	Gui::DrawString(240, 60, 0.7f, WHITE, Lang::get("CURRENT_POSITION") + "16 | 16", 150);
-	Gui::DrawString(240, 90, 0.7f, WHITE, Lang::get("CURRENT_ITEM") + "None", 150);
+	Gui::DrawString(210, 60, 0.7f, WHITE, Lang::get("CURRENT_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150);
+	Gui::DrawString(210, 90, 0.6f, WHITE, Lang::get("CURRENT_ITEM") + townMapData[MapSelection].first, 190);
 
 	// Selection Logic.
 	int x;
@@ -116,7 +111,7 @@ void MapEditor::DrawTownMap() const
 	else if (currentAcre > 9 && currentAcre < 15)	x = currentAcre - 10;
 	else	x = currentAcre - 15;
 
-	Gui::drawGrid(20 + x * 40, 40 + currentAcre/5 * 40, 40, 40, WHITE);
+	Gui::drawGrid(5 + x * 40, 40 + currentAcre/5 * 40, 40, 40, WHITE);
 }
 
 void MapEditor::DrawMapScreen(void) const {
@@ -218,9 +213,14 @@ void MapEditor::updateAcre(void) {
 	}
 }
 
-void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+// Update Position, Selection & Acre Image only by navigating.
+void MapEditor::updateStuff() {
+	convertToSelection();
+	convertToPosition();
 	updateAcre();
+}
 
+void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("X_MODESWITCH") + "\n" + Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
@@ -246,8 +246,10 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Go one Acre next and reset X to 0.
 				currentAcre++;
 				currentPosX = 0;
+				updateStuff();
 			} else if (currentPosX < 15) {
 				currentPosX++;
+				updateStuff();
 			}
 		}
 
@@ -256,8 +258,10 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Go one Acre before.
 				currentAcre--;
 				currentPosX = 15;
+				updateStuff();
 			} else if (currentPosX > 0) {
 				currentPosX--;
+				updateStuff();
 			}
 		}
 
@@ -266,8 +270,10 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Go one Acre down & reset Y to 0.
 				currentAcre += 5;
 				currentPosY = 0;
+				updateStuff();
 			} else if (currentPosY < 15) {
 				currentPosY++;
+				updateStuff();
 			}
 		}
 
@@ -276,8 +282,10 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Go one Acre up.
 				currentAcre -= 5;
 				currentPosY = 15;
+				updateStuff();
 			} else if (currentPosY > 0) {
 				currentPosY--;
+				updateStuff();
 			}
 		}
 	} else {

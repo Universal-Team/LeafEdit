@@ -191,7 +191,7 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_islandbox(int 
 
 std::vector<std::pair<std::string, s32>> EditorUtils::load_town_items() {
 	std::vector<std::pair<std::string, s32>> townItems;
-	for (int num = 0; num < 256; num++) {
+	for (int num = 0; num < 5120; num++) {
 		Item* item = &Save::Instance()->town[0]->MapItem[num];
 		townItems.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}

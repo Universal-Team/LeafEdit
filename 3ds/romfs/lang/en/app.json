@@ -142,6 +142,7 @@
 	"PLAYER_SELECTION":				"Player Selection",
 	"PM":							"PM",
 	"PREPARING_EDITOR":				"Preparing Editor... please wait.",
+	"PREPARING_TOWN_EDITOR":		"Preparing Town Map Editor... please wait.",
 	
 	"READ_MODE":					"Read Mode",
 	"REFRESH":						"Press Start to Refresh the FileBrowse.",

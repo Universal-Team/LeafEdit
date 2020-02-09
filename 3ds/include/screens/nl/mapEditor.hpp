@@ -50,9 +50,9 @@ private:
 	int currentAcre = 0;
 	u8 acreImage = 0x10;
 	int BuildingSelection = 0; // For the Building list indicator.
-
-	void DrawTest(void) const;
-	void TestLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	int MapSelection = 0;
+	int PositionX = 16;
+	int PositionY = 16;
 	
 	/* Main Screen. */
 	void DrawMapScreen(void) const;
@@ -67,6 +67,9 @@ private:
 	void DrawTownMap() const;
 	void DrawCurrentPos(void) const;
 	void updateAcre(void);
+	void convertToSelection();
+	void convertToPosition();
+	void updateStuff();
 
 	std::vector<Structs::ButtonPos> mapButtons = {
 		{230, 75, 75, 30}, // Items.

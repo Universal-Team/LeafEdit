@@ -46,7 +46,7 @@ public:
 	u8 NativeFruit; // 0x06223A
 	u16 TimePlayed; // 0x06223E
 
-	Item *MapItem = nullptr; // First Acre -> 256 Items -> 0x0534d8 + i * sizeof(Item).
+	Item *MapItem = nullptr;
 private:
 	u32 m_offset; // Needed?
 };
