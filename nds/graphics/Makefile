@@ -12,7 +12,7 @@ else
 BMP2DS 	?= bmp2ds
 endif
 
-GRAPHICS	:=	acres faces villagers
+GRAPHICS	:=	acres faces villagers .
 
 OUT			:=	../nitrofiles/graphics
 

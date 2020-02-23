@@ -13,6 +13,7 @@
 .vscode/ipch
 *.DS_Store
 3ds/romfs/gfx/sprites.t3x
+nds/graphics/bmp2ds
 
 bannertool*
 makerom*
