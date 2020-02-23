@@ -53,10 +53,10 @@ void TownEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void TownEditor::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_EDITOR"), 400);
-	Gui::DrawStringCentered(0, 30, 0.8f, WHITE, "Seconds: " + std::to_string(SaveFile->town[0]->TimePlayed%60), 200);
-	Gui::DrawStringCentered(0, 60, 0.8f, WHITE, "Minutes: " + std::to_string((SaveFile->town[0]->TimePlayed/60)%60), 200);
-	Gui::DrawStringCentered(0, 90, 0.8f, WHITE, "Hours: " + std::to_string((SaveFile->town[0]->TimePlayed/(60*60))%24), 200);
-	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, "Days: " + std::to_string(SaveFile->town[0]->TimePlayed/(3600*24)), 200);
+	Gui::DrawStringCentered(0, 30, 0.8f, WHITE, "Seconds: " + std::to_string(SaveFile->town->TimePlayed%60), 200);
+	Gui::DrawStringCentered(0, 60, 0.8f, WHITE, "Minutes: " + std::to_string((SaveFile->town->TimePlayed/60)%60), 200);
+	Gui::DrawStringCentered(0, 90, 0.8f, WHITE, "Hours: " + std::to_string((SaveFile->town->TimePlayed/(60*60))%24), 200);
+	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, "Days: " + std::to_string(SaveFile->town->TimePlayed/(3600*24)), 200);
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {

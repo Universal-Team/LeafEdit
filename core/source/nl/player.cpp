@@ -54,31 +54,6 @@ Player::~Player()
 		this->m_TPCData = nullptr;
 	}
 #endif
-
-	if (this->Pockets != nullptr) {
-		delete[] this->Pockets;
-		this->Pockets = nullptr;
-	}
-
-	for (auto pattern : Patterns) {  
-		delete pattern;
-		pattern = nullptr;
-	}
-
-	if (this->Dresser != nullptr) {
-		delete[] this->Dresser;
-		this->Dresser = nullptr;
-	}
-
-	if (this->IslandBox != nullptr) {
-		delete[] this->IslandBox;
-		this->IslandBox = nullptr;
-	}
-
-	if (this->Storage != nullptr) {
-		delete[] this->Storage;
-		this->Storage = nullptr;
-	}
 }
 
 Player::Player(u32 offset, u32 index) {
@@ -111,29 +86,24 @@ Player::Player(u32 offset, u32 index) {
 	}
 	#endif
 
-	this->Pockets = new Item[16];
-
 	for (int i = 0; i < 16; i++) {
-		this->Pockets[i] = Item(offset + 0x6BD0 + i * sizeof(Item));
+		this->Pockets[i] = std::make_shared<Item>(offset + 0x6BD0 + i * sizeof(Item));
 	}
 
-	this->Dresser = new Item[180];
 	for (int i = 0; i < 180; i++) {
-		this->Dresser[i] = Item(offset + 0x92f0 + i * sizeof(Item));
+		this->Dresser[i] = std::make_shared<Item>(offset + 0x92f0 + i * sizeof(Item));
 	}
 
-	this->IslandBox = new Item[40];
 	for (int i = 0; i < 40; i++) {
-		this->IslandBox[i] = Item(offset + 0x6f10 + i * sizeof(Item));
+		this->IslandBox[i] = std::make_shared<Item>(offset + 0x6f10 + i * sizeof(Item));
 	}
 
-	this->Storage = new Item[360];
 	for (int i = 0; i < 360; i++) {
-		this->Storage[i] = Item((index*360)+ 0x07a778 + i * sizeof(Item));
+		this->Storage[i] = std::make_shared<Item>((index*360)+ 0x07a778 + i * sizeof(Item));
 	}
 
 	for (u32 i = 0; i < 10; i++) {
-		this->Patterns[i] = new Pattern(this, i);
+		this->Patterns[i] = std::make_shared<Pattern>(this, i);
 	}
 
 

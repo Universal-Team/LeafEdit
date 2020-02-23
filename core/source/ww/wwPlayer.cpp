@@ -29,9 +29,7 @@
 
 WWPlayer::WWPlayer() { }
 
-WWPlayer::~WWPlayer()
-{
-}
+WWPlayer::~WWPlayer() { }
 
 WWPlayer::WWPlayer(u32 offset, u32 index) {
 	this->m_offset = offset;

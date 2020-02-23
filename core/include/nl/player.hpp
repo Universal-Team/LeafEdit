@@ -46,7 +46,7 @@ public:
 	~Player(void);
 	Player(u32 offset, u32 index);
 
-	Pattern *Patterns[10];
+	std::shared_ptr<Pattern> Patterns[10];
 	u16 PlayerId;
 	u16 PlayerTan;
 	std::u16string Name;
@@ -55,12 +55,11 @@ public:
 	std::u16string TownName;
 	std::u16string TPCText;
 	// Pocket, Storage and such.
-	Item *Pockets = nullptr;
-	Item *Dresser = nullptr;
-	Item *IslandBox = nullptr;
-	Item *Storage = nullptr;
+	std::shared_ptr<Item> Pockets[16];
+	std::shared_ptr<Item> Dresser[180];
+	std::shared_ptr<Item> IslandBox[40];
+	std::shared_ptr<Item> Storage[360];
 
-	u16 testItem;
 	EncryptedInt32 Wallet;
 	EncryptedInt32 BankAmount;
 	EncryptedInt32 MeowCoupons;

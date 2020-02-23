@@ -27,6 +27,9 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+// Needed for shared_ptr.
+#include <memory>
+
 #ifdef _3DS
 #include <3ds.h>
 #endif

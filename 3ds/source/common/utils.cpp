@@ -143,11 +143,10 @@ std::vector<u32> EditorUtils::findPlayerReferences(Player *player) {
 	delete[] dataArray;
 	return references;
 }
-
 std::vector<std::pair<std::string, s32>> EditorUtils::load_player_invitems(int selectedplayer) {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 16; num++) {
-		Item* item = &Save::Instance()->players[selectedplayer]->Pockets[num];
+		std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->Pockets[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -159,12 +158,12 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_dresseritems(i
 	std::vector<std::pair<std::string, s32>> dresserItemData;
 	if (dresser == 0) {
 		for (int num = 0; num < 10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Dresser[num];
+			std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->Dresser[num];
 			dresserItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 		}
 	} else {
 		for (int num = dresser*10; num < dresser*10+10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Dresser[num];
+			std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->Dresser[num];
 			dresserItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 		}
 	}
@@ -176,12 +175,12 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_islandbox(int 
 	std::vector<std::pair<std::string, s32>> islandItemData;
 	if (islandBox == 0) {
 		for (int num = 0; num < 10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->IslandBox[num];
+			std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->IslandBox[num];
 			islandItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 		}
 	} else {
 		for (int num = islandBox*10; num < islandBox*10+10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->IslandBox[num];
+			std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->IslandBox[num];
 			islandItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 		}
 	}
@@ -192,7 +191,7 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_islandbox(int 
 std::vector<std::pair<std::string, u8>> EditorUtils::load_town_items() {
 	std::vector<std::pair<std::string, u8>> townItems;
 	for (int num = 0; num < 5120; num++) {
-		Item* item = &Save::Instance()->town[0]->MapItem[num];
+		std::shared_ptr<Item> item = Save::Instance()->town->MapItem[num];
 		townItems.push_back(std::make_pair(item->GetName(), item->GetCategory()));
 	}
 	return townItems;
@@ -202,12 +201,12 @@ std::vector<std::pair<std::string, s32>> EditorUtils::load_player_storageitems(i
 	std::vector<std::pair<std::string, s32>> storageItemData;
 	if (storage == 0) {
 		for (int num = 0; num < 10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Storage[num];
+			std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->Storage[num];
 			storageItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 		}
 	} else {
 		for (int num = storage*10; num < storage*10+10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Storage[num];
+			std::shared_ptr<Item> item = Save::Instance()->players[selectedplayer]->Storage[num];
 			storageItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 		}
 	}

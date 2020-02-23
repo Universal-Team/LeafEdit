@@ -32,18 +32,12 @@ Town::Town() {
 	this->TimePlayed = Save::Instance()->ReadU16(0x0621b0); // Should be right?
 
 	// *Only* first acre for now. TODO: Do it for every acre (20) -> 256x20 -> 5120 Items.
-	this->MapItem = new Item[5120];
 	for (int i = 0; i < 5120; i++) {
-		this->MapItem[i] = Item(0x0534D8 + i * sizeof(Item));
+		this->MapItem[i] = std::make_shared<Item>(0x0534D8 + i * sizeof(Item));
 	}
 }
 
 Town::~Town() {
-	// Delete MapItem.
-	if (this->MapItem != nullptr) {
-		delete[] this->MapItem;
-		this->MapItem = nullptr;
-	}
 }
 
 void Town::Write() {

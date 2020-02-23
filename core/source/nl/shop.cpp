@@ -36,148 +36,65 @@ Shop::Shop() {
 	}
 
 	// Initialize shops.
-	this->Retail = new Item[8];
 	for (int i = 0; i < 8; i++) {
-		this->Retail[i] = Item(0x668B4 + i * sizeof(Item));
+		this->Retail[i] = std::make_shared<Item>(0x668B4 + i * sizeof(Item));
 	}
 
-	this->NooksHome = new Item[8];
 	for (int i = 0; i < 8; i++) {
-		this->NooksHome[i] = Item(0x6ACCE + i * sizeof(Item));
+		this->NooksHome[i] = std::make_shared<Item>(0x6ACCE + i * sizeof(Item));
 	}
 
-	this->Gracie = new Item[18];
 	for (int i = 0; i < 18; i++) {
-		this->Gracie[i] = Item(0x6ACF8 + i * sizeof(Item));
+		this->Gracie[i] = std::make_shared<Item>(0x6ACF8 + i * sizeof(Item));
 	}
 
-	this->TTStore = new Item[24];
 	for (int i = 0; i < 24; i++) {
-		this->TTStore[i] = Item(0x62270 + i * sizeof(Item));
+		this->TTStore[i] = std::make_shared<Item>(0x62270 + i * sizeof(Item));
 	}
 
-	this->Leif = new Item[11];
 	for (int i = 0; i < 11; i++) {
-		this->Leif[i] = Item(0x666F6 + i * sizeof(Item));
+		this->Leif[i] = std::make_shared<Item>(0x666F6 + i * sizeof(Item));
 	}
 
-	this->AbleSisterClothes = new Item[5];
 	for (int i = 0; i < 5; i++) {
-		this->AbleSisterClothes[i] = Item(0x622EC + i * sizeof(Item));
+		this->AbleSisterClothes[i] = std::make_shared<Item>(0x622EC + i * sizeof(Item));
 	}
 
-	this->AbleSisterAccesories = new Item[7];
 	for (int i = 0; i < 7; i++) {
-		this->AbleSisterAccesories[i] = Item(0x666B8 + i * sizeof(Item));
+		this->AbleSisterAccesories[i] = std::make_shared<Item>(0x666B8 + i * sizeof(Item));
 	}
 
-	this->Kicks = new Item[6];
 	for (int i = 0; i < 6; i++) {
-		this->Kicks[i] = Item(0x6682E + i * sizeof(Item));
+		this->Kicks[i] = std::make_shared<Item>(0x6682E + i * sizeof(Item));
 	}
 
-	this->Redd = new Item[4];
 	for (int i = 0; i < 4; i++) {
-		this->Redd[i] = Item(0x66730 + i * sizeof(Item));
+		this->Redd[i] = std::make_shared<Item>(0x66730 + i * sizeof(Item));
 	}
 
-	this->IslandShop = new Item[4];
 	for (int i = 0; i < 4; i++) {
-		this->IslandShop[i] = Item(0x6ADB8 + i * sizeof(Item));
+		this->IslandShop[i] = std::make_shared<Item>(0x6ADB8 + i * sizeof(Item));
 	}
 
-	this->MuseumShop = new Item[3];
 	for (int i = 0; i < 3; i++) {
-		this->MuseumShop[i] = Item(0x6ACBE + i * sizeof(Item));
+		this->MuseumShop[i] = std::make_shared<Item>(0x6ACBE + i * sizeof(Item));
 	}
 
-	this->LostFound = new Item[16];
 	for (int i = 0; i < 16; i++) {
-		this->LostFound[i] = Item(0x621E2 + i * sizeof(Item));
+		this->LostFound[i] = std::make_shared<Item>(0x621E2 + i * sizeof(Item));
 	}
 
-	this->ClubLol = new Item[4];
 	for (int i = 0; i < 4; i++) {
-		this->ClubLol[i] = Item(0x6AD92 + i * sizeof(Item));
+		this->ClubLol[i] = std::make_shared<Item>(0x6AD92 + i * sizeof(Item));
 	}
 
-	this->Harvey = new Item[2];
 	for (int i = 0; i < 2; i++) {
-		this->Harvey[i] = Item(0x06AE54 + i * sizeof(Item));
+		this->Harvey[i] = std::make_shared<Item>(0x06AE54 + i * sizeof(Item));
 	}
 }
 
 // Delete all and set to nullptr.
 Shop::~Shop() {
-	if (this->Retail != nullptr) {
-		delete[] this->Retail;
-		this->Retail = nullptr;
-	}
-
-	if (this->TTStore != nullptr) {
-		delete[] this->TTStore;
-		this->TTStore = nullptr;
-	}
-
-	if (this->Gracie != nullptr) {
-		delete[] this->Gracie;
-		this->Gracie = nullptr;
-	}
-
-	if (this->NooksHome != nullptr) {
-		delete[] this->NooksHome;
-		this->NooksHome = nullptr;
-	}
-
-	if (this->Leif != nullptr) {
-		delete[] this->Leif;
-		this->Leif = nullptr;
-	}
-
-	if (this->AbleSisterClothes != nullptr) {
-		delete[] this->AbleSisterClothes;
-		this->AbleSisterClothes = nullptr;
-	}
-
-	if (this->AbleSisterAccesories != nullptr) {
-		delete[] this->AbleSisterAccesories;
-		this->AbleSisterAccesories = nullptr;
-	}
-
-	if (this->Kicks != nullptr) {
-		delete[] this->Kicks;
-		this->Kicks = nullptr;
-	}
-
-	if (this->Redd != nullptr) {
-		delete[] this->Redd;
-		this->Redd = nullptr;
-	}
-
-	if (this->IslandShop != nullptr) {
-		delete[] this->IslandShop;
-		this->IslandShop = nullptr;
-	}
-
-	if (this->MuseumShop != nullptr) {
-		delete[] this->MuseumShop;
-		this->MuseumShop = nullptr;
-	}
-
-	if (this->LostFound != nullptr) {
-		delete[] this->LostFound;
-		this->LostFound = nullptr;
-	}
-
-	if (this->ClubLol != nullptr) {
-		delete[] this->ClubLol;
-		this->ClubLol = nullptr;
-	}
-
-	if (this->Harvey != nullptr) {
-		delete[] this->Harvey;
-		this->Harvey = nullptr;
-	}
 }
 
 void Shop::Write() {

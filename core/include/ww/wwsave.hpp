@@ -76,8 +76,8 @@ public:
 	bool Commit(bool close);
 	void Close(void);
 
-	WWPlayer *players[4];
-	WWVillager* villagers[8];
+	std::shared_ptr<WWPlayer> players[4];
+	std::shared_ptr<WWVillager> villagers[8];
 
 private:
 	u8 *m_saveBuffer;

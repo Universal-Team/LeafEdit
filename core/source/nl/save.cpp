@@ -40,31 +40,6 @@ Save* Save::m_pSave = nullptr;
 Save::Save() { }
 
 Save::~Save() {
-	for (auto building : buildings) {
-		delete building;
-		building = nullptr;
-	}
-
-	for (auto player : players) {
-		delete player;
-		player = nullptr;
-	}
-
-	for (auto villager : villagers) {
-		delete villager;
-		villager = nullptr;
-	}
-
-	for (auto Town : town) {
-		delete Town;
-		Town = nullptr;
-	}
-
-	for (auto Shop : shop) {
-		delete Shop;
-		Shop = nullptr;
-	}
-
 	delete[] m_saveBuffer;
 	m_saveBuffer = nullptr;
 }
@@ -98,21 +73,21 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 	}
 
 	// Load Buildings.
-	m_pSave->buildings[0] = new BuildingArray();
+	m_pSave->buildings = std::make_shared<BuildingArray>();
 
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
-		m_pSave->players[i] = new Player(PlayerOffset, i);
+		m_pSave->players[i] = std::make_shared<Player>(PlayerOffset, i);
 	}
 
 	// Load Villagers
 	for (int i = 0; i < 10; i++) {
-		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
 	}
 
-	m_pSave->town[0] = new Town();
-	m_pSave->shop[0] = new Shop();
+	m_pSave->town = std::make_shared<Town>();
+	m_pSave->shop = std::make_shared<Shop>();
 
 	return m_pSave;
 }
@@ -130,10 +105,10 @@ bool Save::CommitArchive(bool close) {
 		}
 
 		// Save Buildings.
-		buildings[0]->Write();
+		buildings->Write();
 
-		town[0]->Write();
-		shop[0]->Write();
+		town->Write();
+		shop->Write();
 	}
 	
 	// Update Checksums
@@ -269,21 +244,21 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	}
 
 	// Load Buildings.
-	m_pSave->buildings[0] = new BuildingArray();
+	m_pSave->buildings = std::make_shared<BuildingArray>();
 
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
-		m_pSave->players[i] = new Player(PlayerOffset, i);
+		m_pSave->players[i] = std::make_shared<Player>(PlayerOffset, i);
 	}
 
 	// Load Villagers
 	for (int i = 0; i < 10; i++) {
-		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
 	}
 
-	m_pSave->town[0] = new Town();
-	m_pSave->shop[0] = new Shop();
+	m_pSave->town = std::make_shared<Town>();
+	m_pSave->shop = std::make_shared<Shop>();
 	
 	fclose(savesFile);
 	m_pSave->m_saveFile = saveName;
@@ -435,9 +410,9 @@ bool Save::Commit(bool close) {
 			villagers[i]->Write();
 		}
 		// Save Buildings.
-		buildings[0]->Write();
-		town[0]->Write();
-		shop[0]->Write();
+		buildings->Write();
+		town->Write();
+		shop->Write();
 	}
 
 	// Update Checksums

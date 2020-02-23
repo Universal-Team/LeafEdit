@@ -34,7 +34,6 @@ SOFTWARE.
 #include "types.hpp"
 #include "villager.hpp"
 
-
 #include <string>
 
 #ifdef _3DS
@@ -87,11 +86,11 @@ public:
 	bool Commit(bool close);
 	void Close(void);
 
-	Player *players[4];
-	Shop *shop[1];
-	Town *town[1];
-	Villager* villagers[10];
-	BuildingArray *buildings[1]; // 1 -> Cause all Buildings are loaded into that.
+	std::shared_ptr<Player> players[4];
+	std::shared_ptr<Shop> shop;
+	std::shared_ptr<Town> town;
+	std::shared_ptr<Villager> villagers[10];
+	std::shared_ptr<BuildingArray> buildings;
 
 	// Only works on 3DS!
 	#ifdef _3DS

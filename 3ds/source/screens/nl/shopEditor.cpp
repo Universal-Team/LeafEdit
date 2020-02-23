@@ -98,19 +98,19 @@ void ShopEditor::DrawTurnipScreen(void) const {
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, title, 400);
 
 	if (turnipMode == 0) {
-		Gui::DrawString(180, 35, 0.8f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[0].value), 370);
-		Gui::DrawString(180, 65, 0.8f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[1].value), 370);
-		Gui::DrawString(180, 95, 0.8f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[2].value), 370);
-		Gui::DrawString(180, 125, 0.8f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[3].value), 370);
-		Gui::DrawString(180, 155, 0.8f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[4].value), 370);
-		Gui::DrawString(180, 185, 0.8f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop[0]->AMPrice[5].value), 370);
+		Gui::DrawString(180, 35, 0.8f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop->AMPrice[0].value), 370);
+		Gui::DrawString(180, 65, 0.8f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop->AMPrice[1].value), 370);
+		Gui::DrawString(180, 95, 0.8f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop->AMPrice[2].value), 370);
+		Gui::DrawString(180, 125, 0.8f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop->AMPrice[3].value), 370);
+		Gui::DrawString(180, 155, 0.8f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop->AMPrice[4].value), 370);
+		Gui::DrawString(180, 185, 0.8f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop->AMPrice[5].value), 370);
 	} else {
-		Gui::DrawString(180, 35, 0.8f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[0].value), 370);
-		Gui::DrawString(180, 65, 0.8f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[1].value), 370);
-		Gui::DrawString(180, 95, 0.8f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[2].value), 370);
-		Gui::DrawString(180, 125, 0.8f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[3].value), 370);
-		Gui::DrawString(180, 155, 0.8f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[4].value), 370);
-		Gui::DrawString(180, 185, 0.8f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop[0]->PMPrice[5].value), 370);
+		Gui::DrawString(180, 35, 0.8f, WHITE, Lang::get("MONDAY") + ": " + std::to_string(Save::Instance()->shop->PMPrice[0].value), 370);
+		Gui::DrawString(180, 65, 0.8f, WHITE, Lang::get("TUESDAY") + ": " + std::to_string(Save::Instance()->shop->PMPrice[1].value), 370);
+		Gui::DrawString(180, 95, 0.8f, WHITE, Lang::get("WEDNESDAY") + ": " + std::to_string(Save::Instance()->shop->PMPrice[2].value), 370);
+		Gui::DrawString(180, 125, 0.8f, WHITE, Lang::get("THURSDAY") + ": " + std::to_string(Save::Instance()->shop->PMPrice[3].value), 370);
+		Gui::DrawString(180, 155, 0.8f, WHITE, Lang::get("FRIDAY") + ": " + std::to_string(Save::Instance()->shop->PMPrice[4].value), 370);
+		Gui::DrawString(180, 185, 0.8f, WHITE, Lang::get("SATURDAY") + ": " + std::to_string(Save::Instance()->shop->PMPrice[5].value), 370);
 	}
 	GFX::DrawBottom();
 
@@ -214,9 +214,9 @@ void ShopEditor::TurnipLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (turnipMode == 0) {
-			SaveFile->shop[0]->AMPrice[Selection].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop[0]->AMPrice[Selection].value);
+			SaveFile->shop->AMPrice[Selection].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop->AMPrice[Selection].value);
 		} else {
-			SaveFile->shop[0]->PMPrice[Selection].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop[0]->PMPrice[Selection].value);
+			SaveFile->shop->PMPrice[Selection].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop->PMPrice[Selection].value);
 		}
 	}
 
@@ -224,9 +224,9 @@ void ShopEditor::TurnipLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		for (int i = 0; i < 6; i++) {
 			if (touching(touch, mainButtons[i])) {
 				if (turnipMode == 0) {
-					SaveFile->shop[0]->AMPrice[i].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop[0]->AMPrice[i].value);
+					SaveFile->shop->AMPrice[i].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop->AMPrice[i].value);
 				} else {
-					SaveFile->shop[0]->PMPrice[i].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop[0]->PMPrice[i].value);
+					SaveFile->shop->PMPrice[i].value = Input::handleu32(4, Lang::get("ENTER_TURNIP_PRICE"), 9999, SaveFile->shop->PMPrice[i].value);
 				}
 			}
 		}

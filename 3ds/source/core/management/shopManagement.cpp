@@ -32,7 +32,7 @@
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Retail() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 8; num++) {
-		Item* item = &Save::Instance()->shop[0]->Retail[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->Retail[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -43,7 +43,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_Retail() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_TT() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 24; num++) {
-		Item* item = &Save::Instance()->shop[0]->TTStore[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->TTStore[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -54,7 +54,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_TT() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Gracie() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 18; num++) {
-		Item* item = &Save::Instance()->shop[0]->Gracie[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->Gracie[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -65,7 +65,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_Gracie() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_NooksHome() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 8; num++) {
-		Item* item = &Save::Instance()->shop[0]->NooksHome[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->NooksHome[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -76,7 +76,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_NooksHome() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Leif() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 11; num++) {
-		Item* item = &Save::Instance()->shop[0]->Leif[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->Leif[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -87,7 +87,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_Leif() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_AbleSisterClothes() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 5; num++) {
-		Item* item = &Save::Instance()->shop[0]->AbleSisterClothes[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->AbleSisterClothes[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -98,7 +98,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_AbleSisterClothes(
 std::vector<std::pair<std::string, s32>> ShopManagement::load_AbleSisterAccesories() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 7; num++) {
-		Item* item = &Save::Instance()->shop[0]->AbleSisterAccesories[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->AbleSisterAccesories[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -109,7 +109,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_AbleSisterAccesori
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Kicks() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 6; num++) {
-		Item* item = &Save::Instance()->shop[0]->Kicks[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->Kicks[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -120,7 +120,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_Kicks() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Redd() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 4; num++) {
-		Item* item = &Save::Instance()->shop[0]->Redd[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->Redd[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -131,7 +131,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_Redd() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_IslandShop() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 4; num++) {
-		Item* item = &Save::Instance()->shop[0]->IslandShop[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->IslandShop[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -142,7 +142,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_IslandShop() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_MuseumShop() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 3; num++) {
-		Item* item = &Save::Instance()->shop[0]->MuseumShop[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->MuseumShop[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -153,7 +153,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_MuseumShop() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_LostFound() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 16; num++) {
-		Item* item = &Save::Instance()->shop[0]->LostFound[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->LostFound[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -164,7 +164,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_LostFound() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_ClubLol() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 4; num++) {
-		Item* item = &Save::Instance()->shop[0]->ClubLol[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->ClubLol[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 
@@ -175,7 +175,7 @@ std::vector<std::pair<std::string, s32>> ShopManagement::load_ClubLol() {
 std::vector<std::pair<std::string, s32>> ShopManagement::load_Harvey() {
 	std::vector<std::pair<std::string, s32>> inventoryItemData;
 	for (int num = 0; num < 2; num++) {
-		Item* item = &Save::Instance()->shop[0]->Harvey[num];
+		std::shared_ptr<Item> item = Save::Instance()->shop->Harvey[num];
 		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
 	}
 

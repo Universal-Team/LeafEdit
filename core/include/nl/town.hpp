@@ -46,7 +46,7 @@ public:
 	u8 NativeFruit; // 0x06223A
 	u16 TimePlayed; // 0x06223E
 
-	Item *MapItem = nullptr;
+	std::shared_ptr<Item> MapItem[5120];
 private:
 	u32 m_offset; // Needed?
 };
