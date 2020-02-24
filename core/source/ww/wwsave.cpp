@@ -26,6 +26,7 @@
 
 #include "wwChecksum.hpp"
 #include "wwsave.hpp"
+#include "wwStringUtils.hpp"
 
 #include <cstring>
 #include <string>
@@ -141,8 +142,9 @@ void WWSave::ReadArrayU16(u16 *dst, u32 offset, u32 count) {
 	memcpy(dst, src, count << 1);
 }
 
-std::u16string WWSave::ReadString(u32 offset, u32 maxSize) {
-	return std::u16string(reinterpret_cast<char16_t *>(m_saveBuffer + offset), maxSize + 1);
+std::u16string WWSave::ReadString(u32 offset, u32 maxSize, bool isJapanese) {
+	std::string str(reinterpret_cast<char *>(m_saveBuffer + offset), maxSize + 1);
+	return wwToUnicode(str, isJapanese);
 }
 
 // Actual Writing Stuff to the Save.
@@ -188,6 +190,16 @@ void WWSave::Write(u32 offset, s64 data) {
 void WWSave::Write(u32 offset, u64 data) {
 	*reinterpret_cast<u64*>(m_saveBuffer + offset) = data;
 }
+
+bool WWSave::Write(u32 offset, std::u16string str, u32 maxSize, bool isJapanese) {
+	if (str.length() > maxSize + 1) {
+		return false;
+	}
+
+	std::string dataString = unicodeToWW(str, isJapanese);
+	return Write(offset, (u8 *)dataString.data(), maxSize * 2);
+}
+
 
 bool WWSave::ChangesMade(void) {
 	return m_changesMade;

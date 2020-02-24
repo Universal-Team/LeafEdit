@@ -25,11 +25,13 @@
 */
 
 #include "config.hpp"
+#include "keyboard.hpp"
 #include "playerEditorWW.hpp"
 #include "playerManagement.hpp"
 #include "screenCommon.hpp"
 #include "utils.hpp"
 #include "wwPlayer.hpp"
+#include "wwStringUtils.hpp"
 #include "wwsave.hpp"
 
 #include <3ds.h>
@@ -94,7 +96,8 @@ void PlayerEditorWW::DrawPlayerScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - Player Editor", 400);
 	Gui::Draw_Rect(40, 37, 320, 35, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 45, 0.9f, WHITE, "Bells: " + std::to_string(WWSaveFile->players[cp]->Bells), 380);
+	Gui::DrawStringCentered(0, 45, 0.9f, WHITE, StringUtils::UTF16toUTF8(WWSaveFile->players[cp]->Name), 380);
+	Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Bells: " + std::to_string(WWSaveFile->players[cp]->Bells), 380);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
@@ -110,6 +113,10 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (selection == 0) {
 			PlayerManagement::setBells(cp);
 		}
+	}
+
+	if (hDown & KEY_X) {
+		WWSaveFile->players[cp]->Name = Input::handleu16String(8, "Enter the Player name.", WWSaveFile->players[cp]->Name);
 	}
 
 	if (hHeld & KEY_SELECT) {

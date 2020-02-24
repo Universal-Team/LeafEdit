@@ -37,11 +37,13 @@ WWPlayer::WWPlayer(u32 offset, u32 index) {
 
 	this->Gender = WWSave::Instance()->ReadU16(offset + 0x228A); // Gender.
 	this->Bells = WWSave::Instance()->ReadU32(offset + 0x1B40); // Bells from the Wallet.
+	this->Name = WWSave::Instance()->ReadString(offset + 0x2282, 8, false);
 }
 
 void WWPlayer::Write() {
 	WWSave::Instance()->Write(this->m_offset + 0x1B40, this->Bells);
 	WWSave::Instance()->Write(this->m_offset + 0x228A, this->Gender);
+	WWSave::Instance()->Write(this->m_offset + 0x2282, this->Name, 8, false);
 }
 
 bool WWPlayer::Exists() {

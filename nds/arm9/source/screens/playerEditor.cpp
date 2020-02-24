@@ -24,23 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "input.hpp"
 #include "msg.hpp"
-
-#include "management/playerManagement.hpp"
-#include "management/villagerManagement.hpp"
-
 #include "playerEditor.hpp"
-
+#include "playerManagement.hpp"
+#include "stringUtils.hpp"
 #include "wwoffsets.hpp"
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
+#include "wwStringUtils.hpp"
 #include "wwVillager.hpp"
+#include "villagerManagement.hpp"
 
 extern WWSave* SaveFile;
-
-
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-
 int selectedPassedPlayer;
 
 void PlayerEditor::DrawPlayerBoxes(void) const {
@@ -66,6 +63,7 @@ void PlayerEditor::DrawPlayerSelection(void) const {
 	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
 	DrawPlayerBoxes();
 	printTextCentered("Current Player: " + std::to_string(selectedPlayer+1), 0, 172, true, true);
+
 	//VillagerManagement::DrawVillager(SaveFile->villagers[0]->GetId(), 100, 100); // That was my test.
 	Gui::DrawBottom();
 }
@@ -82,7 +80,7 @@ void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
 
 void PlayerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop();
-	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true);
+	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true); 
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		if (selection == i) {
@@ -101,7 +99,8 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
 
 	drawRectangle(20, 35, 216, 30, DARK_GREEN, true, true);
-	printTextCentered("Bells: " + std::to_string(SaveFile->players[cp]->Bells), 0, 40, true, true);
+	printTextCentered(SaveFile->players[cp]->Name, 0, 40, true, true);
+	printTextCentered("Bells: " + std::to_string(SaveFile->players[cp]->Bells), 0, 80, true, true);
 
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -118,6 +117,13 @@ void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (selection == 0) {
 			PlayerManagement::setBells(cp);
+		}
+	}
+
+	if (hDown & KEY_X) {
+		std::string test = Input::getLine("Enter the Playername.", 8);
+		if (test != "") {
+			SaveFile->players[cp]->Name = StringUtils::utf8to16(test);
 		}
 	}
 

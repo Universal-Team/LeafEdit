@@ -54,7 +54,7 @@ public:
 	u64 ReadU64(u32 offset);
 	void ReadArray(u8 *dst, u32 offset, u32 count);
 	void ReadArrayU16(u16 *dst, u32 offset, u32 count);
-	std::u16string ReadString(u32 offset, u32 maxSize);
+	std::u16string ReadString(u32 offset, u32 maxSize, bool isJapanese = false); // I doubt many people are using Japanese, so make it false by default.
 
 	u8* GetRawSaveData(void);
 	u64 GetSaveSize(void);
@@ -69,6 +69,7 @@ public:
 	void Write(u32 offset, u32 data);
 	void Write(u32 offset, s64 data);
 	void Write(u32 offset, u64 data);
+	bool Write(u32 offset, std::u16string str, u32 maxSize, bool isJapanese = false);
 
 	bool ChangesMade(void);
 	void SetChangesMade(bool changesMade);
