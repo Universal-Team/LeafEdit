@@ -24,19 +24,42 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYERMANAGEMENT_HPP
-#define PLAYERMANAGEMENT_HPP
+#include "config.hpp"
+#include "keyboard.hpp"
+#include "msg.hpp"
+#include "screenCommon.hpp"
+#include "utils.hpp"
+#include "wwPlayer.hpp"
+#include "wwPlayerManagement.hpp"
+#include "wwsave.hpp"
 
-#include <nds.h>
-#include <stdio.h>
-#include <string>
+#include <3ds.h>
 
-// Placeholder for now.
-namespace PlayerManagement
-{
-	void setBells(int currentPlayer);
-	void setName(int currentPlayer);
-	void setGender(int currentPlayer);
+extern WWSave* WWSaveFile;
+
+// Set Bells to Player.
+void WWPlayerManagement::setBells(int currentPlayer) {
+	WWSaveFile->players[currentPlayer]->Bells = Input::handleu32(5, "Enter the amount of Bells.", 99999, WWSaveFile->players[currentPlayer]->Bells);
 }
+// Set Name to Player.
+void WWPlayerManagement::setName(int currentPlayer) {
+	WWSaveFile->players[currentPlayer]->Name = Input::handleu16String(8, "Enter the Player name.", WWSaveFile->players[currentPlayer]->Name);
+}
+// Set Gender to Player.
+void WWPlayerManagement::setGender(int currentPlayer) {
+	std::string Gender;
+	// Get right Gender.
+	if (WWSaveFile->players[currentPlayer]->Gender == 0) {
+		Gender += "Female";
+	} else {
+		Gender += "Male";
+	}
 
-#endif
+	if (Msg::promptMsg("Change Gender to: " + Gender + "?")) {
+		if (WWSaveFile->players[currentPlayer]->Gender == 0) {
+			WWSaveFile->players[currentPlayer]->Gender = 1;
+		} else {
+			WWSaveFile->players[currentPlayer]->Gender = 0;
+		}
+	}
+}

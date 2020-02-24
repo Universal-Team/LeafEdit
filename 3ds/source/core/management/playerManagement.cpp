@@ -32,13 +32,10 @@
 #include "save.hpp"
 #include "screenCommon.hpp"
 #include "utils.hpp"
-#include "wwPlayer.hpp"
-#include "wwsave.hpp"
 
 #include <3ds.h>
 
 extern Save* SaveFile;
-extern WWSave* WWSaveFile;
 
 extern C2D_SpriteSheet Badges;
 extern C2D_SpriteSheet Hairs;
@@ -556,9 +553,4 @@ void PlayerManagement::dumpTPC(int selectedPlayer) {
 			}
 		}
 	}
-}
-
-// AC:WW part.
-void PlayerManagement::setBells(int currentPlayer) {
-	WWSaveFile->players[currentPlayer]->Bells = Input::handleu32(5, "Enter the amount of Bells.", 99999, WWSaveFile->players[currentPlayer]->Bells);
 }

@@ -28,11 +28,9 @@
 #include "msg.hpp"
 #include "playerEditor.hpp"
 #include "playerManagement.hpp"
-#include "stringUtils.hpp"
 #include "wwoffsets.hpp"
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
-#include "wwStringUtils.hpp"
 #include "wwVillager.hpp"
 #include "villagerManagement.hpp"
 
@@ -111,19 +109,24 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 		}
 	}
 	printTextCentered("Bells", -64, 40, false, true);
+	printTextCentered("Name", -64, 90, false, true);
+	printTextCentered("Gender", -64, 140, false, true);
 }
 
 void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_A) {
-		if (selection == 0) {
-			PlayerManagement::setBells(cp);
-		}
-	}
-
-	if (hDown & KEY_X) {
-		std::string test = Input::getLine("Enter the Playername.", 8);
-		if (test != "") {
-			SaveFile->players[cp]->Name = StringUtils::utf8to16(test);
+		switch (selection) {
+			case 0:
+				PlayerManagement::setBells(cp);
+				break;
+			case 1:
+				PlayerManagement::setName(cp);
+				break;
+			case 2:
+				PlayerManagement::setGender(cp);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -132,6 +135,27 @@ void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 		Gui::clearScreen(false, true);
 		selection = 0;
 		screen = 1;
+	}
+
+	// Selection.
+	if (hDown & KEY_UP) {
+		if(selection > 0)	selection--;
+	}
+	
+	if (hDown & KEY_DOWN) {
+			if(selection < 5)	selection++;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (selection < 3) {
+			selection += 3;
+		}
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (selection < 6 && selection > 2) {
+			selection -= 3;
+		}
 	}
 }
 

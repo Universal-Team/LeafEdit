@@ -57,9 +57,6 @@ namespace PlayerManagement
 
 	// TPC Image.
 	void dumpTPC(int selectedPlayer);
-
-	// AC:WW.
-	void setBells(int currentPlayer);
 }
 
 #endif

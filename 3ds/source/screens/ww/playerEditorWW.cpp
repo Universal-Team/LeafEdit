@@ -27,10 +27,10 @@
 #include "config.hpp"
 #include "keyboard.hpp"
 #include "playerEditorWW.hpp"
-#include "playerManagement.hpp"
 #include "screenCommon.hpp"
 #include "utils.hpp"
 #include "wwPlayer.hpp"
+#include "wwPlayerManagement.hpp"
 #include "wwStringUtils.hpp"
 #include "wwsave.hpp"
 
@@ -106,23 +106,53 @@ void PlayerEditorWW::DrawPlayerScreen(void) const {
 		}
 	}
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Bells"))/2-80+17.5, 0.8, WHITE, "Bells", 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Name"))/2-20+17.5, 0.8, WHITE, "Name", 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Gender"))/2+75-17.5, 0.8, WHITE, "Gender", 130, 25);
+
 }
 
 void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
-		if (selection == 0) {
-			PlayerManagement::setBells(cp);
+		switch (selection) {
+			case 0:
+				WWPlayerManagement::setBells(cp);
+				break;
+			case 1:
+				WWPlayerManagement::setName(cp);
+				break;
+			case 2:
+				WWPlayerManagement::setGender(cp);
+				break;
+			default:
+				break;
 		}
-	}
-
-	if (hDown & KEY_X) {
-		WWSaveFile->players[cp]->Name = Input::handleu16String(8, "Enter the Player name.", WWSaveFile->players[cp]->Name);
 	}
 
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
+	// Selection.
+	if (hDown & KEY_UP) {
+		if(selection > 0)	selection--;
+	}
+	
+	if (hDown & KEY_DOWN) {
+			if(selection < 5)	selection++;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (selection < 3) {
+			selection += 3;
+		}
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (selection < 6 && selection > 2) {
+			selection -= 3;
+		}
+	}
+	
 	if (hDown & KEY_B) {
 		selection = 0;
 		screen = 1;

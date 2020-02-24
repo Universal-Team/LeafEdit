@@ -24,15 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYERMANAGEMENT_HPP
-#define PLAYERMANAGEMENT_HPP
+#ifndef WWPLAYERMANAGEMENT_HPP
+#define WWPLAYERMANAGEMENT_HPP
 
-#include <nds.h>
+#include "common.hpp"
+
+#include <3ds.h>
 #include <stdio.h>
 #include <string>
 
-// Placeholder for now.
-namespace PlayerManagement
+namespace WWPlayerManagement
 {
 	void setBells(int currentPlayer);
 	void setName(int currentPlayer);
