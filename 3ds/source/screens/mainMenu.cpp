@@ -24,88 +24,50 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "buildingManagement.hpp"
-#include "editor.hpp"
-#include "editorWW.hpp"
-#include "init.hpp"
-#include "itemManagement.hpp"
 #include "mainMenu.hpp"
-#include "playerManagement.hpp"
+#include "saveBrowse.hpp"
 #include "screenCommon.hpp"
 #include "settings.hpp"
-#include "townManager.hpp"
-#include "villagerManagement.hpp"
 
-extern bool isACWW;
+extern int fadealpha;
+extern bool fadein;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-extern bool isROMHack;
-
-extern std::vector<std::string> g_villagerDatabase;
+extern bool exiting;
 
 void MainMenu::Draw(void) const
 {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
-
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	GFX::DrawBottom();
-
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
 			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
-
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("EDITOR"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SETTINGS")))/2+75-17.5, 0.8, WHITE, Lang::get("SETTINGS"), 130, 25);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	SelectionLogic(hDown, hHeld);
 
-	if (hDown & KEY_B) {
-		// Reset the status.
-		isACWW = false; 
-		isROMHack = false;
-		Gui::screenBack();
-		return;
+	if (hDown & KEY_START) {
+		exiting = true;
 	}
-
+	
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				if (!isACWW) {
-					Gui::setScreen(std::make_unique<TownManager>());
-				} else {
-					Msg::NotImplementedYet();
-				}
+				Msg::DisplayWarnMsg("Title Loader needs to be reimplemented.");
 				break;
 			case 1:
-				if (!isACWW) {
-					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-						Init::loadNLSheets();
-						BuildingManagement::loadDatabase();
-						ItemManagement::LoadDatabase(Config::getLang("Lang"));
-						// Clear Villager then reload, so we can avoid having double names.
-						g_villagerDatabase.clear();
-						Lang::loadVillager(Config::getLang("Lang"), true);
-
-						Gui::setScreen(std::make_unique<Editor>());
-					}
-				} else {
-					if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-						Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-						Init::loadWWSheets();
-
-						// Clear Villager then reload, so we can avoid having double names.
-						g_villagerDatabase.clear();
-						Lang::loadVillager(1, false);
-
-						Gui::setScreen(std::make_unique<EditorWW>());
-					}
+				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+					Gui::setScreen(std::make_unique<SaveBrowse>());
 				}
 				break;
 			case 2:
@@ -116,35 +78,11 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (!isACWW) {
-				Gui::setScreen(std::make_unique<TownManager>());
-			} else {
-				Msg::NotImplementedYet();
-			}
+			Msg::DisplayWarnMsg("Title Loader needs to be reimplemented.");
 		} else if (touching(touch, mainButtons[1])) {
-			if (!isACWW) {
-				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-					Init::loadNLSheets();
-					BuildingManagement::loadDatabase();
-					ItemManagement::LoadDatabase(Config::getLang("Lang"));
-
-					// Clear Villager then reload, so we can avoid having double names.
-					g_villagerDatabase.clear();
-					Lang::loadVillager(Config::getLang("Lang"), true);
-					Gui::setScreen(std::make_unique<Editor>());
-				}
-			} else {
-				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-					Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-					Init::loadWWSheets();
-
-					// Clear Villager then reload, so we can avoid having double names.
-					g_villagerDatabase.clear();
-					Lang::loadVillager(1, false);
-
-					Gui::setScreen(std::make_unique<EditorWW>());
-				}
+			if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
+				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+				Gui::setScreen(std::make_unique<SaveBrowse>());
 			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>());

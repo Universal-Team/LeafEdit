@@ -32,8 +32,8 @@
 #include "gfx.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
+#include "mainMenu.hpp"
 #include "screenCommon.hpp"
-#include "titleSelection.hpp"
 
 #include <3ds.h>
 #include <dirent.h>
@@ -135,8 +135,8 @@ Result Init::Initialize() {
 	amInit();
 	Archive::init();
 	Gui::init();
-    Gui::loadFont(false, "romfs:/font.bcfnt");
-    Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
+	Gui::loadFont(false, "romfs:/font.bcfnt");
+	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	cfguInit();
 	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
@@ -193,7 +193,7 @@ Result Init::Initialize() {
 	if (Config::getBool("InitialSetup") != true) {
 		Gui::setScreen(std::make_unique<Initial>());
 	} else {
-		Gui::setScreen(std::make_unique<TitleSelection>());
+		Gui::setScreen(std::make_unique<MainMenu>());
 	}
 
     return 0;

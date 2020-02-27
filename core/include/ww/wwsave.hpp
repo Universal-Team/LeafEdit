@@ -31,11 +31,13 @@
 
 #include "types.hpp"
 #include "wwPlayer.hpp"
+#include "wwTown.hpp"
 #include "wwVillager.hpp"
 
 #include <string>
 
 class WWPlayer;
+class WWTown;
 class WWVillager;
 
 class WWSave {
@@ -78,6 +80,7 @@ public:
 	void Close(void);
 
 	std::shared_ptr<WWPlayer> players[4];
+	std::shared_ptr<WWTown> town;
 	std::shared_ptr<WWVillager> villagers[8];
 
 private:

@@ -35,15 +35,31 @@ WWPlayer::WWPlayer(u32 offset, u32 index) {
 	this->m_offset = offset;
 	this->m_index = index;
 
-	this->Gender = WWSave::Instance()->ReadU16(offset + 0x228A); // Gender.
+	this->Gender = WWSave::Instance()->ReadU8(offset + 0x228A); // Gender.
 	this->Bells = WWSave::Instance()->ReadU32(offset + 0x1B40); // Bells from the Wallet.
 	this->Name = WWSave::Instance()->ReadString(offset + 0x2282, 8, false);
+	this->NookPoints = WWSave::Instance()->ReadU16(offset + 0x2208); // Is correct.
+
+	u8 testType = WWSave::Instance()->ReadU8(offset + 0x223C);
+	this->HairType = testType >> 4;
+	this->FaceType = testType & 0xF;
+
+	u8 testType2 = WWSave::Instance()->ReadU8(offset + 0x223D);
+	this->HairColor = testType2 & 0xF;
+	this->TAN = testType2 >> 4;
 }
 
 void WWPlayer::Write() {
 	WWSave::Instance()->Write(this->m_offset + 0x1B40, this->Bells);
 	WWSave::Instance()->Write(this->m_offset + 0x228A, this->Gender);
 	WWSave::Instance()->Write(this->m_offset + 0x2282, this->Name, 8, false);
+
+	// Write HairColor & TAN.
+//	u8 testType = (this->HairColor & 0xF) + (this->TAN >> 4);
+//	WWSave::Instance()->Write(this->m_offset + 0x223D, testType);
+	// Write HairType & FaceType.
+//	u8 testType2 = (this->FaceType & 0xF) + (this->HairType >> 4);
+//	WWSave::Instance()->Write(this->m_offset + 0x223C, testType2);
 }
 
 bool WWPlayer::Exists() {

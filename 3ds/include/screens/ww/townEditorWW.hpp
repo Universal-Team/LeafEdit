@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,34 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
+#ifndef TOWNEDITORWW_HPP
+#define TOWNEDITORWW_HPP
 
-#include "types.hpp"
-#include "wwsave.hpp"
+#include "common.hpp"
+#include "structs.hpp"
 
-#include <string>
+#include <vector>
 
-class WWPlayer {
+class TownEditorWW : public Screen
+{
 public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-
-	void Write();
-	bool Exists();
-
-	u32 m_offset;
-	u32 m_index;
+private:
 };
 
 #endif

@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITORWW_HPP
-#define EDITORWW_HPP
+#ifndef EDITOR_HPP
+#define EDITOR_HPP
 
 #include "common.hpp"
-#include "fileBrowse.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class EditorWW : public Screen
+class Editor : public Screen
 {
 public:
 	void Draw(void) const override;
@@ -41,26 +40,16 @@ public:
 
 private:
 	int Selection = 0;
-
-	void DrawBrowse(void) const;
-	void BrowseLogic(u32 hDown, u32 hHeld);
-
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-
+	void SetMode(int mode);
+	void saveNL();
+	void saveWW();
+	
 	std::vector<Structs::ButtonPos> editorButtons = {
 		{90, 40, 140, 35}, // Player.
 		{90, 100, 140, 35}, // Villager.
 		{90, 160, 140, 35}, // WIP.
 		{293, 213, 27, 27}, // Saving.
 	};
-
-	int EditorMode = 1;
-	uint selectedSave = 0;
-	int keyRepeatDelay = 0;
-	mutable bool dirChanged = true;
-	std::vector<DirEntry> dirContents;
 };
 
 #endif

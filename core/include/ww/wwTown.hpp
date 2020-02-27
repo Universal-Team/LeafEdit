@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,43 +24,23 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#ifndef WWTOWN_HPP
+#define WWTOWN_HPP
 
-#include "common.hpp"
-#include "fileBrowse.hpp"
-#include "structs.hpp"
+#include "types.hpp"
+#include "wwsave.hpp"
 
-#include <vector>
+#include <string>
 
-class Editor : public Screen
-{
+class WWTown {
 public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	~WWTown(void);
+	WWTown();
 
-private:
-	int Selection = 0;
+	u32 Debt;
+	std::u16string Name;
 
-	void DrawBrowse(void) const;
-	void BrowseLogic(u32 hDown, u32 hHeld);
-
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-
-	std::vector<Structs::ButtonPos> editorButtons = {
-		{90, 40, 140, 35}, // Player.
-		{90, 100, 140, 35}, // Villager.
-		{90, 160, 140, 35}, // WIP.
-		{293, 213, 27, 27}, // Saving.
-	};
-
-	int EditorMode = 1;
-	uint selectedSave = 0;
-	int keyRepeatDelay = 0;
-	mutable bool dirChanged = true;
-	std::vector<DirEntry> dirContents;
+	void Write();
 };
 
 #endif

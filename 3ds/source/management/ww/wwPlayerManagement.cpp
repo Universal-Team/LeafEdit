@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,34 +24,42 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
-
-#include "types.hpp"
+#include "config.hpp"
+#include "keyboard.hpp"
+#include "msg.hpp"
+#include "screenCommon.hpp"
+#include "utils.hpp"
+#include "wwPlayer.hpp"
+#include "wwPlayerManagement.hpp"
 #include "wwsave.hpp"
 
-#include <string>
+#include <3ds.h>
 
-class WWPlayer {
-public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+extern WWSave* WWSaveFile;
 
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
+// Set Bells to Player.
+void WWPlayerManagement::setBells(int currentPlayer) {
+	WWSaveFile->players[currentPlayer]->Bells = Input::handleu32(5, "Enter the amount of Bells.", 99999, WWSaveFile->players[currentPlayer]->Bells);
+}
+// Set Name to Player.
+void WWPlayerManagement::setName(int currentPlayer) {
+	WWSaveFile->players[currentPlayer]->Name = Input::handleu16String(8, "Enter the Player name.", WWSaveFile->players[currentPlayer]->Name);
+}
+// Set Gender to Player.
+void WWPlayerManagement::setGender(int currentPlayer) {
+	std::string Gender;
+	// Get right Gender.
+	if (WWSaveFile->players[currentPlayer]->Gender == 0) {
+		Gender += "Female";
+	} else {
+		Gender += "Male";
+	}
 
-	void Write();
-	bool Exists();
-
-	u32 m_offset;
-	u32 m_index;
-};
-
-#endif
+	if (Msg::promptMsg("Change Gender to: " + Gender + "?")) {
+		if (WWSaveFile->players[currentPlayer]->Gender == 0) {
+			WWSaveFile->players[currentPlayer]->Gender = 1;
+		} else if (WWSaveFile->players[currentPlayer]->Gender == 1) {
+			WWSaveFile->players[currentPlayer]->Gender = 0;
+		}
+	}
+}

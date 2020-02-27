@@ -24,34 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
-
-#include "types.hpp"
+#include "wwTown.hpp"
 #include "wwsave.hpp"
 
-#include <string>
+WWTown::WWTown() {
+	this->Name = WWSave::Instance()->ReadString(0x0004, 8, false); 
+	this->Debt = WWSave::Instance()->ReadU32(0xFAE8);
+}
 
-class WWPlayer {
-public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+WWTown::~WWTown() { }
 
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-
-	void Write();
-	bool Exists();
-
-	u32 m_offset;
-	u32 m_index;
-};
-
-#endif
+void WWTown::Write() {
+}

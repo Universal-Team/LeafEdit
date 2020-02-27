@@ -131,6 +131,7 @@
 	"MONDAY":						"Monday",
 
 	"NEW_LEAF":						"New\nLeaf",
+	"NEWLEAF_SAVE_DETECTED":		"New Leaf save detected.",
 	"NEW_PLAYER_NAME":				"Enter new player name.",
 	"NEW_POSITION":					"New Position: ",
 	"NO":							"No",
@@ -234,6 +235,7 @@
 	"WELCOME_LUXURY":				"Welcome\nLuxury",
 	"WELCOME_TO_LEAFEDIT":			"Welcome to LeafEdit!",
 	"WILD_WORLD":					"Wild\nWorld",
+	"WILDWORLD_SAVE_DETECTED":		"Wild World save detected.",
 	"WHAT_YOU_DO":					"What are you trying to do? :P",
 	"WRITE_MODE":					"Write Mode",
 	

@@ -67,6 +67,9 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 		m_pSave->players[i] = std::make_shared<WWPlayer>(PlayerOffset, i);
 	}
 
+	// Load Town.
+	m_pSave->town = std::make_shared<WWTown>();
+
 	// Load Villagers. -> Is that the right offset? Likely no, so TODO.
 	for (int i = 0; i < 8; i++) {
 		m_pSave->villagers[i] = std::make_shared<WWVillager>(0x8A3C + (i * sizeof(WWVillager::Villager_s)), i);
@@ -218,6 +221,9 @@ bool WWSave::Commit(bool close) {
 	for (int i = 0; i < 4; i++) {
 		players[i]->Write();
 	}
+	// Save Town.
+	town->Write();
+
 	// Update checksums.
 	WWChecksum::UpdateChecksum(reinterpret_cast<u16*>(m_saveBuffer), 0x15FE0 / sizeof(u16));
 	WWSave::Instance()->Write(0x15FE0, m_saveBuffer, 0x15FE0);

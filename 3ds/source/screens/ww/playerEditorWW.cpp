@@ -96,8 +96,13 @@ void PlayerEditorWW::DrawPlayerScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - Player Editor", 400);
 	Gui::Draw_Rect(40, 37, 320, 35, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 45, 0.9f, WHITE, StringUtils::UTF16toUTF8(WWSaveFile->players[cp]->Name), 380);
-	Gui::DrawStringCentered(0, 80, 0.9f, WHITE, "Bells: " + std::to_string(WWSaveFile->players[cp]->Bells), 380);
+	Gui::DrawStringCentered(0, 45, 0.9f, WHITE, "Name: " + StringUtils::UTF16toUTF8(WWSaveFile->players[cp]->Name), 380);
+	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, "Bells: " + std::to_string(WWSaveFile->players[cp]->Bells), 380);
+	Gui::DrawStringCentered(0, 95, 0.9f, WHITE, "HairType: " + std::to_string(WWSaveFile->players[cp]->HairType), 380);
+	Gui::DrawStringCentered(0, 120, 0.9f, WHITE, "FaceType: " + std::to_string(WWSaveFile->players[cp]->FaceType), 380);
+	Gui::DrawStringCentered(0, 145, 0.9f, WHITE, "HairColor: " + std::to_string(WWSaveFile->players[cp]->HairColor), 380);
+	Gui::DrawStringCentered(0, 170, 0.9f, WHITE, "TAN: " + std::to_string(WWSaveFile->players[cp]->TAN), 380);
+	Gui::DrawStringCentered(0, 195, 0.9f, WHITE, "Gender: " + std::to_string(WWSaveFile->players[cp]->Gender), 380);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, UNSELECTED_COLOR);
@@ -126,6 +131,10 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			default:
 				break;
 		}
+	}
+
+	if (hDown & KEY_X) {
+		WWSaveFile->players[0]->Gender = 1;
 	}
 
 	if (hHeld & KEY_SELECT) {

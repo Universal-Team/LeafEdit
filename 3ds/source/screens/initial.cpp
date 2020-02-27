@@ -25,8 +25,8 @@
 */
 
 #include "initial.hpp"
+#include "mainMenu.hpp"
 #include "screenCommon.hpp"
-#include "titleSelection.hpp"
 #include "utils.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -75,7 +75,7 @@ void Initial::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Config::lang = i;
 				Lang::load(Config::lang);
 				Config::setBool("InitialSetup", true);
-				Gui::setScreen(std::make_unique<TitleSelection>());
+				Gui::setScreen(std::make_unique<MainMenu>());
 			}
 		}
 	}

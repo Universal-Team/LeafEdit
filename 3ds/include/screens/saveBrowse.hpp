@@ -24,42 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "config.hpp"
-#include "keyboard.hpp"
-#include "msg.hpp"
-#include "screenCommon.hpp"
-#include "utils.hpp"
-#include "wwPlayer.hpp"
-#include "wwPlayerManagement.hpp"
-#include "wwsave.hpp"
+#ifndef SAVEBROWSE_HPP
+#define SAVEBROWSE_HPP
 
-#include <3ds.h>
+#include "common.hpp"
+#include "fileBrowse.hpp"
+#include "structs.hpp"
 
-extern WWSave* WWSaveFile;
+#include <vector>
 
-// Set Bells to Player.
-void WWPlayerManagement::setBells(int currentPlayer) {
-	WWSaveFile->players[currentPlayer]->Bells = Input::handleu32(5, "Enter the amount of Bells.", 99999, WWSaveFile->players[currentPlayer]->Bells);
-}
-// Set Name to Player.
-void WWPlayerManagement::setName(int currentPlayer) {
-	WWSaveFile->players[currentPlayer]->Name = Input::handleu16String(8, "Enter the Player name.", WWSaveFile->players[currentPlayer]->Name);
-}
-// Set Gender to Player.
-void WWPlayerManagement::setGender(int currentPlayer) {
-	std::string Gender;
-	// Get right Gender.
-	if (WWSaveFile->players[currentPlayer]->Gender == 0) {
-		Gender += "Female";
-	} else {
-		Gender += "Male";
-	}
+class SaveBrowse : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	SaveBrowse();
+private:
 
-	if (Msg::promptMsg("Change Gender to: " + Gender + "?")) {
-		if (WWSaveFile->players[currentPlayer]->Gender == 0) {
-			WWSaveFile->players[currentPlayer]->Gender = 1;
-		} else {
-			WWSaveFile->players[currentPlayer]->Gender = 0;
-		}
-	}
-}
+	void DrawBrowse(void) const;
+	void BrowseLogic(u32 hDown, u32 hHeld);
+
+	void PrepareWW(const std::string &savePath);
+	void PrepareNL(const std::string &savePath);
+
+	int BrowseMode = 1; // 2 -> Fav Saves. (Not implemented yet.)
+	uint selectedSave = 0;
+	int keyRepeatDelay = 0;
+	mutable bool dirChanged = false;
+	std::vector<DirEntry> dirContents;
+};
+
+#endif
