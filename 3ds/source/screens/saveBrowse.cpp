@@ -194,7 +194,7 @@ void SaveBrowse::PrepareNL(const std::string &savePath) {
 			ItemManagement::LoadDatabase(Config::getLang("Lang"));
 			// Clear Villager then reload, so we can avoid having double names.
 			g_villagerDatabase.clear();
-			Lang::loadVillager(0, false);
+			Lang::loadVillager(1, true);
 			Utils::createBackup();
 			Gui::setScreen(std::make_unique<Editor>());
 		}
