@@ -256,12 +256,12 @@ void Utils::colorLogic(int mode) {
 	}
 }
 
-void Utils::createBackup(bool isCard) {
+void Utils::createBackup(bool isCard, std::string savePath) {
 	if (Msg::promptMsg2(Lang::get("CREATE_BACKUP"))) {
 		char stringTime[15]   = {0};
-    	time_t unixTime       = time(NULL);
-    	struct tm* timeStruct = gmtime((const time_t*)&unixTime);
-    	std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+		time_t unixTime       = time(NULL);
+		struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+		std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
 		std::string path = "/LeafEdit/Backups/" + std::string(stringTime);
 		mkdir(path.c_str(), 0777); // Create folder.
 		path += "/garden_plus.dat";
@@ -275,7 +275,7 @@ void Utils::createBackup(bool isCard) {
 		if (isCard) {
 			io::copyFile(Archive::sdmc(), Archive::sdmc(), u"/garden_plus.dat", StringUtils::UTF8toUTF16(path.c_str()));
 		} else {
-			io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(selectedSaveFolderEditor.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
+			io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(savePath.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
 		}
 
 		// Display at the end, where the backup is.

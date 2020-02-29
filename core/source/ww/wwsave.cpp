@@ -227,9 +227,9 @@ bool WWSave::Commit(bool close) {
 	// Update checksums.
 	WWChecksum::UpdateChecksum(reinterpret_cast<u16*>(m_saveBuffer), 0x15FE0 / sizeof(u16));
 	WWSave::Instance()->Write(0x15FE0, m_saveBuffer, 0x15FE0);
-	FILE *saveFile = fopen(m_saveFile, "rb+");
+	FILE *sF = fopen(m_saveFile.c_str(), "rb+");
 
-	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
+	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, sF));
 
 	if (res) {
 		m_changesMade = false;
@@ -239,6 +239,6 @@ bool WWSave::Commit(bool close) {
 		Close();
 	}
 
-	fclose(saveFile);
+	fclose(sF);
 	return res;
 }

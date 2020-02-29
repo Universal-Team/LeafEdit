@@ -86,7 +86,7 @@ public:
 private:
 	u8 *m_saveBuffer;
 	u64 m_saveSize;
-	const char *m_saveFile;
+	std::string m_saveFile;
 	bool m_changesMade;
 	WWSave(void);
 	~WWSave(void);

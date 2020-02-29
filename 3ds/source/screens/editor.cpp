@@ -24,24 +24,104 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "buildingManagement.hpp"
 #include "editor.hpp"
+#include "fileBrowse.hpp"
 #include "init.hpp"
+#include "itemManagement.hpp"
 #include "miscEditor.hpp"
 #include "miscEditorWW.hpp"
+#include "offsets.hpp"
 #include "playerEditor.hpp"
 #include "playerEditorWW.hpp"
 #include "save.hpp"
+#include "utils.hpp"
+#include "villagerManagement.hpp"
 #include "villagerViewer.hpp"
 #include "villagerViewerWW.hpp"
 #include "wwsave.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
-extern int saveType; // Type of the save.. NL/WW.
-extern Save *SaveFile;
-extern WWSave *WWSaveFile;
-extern std::string selectedSaveFolderEditor;
+#include <unistd.h>
 
-void Editor::Draw(void) const
+extern std::vector<std::string> g_villagerDatabase;
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+int saveType = 0; // Type of the save.. NL/WW.
+Save *SaveFile;
+WWSave *WWSaveFile;
+
+void Editor::Draw(void) const {
+	if (EditorMode == 0) {
+		DrawMain();
+	} else if (EditorMode == 1) {
+		DrawEditor();
+	}
+}
+
+void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (EditorMode == 0) {
+		MainLogic(hDown, hHeld, touch);
+	} else if (EditorMode == 1) {
+		EditorLogic(hDown, hHeld, touch);
+	}
+}
+
+void Editor::DrawMain(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
+	GFX::DrawBottom();
+	for (int i = 0; i < 2; i++) {
+		Gui::Draw_Rect(editorMainBtn[i].x, editorMainBtn[i].y, editorMainBtn[i].w, editorMainBtn[i].h, UNSELECTED_COLOR);
+		if (Selection == i) {
+			GFX::DrawSprite(sprites_pointer_idx, editorMainBtn[i].x+130, editorMainBtn[i].y+25);
+		}
+	}
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("RAW_SAVES")))/2-20+17.5, 0.8, WHITE, Lang::get("RAW_SAVES"), 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("MEDIATYPE")))/2-20+17.5, 0.8, WHITE, Lang::get("MEDIATYPE"), 130, 25);
+}
+
+void Editor::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_RIGHT) {
+		if (Selection == 0)	Selection = 1;
+	} else if (hDown & KEY_LEFT) {
+		if (Selection == 1)	Selection = 0;
+	}
+
+	if (hDown & KEY_A) {
+		if (Selection == 0) {
+			std::string path = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", Lang::get("SELECT_A_SAVE"));
+			if (path != "") {
+				if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "sav") == 0)) {
+					PrepareWW(path);
+				} else if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "dat") == 0)) {
+					PrepareNL(path);
+				}
+			}
+		} else if (Selection == 1) {
+			Msg::NotImplementedYet();
+		}
+	}
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, editorMainBtn[0])) {
+			std::string path = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", Lang::get("SELECT_A_SAVE"));
+			if (path != "") {
+				if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "sav") == 0)) {
+					PrepareWW(path);
+				} else if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "dat") == 0)) {
+					PrepareNL(path);
+				}
+			}
+		} else if (touching(touch, editorMainBtn[1])) {
+			Msg::NotImplementedYet();
+		}
+	}
+
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+}
+
+void Editor::DrawEditor(void) const
 {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
@@ -60,7 +140,7 @@ void Editor::Draw(void) const
 	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.8f, WHITE, Lang::get("MISC_EDITOR"), 130);
 }
 
-void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch)
+void Editor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch)
 {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
@@ -95,6 +175,53 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch)
 	}
 }
 
+
+// Prepare a New Leaf save.
+void Editor::PrepareNL(const std::string savePath) {
+	if(access(savePath.c_str(), F_OK) == 0) {
+		std::string prompt = Lang::get("NEWLEAF_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
+		if(Msg::promptMsg(prompt.c_str())) {
+			const char *save = savePath.c_str();
+			saveType = 0;
+			SaveFile = Save::Initialize(save, true);
+			// Check, if SaveFile has correct size.
+			if (SaveFile->GetSaveSize() != SIZE_SAVE) {
+				Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
+				SaveFile->Close();
+				return;
+			}
+			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+			Init::loadNLSheets();
+			BuildingManagement::loadDatabase();
+			ItemManagement::LoadDatabase(Config::getLang("Lang"));
+			// Clear Villager then reload, so we can avoid having double names.
+			g_villagerDatabase.clear();
+			Lang::loadVillager(1, true);
+			Utils::createBackup(false, savePath);
+			EditorMode = 1;
+		}
+	}
+}
+
+// Prepare a Wild World save.
+void Editor::PrepareWW(const std::string savePath) {
+	if(access(savePath.c_str(), F_OK) == 0) {
+		std::string prompt = Lang::get("WILDWORLD_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
+		if(Msg::promptMsg(prompt.c_str())) {
+			const char *save = savePath.c_str();
+			saveType = 1; 
+			WWSaveFile = WWSave::Initialize(save, true);
+			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+			Init::loadWWSheets();
+			// Clear Villager then reload, so we can avoid having double names.
+			g_villagerDatabase.clear();
+			Lang::loadVillager(1, false);
+			EditorMode = 1;
+		}
+	}
+}
+
+// Set Screen.
 void Editor::SetMode(int mode) {
 	if (saveType == 0) {
 		switch (mode) {
@@ -132,7 +259,6 @@ void Editor::saveNL() {
 	// Set Screen to Browse & Reset Save Folder.
 	SaveFile->Close();
 	Init::unloadNLSheets();
-	selectedSaveFolderEditor = "";
 	Gui::screenBack();
 	return;
 }
@@ -144,7 +270,6 @@ void Editor::saveWW() {
 	// Set Screen to Browse & Reset Save Folder.
 	WWSaveFile->Close();
 	Init::unloadWWSheets();
-	selectedSaveFolderEditor = "";
 	Gui::screenBack();
 	return;
 }

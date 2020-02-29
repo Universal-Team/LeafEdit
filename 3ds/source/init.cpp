@@ -181,7 +181,7 @@ Result Init::Initialize() {
 		UNSELECTED_COLOR = UNSELECTED_DEEPRED;
 	}
 
-    GameLoader::checkUpdate();
+	GameLoader::checkUpdate();
 	// Return the Welcome Amiibo State.
 	if (Config::getBool("update") == false) {
 		WelcomeAmiibo = false;
@@ -196,12 +196,12 @@ Result Init::Initialize() {
 		Gui::setScreen(std::make_unique<MainMenu>());
 	}
 
-    return 0;
+	return 0;
 }
 
 Result Init::MainLoop() {
-    // Initialize everything.
-    Initialize();
+	// Initialize everything.
+	Initialize();
 
 	// Loop as long as the status is not exiting.
 	while (aptMainLoop() && !exiting)
@@ -225,9 +225,9 @@ Result Init::MainLoop() {
 			}
 		}
 	}
-    // Exit all services and exit the app.
-    Exit();
-    return 0;
+	// Exit all services and exit the app.
+	Exit();
+	return 0;
 }
 
 Result Init::Exit() {
@@ -238,8 +238,8 @@ Result Init::Exit() {
 	Config::save();
 	Archive::exit();
 	Gui::exit();
-    Gui::unloadFont();
-    Gui::unloadSheet(sprites);
+	Gui::unloadFont();
+	Gui::unloadSheet(sprites);
 	cfguExit();
 	gfxExit();
 	romfsExit();

@@ -26,6 +26,7 @@
 	
 
 	"CANCEL":						"Do you want to cancel?",
+	"CANCEL_SAVE_SELECTION":		"Cancel the Save Selection?",
 	"CARD":							"Gamecard",
 	"CHANGE_VILLAGER_LR":			"Press Left/Right to change the Villager.",
 	"CLEAR_BANK":					"Clear Bank",
@@ -127,6 +128,7 @@
 	"MAX_MEDALS":					"Max Medals",
 	"MAX_WALLET":					"Max Wallet",
 	"MEDAL_AMOUNT":					"Medal Amount",
+	"MEDIATYPE":					"MediaType",
 	"MISC_EDITOR":					"Misc Editor",
 	"MONDAY":						"Monday",
 
@@ -158,6 +160,7 @@
 	"PREPARING_EDITOR":				"Preparing Editor... please wait.",
 	"PREPARING_TOWN_EDITOR":		"Preparing Town Map Editor... please wait.",
 	
+	"RAW_SAVES":					"Raw Saves",
 	"READ_MODE":					"Read Mode",
 	"REFRESH":						"Press Start to Refresh the FileBrowse.",
 	"REGION_SELECT":				"Select the region of your game.",

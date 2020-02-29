@@ -1,5 +1,5 @@
+#include "common.hpp"
 #include "fileBrowse.hpp"
-#include "msg.hpp"
 
 #include <3ds.h>
 #include <cstring>
@@ -13,11 +13,7 @@
 #include <array>
 #include <iostream>
 
-int file_count = 0;
-uint selectedFile = 0;
-int keyRepeatDelay = 3;
-bool dirChanged = true;
-std::vector<DirEntry> dirContents;
+extern touchPosition touch;
 
 off_t getFileSize(const char *fileName)
 {
@@ -103,17 +99,103 @@ std::vector<std::string> getContents(const std::string &name, const std::vector<
 	return dirContents;
 }
 
-// Directory exist?
-bool returnIfExist(const std::string &path, const std::vector<std::string> &extensionList) {
+// Draw the Browse.
+static void DrawBrowse(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
+	std::string dirs;
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawFileBrowseBG();
+	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Text, 395);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("REFRESH"), 390);
+	for (uint i=(Selection<5) ? 0 : (uint)Selection-5;i<dirContents.size()&&i<((Selection<5) ? 6 : Selection+1);i++) {
+		if (i == Selection) {
+			dirs += "> " + dirContents[i].name + "\n\n";
+		} else {
+			dirs += dirContents[i].name + "\n\n";
+		}
+	}
+	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
+		dirs += "\n\n";
+	}
+	Gui::DrawString(26, 32, 0.65f, WHITE, dirs.c_str(), 360);
+	GFX::DrawFileBrowseBG(false);
+	C3D_FrameEnd(0);
+}
+
+
+std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text) {
+	s32 selectedSave = 0;
+	static int keyRepeatDelay = 4;
+	static bool dirChanged = false;
+	std::vector<DirEntry> dirContents;
+
+	// Initial dir change.
 	dirContents.clear();
-	chdir(path.c_str());
+	chdir(initialPath.c_str());
 	std::vector<DirEntry> dirContentsTemp;
-	getDirectoryContents(dirContentsTemp, extensionList);
+	getDirectoryContents(dirContentsTemp, SaveType);
 	for(uint i=0;i<dirContentsTemp.size();i++) {
 		dirContents.push_back(dirContentsTemp[i]);
 	}
-	if (dirContents.size() == 0) {
-		return false;
+
+	while (1) {
+		// Screen draw part.
+		DrawBrowse(selectedSave, dirContents, Text);
+
+		// The input part.
+		hidScanInput();
+		u32 hDown = hidKeysDown();
+		u32 hHeld = hidKeysHeld();
+		hidTouchRead(&touch);
+		if (keyRepeatDelay)	keyRepeatDelay--;
+
+		// if directory changed -> Refresh it.
+		if (dirChanged) {
+			dirContents.clear();
+			std::vector<DirEntry> dirContentsTemp;
+			getDirectoryContents(dirContentsTemp, SaveType);
+			for(uint i=0;i<dirContentsTemp.size();i++) {
+				dirContents.push_back(dirContentsTemp[i]);
+			}
+			dirChanged = false;
+		}
+
+		if (hDown & KEY_A) {
+			if (dirContents[selectedSave].isDirectory) {
+				chdir(dirContents[selectedSave].name.c_str());
+				selectedSave = 0;
+				dirChanged = true;
+			} else {
+				return dirContents[selectedSave].name;
+			}
+		}
+
+		if (hHeld & KEY_UP) {
+			if (selectedSave > 0 && !keyRepeatDelay) {
+				selectedSave--;
+				keyRepeatDelay = 6;
+			}
+		} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+			if ((uint)selectedSave < dirContents.size()-1) {
+				selectedSave++;
+				keyRepeatDelay = 6;
+			}
+		} else if (hDown & KEY_B) {
+			char path[PATH_MAX];
+			getcwd(path, PATH_MAX);
+			if(strcmp(path, "sdmc:/") == 0 || strcmp(path, "/") == 0) {
+				if(Msg::promptMsg(Lang::get("CANCEL_SAVE_SELECTION"))) {
+					return "";
+				}
+			} else {
+				chdir("..");
+				selectedSave = 0;
+				dirChanged = true;
+			}
+		} else if (hDown & KEY_START) {
+			dirChanged = true;
+		}
 	}
-	return true;
 }

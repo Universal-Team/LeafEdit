@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "editor.hpp"
 #include "mainMenu.hpp"
-#include "saveBrowse.hpp"
 #include "screenCommon.hpp"
 #include "settings.hpp"
 
@@ -67,7 +67,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 			case 1:
 				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-					Gui::setScreen(std::make_unique<SaveBrowse>());
+					Gui::setScreen(std::make_unique<Editor>());
 				}
 				break;
 			case 2:
@@ -81,8 +81,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Msg::DisplayWarnMsg("Title Loader needs to be reimplemented.");
 		} else if (touching(touch, mainButtons[1])) {
 			if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-				Gui::setScreen(std::make_unique<SaveBrowse>());
+				Gui::setScreen(std::make_unique<Editor>());
 			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>());

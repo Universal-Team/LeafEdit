@@ -20,6 +20,8 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents);
 void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
 std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
 
-bool returnIfExist(const std::string &path, const std::vector<std::string> &extensionList);
+namespace SaveBrowse {
+	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
+}
 
 #endif

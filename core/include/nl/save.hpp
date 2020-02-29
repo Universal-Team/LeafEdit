@@ -106,7 +106,7 @@ public:
 private:
 	u8 *m_saveBuffer = nullptr;
 	u64 m_saveSize;
-	const char *m_saveFile;
+	std::string m_saveFile;
 	bool m_changesMade;
 
 	#ifdef _3DS

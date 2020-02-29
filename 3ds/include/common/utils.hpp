@@ -58,7 +58,7 @@ namespace EditorUtils
 namespace Utils
 {
 	void colorLogic(int mode);
-	void createBackup(bool isCard = false);
+	void createBackup(bool isCard, std::string savePath);
 }
 
 #define TEXTURE_TRANSFER_FLAGS \
