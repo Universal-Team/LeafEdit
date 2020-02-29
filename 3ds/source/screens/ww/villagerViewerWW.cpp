@@ -28,6 +28,7 @@
 
 #include "keyboard.hpp"
 #include "screenCommon.hpp"
+#include "villagerEditorWW.hpp"
 #include "villagerViewerWW.hpp"
 #include "wwsave.hpp"
 #include "wwVillager.hpp"
@@ -114,12 +115,12 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void VillagerViewerWW::VillagerLogic(u32 hDown, u32 hHeld) {
-	/*// Switch to the Villager Editor Screen.
+	// Switch to the Villager Editor Screen.
 	if (hDown & KEY_A) {
-		Gui::setScreen(std::make_unique<WWVillagerEditor>());
+		Gui::setScreen(std::make_unique<VillagerEditorWW>());
 		// Set the Screen to the Editor Class. -> To-Do.
 	}
-	*/
+	
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("B_BACK") + "\n" + Lang::get("LR_SWITCH_PAGE"));
 	}
@@ -129,17 +130,6 @@ void VillagerViewerWW::VillagerLogic(u32 hDown, u32 hHeld) {
 		if(wwCurrentVillager < 7)	wwCurrentVillager++;
 	} else if (hDown & KEY_L) {
 		if(wwCurrentVillager > 0)	wwCurrentVillager--;
-	}
-
-	// Change the current Villager. Do it inside the editor screen later.
-	if (hDown & KEY_Y) {
-		u8 oldID = WWSaveFile->villagers[wwCurrentVillager]->GetId();
-		if (Msg::promptMsg("Would you like to replace the Villager?")) {
-			u8 newID = WWVillagerManagement::SelectVillager(oldID);
-			if (Msg::promptMsg("Set the Villager to:" + g_villagerDatabase[newID])) {
-				WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
-			}
-		}
 	}
 
 	// Go back to the Editor Screen.
