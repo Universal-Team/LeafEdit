@@ -24,19 +24,18 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGERMANAGEMENT_HPP
-#define VILLAGERMANAGEMENT_HPP
+#ifndef WWVILLAGERMANAGEMENT_HPP
+#define WWVILLAGERMANAGEMENT_HPP
 
 #include "common.hpp"
 
 #include <3ds.h>
 
-namespace VillagerManagement
+namespace WWVillagerManagement
 {
-	void getVillagerIDs(int group); // Get start & End ID for the Villager Selection.
-	void DrawVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite.
+	void DrawVillager(u8 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite for AC:WW.
 	void DrawVillagerSelection(int selection, int page = 0);
-	u16 SelectVillager(u16 currentVillager);
+	u8 SelectVillager(u8 currentVillager);
 }
 
 #endif

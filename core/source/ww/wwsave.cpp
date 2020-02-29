@@ -221,6 +221,12 @@ bool WWSave::Commit(bool close) {
 	for (int i = 0; i < 4; i++) {
 		players[i]->Write();
 	}
+
+	// Save Villager.
+	for (int i = 0; i < 8; i++) {
+		villagers[i]->Write();
+	}
+
 	// Save Town.
 	town->Write();
 

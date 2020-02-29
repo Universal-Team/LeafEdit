@@ -28,10 +28,10 @@
 
 #include "keyboard.hpp"
 #include "screenCommon.hpp"
-#include "villagerManagement.hpp"
 #include "villagerViewerWW.hpp"
 #include "wwsave.hpp"
 #include "wwVillager.hpp"
+#include "wwVillagerManagement.hpp"
 
 #include <3ds.h>
 #include <sys/stat.h>
@@ -59,7 +59,7 @@ void VillagerViewerWW::DrawVillagerList(void) const {
 	std::string villagerID = Lang::get("VILLAGER_ID");
 	for (int i = 0; i < 149; i++) {
 		if (villagerViewerSprite == i) {
-			VillagerManagement::DrawWWVillager(i, 160, 60);
+			WWVillagerManagement::DrawVillager(i, 160, 60);
 			wwVillagerNameText = g_villagerDatabase[i];
 			villagerID += std::to_string(villagerViewerSprite);
 		}
@@ -131,6 +131,17 @@ void VillagerViewerWW::VillagerLogic(u32 hDown, u32 hHeld) {
 		if(wwCurrentVillager > 0)	wwCurrentVillager--;
 	}
 
+	// Change the current Villager. Do it inside the editor screen later.
+	if (hDown & KEY_Y) {
+		u8 oldID = WWSaveFile->villagers[wwCurrentVillager]->GetId();
+		if (Msg::promptMsg("Would you like to replace the Villager?")) {
+			u8 newID = WWVillagerManagement::SelectVillager(oldID);
+			if (Msg::promptMsg("Set the Villager to:" + g_villagerDatabase[newID])) {
+				WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
+			}
+		}
+	}
+
 	// Go back to the Editor Screen.
 	if (hDown & KEY_B) {
 		Gui::screenBack();
@@ -150,7 +161,7 @@ void VillagerViewerWW::DrawVillager(void) const {
 	for (int i = 0; i < 8; i++) {
 		if (wwCurrentVillager == i) {
 			u8 villager = WWSaveFile->villagers[i]->GetId();
-			VillagerManagement::DrawWWVillager(villager, 160, 60);
+			WWVillagerManagement::DrawVillager(villager, 160, 60);
 			if (WWSaveFile->villagers[i]->GetId() > 149) {
 				wwVillagerNameText = g_villagerDatabase[150];
 			} else {
