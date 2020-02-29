@@ -59,6 +59,25 @@ void PlayerManagement::DrawFace(u16 Gender, u8 FaceID, int x, int y, float Scale
 	}
 }
 
+// Set Gender to Player.
+void PlayerManagement::setGender(int currentPlayer) {
+	std::string Gender;
+	// Get right Gender.
+	if (SaveFile->players[currentPlayer]->Gender == 0) {
+		Gender += "Female";
+	} else {
+		Gender += "Male";
+	}
+
+	if (Msg::promptMsg("Change Gender to: " + Gender + "?")) {
+		if (SaveFile->players[currentPlayer]->Gender == 0) {
+			SaveFile->players[currentPlayer]->Gender = 1;
+		} else if (SaveFile->players[currentPlayer]->Gender == 1) {
+			SaveFile->players[currentPlayer]->Gender = 0;
+		}
+	}
+}
+
 // Draw the Hair sprite. Exceptions: Hair ID 16 & 33 doesn't really exist, that's called a 'Bed Hair' one and they are drawn as transparent.
 void PlayerManagement::DrawHair(u8 HairID, int x, int y, float ScaleX, float ScaleY) {
 	Gui::DrawSprite(Hairs, HairID, x, y, ScaleX, ScaleY);

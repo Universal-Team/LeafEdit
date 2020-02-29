@@ -39,6 +39,16 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 
 private:
+	int selection = 0;
+	
+	std::vector<Structs::ButtonPos> buttons = {
+		{10, 40, 140, 35}, // Town Name.
+		{10, 100, 140, 35}, // Debts.
+		{10, 160, 140, 35}, // ?.
+		{170, 40, 140, 35}, // ?.
+		{170, 100, 140, 35}, // ?.
+		{170, 160, 140, 35}, // ?.
+	};
 };
 
 #endif

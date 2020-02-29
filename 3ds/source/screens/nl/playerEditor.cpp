@@ -494,6 +494,10 @@ void PlayerEditor::PlayerStyleLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_X) {
+		PlayerManagement::setGender(cp);
+	}
+	
 	// Selection.
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;

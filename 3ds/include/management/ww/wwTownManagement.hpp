@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYERMANAGEMENT_HPP
-#define PLAYERMANAGEMENT_HPP
+#ifndef WWTOWNMANAGEMENT_HPP
+#define WWTOWNMANAGEMENT_HPP
 
 #include "common.hpp"
 
@@ -33,31 +33,10 @@
 #include <stdio.h>
 #include <string>
 
-namespace PlayerManagement
+namespace WWTownManagement
 {
-	void DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw Badges.
-	void DrawFace(u16 Gender, u8 FaceID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Face.
-	void DrawHair(u8 HairID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Hair.
-
-	void DrawHairSelection(int selection, bool isFemale = false);
-	void DrawFaceSelection(int selection, bool isFemale = false);
-	void DrawHairColorSelection(int selection);
-	void DrawTanSelection(int selection);
-	void DrawEyeColorSelection(int selection);
-
-	void setGender(int currentPlayer);
-	u8 SelectHair(u8 currentHair);
-	u8 SelectFace(u8 currentFace, u16 Gender);
-	u8 SelectHairColor(u8 currentColor);
-	u32 SelectTan(u32 currentTan);
-	u8 SelectEyeColor(u8 currentColor);
-
-	// Get Hair & Eye color.
-	u32 getHairColor(u8 hairColor);
-	u32 getEyeColor(u8 eyeColor);
-
-	// TPC Image.
-	void dumpTPC(int selectedPlayer);
+	void setTownName();
+	void setDebt();
 }
 
 #endif

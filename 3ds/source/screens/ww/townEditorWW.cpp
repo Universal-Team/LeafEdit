@@ -29,6 +29,7 @@
 #include "utils.hpp"
 #include "wwsave.hpp"
 #include "wwTown.hpp"
+#include "wwTownManagement.hpp"
 
 #include <3ds.h>
 
@@ -43,6 +44,16 @@ void TownEditorWW::Draw(void) const
 	Gui::DrawStringCentered(0, 45, 0.9f, WHITE, "Town Name: " + StringUtils::UTF16toUTF8(WWSaveFile->town->Name), 380);
 	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, "Debt: " + std::to_string(WWSaveFile->town->Debt), 380);
 	GFX::DrawBottom();
+
+	for (int i = 0; i < 6; i++) {
+		Gui::Draw_Rect(buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h, UNSELECTED_COLOR);
+		if (selection == i) {
+			GFX::DrawSprite(sprites_pointer_idx, buttons[i].x+130, buttons[i].y+25);
+		}
+	}
+
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Town Name"))/2-80+17.5, 0.8, WHITE, "Town Name", 130, 25);
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Debt"))/2-20+17.5, 0.8, WHITE, "Debt", 130, 25);
 }
 
 
@@ -51,6 +62,40 @@ void TownEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_A) {
+		switch (selection) {
+			case 0:
+				WWTownManagement::setTownName();
+				break;
+			case 1:
+				WWTownManagement::setDebt();
+				break;
+			default:
+				break;
+		}
+	}
+
+	// Selection.
+	if (hDown & KEY_UP) {
+		if(selection > 0)	selection--;
+	}
+	
+	if (hDown & KEY_DOWN) {
+			if(selection < 5)	selection++;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (selection < 3) {
+			selection += 3;
+		}
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (selection < 6 && selection > 2) {
+			selection -= 3;
+		}
 	}
 
 	if (hHeld & KEY_SELECT) {

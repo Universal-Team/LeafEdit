@@ -28,11 +28,13 @@
 #include "wwsave.hpp"
 
 WWTown::WWTown() {
-	this->Name = WWSave::Instance()->ReadString(0x0004, 8, false); 
+	this->Name = WWSave::Instance()->ReadString(0x0004, 7, false);
 	this->Debt = WWSave::Instance()->ReadU32(0xFAE8);
 }
 
 WWTown::~WWTown() { }
 
 void WWTown::Write() {
+	WWSave::Instance()->Write(0x0004, this->Name, 7, false);
+	WWSave::Instance()->Write(0xFAE8, this->Debt);
 }
