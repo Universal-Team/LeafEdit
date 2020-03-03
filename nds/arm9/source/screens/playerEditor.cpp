@@ -38,6 +38,17 @@ extern WWSave* SaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 int selectedPassedPlayer;
 
+extern std::vector<std::string> g_hairStyle;
+extern std::vector<std::string> g_hairColor;
+extern std::vector<std::string> g_faceType;
+
+const std::vector<std::string> &TanLevel = {
+	"0",
+	"1",
+	"2",
+	"3",
+};
+
 void PlayerEditor::DrawPlayerBoxes(void) const {
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 2; x++) {
@@ -61,8 +72,6 @@ void PlayerEditor::DrawPlayerSelection(void) const {
 	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
 	DrawPlayerBoxes();
 	printTextCentered("Current Player: " + std::to_string(selectedPlayer+1), 0, 172, true, true);
-
-	//VillagerManagement::DrawVillager(SaveFile->villagers[0]->GetId(), 100, 100); // That was my test.
 	Gui::DrawBottom();
 }
 
@@ -95,11 +104,13 @@ void PlayerEditor::DrawSubMenu(void) const {
 void PlayerEditor::DrawPlayerScreen(void) const {
 	Gui::DrawTop();
 	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
-
 	drawRectangle(20, 35, 216, 30, DARK_GREEN, true, true);
 	printTextCentered(SaveFile->players[cp]->Name, 0, 40, true, true);
-	printTextCentered("Bells: " + std::to_string(SaveFile->players[cp]->Bells), 0, 80, true, true);
-
+	printTextCentered("Bells: " + std::to_string(SaveFile->players[cp]->Bells), 0, 65, true, true);
+	printTextCentered("Gender: " + std::to_string(SaveFile->players[cp]->Gender), 0, 90, true, true);
+	printTextCentered("TAN: " + std::to_string(SaveFile->players[cp]->TAN), 0, 115, true, true);
+	printTextCentered("Facetype: " + std::to_string(SaveFile->players[cp]->FaceType), 0, 140, true, true);
+	printTextCentered("HairStyle: " + std::to_string(SaveFile->players[cp]->HairType), 0, 165, true, true);
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		if (selection == i) {
@@ -111,6 +122,9 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 	printTextCentered("Bells", -64, 40, false, true);
 	printTextCentered("Name", -64, 90, false, true);
 	printTextCentered("Gender", -64, 140, false, true);
+	printTextCentered("TAN", 64, 40, false, true);
+	printTextCentered("FaceType", 64, 90, false, true);
+	printTextCentered("HairStyle", 64, 140, false, true);
 }
 
 void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
@@ -118,12 +132,27 @@ void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 		switch (selection) {
 			case 0:
 				PlayerManagement::setBells(cp);
+				Gui::clearScreen(true, true);
 				break;
 			case 1:
 				PlayerManagement::setName(cp);
+				Gui::clearScreen(true, true);
 				break;
 			case 2:
 				PlayerManagement::setGender(cp);
+				Gui::clearScreen(true, true);
+				break;
+			case 3:
+				SaveFile->players[cp]->TAN = (u8)Gui::selectList(SaveFile->players[cp]->TAN, TanLevel);
+				Gui::clearScreen(true, true);
+				break;
+			case 4:
+				SaveFile->players[cp]->FaceType = (u8)Gui::selectList(SaveFile->players[cp]->FaceType, g_faceType);
+				Gui::clearScreen(true, true);
+				break;
+			case 5:
+				SaveFile->players[cp]->HairType = (u8)Gui::selectList(SaveFile->players[cp]->HairType, g_hairStyle);
+				Gui::clearScreen(true, true);
 				break;
 			default:
 				break;

@@ -24,31 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "graphics.hpp"
-#include "screen.hpp"
+#ifndef VILLAGERVIEWER_HPP
+#define VILLAGERVIEWER_HPP
 
-namespace Gui {
-	void mainLoop(u16 hDown, touchPosition touch);
-	void setScreen(std::unique_ptr<Screen> screen);
-	void screenBack(void);
+#include "screenCommon.hpp"
 
-	// GUI Stuff.
-	void DrawTop(void);
-	void DrawBottom(void);
+#include "structs.hpp"
+#include <vector>
 
-	/* 	Clear a Screen & Layer.
- 		* bool top is whether to draw on the top or bottom screen.
- 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
-	*/ 
-	void clearScreen(bool top, bool layer);
+class VillagerViewer : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	int villagerViewerSprite = 0;
+	int villagerMode = 0;
 
-	// Sprites stuff
+	// Draw the current Villager Screen.
+	void DrawVillager(void) const;
+	void VillagerLogic(u16 hDown);
 
-	extern int keyboardSpriteID, pointer;
+	// Villager Watching List.
+	void DrawVillagerList(void) const;
+	void VillagerListLogic(u16 hDown, touchPosition touch);
 
-	void initSprites(void);
-	void loadSprites(void);
-	
-	// Select something from a list.
-	int selectList(int current, const std::vector<std::string> &list);
+	// Current Villager and Title Draw.
+	void DrawCurrentVillager(void) const;
+	void DrawBox(void) const;
 };
+
+#endif

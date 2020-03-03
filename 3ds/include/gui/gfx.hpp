@@ -33,6 +33,7 @@
 #include <3ds.h>
 #include <citro2d.h>
 #include <citro3d.h>
+#include <vector>
 
 // Default colors i guess.
 #define DIM C2D_Color32(0, 0, 0, 190)
@@ -84,6 +85,9 @@ namespace GFX {
 	void DrawNPC(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawSprite(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX = 1, float ScaleY = 1);
+
+	// Selection from list.
+	int ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg);
 }
 
 #endif

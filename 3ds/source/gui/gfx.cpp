@@ -87,6 +87,56 @@ void GFX::DrawFileBrowseBG(bool isTop) {
 	}
 }
 
+static void DrawList(int selection, const std::vector<std::string> &List, const std::string &Msg) {
+	std::string lists;
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawFileBrowseBG(true);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Msg, 400);
+	for (int i = (selection<5) ? 0 : selection-5;i< (int)List.size() && i <((selection<5) ? 6 : selection+1);i++) {
+		if (i == selection) {
+			lists += "> " + List[i] + "\n\n";
+		} else {
+			lists += List[i] + "\n\n";
+		}
+	}
+	Gui::DrawString(26, 32, 0.65f, WHITE, lists, 360);
+	GFX::DrawFileBrowseBG(false);
+	C3D_FrameEnd(0);
+}
+
+int GFX::ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg) {
+	s32 selection = current;
+	int keyRepeatDelay = 0;
+	while (1) {
+		// Draw List.
+		DrawList(selection, list, Msg);
+		hidScanInput();
+		if (keyRepeatDelay)	keyRepeatDelay--;
+		if (hidKeysHeld() & KEY_DOWN && !keyRepeatDelay) {
+			if (selection < (int)list.size()-1)	selection++;
+			else	selection = 0;
+			keyRepeatDelay = 6;
+		}
+
+		if (hidKeysHeld() & KEY_UP && !keyRepeatDelay) {
+			if (selection > 0)	selection--;
+			else if (selection == 0)	selection = (int)list.size()-1;
+			keyRepeatDelay = 6;
+		}
+
+		if (hidKeysDown() & KEY_A) {
+			return selection;
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return current;
+		}
+	}
+}
+
 void GFX::DrawArrow(int x, int y, float rotation) {
 	C2D_Sprite sprite;
 	C2D_ImageTint tint;

@@ -24,14 +24,11 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "editor.hpp"
 #include "fileBrowse.hpp"
 #include "msg.hpp"
-
-#include "management/playerManagement.hpp"
-
-#include "editor.hpp"
 #include "playerEditor.hpp"
-
+#include "villagerViewer.hpp"
 #include "wwoffsets.hpp"
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
@@ -93,7 +90,7 @@ void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
 		if (selection == 0) {
 			Gui::setScreen(std::make_unique<PlayerEditor>());
 		} else if (selection == 1) {
-//			Gui::setScreen(std::make_unique<VillagerViewer>());
+			Gui::setScreen(std::make_unique<VillagerViewer>());
 		} else if (selection == 2) {
 //			Gui::setScreen(std::make_unique<MiscEditor>());
 		}
@@ -102,6 +99,8 @@ void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<PlayerEditor>());
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<VillagerViewer>());
 		}
 	}
 }

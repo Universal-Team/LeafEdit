@@ -74,9 +74,81 @@ void Gui::clearScreen(bool top, bool layer) {
 
 // Sprites stuff
 
-int Gui::keyboardSpriteID;
+int Gui::keyboardSpriteID, Gui::pointer;
+Image pointerImg;
 
+// Initialize Sprite.
 void Gui::initSprites(void) {
 	keyboardSpriteID = initSprite(false, SpriteSize_32x32);
 	prepareSprite(keyboardSpriteID, false, 0, 0, 0);
+	/* TODO.
+	pointer = initSprite(false, SpriteSize_32x32);
+	prepareSprite(pointer, false, 0, 0, 0);
+	setSpriteVisibility(pointer, false, false);
+	*/
+}
+
+// Load sprites.
+void Gui::loadSprites(void) {
+	pointerImg = loadImage("/graphics/pointer.gfx");
+}
+
+static void drawList(int screenPos, bool background, const std::vector<std::string> &list) {
+	if (background) {
+		// Clear screen.
+		drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
+	}
+	// Clear text.
+	drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+	// Print list.
+	for (unsigned i=0;i<std::min(9u, list.size()-screenPos);i++) {
+		printText(list[screenPos+i], 4, 4+(i*20), false, true);
+	}
+}
+
+int Gui::selectList(int current, const std::vector<std::string> &list) {
+	// Print list.
+	drawList(current, true, list);
+
+	int held, pressed, screenPos = current, newSelection = current, entriesPerScreen = 9;
+	while(1) {
+		do {
+			swiWaitForVBlank();
+			scanKeys();
+			pressed = keysDown();
+			held = keysDownRepeat();
+		} while(!held);
+
+		if (held & KEY_UP) {
+			if (newSelection > 0)	newSelection--;
+			else	newSelection = list.size()-1;
+		} else if (held & KEY_DOWN) {
+			if (newSelection < (int)list.size()-1)	newSelection++;
+			else newSelection = 0;
+		} else if (held & KEY_LEFT) {
+			newSelection -= entriesPerScreen;
+			if (newSelection < 0)	newSelection = 0;
+		} else if (held & KEY_RIGHT) {
+			newSelection += entriesPerScreen;
+			if (newSelection > (int)list.size()-1)	newSelection = list.size()-1;
+		} else if (pressed & KEY_A) {
+			for (unsigned int i=0;i<list.size();i++) {
+				drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+				return newSelection;
+			}
+
+		} if (pressed & KEY_B) {
+			drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+			return current;
+		}
+
+		// Scroll screen if needed.
+		if (newSelection < screenPos) {
+			screenPos = newSelection;
+			drawList(screenPos, false, list);
+		} else if (newSelection > screenPos + entriesPerScreen - 1) {
+			screenPos = newSelection - entriesPerScreen + 1;
+			drawList(screenPos, false, list);
+		}
+	}
 }

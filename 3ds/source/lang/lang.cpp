@@ -9,6 +9,10 @@ std::vector<std::string> g_groups;
 std::vector<std::string> g_badges;
 std::vector<std::string> g_villagerDatabase;
 
+std::vector<std::string> g_wwFaceType;
+std::vector<std::string> g_wwHairColor;
+std::vector<std::string> g_wwHairStyle;
+
 // Load a Text file or such to a Vector.
 static void loadToVector(std::string path, std::vector<std::string> &vec) {
 	char* line = NULL;
@@ -32,11 +36,21 @@ std::string Lang::get(const std::string &key) {
 
 std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
-void Lang::load(int lang) {
+void Lang::loadWW(int lang) {
+	loadToVector("romfs:/lang/"+langs[lang]+"/wwFaceType.txt", g_wwFaceType);
+	loadToVector("romfs:/lang/"+langs[lang]+"/wwHairColor.txt", g_wwHairColor);
+	loadToVector("romfs:/lang/"+langs[lang]+"/wwHairStyle.txt", g_wwHairStyle);
+	loadToVector("romfs:/lang/"+langs[lang]+"/wwVillager.txt", g_villagerDatabase);
+}
+
+void Lang::loadNL(int lang) {
 	loadToVector("romfs:/lang/"+langs[lang]+"/groups.txt", g_groups);
 	loadToVector("romfs:/lang/"+langs[1]+"/badges.txt", g_badges);
+	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
+}
+
+void Lang::load(int lang) {
 	FILE* values;
-	
 	if (Config::getInt("LangLocation") == 1) {
 		values = fopen(("sdmc:/LeafEdit/lang/"+langs[lang]+"/app.json").c_str(), "rt");
 	} else {
@@ -44,9 +58,4 @@ void Lang::load(int lang) {
 	}
 	if(values)	appJson = nlohmann::json::parse(values, nullptr, false);
 	fclose(values);
-}
-
-void Lang::loadVillager(int lang, bool isNewLeaf) {
-	if (isNewLeaf)	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
-	else	loadToVector("romfs:/lang/"+langs[lang]+"/wwVillager.txt", g_villagerDatabase);
 }

@@ -194,9 +194,7 @@ void Editor::PrepareNL(const std::string savePath) {
 			Init::loadNLSheets();
 			BuildingManagement::loadDatabase();
 			ItemManagement::LoadDatabase(Config::getLang("Lang"));
-			// Clear Villager then reload, so we can avoid having double names.
-			g_villagerDatabase.clear();
-			Lang::loadVillager(1, true);
+			Lang::loadNL(1);
 			Utils::createBackup(false, savePath);
 			EditorMode = 1;
 		}
@@ -213,9 +211,7 @@ void Editor::PrepareWW(const std::string savePath) {
 			WWSaveFile = WWSave::Initialize(save, true);
 			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 			Init::loadWWSheets();
-			// Clear Villager then reload, so we can avoid having double names.
-			g_villagerDatabase.clear();
-			Lang::loadVillager(1, false);
+			Lang::loadWW(1);
 			EditorMode = 1;
 		}
 	}

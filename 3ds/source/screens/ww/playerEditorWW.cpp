@@ -40,6 +40,15 @@ extern WWSave* WWSaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 int selectedPassedPlayerWW;
+extern std::vector<std::string> g_wwFaceType;
+extern std::vector<std::string> g_wwHairStyle;
+
+const std::vector<std::string> &TanLevel = {
+	"0",
+	"1",
+	"2",
+	"3",
+};
 
 void PlayerEditorWW::Draw(void) const {
 	if (screen == 0) {
@@ -113,6 +122,9 @@ void PlayerEditorWW::DrawPlayerScreen(void) const {
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Bells"))/2-80+17.5, 0.8, WHITE, "Bells", 130, 25);
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Name"))/2-20+17.5, 0.8, WHITE, "Name", 130, 25);
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "Gender"))/2+75-17.5, 0.8, WHITE, "Gender", 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, "TAN"))/2-80+17.5, 0.8, WHITE, "TAN", 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, "FaceType"))/2-20+17.5, 0.8, WHITE, "FaceType", 130, 25);
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, "HairStyle"))/2+75-17.5, 0.8, WHITE, "HairStyle", 130, 25);
 
 }
 
@@ -127,6 +139,15 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 			case 2:
 				WWPlayerManagement::setGender(cp);
+				break;
+			case 3:
+				WWSaveFile->players[cp]->TAN = (u8)GFX::ListSelection((int)WWSaveFile->players[cp]->TAN, TanLevel, "Select the skin tone.");
+				break;
+			case 4:
+				WWSaveFile->players[cp]->FaceType = (u8)GFX::ListSelection((int)WWSaveFile->players[cp]->FaceType, g_wwFaceType, "Select the Face Type.");
+				break;
+			case 5:
+				WWSaveFile->players[cp]->HairType = (u8)GFX::ListSelection((int)WWSaveFile->players[cp]->HairType, g_wwHairStyle, "Select the HairStyle.");
 				break;
 			default:
 				break;
