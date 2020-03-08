@@ -24,13 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "graphics/gui.hpp"
-
-#include "management/villagerManagement.hpp"
-
-#include "screens/screenCommon.hpp"
+#include "gui.hpp"
+#include "screenCommon.hpp"
+#include "villagerManagement.hpp"
+#include "wwsave.hpp"
+#include "wwVillager.hpp"
 
 #include <nds.h>
+
+extern WWSave* SaveFile;
+extern std::vector<std::string> g_personality;
 
 void VillagerManagement::DrawVillager(u8 villagerID, int x, int y, bool top) {
 	// 144 is the current exception, since we don't have the sprite for "Champ".
@@ -40,4 +43,8 @@ void VillagerManagement::DrawVillager(u8 villagerID, int x, int y, bool top) {
 
 	Image villagerData = loadImage("/graphics/villagers/" + std::to_string(villagerID) + ".gfx"); // Load sprite.
 	drawImage(x, y, villagerData, top, true, 0x20); // Draw sprite.
+}
+
+std::string VillagerManagement::returnPersonality(int Villager) {
+	return g_personality[SaveFile->villagers[Villager]->GetPersonality()];
 }

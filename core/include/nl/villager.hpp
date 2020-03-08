@@ -46,7 +46,7 @@ public:
 	#pragma pack(push, 1)
 	struct Villager_s {
 		u16 Id; // 0 - 1 (2)
-		Villager::Personality Personality; // 2 (1)
+		Villager::Personality personality; // 2 (1)
 		u8 Unknown1[0x246B]; // 3 - 246D
 		Item Shirt; // 246E - 2471
 		Item Song; // 2472 - 2475
@@ -72,7 +72,9 @@ public:
 	// Box / Unbox status.
 	u8 getStatus(void) const;
 	void setStatus(const u8);
-	
+	// Personality.
+	u8 GetPersonality() const;
+	void SetPersonality(const u8);
 	void Write(void);
 
 private:

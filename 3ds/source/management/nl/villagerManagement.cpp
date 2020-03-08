@@ -38,6 +38,7 @@
 extern Save* SaveFile;
 extern std::string villagerNameText;
 extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::string> g_personality;
 
 extern C2D_SpriteSheet Villager;
 extern C2D_SpriteSheet Villager2;
@@ -204,4 +205,8 @@ u16 VillagerManagement::SelectVillager(u16 currentVillager) {
 			return currentVillager;
 		}
 	}
+}
+
+std::string VillagerManagement::returnPersonality(int Villager) {
+	return g_personality[SaveFile->villagers[Villager]->GetPersonality()];
 }

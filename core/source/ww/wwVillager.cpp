@@ -55,6 +55,13 @@ void WWVillager::SetId(const u8 id) {
 	this->m_villagerData->ID = id;
 }
 
+u8 WWVillager::GetPersonality() const {
+	return (u8)this->m_villagerData->personality;
+}
+
+void WWVillager::SetPersonality(const u8 Personality) {
+	this->m_villagerData->personality = (WWVillager::Personality)Personality;
+}
 
 void WWVillager::Write() {
 	WWSave::Instance()->Write(m_offset, reinterpret_cast<u8 *>(this->m_villagerData), sizeof(Villager_s));

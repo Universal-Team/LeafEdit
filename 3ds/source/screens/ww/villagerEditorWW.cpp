@@ -38,6 +38,7 @@
 
 extern WWSave* WWSaveFile;
 extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::string> g_personality;
 extern std::string villagerNameText;
 extern int wwCurrentVillager;
 
@@ -66,6 +67,7 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 	WWVillagerManagement::DrawVillager(WWSaveFile->villagers[wwCurrentVillager]->GetId(), 160, 40);
 	Gui::DrawStringCentered(0, 110, 0.9f, WHITE, g_villagerDatabase[WWSaveFile->villagers[wwCurrentVillager]->GetId()], 310);
 	Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(WWSaveFile->villagers[wwCurrentVillager]->GetId()), 310);
+	Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("PERSONALITY") + ": " + WWVillagerManagement::returnPersonality(wwCurrentVillager), 310);
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -76,6 +78,8 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 	}
 	// Replace.
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("REPLACE")))/2-80+17.5, 0.8, WHITE, Lang::get("REPLACE"), 130, 25);
+	// Personality.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("PERSONALITY")))/2+75-17.5, 0.8, WHITE, Lang::get("PERSONALITY"), 130, 25);
 }
 
 void VillagerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -108,16 +112,17 @@ void VillagerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		switch (SubSelection) {
-			case 0:
-				u8 oldID = WWSaveFile->villagers[wwCurrentVillager]->GetId();
-				if (Msg::promptMsg("Would you like to replace the Villager?")) {
-					u8 newID = WWVillagerManagement::SelectVillager(oldID);
-					if (Msg::promptMsg("Set the Villager to:" + g_villagerDatabase[newID])) {
-						WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
-					}
+		if (SubSelection == 0) {
+			u8 oldID = WWSaveFile->villagers[wwCurrentVillager]->GetId();
+			if (Msg::promptMsg("Would you like to replace the Villager?")) {
+				u8 newID = WWVillagerManagement::SelectVillager(oldID);
+				if (Msg::promptMsg("Set the Villager to:" + g_villagerDatabase[newID])) {
+					WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
 				}
-				break;
+			}
+		} else if (SubSelection == 1) {
+			u8 newPersonality = (u8)GFX::ListSelection((int)WWSaveFile->villagers[wwCurrentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
+			WWSaveFile->villagers[wwCurrentVillager]->SetPersonality(newPersonality);
 		}
 	}
 
@@ -130,6 +135,9 @@ void VillagerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
 				}
 			}
+		} else if (touching(touch, villagerButtons[1])) {
+			u8 newPersonality = (u8)GFX::ListSelection((int)WWSaveFile->villagers[wwCurrentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
+			WWSaveFile->villagers[wwCurrentVillager]->SetPersonality(newPersonality);
 		}
 	}
 }

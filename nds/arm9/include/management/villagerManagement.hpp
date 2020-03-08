@@ -34,6 +34,7 @@
 namespace VillagerManagement
 {
 	void DrawVillager(u8 villagerID, int x, int y, bool top = true);
+	std::string returnPersonality(int Villager);
 }
 
 #endif

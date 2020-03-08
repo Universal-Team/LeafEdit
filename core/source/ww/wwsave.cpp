@@ -70,7 +70,7 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 	// Load Town.
 	m_pSave->town = std::make_shared<WWTown>();
 
-	// Load Villagers. -> Is that the right offset? Likely no, so TODO.
+	// Load Villagers.
 	for (int i = 0; i < 8; i++) {
 		m_pSave->villagers[i] = std::make_shared<WWVillager>(0x8A3C + (i * sizeof(WWVillager::Villager_s)), i);
 	}

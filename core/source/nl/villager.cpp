@@ -62,6 +62,14 @@ void Villager::setStatus(const u8 status) {
 	this->m_villagerData->Status = status;
 }
 
+u8 Villager::GetPersonality() const {
+	return (u8)this->m_villagerData->personality;
+}
+
+void Villager::SetPersonality(const u8 Personality) {
+	this->m_villagerData->personality = (Villager::Personality)Personality;
+}
+
 void Villager::Write() {
 	Save::Instance()->Write(m_offset, reinterpret_cast<u8 *>(this->m_villagerData), sizeof(Villager_s));
 }

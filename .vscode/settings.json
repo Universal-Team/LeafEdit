@@ -76,6 +76,9 @@
 		"thread": "cpp",
 		"cinttypes": "cpp",
 		"forward_list": "cpp",
-		"valarray": "cpp"
+		"valarray": "cpp",
+		"regex": "cpp",
+		"iostream": "cpp",
+		"shared_mutex": "cpp"
 	}
 }

@@ -26,9 +26,9 @@
 
 #include "input.hpp"
 #include "msg.hpp"
+#include "villagerEditor.hpp"
 #include "villagerManagement.hpp"
 #include "villagerViewer.hpp"
-#include "wwoffsets.hpp"
 #include "wwsave.hpp"
 #include "wwVillager.hpp"
 
@@ -95,10 +95,12 @@ void VillagerViewer::Logic(u16 hDown, touchPosition touch) {
 }
 
 void VillagerViewer::VillagerLogic(u16 hDown) {
-	// Switch to the Villager Editor Screen. TODO
-//	if (hDown & KEY_A) {
-//		Gui::setScreen(std::make_unique<VillagerEditor>());
-//	}
+	// Switch to the Villager Editor Screen.
+	if (hDown & KEY_A) {
+		Gui::clearScreen(false, true);
+		Gui::clearScreen(true, true);
+		Gui::setScreen(std::make_unique<VillagerEditor>());
+	}
 
 	// Switch current Villager.
 	if (hDown & KEY_R) {
@@ -115,12 +117,6 @@ void VillagerViewer::VillagerLogic(u16 hDown) {
 		Gui::clearScreen(true, true);
 		Gui::screenBack();
 		return;
-	}
-
-	if (hDown & KEY_A) {
-		u8 newVillager = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->GetId(), g_villagerDatabase);
-		SaveFile->villagers[currentVillager]->SetId(newVillager);
-		Gui::clearScreen(true, true);
 	}
 
 	if (hDown & KEY_X) {

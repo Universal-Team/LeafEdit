@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,19 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWVILLAGERMANAGEMENT_HPP
-#define WWVILLAGERMANAGEMENT_HPP
+#ifndef VILLAGEREDITOR_HPP
+#define VILLAGEREDITOR_HPP
 
-#include "common.hpp"
+#include "screenCommon.hpp"
 
-#include <3ds.h>
+#include "structs.hpp"
+#include <vector>
 
-namespace WWVillagerManagement
+class VillagerEditor : public Screen
 {
-	void DrawVillager(u8 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite for AC:WW.
-	void DrawVillagerSelection(int selection, int page = 0);
-	u8 SelectVillager(u8 currentVillager);
-	std::string returnPersonality(int Villager);
-}
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	int villagerMode = 0;
+	int Selection = 0;
+
+	void DrawSubMenu(void) const;
+	void DrawBox(void) const;
+
+	std::vector<Structs::ButtonPos> villagerButtons = {
+		{20, 30, 88, 32, -1}, // Replace.
+		{20, 80, 88, 32, -1}, // Personality.
+		{20, 130, 88, 32, -1}, // ?.
+		{148, 30, 88, 32, -1}, // ?.
+		{148, 80, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1}, // ?.
+	};
+};
 
 #endif

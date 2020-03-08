@@ -5,10 +5,15 @@
 
 nlohmann::json appJson;
 
-std::vector<std::string> g_groups;
+// New Leaf Vectors.
 std::vector<std::string> g_badges;
-std::vector<std::string> g_villagerDatabase;
 
+// Vectors for Both versions.
+std::vector<std::string> g_groups;
+std::vector<std::string> g_villagerDatabase;
+std::vector<std::string> g_personality;
+
+// Wild World Vectors.
 std::vector<std::string> g_wwFaceType;
 std::vector<std::string> g_wwHairColor;
 std::vector<std::string> g_wwHairStyle;
@@ -41,11 +46,13 @@ void Lang::loadWW(int lang) {
 	loadToVector("romfs:/lang/"+langs[lang]+"/wwHairColor.txt", g_wwHairColor);
 	loadToVector("romfs:/lang/"+langs[lang]+"/wwHairStyle.txt", g_wwHairStyle);
 	loadToVector("romfs:/lang/"+langs[lang]+"/wwVillager.txt", g_villagerDatabase);
+	loadToVector("romfs:/lang/"+langs[lang]+"/wwPersonalities.txt", g_personality);
 }
 
 void Lang::loadNL(int lang) {
-	loadToVector("romfs:/lang/"+langs[lang]+"/groups.txt", g_groups);
 	loadToVector("romfs:/lang/"+langs[1]+"/badges.txt", g_badges);
+	loadToVector("romfs:/lang/"+langs[lang]+"/groups.txt", g_groups);
+	loadToVector("romfs:/lang/"+langs[lang]+"/personalities.txt", g_personality);
 	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
 }
 

@@ -24,7 +24,6 @@
 	"BUILDING_YPOS":				"Building Y Position: ",
 	"BUILDINGS":					"Buildings",
 	
-
 	"CANCEL":						"Do you want to cancel?",
 	"CANCEL_SAVE_SELECTION":		"Cancel the Save Selection?",
 	"CARD":							"Gamecard",
@@ -150,6 +149,7 @@
 
 	"PATTERN":						"Pattern",
 	"PATTERN_NAME":					"Pattern name: ",
+	"PERSONALITY":					"Personality",
 	"PHINEAS_TEXT":					"Hello, I'm Phineas!\nYou are currently in the Badge Editor from LeafEdit.",
 	"PLACE_BUILDING_HERE":			"Would you like to place the Building here?",
 	"PLAYER":						"Player",
@@ -185,6 +185,7 @@
 	"SELECT_HAIR":					"Select a hairstyle you like.",
 	"SELECT_HAIR_COLOR":			"Select a haircolor you like.",
 	"SELECT_LANG":					"Choose the current language.",
+	"SELECT_PERSONALITY":			"Select the Personality of the Villager.",
 	"SELECT_POSITION":				"Select the Position for the Building.",
 	"SELECT_TAN":					"Select a Tan value you like.",
 	"SELECT_TITLE":					"Select a title to start.",

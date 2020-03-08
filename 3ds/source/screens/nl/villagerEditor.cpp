@@ -37,6 +37,7 @@
 
 extern Save* SaveFile;
 extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::string> g_personality;
 extern std::vector<std::string> g_groups;
 extern std::string villagerNameText;
 extern u16 currentVillager;
@@ -76,19 +77,22 @@ void VillagerEditor::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
 
-	Gui::Draw_Rect(40, 142, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 112, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 172, 320, 22, DARKER_COLOR);
-	VillagerManagement::DrawVillager(Save::Instance()->villagers[currentVillager]->GetId(), 160, 40);
-	Gui::DrawStringCentered(0, 110, 0.9f, WHITE, g_villagerDatabase[Save::Instance()->villagers[currentVillager]->GetId()], 310);
-	Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(Save::Instance()->villagers[currentVillager]->GetId()), 310);
+	Gui::Draw_Rect(40, 130, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 100, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 160, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 190, 320, 22, DARKER_COLOR);
+	VillagerManagement::DrawVillager(Save::Instance()->villagers[currentVillager]->GetId(), 160, 35);
+	Gui::DrawStringCentered(0, 98, 0.9f, WHITE, g_villagerDatabase[Save::Instance()->villagers[currentVillager]->GetId()], 310);
+	Gui::DrawStringCentered(0, 128, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(Save::Instance()->villagers[currentVillager]->GetId()), 310);
 
 	// Status.
 	if (Save::Instance()->villagers[currentVillager]->getStatus() == 1) {
-		Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("BOXED"), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("BOXED"), 310);
 	} else {
-		Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("UNBOXED"), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("UNBOXED"), 310);
 	}
+
+	Gui::DrawStringCentered(0, 188, 0.9f, WHITE, Lang::get("PERSONALITY") + ": " + VillagerManagement::returnPersonality(currentVillager), 310);
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -101,6 +105,8 @@ void VillagerEditor::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("REPLACE")))/2-80+17.5, 0.8, WHITE, Lang::get("REPLACE"), 130, 25);
 	// Set Boxed.
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("STATUS")))/2-20+17.5, 0.8, WHITE, Lang::get("STATUS"), 130, 25);
+	// Personality.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("PERSONALITY")))/2+75-17.5, 0.8, WHITE, Lang::get("PERSONALITY"), 130, 25);
 }
 
 void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -141,6 +147,10 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
 				else	Save::Instance()->villagers[currentVillager]->setStatus(1);
 				break;
+			case 2:
+				u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
+				SaveFile->villagers[currentVillager]->SetPersonality(newPersonality);
+				break;
 		}
 	}
 
@@ -150,6 +160,9 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, villagerButtons[1])) {
 			if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
 			else	Save::Instance()->villagers[currentVillager]->setStatus(1);
+		} else if (touching(touch, villagerButtons[2])) {
+			u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
+			SaveFile->villagers[currentVillager]->SetPersonality(newPersonality);
 		}
 	}
 }

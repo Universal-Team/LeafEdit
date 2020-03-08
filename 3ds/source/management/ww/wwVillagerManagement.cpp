@@ -33,6 +33,7 @@
 extern WWSave* WWSaveFile;
 extern std::string villagerNameText;
 extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::string> g_personality;
 
 extern C2D_SpriteSheet WWVillagers;
 
@@ -113,4 +114,8 @@ u8 WWVillagerManagement::SelectVillager(u8 currentVillager) {
 			return currentVillager;
 		}
 	}
+}
+
+std::string WWVillagerManagement::returnPersonality(int Villager) {
+	return g_personality[WWSaveFile->villagers[Villager]->GetPersonality()];
 }

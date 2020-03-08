@@ -46,7 +46,8 @@ public:
 
 	#pragma pack(push, 1)
 	struct Villager_s {
-		u8 Unknown[0x6CB]; // 0 - 0x6CA.
+		u8 Unknown[0x6CA]; // 0 - 0x6C9.
+		WWVillager::Personality personality; // 0x6CA
 		u8 ID; // 0x6CB.
 		u8 Unknown2[0x34]; // Until 0x700.
 	};
@@ -57,7 +58,8 @@ public:
 	// ID.
 	u8 GetId(void) const;
 	void SetId(const u8);
-	
+	u8 GetPersonality() const;
+	void SetPersonality(const u8);
 	void Write(void);
 
 private:

@@ -37,6 +37,7 @@ namespace VillagerManagement
 	void DrawVillager(u16 villagerId, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Villager sprite.
 	void DrawVillagerSelection(int selection, int page = 0);
 	u16 SelectVillager(u16 currentVillager);
+	std::string returnPersonality(int Villager);
 }
 
 #endif
