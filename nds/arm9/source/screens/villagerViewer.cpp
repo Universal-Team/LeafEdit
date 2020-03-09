@@ -59,29 +59,29 @@ void VillagerViewer::DrawVillagerList(void) const {
 void VillagerViewer::VillagerListLogic(u16 hDown, touchPosition touch) {
 	// Switch current Villager.
 	if (hDown & KEY_DOWN) {
-		Gui::clearScreen(true, true);
 		villagerViewerSprite++;
 		if (villagerViewerSprite > 149)	villagerViewerSprite = 0;
+		Gui::DrawScreen();
 	} else if (hDown & KEY_UP) {
-		Gui::clearScreen(true, true);
 		villagerViewerSprite--;
 		if (villagerViewerSprite < 0)	villagerViewerSprite = 149;
+		Gui::DrawScreen();
 
 	} else if (hDown & KEY_RIGHT) {
-		Gui::clearScreen(true, true);
 		villagerViewerSprite += 10;
 		if (villagerViewerSprite > 139)	villagerViewerSprite = 0;
+		Gui::DrawScreen();
 
 	} else if (hDown & KEY_LEFT) {
-		Gui::clearScreen(true, true);
 		villagerViewerSprite -= 10;
 		if (villagerViewerSprite < 0)	villagerViewerSprite = 149;
+		Gui::DrawScreen();
 	}
 
 	// Go back to the Editor Screen.
 	if (hDown & KEY_B) {
-		Gui::clearScreen(true, true);
 		villagerMode = 0;
+		Gui::DrawScreen();
 	}
 }
 
@@ -97,31 +97,33 @@ void VillagerViewer::Logic(u16 hDown, touchPosition touch) {
 void VillagerViewer::VillagerLogic(u16 hDown) {
 	// Switch to the Villager Editor Screen.
 	if (hDown & KEY_A) {
-		Gui::clearScreen(false, true);
-		Gui::clearScreen(true, true);
 		Gui::setScreen(std::make_unique<VillagerEditor>());
+		Gui::DrawScreen();
+		Gui::showPointer();
+		selected = true;
 	}
 
 	// Switch current Villager.
 	if (hDown & KEY_R) {
-		Gui::clearScreen(true, true);
 		if(currentVillager < 7)	currentVillager++;
+		Gui::DrawScreen();
 	} else if (hDown & KEY_L) {
-		Gui::clearScreen(true, true);
 		if(currentVillager > 0)	currentVillager--;
+		Gui::DrawScreen();
 	}
 
 	// Go back to the Editor Screen.
 	if (hDown & KEY_B) {
-		Gui::clearScreen(false, true);
-		Gui::clearScreen(true, true);
 		Gui::screenBack();
+		Gui::DrawScreen();
+		Gui::showPointer();
+		selected = true;
 		return;
 	}
 
 	if (hDown & KEY_X) {
-		Gui::clearScreen(true, true);
 		villagerMode = 1;
+		Gui::DrawScreen();
 	}
 }
 

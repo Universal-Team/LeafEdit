@@ -90,11 +90,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true); 
 	Gui::DrawBottom();
 	for (int i = 0; i < 3; i++) {
-		if (selection == i) {
-			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
-		} else {
-			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
-		}
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 	}
 	printTextCentered("Player", 0, 40, false, true);
 	printTextCentered("Items", 0, 90, false, true);
@@ -113,11 +109,7 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 	printTextCentered("HairStyle: " + std::to_string(SaveFile->players[cp]->HairType), 0, 165, true, true);
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
-		if (selection == i) {
-			drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
-		} else {
-			drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
-		}
+		drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 	}
 	printTextCentered("Bells", -64, 40, false, true);
 	printTextCentered("Name", -64, 90, false, true);
@@ -128,31 +120,46 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 }
 
 void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
+	Gui::updatePointer(playerButtons[selection].x+60, playerButtons[selection].y+12);
+
 	if (hDown & KEY_A) {
 		switch (selection) {
 			case 0:
+				Gui::hidePointer();
 				PlayerManagement::setBells(cp);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
 				break;
 			case 1:
+				Gui::hidePointer();
 				PlayerManagement::setName(cp);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
 				break;
 			case 2:
+				Gui::hidePointer();
 				PlayerManagement::setGender(cp);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
 				break;
 			case 3:
+				// Toggle Pointer.
 				SaveFile->players[cp]->TAN = (u8)Gui::selectList(SaveFile->players[cp]->TAN, TanLevel);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
+				selected = true;
 				break;
 			case 4:
 				SaveFile->players[cp]->FaceType = (u8)Gui::selectList(SaveFile->players[cp]->FaceType, g_faceType);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
+				selected = true;
 				break;
 			case 5:
 				SaveFile->players[cp]->HairType = (u8)Gui::selectList(SaveFile->players[cp]->HairType, g_hairStyle);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
+				selected = true;
 				break;
 			default:
 				break;
@@ -160,58 +167,65 @@ void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_B) {
-		Gui::clearScreen(true, true);
-		Gui::clearScreen(false, true);
 		selection = 0;
 		screen = 1;
+		Gui::DrawScreen();
+		selected = true;
 	}
 
 	// Selection.
 	if (hDown & KEY_UP) {
 		if(selection > 0)	selection--;
+		selected = true;
 	}
 	
 	if (hDown & KEY_DOWN) {
-			if(selection < 5)	selection++;
+		if(selection < 5)	selection++;
+		selected = true;
 	}
 
 	if (hDown & KEY_RIGHT) {
 		if (selection < 3) {
 			selection += 3;
+			selected = true;
 		}
 	}
 
 	if (hDown & KEY_LEFT) {
 		if (selection < 6 && selection > 2) {
 			selection -= 3;
+			selected = true;
 		}
 	}
 }
 
 
 void PlayerEditor::SubMenuLogic(u16 hDown, touchPosition touch) {
+	Gui::updatePointer(mainButtons[selection].x+60, mainButtons[selection].y+12);
 	if (hDown & KEY_B) {
-		Gui::clearScreen(true, true);
-		Gui::clearScreen(false, true);
 		selection = 0;
 		screen = 0;
+		Gui::hidePointer();
+		Gui::DrawScreen();
 	}
 
 	if (hDown & KEY_DOWN) {
 		if (selection < 2)	selection++;
+		selected = true;
 	}
 
 	if (hDown & KEY_UP) {
 		if (selection > 0)	selection--;
+		selected = true;
 	}
 
 	if (hDown & KEY_A) {
 			// Player.
 		if (selection == 0) {
-			Gui::clearScreen(true, true);
-			Gui::clearScreen(false, true);
 			selection = 0;
 			screen = 2;
+			Gui::DrawScreen();
+			selected = true;
 		}
 	}
 }
@@ -222,25 +236,29 @@ void PlayerEditor::PlayerSelectionLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_RIGHT) {
-		Gui::clearScreen(true, true);
 		selectedPlayer++;
+		Gui::DrawScreen();
 		if(selectedPlayer > maxPlayer)	selectedPlayer = 0;
 	} else if (hDown & KEY_LEFT) {
-		Gui::clearScreen(true, true);
 		selectedPlayer--;
 		if(selectedPlayer < 0)	selectedPlayer = maxPlayer;
+		Gui::DrawScreen();
 	}
 
 	if (hDown & KEY_A) {
-		Gui::clearScreen(true, true);
-		Gui::clearScreen(false, true);
 		cp = selectedPlayer;
 		selection = 0;
 		screen = 1;
+		Gui::DrawScreen();
+		Gui::showPointer();
+		selected = true;
 	}
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
+		Gui::DrawScreen();
+		Gui::showPointer();
+		selected = true;
 		return;
 	}
 }

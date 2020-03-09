@@ -35,26 +35,31 @@ void MainMenu::Draw(void) const {
 	Gui::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
-		if (selection == i) {
-			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
-		}
 	}
 	printTextCentered("Editor", -64, 88, false, true);
 	printTextCentered("Settings", 64, 88, false, true);
 }
 
 void MainMenu::Logic(u16 hDown, touchPosition touch) {
+	Gui::updatePointer(mainButtons[selection].x+60, mainButtons[selection].y+12);
+	
 	if (hDown & KEY_START) {
 		exiting = true;
 	}
+
 	if (hDown & KEY_RIGHT) {
 		if (selection < 1)	selection++;
+		selected = true;
 	}
 	if (hDown & KEY_LEFT) {
 		if (selection > 0)	selection--;
+		selected = true;
 	}
 
 	if (hDown & KEY_A) {
-		if (selection == 0)	Gui::setScreen(std::make_unique<Editor>());
+		if (selection == 0) {
+			Gui::setScreen(std::make_unique<Editor>());
+			Gui::DrawScreen();
+		}
 	}
 }

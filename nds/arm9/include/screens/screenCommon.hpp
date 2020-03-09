@@ -32,4 +32,6 @@
 #include "gui.hpp"
 #include "screen.hpp"
 
+extern bool selected;
+
 #endif

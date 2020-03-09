@@ -99,16 +99,15 @@ int main(int argc, char **argv) {
 	Sound::init();
 	Gui::initSprites();
 	Gui::loadSprites();
-
-	// Test to show that the pointer's working, delete later ;P
-	srand(time(NULL));
-	setSpritePosition(Gui::pointerID, false, rand() % 256, rand() % 192);
+	
 	setSpriteVisibility(Gui::pointerID, false, true);
 	updateOam();
 
 	u16 hDown = 0;
 	Gui::setScreen(std::make_unique<MainMenu>());
 	Gui::clearScreen(false, true);
+	// Draw Screen.
+	Gui::DrawScreen();
 	while(!exiting) {
 		scanKeys();
 		swiWaitForVBlank();

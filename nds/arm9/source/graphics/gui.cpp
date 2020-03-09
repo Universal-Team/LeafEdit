@@ -26,29 +26,60 @@
 
 #include "colors.hpp"
 #include "gui.hpp"
+#include "input.hpp"
 
 #include <stack>
 
 std::stack<std::unique_ptr<Screen>> screens;
+bool toggle = false; // Toggle Pointer sprite.
+bool selected = true; // Set this to true to update the Pointer OAM.
+
+void Gui::togglePointer() {
+	if (!toggle) {
+		toggle = true;
+		setSpriteVisibility(Gui::pointerID, false, false);
+	} else {
+		toggle = false;
+		setSpriteVisibility(Gui::pointerID, false, true);
+	}
+	updateOam();
+}
+
+void Gui::hidePointer() {
+	setSpriteVisibility(Gui::pointerID, false, false);
+	updateOam();
+}
+
+void Gui::showPointer() {
+	setSpriteVisibility(Gui::pointerID, false, true);
+	updateOam();
+}
+
+void Gui::updatePointer(int x, int y) {
+	if (selected) {
+		setSpritePosition(Gui::pointerID, false, x, y);
+		updateOam();
+		selected = false;
+	}
+}
+
+void Gui::DrawScreen() {
+	clearScreen(false, true);
+	clearScreen(true, true);
+	screens.top()->Draw();
+}
 
 void Gui::mainLoop(u16 hDown, touchPosition touch) {
-	screens.top()->Draw();
 	screens.top()->Logic(hDown, touch);
 }
 
 void Gui::setScreen(std::unique_ptr<Screen> screen)
 {
-	// Clear Layer 2 then move a screen.
-	Gui::clearScreen(false, true);
-	Gui::clearScreen(true, true);
 	screens.push(std::move(screen));
 }
 
 void Gui::screenBack()
 {
-	// Clear Layer 2 then go a screen back.
-	Gui::clearScreen(false, true);
-	Gui::clearScreen(true, true);
 	screens.pop();
 }
 
@@ -105,7 +136,11 @@ static void drawList(int screenPos, bool background, const std::vector<std::stri
 }
 
 int Gui::selectList(int current, const std::vector<std::string> &list) {
-	// Print list.
+	// Set pointer position
+	setSpriteVisibility(Gui::pointerID, false, true);
+	setSpritePosition(pointerID, false, 4+getTextWidth(list[current]), -2);
+	updateOam();
+
 	drawList(current, true, list);
 
 	int held, pressed, screenPos = current, newSelection = current, entriesPerScreen = 9;
@@ -131,12 +166,12 @@ int Gui::selectList(int current, const std::vector<std::string> &list) {
 			if (newSelection > (int)list.size()-1)	newSelection = list.size()-1;
 		} else if (pressed & KEY_A) {
 			for (unsigned int i=0;i<list.size();i++) {
-				drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+				hidePointer();
 				return newSelection;
 			}
 
 		} if (pressed & KEY_B) {
-			drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+			hidePointer();
 			return current;
 		}
 
@@ -148,5 +183,9 @@ int Gui::selectList(int current, const std::vector<std::string> &list) {
 			screenPos = newSelection - entriesPerScreen + 1;
 			drawList(screenPos, false, list);
 		}
+
+		// Move pointer.
+		setSpritePosition(pointerID, false, 3+getTextWidth(list[newSelection]), (20*(newSelection-screenPos)-2)+10);
+		updateOam();
 	}
 }

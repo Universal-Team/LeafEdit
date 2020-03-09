@@ -56,35 +56,37 @@ void VillagerEditor::DrawSubMenu(void) const {
 
 	Gui::DrawBottom();
 	for (int i = 0; i < 6; i++) {
-		if (Selection == i) {
-			drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
-		} else {
-			drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
-		}
+		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 	}
 	printTextCentered("Replace", -64, 40, false, true);
 	printTextCentered("Personality", -64, 90, false, true);
 }
 
 void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
+	Gui::updatePointer(villagerButtons[Selection].x+60, villagerButtons[Selection].y+12);
+
 	// Selection.
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
+		selected = true;
 	}
 	
 	if (hDown & KEY_DOWN) {
-			if(Selection < 5)	Selection++;
+		if(Selection < 5)	Selection++;
+		selected = true;
 	}
 
 	if (hDown & KEY_RIGHT) {
 		if (Selection < 3) {
 			Selection += 3;
+			selected = true;
 		}
 	}
 
 	if (hDown & KEY_LEFT) {
 		if (Selection < 6 && Selection > 2) {
 			Selection -= 3;
+			selected = true;
 		}
 	}
 
@@ -94,20 +96,26 @@ void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
 			case 0:
 				something = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->GetId(), g_villagerDatabase);
 				SaveFile->villagers[currentVillager]->SetId(something);
-				Gui::clearScreen(true, true);
+				Gui::DrawScreen();
+				Gui::showPointer();
+				selected = true;
 				break;
 			case 1:
 				something = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->GetPersonality(), g_personality);
 				SaveFile->villagers[currentVillager]->SetPersonality(something);
+				Gui::DrawScreen();
+				Gui::showPointer();
+				selected = true;
 				break;
 		}
 	}
 
 
 	if (hDown & KEY_B) {
-		Gui::clearScreen(true, true);
-		Gui::clearScreen(false, true);
 		Gui::screenBack();
+		Gui::DrawScreen();
+		Gui::hidePointer();
+		selected = true;
 		return;
 	}
 }

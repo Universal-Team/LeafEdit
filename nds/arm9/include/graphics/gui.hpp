@@ -28,9 +28,17 @@
 #include "screen.hpp"
 
 namespace Gui {
-	void mainLoop(u16 hDown, touchPosition touch);
-	void setScreen(std::unique_ptr<Screen> screen);
-	void screenBack(void);
+	// Pointer stuff.
+	void showPointer();
+	void hidePointer();
+	void togglePointer(); // Update Pointer for visible | not visible.
+	void updatePointer(int x, int y); // Update Pointer position when selected is true.
+
+	// Screen stuff.
+	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
+	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
+	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
+	void screenBack(void); // Go a screen back. Needs "return;" at the end.
 
 	// GUI Stuff.
 	void DrawTop(void);

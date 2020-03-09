@@ -46,9 +46,6 @@ void Editor::Draw(void) const {
 
 		for (int i = 0; i < 3; i++) {
 			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
-			if (selection == i) {
-				drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, LIGHT_GREEN, LIGHT_GREEN, false, true);
-			}
 		}
 		printTextCentered("Player", 0, 40, false, true);
 		printTextCentered("Villager", 0, 90, false, true);
@@ -60,6 +57,9 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 	if (EditorMode == 1) {
 		SubMenuLogic(hDown, touch);
 	} else {
+		// Toggle Pointer.
+		Gui::hidePointer();
+
 		save = browseForSave();
 		// Clear Both Screens.
 		Gui::clearScreen(false, true);
@@ -67,30 +67,45 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 		const char *saves = save.c_str();
 		SaveFile = WWSave::Initialize(saves, true);
 		EditorMode = 1;
+		Gui::DrawScreen();
+		// Toggle Pointer.
+		Gui::showPointer();
+		selected = true;
 	}
 }
 
 void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
+	Gui::updatePointer(mainButtons[selection].x+60, mainButtons[selection].y+12);
+
 	if (hDown & KEY_START) {
 		Msg::DisplayWaitMsg("Closing the File now!");
 		SaveFile->Commit(false);
 		SaveFile->Close();
 		Gui::screenBack();
+		Gui::DrawScreen();
+		selected = true;
+		return;
 	}
 
 	if (hDown & KEY_DOWN) {
 		if (selection < 2)	selection++;
+		selected = true;
 	}
-
 	if (hDown & KEY_UP) {
 		if (selection > 0)	selection--;
+		selected = true;
 	}
 
 	if (hDown & KEY_A) {
 		if (selection == 0) {
 			Gui::setScreen(std::make_unique<PlayerEditor>());
+			Gui::DrawScreen();
+			Gui::hidePointer();
+			selected = true;
 		} else if (selection == 1) {
 			Gui::setScreen(std::make_unique<VillagerViewer>());
+			Gui::hidePointer();
+			Gui::DrawScreen();
 		} else if (selection == 2) {
 //			Gui::setScreen(std::make_unique<MiscEditor>());
 		}
@@ -99,8 +114,13 @@ void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<PlayerEditor>());
+			Gui::DrawScreen();
+			Gui::hidePointer();
+			selected = true;
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<VillagerViewer>());
+			Gui::hidePointer();
+			Gui::DrawScreen();
 		}
 	}
 }
