@@ -35,7 +35,8 @@ void Credits::Draw(void) const {
 		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("CREDITS"), 400);
 		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, Lang::get("DEVELOPED_BY"), 390);
 		Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("MAIN_DEV"), 390);
-		GFX::DrawSprite(sprites_stackZ_idx, 120, 100);
+		GFX::DrawSprite(sprites_stackZ_idx, 5, 80);
+		GFX::DrawSprite(sprites_universal_core_idx, 200, 110);
 		Gui::DrawString(395-Gui::GetStringWidth(0.8, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.8, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400);
 		GFX::DrawBottom();
 		Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Lang::get("MANY_THANKS"), 310);
@@ -46,8 +47,6 @@ void Credits::Draw(void) const {
 		Gui::DrawStringCentered(0, 160, 0.8f, WHITE, "Pk11", 310);
 		Gui::DrawStringCentered(0, 190, 0.7f, WHITE, Lang::get("HELP_PROBLEMS"), 310);
 		Gui::DrawStringCentered(0, 217, 0.7f, WHITE, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
-		Gui::DrawString((320-Gui::GetStringWidth(0.8f, Lang::get("TRANSLATORS")))/2, 100, 0.8f, WHITE, Lang::get("TRANSLATORS"), 320);
-		Gui::DrawString((320-Gui::GetStringWidth(0.7f, Lang::get("HELP_TRANSLATE")))/2, 130, 0.7f, WHITE, Lang::get("HELP_TRANSLATE"), 320);
 	} else if (DisplayMode == 2) {
 		qr_code();
 	}

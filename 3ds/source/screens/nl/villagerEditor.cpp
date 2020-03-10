@@ -24,9 +24,11 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "itemManagement.hpp"
 #include "keyboard.hpp"
 #include "save.hpp"
 #include "screenCommon.hpp"
+#include "utils.hpp"
 #include "villager.hpp"
 #include "villagerEditor.hpp"
 #include "villagerManagement.hpp"
@@ -44,6 +46,28 @@ extern u16 currentVillager;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+VillagerEditor::VillagerEditor() {
+	ItemManagement::loadItems();
+
+	// Load Furniture.
+	for (int i = 0; i < 16; i++) {
+		Furniture[i] = std::make_shared<ItemContainer>(SaveFile->villagers[currentVillager]->Furniture[i]);
+	}
+	// Load Song.
+	this->Misc[0] = std::make_shared<ItemContainer>(SaveFile->villagers[currentVillager]->Song);
+	// Load Shirt.
+	this->Misc[1] = std::make_shared<ItemContainer>(SaveFile->villagers[currentVillager]->Shirt);
+	// Load Carpet.
+	this->Misc[2] = std::make_shared<ItemContainer>(SaveFile->villagers[currentVillager]->Carpet);
+	// Load Wallpaper.
+	this->Misc[3] = std::make_shared<ItemContainer>(SaveFile->villagers[currentVillager]->Wallpaper);
+	// Load Umbrella.
+	this->Misc[4] = std::make_shared<ItemContainer>(SaveFile->villagers[currentVillager]->Umbrella);
+}
+
+VillagerEditor::~VillagerEditor() {
+	ItemManagement::unloadItems();
+}
 void VillagerEditor::Draw(void) const
 {
 	if (editorMode == 0) {
@@ -77,22 +101,47 @@ void VillagerEditor::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR_SUBMENU"), 390);
 
-	Gui::Draw_Rect(40, 130, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 100, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 160, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 190, 320, 22, DARKER_COLOR);
-	VillagerManagement::DrawVillager(Save::Instance()->villagers[currentVillager]->GetId(), 160, 35);
-	Gui::DrawStringCentered(0, 98, 0.9f, WHITE, g_villagerDatabase[Save::Instance()->villagers[currentVillager]->GetId()], 310);
-	Gui::DrawStringCentered(0, 128, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(Save::Instance()->villagers[currentVillager]->GetId()), 310);
+	VillagerManagement::DrawVillager(Save::Instance()->villagers[currentVillager]->ID, 160, 35);
+	Gui::DrawStringCentered(0, 98, 0.9f, WHITE, g_villagerDatabase[Save::Instance()->villagers[currentVillager]->ID], 310);
+	Gui::DrawStringCentered(0, 118, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(Save::Instance()->villagers[currentVillager]->ID), 310);
 
-	// Status.
-	if (Save::Instance()->villagers[currentVillager]->getStatus() == 1) {
-		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("BOXED"), 310);
-	} else {
-		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("UNBOXED"), 310);
+	if (subPage == 0) {
+		// Status.
+		if (Save::Instance()->villagers[currentVillager]->status == 1) {
+			Gui::DrawStringCentered(0, 138, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("BOXED"), 310);
+		} else {
+			Gui::DrawStringCentered(0, 138, 0.9f, WHITE, Lang::get("STATUS") + ": " + Lang::get("UNBOXED"), 310);
+		}
+
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, Lang::get("PERSONALITY") + ": " + VillagerManagement::returnPersonality(currentVillager), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, Lang::get("CATCHPHRASE") + ": " + StringUtils::UTF16toUTF8(Save::Instance()->villagers[currentVillager]->Catchphrase), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Song: " + this->Misc[0]->returnName(), 310);
+	} else if (subPage == 1) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Shirt: " + this->Misc[1]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Carpet: " + this->Misc[2]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Wallpaper: " + this->Misc[3]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Umbrella: " + this->Misc[4]->returnName(), 310);
+	} else if (subPage == 2) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture1: " + this->Furniture[0]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture2: " + this->Furniture[1]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Furniture3: " + this->Furniture[2]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Furniture4: " + this->Furniture[3]->returnName(), 310);
+	} else if (subPage == 3) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture5: " + this->Furniture[4]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture6: " + this->Furniture[5]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Furniture7: " + this->Furniture[6]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Furniture8: " + this->Furniture[7]->returnName(), 310);
+	} else if (subPage == 4) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture9: " + this->Furniture[8]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture10: " + this->Furniture[9]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Furniture11: " + this->Furniture[10]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Furniture12: " + this->Furniture[11]->returnName(), 310);
+	} else if (subPage == 5) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture13: " + this->Furniture[12]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture14: " + this->Furniture[13]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Furniture15: " + this->Furniture[14]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Furniture16: " + this->Furniture[15]->returnName(), 310);
 	}
-
-	Gui::DrawStringCentered(0, 188, 0.9f, WHITE, Lang::get("PERSONALITY") + ": " + VillagerManagement::returnPersonality(currentVillager), 310);
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -107,6 +156,8 @@ void VillagerEditor::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("STATUS")))/2-20+17.5, 0.8, WHITE, Lang::get("STATUS"), 130, 25);
 	// Personality.
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("PERSONALITY")))/2+75-17.5, 0.8, WHITE, Lang::get("PERSONALITY"), 130, 25);
+	// Catchphrase.
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("CATCHPHRASE")))/2-80+17.5, 0.8, WHITE, Lang::get("CATCHPHRASE"), 130, 25);
 }
 
 void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -119,6 +170,11 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
+	if (hDown & KEY_R) {
+		if (subPage < 5)	subPage++;
+	} else if (hDown & KEY_L) {
+		if (subPage > 0)	subPage--;
+	}
 	// Selection.
 	if (hDown & KEY_UP) {
 		if(SubSelection > 0)	SubSelection--;
@@ -144,12 +200,12 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				editorMode = 1; // Sub Menu of Selection.
 				break;
 			case 1:
-				if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
-				else	Save::Instance()->villagers[currentVillager]->setStatus(1);
+//				if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
+//				else	Save::Instance()->villagers[currentVillager]->setStatus(1);
 				break;
 			case 2:
-				u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
-				SaveFile->villagers[currentVillager]->SetPersonality(newPersonality);
+//				u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
+//				SaveFile->villagers[currentVillager]->SetPersonality(newPersonality);
 				break;
 		}
 	}
@@ -158,11 +214,12 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, villagerButtons[0])) {
 			editorMode = 1;
 		} else if (touching(touch, villagerButtons[1])) {
-			if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
-			else	Save::Instance()->villagers[currentVillager]->setStatus(1);
+			if (Save::Instance()->villagers[currentVillager]->status == 1)	Save::Instance()->villagers[currentVillager]->status = 0;
+			else	Save::Instance()->villagers[currentVillager]->status = 1;
 		} else if (touching(touch, villagerButtons[2])) {
-			u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
-			SaveFile->villagers[currentVillager]->SetPersonality(newPersonality);
+			SaveFile->villagers[currentVillager]->personality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->personality, g_personality, Lang::get("SELECT_PERSONALITY"));
+		} else if (touching(touch, villagerButtons[3])) {
+			SaveFile->villagers[currentVillager]->Catchphrase = Input::handleu16String(10, "Enter new Catchphrase.", Save::Instance()->villagers[currentVillager]->Catchphrase);
 		}
 	}
 }
@@ -205,8 +262,8 @@ void VillagerEditor::ReplaceSubLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				editorMode = 2;
 				break;
 			case 1:
-				manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
-				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+//				manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
+//				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
 				editorMode = 0;
 				break;
 		}
@@ -216,8 +273,8 @@ void VillagerEditor::ReplaceSubLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (touching(touch, Buttons[0])) {
 			editorMode = 2;
 		} else if (touching(touch, Buttons[1])) {
-			manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
-			SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+//			manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
+//			SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
 			editorMode = 0;
 		}
 	}
@@ -644,8 +701,8 @@ void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition to
 		prompt += "\n\n";
 		prompt += villagerNameText;
 		if(Msg::promptMsg(prompt.c_str())) {
-			selectedVillager = currentSelectedVillager;
-			SaveFile->villagers[currentVillager]->SetId(selectedVillager);
+//			selectedVillager = currentSelectedVillager;
+//			SaveFile->villagers[currentVillager]->SetId(selectedVillager);
 			editorMode = 0;
 		}
 	}

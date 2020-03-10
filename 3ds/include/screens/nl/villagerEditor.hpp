@@ -28,20 +28,34 @@
 #define VILLAGEREDITOR_HPP
 
 #include "common.hpp"
+#include "itemContainer.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
+class ItemContainer;
 class VillagerEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
+	VillagerEditor();
+	~VillagerEditor();
 private:
+	std::shared_ptr<ItemContainer> Furniture[16];
+	std::shared_ptr<ItemContainer> Misc[5];
+	/*
+	std::shared_ptr<ItemContainer> Song;
+	std::shared_ptr<ItemContainer> Shirt;
+	std::shared_ptr<ItemContainer> Carpet;
+	std::shared_ptr<ItemContainer> Wallpaper;
+	std::shared_ptr<ItemContainer> Umbrella;
+	*/
+
 	// Basic Stuff.
 	int editorMode = 0;
 	int group = 1;
+	int subPage = 0;
 	int subMenuPage = 1;
 	int Selection = 0;
 	int SubSelection = 0;

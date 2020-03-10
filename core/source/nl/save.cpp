@@ -83,7 +83,7 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 
 	// Load Villagers
 	for (int i = 0; i < 10; i++) {
-		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * 0x2518), i);
 	}
 
 	m_pSave->town = std::make_shared<Town>();
@@ -254,7 +254,7 @@ Save* Save::Initialize(const char *saveName, bool init) {
 
 	// Load Villagers
 	for (int i = 0; i < 10; i++) {
-		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * 0x2518), i);
 	}
 
 	m_pSave->town = std::make_shared<Town>();

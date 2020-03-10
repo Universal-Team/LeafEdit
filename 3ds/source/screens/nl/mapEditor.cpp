@@ -25,7 +25,7 @@
 */
 
 #include "acreManagement.hpp"
-#include "item.hpp"
+#include "itemManagement.hpp"
 #include "keyboard.hpp"
 #include "mapEditor.hpp"
 #include "offsets.hpp"
@@ -37,19 +37,17 @@
 extern Save* SaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-static std::vector<std::pair<std::string, u8>> townMapData; // townMapData. name & Category.
-
-Item ITM;
-
 MapEditor::MapEditor() {
 	Msg::DisplayMsg(Lang::get("PREPARING_TOWN_EDITOR"));
-	ITM.LoadItemBins();
-	townMapData = EditorUtils::load_town_items();
+	ItemManagement::loadItems();
+	for(int i = 0; i < 5120; i++) {
+		MapItems[i] = std::make_shared<ItemContainer>(Save::Instance()->town->MapItem[i]);
+	}
 }
 
 MapEditor::~MapEditor()
 {
-	ITM.UnloadItemBins();
+	ItemManagement::unloadItems();
 }
 
 void MapEditor::Draw(void) const {
@@ -111,7 +109,7 @@ void MapEditor::DrawTownMap() const
 	AcreManagement::InitAcres(20, 5, 5, 40, 4, MAP_ACRES + 0x10);
 	// Display Informations. The informations are placeholder for now, BTW.
 	Gui::DrawString(210, 60, 0.7f, WHITE, Lang::get("CURRENT_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150);
-	Gui::DrawString(210, 90, 0.6f, WHITE, Lang::get("CURRENT_ITEM") + townMapData[MapSelection].first, 190);
+	Gui::DrawString(210, 90, 0.6f, WHITE, Lang::get("CURRENT_ITEM") + this->MapItems[MapSelection]->returnName(), 190);
 
 	// Selection Logic.
 	int x;

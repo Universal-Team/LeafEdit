@@ -28,10 +28,12 @@
 #define ITEMEDITOR_HPP
 
 #include "common.hpp"
+#include "itemContainer.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
+class ItemContainer;
 class ItemEditor : public Screen
 {
 public:
@@ -41,6 +43,12 @@ public:
 	~ItemEditor(void);
 
 private:
+	// Shared pointers for the Items.
+	std::shared_ptr<ItemContainer> Dresser[180];
+	std::shared_ptr<ItemContainer> Pocket[16];
+	std::shared_ptr<ItemContainer> islandBox[40];
+	std::shared_ptr<ItemContainer> Storage[360];
+
 	int currentBox = 0;
 	int currentItem = 0;
 	int itemMode = 0;

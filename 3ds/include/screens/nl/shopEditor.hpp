@@ -28,19 +28,36 @@
 #define SHOPEDITOR_HPP
 
 #include "common.hpp"
+#include "itemContainer.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
+class ItemContainer;
 class ShopEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	ShopEditor();
-	~ShopEditor(void);
-
+	~ShopEditor();
 private:
+	// Shop Containers.
+	std::shared_ptr<ItemContainer> Retail[8];
+	std::shared_ptr<ItemContainer> TT[24];
+	std::shared_ptr<ItemContainer> Gracie[18];
+	std::shared_ptr<ItemContainer> NooksHome[8];
+	std::shared_ptr<ItemContainer> Leif[11];
+	std::shared_ptr<ItemContainer> AbleSisterClothes[5];
+	std::shared_ptr<ItemContainer> AbleSisterAccesories[7];
+	std::shared_ptr<ItemContainer> Kicks[6];
+	std::shared_ptr<ItemContainer> Redd[4];
+	std::shared_ptr<ItemContainer> IslandShop[4];
+	std::shared_ptr<ItemContainer> MuseumShop[3];
+	std::shared_ptr<ItemContainer> LostFound[16];
+	std::shared_ptr<ItemContainer> ClubLol[4];
+	std::shared_ptr<ItemContainer> Harvey[2];
+
 	int Selection = 0;
 	int shopMode = 0;
 

@@ -25,7 +25,7 @@
 */
 
 #include "gui.hpp"
-#include "item.hpp"
+#include "itemManagement.hpp"
 #include "keyboard.hpp"
 #include "player.hpp"
 #include "save.hpp"
@@ -42,18 +42,16 @@ extern std::map<u16, std::string> g_itemDatabase;
 
 static std::vector<std::pair<std::string, s32>> storeData; // Store the data.
 
-Item item;
-
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Only load item stuff, when accessing this screen and also unload by exit of that screen.
 ShopEditor::ShopEditor() {
-	item.LoadItemBins();
+	ItemManagement::loadItems();
 }
 
 ShopEditor::~ShopEditor()
 {
-	item.UnloadItemBins();
+	ItemManagement::unloadItems();
 }
 
 void ShopEditor::Draw(void) const {

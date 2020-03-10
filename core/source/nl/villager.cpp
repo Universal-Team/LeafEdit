@@ -24,52 +24,35 @@ SOFTWARE.
 
 #include "villager.hpp"
 
-Villager::Villager() { }
+Villager::Villager(const u32 offset, const u32 index) {
+	this->m_offset = offset;
+	this->m_index = index;
 
-Villager::~Villager() {
-	// Checking if a pointer is null is not necessary for delete. It will verify the memory is valid before attempting to delete it.
-	if (this->m_villagerData != nullptr) {
-		delete this->m_villagerData;
+	// Read specific stuff.
+	this->ID = Save::Instance()->ReadU16(offset + 0x0);
+	this->personality = Save::Instance()->ReadU8(offset + 0x2);
+	this->Catchphrase = Save::Instance()->ReadString(offset + 0x24C6, 11);
+	this->status = Save::Instance()->ReadU8(offset + 24E4);
+	this->TownName = Save::Instance()->ReadString(offset + 0x24EE, 9);
+
+	// Read Items.
+	this->Shirt = std::make_shared<Item>(offset + 0x246E);
+	this->Song = std::make_shared<Item>(offset + 0x2472);
+	this->Wallpaper = std::make_shared<Item>(offset + 0x2476);
+	this->Carpet = std::make_shared<Item>(offset + 0x247A);
+	this->Umbrella = std::make_shared<Item>(offset + 0x247E);
+	// Read Furniture's.
+	for (int i = 0; i < 16; i++) {
+		this->Furniture[i] = std::make_shared<Item>(offset + 0x2482 + i * sizeof(Item));
 	}
 }
 
-Villager::Villager(const u32 offset, const u32 index) : m_villagerData(new Villager_s), m_offset(offset), m_index(index) {
-	Save::Instance()->ReadArray(reinterpret_cast<u8 *>(this->m_villagerData), offset, sizeof(Villager_s));
-}
-
-u32 Villager::GetOffset() const {
-	return this->m_offset;
-}
-
-u32 Villager::GetIndex() const {
-	return this->m_index;
-}
-
-u16 Villager::GetId() const {
-	return this->m_villagerData->Id;
-}
-
-void Villager::SetId(const u16 id) {
-	this->m_villagerData->Id = id;
-}
-
-// Box/unbox villager. 0 -> Unbox, 1 -> box.
-u8 Villager::getStatus() const {
-	return this->m_villagerData->Status;
-}
-
-void Villager::setStatus(const u8 status) {
-	this->m_villagerData->Status = status;
-}
-
-u8 Villager::GetPersonality() const {
-	return (u8)this->m_villagerData->personality;
-}
-
-void Villager::SetPersonality(const u8 Personality) {
-	this->m_villagerData->personality = (Villager::Personality)Personality;
-}
+Villager::~Villager() { }
 
 void Villager::Write() {
-	Save::Instance()->Write(m_offset, reinterpret_cast<u8 *>(this->m_villagerData), sizeof(Villager_s));
+	// Write specific stuff.
+	Save::Instance()->Write(this->m_offset + 0x0, this->ID);
+	Save::Instance()->Write(this->m_offset + 0x2, this->personality);
+	Save::Instance()->Write(this->m_offset + 0x24C6, this->Catchphrase, 11);
+	Save::Instance()->Write(this->m_offset + 24E4, this->status);
 }

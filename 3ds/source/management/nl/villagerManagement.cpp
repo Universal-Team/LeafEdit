@@ -208,5 +208,15 @@ u16 VillagerManagement::SelectVillager(u16 currentVillager) {
 }
 
 std::string VillagerManagement::returnPersonality(int Villager) {
-	return g_personality[SaveFile->villagers[Villager]->GetPersonality()];
+	return g_personality[SaveFile->villagers[Villager]->personality];
+}
+
+std::vector<std::pair<std::string, s32>> VillagerManagement::loadFurniture(int selectedVillager) {
+	std::vector<std::pair<std::string, s32>> furnitureData;
+	for (int num = 0; num < 16; num++) {
+		std::shared_ptr<Item> item = Save::Instance()->villagers[selectedVillager]->Furniture[num];
+		furnitureData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
+	}
+
+	return furnitureData;
 }

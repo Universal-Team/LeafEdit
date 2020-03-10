@@ -30,6 +30,8 @@
 #include "common.hpp"
 
 #include <3ds.h>
+#include <string>
+#include <vector>
 
 namespace VillagerManagement
 {
@@ -38,6 +40,9 @@ namespace VillagerManagement
 	void DrawVillagerSelection(int selection, int page = 0);
 	u16 SelectVillager(u16 currentVillager);
 	std::string returnPersonality(int Villager);
+
+	// Read Furniture's.
+	std::vector<std::pair<std::string, s32>> loadFurniture(int selectedVillager);
 }
 
 #endif

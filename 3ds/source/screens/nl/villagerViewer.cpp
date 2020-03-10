@@ -147,10 +147,10 @@ void VillagerViewer::DrawVillager(void) const {
 	DrawCurrentVillager();
 	for (u16 i = 0; i < 10; i++) {
 		if (currentVillager == i) {
-			u16 villager = Save::Instance()->villagers[i]->GetId();
+			u16 villager = Save::Instance()->villagers[i]->ID;
 			VillagerManagement::DrawVillager(villager, 160, 60);
 			villagerNameText = g_villagerDatabase[villager];
-			villagerID += std::to_string(Save::Instance()->villagers[i]->GetId());
+			villagerID += std::to_string(Save::Instance()->villagers[i]->ID);
 		}
 	}
 

@@ -27,25 +27,8 @@
 #ifndef SHOPMANAGEMENT_HPP
 #define SHOPMANAGEMENT_HPP
 
-#include "utils.hpp"
+#include <string>
 
-// Loads Shops.
-namespace ShopManagement
-{
-	std::vector<std::pair<std::string, s32>> load_Retail();
-	std::vector<std::pair<std::string, s32>> load_TT();
-	std::vector<std::pair<std::string, s32>> load_Gracie();
-	std::vector<std::pair<std::string, s32>> load_NooksHome();
-	std::vector<std::pair<std::string, s32>> load_Leif();
-	std::vector<std::pair<std::string, s32>> load_AbleSisterClothes();
-	std::vector<std::pair<std::string, s32>> load_AbleSisterAccesories();
-	std::vector<std::pair<std::string, s32>> load_Kicks();
-	std::vector<std::pair<std::string, s32>> load_Redd();
-	std::vector<std::pair<std::string, s32>> load_IslandShop();
-	std::vector<std::pair<std::string, s32>> load_MuseumShop();
-	std::vector<std::pair<std::string, s32>> load_LostFound();
-	std::vector<std::pair<std::string, s32>> load_ClubLol();
-	std::vector<std::pair<std::string, s32>> load_Harvey();
-}
+namespace ShopManagement { }
 
 #endif

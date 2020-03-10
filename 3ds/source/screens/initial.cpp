@@ -38,7 +38,7 @@ void Initial::Draw(void) const
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Lang::get("WELCOME_TO_LEAFEDIT"), 400);
 	Gui::DrawStringCentered(0, 30, 0.9f, WHITE, Lang::get("DEVELOPED_BY"), 390);
 	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("MAIN_DEV"), 390);
-	GFX::DrawSprite(sprites_stackZ_idx, -20, 100);
+	GFX::DrawSprite(sprites_stackZ_idx, 0, 80);
 	// Draw all supported Game sprites.
 	GFX::DrawSprite(sprites_Icon_idx, 260, 100);
 	GFX::DrawSprite(sprites_IconWA_idx, 260, 155);

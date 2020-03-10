@@ -26,7 +26,6 @@
 
 #include "gfx.hpp"
 #include "gui.hpp"
-#include "item.hpp"
 #include "itemEditor.hpp"
 #include "itemManagement.hpp"
 #include "keyboard.hpp"
@@ -39,18 +38,11 @@
 
 extern Save* SaveFile;
 extern std::map<u16, std::string> g_itemDatabase;
-std::vector<std::pair<std::string, s32>> testItemData; // Test. xD
-
-static std::vector<std::pair<std::string, s32>> inventoryData; // TODO: I dislike this. Find someother way of doing. Perhaps an item container class?
-static std::vector<std::pair<std::string, s32>> dresserData; // Dresser.
-static std::vector<std::pair<std::string, s32>> islandBoxData; // Island.
-static std::vector<std::pair<std::string, s32>> storageData; // Storage.
 
 #define MAX_DRESSER_ROWS	6
 #define MAX_STORAGE_ROWS	9
 #define MAX_ISLANDBOX_ROWS	4
 
-Item it;
 extern int selectedPassedPlayer;
 #define maxDresser 17 // 17, because it starts with 0, so it would be basically 18.
 #define maxIsland 3
@@ -60,12 +52,32 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Only load item stuff, when accessing this screen and also unload by exit of that screen.
 ItemEditor::ItemEditor() {
-	it.LoadItemBins();
+	ItemManagement::loadItems();
+
+	// Load Dresser.
+	for (int i = 0; i < 180; i++) {
+		this->Dresser[i] = std::make_shared<ItemContainer>(Save::Instance()->players[selectedPassedPlayer]->Dresser[i]);
+	}
+
+	// Load Pocket.
+	for (int i = 0; i < 16; i++) {
+		this->Pocket[i] = std::make_shared<ItemContainer>(Save::Instance()->players[selectedPassedPlayer]->Pockets[i]);
+	}
+
+	// Load Islandbox.
+	for (int i = 0; i < 40; i++) {
+		this->islandBox[i] = std::make_shared<ItemContainer>(Save::Instance()->players[selectedPassedPlayer]->IslandBox[i]);
+	}
+
+	// Load Storage.
+	for (int i = 0; i < 360; i++) {
+		this->Storage[i] = std::make_shared<ItemContainer>(Save::Instance()->players[selectedPassedPlayer]->Storage[i]);
+	}
 }
 
 ItemEditor::~ItemEditor()
 {
-	it.UnloadItemBins();
+	ItemManagement::unloadItems();
 }
 
 void ItemEditor::Draw(void) const {
@@ -127,7 +139,6 @@ void ItemEditor::DrawSubMenu(void) const {
 void ItemEditor::DisplayPocket(void) const {
 	int x = 42;
 	int y = 63;
-	inventoryData = EditorUtils::load_player_invitems(selectedPassedPlayer);
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_POCKET"), 400);
 	GFX::DrawBottom();
@@ -143,17 +154,16 @@ void ItemEditor::DisplayPocket(void) const {
 			x = 42;
 		}
 		GFX::DrawSprite(sprites_itemHole_idx, x - 16, y - 16);
-		if (inventoryData[i].second > -1)
+		if (this->Pocket[i]->returnID() > -1)
 		{
-			ItemManagement::DrawItem(inventoryData[i].second, x, y, 1 , 1);
+			ItemManagement::DrawItem(this->Pocket[i]->returnID(), x, y, 1 , 1);
 		}
 		x += 38;
 	}
 }
 
 void ItemEditor::DisplayIslandBox(void) const {
-	islandBoxData = EditorUtils::load_player_islandbox(selectedPassedPlayer, currentBox);
-	std::string itemName = islandBoxData[currentItem].first;
+	std::string itemName = this->islandBox[currentItem]->returnName();
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_ISLAND") + std::to_string(currentBox+1), 400);
 	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, itemName, 390);
@@ -162,9 +172,9 @@ void ItemEditor::DisplayIslandBox(void) const {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawSprite(sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
-				if (islandBoxData[i].second > -1)
+				if (this->islandBox[i]->returnID() > -1)
 				{
-					ItemManagement::DrawItem(islandBoxData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
+					ItemManagement::DrawItem(this->islandBox[i]->returnID(), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
 			}
 		}
@@ -177,8 +187,7 @@ void ItemEditor::DisplayIslandBox(void) const {
 }
 
 void ItemEditor::DisplayDresser(void) const {
-	dresserData = EditorUtils::load_player_dresseritems(selectedPassedPlayer, currentBox);
-	std::string itemName = dresserData[currentItem].first;
+	std::string itemName = this->Dresser[currentItem]->returnName();
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentBox+1), 400);
 	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, itemName, 390);
@@ -187,9 +196,9 @@ void ItemEditor::DisplayDresser(void) const {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawSprite(sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
-				if (dresserData[i].second > -1)
+				if (this->Dresser[i]->returnID() > -1)
 				{
-					ItemManagement::DrawItem(dresserData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
+					ItemManagement::DrawItem(this->Dresser[i]->returnID(), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
 			}
 		}
@@ -208,8 +217,7 @@ void ItemEditor::DisplayDresser(void) const {
 }
 
 void ItemEditor::DisplayStorage(void) const {
-	storageData = EditorUtils::load_player_storageitems(selectedPassedPlayer, currentBox);
-	std::string itemName = storageData[currentItem].first;
+	std::string itemName = this->Storage[currentItem]->returnName();
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_STORAGE") + std::to_string(currentBox+1), 400);
 	Gui::DrawStringCentered(0, 214, 0.9f, WHITE, itemName, 390);
@@ -218,9 +226,9 @@ void ItemEditor::DisplayStorage(void) const {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawSprite(sprites_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16);
-				if (storageData[i].second > -1)
+				if (this->Storage[i]->returnID() > -1)
 				{
-					ItemManagement::DrawItem(storageData[i].second, 25 + x * 58, 75 + y * 58, 1 , 1);
+					ItemManagement::DrawItem(this->Storage[i]->returnID(), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
 			}
 		}

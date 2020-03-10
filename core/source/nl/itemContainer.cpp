@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,19 +24,32 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ITEMMANAGEMENT_HPP
-#define ITEMMANAGEMENT_HPP
+#include "item.hpp"
+#include "itemContainer.hpp"
+#include "save.hpp"
 
-#include <3ds.h>
-#include <map>
-
-namespace ItemManagement
-{
-	void DrawItem(u16 ItemID, int x, int y, float ScaleX, float ScaleY); // Draw the Items.
-	void LoadDatabase(int lang); // Load Item Database.
-	// Load | Unload Itembins.
-	void loadItems();
-	void unloadItems();
+// Get Item names & SpriteSheetID.
+ItemContainer::ItemContainer(const std::shared_ptr<Item> item) {
+	this->name = item->GetName();
+	this->spritesheetID = item->GetSpritesheetID();
+	this->Category = item->GetCategory();
+	this->isWhiteList = item->IsInvWhitelisted();
 }
 
-#endif
+ItemContainer::~ItemContainer() { }
+
+u8 ItemContainer::returnCategory() {
+	return this->Category;
+}
+
+s32 ItemContainer::returnID() {
+	return this->spritesheetID;
+}
+
+std::string ItemContainer::returnName() {
+	return this->name;
+}
+
+bool ItemContainer::returnWhiteList() {
+	return this->isWhiteList;
+}

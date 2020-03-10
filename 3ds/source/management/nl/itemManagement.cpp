@@ -74,3 +74,13 @@ void ItemManagement::LoadDatabase(int lang) {
 
 	itemDatabase.close();
 }
+
+Item it;
+// Load | Unload Itembins.
+void ItemManagement::loadItems() {
+	it.LoadItemBins();
+}
+
+void ItemManagement::unloadItems() {
+	it.UnloadItemBins();
+}

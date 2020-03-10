@@ -28,10 +28,12 @@
 #define MAPEDITOR_HPP
 
 #include "common.hpp"
+#include "itemContainer.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
+class ItemContainer;
 class MapEditor : public Screen
 {
 public:
@@ -40,6 +42,8 @@ public:
 	MapEditor();
 	~MapEditor();
 private:
+	std::shared_ptr<ItemContainer> MapItems[5120];
+	
 	/* Mostly selection stuff. */
 	int Mode = 0;
 	int selection = 0; // Selection for "Items" / "Buildings".
