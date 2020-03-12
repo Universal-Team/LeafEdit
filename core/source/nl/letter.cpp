@@ -24,28 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "town.hpp"
+#include "letter.hpp"
 
-Town::Town() {
-	this->TownName = Save::Instance()->ReadString(0x0621BA, 8); // Works fine.
-	this->NativeFruit = Save::Instance()->ReadU8(0x06223A); // Might be wrong?
-	this->TimePlayed = Save::Instance()->ReadU16(0x0621b0); // Should be right?
+// Letter Offset: 0x7008
 
-	// *Only* first acre for now. TODO: Do it for every acre (20) -> 256x20 -> 5120 Items.
-	for (int i = 0; i < 5120; i++) {
-		this->MapItem[i] = std::make_shared<Item>(0x0534D8 + i * ITEM_SIZE);
-	}
-}
+Letter::~Letter() { }
 
-Town::~Town() {
-}
+Letter::Letter(Player *player, u32 index) { 
 
-void Town::Write() {
-	Save::Instance()->Write(0x0621BA, this->TownName, 8);
-	Save::Instance()->Write(0x06223A, this->NativeFruit);
-	Save::Instance()->Write(0x0621b0, this->TimePlayed);
-
-	for (int i = 0; i < 5120; i++) {
-		this->MapItem[i]->Write();
-	}
 }

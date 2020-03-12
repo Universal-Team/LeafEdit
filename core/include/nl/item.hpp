@@ -32,6 +32,8 @@ SOFTWARE.
 #include <cstdio>
 #include <string>
 
+#define ITEM_SIZE	4 // 4 Byte is a Item.
+
 struct ItemBin_s {
 	u16 ItemIcon;
 	u16 ItemPrice;
@@ -69,11 +71,11 @@ struct ItemKind_s {
 class Item {
 public:
 	union {
-    	struct {
-        	u16 ID;
-        	u16 Flags;
-    	};
-    	u32 Raw;
+		struct {
+			u16 ID;
+			u16 Flags;
+		};
+		u32 Raw;
 	};
 
 	static void LoadItemBins(void);
@@ -85,6 +87,10 @@ public:
 	Item(void);
 	Item(const u32 offset);
 	Item(const u16 id, const u16 flags);
+
+	// Write & Refresh.
+	void Refresh();
+	void Write();
 
 	s32 IsNormalItem(void);
 	ItemBin_s* GetItemBinSlot(void);
@@ -98,6 +104,8 @@ public:
 	u16 GetIconID(void);
 	s32 GetSpritesheetID(void);
 
+private:
+	u32 m_offset;
 };
 
 #endif

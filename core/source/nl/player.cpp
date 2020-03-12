@@ -87,19 +87,19 @@ Player::Player(u32 offset, u32 index) {
 	#endif
 
 	for (int i = 0; i < 16; i++) {
-		this->Pockets[i] = std::make_shared<Item>(offset + 0x6BD0 + i * sizeof(Item));
+		this->Pockets[i] = std::make_shared<Item>(offset + 0x6BD0 + i * ITEM_SIZE);
 	}
 
 	for (int i = 0; i < 180; i++) {
-		this->Dresser[i] = std::make_shared<Item>(offset + 0x92f0 + i * sizeof(Item));
+		this->Dresser[i] = std::make_shared<Item>(offset + 0x92f0 + i * ITEM_SIZE);
 	}
 
 	for (int i = 0; i < 40; i++) {
-		this->IslandBox[i] = std::make_shared<Item>(offset + 0x6f10 + i * sizeof(Item));
+		this->IslandBox[i] = std::make_shared<Item>(offset + 0x6f10 + i * ITEM_SIZE);
 	}
 
 	for (int i = 0; i < 360; i++) {
-		this->Storage[i] = std::make_shared<Item>((index*360)+ 0x07a778 + i * sizeof(Item));
+		this->Storage[i] = std::make_shared<Item>((index*360)+ 0x07a778 + i * ITEM_SIZE);
 	}
 
 	for (u32 i = 0; i < 10; i++) {
@@ -157,6 +157,22 @@ void Player::Write() {
 		this->BadgeValues[i].encrypt(encryptedInt, encryptionData);
 		Save::Instance()->Write(this->m_offset + 0x55DC + i*8, encryptedInt);
 		Save::Instance()->Write(this->m_offset + 0x55DC + i*8 + 4, encryptionData);
+	}
+
+	for (int i = 0; i < 16; i++) {
+		this->Pockets[i]->Write();
+	}
+
+	for (int i = 0; i < 180; i++) {
+		this->Dresser[i]->Write();
+	}
+
+	for (int i = 0; i < 40; i++) {
+		this->IslandBox[i]->Write();
+	}
+
+	for (int i = 0; i < 360; i++) {
+		this->Storage[i]->Write();
 	}
 }
 

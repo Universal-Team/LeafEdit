@@ -43,7 +43,7 @@ Villager::Villager(const u32 offset, const u32 index) {
 	this->Umbrella = std::make_shared<Item>(offset + 0x247E);
 	// Read Furniture's.
 	for (int i = 0; i < 16; i++) {
-		this->Furniture[i] = std::make_shared<Item>(offset + 0x2482 + i * sizeof(Item));
+		this->Furniture[i] = std::make_shared<Item>(offset + 0x2482 + i * ITEM_SIZE);
 	}
 }
 
@@ -55,4 +55,16 @@ void Villager::Write() {
 	Save::Instance()->Write(this->m_offset + 0x2, this->personality);
 	Save::Instance()->Write(this->m_offset + 0x24C6, this->Catchphrase, 11);
 	Save::Instance()->Write(this->m_offset + 24E4, this->status);
+	Save::Instance()->Write(this->m_offset + 0x24C6, this->TownName, 9);
+
+	// Write Items.
+	this->Shirt->Write();
+	this->Song->Write();
+	this->Wallpaper->Write();
+	this->Carpet->Write();
+	this->Umbrella->Write();
+	// Write Furniture's.
+	for (int i = 0; i < 16; i++) {
+		this->Furniture[i]->Write();
+	}
 }

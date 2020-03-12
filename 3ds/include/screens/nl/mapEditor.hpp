@@ -28,11 +28,13 @@
 #define MAPEDITOR_HPP
 
 #include "common.hpp"
+#include "item.hpp"
 #include "itemContainer.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
+class Item;
 class ItemContainer;
 class MapEditor : public Screen
 {
@@ -43,7 +45,13 @@ public:
 	~MapEditor();
 private:
 	std::shared_ptr<ItemContainer> MapItems[5120];
+
+	// TEMP.
+	std::shared_ptr<Item> TempItem;
+	std::shared_ptr<ItemContainer> TempContainer;
 	
+	void injectTo(int MapSlot);
+
 	/* Mostly selection stuff. */
 	int Mode = 0;
 	int selection = 0; // Selection for "Items" / "Buildings".
@@ -56,6 +64,7 @@ private:
 	int MapSelection = 0;
 	int PositionX = 16;
 	int PositionY = 16;
+	int TempSelection = 0;
 	
 	/* Main Screen. */
 	void DrawMapScreen(void) const;
@@ -71,6 +80,8 @@ private:
 	void DisplayMap(void) const;
 	void BuildingSetLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
+	void DrawTempItem(void) const;
+	void TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	/* Utilities. */
 	void DrawGrid(void) const;
@@ -90,6 +101,12 @@ private:
 	std::vector<Structs::ButtonPos> buildingButtons = {
 		{90, 40, 140, 35}, // ID.
 		{90, 100, 140, 35}, // PosX.
+	};
+
+	std::vector<Structs::ButtonPos> tempItemPos = {
+		{20, 40, 280, 30}, // ID.
+		{20, 90, 280, 30}, // Flag.
+		{20, 140, 280, 30} // Name.
 	};
 };
 

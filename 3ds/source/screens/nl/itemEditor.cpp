@@ -50,6 +50,8 @@ extern int selectedPassedPlayer;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+// test: 8471 --99.000 Bells.
+
 // Only load item stuff, when accessing this screen and also unload by exit of that screen.
 ItemEditor::ItemEditor() {
 	ItemManagement::loadItems();
@@ -307,6 +309,13 @@ void ItemEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void ItemEditor::PocketLogic(u32 hDown, u32 hHeld) {
 	if (hDown & KEY_B) {
 		itemMode = 0;
+	}
+
+	if (hDown & KEY_X) {
+		ItemManagement::SetID(SaveFile->players[selectedPassedPlayer]->Pockets[0], 8471);
+		ItemManagement::SetFlag(SaveFile->players[selectedPassedPlayer]->Pockets[0], 0);
+		SaveFile->players[selectedPassedPlayer]->Pockets[0]->Write();
+		ItemManagement::RefreshItem(this->Pocket[0]);
 	}
 
 	if (hHeld & KEY_SELECT) {

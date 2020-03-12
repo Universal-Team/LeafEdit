@@ -75,7 +75,7 @@ Item::Item(const u16 id, const u16 flags) : ID(id), Flags(flags) {
 Item::Item(void) : Item(0x7FFE, 0) { }
 
 Item::Item(const u32 offset)
-	: Item(Save::Instance()->ReadU16(offset), Save::Instance()->ReadU16(offset + 2)) { }
+	: Item(Save::Instance()->ReadU16(offset), Save::Instance()->ReadU16(offset + 2)) { m_offset = offset; }
 
 std::string Item::GetName(void) {
 	for (auto const& entry : g_itemDatabase) {
@@ -84,6 +84,15 @@ std::string Item::GetName(void) {
 		}
 	}
 	return std::string("???");
+}
+
+void Item::Refresh() {
+	Raw = (Flags << 16) | ID;
+}
+
+void Item::Write() {
+	Refresh(); // Refresh just in case.
+	Save::Instance()->Write(m_offset, Raw); // Write Raw Data.
 }
 
 s32 Item::IsNormalItem(void) {

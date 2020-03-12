@@ -43,6 +43,9 @@ MapEditor::MapEditor() {
 	for(int i = 0; i < 5120; i++) {
 		MapItems[i] = std::make_shared<ItemContainer>(Save::Instance()->town->MapItem[i]);
 	}
+	// Initialize Temp Items.
+	TempItem = std::make_shared<Item>(0x7FFE, 0);
+	TempContainer = std::make_shared<ItemContainer>(this->TempItem);
 }
 
 MapEditor::~MapEditor()
@@ -59,6 +62,8 @@ void MapEditor::Draw(void) const {
 		DrawBuildingEditor();
 	} else if (Mode == 3) {
 		DisplayMap();
+	} else if (Mode == 4) {
+		DrawTempItem();
 	}
 }
 
@@ -71,6 +76,8 @@ void MapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		BuildingEditorLogic(hDown, hHeld, touch);
 	} else if (Mode == 3) {
 		BuildingSetLogic(hDown, hHeld, touch);
+	} else if (Mode == 4) {
+		TempItemLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -168,6 +175,14 @@ void MapEditor::DrawGrid(void) const {
 	}
 }
 
+// Only *Inject*, if Item is valid and not "???".
+void MapEditor::injectTo(int MapSlot) {
+	if (this->TempContainer->returnName() != "???") {
+		ItemManagement::SetID(SaveFile->town->MapItem[MapSlot], this->TempItem->ID);
+		ItemManagement::SetFlag(SaveFile->town->MapItem[MapSlot], this->TempItem->Flags);
+		ItemManagement::RefreshItem(this->MapItems[MapSlot]);
+	}
+}
 
 void MapEditor::updateAcre(void) {
 	// First row.
@@ -238,11 +253,24 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mapButtons[1])) {
+		if (touching(touch, mapButtons[0])) {
+			Mode = 4;
+		} else if (touching(touch, mapButtons[1])) {
 			Mode = 1;
 		}
 	}
 
+	if (hDown & KEY_A) {
+		injectTo(MapSelection);
+	}
+
+	if (hDown & KEY_Y) { 
+		ItemManagement::SetID(this->TempItem, SaveFile->town->MapItem[MapSelection]->ID);
+		ItemManagement::SetFlag(this->TempItem, SaveFile->town->MapItem[MapSelection]->Flags);
+		this->TempContainer = std::make_shared<ItemContainer>(this->TempItem);
+		ItemManagement::RefreshItem(this->TempContainer);
+	}
+	
 	if (selectionMode == 0) {
 		if (hDown & KEY_X) {
 			selectionMode = 1;
@@ -309,9 +337,74 @@ void MapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 		
 		if (hDown & KEY_A) {
-			if (selection == 1) {
+			if (selection == 0) {
+				Mode = 4;
+			} else if (selection == 1) {
 				Mode = 1;
 			}
+		}
+	}
+}
+
+void MapEditor::DrawTempItem(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Temp Item", 400);
+	GFX::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(tempItemPos[i].x, tempItemPos[i].y, tempItemPos[i].w, tempItemPos[i].h, DARKER_COLOR);
+		if (TempSelection == i) {
+			GFX::DrawSprite(sprites_pointer_idx, tempItemPos[i].x+130, tempItemPos[i].y+25);
+		}
+	}
+	// Item ID.
+	Gui::DrawStringCentered(0, 45, 0.7f, WHITE, "Item ID: " + std::to_string(this->TempContainer->returnItemID()), 320);
+	// Item Flags.
+	Gui::DrawStringCentered(0, 95, 0.7f, WHITE, "Item Flags: " + std::to_string(this->TempContainer->returnItemFlag()), 320);
+	// Item Name.
+	Gui::DrawStringCentered(0, 145, 0.7f, WHITE, "Item Name: " + this->TempContainer->returnName(), 320);
+}
+
+void MapEditor::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Mode = 0;
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (TempSelection < 3)	TempSelection++;
+	}
+
+	if (hDown & KEY_UP) {
+		if (TempSelection > 0)	TempSelection--;
+	}
+
+	if (hDown & KEY_A) {
+		switch (TempSelection) {
+			case 0:
+				this->TempItem->ID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, this->TempItem->ID);
+				this->TempContainer = std::make_shared<ItemContainer>(this->TempItem);
+				ItemManagement::RefreshItem(this->TempContainer);
+				break;
+			case 1:
+				this->TempItem->Flags = Input::handleu16(2, "Enter the Flags.", 99, this->TempItem->Flags);
+				this->TempContainer = std::make_shared<ItemContainer>(this->TempItem);
+				ItemManagement::RefreshItem(this->TempContainer);
+				break;
+			case 2:
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, tempItemPos[0])) {
+			this->TempItem->ID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, this->TempItem->ID);
+			this->TempContainer = std::make_shared<ItemContainer>(this->TempItem);
+			ItemManagement::RefreshItem(this->TempContainer);
+		} else if (touching(touch, tempItemPos[1])) {
+			this->TempItem->Flags = Input::handleu16(2, "Enter the Flags.", 99, this->TempItem->Flags);
+			this->TempContainer = std::make_shared<ItemContainer>(this->TempItem);
+			ItemManagement::RefreshItem(this->TempContainer);
+		} else if (touching(touch, tempItemPos[2])) {
+			// TODO: Item List Selection.
 		}
 	}
 }

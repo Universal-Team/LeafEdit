@@ -84,3 +84,17 @@ void ItemManagement::loadItems() {
 void ItemManagement::unloadItems() {
 	it.UnloadItemBins();
 }
+
+void ItemManagement::RefreshItem(std::shared_ptr<ItemContainer> itemC) {
+	itemC->Refresh();
+}
+
+void ItemManagement::SetID(std::shared_ptr<Item> item, u16 Id) {
+	item->ID = Id;
+	item->Refresh();
+}
+
+void ItemManagement::SetFlag(std::shared_ptr<Item> item, u16 Flag) {
+	item->Flags = Flag;
+	item->Refresh();
+}

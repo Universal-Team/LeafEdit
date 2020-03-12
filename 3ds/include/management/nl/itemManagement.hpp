@@ -27,6 +27,9 @@
 #ifndef ITEMMANAGEMENT_HPP
 #define ITEMMANAGEMENT_HPP
 
+#include "item.hpp"
+#include "itemContainer.hpp"
+
 #include <3ds.h>
 #include <map>
 
@@ -37,6 +40,11 @@ namespace ItemManagement
 	// Load | Unload Itembins.
 	void loadItems();
 	void unloadItems();
+
+	// Item Set stuff.
+	void SetID(const std::shared_ptr<Item> item, u16 Id);
+	void SetFlag(std::shared_ptr<Item> item, u16 Flag);
+	void RefreshItem(std::shared_ptr<ItemContainer> itemC);
 }
 
 #endif

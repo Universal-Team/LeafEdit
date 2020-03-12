@@ -30,16 +30,36 @@
 
 // Get Item names & SpriteSheetID.
 ItemContainer::ItemContainer(const std::shared_ptr<Item> item) {
-	this->name = item->GetName();
-	this->spritesheetID = item->GetSpritesheetID();
-	this->Category = item->GetCategory();
-	this->isWhiteList = item->IsInvWhitelisted();
+	this->m_item = item;
+	this->name = m_item->GetName();
+	this->spritesheetID = m_item->GetSpritesheetID();
+	this->Category = m_item->GetCategory();
+	this->isWhiteList = m_item->IsInvWhitelisted();
+	this->ItemID = m_item->ID;
+	this->ItemFlag = m_item->Flags;
+}
+
+void ItemContainer::Refresh() {
+	this->name = m_item->GetName();
+	this->spritesheetID = m_item->GetSpritesheetID();
+	this->Category = m_item->GetCategory();
+	this->isWhiteList = m_item->IsInvWhitelisted();
+	this->ItemID = m_item->ID;
+	this->ItemFlag = m_item->Flags;
 }
 
 ItemContainer::~ItemContainer() { }
 
 u8 ItemContainer::returnCategory() {
 	return this->Category;
+}
+
+u16 ItemContainer::returnItemID() {
+	return this->ItemID;
+}
+
+u16 ItemContainer::returnItemFlag() {
+	return this->ItemFlag;
 }
 
 s32 ItemContainer::returnID() {

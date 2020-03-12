@@ -39,15 +39,21 @@ public:
 	ItemContainer(const std::shared_ptr<Item> item);
 	~ItemContainer();
 
+	u16 returnItemID(); // Return Item ID.
+	u16 returnItemFlag(); // Return Item Flag.
 	u8 returnCategory(); // Return Item Category.
 	s32 returnID(); // Return SpriteSheet ID.
 	std::string returnName(); // Return Item name.
 	bool returnWhiteList(); // Return if Item is in Inventory Whitelist.
+	void Refresh();
 private:
 	u8 Category;
 	s32 spritesheetID;
 	std::string name;
 	bool isWhiteList;
+	std::shared_ptr<Item> m_item;
+	u16 ItemID;
+	u16 ItemFlag;
 };
 
 #endif
