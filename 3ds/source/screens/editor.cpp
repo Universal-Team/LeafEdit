@@ -39,6 +39,7 @@
 #include "villagerManagement.hpp"
 #include "villagerViewer.hpp"
 #include "villagerViewerWW.hpp"
+#include "wwItemManagement.hpp"
 #include "wwsave.hpp"
 
 #include <unistd.h>
@@ -193,7 +194,7 @@ void Editor::PrepareNL(const std::string savePath) {
 			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 			Init::loadNLSheets();
 			BuildingManagement::loadDatabase();
-			ItemManagement::LoadDatabase(Config::getLang("Lang"));
+			ItemManagement::LoadDatabase(1);
 			Lang::loadNL(1);
 			Utils::createBackup(false, savePath);
 			EditorMode = 1;
@@ -211,6 +212,7 @@ void Editor::PrepareWW(const std::string savePath) {
 			WWSaveFile = WWSave::Initialize(save, true);
 			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
 			Init::loadWWSheets();
+			WWItemManagement::LoadDatabase(1);
 			Lang::loadWW(1);
 			EditorMode = 1;
 		}

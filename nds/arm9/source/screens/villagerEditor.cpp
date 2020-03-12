@@ -49,9 +49,9 @@ void VillagerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop();
 	DrawBox();
 
-	VillagerManagement::DrawVillager(SaveFile->villagers[currentVillager]->GetId(), 100, 40);
-	printTextCentered(g_villagerDatabase[SaveFile->villagers[currentVillager]->GetId()], 0, 100, true, true);
-	printTextCentered("Villager ID: " + std::to_string(SaveFile->villagers[currentVillager]->GetId()), 0, 130, true, true);
+	VillagerManagement::DrawVillager(SaveFile->villagers[currentVillager]->ID, 100, 40);
+	printTextCentered(g_villagerDatabase[SaveFile->villagers[currentVillager]->ID], 0, 100, true, true);
+	printTextCentered("Villager ID: " + std::to_string(SaveFile->villagers[currentVillager]->ID), 0, 130, true, true);
 	printTextCentered("Personality: " + VillagerManagement::returnPersonality(currentVillager), 0, 160, true, true);
 
 	Gui::DrawBottom();
@@ -91,18 +91,15 @@ void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		u8 something;
 		switch (Selection) {
 			case 0:
-				something = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->GetId(), g_villagerDatabase);
-				SaveFile->villagers[currentVillager]->SetId(something);
+				SaveFile->villagers[currentVillager]->ID = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->ID, g_villagerDatabase);
 				Gui::DrawScreen();
 				Gui::showPointer();
 				selected = true;
 				break;
 			case 1:
-				something = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->GetPersonality(), g_personality);
-				SaveFile->villagers[currentVillager]->SetPersonality(something);
+				SaveFile->villagers[currentVillager]->personality = (u8)Gui::selectList(SaveFile->villagers[currentVillager]->personality, g_personality);
 				Gui::DrawScreen();
 				Gui::showPointer();
 				selected = true;

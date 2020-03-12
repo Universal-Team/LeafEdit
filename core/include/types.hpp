@@ -30,6 +30,9 @@
 // Needed for shared_ptr.
 #include <memory>
 
+#define ITEM_SIZE	4
+#define WWITEM_SIZE	2
+
 #ifdef _3DS
 #include <3ds.h>
 #endif

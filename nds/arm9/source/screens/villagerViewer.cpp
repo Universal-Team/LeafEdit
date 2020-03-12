@@ -131,9 +131,9 @@ void VillagerViewer::DrawVillager(void) const {
 	Gui::DrawTop();
 	DrawBox();
 	DrawCurrentVillager();
-	VillagerManagement::DrawVillager(SaveFile->villagers[currentVillager]->GetId(), 100, 60);
-	printTextCentered(g_villagerDatabase[SaveFile->villagers[currentVillager]->GetId()], 0, 130, true, true);
-	printTextCentered("Villager ID: " + std::to_string(SaveFile->villagers[currentVillager]->GetId()), 0, 160, true, true);
+	VillagerManagement::DrawVillager(SaveFile->villagers[currentVillager]->ID, 100, 60);
+	printTextCentered(g_villagerDatabase[SaveFile->villagers[currentVillager]->ID], 0, 130, true, true);
+	printTextCentered("Villager ID: " + std::to_string(SaveFile->villagers[currentVillager]->ID), 0, 160, true, true);
 	Gui::DrawBottom();
 }
 

@@ -26,43 +26,31 @@
 
 #include "wwVillager.hpp"
 
-WWVillager::WWVillager() { }
+WWVillager::WWVillager(const u32 offset, const u32 index) {
+	this->m_offset = offset;
+	this->m_index = index;
 
-WWVillager::~WWVillager() {
-	// Checking if a pointer is null is not necessary for delete. It will verify the memory is valid before attempting to delete it.
-	if (this->m_villagerData != nullptr) {
-		delete this->m_villagerData;
+	// Read specific stuff.
+	this->ID = WWSave::Instance()->ReadU8(offset + 0x6CB);
+	this->personality = WWSave::Instance()->ReadU8(offset + 0x6CA);
+	this->CatchPhrase = WWSave::Instance()->ReadString(offset + 0x6DE, 10, false);
+
+	// Read Items.
+	this->Song = std::make_shared<WWItem>(offset + 0x6D0); // Check this.
+	this->Shirt = std::make_shared<WWItem>(offset + 0x6EC);
+	this->Wallpaper = std::make_shared<WWItem>(offset + 0x6CC);
+	this->Carpet = std::make_shared<WWItem>(offset + 0x6CE);
+
+	for (int i = 0; i < 10; i++) {
+		this->Furniture[i] = std::make_shared<WWItem>(offset + 0x6AC + i * WWITEM_SIZE);
 	}
 }
 
-WWVillager::WWVillager(const u32 offset, const u32 index) : m_villagerData(new Villager_s), m_offset(offset), m_index(index) {
-	WWSave::Instance()->ReadArray(reinterpret_cast<u8 *>(this->m_villagerData), offset, sizeof(Villager_s));
-}
-
-u32 WWVillager::GetOffset() const {
-	return this->m_offset;
-}
-
-u32 WWVillager::GetIndex() const {
-	return this->m_index;
-}
-
-u8 WWVillager::GetId() const {
-	return this->m_villagerData->ID;
-}
-
-void WWVillager::SetId(const u8 id) {
-	this->m_villagerData->ID = id;
-}
-
-u8 WWVillager::GetPersonality() const {
-	return (u8)this->m_villagerData->personality;
-}
-
-void WWVillager::SetPersonality(const u8 Personality) {
-	this->m_villagerData->personality = (WWVillager::Personality)Personality;
-}
+WWVillager::~WWVillager() { }
 
 void WWVillager::Write() {
-	WWSave::Instance()->Write(m_offset, reinterpret_cast<u8 *>(this->m_villagerData), sizeof(Villager_s));
+	// Write specific stuff.
+	WWSave::Instance()->Write(this->m_offset + 0x6CB, this->ID);
+	WWSave::Instance()->Write(this->m_offset + 0x6CA, this->personality);
+	WWSave::Instance()->Write(this->m_offset + 0x6DE, this->CatchPhrase, 10, false);
 }

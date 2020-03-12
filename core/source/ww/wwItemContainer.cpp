@@ -24,38 +24,26 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
+#include "wwItemContainer.hpp"
 
-#include "types.hpp"
-#include "wwItem.hpp"
-#include "wwsave.hpp"
+// Get Item names & SpriteSheetID.
+WWItemContainer::WWItemContainer(const std::shared_ptr<WWItem> item) {
+	this->m_item = item;
+	this->name = m_item->GetName();
+	this->ItemID = m_item->GetItemID();
+}
 
-#include <string>
+void WWItemContainer::Refresh() {
+	this->name = m_item->GetName();
+	this->ItemID = m_item->GetItemID();
+}
 
-class WWItem;
-class WWPlayer {
-public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+WWItemContainer::~WWItemContainer() { }
 
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-	std::shared_ptr<WWItem> Pocket[15];
-	std::shared_ptr<WWItem> Dresser[90];
-	
-	void Write();
-	bool Exists();
+u16 WWItemContainer::returnItemID() {
+	return this->ItemID;
+}
 
-	u32 m_offset;
-	u32 m_index;
-};
-
-#endif
+std::string WWItemContainer::returnName() {
+	return this->name;
+}

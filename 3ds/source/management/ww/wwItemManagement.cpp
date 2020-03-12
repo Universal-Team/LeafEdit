@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,38 +24,43 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
+#include "screenCommon.hpp"
+#include "utils.hpp"
+#include "wwItemManagement.hpp"
 
-#include "types.hpp"
-#include "wwItem.hpp"
-#include "wwsave.hpp"
+#include <fstream>
 
-#include <string>
+extern std::map<u16, std::string> g_itemDatabase;
+std::string wwItemLanguages[] = {"de", "en", "es", "fr", "it", "jp", "lt", "pt"};
 
-class WWItem;
-class WWPlayer {
-public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+void WWItemManagement::LoadDatabase(int lang) {
+	g_itemDatabase.clear();
+	//g_sortedItemDatabase.clear();
 
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-	std::shared_ptr<WWItem> Pocket[15];
-	std::shared_ptr<WWItem> Dresser[90];
-	
-	void Write();
-	bool Exists();
+	std::string currentLine;
+	std::ifstream itemDatabase("romfs:/lang/" + wwItemLanguages[lang] + "/wwItems.txt", std::ifstream::in);
+	std::string itemIdStr;
+	std::string itemName;
+	std::string sectionName = "None";
 
-	u32 m_offset;
-	u32 m_index;
-};
+	while (std::getline(itemDatabase, currentLine))
+	{
+		if (currentLine.find("//") == 0)
+		{
+			sectionName = currentLine.substr(2);
+		}
+		else if (currentLine.size() > 8 && currentLine.find("//") == std::string::npos)
+		{											// confirm we don't have any comments
+			itemIdStr = currentLine.substr(2, 4); 	// skip the 0x hex specifier
+			itemName = currentLine.substr(8, currentLine.size());
 
-#endif
+			// Convert itemIdStr to a u16
+			u16 itemId = strToU16(itemIdStr);
+
+			// Add item to the database
+			g_itemDatabase.insert(std::make_pair(itemId, itemName));
+		}
+	}
+
+	itemDatabase.close();
+}

@@ -105,6 +105,7 @@ void PlayerEditorWW::DrawPlayerScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - Player Editor", 400);
 	Gui::Draw_Rect(40, 37, 320, 35, DARKER_COLOR);
+	Gui::DrawStringCentered(0, 30, 0.9f, WHITE, "Item: " + WWSaveFile->players[cp]->Dresser[2]->GetName(), 380);
 	Gui::DrawStringCentered(0, 45, 0.9f, WHITE, "Name: " + StringUtils::UTF16toUTF8(WWSaveFile->players[cp]->Name), 380);
 	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, "Bells: " + std::to_string(WWSaveFile->players[cp]->Bells), 380);
 	Gui::DrawStringCentered(0, 95, 0.9f, WHITE, "HairType: " + std::to_string(WWSaveFile->players[cp]->HairType), 380);

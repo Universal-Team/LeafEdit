@@ -46,5 +46,5 @@ void VillagerManagement::DrawVillager(u8 villagerID, int x, int y, bool top) {
 }
 
 std::string VillagerManagement::returnPersonality(int Villager) {
-	return g_personality[SaveFile->villagers[Villager]->GetPersonality()];
+	return g_personality[SaveFile->villagers[Villager]->personality];
 }

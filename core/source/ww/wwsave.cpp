@@ -72,7 +72,7 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 
 	// Load Villagers.
 	for (int i = 0; i < 8; i++) {
-		m_pSave->villagers[i] = std::make_shared<WWVillager>(0x8A3C + (i * sizeof(WWVillager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<WWVillager>(0x8A3C + (i * 0x700), i);
 	}
 
 	fclose(savesFile);

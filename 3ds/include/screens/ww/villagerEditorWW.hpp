@@ -29,19 +29,25 @@
 
 #include "common.hpp"
 #include "structs.hpp"
+#include "wwItemContainer.hpp"
 
 #include <vector>
 
+class WWItemContainer;
 class VillagerEditorWW : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
+	VillagerEditorWW();
 private:
+	std::shared_ptr<WWItemContainer> Furniture[10];
+	std::shared_ptr<WWItemContainer> Misc[5];
+
 	// Basic Stuff.
 	int editorMode = 0;
 	int SubSelection = 0;
+	int subPage = 0;
 
 	/*
 		SUB MENU.

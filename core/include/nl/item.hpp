@@ -32,8 +32,6 @@ SOFTWARE.
 #include <cstdio>
 #include <string>
 
-#define ITEM_SIZE	4 // 4 Byte is a Item.
-
 struct ItemBin_s {
 	u16 ItemIcon;
 	u16 ItemPrice;

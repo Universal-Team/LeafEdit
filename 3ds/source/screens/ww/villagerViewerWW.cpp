@@ -150,14 +150,14 @@ void VillagerViewerWW::DrawVillager(void) const {
 	DrawCurrentVillager();
 	for (int i = 0; i < 8; i++) {
 		if (wwCurrentVillager == i) {
-			u8 villager = WWSaveFile->villagers[i]->GetId();
+			u8 villager = WWSaveFile->villagers[i]->ID;
 			WWVillagerManagement::DrawVillager(villager, 160, 60);
-			if (WWSaveFile->villagers[i]->GetId() > 149) {
+			if (WWSaveFile->villagers[i]->ID > 149) {
 				wwVillagerNameText = g_villagerDatabase[150];
 			} else {
 				wwVillagerNameText = g_villagerDatabase[villager];
 			}
-			villagerID += std::to_string(WWSaveFile->villagers[i]->GetId());
+			villagerID += std::to_string(WWSaveFile->villagers[i]->ID);
 		}
 	}
 

@@ -24,38 +24,35 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
-
-#include "types.hpp"
 #include "wwItem.hpp"
 #include "wwsave.hpp"
 
+#include <fstream>
+#include <map>
 #include <string>
 
-class WWItem;
-class WWPlayer {
-public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+extern std::map<u16, std::string> g_itemDatabase;
 
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-	std::shared_ptr<WWItem> Pocket[15];
-	std::shared_ptr<WWItem> Dresser[90];
-	
-	void Write();
-	bool Exists();
+WWItem::WWItem(const u32 offset) {
+	m_ID = WWSave::Instance()->ReadU16(offset);
+	m_offset = offset;
+}
 
-	u32 m_offset;
-	u32 m_index;
-};
+WWItem::~WWItem() { }
 
-#endif
+void WWItem::Write() {
+	WWSave::Instance()->Write(m_offset, m_ID);
+}
+
+u16 WWItem::GetItemID() {
+	return this->m_ID;
+}
+
+std::string WWItem::GetName(void) {
+	for (auto const& entry : g_itemDatabase) {
+		if (entry.first == this->m_ID) {
+			return entry.second;
+		}
+	}
+	return std::string("???");
+}

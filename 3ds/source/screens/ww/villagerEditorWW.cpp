@@ -27,6 +27,7 @@
 #include "keyboard.hpp"
 
 #include "screenCommon.hpp"
+#include "utils.hpp"
 #include "villagerEditorWW.hpp"
 #include "wwsave.hpp"
 #include "wwVillager.hpp"
@@ -43,6 +44,21 @@ extern std::string villagerNameText;
 extern int wwCurrentVillager;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+VillagerEditorWW::VillagerEditorWW() {
+	// Load Furniture.
+	for (int i = 0; i < 10; i++) {
+		Furniture[i] = std::make_shared<WWItemContainer>(WWSaveFile->villagers[wwCurrentVillager]->Furniture[i]);
+	}
+	// Load Song.
+	this->Misc[0] = std::make_shared<WWItemContainer>(WWSaveFile->villagers[wwCurrentVillager]->Song);
+	// Load Shirt.
+	this->Misc[1] = std::make_shared<WWItemContainer>(WWSaveFile->villagers[wwCurrentVillager]->Shirt);
+	// Load Carpet.
+	this->Misc[2] = std::make_shared<WWItemContainer>(WWSaveFile->villagers[wwCurrentVillager]->Carpet);
+	// Load Wallpaper.
+	this->Misc[3] = std::make_shared<WWItemContainer>(WWSaveFile->villagers[wwCurrentVillager]->Wallpaper);
+}
 
 void VillagerEditorWW::Draw(void) const
 {
@@ -64,10 +80,31 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 	Gui::Draw_Rect(40, 142, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 112, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 172, 320, 22, DARKER_COLOR);
-	WWVillagerManagement::DrawVillager(WWSaveFile->villagers[wwCurrentVillager]->GetId(), 160, 40);
-	Gui::DrawStringCentered(0, 110, 0.9f, WHITE, g_villagerDatabase[WWSaveFile->villagers[wwCurrentVillager]->GetId()], 310);
-	Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(WWSaveFile->villagers[wwCurrentVillager]->GetId()), 310);
-	Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("PERSONALITY") + ": " + WWVillagerManagement::returnPersonality(wwCurrentVillager), 310);
+	WWVillagerManagement::DrawVillager(WWSaveFile->villagers[wwCurrentVillager]->ID, 160, 40);
+	Gui::DrawStringCentered(0, 110, 0.9f, WHITE, g_villagerDatabase[WWSaveFile->villagers[wwCurrentVillager]->ID], 310);
+
+	if (subPage == 0) {
+		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(WWSaveFile->villagers[wwCurrentVillager]->ID), 310);
+		Gui::DrawStringCentered(0, 170, 0.9f, WHITE, Lang::get("PERSONALITY") + ": " + WWVillagerManagement::returnPersonality(wwCurrentVillager), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Catchphrase: " + StringUtils::UTF16toUTF8(WWSaveFile->villagers[wwCurrentVillager]->CatchPhrase), 310);
+	} else if (subPage == 1) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Shirt: " + this->Misc[1]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Carpet: " + this->Misc[2]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Wallpaper: " + this->Misc[3]->returnName(), 310);
+	} else if (subPage == 2) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture1: " + this->Furniture[0]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture2: " + this->Furniture[1]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Furniture3: " + this->Furniture[2]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Furniture4: " + this->Furniture[3]->returnName(), 310);
+	} else if (subPage == 3) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture5: " + this->Furniture[4]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture6: " + this->Furniture[5]->returnName(), 310);
+		Gui::DrawStringCentered(0, 178, 0.9f, WHITE, "Furniture7: " + this->Furniture[6]->returnName(), 310);
+		Gui::DrawStringCentered(0, 198, 0.9f, WHITE, "Furniture8: " + this->Furniture[7]->returnName(), 310);
+	} else if (subPage == 4) {
+		Gui::DrawStringCentered(0, 138, 0.9f, WHITE, "Furniture9: " + this->Furniture[8]->returnName(), 310);
+		Gui::DrawStringCentered(0, 158, 0.9f, WHITE, "Furniture10: " + this->Furniture[9]->returnName(), 310);
+	}
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -92,6 +129,12 @@ void VillagerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 
+	if (hDown & KEY_R) {
+		if (subPage < 4)	subPage++;
+	} else if (hDown & KEY_L) {
+		if (subPage > 0)	subPage--;
+	}
+
 	// Selection.
 	if (hDown & KEY_UP) {
 		if(SubSelection > 0)	SubSelection--;
@@ -113,31 +156,27 @@ void VillagerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (SubSelection == 0) {
-			u8 oldID = WWSaveFile->villagers[wwCurrentVillager]->GetId();
 			if (Msg::promptMsg("Would you like to replace the Villager?")) {
-				u8 newID = WWVillagerManagement::SelectVillager(oldID);
+				u8 newID = WWVillagerManagement::SelectVillager(WWSaveFile->villagers[wwCurrentVillager]->ID);
 				if (Msg::promptMsg("Set the Villager to:" + g_villagerDatabase[newID])) {
-					WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
+					WWSaveFile->villagers[wwCurrentVillager]->ID = newID;
 				}
 			}
 		} else if (SubSelection == 1) {
-			u8 newPersonality = (u8)GFX::ListSelection((int)WWSaveFile->villagers[wwCurrentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
-			WWSaveFile->villagers[wwCurrentVillager]->SetPersonality(newPersonality);
+			WWSaveFile->villagers[wwCurrentVillager]->personality = (u8)GFX::ListSelection((int)WWSaveFile->villagers[wwCurrentVillager]->personality, g_personality, Lang::get("SELECT_PERSONALITY"));
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, villagerButtons[0])) {
-			u8 oldID = WWSaveFile->villagers[wwCurrentVillager]->GetId();
 			if (Msg::promptMsg("Would you like to replace the Villager?")) {
-				u8 newID = WWVillagerManagement::SelectVillager(oldID);
+				u8 newID = WWVillagerManagement::SelectVillager(WWSaveFile->villagers[wwCurrentVillager]->ID);
 				if (Msg::promptMsg("Set the Villager to:" + g_villagerDatabase[newID])) {
-					WWSaveFile->villagers[wwCurrentVillager]->SetId(newID);
+					WWSaveFile->villagers[wwCurrentVillager]->ID = newID;
 				}
 			}
 		} else if (touching(touch, villagerButtons[1])) {
-			u8 newPersonality = (u8)GFX::ListSelection((int)WWSaveFile->villagers[wwCurrentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
-			WWSaveFile->villagers[wwCurrentVillager]->SetPersonality(newPersonality);
+			WWSaveFile->villagers[wwCurrentVillager]->personality = (u8)GFX::ListSelection((int)WWSaveFile->villagers[wwCurrentVillager]->personality, g_personality, Lang::get("SELECT_PERSONALITY"));
 		}
 	}
 }

@@ -24,47 +24,37 @@
 *         reasonable ways as different from the original version.
 */
 
-#pragma once
-
 #ifndef WWVILLAGER_HPP
 #define WWVILLAGER_HPP
 
 #include "types.hpp"
+#include "wwItem.hpp"
 #include "wwsave.hpp"
 
 #include <string>
 
+class WWItem;
 class WWVillager {
 public:
-	WWVillager(void);
-	~WWVillager(void);
 	WWVillager(const u32 offset, const u32 index);
-
+	~WWVillager(void);
+	
 	enum Personality : u8 {
 		Lazy, Jock, Cranky, Normal, Peppy, Snooty, NotSet
 	};
 
-	#pragma pack(push, 1)
-	struct Villager_s {
-		u8 Unknown[0x6CA]; // 0 - 0x6C9.
-		WWVillager::Personality personality; // 0x6CA
-		u8 ID; // 0x6CB.
-		u8 Unknown2[0x34]; // Until 0x700.
-	};
+	u8 personality; // 0x6CA
+	u8 ID; // 0x6CB.
+	std::u16string CatchPhrase;
+	std::shared_ptr<WWItem> Furniture[10];
+	std::shared_ptr<WWItem> Wallpaper;
+	std::shared_ptr<WWItem> Carpet;
+	std::shared_ptr<WWItem> Song;
+	std::shared_ptr<WWItem> Shirt;
 
-	#pragma pack(pop)
-	u32 GetOffset(void) const;
-	u32 GetIndex(void) const;
-	// ID.
-	u8 GetId(void) const;
-	void SetId(const u8);
-	u8 GetPersonality() const;
-	void SetPersonality(const u8);
 	void Write(void);
 
 private:
-	Villager_s* m_villagerData;
-
 	u32 m_offset;
 	u32 m_index;
 };

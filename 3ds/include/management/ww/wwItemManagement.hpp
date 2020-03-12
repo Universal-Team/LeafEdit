@@ -24,38 +24,18 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
+#ifndef WWITEMMANAGEMENT_HPP
+#define WWITEMMANAGEMENT_HPP
 
-#include "types.hpp"
-#include "wwItem.hpp"
-#include "wwsave.hpp"
+#include "item.hpp"
+#include "itemContainer.hpp"
 
-#include <string>
+#include <3ds.h>
+#include <map>
 
-class WWItem;
-class WWPlayer {
-public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
-
-	u8 Gender;
-	u32 Bells;
-	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-	std::shared_ptr<WWItem> Pocket[15];
-	std::shared_ptr<WWItem> Dresser[90];
-	
-	void Write();
-	bool Exists();
-
-	u32 m_offset;
-	u32 m_index;
-};
+namespace WWItemManagement
+{
+	void LoadDatabase(int lang); // Load Item Database.
+}
 
 #endif

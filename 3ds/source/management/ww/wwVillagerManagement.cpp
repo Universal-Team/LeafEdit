@@ -117,5 +117,5 @@ u8 WWVillagerManagement::SelectVillager(u8 currentVillager) {
 }
 
 std::string WWVillagerManagement::returnPersonality(int Villager) {
-	return g_personality[WWSaveFile->villagers[Villager]->GetPersonality()];
+	return g_personality[WWSaveFile->villagers[Villager]->personality];
 }
