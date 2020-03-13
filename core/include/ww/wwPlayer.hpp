@@ -42,6 +42,7 @@ public:
 
 	u8 Gender;
 	u32 Bells;
+	u32 BankAmount;
 	std::u16string Name;
 	u8 HairType;
 	u8 FaceType;

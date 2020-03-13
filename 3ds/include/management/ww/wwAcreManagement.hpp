@@ -1,4 +1,4 @@
-/*
+	/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,33 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "wwTown.hpp"
-#include "wwsave.hpp"
+#ifndef WWACREMANAGEMENT_HPP
+#define WWACREMANAGEMENT_HPP
 
-WWTown::WWTown() {
-	this->Name = WWSave::Instance()->ReadString(0x0004, 7, false);
-	this->Debt = WWSave::Instance()->ReadU32(0xFAE8);
-	// Read Town Map Items.
-	for (int i = 0; i < 4096; i++) {
-		this->MapItems[i] = std::make_shared<WWItem>(0xC354 + i * WWITEM_SIZE);
-	}
-	// Read full Acres.
-	for (int i = 0; i < 36; i++) {
-		this->FullAcres[i] = WWSave::Instance()->ReadU8(0xC330 + i * WWACRE_SIZE);
-	}
+#include <3ds.h>
+
+namespace WWAcreManagement
+{
+	void DrawAcre(u8 AcreID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Acres.
+	void DrawTownMapBottom(); // Draw Town Map with Scale 2 for the bottom screen.
 }
 
-WWTown::~WWTown() { }
-
-void WWTown::Write() {
-	WWSave::Instance()->Write(0x0004, this->Name, 7, false);
-	WWSave::Instance()->Write(0xFAE8, this->Debt);
-	// Write Town Map Items.
-	for (int i = 0; i < 4096; i++) {
-		this->MapItems[i]->Write();
-	}
-	// Write full Acres.
-	for (int i = 0; i < 36; i++) {
-		WWSave::Instance()->Write(0xC330 + i * WWACRE_SIZE, this->FullAcres[i]);
-	}
-}
+#endif

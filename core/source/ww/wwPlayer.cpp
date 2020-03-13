@@ -37,6 +37,7 @@ WWPlayer::WWPlayer(u32 offset, u32 index) {
 
 	this->Gender = WWSave::Instance()->ReadU8(offset + 0x228A); // Gender.
 	this->Bells = WWSave::Instance()->ReadU32(offset + 0x1B40); // Bells from the Wallet.
+	this->BankAmount = WWSave::Instance()->ReadU32(offset + 0x21E4); // Bank Amount.
 	this->Name = WWSave::Instance()->ReadString(offset + 0x2282, 7, false);
 	this->NookPoints = WWSave::Instance()->ReadU16(offset + 0x2208); // Is correct.
 
@@ -58,6 +59,7 @@ WWPlayer::WWPlayer(u32 offset, u32 index) {
 
 void WWPlayer::Write() {
 	WWSave::Instance()->Write(this->m_offset + 0x1B40, this->Bells);
+	WWSave::Instance()->Write(this->m_offset + 0x21E4, this->BankAmount);
 	WWSave::Instance()->Write(this->m_offset + 0x2282, this->Name, 7, false);
 	WWSave::Instance()->Write(this->m_offset + 0x228A, this->Gender);
 
