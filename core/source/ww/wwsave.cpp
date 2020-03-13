@@ -103,6 +103,10 @@ void WWSave::Close(void) {
 	}
 }
 
+int WWSave::ReadInt(u32 offset) {
+	return (int)m_saveBuffer[offset];
+}
+
 s8 WWSave::ReadS8(u32 offset) {
 	return (s8) m_saveBuffer[offset];
 }
@@ -160,6 +164,10 @@ bool WWSave::Write(u32 offset, u8 *data, u32 count) {
 	memcpy(m_saveBuffer + offset, data, count);
 	m_changesMade = true;
 	return true;
+}
+
+void WWSave::Write(u32 offset, int data) {
+	m_saveBuffer[offset] = (int)data;
 }
 
 void WWSave::Write(u32 offset, s8 data) {

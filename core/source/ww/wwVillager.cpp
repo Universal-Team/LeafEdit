@@ -34,6 +34,7 @@ WWVillager::WWVillager(const u32 offset, const u32 index) {
 	this->ID = WWSave::Instance()->ReadU8(offset + 0x6CB);
 	this->personality = WWSave::Instance()->ReadU8(offset + 0x6CA);
 	this->CatchPhrase = WWSave::Instance()->ReadString(offset + 0x6DE, 10, false);
+	this->HouseCoordinates = WWSave::Instance()->ReadInt(offset + 0x6E8); // Is that correct?
 
 	// Read Items.
 	this->Song = std::make_shared<WWItem>(offset + 0x6D0); // Check this.
@@ -52,5 +53,15 @@ void WWVillager::Write() {
 	// Write specific stuff.
 	WWSave::Instance()->Write(this->m_offset + 0x6CB, this->ID);
 	WWSave::Instance()->Write(this->m_offset + 0x6CA, this->personality);
-	WWSave::Instance()->Write(this->m_offset + 0x6DE, this->CatchPhrase, 10, false);
+//	WWSave::Instance()->Write(this->m_offset + 0x6DE, this->CatchPhrase, 10, false); // Overwrites House Coordinates(?) TODO: Figure out.
+
+	// Write Items.
+	this->Song->Write();
+	this->Shirt->Write();
+	this->Wallpaper->Write();
+	this->Carpet->Write();
+	// Write Furniture's.
+	for (int i = 0; i < 10; i++) {
+		this->Furniture[i]->Write();
+	}
 }

@@ -154,9 +154,9 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 		}
 	}
-
+	// Set 99.000 Bells to Slot 1.
 	if (hDown & KEY_X) {
-		WWSaveFile->players[0]->Gender = 1;
+		WWSaveFile->players[cp]->Pocket[0]->SetItemID(5373);
 	}
 
 	if (hHeld & KEY_SELECT) {

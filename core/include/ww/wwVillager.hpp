@@ -38,6 +38,7 @@ class WWVillager {
 public:
 	WWVillager(const u32 offset, const u32 index);
 	~WWVillager(void);
+	void Write(void);
 	
 	enum Personality : u8 {
 		Lazy, Jock, Cranky, Normal, Peppy, Snooty, NotSet
@@ -45,6 +46,7 @@ public:
 
 	u8 personality; // 0x6CA
 	u8 ID; // 0x6CB.
+	int HouseCoordinates; // I need to better understand - How it's handled.
 	std::u16string CatchPhrase;
 	std::shared_ptr<WWItem> Furniture[10];
 	std::shared_ptr<WWItem> Wallpaper;
@@ -52,7 +54,12 @@ public:
 	std::shared_ptr<WWItem> Song;
 	std::shared_ptr<WWItem> Shirt;
 
-	void Write(void);
+	// Unknown | needs research.
+	u8 TownID;
+	std::u16string TownName;
+	int NameID;
+	std::u16string Nickname;
+	std::shared_ptr<WWItem> Umbrella;
 
 private:
 	u32 m_offset;

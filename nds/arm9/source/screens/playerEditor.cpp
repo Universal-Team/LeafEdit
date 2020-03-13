@@ -166,6 +166,14 @@ void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 		}
 	}
 
+	// Set 99.000 Bells to all dresser slots.
+	if (hDown & KEY_X) {
+		for (int i = 0; i < 90; i++) {
+			SaveFile->players[cp]->Dresser[i]->SetItemID(5373);
+		}
+		SaveFile->players[cp]->Pocket[0]->SetItemID(12572);
+	}
+
 	if (hDown & KEY_B) {
 		selection = 0;
 		screen = 1;

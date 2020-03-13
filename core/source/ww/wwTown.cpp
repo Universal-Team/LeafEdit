@@ -30,6 +30,10 @@
 WWTown::WWTown() {
 	this->Name = WWSave::Instance()->ReadString(0x0004, 7, false);
 	this->Debt = WWSave::Instance()->ReadU32(0xFAE8);
+	// Read Town Map Items.
+	for (int i = 0; i < 4096; i++) {
+		this->MapItems[i] = std::make_shared<WWItem>(0xC354 + i * WWITEM_SIZE);
+	}
 }
 
 WWTown::~WWTown() { }
@@ -37,4 +41,8 @@ WWTown::~WWTown() { }
 void WWTown::Write() {
 	WWSave::Instance()->Write(0x0004, this->Name, 7, false);
 	WWSave::Instance()->Write(0xFAE8, this->Debt);
+	// Write Town Map Items.
+	for (int i = 0; i < 4096; i++) {
+		this->MapItems[i]->Write();
+	}
 }

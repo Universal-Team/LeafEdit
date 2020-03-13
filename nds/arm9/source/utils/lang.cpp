@@ -1,3 +1,4 @@
+#include "itemManagement.hpp"
 #include "lang.hpp"
 
 nlohmann::json appJson;
@@ -39,6 +40,7 @@ void Lang::load(int lang) {
 	loadToVector("nitro:/lang/"+langs[lang]+"/hairStyle.txt", g_hairStyle);
 	loadToVector("nitro:/lang/"+langs[lang]+"/personalities.txt", g_personality);
 	loadToVector("nitro:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
+	ItemManagement::LoadDatabase(1);
 
 	// Load app strings
 	FILE* file = fopen(("nitro:/lang/"+langs[lang]+"/app.json").c_str(), "rt");

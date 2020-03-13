@@ -46,6 +46,7 @@ public:
 	static WWSave* Instance();
 
 	// Readings.
+	int ReadInt(u32 offset);
 	s8 ReadS8(u32 offset);
 	u8 ReadU8(u32 offset);
 	s16 ReadS16(u32 offset);
@@ -63,6 +64,7 @@ public:
 	
 	// Writings.
 	bool Write(u32 offset, u8 *buffer, u32 count);
+	void Write(u32 offset, int data);
 	void Write(u32 offset, s8 data);
 	void Write(u32 offset, u8 data);
 	void Write(u32 offset, s16 data);

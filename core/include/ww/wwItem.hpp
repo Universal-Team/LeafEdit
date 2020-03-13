@@ -39,6 +39,7 @@ public:
 
 	std::string GetName(void);
 	u16 GetItemID();
+	void SetItemID(u16 ID);
 	void Write();
 private:
 	u32 m_offset;

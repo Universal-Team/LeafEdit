@@ -28,10 +28,12 @@
 #define WWTOWN_HPP
 
 #include "types.hpp"
+#include "wwItem.hpp"
 #include "wwsave.hpp"
 
 #include <string>
 
+class WWItem;
 class WWTown {
 public:
 	~WWTown(void);
@@ -39,6 +41,7 @@ public:
 
 	u32 Debt;
 	std::u16string Name;
+	std::shared_ptr<WWItem> MapItems[4096];
 
 	void Write();
 };

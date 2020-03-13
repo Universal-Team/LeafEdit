@@ -48,6 +48,10 @@ u16 WWItem::GetItemID() {
 	return this->m_ID;
 }
 
+void WWItem::SetItemID(u16 ID) {
+	this->m_ID = ID;
+}
+
 std::string WWItem::GetName(void) {
 	for (auto const& entry : g_itemDatabase) {
 		if (entry.first == this->m_ID) {
