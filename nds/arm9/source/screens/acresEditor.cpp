@@ -126,6 +126,14 @@ void AcresEditor::Logic(u16 hDown, touchPosition touch) {
 			updateMap();
 		}
 
+		if (hDown & KEY_TOUCH) {
+			for (int i = 0; i < 16; i++) {
+				if (touching(touch, MapPos[i])) {
+					Selection = i;
+					selected = true;
+				}
+			}
+		}
 		if (hDown & KEY_RIGHT) {
 			if (Selection < 15)	Selection++;
 			selected = true;
@@ -151,6 +159,14 @@ void AcresEditor::Logic(u16 hDown, touchPosition touch) {
 			updateTop();
 		}
 		if (hDown & KEY_LEFT) {
+			if (selectedAcre > 0)	selectedAcre--;
+			updateTop();
+		}
+		if (keysHeld() & KEY_R) {
+			if (selectedAcre < MAX_ACRE)	selectedAcre++;
+			updateTop();
+		}
+		if (keysHeld() & KEY_L) {
 			if (selectedAcre > 0)	selectedAcre--;
 			updateTop();
 		}

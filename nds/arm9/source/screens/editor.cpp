@@ -24,9 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "acresEditor.hpp"
 #include "editor.hpp"
 #include "fileBrowse.hpp"
+#include "miscEditor.hpp"
 #include "msg.hpp"
 #include "playerEditor.hpp"
 #include "villagerViewer.hpp"
@@ -108,7 +108,7 @@ void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
 			Gui::hidePointer();
 			Gui::DrawScreen();
 		} else if (selection == 2) {
-			Gui::setScreen(std::make_unique<AcresEditor>());
+			Gui::setScreen(std::make_unique<MiscEditor>());
 			Gui::DrawScreen();
 			selected = true;
 		}
@@ -124,6 +124,10 @@ void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
 			Gui::setScreen(std::make_unique<VillagerViewer>());
 			Gui::hidePointer();
 			Gui::DrawScreen();
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<MiscEditor>());
+			Gui::DrawScreen();
+			selected = true;
 		}
 	}
 }
