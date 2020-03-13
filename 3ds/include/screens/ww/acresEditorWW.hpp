@@ -41,7 +41,7 @@ private:
 	void DrawTopSelection(void) const; // Draw Acre Image Selection.
 	int Selection = 0;
 	int AcrePosition = 7;
-	s32 selectedAcre = 0;
+	u8 selectedAcre = 0;
 	int AcreMode = 0;
 	int SelectionToPos(); // Convert Selection to position.
 };

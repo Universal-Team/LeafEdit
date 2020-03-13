@@ -143,7 +143,7 @@ void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (AcreMode == 0) {
 		if (hDown & KEY_A) {
-			WWSaveFile->town->FullAcres[SelectionToPos()] = (u8)selectedAcre;
+			WWSaveFile->town->FullAcres[SelectionToPos()] = selectedAcre;
 		}
 
 		if (hDown & KEY_RIGHT) {
