@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "acresEditor.hpp"
 #include "editor.hpp"
 #include "fileBrowse.hpp"
 #include "msg.hpp"
@@ -107,7 +108,9 @@ void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
 			Gui::hidePointer();
 			Gui::DrawScreen();
 		} else if (selection == 2) {
-//			Gui::setScreen(std::make_unique<MiscEditor>());
+			Gui::setScreen(std::make_unique<AcresEditor>());
+			Gui::DrawScreen();
+			selected = true;
 		}
 	}
 
