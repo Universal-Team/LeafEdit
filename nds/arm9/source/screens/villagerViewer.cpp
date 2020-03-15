@@ -48,12 +48,12 @@ void VillagerViewer::Draw(void) const
 }
 
 void VillagerViewer::DrawVillagerList(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	DrawBox();
 	VillagerManagement::DrawVillager(villagerViewerSprite, 100, 60);
 	printTextCentered("Villager ID: " + std::to_string(villagerViewerSprite), 0, 160, true, true);
 	printTextCentered(g_villagerDatabase[villagerViewerSprite], 0, 130, true, true);
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 }
 
 void VillagerViewer::VillagerListLogic(u16 hDown, touchPosition touch) {
@@ -128,13 +128,13 @@ void VillagerViewer::VillagerLogic(u16 hDown) {
 }
 
 void VillagerViewer::DrawVillager(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	DrawBox();
 	DrawCurrentVillager();
 	VillagerManagement::DrawVillager(SaveFile->villagers[currentVillager]->ID, 100, 60);
 	printTextCentered(g_villagerDatabase[SaveFile->villagers[currentVillager]->ID], 0, 130, true, true);
 	printTextCentered("Villager ID: " + std::to_string(SaveFile->villagers[currentVillager]->ID), 0, 160, true, true);
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 }
 
 // This will draw the current Villager and Title for the Villager Viewer Screen.

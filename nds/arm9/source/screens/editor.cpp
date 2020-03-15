@@ -41,9 +41,9 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Editor::Draw(void) const {
 	if (EditorMode != 0) {
-		Gui::DrawTop();
+		Gui::DrawTop(true);
 		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
-		Gui::DrawBottom();
+		Gui::DrawBottom(true);
 
 		for (int i = 0; i < 3; i++) {
 			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);

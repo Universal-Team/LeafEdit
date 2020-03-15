@@ -27,6 +27,8 @@
 #include "graphics.hpp"
 #include "screen.hpp"
 
+#include <nds.h>
+
 namespace Gui {
 	// Pointer stuff.
 	void showPointer();
@@ -41,8 +43,8 @@ namespace Gui {
 	void screenBack(void); // Go a screen back. Needs "return;" at the end.
 
 	// GUI Stuff.
-	void DrawTop(void);
-	void DrawBottom(void);
+	void DrawTop(bool useBars);
+	void DrawBottom(bool useBars);
 
 	/* 	Clear a Screen & Layer.
  		* bool top is whether to draw on the top or bottom screen.

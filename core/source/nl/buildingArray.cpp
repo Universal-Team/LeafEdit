@@ -28,11 +28,6 @@
 
 #include <map>
 
-#ifdef _3DS
-#include "gui/msg.hpp"
-#include "lang/lang.hpp"
-#endif
-
 /* Building names.
 0x00, "Player 1's House"
 0x01, "Player 2's House"
@@ -215,96 +210,58 @@
 
 std::map<u16, std::string> g_buildingDatabase; // ID & name.
 
-BuildingArray::BuildingArray() {
-	// Load Buildings from Town.
-	for (int i = 0; i < 58; i++) {
-		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
-		m_ID[i] = Save::Instance()->ReadU16(buildingData);
-		m_xPos[i] = Save::Instance()->ReadU8(buildingData + 2);
-		m_yPos[i] = Save::Instance()->ReadU8(buildingData + 3);
-		m_exist[i] = ((m_ID[i] < 0xFC) && !(m_ID[i] >= 0x12 && m_ID[i] <= 0x4B)); // Returns true, always.
-	}
-	// Load Building informations.
-	m_Buildings = Save::Instance()->ReadU8(0x04BE84);
-	m_BuildingsEvent = Save::Instance()->ReadU8(0x04BE85);
+BuildingArray::BuildingArray(u32 offset) {
+	m_offset = offset;
+	m_ID = Save::Instance()->ReadU16(m_offset);
+	m_xPos = Save::Instance()->ReadU8(m_offset + 2);
+	m_yPos = Save::Instance()->ReadU8(m_offset + 3);
+	m_exist = ((m_ID < 0xFC) && !(m_ID >= 0x12 && m_ID <= 0x4B)); // Returns true, always.
 }
 
-std::string BuildingArray::GetName(int pos) {
+std::string BuildingArray::GetName() {
 	for (auto const& entry : g_buildingDatabase) {
-		if (entry.first == m_ID[pos]) {
+		if (entry.first == m_ID) {
 			return entry.second;
 		}
 	}
 	return std::string("???");
 }
 
-u8 BuildingArray::getBuildCount() {
-	return m_Buildings + m_BuildingsEvent;
-}
-
-BuildingArray::~BuildingArray() {
-}
+BuildingArray::~BuildingArray() { }
 
 // Return some stuff. ;)
-u16 BuildingArray::returnID(int pos) {
-	return m_ID[pos];
+u16 BuildingArray::returnID() {
+	return m_ID;
 }
 
-bool BuildingArray::returnExistState(int pos) {
-	return m_exist[pos];
+bool BuildingArray::returnExistState() {
+	return m_exist;
 }
 
-u8 BuildingArray::returnXPos(int pos) {
-	return m_xPos[pos];
+u8 BuildingArray::returnXPos() {
+	return m_xPos;
 }
 
-u8 BuildingArray::returnYPos(int pos) {
-	return m_yPos[pos];
+u8 BuildingArray::returnYPos() {
+	return m_yPos;
 }
 
 // Set Positions.
-u8 BuildingArray::setXPos(int pos, u8 newPosition) {
-	return m_xPos[pos] = newPosition;
+u8 BuildingArray::setXPos(u8 newPosition) {
+	return m_xPos = newPosition;
 }
 
-u8 BuildingArray::setYPos(int pos, u8 newPosition) {
-	return m_yPos[pos] = newPosition;
+u8 BuildingArray::setYPos(u8 newPosition) {
+	return m_yPos = newPosition;
 }
 
-u16 BuildingArray::setBuilding(int pos, u16 newID) {
-	return m_ID[pos] = newID;
+u16 BuildingArray::setBuilding(u16 newID) {
+	return m_ID = newID;
 }
-
-// Fix invalid buildings. Only works on 3DS for now, since "Msg::promptMsg()".
-#ifdef _3DS
-void BuildingArray::FixInvalidBuildings(void) {
-	bool asked = false;
-	for (int i = 0; i < 58; i++) {
-		u8 building = Save::Instance()->ReadU8(0x04be88+(i * 4)); //Get building ID
-		if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
-			if (!asked) {
-				asked = true;
-				if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
-					return;
-				}
-			}
-
-			Save::Instance()->Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
-		}
-	}
-}
-#endif
 
 // TODO?
 void BuildingArray::Write() {
-	for (int i = 0; i < 58; i++) {
-		u32 buildingData = 0x80 + 0x4BE08 + i * 4;
-		Save::Instance()->Write(buildingData, m_ID[i]);
-		Save::Instance()->Write(buildingData + 2, m_xPos[i]);
-		Save::Instance()->Write(buildingData + 3, m_yPos[i]);
-	}
-
-	#ifdef _3DS
-	FixInvalidBuildings();
-	#endif
+	Save::Instance()->Write(m_offset, m_ID);
+	Save::Instance()->Write(m_offset + 2, m_xPos);
+	Save::Instance()->Write(m_offset + 3, m_yPos);
 }

@@ -34,39 +34,163 @@
 
 extern Save* SaveFile;
 
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 #define MAX_ACRE 218 // Define the Max Amount of Acres.
 
-// Offsets for the current Town MAP.
-// 0x08, 0x09, 0x0A, 0x0B, 0x0C // Row 1.
-// 0x0F, 0x10, 0x11, 0x12, 0x13 // Row 2.
-// 0x16, 0x17, 0x18, 0x19, 0x1A // Row 3.
-// 0x1D, 0x1E, 0x1F, 0x20, 0x21 // Row 4.
+void AcresEditor::DrawTopSelection(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400);
+	Gui::DrawStringCentered(0, 180, 0.8f, WHITE, "Acre ID: " + std::to_string(selectedAcre), 400);
+	if (selectedAcre == 0) {
+		AcreManagement::DrawAcre(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		AcreManagement::DrawAcre(selectedAcre+1, 300, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre+2, 350, 100, 1, 1);
+	} else if (selectedAcre == 1) {
+		AcreManagement::DrawAcre(selectedAcre-1, 60, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		AcreManagement::DrawAcre(selectedAcre+1, 300, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre+2, 350, 100, 1, 1);
+	} else if (selectedAcre == MAX_ACRE-1) {
+		AcreManagement::DrawAcre(selectedAcre-2, 10, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre-1, 60, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		AcreManagement::DrawAcre(selectedAcre+1, 300, 100, 1, 1);
+	} else if (selectedAcre == MAX_ACRE) {
+		AcreManagement::DrawAcre(selectedAcre-2, 10, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre-1, 60, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+	} else {
+		AcreManagement::DrawAcre(selectedAcre-2, 10, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre-1, 60, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		AcreManagement::DrawAcre(selectedAcre+1, 300, 100, 1, 1);
+		AcreManagement::DrawAcre(selectedAcre+2, 350, 100, 1, 1);
+	}
+}
 
-// Not added yet to the Town MAP Editing. This is the complete Town Map.
-// 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 // Row 1.
-// 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D // Row 2.
-// 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14 // Row 3.
-// 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B // Row 4.
-// 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22	// Row 5.
-// 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29 // Row 6.
+void AcresEditor::DrawIsland(void) const {
+	GFX::DrawBottom();
+	for (int i = 0; i < 16; i++) {
+		AcreManagement::DrawAcre(SaveFile->island->IslandAcres[i], islandPos[i].x, islandPos[i].y);
+	}
+	// Draw Grid.
+	for (int i = 0; i < 16; i++) {
+		for (u32 y = 0; y < 4; y++) {
+			for (u32 x = 0; x < 4; x++, i++) {
+				Gui::drawGrid(80 + (x*40), 40 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
+			}
+		}
+	}
+	GFX::DrawSprite(sprites_pointer_idx, islandPos[Selection].x+20, islandPos[Selection].y+20);
+}
+
+void AcresEditor::DrawFullMap(void) const {
+	GFX::DrawBottom(false);
+	for (int i = 0; i < 42; i++) {
+		AcreManagement::DrawAcre(SaveFile->town->FullAcres[i], mapPos[i].x, mapPos[i].y);
+	}
+	// Draw Grid.
+	for (int i = 0; i < 42; i++) {
+		for (u32 y = 0; y < 6; y++) {
+			for (u32 x = 0; x < 7; x++, i++) {
+				Gui::drawGrid(20 + (x*40), 0 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
+			}
+		}
+	}
+	GFX::DrawSprite(sprites_pointer_idx, mapPos[Selection].x+20, mapPos[Selection].y+20);
+}
+
+void AcresEditor::DrawMap(void) const {
+	GFX::DrawBottom();
+	for (int i = 0; i < 20; i++) {
+		AcreManagement::DrawAcre(SaveFile->town->FullAcres[SelectionToAcre(i)], townPos[i].x, townPos[i].y);
+	}
+	// Draw Grid.
+	for (int i = 0; i < 20; i++) {
+		for (u32 y = 0; y < 4; y++) {
+			for (u32 x = 0; x < 5; x++, i++) {
+				Gui::drawGrid(60 + (x*40), 40 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
+			}
+		}
+	}
+	GFX::DrawSprite(sprites_pointer_idx, townPos[Selection].x+20, townPos[Selection].y+20);
+}
+
+int AcresEditor::SelectionToAcre(int selection) const {
+	switch (selection) {
+		case 0:
+			return 8;
+			break;
+		case 1:
+			return 9;
+			break;
+		case 2:
+			return 10;
+			break;
+		case 3:
+			return 11;
+			break;
+		case 4:
+			return 12;
+		case 5:
+			return 15;
+			break;
+		case 6:
+			return 16;
+			break;
+		case 7:
+			return 17;
+		case 8:
+			return 18;
+			break;
+		case 9:
+			return 19;
+			break;
+		case 10:
+			return 22;
+			break;
+		case 11:
+			return 23;
+			break;
+		case 12:
+			return 24;
+			break;
+		case 13:
+			return 25;
+			break;
+		case 14:
+			return 26;
+			break;
+		case 15:
+			return 29;
+			break;
+		case 16:
+			return 30;
+			break;
+		case 17:
+			return 31;
+			break;
+		case 18:
+			return 32;
+			break;
+		case 19:
+			return 33;
+			break;
+	}
+	return 8; // Should Never Happen.
+}
 
 
 void AcresEditor::Draw(void) const {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400);
-	GFX::DrawBottom();
-	townMap();
-	DrawSelection();
-}
-
-void AcresEditor::DrawSelection(void) const {
-	int select = 0;
-	for (u32 y = 0; y < 4; y++) {
-		for (u32 x = 0; x < 5; x++, select++) {
-			if (Selection == select) {
-				Gui::drawAnimatedSelector(60 + x * 40, 40 + y * 40, 40, 40, .030, SELECTED_COLOR, C2D_Color32(0, 0, 0, 0));
-			}
+	DrawTopSelection();
+	if (AcreMode == 0) {
+		if (GodMode) {
+			DrawFullMap();
+		} else {
+			DrawMap();
 		}
+	} else {
+		DrawIsland();
 	}
 }
 
@@ -76,167 +200,141 @@ void AcresEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("NOTE_ACRE_EDITOR") + "\n\n" + Lang::get("A_SELECTION") +  "\n" + Lang::get("B_BACK"));
-	}
-
-	if (hDown & KEY_A) {
-		if (Selection == 0) {
-			writeAcre(0x08, selectAcre());
-		} else if (Selection == 1) {
-			writeAcre(0x09, selectAcre());
-		} else if (Selection == 2) {
-			writeAcre(0x0A, selectAcre());
-		} else if (Selection == 3) {
-			writeAcre(0x0B, selectAcre());
-		} else if (Selection == 4) {
-			writeAcre(0x0C, selectAcre());
-		} else if (Selection == 5) {
-			writeAcre(0x0F, selectAcre());
-		} else if (Selection == 6) {
-			writeAcre(0x10, selectAcre());
-		} else if (Selection == 7) {
-			writeAcre(0x11, selectAcre());
-		} else if (Selection == 8) {
-			writeAcre(0x12, selectAcre());
-		} else if (Selection == 9) {
-			writeAcre(0x13, selectAcre());
-		} else if (Selection == 10) {
-			writeAcre(0x16, selectAcre());
-		} else if (Selection == 11) {
-			writeAcre(0x17, selectAcre());
-		} else if (Selection == 12) {
-			writeAcre(0x18, selectAcre());
-		} else if (Selection == 13) {
-			writeAcre(0x19, selectAcre());
-		} else if (Selection == 14) {
-			writeAcre(0x1A, selectAcre());
-		} else if (Selection == 15) {
-			writeAcre(0x1D, selectAcre());
-		} else if (Selection == 16) {
-			writeAcre(0x1E, selectAcre());
-		} else if (Selection == 17) {
-			writeAcre(0x1F, selectAcre());
-		} else if (Selection == 18) {
-			writeAcre(0x20, selectAcre());
-		} else if (Selection == 19) {
-			writeAcre(0x21, selectAcre());
+	if (hDown & KEY_X) {
+		if (AcreMode == 0) {
+			AcreMode = 1;
+			Selection = 0;
+		} else {
+			AcreMode = 0;
+			Selection = 0;
 		}
-		
 	}
 
+	// Set Top Acre to Selection.
+	if (hDown & KEY_A) {
+		if (AcreMode == 0) {
+			if (selectedAcre < 182 || selectedAcre > 205) {
+				if (GodMode) {
+					SaveFile->town->FullAcres[Selection] = selectedAcre;
+				} else {
+					SaveFile->town->FullAcres[SelectionToAcre(Selection)] = selectedAcre;
+				}
+			}
+		} else {
+			if (selectedAcre < 206 && selectedAcre > 181) {
+				SaveFile->island->IslandAcres[Selection] = selectedAcre;
+			}
+		}
+	}
+
+	// Display Selected Acre on Top Selection.
+	if (hDown & KEY_Y) {
+		if (AcreMode == 0) {
+			if (GodMode) {
+				selectedAcre = SaveFile->town->FullAcres[Selection];
+			} else {
+				selectedAcre = SaveFile->town->FullAcres[SelectionToAcre(Selection)];
+			}
+		} else {
+			selectedAcre = SaveFile->island->IslandAcres[Selection];
+		}
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (AcreMode == 0) {
+			if (GodMode) {
+				if (Selection < 35)	Selection += 7;
+			} else {
+				if (Selection < 15)	Selection += 5;
+			}
+		} else {
+			if (Selection < 12)	Selection += 4;
+		}
+	}
+
+	if (hDown & KEY_UP) {
+		if (AcreMode == 0) {
+			if (GodMode) {
+				if (Selection > 6)	Selection -= 7;
+			} else {
+				if (Selection > 4)	Selection -= 5;
+			}
+		} else {
+			if (Selection > 3)	Selection -= 4;
+		}
+	}
 
 	if (hDown & KEY_RIGHT) {
-		if (Selection < 19)	Selection++;
+		if (AcreMode == 0) {
+			if (GodMode) {
+				if (Selection < 41)	Selection++;
+			} else {
+				if (Selection < 19)	Selection++;
+			}
+		} else {
+			if (Selection < 15)	Selection++;
+		}
 	}
 
 	if (hDown & KEY_LEFT) {
 		if (Selection > 0)	Selection--;
 	}
 
-	if (hDown & KEY_UP) {
-		if (Selection > 4)	Selection -= 5;
-	}
-
-	if (hDown & KEY_DOWN) {
-		if (Selection < 15)	Selection += 5;
-	}
-}
-
-
-// To-Do for the Acres Editor.
-u8 AcresEditor::selectAcre() {
-	while(1)
-	{
-		u8 acreImage;
-		for (acreImage = 0; acreImage < MAX_ACRE+1; acreImage++) {
-			if (selectedAcre == acreImage) {
-				Gui::clearTextBufs();
-				C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-				C2D_TargetClear(Top, BLACK);
-				GFX::DrawTop();
-				if (acreImage == 0) {
-					AcreManagement::DrawAcre(acreImage, 150, 100, 2, 2); // Current Selected ACRE.
-					AcreManagement::DrawAcre(acreImage+1, 300, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage+2, 350, 100, 1, 1);
-				} else if (acreImage == 1) {
-					AcreManagement::DrawAcre(acreImage-1, 60, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage, 150, 100, 2, 2); // Current Selected ACRE.
-					AcreManagement::DrawAcre(acreImage+1, 300, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage+2, 350, 100, 1, 1);
-				} else if (acreImage == MAX_ACRE-1) {
-					AcreManagement::DrawAcre(acreImage-2, 10, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage-1, 60, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage, 150, 100, 2, 2); // Current Selected ACRE.
-					AcreManagement::DrawAcre(acreImage+1, 300, 100, 1, 1);
-				} else if (acreImage == MAX_ACRE) {
-					AcreManagement::DrawAcre(acreImage-2, 10, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage-1, 60, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage, 150, 100, 2, 2); // Current Selected ACRE.
-				} else {
-					AcreManagement::DrawAcre(acreImage-2, 10, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage-1, 60, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage, 150, 100, 2, 2); // Current Selected ACRE.
-					AcreManagement::DrawAcre(acreImage+1, 300, 100, 1, 1);
-					AcreManagement::DrawAcre(acreImage+2, 350, 100, 1, 1);
-				}
-				C3D_FrameEnd(0);
+	// Top Screen Acre Selection.
+	if (FastMode) {
+		if (keysHeld() & KEY_L) {
+			if (selectedAcre > 0) {
+				selectedAcre--;
 			}
 		}
-		//gspWaitForVBlank();
-		hidScanInput();
-		if (hidKeysDown() & KEY_RIGHT) {
-			if (selectedAcre < MAX_ACRE)	selectedAcre++;
-			gspWaitForVBlank();
+		if (keysHeld() & KEY_R) {
+			if (selectedAcre < MAX_ACRE) {
+				selectedAcre++;
+			}
 		}
-
-		if (hidKeysHeld() & KEY_R) {
-			if (selectedAcre < MAX_ACRE)	selectedAcre++;
-			gspWaitForVBlank();
+	} else {
+		if (hDown & KEY_L) {
+			if (selectedAcre > 0) {
+				selectedAcre--;
+			}
 		}
-
-		if (hidKeysDown() & KEY_LEFT) {
-			if (selectedAcre > 0)	selectedAcre--;
-			gspWaitForVBlank();
-		}
-
-		if (hidKeysHeld() & KEY_L) {
-			if (selectedAcre > 0)	selectedAcre--;
-			gspWaitForVBlank();
-		}
-
-		
-		if (hidKeysDown() & KEY_A) {
-			acreImage = selectedAcre;
-			return acreImage;
+		if (hDown & KEY_R) {
+			if (selectedAcre < MAX_ACRE) {
+				selectedAcre++;
+			}
 		}
 	}
-}
 
-// Write to the SaveFile the new Acre.
-void AcresEditor::writeAcre(s32 acre, u8 newAcre) {
-	u32 writeOffset = MAP_ACRES + acre * 2;
-	SaveFile->Write(writeOffset, newAcre);
-}
+	if (hDown & KEY_START) {
+		if (FastMode)	FastMode = false;
+		else	FastMode = true;
+	}
 
-// Uhh.. Maps and such.
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("NOTE_ACRE_EDITOR") + "\n\n" + Lang::get("A_SELECTION") +  "\n" + Lang::get("B_BACK"));
+	}
 
-void AcresEditor::fullTown() const
-{
-	AcreManagement::InitAcres(42, 7, 20, 0, 0, MAP_ACRES); // Ends at x = 230px (resized to 30x30 images)
-}
-
-void AcresEditor::fullIsland() const
-{
-	AcreManagement::InitAcres(16, 4, 80, 40, 0, ISLAND_ACRES);
-}
-
-void AcresEditor::townMap() const
-{
-	AcreManagement::InitAcres(20, 5, 60, 40, 4, MAP_ACRES + 0x10);
-}
-
-void AcresEditor::islandMap() const
-{
-	AcreManagement::InitAcres(4, 2, 120, 80, 4, ISLAND_ACRES + 0xA);
+	if (hDown & KEY_TOUCH) {
+		if (AcreMode == 0) {
+			if (GodMode) {
+				for (int i = 0; i < 42; i++) {
+					if (touching(touch, mapPos[i])) {
+						Selection = i;
+					}
+				}
+			} else {
+				for (int i = 0; i < 20; i++) {
+					if (touching(touch, townPos[i])) {
+						Selection = i;
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < 16; i++) {
+				if (touching(touch, islandPos[i])) {
+					Selection = i;
+				}
+			}
+		}
+	}
 }

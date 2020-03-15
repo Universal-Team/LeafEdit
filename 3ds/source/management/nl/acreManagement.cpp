@@ -25,6 +25,7 @@
 */
 
 #include "acreManagement.hpp"
+#include "island.hpp"
 #include "save.hpp"
 #include "screenCommon.hpp"
 

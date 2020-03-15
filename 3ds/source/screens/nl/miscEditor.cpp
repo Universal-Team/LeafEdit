@@ -74,7 +74,7 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (Selection == 0) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (Selection == 1) {
-			if (Config::getBool("Debug") == true) {
+			if (Debug == true) {
 				Gui::setScreen(std::make_unique<OffsetEditor>());
 			} else {
 				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
@@ -88,7 +88,7 @@ void MiscEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownEditor>());
 		} else if (touching(touch, mainButtons[1])) {
-			if (Config::getBool("Debug") == true) {
+			if (Debug == true) {
 				Gui::setScreen(std::make_unique<OffsetEditor>());
 			} else {
 				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));

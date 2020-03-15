@@ -27,7 +27,7 @@ SOFTWARE.
 #ifndef SAVE_HPP
 #define SAVE_HPP
 
-#include "buildingArray.hpp"
+#include "island.hpp"
 #include "player.hpp"
 #include "shop.hpp"
 #include "town.hpp"
@@ -43,12 +43,12 @@ struct Region_Lock {
 	u8 RawByte;
 };
 #endif
-class BuildingArray;
+
+class Island;
 class Player;
 class Shop;
 class Town;
 class Villager;
-
 class Save {
 public:
 	static Save* Initialize(const char *saveName, bool init);
@@ -90,7 +90,7 @@ public:
 	std::shared_ptr<Shop> shop;
 	std::shared_ptr<Town> town;
 	std::shared_ptr<Villager> villagers[10];
-	std::shared_ptr<BuildingArray> buildings;
+	std::shared_ptr<Island> island;
 
 	// Only works on 3DS!
 	#ifdef _3DS
@@ -101,6 +101,7 @@ public:
 	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
 	bool UpdateSaveRegion(void);
 	void FixSaveRegion(void);
+	void FixInvalidBuildings(void);
 	#endif
 	
 private:

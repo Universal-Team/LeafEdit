@@ -26,13 +26,14 @@
 
 #include "acresEditor.hpp"
 #include "miscEditor.hpp"
+#include "townMapEditor.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MiscEditor::Draw(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	printTextCentered("LeafEdit - Misc Editor", 0, 0, true, true);
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 
 	for (int i = 0; i < 3; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
@@ -64,6 +65,9 @@ void MiscEditor::Logic(u16 hDown, touchPosition touch) {
 			Gui::setScreen(std::make_unique<AcresEditor>());
 			Gui::DrawScreen();
 			selected = true;
+		} else if (selection == 1) {
+			Gui::setScreen(std::make_unique<TownMapEditor>());
+			Gui::DrawScreen();
 			selected = true;
 		}
 	}

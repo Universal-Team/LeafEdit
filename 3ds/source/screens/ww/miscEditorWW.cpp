@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "acresEditorWW.hpp"
 #include "miscEditorWW.hpp"
 #include "screenCommon.hpp"
 #include "townEditorWW.hpp"
@@ -42,8 +43,8 @@ void MiscEditorWW::Draw(void) const
 			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
-
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.8f, WHITE, Lang::get("TOWN_EDITOR"), 130);
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.8f, WHITE, Lang::get("ACRE_EDITOR"), 130);
 }
 
 
@@ -67,12 +68,16 @@ void MiscEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
 			Gui::setScreen(std::make_unique<TownEditorWW>());
+		} else if (Selection == 1) {
+			Gui::setScreen(std::make_unique<AcresEditorWW>());
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownEditorWW>());
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<AcresEditorWW>());
 		}
 	}
 }

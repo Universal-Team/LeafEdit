@@ -416,16 +416,16 @@ void MapEditor::DrawBuildingList(void) const {
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("BUILDINGS"), 400);
 	for (int i = (BuildingSelection<5) ? 0 : BuildingSelection-5;i< 58 && i <((BuildingSelection<5) ? 6 : BuildingSelection+1);i++) {
 		if (i == BuildingSelection) {
-			buildings += "> " + std::to_string(i+1) + ".) " + SaveFile->buildings->GetName(i) + " - " + std::to_string(SaveFile->buildings->returnXPos(i)) + " | " + std::to_string(SaveFile->buildings->returnYPos(i)) + "\n\n";
+			buildings += "> " + std::to_string(i+1) + ".) " + SaveFile->town->townBuildings[i]->GetName() + " - " + std::to_string(SaveFile->town->townBuildings[i]->returnXPos()) + " | " + std::to_string(SaveFile->town->townBuildings[i]->returnYPos()) + "\n\n";
 		} else {
-			buildings += std::to_string(i+1) + ".) " + SaveFile->buildings->GetName(i) + " - " + std::to_string(SaveFile->buildings->returnXPos(i)) + " | " + std::to_string(SaveFile->buildings->returnYPos(i)) + "\n\n";
+			buildings += std::to_string(i+1) + ".) " + SaveFile->town->townBuildings[i]->GetName() + " - " + std::to_string(SaveFile->town->townBuildings[i]->returnXPos()) + " | " + std::to_string(SaveFile->town->townBuildings[i]->returnYPos()) + "\n\n";
 		}
 	}
 	for (int i=0;i<((58<6) ? 6-58 : 0);i++) {
 		buildings += "\n\n";
 	}
 	Gui::DrawString(26, 32, 0.65f, WHITE, buildings, 360);
-	Gui::DrawStringCentered(0, 215, 0.9f, WHITE, Lang::get("BUILDING_COUNT") + std::to_string(SaveFile->buildings->getBuildCount()), 400);
+	//Gui::DrawStringCentered(0, 215, 0.9f, WHITE, Lang::get("BUILDING_COUNT") + std::to_string(SaveFile->buildings->getBuildCount()), 400);
 	GFX::DrawFileBrowseBG(false);
 }
 
@@ -440,7 +440,7 @@ void MapEditor::BuildingListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (SaveFile->buildings->returnID(BuildingSelection) != 0xFC) {
+		if (SaveFile->town->townBuildings[BuildingSelection]->returnID() != 0xFC) {
 			Mode = 2;
 			selection = 0;
 		}
@@ -459,10 +459,10 @@ void MapEditor::DrawBuildingEditor(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("BUILDINGS"), 400);
 
-	Gui::DrawStringCentered(0, 40, 0.8f, WHITE, Lang::get("CURRENT_BUILDING") + SaveFile->buildings->GetName(BuildingSelection), 400);
-	Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("BUILDING_ID") + std::to_string(SaveFile->buildings->returnID(BuildingSelection)), 400);
-	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, Lang::get("BUILDING_XPOS") + std::to_string(SaveFile->buildings->returnXPos(BuildingSelection)), 400);
-	Gui::DrawStringCentered(0, 160, 0.8f, WHITE, Lang::get("BUILDING_YPOS") + std::to_string(SaveFile->buildings->returnYPos(BuildingSelection)), 400);
+	Gui::DrawStringCentered(0, 40, 0.8f, WHITE, Lang::get("CURRENT_BUILDING") + SaveFile->town->townBuildings[BuildingSelection]->GetName(), 400);
+	Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("BUILDING_ID") + std::to_string(SaveFile->town->townBuildings[BuildingSelection]->returnID()), 400);
+	Gui::DrawStringCentered(0, 120, 0.8f, WHITE, Lang::get("BUILDING_XPOS") + std::to_string(SaveFile->town->townBuildings[BuildingSelection]->returnXPos()), 400);
+	Gui::DrawStringCentered(0, 160, 0.8f, WHITE, Lang::get("BUILDING_YPOS") + std::to_string(SaveFile->town->townBuildings[BuildingSelection]->returnYPos()), 400);
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		Gui::Draw_Rect(buildingButtons[i].x, buildingButtons[i].y, buildingButtons[i].w, buildingButtons[i].h, UNSELECTED_COLOR);
@@ -493,8 +493,8 @@ void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (selection == 0) {
-			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->buildings->returnID(BuildingSelection));
-			SaveFile->buildings->setBuilding(BuildingSelection, newID);
+			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->town->townBuildings[BuildingSelection]->returnID());
+			SaveFile->town->townBuildings[BuildingSelection]->setBuilding(newID);
 		} else if (selection == 1) {
 			ResetPositions();
 			Mode = 3;
@@ -503,8 +503,8 @@ void MapEditor::BuildingEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, buildingButtons[0])) {
-			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->buildings->returnID(BuildingSelection));
-			SaveFile->buildings->setBuilding(BuildingSelection, newID);
+			u16 newID = Input::handleu16(10, Lang::get("ENTER_NEW_ID"), 0xfc, SaveFile->town->townBuildings[BuildingSelection]->returnID());
+			SaveFile->town->townBuildings[BuildingSelection]->setBuilding(newID);
 		} else if (touching(touch, buildingButtons[1])) {
 			ResetPositions();
 			Mode = 3;
@@ -518,7 +518,7 @@ void MapEditor::DisplayMap(void) const {
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Lang::get("SELECT_POSITION"), 400);
 	AcreManagement::InitAcres(20, 5, 5, 40, 4, MAP_ACRES + 0x10);
 	Gui::DrawString(210, 60, 0.7f, WHITE, Lang::get("NEW_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150);
-	Gui::DrawString(210, 100, 0.7f, WHITE, Lang::get("OLD_POSITION") + std::to_string(SaveFile->buildings->returnXPos(BuildingSelection)) + " | " + std::to_string(SaveFile->buildings->returnYPos(BuildingSelection)), 150);
+	Gui::DrawString(210, 100, 0.7f, WHITE, Lang::get("OLD_POSITION") + std::to_string(SaveFile->town->townBuildings[BuildingSelection]->returnXPos()) + " | " + std::to_string(SaveFile->town->townBuildings[BuildingSelection]->returnYPos()), 150);
 	// Selection Logic.
 	int x;
 	if (currentAcre < 5)	x = currentAcre;
@@ -546,8 +546,8 @@ void MapEditor::ResetPositions() {
 void MapEditor::BuildingSetLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (Msg::promptMsg2(Lang::get("PLACE_BUILDING_HERE") + "\n" + std::to_string(PositionX) + " | " + std::to_string(PositionY))) {
-			SaveFile->buildings->setXPos(BuildingSelection, (u8)PositionX);
-			SaveFile->buildings->setYPos(BuildingSelection, (u8)PositionY);
+			SaveFile->town->townBuildings[BuildingSelection]->setXPos((u8)PositionX);
+			SaveFile->town->townBuildings[BuildingSelection]->setYPos((u8)PositionY);
 			ResetPositions();
 			Mode = 2;
 		}

@@ -68,11 +68,11 @@ void PlayerEditor::Draw(void) const {
 }
 
 void PlayerEditor::DrawPlayerSelection(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
 	DrawPlayerBoxes();
 	printTextCentered("Current Player: " + std::to_string(selectedPlayer+1), 0, 172, true, true);
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 }
 
 void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
@@ -86,9 +86,9 @@ void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
 }
 
 void PlayerEditor::DrawSubMenu(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true); 
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 	for (int i = 0; i < 3; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 	}
@@ -98,7 +98,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 }
 
 void PlayerEditor::DrawPlayerScreen(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
 	drawRectangle(20, 35, 216, 30, DARK_GREEN, true, true);
 	printTextCentered(SaveFile->players[cp]->Name, 0, 40, true, true);
@@ -107,7 +107,7 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 	printTextCentered("TAN: " + std::to_string(SaveFile->players[cp]->TAN), 0, 115, true, true);
 	printTextCentered("Facetype: " + std::to_string(SaveFile->players[cp]->FaceType), 0, 140, true, true);
 	printTextCentered("HairStyle: " + std::to_string(SaveFile->players[cp]->HairType), 0, 165, true, true);
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 	}

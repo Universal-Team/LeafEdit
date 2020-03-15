@@ -22,4 +22,8 @@
 
 #define WelcomeLuxury 0x00040000004C5700
 
+// GodMode and whatnot.
+extern bool GodMode;
+extern bool Debug;
+
 #endif

@@ -72,9 +72,6 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 		return m_pSave;
 	}
 
-	// Load Buildings.
-	m_pSave->buildings = std::make_shared<BuildingArray>();
-
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
@@ -88,6 +85,7 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 
 	m_pSave->town = std::make_shared<Town>();
 	m_pSave->shop = std::make_shared<Shop>();
+	m_pSave->island = std::make_shared<Island>();
 
 	return m_pSave;
 }
@@ -103,12 +101,9 @@ bool Save::CommitArchive(bool close) {
 		for (int i = 0; i < 10; i++) {
 			villagers[i]->Write();
 		}
-
-		// Save Buildings.
-		buildings->Write();
-
 		town->Write();
 		shop->Write();
+		island->Write();
 	}
 	
 	// Update Checksums
@@ -214,6 +209,23 @@ void Save::FixSaveRegion(void) {
 	}
 }
 
+// Fix invalid buildings. Only works on 3DS for now, since "Msg::promptMsg()".
+void Save::FixInvalidBuildings(void) {
+	bool asked = false;
+	for (int i = 0; i < 58; i++) {
+		u8 building = Save::Instance()->ReadU8(0x04be88+(i * 4)); //Get building ID
+		if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
+			if (!asked) {
+				asked = true;
+				if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
+					return;
+				}
+			}
+
+			Save::Instance()->Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
+		}
+	}
+}
 #endif
 
 // For RAW saves.
@@ -243,9 +255,6 @@ Save* Save::Initialize(const char *saveName, bool init) {
 		return m_pSave;
 	}
 
-	// Load Buildings.
-	m_pSave->buildings = std::make_shared<BuildingArray>();
-
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
@@ -259,6 +268,7 @@ Save* Save::Initialize(const char *saveName, bool init) {
 
 	m_pSave->town = std::make_shared<Town>();
 	m_pSave->shop = std::make_shared<Shop>();
+	m_pSave->island = std::make_shared<Island>();
 	
 	fclose(savesFile);
 	m_pSave->m_saveFile = saveName;
@@ -409,10 +419,9 @@ bool Save::Commit(bool close) {
 		for (int i = 0; i < 10; i++) {
 			villagers[i]->Write();
 		}
-		// Save Buildings.
-		buildings->Write();
 		town->Write();
 		shop->Write();
+		island->Write();
 	}
 
 	// Update Checksums

@@ -69,6 +69,10 @@ C2D_SpriteSheet WWVillagers;
 bool NLSheetHasLoaded = false;
 bool WWSheetHasLoaded = false;
 
+// GodMode and whatnot.
+bool Debug = true;
+bool GodMode = true;
+
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))

@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,73 +24,44 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ACRESEDITORWW_HPP
-#define ACRESEDITORWW_HPP
+#ifndef TOWNMAPEDITOR_HPP
+#define TOWNMAPEDITOR_HPP
 
-#include "common.hpp"
+#include "screenCommon.hpp"
+#include "wwItem.hpp"
+#include "wwItemContainer.hpp"
+
 #include "structs.hpp"
-
 #include <vector>
 
-class AcresEditorWW : public Screen
+class WWItem;
+class WWItemContainer;
+class TownMapEditor : public Screen
 {
 public:
 	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	void Logic(u16 hDown, touchPosition touch) override;
+	TownMapEditor();
 private:
-	// Draws.
-	void DrawTopSelection(void) const; // Draw Acre Image Selection.
-	void DrawAcres() const; // Draw Bottom Screen Acres.
+	std::shared_ptr<WWItemContainer> MapItems[4096];
+	// TEMP.
+	std::shared_ptr<WWItem> TempItem;
+	std::shared_ptr<WWItemContainer> TempContainer;
 
-	// Selections.
-	int Selection = 0;
-	u8 selectedAcre = 0;
-	bool FastMode = false;
+	/* Mostly selection stuff. */
+	int Mode = 0;
+	int selection = 0; // Selection for "Items" / "Buildings".
+	int selectionMode = 0;
+	int currentPosX = 0;
+	int currentPosY = 0;
+	int currentAcre = 0;
+	int MapSelection = 0;
+	int PositionX = 0;
+	int PositionY = 0;
 
-	std::vector<Structs::ButtonPos> MapPos = {
-		// First Line.
-		{64, 16, 32, 32},
-		{96, 16, 32, 32},
-		{128, 16, 32, 32},
-		{160, 16, 32, 32},
-		{192, 16, 32, 32},
-		{224, 16, 32, 32},
-		// Second Line.
-		{64, 48, 32, 32},
-		{96, 48, 32, 32},
-		{128, 48, 32, 32},
-		{160, 48, 32, 32},
-		{192, 48, 32, 32},
-		{224, 48, 32, 32},
-		// Third Line.
-		{64, 80, 32, 32},
-		{96, 80, 32, 32},
-		{128, 80, 32, 32},
-		{160, 80, 32, 32},
-		{192, 80, 32, 32},
-		{224, 80, 32, 32},
-		// Fourth Line.
-		{64, 112, 32, 32},
-		{96, 112, 32, 32},
-		{128, 112, 32, 32},
-		{160, 112, 32, 32},
-		{192, 112, 32, 32},
-		{224, 112, 32, 32},
-		// Fifth Line.
-		{64, 144, 32, 32},
-		{96, 144, 32, 32},
-		{128, 144, 32, 32},
-		{160, 144, 32, 32},
-		{192, 144, 32, 32},
-		{224, 144, 32, 32},
-		// Sixth Line.
-		{64, 176, 32, 32},
-		{96, 176, 32, 32},
-		{128, 176, 32, 32},
-		{160, 176, 32, 32},
-		{192, 176, 32, 32},
-		{224, 176, 32, 32}
-	};
+	int SelectionToAcre() const;
+	void DrawGrid(void) const;
+	void DrawCurrentPos(void) const;
 };
 
 #endif

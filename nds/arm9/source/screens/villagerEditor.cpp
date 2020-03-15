@@ -46,7 +46,7 @@ void VillagerEditor::Draw(void) const {
 }
 
 void VillagerEditor::DrawSubMenu(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	DrawBox();
 
 	VillagerManagement::DrawVillager(SaveFile->villagers[currentVillager]->ID, 100, 40);
@@ -54,7 +54,7 @@ void VillagerEditor::DrawSubMenu(void) const {
 	printTextCentered("Villager ID: " + std::to_string(SaveFile->villagers[currentVillager]->ID), 0, 130, true, true);
 	printTextCentered("Personality: " + VillagerManagement::returnPersonality(currentVillager), 0, 160, true, true);
 
-	Gui::DrawBottom();
+	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 	}

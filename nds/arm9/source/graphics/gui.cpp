@@ -85,18 +85,26 @@ void Gui::screenBack()
 
 // Basic GUI Stuff.
 
-void Gui::DrawTop(void)
+void Gui::DrawTop(bool useBars)
 {
-	drawRectangle(0, 20, 256, 152, GREEN, true, false);
-	drawRectangle(0, 0, 256, 20, DARK_GREEN, true, false);
-	drawRectangle(0, 172, 256, 20, DARK_GREEN, true, false);
+	if (useBars) {
+		drawRectangle(0, 20, 256, 152, GREEN, true, false);
+		drawRectangle(0, 0, 256, 20, DARK_GREEN, true, false);
+		drawRectangle(0, 172, 256, 20, DARK_GREEN, true, false);
+	} else {
+		drawRectangle(0, 0, 256, 192, GREEN, true, false);
+	}
 }
 
-void Gui::DrawBottom(void)
+void Gui::DrawBottom(bool useBars)
 {
-	drawRectangle(0, 20, 256, 152, GREEN, false, false);
-	drawRectangle(0, 0, 256, 20, DARK_GREEN, false, false);
-	drawRectangle(0, 172, 256, 20, DARK_GREEN, false, false);
+	if (useBars) {
+		drawRectangle(0, 20, 256, 152, GREEN, false, false);
+		drawRectangle(0, 0, 256, 20, DARK_GREEN, false, false);
+		drawRectangle(0, 172, 256, 20, DARK_GREEN, false, false);
+	} else {
+		drawRectangle(0, 0, 256, 192, GREEN, false, false);
+	}
 }
 
 void Gui::clearScreen(bool top, bool layer) {

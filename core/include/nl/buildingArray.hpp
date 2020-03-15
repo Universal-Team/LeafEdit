@@ -36,33 +36,27 @@
 
 class BuildingArray {
 public:
-	BuildingArray();
+	BuildingArray(u32 offset);
 	~BuildingArray(void);
 	void Write(void);
 
-	bool returnExistState(int pos);
-	u8 returnXPos(int pos);
-	u8 returnYPos(int pos);
-	u16 returnID(int pos);
-	std::string GetName(int pos); // Get Building name.
-	u8 getBuildCount();
+	bool returnExistState();
+	u8 returnXPos();
+	u8 returnYPos();
+	u16 returnID();
+	std::string GetName(); // Get Building name.
 
 	// Set.
-	u8 setXPos(int pos, u8 newPosition);
-	u8 setYPos(int pos, u8 newPosition);
-	u16 setBuilding(int pos, u16 newID);
-
-	#ifdef _3DS
-	void FixInvalidBuildings(void);
-	#endif
+	u8 setXPos(u8 newPosition);
+	u8 setYPos(u8 newPosition);
+	u16 setBuilding(u16 newID);
 
 private:
-	bool m_exist[58];
-	u8 m_xPos[58];
-	u8 m_yPos[58];
-	u16 m_ID[58];
-	u8 m_Buildings;
-	u8 m_BuildingsEvent;
+	u32 m_offset;
+	bool m_exist;
+	u8 m_xPos;
+	u8 m_yPos;
+	u16 m_ID;
 };
 
 #endif

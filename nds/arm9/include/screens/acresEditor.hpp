@@ -38,36 +38,62 @@ public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
 private:
+	// Draw stuff.
 	void DrawTop(void) const; // Draw Acre Image Selection.
-	int Selection = 0;
-	int AcrePosition = 7;
-	u8 selectedAcre = 0;
-	int AcreMode = 0;
-	int SelectionToPos(); // Convert Selection to position.
-	void updateTop();
-	void updateMap(); // Update Town Map.
+	void DrawAcres() const; // Draw the Acres from the bottom screen.
+
+	// Selection stuff.
+	int Selection = 0; // Selected Acre.
+	u8 selectedAcre = 0; // Acre ID.
+	bool FastMode = false; // Fast Scroll mode.
+
+	// Update stuff.
+	void updateTop(); // Update the Top Screen.
+	void updateAcres(); // Update Acres.
 
 	std::vector<Structs::ButtonPos> MapPos = {
 		// First Line.
-		{10, 30, 32, 32},
-		{42, 30, 32, 32},
-		{74, 30, 32, 32},
-		{106, 30, 32, 32},
+		{32, 0, 32, 32},
+		{64, 0, 32, 32},
+		{96, 0, 32, 32},
+		{128, 0, 32, 32},
+		{160, 0, 32, 32},
+		{192, 0, 32, 32},
 		// Second Line.
-		{10, 62, 32, 32},
-		{42, 62, 32, 32},
-		{74, 62, 32, 32},
-		{106, 62, 32, 32},
+		{32, 32, 32, 32},
+		{64, 32, 32, 32},
+		{96, 32, 32, 32},
+		{128, 32, 32, 32},
+		{160, 32, 32, 32},
+		{192, 32, 32, 32},
 		// Third Line.
-		{10, 94, 32, 32},
-		{42, 94, 32, 32},
-		{74, 94, 32, 32},
-		{106, 94, 32, 32},
+		{32, 64, 32, 32},
+		{64, 64, 32, 32},
+		{96, 64, 32, 32},
+		{128, 64, 32, 32},
+		{160, 64, 32, 32},
+		{192, 64, 32, 32},
 		// Fourth Line.
-		{10, 126, 32, 32},
-		{42, 126, 32, 32},
-		{74, 126, 32, 32},
-		{106, 126, 32, 32}
+		{32, 96, 32, 32},
+		{64, 96, 32, 32},
+		{96, 96, 32, 32},
+		{128, 96, 32, 32},
+		{160, 96, 32, 32},
+		{192, 96, 32, 32},
+		// Fifth Line.
+		{32, 128, 32, 32},
+		{64, 128, 32, 32},
+		{96, 128, 32, 32},
+		{128, 128, 32, 32},
+		{160, 128, 32, 32},
+		{192, 128, 32, 32},
+		// Sixth Line.
+		{32, 160, 32, 32},
+		{64, 160, 32, 32},
+		{96, 160, 32, 32},
+		{128, 160, 32, 32},
+		{160, 160, 32, 32},
+		{192, 160, 32, 32}
 	};
 };
 

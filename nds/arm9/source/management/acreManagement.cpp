@@ -63,3 +63,26 @@ void AcreManagement::DrawTownMap() {
 	DrawAcre(SaveFile->town->FullAcres[27], 74, 126, 1, 1, false);
 	DrawAcre(SaveFile->town->FullAcres[28], 106, 126, 1, 1, false);
 }
+
+void AcreManagement::DrawTownMapEditor() {
+	// First Line.
+	DrawAcre(SaveFile->town->FullAcres[7], 10, 30, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[8], 42, 30, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[9], 74, 30, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[10], 106, 30, 1, 1, true);
+	// Second Line.
+	DrawAcre(SaveFile->town->FullAcres[13], 10, 62, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[14], 42, 62, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[15], 74, 62, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[16], 106, 62, 1, 1, true);
+	// Third Line.
+	DrawAcre(SaveFile->town->FullAcres[19], 10, 94, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[20], 42, 94, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[21], 74, 94, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[22], 106, 94, 1, 1, true);
+	// Fourth Line.
+	DrawAcre(SaveFile->town->FullAcres[25], 10, 126, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[26], 42, 126, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[27], 74, 126, 1, 1, true);
+	DrawAcre(SaveFile->town->FullAcres[28], 106, 126, 1, 1, true);
+}

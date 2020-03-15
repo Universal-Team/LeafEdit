@@ -38,6 +38,27 @@ WWTown::WWTown() {
 	for (int i = 0; i < 36; i++) {
 		this->FullAcres[i] = WWSave::Instance()->ReadU8(0xC330 + i * WWACRE_SIZE);
 	}
+
+	// Only Town Map Acres.
+	this->MapAcres[0] = this->FullAcres[7];
+	this->MapAcres[1] = this->FullAcres[8];
+	this->MapAcres[2] = this->FullAcres[9];
+	this->MapAcres[3] = this->FullAcres[10];
+
+	this->MapAcres[4] = this->FullAcres[13];
+	this->MapAcres[5] = this->FullAcres[14];
+	this->MapAcres[6] = this->FullAcres[15];
+	this->MapAcres[7] = this->FullAcres[16];
+
+	this->MapAcres[8] = this->FullAcres[19];
+	this->MapAcres[9] = this->FullAcres[20];
+	this->MapAcres[10] = this->FullAcres[21];
+	this->MapAcres[11] = this->FullAcres[22];
+
+	this->MapAcres[12] = this->FullAcres[25];
+	this->MapAcres[13] = this->FullAcres[26];
+	this->MapAcres[14] = this->FullAcres[27];
+	this->MapAcres[15] = this->FullAcres[28];
 }
 
 WWTown::~WWTown() { }

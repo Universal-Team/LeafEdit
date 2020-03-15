@@ -33,6 +33,7 @@
 #include <3ds.h>
 
 extern WWSave* WWSaveFile;
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 #define WWMAX_ACRE 130 // Define the Max Amount of Acres.
 
@@ -73,62 +74,16 @@ void AcresEditorWW::DrawTopSelection(void) const {
 void AcresEditorWW::Draw(void) const {
 	DrawTopSelection();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400);
-	GFX::DrawBottom();
-	WWAcreManagement::DrawTownMapBottom();
+	Gui::DrawStringCentered(0, 170, 0.9f, WHITE, "Acre ID: " + std::to_string(selectedAcre), 400);
+	GFX::DrawBottom(false);
+	DrawAcres();
+	GFX::DrawSprite(sprites_pointer_idx, MapPos[Selection].x+14, MapPos[Selection].y+14);
 }
 
-int AcresEditorWW::SelectionToPos() {
-	switch(Selection) {
-		case 0:
-			return 7;
-			break;
-		case 1:
-			return 8;
-			break;
-		case 2:
-			return 9;
-			break;
-		case 3:
-			return 10;
-			break;
-		case 4:
-			return 13;
-			break;
-		case 5:
-			return 14;
-			break;
-		case 6:
-			return 15;
-			break;
-		case 7:
-			return 16;
-			break;
-		case 8:
-			return 19;
-			break;
-		case 9:
-			return 20;
-			break;
-		case 10:
-			return 21;
-			break;
-		case 11:
-			return 22;
-			break;
-		case 12:
-			return 25;
-			break;
-		case 13:
-			return 26;
-			break;
-		case 14:
-			return 27;
-			break;
-		case 15:
-			return 28;
-			break;
+void AcresEditorWW::DrawAcres() const {
+	for (int i = 0; i < 36; i++) {
+		WWAcreManagement::DrawAcre(WWSaveFile->town->FullAcres[i], MapPos[i].x, MapPos[i].y, 1, 1);
 	}
-	return 7; // Should Never Happen.
 }
 
 void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -138,46 +93,71 @@ void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("NOTE_ACRE_EDITOR") + "\n\n" + Lang::get("A_SELECTION") +  "\n" + Lang::get("B_BACK"));
+		Msg::HelperBox(Lang::get("A_SELECTION") +  "\n" + Lang::get("B_BACK"));
 	}
 
-	if (AcreMode == 0) {
-		if (hDown & KEY_A) {
-			WWSaveFile->town->FullAcres[SelectionToPos()] = selectedAcre;
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 36; i++) {
+			if (touching(touch, MapPos[i])) {
+				Selection = i;
+			}
 		}
+	}
 
-		if (hDown & KEY_RIGHT) {
-			if (Selection < 15)	Selection++;
-		}
+	// Set current Acre.
+	if (hDown & KEY_A) {
+		WWSaveFile->town->FullAcres[Selection] = selectedAcre;
+	}
 
-		if (hDown & KEY_LEFT) {
-			if (Selection > 0)	Selection--;
-		}
+	// Display current Acre on Top.
+	if (hDown & KEY_Y) {
+		selectedAcre = WWSaveFile->town->FullAcres[Selection];
+	}
 
-		if (hDown & KEY_UP) {
-			if (Selection > 4)	Selection -= 4;
-		}
+	if (hDown & KEY_RIGHT) {
+		if (Selection < 35)	Selection++;
+	}
 
-		if (hDown & KEY_DOWN) {
-			if (Selection < 12)	Selection += 4;
+	if (hDown & KEY_LEFT) {
+		if (Selection > 0)	Selection--;
+	}
+
+	if (hDown & KEY_UP) {
+		if (Selection > 5)	Selection -= 6;
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (Selection < 30)	Selection += 6;
+	}
+
+
+	// Top Screen Acre Selection.
+	if (FastMode) {
+		if (keysHeld() & KEY_L) {
+			if (selectedAcre > 0) {
+				selectedAcre--;
+			}
 		}
-	} else if (AcreMode == 1) {
-		if (hDown & KEY_RIGHT) {
-			if (selectedAcre < WWMAX_ACRE)	selectedAcre++;
+		if (keysHeld() & KEY_R) {
+			if (selectedAcre < WWMAX_ACRE) {
+				selectedAcre++;
+			}
 		}
-		if (hHeld & KEY_R) {
-			if (selectedAcre < WWMAX_ACRE)	selectedAcre++;
+	} else {
+		if (hDown & KEY_L) {
+			if (selectedAcre > 0) {
+				selectedAcre--;
+			}
 		}
-		if (hDown & KEY_LEFT) {
-			if (selectedAcre > 0)	selectedAcre--;
-		}
-		if (hHeld & KEY_L) {
-			if (selectedAcre > 0)	selectedAcre--;
+		if (hDown & KEY_R) {
+			if (selectedAcre < WWMAX_ACRE) {
+				selectedAcre++;
+			}
 		}
 	}
 
 	if (hDown & KEY_X) {
-		if (AcreMode == 0)	AcreMode = 1;
-		else	AcreMode = 0;
+		if (FastMode)	FastMode = false;
+		else	FastMode = true;
 	}
 }

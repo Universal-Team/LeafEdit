@@ -62,8 +62,6 @@ void PlayerManagement::setGender(int currentPlayer) {
 	std::string Gender;
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
-	Gui::DrawTop();
-	Gui::DrawBottom();
 	
 	// Prepare right Gender for the Message prompt.
 	if (SaveFile->players[currentPlayer]->Gender == 0) {

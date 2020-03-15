@@ -42,6 +42,7 @@ public:
 	u32 Debt;
 	std::u16string Name;
 	std::shared_ptr<WWItem> MapItems[4096];
+	u8 MapAcres[16]; // Only 16 Acres are in the actual Town Map.
 	u8 FullAcres[36];
 
 	void Write();

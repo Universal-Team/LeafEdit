@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,15 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ACREMANAGEMENT_HPP
-#define ACREMANAGEMENT_HPP
+#pragma once
 
-#include <3ds.h>
+#ifndef ISLAND_HPP
+#define ISLAND_HPP
 
-namespace AcreManagement
-{
-	void DrawAcre(u8 AcreID, int x, int y, float ScaleX = 1, float ScaleY = 1); // Draw the Acres.
-	void InitAcres(const u8 LoopMax, const u8 GridXMax, const u8 GridXStartPos, const u8 GridYStartPos, const u8 ByteSkip, u32 Offset);
-}
+#include "item.hpp"
+#include "save.hpp"
+#include "types.hpp"
+
+#include <string>
+
+class Item;
+class Island {
+public:
+	Island(void);
+	~Island(void);
+	void Write(void);
+
+	std::shared_ptr<Item> IslandItems[1024];
+	u8 IslandAcres[16];
+private:
+};
 
 #endif

@@ -34,84 +34,40 @@ extern WWSave* SaveFile;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+// Draw Functions.
 void AcresEditor::DrawTop(void) const {
 	printTextCentered("LeafEdit - Acres Editor", 0, 0, true, true);
 	AcreManagement::DrawAcre(selectedAcre, 90, 70, 2, 2); // Current Selected ACRE.
+	printTextCentered("Acre ID: " + std::to_string(selectedAcre), 0, 150, true, true);
 }
 
 void AcresEditor::Draw(void) const {
-	Gui::DrawTop();
+	Gui::DrawTop(true);
 	DrawTop();
-	Gui::DrawBottom();
-	AcreManagement::DrawTownMap();
+	Gui::DrawBottom(false);
+	DrawAcres();
 }
 
-int AcresEditor::SelectionToPos() {
-	switch(Selection) {
-		case 0:
-			return 7;
-			break;
-		case 1:
-			return 8;
-			break;
-		case 2:
-			return 9;
-			break;
-		case 3:
-			return 10;
-			break;
-		case 4:
-			return 13;
-			break;
-		case 5:
-			return 14;
-			break;
-		case 6:
-			return 15;
-			break;
-		case 7:
-			return 16;
-			break;
-		case 8:
-			return 19;
-			break;
-		case 9:
-			return 20;
-			break;
-		case 10:
-			return 21;
-			break;
-		case 11:
-			return 22;
-			break;
-		case 12:
-			return 25;
-			break;
-		case 13:
-			return 26;
-			break;
-		case 14:
-			return 27;
-			break;
-		case 15:
-			return 28;
-			break;
+void AcresEditor::DrawAcres() const {
+	for (int i = 0; i < 36; i++) {
+		AcreManagement::DrawAcre(SaveFile->town->FullAcres[i], MapPos[i].x, MapPos[i].y, 1, 1, false);
 	}
-	return 7; // Should Never Happen.
 }
 
+// Update Functions.
 void AcresEditor::updateTop() {
 	Gui::clearScreen(true, true);
 	DrawTop(); // Refresh Top Screen.
 }
 
-void AcresEditor::updateMap() {
+void AcresEditor::updateAcres() {
 	Gui::clearScreen(false, true);
-	AcreManagement::DrawTownMap();
+	DrawAcres();
 }
 
+// Complete Logic.
 void AcresEditor::Logic(u16 hDown, touchPosition touch) {
-	Gui::updatePointer(MapPos[Selection].x+20, MapPos[Selection].y+20);
+	Gui::updatePointer(MapPos[Selection].x+14, MapPos[Selection].y+14);
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
@@ -120,60 +76,77 @@ void AcresEditor::Logic(u16 hDown, touchPosition touch) {
 		return;
 	}
 
-	if (AcreMode == 0) {
-		if (hDown & KEY_A) {
-			SaveFile->town->FullAcres[SelectionToPos()] = selectedAcre;
-			updateMap();
-		}
+	// Set current Acre.
+	if (hDown & KEY_A) {
+		SaveFile->town->FullAcres[Selection] = selectedAcre;
+		updateAcres();
+	}
 
-		if (hDown & KEY_TOUCH) {
-			for (int i = 0; i < 16; i++) {
-				if (touching(touch, MapPos[i])) {
-					Selection = i;
-					selected = true;
-				}
+	// Display current Acre on Top.
+	if (hDown & KEY_Y) {
+		selectedAcre = SaveFile->town->FullAcres[Selection];
+		updateTop();
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 36; i++) {
+			if (touching(touch, MapPos[i])) {
+				Selection = i;
+				selected = true;
 			}
 		}
-		if (hDown & KEY_RIGHT) {
-			if (Selection < 15)	Selection++;
-			selected = true;
-		}
+	}
+	if (hDown & KEY_RIGHT) {
+		if (Selection < 35)	Selection++;
+		selected = true;
+	}
 
-		if (hDown & KEY_LEFT) {
-			if (Selection > 0)	Selection--;
-			selected = true;
-		}
+	if (hDown & KEY_LEFT) {
+		if (Selection > 0)	Selection--;
+		selected = true;
+	}
 
-		if (hDown & KEY_UP) {
-			if (Selection > 4)	Selection -= 4;
-			selected = true;
-		}
+	if (hDown & KEY_UP) {
+		if (Selection > 5)	Selection -= 6;
+		selected = true;
+	}
 
-		if (hDown & KEY_DOWN) {
-			if (Selection < 12)	Selection += 4;
-			selected = true;
-		}
-	} else if (AcreMode == 1) {
-		if (hDown & KEY_RIGHT) {
-			if (selectedAcre < MAX_ACRE)	selectedAcre++;
-			updateTop();
-		}
-		if (hDown & KEY_LEFT) {
-			if (selectedAcre > 0)	selectedAcre--;
-			updateTop();
+	if (hDown & KEY_DOWN) {
+		if (Selection < 30)	Selection += 6;
+		selected = true;
+	}
+
+	// Top Screen Acre Selection.
+	if (FastMode) {
+		if (keysHeld() & KEY_L) {
+			if (selectedAcre > 0) {
+				selectedAcre--;
+				updateTop();
+			}
 		}
 		if (keysHeld() & KEY_R) {
-			if (selectedAcre < MAX_ACRE)	selectedAcre++;
-			updateTop();
+			if (selectedAcre < MAX_ACRE) {
+				selectedAcre++;
+				updateTop();
+			}
 		}
-		if (keysHeld() & KEY_L) {
-			if (selectedAcre > 0)	selectedAcre--;
-			updateTop();
+	} else {
+		if (hDown & KEY_L) {
+			if (selectedAcre > 0) {
+				selectedAcre--;
+				updateTop();
+			}
+		}
+		if (hDown & KEY_R) {
+			if (selectedAcre < MAX_ACRE) {
+				selectedAcre++;
+				updateTop();
+			}
 		}
 	}
 
 	if (hDown & KEY_X) {
-		if (AcreMode == 0)	AcreMode = 1;
-		else	AcreMode = 0;
+		if (FastMode)	FastMode = false;
+		else	FastMode = true;
 	}
 }
