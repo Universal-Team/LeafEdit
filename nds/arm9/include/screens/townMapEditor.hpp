@@ -43,10 +43,17 @@ public:
 	void Logic(u16 hDown, touchPosition touch) override;
 	TownMapEditor();
 private:
-	std::shared_ptr<WWItemContainer> MapItems[4096];
 	// TEMP.
 	std::shared_ptr<WWItem> TempItem;
 	std::shared_ptr<WWItemContainer> TempContainer;
+
+	// Main Draws.
+	void DrawMain(void) const;
+	void DrawTempItem(void) const;
+
+	// Main Logics.
+	void MainLogic(u16 hDown, touchPosition touch);
+	void TempLogic(u16 hDown, touchPosition touch);
 
 	/* Mostly selection stuff. */
 	int Mode = 0;
@@ -59,9 +66,26 @@ private:
 	int PositionX = 0;
 	int PositionY = 0;
 
+	void DrawPosition(void) const;
+	void DrawCurrentPos();
+	void updateTopGrid();
+	void updateBottomGrid();
+	void DrawTownMapEditor() const;
+	void convertToPosition();
+	void convertToSelection();
+	void updateAcreImage();
+	void DrawInformation() const;
+	void injectTo(int MapSlot);
+
 	int SelectionToAcre() const;
 	void DrawGrid(void) const;
-	void DrawCurrentPos(void) const;
+
+	std::vector<Structs::ButtonPos> TempPos = {
+		{80, 30, 88, 32, -1}, // Manually.
+		{80, 80, 88, 32, -1}, // Selection.
+		{80, 130, 88, 32, -1}, // ?.
+		{175, 100, 75, 25, -1} // Temp Items. (MainScreen)
+	};
 };
 
 #endif

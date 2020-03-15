@@ -67,6 +67,8 @@ void MiscEditor::Logic(u16 hDown, touchPosition touch) {
 			selected = true;
 		} else if (selection == 1) {
 			Gui::setScreen(std::make_unique<TownMapEditor>());
+			// Hide Pointer for now.
+			Gui::hidePointer();
 			Gui::DrawScreen();
 			selected = true;
 		}

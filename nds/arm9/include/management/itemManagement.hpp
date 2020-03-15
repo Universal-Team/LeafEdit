@@ -27,6 +27,8 @@
 #ifndef ITEMMANAGEMENT_HPP
 #define ITEMMANAGEMENT_HPP
 
+#include "wwItem.hpp"
+
 #include <nds.h>
 #include <stdio.h>
 #include <string>
@@ -34,6 +36,7 @@
 namespace ItemManagement
 {
 	void LoadDatabase(int lang);
+	void SetID(std::shared_ptr<WWItem> item, u16 Id);
 }
 
 #endif

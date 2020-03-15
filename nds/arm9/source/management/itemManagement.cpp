@@ -77,3 +77,7 @@ void ItemManagement::LoadDatabase(int lang) {
 
 	itemDatabase.close();
 }
+
+void ItemManagement::SetID(std::shared_ptr<WWItem> item, u16 Id) {
+	item->SetItemID(Id);
+}

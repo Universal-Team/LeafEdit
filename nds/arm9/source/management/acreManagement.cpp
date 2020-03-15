@@ -34,9 +34,9 @@
 
 extern WWSave *SaveFile;
 
-void AcreManagement::DrawAcre(u8 AcreID, int x, int y, float ScaleX, float ScaleY, bool top) {
+void AcreManagement::DrawAcre(u8 AcreID, int x, int y, float ScaleX, float ScaleY, bool top, bool Layer) {
 	Image AcreData = loadImage("/graphics/acres/" + std::to_string(AcreID) + ".gfx"); // Load Image.
-	drawImageScaled(x, y, ScaleX, ScaleY, AcreData, top, true); // Draw Image.
+	drawImageScaled(x, y, ScaleX, ScaleY, AcreData, top, Layer); // Draw Image.
 }
 
 // 7 - 10 ; 13 - 16 ; 19 - 22; 25 - 28 -- 4x4 -> 16 Acres.
