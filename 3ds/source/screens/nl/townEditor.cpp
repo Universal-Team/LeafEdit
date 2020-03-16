@@ -26,6 +26,7 @@
 
 #include "acreManagement.hpp"
 #include "gui.hpp"
+#include "islandMapEditor.hpp"
 #include "offsets.hpp"
 #include "save.hpp"
 #include "townEditor.hpp"
@@ -65,7 +66,7 @@ void TownEditor::DrawSubMenu(void) const {
 		}
 	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWNMAP_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWNMAP_EDITOR"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("ISLANDMAP_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("ISLANDMAP_EDITOR"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, "?"))/2+75-17.5, 0.8, WHITE, "?", 130, 25);
 }
 
@@ -88,12 +89,16 @@ void TownEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (subSelection == 0) {
 			Gui::setScreen(std::make_unique<TownMapEditor>());
+		} else if (subSelection == 1) {
+			Gui::setScreen(std::make_unique<IslandMapEditor>());
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownMapEditor>());
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<IslandMapEditor>());
 		}
 	}
 }

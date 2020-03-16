@@ -25,11 +25,11 @@
 */
 
 #include "acreManagement.hpp"
+#include "islandMapEditor.hpp"
 #include "itemManagement.hpp"
 #include "keyboard.hpp"
 #include "offsets.hpp"
 #include "save.hpp"
-#include "townMapEditor.hpp"
 #include "utils.hpp"
 
 #include <3ds.h>
@@ -37,33 +37,33 @@
 extern Save* SaveFile;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-TownMapEditor::TownMapEditor() {
-	Msg::DisplayMsg(Lang::get("PREPARING_TOWN_EDITOR"));
+IslandMapEditor::IslandMapEditor() {
+	Msg::DisplayMsg(Lang::get("PREPARING_ISLAND_EDITOR"));
 	ItemManagement::loadItems();
-	for(int i = 0; i < 5120; i++) {
-		MapItems[i] = std::make_shared<ItemContainer>(Save::Instance()->town->MapItem[i]);
+	for(int i = 0; i < 1024; i++) {
+		MapItems[i] = std::make_shared<ItemContainer>(Save::Instance()->island->IslandItems[i]);
 	}
 	// Initialize Temp Items.
 	TempItem = std::make_shared<Item>(0x7FFE, 0);
 	TempContainer = std::make_shared<ItemContainer>(this->TempItem);
 }
 
-TownMapEditor::~TownMapEditor()
+IslandMapEditor::~IslandMapEditor()
 {
 	ItemManagement::unloadItems();
 }
 
-void TownMapEditor::Draw(void) const {
+void IslandMapEditor::Draw(void) const {
 	if (Mode == 0) {
 		DrawMapScreen();
 	} else if (Mode == 1) {
-		DrawAcres(); // TODO.
+		DrawAcres();
 	} else if (Mode == 2) {
 		DrawTempItem();
 	}
 }
 
-void TownMapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void IslandMapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Mode == 0) {
 		MapScreenLogic(hDown, hHeld, touch);
 	} else if (Mode == 1) {
@@ -73,120 +73,66 @@ void TownMapEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-int TownMapEditor::SelectionToAcre(int selection) const {
+int IslandMapEditor::SelectionToAcre(int selection) const {
 	switch (selection) {
 		case 0:
-			return 8;
+			return 5;
 			break;
 		case 1:
-			return 9;
+			return 6;
 			break;
 		case 2:
-			return 10;
+			return 9;
 			break;
 		case 3:
-			return 11;
-			break;
-		case 4:
-			return 12;
-		case 5:
-			return 15;
-			break;
-		case 6:
-			return 16;
-			break;
-		case 7:
-			return 17;
-		case 8:
-			return 18;
-			break;
-		case 9:
-			return 19;
-			break;
-		case 10:
-			return 22;
-			break;
-		case 11:
-			return 23;
-			break;
-		case 12:
-			return 24;
-			break;
-		case 13:
-			return 25;
-			break;
-		case 14:
-			return 26;
-			break;
-		case 15:
-			return 29;
-			break;
-		case 16:
-			return 30;
-			break;
-		case 17:
-			return 31;
-			break;
-		case 18:
-			return 32;
-			break;
-		case 19:
-			return 33;
+			return 10;
 			break;
 	}
-	return 8; // Should Never Happen.
+	return 5; // Should Never Happen.
 }
 
-void TownMapEditor::convertToSelection() {
+void IslandMapEditor::convertToSelection() {
 	MapSelection = (currentAcre * 256) + (currentPosY * 16) + currentPosX;
 }
 
-void TownMapEditor::convertToPosition() {
-	if (currentAcre < 5) {
+void IslandMapEditor::convertToPosition() {
+	if (currentAcre < 2) {
 		PositionX = (16 + (currentAcre * 16)) + currentPosX;
-	} else if (currentAcre > 4 && currentAcre < 10) {
-		PositionX = (16 + ((currentAcre - 5) * 16)) + currentPosX;
-	} else if (currentAcre > 9 && currentAcre < 15) {
-		PositionX = (16 + ((currentAcre - 10) * 16)) + currentPosX;
-	} else if (currentAcre > 14 && currentAcre < 20) {
-		PositionX = (16 + ((currentAcre - 15) * 16)) + currentPosX;
+	} else {
+		PositionX = (16 + ((currentAcre - 2) * 16)) + currentPosX;
 	}
 
 	int acre = 0;
-	if (currentAcre < 5) {
+	if (currentAcre < 2) {
 		acre = 0;
-	} else if (currentAcre > 4 && currentAcre < 10) {
+	} else {
 		acre = 1;
-	} else if (currentAcre > 9 && currentAcre < 15) {
-		acre = 2;
-	} else if (currentAcre > 14 && currentAcre < 20) {
-		acre = 3;
 	}
 
 	PositionY = (16 + acre * 16) + currentPosY;
 }
 
 // Display full Map on top screen for a better overview.
-void TownMapEditor::DrawTownMap() const
+void IslandMapEditor::DrawIslandMap() const
 {
-	for (int i = 0; i < 20; i++) {
-		AcreManagement::DrawAcre(SaveFile->town->FullAcres[SelectionToAcre(i)], townPos[i].x, townPos[i].y);
+	for (int i = 0; i < 4; i++) {
+		AcreManagement::DrawAcre(SaveFile->island->IslandAcres[SelectionToAcre(i)], islandPos[i].x, islandPos[i].y);
 	}
 
 	// Display Informations. The informations are placeholder for now, BTW.
 	Gui::DrawString(210, 60, 0.7f, WHITE, Lang::get("CURRENT_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150);
 	Gui::DrawString(210, 90, 0.6f, WHITE, Lang::get("CURRENT_ITEM") + this->MapItems[MapSelection]->returnName(), 190);
-	Gui::drawGrid(townPos[currentAcre].x, townPos[currentAcre].y, townPos[currentAcre].w, townPos[currentAcre].h, WHITE);
+	Gui::drawGrid(islandPos[currentAcre].x, islandPos[currentAcre].y, islandPos[currentAcre].w, islandPos[currentAcre].h, WHITE);
 }
 
-void TownMapEditor::DrawMapScreen(void) const {
+void IslandMapEditor::DrawMapScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("ISLANDMAP_EDITOR"), 400);
-	DrawTownMap();
+	DrawIslandMap();
 
 	// Bottom Screen part. Grid & Acre.
 	GFX::DrawBottom(false);
-	AcreManagement::DrawAcre(SaveFile->town->FullAcres[SelectionToAcre(currentAcre)], 20, 20, 5, 5);
+	AcreManagement::DrawAcre(SaveFile->island->IslandAcres[SelectionToAcre(currentAcre)], 20, 20, 5, 5);
 	DrawGrid();
 	DrawCurrentPos();
 
@@ -203,7 +149,7 @@ void TownMapEditor::DrawMapScreen(void) const {
 	}
 }
 
-void TownMapEditor::DrawCurrentPos(void) const {
+void IslandMapEditor::DrawCurrentPos(void) const {
 	Gui::drawGrid(20 + (currentPosX*12.5), 20 + (currentPosY*12.5), 12.5, 12.5, WHITE);
 }
 
@@ -216,7 +162,7 @@ void TownMapEditor::DrawCurrentPos(void) const {
 	- Notes end.
 */
 
-void TownMapEditor::DrawGrid(void) const {
+void IslandMapEditor::DrawGrid(void) const {
 	for (int i = 0; i < 256; i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
@@ -227,21 +173,21 @@ void TownMapEditor::DrawGrid(void) const {
 }
 
 // Only *Inject*, if Item is valid and not "???".
-void TownMapEditor::injectTo(int MapSlot) {
+void IslandMapEditor::injectTo(int MapSlot) {
 	if (this->TempContainer->returnName() != "???") {
-		ItemManagement::SetID(SaveFile->town->MapItem[MapSlot], this->TempItem->ID);
-		ItemManagement::SetFlag(SaveFile->town->MapItem[MapSlot], this->TempItem->Flags);
+		ItemManagement::SetID(SaveFile->island->IslandItems[MapSlot], this->TempItem->ID);
+		ItemManagement::SetFlag(SaveFile->island->IslandItems[MapSlot], this->TempItem->Flags);
 		ItemManagement::RefreshItem(this->MapItems[MapSlot]);
 	}
 }
 
 // Update Position, Selection & Acre Image only by navigating.
-void TownMapEditor::updateStuff() {
+void IslandMapEditor::updateStuff() {
 	convertToSelection();
 	convertToPosition();
 }
 
-void TownMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void IslandMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("NOTE_TOWN_MAP_EDITOR") + "\n\n" + Lang::get("X_MODESWITCH") + "\n" + Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
@@ -264,8 +210,8 @@ void TownMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_Y) { 
-		ItemManagement::SetID(this->TempItem, SaveFile->town->MapItem[MapSelection]->ID);
-		ItemManagement::SetFlag(this->TempItem, SaveFile->town->MapItem[MapSelection]->Flags);
+		ItemManagement::SetID(this->TempItem, SaveFile->island->IslandItems[MapSelection]->ID);
+		ItemManagement::SetFlag(this->TempItem, SaveFile->island->IslandItems[MapSelection]->Flags);
 		this->TempContainer = std::make_shared<ItemContainer>(this->TempItem);
 		ItemManagement::RefreshItem(this->TempContainer);
 	}
@@ -276,7 +222,7 @@ void TownMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_RIGHT) {
-			if (currentPosX == 15 && currentAcre < 19) {
+			if (currentPosX == 15 && currentAcre < 3) {
 				// Go one Acre next and reset X to 0.
 				currentAcre++;
 				currentPosX = 0;
@@ -300,9 +246,9 @@ void TownMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_DOWN) {
-			if (currentPosY == 15 && currentAcre < 15) {
+			if (currentPosY == 15 && currentAcre < 2) {
 				// Go one Acre down & reset Y to 0.
-				currentAcre += 5;
+				currentAcre += 2;
 				currentPosY = 0;
 				updateStuff();
 			} else if (currentPosY < 15) {
@@ -312,9 +258,9 @@ void TownMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_UP) {
-			if (currentPosY == 0 && currentAcre > 4) {
+			if (currentPosY == 0 && currentAcre > 1) {
 				// Go one Acre up.
-				currentAcre -= 5;
+				currentAcre -= 2;
 				currentPosY = 15;
 				updateStuff();
 			} else if (currentPosY > 0) {
@@ -346,7 +292,7 @@ void TownMapEditor::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void TownMapEditor::DrawTempItem(void) const {
+void IslandMapEditor::DrawTempItem(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Temp Item", 400);
 	GFX::DrawBottom();
@@ -364,7 +310,7 @@ void TownMapEditor::DrawTempItem(void) const {
 	Gui::DrawStringCentered(0, 145, 0.7f, WHITE, "Item Name: " + this->TempContainer->returnName(), 320);
 }
 
-void TownMapEditor::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void IslandMapEditor::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Mode = 0;
 	}
@@ -413,48 +359,28 @@ void TownMapEditor::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 #define MAX_ACRE 218 // Define the Max Amount of Acres.
 
-void TownMapEditor::DrawAcres(void) const {
+void IslandMapEditor::DrawAcres(void) const {
 	DrawTopSelection();
-	if (GodMode) {
-		DrawFullMap();
-	} else {
-		DrawMap();
-	}
+	DrawIsland();
 }
 
-void TownMapEditor::DrawFullMap(void) const {
-	GFX::DrawBottom(false);
-	for (int i = 0; i < 42; i++) {
-		AcreManagement::DrawAcre(SaveFile->town->FullAcres[i], acreMapPos[i].x, acreMapPos[i].y);
-	}
-	// Draw Grid.
-	for (int i = 0; i < 42; i++) {
-		for (u32 y = 0; y < 6; y++) {
-			for (u32 x = 0; x < 7; x++, i++) {
-				Gui::drawGrid(20 + (x*40), 0 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
-			}
-		}
-	}
-	GFX::DrawSprite(sprites_pointer_idx, acreMapPos[selection].x+20, acreMapPos[selection].y+20);
-}
-
-void TownMapEditor::DrawMap(void) const {
+void IslandMapEditor::DrawIsland(void) const {
 	GFX::DrawBottom();
-	for (int i = 0; i < 20; i++) {
-		AcreManagement::DrawAcre(SaveFile->town->FullAcres[SelectionToAcre(i)], acreTownPos[i].x, acreTownPos[i].y);
+	for (int i = 0; i < 16; i++) {
+		AcreManagement::DrawAcre(SaveFile->island->IslandAcres[i], acreIslandPos[i].x, acreIslandPos[i].y);
 	}
 	// Draw Grid.
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 16; i++) {
 		for (u32 y = 0; y < 4; y++) {
-			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::drawGrid(60 + (x*40), 40 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
+			for (u32 x = 0; x < 4; x++, i++) {
+				Gui::drawGrid(80 + (x*40), 40 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
 			}
 		}
 	}
-	GFX::DrawSprite(sprites_pointer_idx, acreTownPos[selection].x+20, acreTownPos[selection].y+20);
+	GFX::DrawSprite(sprites_pointer_idx, acreIslandPos[selection].x+20, acreIslandPos[selection].y+20);
 }
 
-void TownMapEditor::DrawTopSelection(void) const {
+void IslandMapEditor::DrawTopSelection(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400);
 	Gui::DrawStringCentered(0, 180, 0.8f, WHITE, "Acre ID: " + std::to_string(selectedAcre), 400);
@@ -486,7 +412,7 @@ void TownMapEditor::DrawTopSelection(void) const {
 }
 
 
-void TownMapEditor::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void IslandMapEditor::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		selection = 0;
 		Mode = 0;
@@ -494,46 +420,26 @@ void TownMapEditor::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	// Set Top Acre to Selection.
 	if (hDown & KEY_A) {
-		if (selectedAcre < 182 || selectedAcre > 205) {
-			if (GodMode) {
-				SaveFile->town->FullAcres[selection] = selectedAcre;
-			} else {
-				SaveFile->town->FullAcres[SelectionToAcre(selection)] = selectedAcre;
-			}
+		if (selectedAcre < 206 && selectedAcre > 181) {
+			SaveFile->island->IslandAcres[selection] = selectedAcre;
 		}
 	}
 
 	// Display Selected Acre on Top Selection.
 	if (hDown & KEY_Y) {
-		if (GodMode) {
-			selectedAcre = SaveFile->town->FullAcres[selection];
-		} else {
-			selectedAcre = SaveFile->town->FullAcres[SelectionToAcre(selection)];
-		}
+		selectedAcre = SaveFile->island->IslandAcres[selection];
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (GodMode) {
-			if (selection < 35)	selection += 7;
-		} else {
-			if (selection < 15)	selection += 5;
-		}
+		if (selection < 12)	selection += 4;
 	}
 
 	if (hDown & KEY_UP) {
-		if (GodMode) {
-			if (selection > 6)	selection -= 7;
-		} else {
-			if (selection > 4)	selection -= 5;
-		}
+		if (selection > 3)	selection -= 4;
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if (GodMode) {
-			if (selection < 41)	selection++;
-		} else {
-			if (selection < 19)	selection++;
-		}
+		if (selection < 15)	selection++;
 	}
 
 	if (hDown & KEY_LEFT) {
@@ -575,17 +481,9 @@ void TownMapEditor::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (GodMode) {
-			for (int i = 0; i < 42; i++) {
-				if (touching(touch, acreMapPos[i])) {
-					selection = i;
-				}
-			}
-		} else {
-			for (int i = 0; i < 20; i++) {
-				if (touching(touch, acreTownPos[i])) {
-					selection = i;
-				}
+		for (int i = 0; i < 16; i++) {
+			if (touching(touch, acreIslandPos[i])) {
+				selection = i;
 			}
 		}
 	}

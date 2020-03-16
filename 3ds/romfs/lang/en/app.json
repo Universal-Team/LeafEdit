@@ -99,6 +99,7 @@
 	"INSTALLED":					"Installed",
 	"INSTALLED_TITLE":				"the installed title",
 	"INVALID_BUILDINGS":			"Invalid building(s) have been found in your save.\nThey may cause your game to crash.\nWould you like to fix it?",
+	"ISLANDMAP_EDITOR":				"Island Map Editor",
 	"ITEM_DRESSER":					"Dresser",
 	"ITEM_EDITOR":					"Item Editor",
 	"ITEM_ISLAND":					"Islandbox",
@@ -159,6 +160,7 @@
 	"PLAYER_SELECTION":				"Player Selection",
 	"PM":							"PM",
 	"PREPARING_EDITOR":				"Preparing Editor... please wait.",
+	"PREPARING_ISLAND_EDITOR":		"Preparing Island Map Editor... please wait.",
 	"PREPARING_TOWN_EDITOR":		"Preparing Town Map Editor... please wait.",
 	
 	"RAW_SAVES":					"Raw Saves",
