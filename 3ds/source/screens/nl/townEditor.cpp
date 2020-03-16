@@ -25,12 +25,11 @@
 */
 
 #include "acreManagement.hpp"
-#include "acresEditor.hpp"
 #include "gui.hpp"
-#include "mapEditor.hpp"
 #include "offsets.hpp"
 #include "save.hpp"
 #include "townEditor.hpp"
+#include "townMapEditor.hpp"
 #include "utils.hpp"
 
 #include <3ds.h>
@@ -65,9 +64,9 @@ void TownEditor::DrawSubMenu(void) const {
 			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("ACRES")))/2-80+17.5, 0.8, WHITE, Lang::get("ACRES"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWNMAP_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("TOWNMAP_EDITOR"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2+75-17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWNMAP_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWNMAP_EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("TOWN_EDITOR"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, "?"))/2+75-17.5, 0.8, WHITE, "?", 130, 25);
 }
 
 void TownEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -88,25 +87,13 @@ void TownEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (subSelection == 0) {
-			if (Config::getBool("Debug") == true) {
-				Gui::setScreen(std::make_unique<AcresEditor>());
-			} else {
-				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
-			}
-		} else if (subSelection == 1) {
-			Gui::setScreen(std::make_unique<MapEditor>());
+			Gui::setScreen(std::make_unique<TownMapEditor>());
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (Config::getBool("Debug") == true) {
-				Gui::setScreen(std::make_unique<AcresEditor>());
-			} else {
-				Msg::DisplayWarnMsg2(Lang::get("NOT_SAVE_TO_USE"));
-			}
-		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<MapEditor>());
+			Gui::setScreen(std::make_unique<TownMapEditor>());
 		}
 	}
 }
