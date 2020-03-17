@@ -200,12 +200,12 @@ void VillagerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				editorMode = 1; // Sub Menu of Selection.
 				break;
 			case 1:
-//				if (Save::Instance()->villagers[currentVillager]->getStatus() == 1)	Save::Instance()->villagers[currentVillager]->setStatus(0);
-//				else	Save::Instance()->villagers[currentVillager]->setStatus(1);
+				if (Save::Instance()->villagers[currentVillager]->status == 1)	Save::Instance()->villagers[currentVillager]->status = 0;
+				else	Save::Instance()->villagers[currentVillager]->status = 1;
 				break;
 			case 2:
-//				u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->GetPersonality(), g_personality, Lang::get("SELECT_PERSONALITY"));
-//				SaveFile->villagers[currentVillager]->SetPersonality(newPersonality);
+				u8 newPersonality = (u8)GFX::ListSelection((int)SaveFile->villagers[currentVillager]->personality, g_personality, Lang::get("SELECT_PERSONALITY"));
+				SaveFile->villagers[currentVillager]->personality = newPersonality;
 				break;
 		}
 	}
@@ -262,8 +262,8 @@ void VillagerEditor::ReplaceSubLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				editorMode = 2;
 				break;
 			case 1:
-//				manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
-//				SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+				manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->ID);
+				SaveFile->villagers[currentVillager]->ID = manuallyVillager;
 				editorMode = 0;
 				break;
 		}
@@ -273,8 +273,8 @@ void VillagerEditor::ReplaceSubLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (touching(touch, Buttons[0])) {
 			editorMode = 2;
 		} else if (touching(touch, Buttons[1])) {
-//			manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->GetId());
-//			SaveFile->villagers[currentVillager]->SetId(manuallyVillager);
+			manuallyVillager = Input::handleu16(3, Lang::get("ENTER_VILLAGER_ID"), 398, SaveFile->villagers[currentVillager]->ID);
+			SaveFile->villagers[currentVillager]->ID = manuallyVillager;
 			editorMode = 0;
 		}
 	}
@@ -701,8 +701,8 @@ void VillagerEditor::VillagerSetLogicTest(u32 hDown, u32 hHeld, touchPosition to
 		prompt += "\n\n";
 		prompt += villagerNameText;
 		if(Msg::promptMsg(prompt.c_str())) {
-//			selectedVillager = currentSelectedVillager;
-//			SaveFile->villagers[currentVillager]->SetId(selectedVillager);
+			selectedVillager = currentSelectedVillager;
+			SaveFile->villagers[currentVillager]->ID = selectedVillager;
 			editorMode = 0;
 		}
 	}
