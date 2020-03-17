@@ -55,6 +55,10 @@ WWPlayer::WWPlayer(u32 offset, u32 index) {
 	for (int i = 0; i < 90; i++) {
 		this->Dresser[i] = std::make_shared<WWItem>(0x15430 + 0xB4 * m_index + i * WWITEM_SIZE);
 	}
+	// 8 Pattern exist for a Player.
+	for (int i = 0; i < 8; i++) {
+		this->Pattern[i] = std::make_shared<WWPattern>(this, i);
+	}
 }
 
 void WWPlayer::Write() {

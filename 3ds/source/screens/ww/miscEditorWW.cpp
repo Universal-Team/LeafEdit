@@ -25,6 +25,7 @@
 */
 
 #include "acresEditorWW.hpp"
+#include "mapEditorWW.hpp"
 #include "miscEditorWW.hpp"
 #include "screenCommon.hpp"
 #include "townEditorWW.hpp"
@@ -45,6 +46,7 @@ void MiscEditorWW::Draw(void) const
 	}
 	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.8f, WHITE, Lang::get("TOWN_EDITOR"), 130);
 	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.8f, WHITE, Lang::get("ACRE_EDITOR"), 130);
+	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.8f, WHITE, Lang::get("TOWNMAP_EDITOR"), 130);
 }
 
 
@@ -70,6 +72,8 @@ void MiscEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Gui::setScreen(std::make_unique<TownEditorWW>());
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<AcresEditorWW>());
+		} else if (Selection == 2) {
+			Gui::setScreen(std::make_unique<MapEditorWW>());
 		}
 	}
 
@@ -78,6 +82,8 @@ void MiscEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Gui::setScreen(std::make_unique<TownEditorWW>());
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<AcresEditorWW>());
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<MapEditorWW>());
 		}
 	}
 }

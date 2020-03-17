@@ -24,42 +24,36 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef WWPLAYER_HPP
-#define WWPLAYER_HPP
+#ifndef WWPATTERN_HPP
+#define WWPATTERN_HPP
 
-#include "types.hpp"
-#include "wwItem.hpp"
-#include "wwPattern.hpp"
 #include "wwsave.hpp"
+#include "types.hpp"
 
+#include <array>
 #include <string>
+#include <vector>
 
-class WWItem;
-class WWPattern;
-class WWPlayer {
+class WWPlayer;
+
+class WWPattern {
 public:
-	WWPlayer(void);
-	~WWPlayer(void);
-	WWPlayer(u32 offset, u32 index);
+	WWPattern(WWPlayer *player, u32 id);
+	~WWPattern();
 
-	u8 Gender;
-	u32 Bells;
-	u32 BankAmount;
+	std::u16string CreatorName;
 	std::u16string Name;
-	u8 HairType;
-	u8 FaceType;
-	u8 HairColor;
-	u8 TAN;
-	u16 NookPoints;
-	std::shared_ptr<WWItem> Pocket[15];
-	std::shared_ptr<WWItem> Dresser[90];
-	std::shared_ptr<WWPattern> Pattern[8];
-	
-	void Write();
-	bool Exists();
+	std::u16string TownName;
+	u8 Palette;
+	u8 Concept;
+	u32 PaletteData;
 
-	u32 m_offset;
-	u32 m_index;
+	void Write();
+
+	const u32 Index;
+	const u32 Offset;
+
+private:
 };
 
 #endif

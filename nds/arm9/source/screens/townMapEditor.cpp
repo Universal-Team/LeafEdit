@@ -375,7 +375,7 @@ void TownMapEditor::updateBottomGrid() {
 void TownMapEditor::updateAcreImage() {
 	Gui::clearScreen(false, false); // Clear Layer.
 	Gui::DrawBottom(false); // Draw Base UI.
-	AcreManagement::DrawAcre(SaveFile->town->FullAcres[SelectionToAcre()], 20, 15, 5, 5, false, false);
+	AcreManagement::DrawAcre(SaveFile->town->FullAcres[SelectionToAcre()], 10, 15, 5, 5, false, false);
 	DrawGrid();
 	drawRectangle(175, 100, 75, 25, DARK_GREEN, DARK_GREEN, false, false);
 	printText("Temp Item", 178, 105, false, false);
