@@ -30,12 +30,43 @@ Town::Town() {
 	this->TownName = Save::Instance()->ReadString(0x0621BA, 8); // Works fine.
 	this->NativeFruit = Save::Instance()->ReadU8(0x06223A); // Might be wrong?
 	this->TimePlayed = Save::Instance()->ReadU16(0x0621b0); // Should be right?
+
+	// Load Town Map Items.
+	for (int i = 0; i < 5120; i++) {
+		this->MapItem[i] = std::make_shared<Item>(0x0534D8 + i * ITEM_SIZE);
+	}
+
+	// Read Town Acres.
+	for (int i = 0; i < 42; i++) {
+		this->FullAcres[i] = Save::Instance()->ReadU8(0x053484 + i * 2);
+	}
+
+	// Read Town Buildings.
+	for (int i = 0; i < 58; i++) {
+		this->townBuildings[i] = std::make_shared<BuildingArray>(0x80 + 0x4BE08 + i * 4);
+	}
 }
 
-Town::~Town() { }
+Town::~Town() {
+}
 
 void Town::Write() {
 	Save::Instance()->Write(0x0621BA, this->TownName, 8);
 	Save::Instance()->Write(0x06223A, this->NativeFruit);
 	Save::Instance()->Write(0x0621b0, this->TimePlayed);
+
+	// Write Map Items.
+	for (int i = 0; i < 5120; i++) {
+		this->MapItem[i]->Write();
+	}
+
+	// Write Acres.
+	for (int i = 0; i < 42; i++) {
+		Save::Instance()->Write(0x053484 + i * 2, this->FullAcres[i]);
+	}
+
+	// Write Town Buildings.
+	for (int i = 0; i < 58; i++) {
+		this->townBuildings[i]->Write();
+	}
 }

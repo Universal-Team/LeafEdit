@@ -24,14 +24,11 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "gui.hpp"
 #include "input.hpp"
-
-#include "graphics/gui.hpp"
-
-#include "management/playerManagement.hpp"
-
-#include "screens/screenCommon.hpp"
-
+#include "playerManagement.hpp"
+#include "screenCommon.hpp"
+#include "stringUtils.hpp"
 #include "wwPlayer.hpp"
 #include "wwsave.hpp"
 
@@ -45,4 +42,42 @@ void PlayerManagement::setBells(int currentPlayer) {
 	if(num != -1) {
 		SaveFile->players[currentPlayer]->Bells = num;
 	}
+	// Screen clear.
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+}
+// Set Name to Player.
+void PlayerManagement::setName(int currentPlayer) {
+	std::string test = Input::getLine("Enter the Playername.", 8);
+	if (test != "") {
+		SaveFile->players[currentPlayer]->Name = StringUtils::utf8to16(test);
+	}
+	// Screen clear.
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+}
+// Set Gender to Player.
+void PlayerManagement::setGender(int currentPlayer) {
+	// Clear and draw GUI.
+	std::string Gender;
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	
+	// Prepare right Gender for the Message prompt.
+	if (SaveFile->players[currentPlayer]->Gender == 0) {
+		Gender += "Female";
+	} else {
+		Gender += "Male";
+	}
+
+	printTextTinted("Change Gender to: " + Gender + "?", TextColor::gray, 5, 0, false, true);
+	if (Input::getBool()) {
+		if (SaveFile->players[currentPlayer]->Gender == 0) {
+			SaveFile->players[currentPlayer]->Gender = 1;
+		} else {
+			SaveFile->players[currentPlayer]->Gender = 0;
+		}
+	}
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
 }

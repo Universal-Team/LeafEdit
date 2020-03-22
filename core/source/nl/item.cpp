@@ -1,25 +1,25 @@
 /*
-MIT License
-This file is part of NLTK
-Copyright (c) 2018-2019 Slattz, Cuyler
+	MIT License
+	This file is part of NLTK
+	Copyright (c) 2018-2019 Slattz, Cuyler
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include "item.hpp"
@@ -75,7 +75,7 @@ Item::Item(const u16 id, const u16 flags) : ID(id), Flags(flags) {
 Item::Item(void) : Item(0x7FFE, 0) { }
 
 Item::Item(const u32 offset)
-	: Item(Save::Instance()->ReadU16(offset), Save::Instance()->ReadU16(offset + 2)) { }
+	: Item(Save::Instance()->ReadU16(offset), Save::Instance()->ReadU16(offset + 2)) { m_offset = offset; }
 
 std::string Item::GetName(void) {
 	for (auto const& entry : g_itemDatabase) {
@@ -84,6 +84,15 @@ std::string Item::GetName(void) {
 		}
 	}
 	return std::string("???");
+}
+
+void Item::Refresh() {
+	Raw = (Flags << 16) | ID;
+}
+
+void Item::Write() {
+	Refresh(); // Refresh just in case.
+	Save::Instance()->Write(m_offset, Raw); // Write Raw Data.
 }
 
 s32 Item::IsNormalItem(void) {

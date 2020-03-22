@@ -26,6 +26,7 @@
 
 #include "wwChecksum.hpp"
 #include "wwsave.hpp"
+#include "wwStringUtils.hpp"
 
 #include <cstring>
 #include <string>
@@ -36,16 +37,6 @@ WWSave* WWSave::m_pSave = nullptr;
 WWSave::WWSave() { }
 
 WWSave::~WWSave() {
-	for (auto player : players) {
-		delete player;
-		player = nullptr;
-	}
-
-	for (auto villager : villagers) {
-		delete villager;
-		villager = nullptr;
-	}
-
 	delete[] m_saveBuffer;
 	m_saveBuffer = nullptr;
 }
@@ -73,12 +64,15 @@ WWSave* WWSave::Initialize(const char *saveName, bool init) {
 	// Load Players.
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0x000C + (i * 0x228C);
-		m_pSave->players[i] = new WWPlayer(PlayerOffset, i);
+		m_pSave->players[i] = std::make_shared<WWPlayer>(PlayerOffset, i);
 	}
 
-	// Load Villagers. -> Is that the right offset? Likely no, so TODO.
+	// Load Town.
+	m_pSave->town = std::make_shared<WWTown>();
+
+	// Load Villagers.
 	for (int i = 0; i < 8; i++) {
-		m_pSave->villagers[i] = new WWVillager(0x8A3C + (i * sizeof(WWVillager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<WWVillager>(0x8A3C + (i * 0x700), i);
 	}
 
 	fclose(savesFile);
@@ -107,6 +101,10 @@ void WWSave::Close(void) {
 		delete m_pSave;
 		m_pSave = nullptr;
 	}
+}
+
+int WWSave::ReadInt(u32 offset) {
+	return (int)m_saveBuffer[offset];
 }
 
 s8 WWSave::ReadS8(u32 offset) {
@@ -151,8 +149,9 @@ void WWSave::ReadArrayU16(u16 *dst, u32 offset, u32 count) {
 	memcpy(dst, src, count << 1);
 }
 
-std::u16string WWSave::ReadString(u32 offset, u32 maxSize) {
-	return std::u16string(reinterpret_cast<char16_t *>(m_saveBuffer + offset), maxSize + 1);
+std::u16string WWSave::ReadString(u32 offset, u32 maxSize, bool isJapanese) {
+	std::string str(reinterpret_cast<char *>(m_saveBuffer + offset), maxSize + 1);
+	return wwToUnicode(str, isJapanese);
 }
 
 // Actual Writing Stuff to the Save.
@@ -165,6 +164,10 @@ bool WWSave::Write(u32 offset, u8 *data, u32 count) {
 	memcpy(m_saveBuffer + offset, data, count);
 	m_changesMade = true;
 	return true;
+}
+
+void WWSave::Write(u32 offset, int data) {
+	m_saveBuffer[offset] = (int)data;
 }
 
 void WWSave::Write(u32 offset, s8 data) {
@@ -199,6 +202,16 @@ void WWSave::Write(u32 offset, u64 data) {
 	*reinterpret_cast<u64*>(m_saveBuffer + offset) = data;
 }
 
+bool WWSave::Write(u32 offset, std::u16string str, u32 maxSize, bool isJapanese) {
+	if (str.length() > maxSize + 1) {
+		return false;
+	}
+
+	std::string dataString = unicodeToWW(str, isJapanese);
+	return Write(offset, (u8 *)dataString.data(), maxSize * 2);
+}
+
+
 bool WWSave::ChangesMade(void) {
 	return m_changesMade;
 }
@@ -216,12 +229,21 @@ bool WWSave::Commit(bool close) {
 	for (int i = 0; i < 4; i++) {
 		players[i]->Write();
 	}
+
+	// Save Villager.
+	for (int i = 0; i < 8; i++) {
+		villagers[i]->Write();
+	}
+
+	// Save Town.
+	town->Write();
+
 	// Update checksums.
 	WWChecksum::UpdateChecksum(reinterpret_cast<u16*>(m_saveBuffer), 0x15FE0 / sizeof(u16));
 	WWSave::Instance()->Write(0x15FE0, m_saveBuffer, 0x15FE0);
-	FILE *saveFile = fopen(m_saveFile, "rb+");
-
-	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
+	FILE *sF = fopen(m_saveFile.c_str(), "rb+");
+  
+	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, sF));
 
 	if (res) {
 		m_changesMade = false;
@@ -231,6 +253,6 @@ bool WWSave::Commit(bool close) {
 		Close();
 	}
 
-	fclose(saveFile);
+	fclose(sF);
 	return res;
 }

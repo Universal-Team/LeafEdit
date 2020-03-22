@@ -24,7 +24,7 @@
  *         reasonable ways as different from the original version.
  */
 
-#include "common/directory.hpp"
+#include "directory.hpp"
 
 Directory::Directory(FS_Archive archive, const std::u16string& root)
 {

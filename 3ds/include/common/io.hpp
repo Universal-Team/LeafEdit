@@ -27,9 +27,9 @@
 #ifndef IO_HPP
 #define IO_HPP
 
-#include "common/directory.hpp"
-#include "common/fsstream.hpp"
-#include "common/utils.hpp"
+#include "directory.hpp"
+#include "fsstream.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 

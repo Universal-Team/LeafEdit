@@ -93,17 +93,21 @@ int main(int argc, char **argv) {
 	Config::load();
 	Colors::load();
 	loadFont();
-	//Lang::load(Config::getLang("lang"));
+	Lang::load(1);
 	printTextCentered("Loading...", 0, 32, false, true);
 
 	Sound::init();
 	Gui::initSprites();
-	// initSprites();
-	// loadGraphics();
+	Gui::loadSprites();
+	
+	setSpriteVisibility(Gui::pointerID, false, true);
+	updateOam();
 
 	u16 hDown = 0;
 	Gui::setScreen(std::make_unique<MainMenu>());
 	Gui::clearScreen(false, true);
+	// Draw Screen.
+	Gui::DrawScreen();
 	while(!exiting) {
 		scanKeys();
 		swiWaitForVBlank();

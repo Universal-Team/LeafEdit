@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,14 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/config.hpp"
-#include "common/io.hpp"
-#include "common/utils.hpp"
-
-#include "gui/colors.hpp"
-#include "gui/msg.hpp"
-
-#include "lang/lang.hpp"
+#include "config.hpp"
+#include "gfx.hpp"
+#include "io.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 #include <ctime>
@@ -43,29 +41,28 @@ extern u32 currentLowID;
 extern u32 currentHighID;
 extern FS_MediaType currentMedia;
 extern std::string selectedSaveFolderEditor;
-// StringUtils.
 
 // Convert UTF-8 (up to 0xFFFF) to a single UTF-16 character.
 std::u16string StringUtils::UTF8toUTF16(const std::string &text) {
-    std::u16string out;
-    char16_t c;
+	std::u16string out;
+	char16_t c;
 
-    for(uint i=0;i<text.size();) {
-        if(!(text[i] & 0x80)) {
-            c = text[i++];
-        } else if((text[i] & 0xE0) == 0xC0) {
-            c  = (text[i++] & 0x1F) << 6;
-            c |=  text[i++] & 0x3F;
-        } else if((text[i] & 0xF0) == 0xE0) {
-            c  = (text[i++] & 0x0F) << 12;
-            c |= (text[i++] & 0x3F) << 6;
-            c |=  text[i++] & 0x3F;
-        } else {
-            i++; // out of range or something. (This only does up to 0xFFFF since it goes to a U16 anyways)
-        }
-        out += c;
-    }
-    return out;
+	for(uint i=0;i<text.size();) {
+		if(!(text[i] & 0x80)) {
+			c = text[i++];
+		} else if((text[i] & 0xE0) == 0xC0) {
+			c  = (text[i++] & 0x1F) << 6;
+			c |=  text[i++] & 0x3F;
+		} else if((text[i] & 0xF0) == 0xE0) {
+			c  = (text[i++] & 0x0F) << 12;
+			c |= (text[i++] & 0x3F) << 6;
+			c |=  text[i++] & 0x3F;
+		} else {
+			i++; // out of range or something. (This only does up to 0xFFFF since it goes to a U16 anyways)
+		}
+		out += c;
+	}
+	return out;
 }
 
 static std::string utf16DataToUtf8(const char16_t* data, size_t size, char16_t delim = 0)
@@ -146,68 +143,6 @@ std::vector<u32> EditorUtils::findPlayerReferences(Player *player) {
 	return references;
 }
 
-std::vector<std::pair<std::string, s32>> EditorUtils::load_player_invitems(int selectedplayer) {
-	std::vector<std::pair<std::string, s32>> inventoryItemData;
-	for (int num = 0; num < 16; num++) {
-		Item* item = &Save::Instance()->players[selectedplayer]->Pockets[num];
-		inventoryItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-	}
-
-	return inventoryItemData;
-}
-
-
-std::vector<std::pair<std::string, s32>> EditorUtils::load_player_dresseritems(int selectedplayer, int dresser) {
-	std::vector<std::pair<std::string, s32>> dresserItemData;
-	if (dresser == 0) {
-		for (int num = 0; num < 10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Dresser[num];
-			dresserItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-		}
-	} else {
-		for (int num = dresser*10; num < dresser*10+10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Dresser[num];
-			dresserItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-		}
-	}
-
-	return dresserItemData;
-}
-
-std::vector<std::pair<std::string, s32>> EditorUtils::load_player_islandbox(int selectedplayer, int islandBox) {
-	std::vector<std::pair<std::string, s32>> islandItemData;
-	if (islandBox == 0) {
-		for (int num = 0; num < 10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->IslandBox[num];
-			islandItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-		}
-	} else {
-		for (int num = islandBox*10; num < islandBox*10+10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->IslandBox[num];
-			islandItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-		}
-	}
-
-	return islandItemData;
-}
-
-std::vector<std::pair<std::string, s32>> EditorUtils::load_player_storageitems(int selectedplayer, int storage) {
-	std::vector<std::pair<std::string, s32>> storageItemData;
-	if (storage == 0) {
-		for (int num = 0; num < 10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Storage[num];
-			storageItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-		}
-	} else {
-		for (int num = storage*10; num < storage*10+10; num++) {
-			Item* item = &Save::Instance()->players[selectedplayer]->Storage[num];
-			storageItemData.push_back(std::make_pair(item->GetName(), item->GetSpritesheetID()));
-		}
-	}
-
-	return storageItemData;
-}
-
 // Villager stuff.
 u16 strToU16(std::string str) {
 	u16 out;
@@ -250,12 +185,12 @@ void Utils::colorLogic(int mode) {
 	}
 }
 
-void Utils::createBackup(bool isCard) {
+void Utils::createBackup(bool isCard, std::string savePath) {
 	if (Msg::promptMsg2(Lang::get("CREATE_BACKUP"))) {
 		char stringTime[15]   = {0};
-    	time_t unixTime       = time(NULL);
-    	struct tm* timeStruct = gmtime((const time_t*)&unixTime);
-    	std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+		time_t unixTime       = time(NULL);
+		struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+		std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
 		std::string path = "/LeafEdit/Backups/" + std::string(stringTime);
 		mkdir(path.c_str(), 0777); // Create folder.
 		path += "/garden_plus.dat";
@@ -269,7 +204,7 @@ void Utils::createBackup(bool isCard) {
 		if (isCard) {
 			io::copyFile(Archive::sdmc(), Archive::sdmc(), u"/garden_plus.dat", StringUtils::UTF8toUTF16(path.c_str()));
 		} else {
-			io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(selectedSaveFolderEditor.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
+			io::copyFile(Archive::sdmc(), Archive::sdmc(), StringUtils::UTF8toUTF16(savePath.c_str()), StringUtils::UTF8toUTF16(path.c_str()));
 		}
 
 		// Display at the end, where the backup is.
@@ -282,69 +217,69 @@ void Utils::createBackup(bool isCard) {
 
 static inline u32   Pow2(u32 x)
 {
-    if (x <= 64)
-        return 64;
+	if (x <= 64)
+		return 64;
 
-    return 1u << (32 - __builtin_clz(x - 1));
+	return 1u << (32 - __builtin_clz(x - 1));
 }
 
 C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat) {
 
-    u32     widthPow2 = Pow2(width);
-    u32     heightPow2 = Pow2(height);
-    u32   * buffer = (u32 *)linearAlloc(sizeof(u32) * widthPow2 * heightPow2);
+	u32     widthPow2 = Pow2(width);
+	u32     heightPow2 = Pow2(height);
+	u32   * buffer = (u32 *)linearAlloc(sizeof(u32) * widthPow2 * heightPow2);
 
-    // Clear buffer
-    C3D_SyncMemoryFill(buffer, 0, (u32 *)((u8 *)buffer + (sizeof(u32) * widthPow2 * heightPow2)), BIT(0) | GX_FILL_32BIT_DEPTH, nullptr, 0, nullptr, 0);
-    GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
+	// Clear buffer
+	C3D_SyncMemoryFill(buffer, 0, (u32 *)((u8 *)buffer + (sizeof(u32) * widthPow2 * heightPow2)), BIT(0) | GX_FILL_32BIT_DEPTH, nullptr, 0, nullptr, 0);
+	GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
 
-    // Copy Data
-    u32 *dst = buffer;
-    u32 *src = imageData;
+	// Copy Data
+	u32 *dst = buffer;
+	u32 *src = imageData;
 
-    for (u32 h = height; h > 0; h--)
-    {
-        memcpy(dst, src, width * sizeof(u32));
-        dst += widthPow2;
-        src += width;
-    }
+	for (u32 h = height; h > 0; h--)
+	{
+		memcpy(dst, src, width * sizeof(u32));
+		dst += widthPow2;
+		src += width;
+	}
 
-    GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
+	GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
 
-    C3D_Tex *tex = new C3D_Tex();
-    C3D_TexInit(tex, Pow2(width), Pow2(height), colorFormat);
+	C3D_Tex *tex = new C3D_Tex();
+	C3D_TexInit(tex, Pow2(width), Pow2(height), colorFormat);
 
-    tex->param = GPU_TEXTURE_MAG_FILTER(GPU_NEAREST) | GPU_TEXTURE_MIN_FILTER(GPU_NEAREST)
-        | GPU_TEXTURE_WRAP_S(GPU_CLAMP_TO_BORDER) | GPU_TEXTURE_WRAP_T(GPU_CLAMP_TO_BORDER);
-    tex->border = 0xFFFFFFFF;
+	tex->param = GPU_TEXTURE_MAG_FILTER(GPU_NEAREST) | GPU_TEXTURE_MIN_FILTER(GPU_NEAREST)
+		| GPU_TEXTURE_WRAP_S(GPU_CLAMP_TO_BORDER) | GPU_TEXTURE_WRAP_T(GPU_CLAMP_TO_BORDER);
+	tex->border = 0xFFFFFFFF;
 
-    C3D_SyncMemoryFill((u32 *)tex->data, 0, (u32 *)((u8 *)tex->data + tex->size), BIT(0) | (tex->fmt << 8), nullptr, 0, nullptr, 0);
-    C3D_TexFlush(tex);
+	C3D_SyncMemoryFill((u32 *)tex->data, 0, (u32 *)((u8 *)tex->data + tex->size), BIT(0) | (tex->fmt << 8), nullptr, 0, nullptr, 0);
+	C3D_TexFlush(tex);
 
-    C3D_SyncDisplayTransfer(buffer, GX_BUFFER_DIM(tex->width, tex->height), \
-        (u32 *)tex->data, GX_BUFFER_DIM(tex->width, tex->height), TEXTURE_TRANSFER_FLAGS);
+	C3D_SyncDisplayTransfer(buffer, GX_BUFFER_DIM(tex->width, tex->height), \
+		(u32 *)tex->data, GX_BUFFER_DIM(tex->width, tex->height), TEXTURE_TRANSFER_FLAGS);
 
-    C3D_TexFlush(tex);
-    linearFree(buffer);
+	C3D_TexFlush(tex);
+	linearFree(buffer);
 
-    Tex3DS_SubTexture *subtex = new Tex3DS_SubTexture();
-    subtex->width = width;
-    subtex->height = height;
-    subtex->left = 0.f;
-    subtex->top =  1.f;
-    subtex->right = (float)width / (float)tex->width;
-    subtex->bottom = 1.f - (float)height / (float)tex->height;
+	Tex3DS_SubTexture *subtex = new Tex3DS_SubTexture();
+	subtex->width = width;
+	subtex->height = height;
+	subtex->left = 0.f;
+	subtex->top =  1.f;
+	subtex->right = (float)width / (float)tex->width;
+	subtex->bottom = 1.f - (float)height / (float)tex->height;
 
-    C2D_Image image;
-    image.tex = tex;
-    image.subtex = subtex;
+	C2D_Image image;
+	image.tex = tex;
+	image.subtex = subtex;
 
-    return image;
+	return image;
 }
 
 void C2DUtils::C2D_ImageDelete(C2D_Image image)
 {
-    C3D_TexDelete(image.tex);
-    delete image.tex;
-    delete image.subtex;
+	C3D_TexDelete(image.tex);
+	delete image.tex;
+	delete image.subtex;
 }

@@ -27,6 +27,13 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+// Needed for shared_ptr.
+#include <memory>
+
+#define ITEM_SIZE	4
+#define WWITEM_SIZE	2
+#define WWACRE_SIZE	1
+
 #ifdef _3DS
 #include <3ds.h>
 #endif

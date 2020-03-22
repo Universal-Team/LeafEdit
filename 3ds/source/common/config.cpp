@@ -24,10 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/config.hpp"
-#include "common/json.hpp"
-
-#include "lang/lang.hpp"
+#include "config.hpp"
+#include "json.hpp"
+#include "lang.hpp"
 
 #include <3ds.h>
 #include <string>

@@ -27,9 +27,7 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "common/archive.hpp"
-
-#include "item.hpp"
+#include "archive.hpp"
 #include "player.hpp"
 
 #include <3ds.h>
@@ -38,33 +36,29 @@
 #include <string>
 #include <vector>
 
+// String Utils.
 namespace StringUtils
 {
 	std::u16string UTF8toUTF16(const std::string &text);
 	std::string UTF16toUTF8(const std::u16string& src);
 	std::string format(std::string fmt_str, ...);
 }
-
+// Editor Utils.
 namespace EditorUtils
 {
 	std::vector<u32> findPlayerReferences(Player *player);
-	std::vector<std::pair<std::string, s32>> load_player_invitems(int selectedplayer);
-	std::vector<std::pair<std::string, s32>> load_player_dresseritems(int selectedplayer, int dresser);
-	std::vector<std::pair<std::string, s32>> load_player_islandbox(int selectedplayer, int islandBox);
-	std::vector<std::pair<std::string, s32>> load_player_storageitems(int selectedplayer, int storage);
 }
-
+// App Utils.
 namespace Utils
 {
 	void colorLogic(int mode);
-	void createBackup(bool isCard = false);
+	void createBackup(bool isCard, std::string savePath);
 }
-
 #define TEXTURE_TRANSFER_FLAGS \
 	(GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(1) | GX_TRANSFER_RAW_COPY(0) | \
 	GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGBA8) | \
 	GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
-	
+// Citro2D Utils.
 namespace C2DUtils
 {
 	C2D_Image ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat);

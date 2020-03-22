@@ -51,20 +51,20 @@ public:
 	//Pattern *PatternAbleSister[10]; // Able Sister Patterns. -> 0x62338 
 
 	// Stores Inventory.
-	Item *Retail = nullptr; // 0x668b4 [8]
-	Item *TT = nullptr; // 0x6acce? [24]
-	Item *Gracie = nullptr; // 0x6acf8 [18]
-	Item *NooksHome = nullptr; // 0x62270 [8]
-	Item *Leif = nullptr; // 0x666f6 [11]
-	Item *AbleSisterClothes = nullptr; // 0x622ec [5]
-	Item *AbleSisterAccesories = nullptr; // 0x666b8 [7]
-	Item *Kicks = nullptr; // 0x6682e [6]
-	Item *Redd = nullptr; // 0x66730 [4]
-	Item *IslandShop = nullptr; // 0x6adb8 [4]
-	Item *MuseumShop = nullptr; // 0x6acbe [3]
-	Item *LostFound = nullptr; // 0x621e2 [16]
-	Item *ClubLol = nullptr; // 0x6ad92 [4]
-	Item *Harvey = nullptr; // 0x06ae54 [2]
+	std::shared_ptr<Item> Retail[8]; // 0x668b4 [8]
+	std::shared_ptr<Item> TTStore[24]; // 0x62270 [24]
+	std::shared_ptr<Item> Gracie[18]; // 0x6acf8 [18]
+	std::shared_ptr<Item> NooksHome[8]; // 0x6ACCE [8]
+	std::shared_ptr<Item> Leif[11]; // 0x666f6 [11]
+	std::shared_ptr<Item> AbleSisterClothes[5]; // 0x622ec [5]
+	std::shared_ptr<Item> AbleSisterAccesories[7]; // 0x666b8 [7]
+	std::shared_ptr<Item> Kicks[6]; // 0x6682e [6]
+	std::shared_ptr<Item> Redd[4]; // 0x66730 [4]
+	std::shared_ptr<Item> IslandShop[4]; // 0x6adb8 [4]
+	std::shared_ptr<Item> MuseumShop[3]; // 0x6acbe [3]
+	std::shared_ptr<Item> LostFound[16]; // 0x621e2 [16]
+	std::shared_ptr<Item> ClubLol[4]; // 0x6ad92 [4]
+	std::shared_ptr<Item> Harvey[2]; // 0x06ae54 [2]
 
 private:
 };

@@ -75,17 +75,22 @@ endif
 #---------------------------------------------------------------------------------
 TARGET		:=	LeafEdit
 BUILD		:=	build
+UNIVCORE	:= 	Universal-Core
 SOURCECORE	:=  ../core/source ../core/source/nl ../core/source/ww
 INCLUDECORE	:=	../core/include ../core/include/nl ../core/include/ww
-SOURCES		:=	$(SOURCECORE) source source/common source/core source/core/management source/core/save source/gui source/gui/screens source/gui/screensnl source/gui/screensww source/lang
+SRCMAN 		:=	source/management/nl source/management/ww
+INCMAN 		:=	include/management/nl include/management/ww
+SRCSCREEN	:=	source/screens source/screens/nl source/screens/ww
+INCSCREEN	:=	include/screens include/screens/nl include/screens/ww
+SOURCES		:=	$(SOURCECORE) $(SRCMAN) $(SRCSCREEN) $(UNIVCORE) source source/common source/core source/gui source/lang 
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) include include/common include/core include/core/management include/core/save include/gui include/gui/screens include/gui/screensnl include/gui/screensww include/lang
+INCLUDES	:=	$(INCLUDECORE) $(INCMAN) $(INCSCREEN) $(UNIVCORE) include include/common include/core include/gui include/lang 
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
 APP_AUTHOR	:=	Universal-Team
-APP_DESCRIPTION :=	An AC:NL Save Manager and Editor.
+APP_DESCRIPTION := An Animal Crossing Save Manager and Editor.
 ICON		:=	app/icon.png
 BNR_IMAGE	:=  app/banner.png
 BNR_AUDIO	:=	app/BannerAudio.wav

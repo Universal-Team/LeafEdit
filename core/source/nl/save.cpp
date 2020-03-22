@@ -1,25 +1,25 @@
 /*
-MIT License
-This file is part of NLTK
-Copyright (c) 2018-2019 Slattz, Cuyler
+	MIT License
+	This file is part of NLTK
+	Copyright (c) 2018-2019 Slattz, Cuyler
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include "checksum.hpp"
@@ -30,8 +30,9 @@ SOFTWARE.
 #include <string>
 
 #ifdef _3DS
-#include "gui/msg.hpp"
-#include "lang/lang.hpp"
+#include "config.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
 #endif
 
 Save* Save::m_pSave = nullptr;
@@ -39,32 +40,12 @@ Save* Save::m_pSave = nullptr;
 Save::Save() { }
 
 Save::~Save() {
-	for (auto player : players) {
-		delete player;
-		player = nullptr;
-	}
-
-	for (auto villager : villagers) {
-		delete villager;
-		villager = nullptr;
-	}
-
-	for (auto Town : town) {
-		delete Town;
-		Town = nullptr;
-	}
-
-	for (auto Shop : shop) {
-		delete Shop;
-		Shop = nullptr;
-	}
-
 	delete[] m_saveBuffer;
 	m_saveBuffer = nullptr;
 }
 
 #ifdef _3DS
-// For Card or Installed Title reading. Can only be used on 3DS and not DS(i) or so!
+// For Card or Installed Title reading. Can only be used on 3DS and not DS(i) or so because of Archives.
 Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 	if (m_pSave != nullptr) {
 		return m_pSave;
@@ -94,33 +75,36 @@ Save* Save::InitializeArchive(FS_Archive archive, bool init) {
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
-		m_pSave->players[i] = new Player(PlayerOffset, i);
+		m_pSave->players[i] = std::make_shared<Player>(PlayerOffset, i);
 	}
 
 	// Load Villagers
 	for (int i = 0; i < 10; i++) {
-		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * 0x2518), i);
 	}
 
-	m_pSave->town[0] = new Town();
-	m_pSave->shop[0] = new Shop();
+	m_pSave->town = std::make_shared<Town>();
+	m_pSave->shop = std::make_shared<Shop>();
+	m_pSave->island = std::make_shared<Island>();
 
 	return m_pSave;
 }
 
 bool Save::CommitArchive(bool close) {
-	// Save Players
-	for (int i = 0; i < 4; i++) {
-		players[i]->Write();
+	// For the Offset Editor. ;)
+	if (Config::getBool("OffsetEditor") != true) {
+		// Save Players
+		for (int i = 0; i < 4; i++) {
+			players[i]->Write();
+		}
+		// Save Villagers
+		for (int i = 0; i < 10; i++) {
+			villagers[i]->Write();
+		}
+		town->Write();
+		shop->Write();
+		island->Write();
 	}
-
-	// Save Villagers
-	for (int i = 0; i < 10; i++) {
-		villagers[i]->Write();
-	}
-
-	town[0]->Write();
-	shop[0]->Write();
 	
 	// Update Checksums
 	FixCRC32s();
@@ -225,10 +209,11 @@ void Save::FixSaveRegion(void) {
 	}
 }
 
+// Fix invalid buildings. Only works on 3DS for now, since "Msg::promptMsg()".
 void Save::FixInvalidBuildings(void) {
 	bool asked = false;
 	for (int i = 0; i < 58; i++) {
-		u8 building = ReadU8(0x04be88+(i * 4)); //Get building ID
+		u8 building = Save::Instance()->ReadU8(0x04be88+(i * 4)); //Get building ID
 		if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
 			if (!asked) {
 				asked = true;
@@ -237,11 +222,10 @@ void Save::FixInvalidBuildings(void) {
 				}
 			}
 
-			Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
+			Save::Instance()->Write(0x04be88 + (i * 4), static_cast<u32>(0x000000FC)); //Write empty building
 		}
 	}
 }
-
 #endif
 
 // For RAW saves.
@@ -274,16 +258,17 @@ Save* Save::Initialize(const char *saveName, bool init) {
 	// Load Players
 	for (int i = 0; i < 4; i++) {
 		u32 PlayerOffset = 0xA0 + (i * 0xA480);
-		m_pSave->players[i] = new Player(PlayerOffset, i);
+		m_pSave->players[i] = std::make_shared<Player>(PlayerOffset, i);
 	}
 
 	// Load Villagers
 	for (int i = 0; i < 10; i++) {
-		m_pSave->villagers[i] = new Villager(0x292D0 + (i * sizeof(Villager::Villager_s)), i);
+		m_pSave->villagers[i] = std::make_shared<Villager>(0x292D0 + (i * 0x2518), i);
 	}
 
-	m_pSave->town[0] = new Town();
-	m_pSave->shop[0] = new Shop();
+	m_pSave->town = std::make_shared<Town>();
+	m_pSave->shop = std::make_shared<Shop>();
+	m_pSave->island = std::make_shared<Island>();
 	
 	fclose(savesFile);
 	m_pSave->m_saveFile = saveName;
@@ -424,24 +409,25 @@ void Save::SetChangesMade(bool changesMade) {
 }
 
 bool Save::Commit(bool close) {
-
-	// Save Players
-	for (int i = 0; i < 4; i++) {
-		players[i]->Write();
+	// For the Offset Editor. ;)
+	if (Config::getBool("OffsetEditor") != true) {
+		// Save Players
+		for (int i = 0; i < 4; i++) {
+			players[i]->Write();
+		}
+		// Save Villagers
+		for (int i = 0; i < 10; i++) {
+			villagers[i]->Write();
+		}
+		town->Write();
+		shop->Write();
+		island->Write();
 	}
-
-	// Save Villagers
-	for (int i = 0; i < 10; i++) {
-		villagers[i]->Write();
-	}
-
-	town[0]->Write();
-	shop[0]->Write();
 
 	// Update Checksums
 	FixCRC32s();
-	FILE *saveFile = fopen(m_saveFile, "rb+");
-	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, saveFile));
+	FILE *sF = fopen(m_saveFile.c_str(), "rb+");
+	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, sF));
 
 	if (res) {
 		m_changesMade = false;
@@ -451,6 +437,6 @@ bool Save::Commit(bool close) {
 		Close();
 	}
 
-	fclose(saveFile);
+	fclose(sF);
 	return res;
 }

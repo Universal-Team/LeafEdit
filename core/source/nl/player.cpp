@@ -1,25 +1,25 @@
 /*
-MIT License
-This file is part of NLTK
-Copyright (c) 2018-2019 Slattz, Cuyler
+	MIT License
+	This file is part of NLTK
+	Copyright (c) 2018-2019 Slattz, Cuyler
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include "pattern.hpp"
@@ -29,9 +29,9 @@ SOFTWARE.
 #include <string>
 
 #ifdef _3DS
-#include "common/utils.hpp"
-#include "common/jpeg.h"
-#include "gui/gui.hpp"
+#include "gfx.hpp"
+#include "jpeg.h"
+#include "utils.hpp"
 #include <citro2d.h>
 extern C2D_SpriteSheet sprites;
 #endif
@@ -54,31 +54,6 @@ Player::~Player()
 		this->m_TPCData = nullptr;
 	}
 #endif
-
-	if (this->Pockets != nullptr) {
-		delete[] this->Pockets;
-		this->Pockets = nullptr;
-	}
-
-	for (auto pattern : Patterns) {  
-		delete pattern;
-		pattern = nullptr;
-	}
-
-	if (this->Dresser != nullptr) {
-		delete[] this->Dresser;
-		this->Dresser = nullptr;
-	}
-
-	if (this->IslandBox != nullptr) {
-		delete[] this->IslandBox;
-		this->IslandBox = nullptr;
-	}
-
-	if (this->Storage != nullptr) {
-		delete[] this->Storage;
-		this->Storage = nullptr;
-	}
 }
 
 Player::Player(u32 offset, u32 index) {
@@ -111,29 +86,24 @@ Player::Player(u32 offset, u32 index) {
 	}
 	#endif
 
-	this->Pockets = new Item[16];
-
 	for (int i = 0; i < 16; i++) {
-		this->Pockets[i] = Item(offset + 0x6BD0 + i * sizeof(Item));
+		this->Pockets[i] = std::make_shared<Item>(offset + 0x6BD0 + i * ITEM_SIZE);
 	}
 
-	this->Dresser = new Item[180];
 	for (int i = 0; i < 180; i++) {
-		this->Dresser[i] = Item(offset + 0x92f0 + i * sizeof(Item));
+		this->Dresser[i] = std::make_shared<Item>(offset + 0x92f0 + i * ITEM_SIZE);
 	}
 
-	this->IslandBox = new Item[40];
 	for (int i = 0; i < 40; i++) {
-		this->IslandBox[i] = Item(offset + 0x6f10 + i * sizeof(Item));
+		this->IslandBox[i] = std::make_shared<Item>(offset + 0x6f10 + i * ITEM_SIZE);
 	}
 
-	this->Storage = new Item[360];
 	for (int i = 0; i < 360; i++) {
-		this->Storage[i] = Item((index*360)+ 0x07a778 + i * sizeof(Item));
+		this->Storage[i] = std::make_shared<Item>((index*360)+ 0x07a778 + i * ITEM_SIZE);
 	}
 
 	for (u32 i = 0; i < 10; i++) {
-		this->Patterns[i] = new Pattern(this, i);
+		this->Patterns[i] = std::make_shared<Pattern>(this, i);
 	}
 
 
@@ -187,6 +157,22 @@ void Player::Write() {
 		this->BadgeValues[i].encrypt(encryptedInt, encryptionData);
 		Save::Instance()->Write(this->m_offset + 0x55DC + i*8, encryptedInt);
 		Save::Instance()->Write(this->m_offset + 0x55DC + i*8 + 4, encryptionData);
+	}
+
+	for (int i = 0; i < 16; i++) {
+		this->Pockets[i]->Write();
+	}
+
+	for (int i = 0; i < 180; i++) {
+		this->Dresser[i]->Write();
+	}
+
+	for (int i = 0; i < 40; i++) {
+		this->IslandBox[i]->Write();
+	}
+
+	for (int i = 0; i < 360; i++) {
+		this->Storage[i]->Write();
 	}
 }
 

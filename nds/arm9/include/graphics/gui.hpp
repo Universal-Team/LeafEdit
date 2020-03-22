@@ -27,14 +27,24 @@
 #include "graphics.hpp"
 #include "screen.hpp"
 
+#include <nds.h>
+
 namespace Gui {
-	void mainLoop(u16 hDown, touchPosition touch);
-	void setScreen(std::unique_ptr<Screen> screen);
-	void screenBack(void);
+	// Pointer stuff.
+	void showPointer();
+	void hidePointer();
+	void togglePointer(); // Update Pointer for visible | not visible.
+	void updatePointer(int x, int y); // Update Pointer position when selected is true.
+
+	// Screen stuff.
+	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
+	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
+	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
+	void screenBack(void); // Go a screen back. Needs "return;" at the end.
 
 	// GUI Stuff.
-	void DrawTop(void);
-	void DrawBottom(void);
+	void DrawTop(bool useBars);
+	void DrawBottom(bool useBars);
 
 	/* 	Clear a Screen & Layer.
  		* bool top is whether to draw on the top or bottom screen.
@@ -44,7 +54,11 @@ namespace Gui {
 
 	// Sprites stuff
 
-	extern int keyboardSpriteID;
+	extern int keyboardSpriteID, pointerID;
 
 	void initSprites(void);
+	void loadSprites(void);
+	
+	// Select something from a list.
+	int selectList(int current, const std::vector<std::string> &list);
 };

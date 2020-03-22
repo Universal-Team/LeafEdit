@@ -235,7 +235,7 @@ void drawKeyboard(int layout) {
 		if(layout < 3) {
 			keyboard = loadImage("/graphics/keyboardKana.gfx");
 		} else {
-			keyboard = loadImage("/graphics/keyboardQWE.gfx");
+			keyboard = loadImage("/graphics/keyboardQWERTY.gfx");
 			xPos = 0;
 		}
 		if(prevLayout != -1) {
@@ -1207,7 +1207,7 @@ int Input::getInt(std::string Text, unsigned max) {
 	return i;
 }
 
-bool Input::getBool() { return getBool(Lang::get("yes"), Lang::get("no")); }
+bool Input::getBool() { return getBool("Yes", "No"); }
 bool Input::getBool(std::string optionTrue, std::string optionFalse) {
 	// Draw rectangles
 	drawRectangle(38, 65, 180, 61, BG_PALETTE[DARKER_GRAY], false, true);

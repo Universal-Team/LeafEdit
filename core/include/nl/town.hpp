@@ -29,11 +29,15 @@
 #ifndef TOWN_HPP
 #define TOWN_HPP
 
+#include "buildingArray.hpp"
+#include "item.hpp"
 #include "save.hpp"
 #include "types.hpp"
 
 #include <string>
 
+class BuildingArray;
+class Item;
 class Town {
 public:
 	Town(void);
@@ -43,6 +47,10 @@ public:
 	std::u16string TownName; // 0x0621BA [8]
 	u8 NativeFruit; // 0x06223A
 	u16 TimePlayed; // 0x06223E
+
+	std::shared_ptr<Item> MapItem[5120];
+	u8 FullAcres[42];
+	std::shared_ptr<BuildingArray> townBuildings[58];
 private:
 	u32 m_offset; // Needed?
 };

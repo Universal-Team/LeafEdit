@@ -24,14 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common/config.hpp"
-
-#include "core/gameLoader.hpp"
-
-#include "gui/gui.hpp"
-#include "gui/msg.hpp"
-
+#include "config.hpp"
+#include "gameLoader.hpp"
+#include "gui.hpp"
 #include "lang.hpp"
+#include "msg.hpp"
+
 
 u64 currentID;
 u32 currentLowID;

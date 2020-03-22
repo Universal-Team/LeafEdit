@@ -27,7 +27,7 @@
 #ifndef DIRECTORY_HPP
 #define DIRECTORY_HPP
 
-#include "common/utils.hpp"
+#include "utils.hpp"
 
 #include <3ds.h>
 #include <dirent.h>

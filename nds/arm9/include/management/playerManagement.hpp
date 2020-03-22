@@ -35,6 +35,8 @@
 namespace PlayerManagement
 {
 	void setBells(int currentPlayer);
+	void setName(int currentPlayer);
+	void setGender(int currentPlayer);
 }
 
 #endif

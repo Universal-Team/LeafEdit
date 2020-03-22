@@ -1,25 +1,25 @@
 /*
-MIT License
-This file is part of NLTK
-Copyright (c) 2018-2019 Slattz, Cuyler
+	MIT License
+	This file is part of NLTK
+	Copyright (c) 2018-2019 Slattz, Cuyler
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #pragma once
@@ -27,12 +27,12 @@ SOFTWARE.
 #ifndef SAVE_HPP
 #define SAVE_HPP
 
+#include "island.hpp"
 #include "player.hpp"
 #include "shop.hpp"
 #include "town.hpp"
 #include "types.hpp"
 #include "villager.hpp"
-
 
 #include <string>
 
@@ -43,11 +43,12 @@ struct Region_Lock {
 	u8 RawByte;
 };
 #endif
+
+class Island;
 class Player;
 class Shop;
 class Town;
 class Villager;
-
 class Save {
 public:
 	static Save* Initialize(const char *saveName, bool init);
@@ -85,10 +86,11 @@ public:
 	bool Commit(bool close);
 	void Close(void);
 
-	Player *players[4];
-	Shop *shop[1];
-	Town *town[1];
-	Villager* villagers[10];
+	std::shared_ptr<Player> players[4];
+	std::shared_ptr<Shop> shop;
+	std::shared_ptr<Town> town;
+	std::shared_ptr<Villager> villagers[10];
+	std::shared_ptr<Island> island;
 
 	// Only works on 3DS!
 	#ifdef _3DS
@@ -105,7 +107,7 @@ public:
 private:
 	u8 *m_saveBuffer = nullptr;
 	u64 m_saveSize;
-	const char *m_saveFile;
+	std::string m_saveFile;
 	bool m_changesMade;
 
 	#ifdef _3DS

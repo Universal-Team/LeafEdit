@@ -28,19 +28,33 @@
 #define WWPLAYER_HPP
 
 #include "types.hpp"
+#include "wwItem.hpp"
+#include "wwPattern.hpp"
 #include "wwsave.hpp"
 
 #include <string>
 
+class WWItem;
+class WWPattern;
 class WWPlayer {
 public:
 	WWPlayer(void);
 	~WWPlayer(void);
 	WWPlayer(u32 offset, u32 index);
 
-	u16 Gender; // That was a easy one, cause only returns 0 -> Male, 1 -> Female.
-	u32 Bells; // I hope this is correct? Not 100% sure atm.
-
+	u8 Gender;
+	u32 Bells;
+	u32 BankAmount;
+	std::u16string Name;
+	u8 HairType;
+	u8 FaceType;
+	u8 HairColor;
+	u8 TAN;
+	u16 NookPoints;
+	std::shared_ptr<WWItem> Pocket[15];
+	std::shared_ptr<WWItem> Dresser[90];
+	std::shared_ptr<WWPattern> Pattern[8];
+	
 	void Write();
 	bool Exists();
 
