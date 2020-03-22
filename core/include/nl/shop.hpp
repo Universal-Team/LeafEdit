@@ -31,6 +31,7 @@
 
 #include "encryptedInt32.hpp"
 #include "item.hpp"
+#include "pattern.hpp"
 #include "save.hpp"
 #include "types.hpp"
 
@@ -47,9 +48,6 @@ public:
 	EncryptedInt32 PMPrice[6]; // 6 because of 6 Days.
 	EncryptedInt32 AMPrice[6]; // 6 because of 6 Days.
 
-	// TODO: Implement the pattern for this.
-	//Pattern *PatternAbleSister[10]; // Able Sister Patterns. -> 0x62338 
-
 	// Stores Inventory.
 	std::shared_ptr<Item> Retail[8]; // 0x668b4 [8]
 	std::shared_ptr<Item> TTStore[24]; // 0x62270 [24]
@@ -65,6 +63,9 @@ public:
 	std::shared_ptr<Item> LostFound[16]; // 0x621e2 [16]
 	std::shared_ptr<Item> ClubLol[4]; // 0x6ad92 [4]
 	std::shared_ptr<Item> Harvey[2]; // 0x06ae54 [2]
+
+	// Patterns for able sister.
+	std::shared_ptr<Pattern> Patterns[8];
 
 private:
 };

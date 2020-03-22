@@ -37,12 +37,14 @@ class PatternEditor : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	PatternEditor(int Mode = 0);
 private:
 	int patternMode = 0;
 	int Selection = 0;
 	int SelectedPattern = 0;
 	int patternIndex = 0; // Goes up to 1024. 32 x 32.
 	int patternEditorMode = 0; // 0 -> Pattern, 1 -> Palette / Color?.
+	int PatternDisplay = 0;
 
 	// Screen Draws.
 	void DrawPatternMenu(void) const;

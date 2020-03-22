@@ -38,6 +38,12 @@
 extern Save* SaveFile;
 extern int selectedPassedPlayer;
 
+// 0 -> Player ; 1 -> Able Sister shop.
+PatternEditor::PatternEditor(int Mode) : PatternDisplay(Mode) {
+	if (Mode == 0)	PatternDisplay = 0;
+	else			PatternDisplay = 1;
+}
+
 void PatternEditor::Draw(void) const {
 	if (patternMode == 0) {
 		DrawPatternMenu();
@@ -61,26 +67,53 @@ void PatternEditor::DrawPatternMenu(void) const {
 	GFX::DrawNPC(npc_tina_idx, 0, 45);
 	GFX::DrawNPC(npc_sina_idx, 100, 45);
 	// Pattern informations.
-	Gui::DrawString(230, 50, 0.7f, WHITE, Lang::get("PATTERN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->Name), 160);
-	Gui::DrawString(230, 70, 0.7f, WHITE, Lang::get("CREATOR_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->CreatorName), 160);
-	Gui::DrawString(230, 90, 0.7f, WHITE, Lang::get("CREATOR_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->CreatorId), 160);
-	Gui::DrawString(230, 110, 0.7f, WHITE, Lang::get("TOWN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->OriginatingTownName), 160);
-	Gui::DrawString(230, 130, 0.7f, WHITE, Lang::get("TOWN_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->OriginatingTownId), 160);
+	if (PatternDisplay == 0) {
+		Gui::DrawString(230, 50, 0.7f, WHITE, Lang::get("PATTERN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->Name), 160);
+		Gui::DrawString(230, 70, 0.7f, WHITE, Lang::get("CREATOR_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->CreatorName), 160);
+		Gui::DrawString(230, 90, 0.7f, WHITE, Lang::get("CREATOR_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->CreatorId), 160);
+		Gui::DrawString(230, 110, 0.7f, WHITE, Lang::get("TOWN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->OriginatingTownName), 160);
+		Gui::DrawString(230, 130, 0.7f, WHITE, Lang::get("TOWN_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[Selection]->OriginatingTownId), 160);
+	} else {
+		Gui::DrawString(230, 50, 0.7f, WHITE, Lang::get("PATTERN_NAME") + StringUtils::UTF16toUTF8(SaveFile->shop->Patterns[Selection]->Name), 160);
+		Gui::DrawString(230, 70, 0.7f, WHITE, Lang::get("CREATOR_NAME") + StringUtils::UTF16toUTF8(SaveFile->shop->Patterns[Selection]->CreatorName), 160);
+		Gui::DrawString(230, 90, 0.7f, WHITE, Lang::get("CREATOR_ID") + std::to_string(SaveFile->shop->Patterns[Selection]->CreatorId), 160);
+		Gui::DrawString(230, 110, 0.7f, WHITE, Lang::get("TOWN_NAME") + StringUtils::UTF16toUTF8(SaveFile->shop->Patterns[Selection]->OriginatingTownName), 160);
+		Gui::DrawString(230, 130, 0.7f, WHITE, Lang::get("TOWN_ID") + std::to_string(SaveFile->shop->Patterns[Selection]->OriginatingTownId), 160);
+	}
+
 	GFX::DrawBottom();
 	// Display Pattern Images.
-	for (int i = 0; i < 10; i++) {
-		for (u32 y = 0; y < 2; y++) {
-			for (u32 x = 0; x < 5; x++, i++) {
-				C2D_DrawImageAt(Save::Instance()->players[selectedPassedPlayer]->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
+	// Player.
+	if (PatternDisplay == 0) {
+		for (int i = 0; i < 10; i++) {
+			for (u32 y = 0; y < 2; y++) {
+				for (u32 x = 0; x < 5; x++, i++) {
+					C2D_DrawImageAt(Save::Instance()->players[selectedPassedPlayer]->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
+				}
+			}
+		}
+	} else {
+		for (int i = 0; i < 8; i++) {
+			for (u32 y = 0; y < 2; y++) {
+				for (u32 x = 0; x < 4; x++, i++) {
+					C2D_DrawImageAt(Save::Instance()->shop->Patterns[i]->Images[0], 17 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
+				}
 			}
 		}
 	}
 
 	// Selection part.
+	// Player.
 	int selectY = 0, selectX = 0;
-	if (Selection < 5)	selectY = 0;	else	selectY = 1;
-	if (Selection > 4)	selectX = Selection - 5;	else	selectX = Selection;
-	GFX::DrawSprite(sprites_pointer_idx, 30 + (selectX * 60), 80 + (selectY * 80));
+	if (PatternDisplay == 0) {
+		if (Selection < 5)	selectY = 0;	else	selectY = 1;
+		if (Selection > 4)	selectX = Selection - 5;	else	selectX = Selection;
+		GFX::DrawSprite(sprites_pointer_idx, 30 + (selectX * 60), 80 + (selectY * 80));
+	} else {
+		if (Selection < 4)	selectY = 0;	else	selectY = 1;
+		if (Selection > 3)	selectX = Selection - 4;	else	selectX = Selection;
+		GFX::DrawSprite(sprites_pointer_idx, 30 + (selectX * 60), 80 + (selectY * 80));
+	}
 }
 
 void PatternEditor::PatternMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -88,18 +121,32 @@ void PatternEditor::PatternMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		Gui::screenBack();
 		return;
 	}
-
-	if (hDown & KEY_DOWN) {
-		if (Selection < 5)	Selection += 5;
-	}
-	if (hDown & KEY_UP) {
-		if (Selection > 4)	Selection -= 5;
-	}
-	if (hDown & KEY_RIGHT) {
-		if (Selection < 9)	Selection++;
-	}
-	if (hDown & KEY_LEFT) {
-		if (Selection > 0)	Selection--;
+	if (PatternDisplay == 0) {
+		if (hDown & KEY_DOWN) {
+			if (Selection < 5)	Selection += 5;
+		}
+		if (hDown & KEY_UP) {
+			if (Selection > 4)	Selection -= 5;
+		}
+		if (hDown & KEY_RIGHT) {
+			if (Selection < 9)	Selection++;
+		}
+		if (hDown & KEY_LEFT) {
+			if (Selection > 0)	Selection--;
+		}
+	} else {
+		if (hDown & KEY_DOWN) {
+			if (Selection < 4)	Selection += 4;
+		}
+		if (hDown & KEY_UP) {
+			if (Selection > 3)	Selection -= 4;
+		}
+		if (hDown & KEY_RIGHT) {
+			if (Selection < 7)	Selection++;
+		}
+		if (hDown & KEY_LEFT) {
+			if (Selection > 0)	Selection--;
+		}
 	}
 
 	if (hHeld & KEY_SELECT) {
@@ -226,14 +273,26 @@ void PatternEditor::DrawPatternEditor(void) const {
 	GFX::DrawNPC(npc_tina_idx, 0, 45);
 	GFX::DrawNPC(npc_sina_idx, 100, 45);
 	// Pattern informations.
-	Gui::DrawString(230, 50, 0.7f, WHITE, Lang::get("PATTERN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->Name), 160);
-	Gui::DrawString(230, 70, 0.7f, WHITE, Lang::get("CREATOR_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->CreatorName), 160);
-	Gui::DrawString(230, 90, 0.7f, WHITE, Lang::get("CREATOR_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->CreatorId), 160);
-	Gui::DrawString(230, 110, 0.7f, WHITE, Lang::get("TOWN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->OriginatingTownName), 160);
-	Gui::DrawString(230, 130, 0.7f, WHITE, Lang::get("TOWN_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->OriginatingTownId), 160);
+	if (PatternDisplay == 0) {
+		Gui::DrawString(230, 50, 0.7f, WHITE, Lang::get("PATTERN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->Name), 160);
+		Gui::DrawString(230, 70, 0.7f, WHITE, Lang::get("CREATOR_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->CreatorName), 160);
+		Gui::DrawString(230, 90, 0.7f, WHITE, Lang::get("CREATOR_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->CreatorId), 160);
+		Gui::DrawString(230, 110, 0.7f, WHITE, Lang::get("TOWN_NAME") + StringUtils::UTF16toUTF8(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->OriginatingTownName), 160);
+		Gui::DrawString(230, 130, 0.7f, WHITE, Lang::get("TOWN_ID") + std::to_string(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->OriginatingTownId), 160);
+	} else {
+		Gui::DrawString(230, 50, 0.7f, WHITE, Lang::get("PATTERN_NAME") + StringUtils::UTF16toUTF8(SaveFile->shop->Patterns[SelectedPattern]->Name), 160);
+		Gui::DrawString(230, 70, 0.7f, WHITE, Lang::get("CREATOR_NAME") + StringUtils::UTF16toUTF8(SaveFile->shop->Patterns[SelectedPattern]->CreatorName), 160);
+		Gui::DrawString(230, 90, 0.7f, WHITE, Lang::get("CREATOR_ID") + std::to_string(SaveFile->shop->Patterns[SelectedPattern]->CreatorId), 160);
+		Gui::DrawString(230, 110, 0.7f, WHITE, Lang::get("TOWN_NAME") + StringUtils::UTF16toUTF8(SaveFile->shop->Patterns[SelectedPattern]->OriginatingTownName), 160);
+		Gui::DrawString(230, 130, 0.7f, WHITE, Lang::get("TOWN_ID") + std::to_string(SaveFile->shop->Patterns[SelectedPattern]->OriginatingTownId), 160);
+	}
 
 	GFX::DrawBottom(false);
-	C2D_DrawImageAt(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->Images[0], 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
+	if (PatternDisplay == 0) {
+		C2D_DrawImageAt(SaveFile->players[selectedPassedPlayer]->Patterns[SelectedPattern]->Images[0], 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
+	} else {
+		C2D_DrawImageAt(SaveFile->shop->Patterns[SelectedPattern]->Images[0], 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
+	}
 	Gui::Draw_Rect(240, 30, 70, 180, DARKER_COLOR);
 	DrawGrid();
 	DrawPalette();

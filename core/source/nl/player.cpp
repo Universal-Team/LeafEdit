@@ -133,9 +133,6 @@ void Player::Write() {
 	Save::Instance()->Write(this->m_offset + 0x06, this->face);
 	Save::Instance()->Write(this->m_offset + 0x07, this->eyeColor);
 
-	// Was for Testing purpose of writing an Item to slot 1 of the pocket.
-//	Save::Instance()->Write(this->m_offset + 0x6BD0 + 0 * 4, this->testItem); // Don't write Items for now.
-
 	this->BankAmount.encrypt(encryptedInt, encryptionData);
 	Save::Instance()->Write(this->m_offset + 0x6b8c, encryptedInt);
 	Save::Instance()->Write(this->m_offset + 0x6b90, encryptionData);
@@ -173,6 +170,10 @@ void Player::Write() {
 
 	for (int i = 0; i < 360; i++) {
 		this->Storage[i]->Write();
+	}
+
+	for (u32 i = 0; i < 10; i++) {
+		//this->Patterns[i]->Write();
 	}
 }
 

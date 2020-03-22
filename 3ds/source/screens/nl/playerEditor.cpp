@@ -250,7 +250,7 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					screen = 3;
 					break;
 				case 3:
-					Gui::setScreen(std::make_unique<PatternEditor>());
+					Gui::setScreen(std::make_unique<PatternEditor>(0));
 					break;
 				case 4:
 					Gui::setScreen(std::make_unique<BadgeEditor>());
@@ -268,7 +268,7 @@ void PlayerEditor::MainEditorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Selection = 0;
 			screen = 3;
 		} else if (touching(touch, playerButtons[3])) {
-			Gui::setScreen(std::make_unique<PatternEditor>());
+			Gui::setScreen(std::make_unique<PatternEditor>(0));
 		} else if (touching(touch, playerButtons[4])) {
 			Gui::setScreen(std::make_unique<BadgeEditor>());
 		}

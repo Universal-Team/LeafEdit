@@ -91,6 +91,11 @@ Shop::Shop() {
 	for (int i = 0; i < 2; i++) {
 		this->Harvey[i] = std::make_shared<Item>(0x06AE54 + i * sizeof(Item));
 	}
+
+	// Able sister pattern.
+	for (u32 i = 0; i < 8; i++) {
+		this->Patterns[i] = std::make_shared<Pattern>(0x62338 + i * 0x870, i);
+	}
 }
 
 // Delete all and set to nullptr.
@@ -110,5 +115,9 @@ void Shop::Write() {
 		this->PMPrice[i].encrypt(encryptedInt, encryptionData);
 		Save::Instance()->Write(0x06ADE0+i*16+8, encryptedInt);
 		Save::Instance()->Write(0x06ADE0+i*16+8+4, encryptionData);
+	}
+
+	for (u32 i = 0; i < 8; i++) {
+		//this->Patterns[i]->Write();
 	}
 }

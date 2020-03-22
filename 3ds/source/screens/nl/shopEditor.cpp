@@ -27,6 +27,7 @@
 #include "gui.hpp"
 #include "itemManagement.hpp"
 #include "keyboard.hpp"
+#include "patternEditor.hpp"
 #include "player.hpp"
 #include "save.hpp"
 #include "shop.hpp"
@@ -82,6 +83,8 @@ void ShopEditor::DrawSubMenu(void) const {
 	}
 	// Turnip editor. [Prices]
 	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8f, Lang::get("TURNIP_EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("TURNIP_EDITOR"), 130, 25);
+	// Pattern.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("PATTERN")))/2-20+17.5, 0.8, WHITE, Lang::get("PATTERN"), 130, 25);
 }
 
 void ShopEditor::DrawTurnipScreen(void) const {
@@ -140,6 +143,9 @@ void ShopEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Selection = 0;
 				shopMode = 1;
 				break;
+			case 1:
+				Gui::setScreen(std::make_unique<PatternEditor>(1));
+				break;
 		}
 	}
 
@@ -168,6 +174,8 @@ void ShopEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, mainButtons[0])) {
 			Selection = 0;
 			shopMode = 1;
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<PatternEditor>(1));
 		}
 	}
 }
