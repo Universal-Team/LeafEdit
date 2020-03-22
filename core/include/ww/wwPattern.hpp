@@ -38,8 +38,13 @@ class WWPlayer;
 
 class WWPattern {
 public:
+	WWPattern();
 	WWPattern(WWPlayer *player, u32 id);
+	WWPattern(u32 offset, u32 id);
 	~WWPattern();
+
+	void ReadPlayer();
+	void ReadShop();
 
 	std::u16string CreatorName;
 	std::u16string Name;
@@ -52,7 +57,6 @@ public:
 
 	const u32 Index;
 	const u32 Offset;
-
 private:
 };
 

@@ -1,25 +1,25 @@
 /*
-MIT License
-This file is part of NLTK
-Copyright (c) 2018-2019 Slattz, Cuyler
+	MIT License
+	This file is part of NLTK
+	Copyright (c) 2018-2019 Slattz, Cuyler
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include "player.hpp"
@@ -52,9 +52,33 @@ static const u32 PaletteColors[] = {
 	0xAAFFAAFF, 0x77FF77FF, 0x66DD44FF, 0x00FF00FF, 0x22DD22FF, 0x55BB55FF, 0x00BB00FF, 0x008800FF, 0x224422FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
 };
 
-Pattern::Pattern(Player *player, u32 id) :
-	Index(id), Offset(player->m_offset + 0x2C + id * 0x870)
-{
+Pattern::Pattern() : Index(0), Offset(0) { }
+
+Pattern::Pattern(u32 offset, u32 id): Index(id), Offset(offset) {
+	ReadShop();
+}
+
+Pattern::Pattern(Player *player, u32 id) : Index(id), Offset(player->m_offset + 0x2C + id * 0x870) {
+	ReadPlayer();
+}
+
+// TODO: Check this.
+void Pattern::ReadShop() {
+	Name = Save::Instance()->ReadString(Offset, 20);
+	CreatorId = Save::Instance()->ReadU16(Offset + 0x2A);
+	CreatorName = Save::Instance()->ReadString(Offset + 0x2C, 8);
+	CreatorGender = Save::Instance()->ReadU16(Offset + 0x3E);
+	OriginatingTownId = Save::Instance()->ReadU16(Offset + 0x40);
+	OriginatingTownName = Save::Instance()->ReadString(Offset + 0x42, 8);
+	Save::Instance()->ReadArray(Palette.data(), Offset + 0x58, 16);
+	Type = (DesignType)(Save::Instance()->ReadU8(Offset + 0x69) & 9); // TODO: Check the real max disgn type value and limit it to that.
+	Save::Instance()->ReadArray(PatternData.data(), Offset + 0x6C, 0x800);
+	#ifdef _3DS
+	Decompress();
+	#endif
+}
+
+void Pattern::ReadPlayer() {
 	Name = Save::Instance()->ReadString(Offset, 20);
 	CreatorId = Save::Instance()->ReadU16(Offset + 0x2A);
 	CreatorName = Save::Instance()->ReadString(Offset + 0x2C, 8);
@@ -88,6 +112,7 @@ void Pattern::TakeOwnership(Player *player) {
 	OriginatingTownName = player->TownName;
 }
 
+// Do the offsets only count for Players? Or for all?
 void Pattern::Write() {
 	#ifdef _3DS
 	Compress();

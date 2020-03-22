@@ -51,14 +51,37 @@ static const u32 PaletteColors[] = {
 };
 
 // Needs checking.
-WWPattern::WWPattern(WWPlayer *player, u32 id) : Index(id), Offset(player->m_offset + 0 + id * 0x228)
-{
+void WWPattern::ReadPlayer() {
 	this->TownName = WWSave::Instance()->ReadString(Offset + 0x202, 7, false);
 	this->CreatorName = WWSave::Instance()->ReadString(Offset + 0x20C, 7, false);
 	this->Name = WWSave::Instance()->ReadString(Offset + 0x216, 15, false);
 	this->Palette = (u8)((WWSave::Instance()->ReadU8(Offset + 0x226) & 0xF0) >> 4);
 	this->Concept = (u8)(WWSave::Instance()->ReadU8(Offset + 0x226) & 0x0F);
 	this->PaletteData = PaletteColors[this->Palette];
+}
+
+// Needs checking.
+void WWPattern::ReadShop() {
+	this->TownName = WWSave::Instance()->ReadString(Offset + 0x202, 7, false);
+	this->CreatorName = WWSave::Instance()->ReadString(Offset + 0x20C, 7, false);
+	this->Name = WWSave::Instance()->ReadString(Offset + 0x216, 15, false);
+	this->Palette = (u8)((WWSave::Instance()->ReadU8(Offset + 0x226) & 0xF0) >> 4);
+	this->Concept = (u8)(WWSave::Instance()->ReadU8(Offset + 0x226) & 0x0F);
+	this->PaletteData = PaletteColors[this->Palette];
+}
+
+WWPattern::WWPattern()  : Index(0), Offset(0) { }
+
+// Needs checking.
+WWPattern::WWPattern(u32 offset, u32 id) : Index(id), Offset(offset)
+{
+	ReadShop();
+}
+
+// Needs checking.
+WWPattern::WWPattern(WWPlayer *player, u32 id) : Index(id), Offset(player->m_offset + 0 + id * 0x228)
+{
+	ReadPlayer();
 }
 
 WWPattern::~WWPattern() { }
