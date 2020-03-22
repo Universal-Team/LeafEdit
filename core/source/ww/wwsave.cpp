@@ -242,7 +242,7 @@ bool WWSave::Commit(bool close) {
 	WWChecksum::UpdateChecksum(reinterpret_cast<u16*>(m_saveBuffer), 0x15FE0 / sizeof(u16));
 	WWSave::Instance()->Write(0x15FE0, m_saveBuffer, 0x15FE0);
 	FILE *sF = fopen(m_saveFile.c_str(), "rb+");
-
+  
 	bool res = R_SUCCEEDED(fwrite(m_saveBuffer, 1, m_saveSize, sF));
 
 	if (res) {

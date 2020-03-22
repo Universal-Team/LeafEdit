@@ -60,6 +60,8 @@ steps:
     git config --global user.name "TWLBot"
     git clone --depth 1 https://$GITHUB_TOKEN@github.com/Universal-Team/extras.git
     mkdir extras/builds/LeafEdit/
+    qrencode -o extras/builds/LeafEdit/LeafEdit-release.png https://github.com/Universal-Team/LeafEdit/releases/download/$(git describe --abbrev=0 --tags)/LeafEdit.cia
+    qrencode -o extras/builds/LeafEdit/LeafEdit-release.nds.png https://github.com/Universal-Team/LeafEdit/releases/download/$(git describe --abbrev=0 --tags)/LeafEdit.nds.cia
     cd extras/builds/LeafEdit/
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.3dsx .
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.cia .
@@ -67,8 +69,6 @@ steps:
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds.cia .
     qrencode -o LeafEdit.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.cia
     qrencode -o LeafEdit.nds.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.nds.cia
-    qrencode -o LeafEdit-release.png https://github.com/Universal-Team/LeafEdit/releases/download/$(git describe --abbrev=0 --tags)/LeafEdit.cia
-    qrencode -o LeafEdit-release.nds.png https://github.com/Universal-Team/LeafEdit/releases/download/$(git describe --abbrev=0 --tags)/LeafEdit.nds.cia
     git stage .
     git commit -m "LeafEdit | $(COMMIT_TAG)"
     git push origin master
