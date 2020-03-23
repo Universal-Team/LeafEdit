@@ -118,6 +118,11 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 								ReleaseAvailable = false;
 							}
 						}
+					} else {
+						if (Download::updateApp(false) == 0) {
+							Config::currentRelease = latestRelease.Version;
+							ReleaseAvailable = false;
+						}
 					}
 				} else {
 					// Still allow updating even if not checked, but with no version set.
@@ -132,6 +137,11 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 								Config::currentNightly = latestNightly.Target;
 								NightlyAvailable = false;
 							}
+						}
+					} else {
+						if (Download::updateApp(true) == 0) {
+							Config::currentNightly = latestNightly.Target;
+							NightlyAvailable = false;
 						}
 					}
 				} else {
@@ -155,6 +165,11 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 							ReleaseAvailable = false;
 						}
 					}
+				} else {
+					if (Download::updateApp(false) == 0) {
+						Config::currentRelease = latestRelease.Version;
+						ReleaseAvailable = false;
+					}
 				}
 			} else {
 				// Still allow updating even if not checked, but with no version set.
@@ -168,6 +183,11 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 							Config::currentNightly = latestNightly.Target;
 							NightlyAvailable = false;
 						}
+					}
+				} else {
+					if (Download::updateApp(true) == 0) {
+						Config::currentNightly = latestNightly.Target;
+						NightlyAvailable = false;
 					}
 				}
 			} else {
