@@ -6,7 +6,7 @@
 	"AM": "AM",
 	"APPEARANCE": "Apariencia",
 	"APPJUMP_FAILED": "Error al cambiar de app!",
-	"ASSETS_NOT_FOUND": "Assets not found! Cannot load Editor.\n\nMake sure you have the Assets inside 'sdmc:/LeafEdit/assets/'.",
+	"ASSETS_NOT_FOUND": "Assets encontrados! No se puede cargar el Editor.\n\nAsegúrese de que tiene los Assets dentro de 'sdmc:/LeafEdit/assets/'.",
 	"B_BACK": ": Atrás",
 	"BACKUP_BEFORE_RESTORE": "¿Quieres hacer una copia de seguridad de\n este pueblo antes de restaurar el seleccionado?",
 	"BACKUP_FILES": "Guardando archivos, espera por favor...",
