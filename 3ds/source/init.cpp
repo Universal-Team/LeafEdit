@@ -74,6 +74,23 @@ bool FontHasLoaded	  = false;
 bool Debug = true;
 bool GodMode = true;
 
+bool is3dsx;
+bool Is3dsxUpdated = false;
+std::string path3dsx;
+
+// Return if current use is CIA or 3DSX.
+void getCurrentUsage(){
+	u64 id;
+	APT_GetProgramID(&id);
+
+	if(id == 0x0004000004392100){
+		is3dsx = false;
+		return;
+	}
+
+	is3dsx = true;
+}
+
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
@@ -249,6 +266,18 @@ Result Init::Init() {
 	// Only Load Font if found, else load System font.
 	loadFont();
 	checkForWelcomeAmiibo();
+
+	getCurrentUsage();
+	char path[PATH_MAX];
+	getcwd(path, PATH_MAX);
+	if (is3dsx == true) {
+			path3dsx = path;
+			if (path3dsx == "sdmc:/") {
+				path3dsx = path3dsx.substr(5, path3dsx.size());
+			} else {
+		}
+	}
+
 	return 0;
 }
 
@@ -280,7 +309,7 @@ Result Init::MainLoop() {
 	Initialize();
 
 	// Loop as long as the status is not exiting.
-	while (aptMainLoop() && !exiting)
+	while (aptMainLoop() && !exiting && !Is3dsxUpdated)
 	{
 		hidScanInput();
 		u32 hHeld = hidKeysHeld();

@@ -61,10 +61,10 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				Download::updateRelease();
+				Download::updateApp(false);
 				break;
 			case 1:
-				Download::updateNightly();
+				Download::updateApp(true);
 				break;
 			case 2:
 				Download::downloadAssets();
@@ -74,9 +74,9 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Download::updateRelease();
+			Download::updateApp(false);
 		} else if (touching(touch, mainButtons[1])) {
-			Download::updateNightly();
+			Download::updateApp(true);
 		} else if (touching(touch, mainButtons[2])) {
 			Download::downloadAssets();
 		}

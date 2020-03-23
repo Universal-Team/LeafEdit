@@ -79,8 +79,7 @@ std::string getLatestCommit(std::string repo, std::string array, std::string ite
 // LeafEdit's namespace for Downloads.
 namespace Download {
 	void downloadAssets(void);
-	void updateNightly();
-	void updateRelease();
+	void updateApp(bool nightly);
 }
 
 #endif
