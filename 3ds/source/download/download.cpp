@@ -504,17 +504,26 @@ ReleaseFetch getLatestRelease()
 	} else {
 		RF.ReleaseName = "";
 	}
+	
 	if (parsedAPI["tag_name"].is_string()) {
 		RF.Version = parsedAPI["tag_name"];
 	} else {
 		RF.Version = "";
 	}
+
 	if (parsedAPI["body"].is_string()) {
 		RF.Body = parsedAPI["body"];
 	} else {
 		RF.Body = "";
 	}
-	
+
+	if (parsedAPI["published_at"].is_string()) {
+		std::string Test = parsedAPI["published_at"];
+		RF.Published = Test.substr(0, 10) + "  " + Test.substr(11, 8);
+	} else {
+		RF.Published = "";
+	}
+
 
 	socExit();
 	free(result_buf);
@@ -583,6 +592,19 @@ NightlyFetch getLatestCommit()
 	} else {
 		NF.Message = "";
 	}
+
+	if (parsedAPI["committer"]["login"].is_string()) {
+		NF.Committer = parsedAPI["committer"]["login"];
+	} else {
+		NF.Committer = "";
+	}
+
+	if (parsedAPI["author"]["login"].is_string()) {
+		NF.Author = parsedAPI["author"]["login"];
+	} else {
+		NF.Author = "";
+	}
+
 	if (parsedAPI["sha"].is_string()) {
 		std::string Temp = parsedAPI["sha"];
 		NF.Target = Temp.substr(0,7);

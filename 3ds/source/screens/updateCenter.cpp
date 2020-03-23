@@ -55,12 +55,15 @@ void UpdateCenter::Draw(void) const
 
 	// Display some Informations. :)
 	if (Selection == 0) {
-		Gui::DrawStringCentered(0, 50, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestRelease.Version, 395);
-		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, latestRelease.ReleaseName, 395);
+		Gui::DrawStringCentered(0, 60, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestRelease.Version, 395);
+		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("PUBLISHED_AT") + latestRelease.Published, 395, 90);
+		Gui::DrawStringCentered(0, 100, 0.8f, WHITE, latestRelease.ReleaseName, 395);
 		Gui::DrawStringCentered(0, 215, 0.8f, WHITE, Lang::get("CURRENT_VERSION") + Config::currentRelease, 395);
 	} else if (Selection == 1) {
-		Gui::DrawStringCentered(0, 50, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestNightly.Target, 395);
-		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, latestNightly.Message, 395, 90);
+		Gui::DrawStringCentered(0, 40, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestNightly.Target, 395);
+		Gui::DrawStringCentered(0, 60, 0.8f, WHITE, Lang::get("COMMITTED_BY") + latestNightly.Committer, 395, 90);
+		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("AUTHORED_BY") + latestNightly.Author, 395, 90);
+		Gui::DrawStringCentered(0, 100, 0.8f, WHITE, latestNightly.Message, 395, 90);
 		Gui::DrawStringCentered(0, 215, 0.8f, WHITE, Lang::get("CURRENT_VERSION") + Config::currentNightly, 395);
 	}
 

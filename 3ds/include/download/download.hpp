@@ -43,12 +43,15 @@ enum DownloadError {
 struct NightlyFetch {
 	std::string Message;
 	std::string Target;
+	std::string Committer;
+	std::string Author;
 };
 
 struct ReleaseFetch {
 	std::string Version;
 	std::string ReleaseName;
 	std::string Body;
+	std::string Published;
 };
 
 Result downloadToFile(std::string url, std::string path);

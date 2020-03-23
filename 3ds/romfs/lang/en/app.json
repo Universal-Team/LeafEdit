@@ -7,6 +7,7 @@
 	"APPEARANCE":					"Appearance",
 	"APPJUMP_FAILED":				"Failed to do app jump!",
 	"ASSETS_NOT_FOUND":				"Assets not found! Cannot load Editor.\n\nMake sure you have the Assets inside 'sdmc:/LeafEdit/assets/'.",
+	"AUTHORED_BY":					"Authored by: ",
 
 	"B_BACK":						"\uE001: Back",
 	"BACKUP_BEFORE_RESTORE":		"Would you like to backup the current town\nbefore restoring the selected one?",
@@ -37,6 +38,7 @@
 	"CLEAR_WALLET":					"Clear Wallet",
 	"COLORMODE":					"Color mode",
 	"COMMIT_SAVEDATA_FAILED":		"Failed to write save data!",
+	"COMMITTED_BY":					"Committed by: ",
 	"CONFIRM_OR_CANCEL":			"Press A to confirm or B to cancel.",
 	"COPY_DIRECTORY_FAILED":		"Copying files failed!",
 	"COUPON_AMOUNT":				"Coupon Amount",
@@ -180,6 +182,7 @@
 	"PREPARING_EDITOR":				"Preparing Editor... please wait.",
 	"PREPARING_ISLAND_EDITOR":		"Preparing Island Map Editor... please wait.",
 	"PREPARING_TOWN_EDITOR":		"Preparing Town Map Editor... please wait.",
+	"PUBLISHED_AT":					"Published at: ",
 	
 	"RAW_SAVES":					"Raw Saves",
 	"READ_MODE":					"Read Mode",
