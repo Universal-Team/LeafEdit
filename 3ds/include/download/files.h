@@ -1,6 +1,6 @@
 /*
-*   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   This file is part of Universal-Updater
+*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,28 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#pragma once
 
-#include <3ds.h>
+#include "common.hpp"
 
-namespace Init {
-	// Load & Unload NL/WW Sheets & Font.
-	Result loadNLSheets();
-	Result loadWWSheets();
-	Result loadFont();
-	Result unloadNLSheets();
-	Result unloadWWSheets();
-	Result unloadFont();
-	
-	void checkForWelcomeAmiibo();
-	Result CheckSheets(int Mode);
+#define WORKING_DIR	"/"
 
-	// Init, Mainloop & Exit.
-	Result Init();
-	Result Initialize();
-	Result MainLoop();
-	Result Exit();
-}
-
-#endif
+Result makeDirs(const char * path);
+Result openFile(Handle* fileHandle, const char * path, bool write);
+Result deleteFile(const char * path);
+Result removeDir(const char * path);
+Result removeDirRecursive(const char * path);

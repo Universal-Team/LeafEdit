@@ -28,6 +28,7 @@
 #include "mainMenu.hpp"
 #include "screenCommon.hpp"
 #include "settings.hpp"
+#include "updateCenter.hpp"
 
 extern int fadealpha;
 extern bool fadein;
@@ -40,21 +41,40 @@ void MainMenu::Draw(void) const
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	GFX::DrawBottom();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 6; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
 		if (Selection == i) {
 			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
 		}
 	}
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("EDITOR")))/2-20+17.5, 0.8, WHITE, Lang::get("EDITOR"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("SETTINGS")))/2+75-17.5, 0.8, WHITE, Lang::get("SETTINGS"), 130, 25);
+
+	// Town Manager.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
+	// Settings.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("SETTINGS")))/2-20+17.5, 0.8, WHITE, Lang::get("SETTINGS"), 130, 25);
+	// Unknown.
+	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "?"))/2+75-17.5, 0.8, WHITE, "?", 130, 25);
+	// Editor.
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("EDITOR"), 130, 25);
+	// Update Center.
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("UPDATE_CENTER")))/2-20+17.5, 0.8, WHITE, Lang::get("UPDATE_CENTER"), 130, 25);
+	// Unknown
+	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, "?"))/2+75-17.5, 0.8, WHITE, "?", 130, 25);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	SelectionLogic(hDown, hHeld);
+	// Navigation.
+	if(hDown & KEY_UP) {
+		if(Selection > 1)	Selection -= 2;
+	} else if(hDown & KEY_DOWN) {
+		if(Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
+	} else if (hDown & KEY_LEFT) {
+		if (Selection%2) Selection--;
+	} else if (hDown & KEY_RIGHT) {
+		if (!(Selection%2)) Selection++;
+	}
 
 	if (hDown & KEY_START) {
 		exiting = true;
@@ -73,6 +93,9 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 2:
 				Gui::setScreen(std::make_unique<Settings>());
 				break;
+			case 3:
+				Gui::setScreen(std::make_unique<UpdateCenter>());
+				break;
 		}
 	}
 
@@ -85,19 +108,12 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>());
+		} else if (touching(touch, mainButtons[3])) {
+			Gui::setScreen(std::make_unique<UpdateCenter>());
 		}
 	}
 
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
-	}
-}
-
-void MainMenu::SelectionLogic(u32 hDown, u32 hHeld)
-{
-	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
-	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
 	}
 }

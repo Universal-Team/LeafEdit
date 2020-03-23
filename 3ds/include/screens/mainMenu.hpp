@@ -40,12 +40,13 @@ public:
 
 private:
 	int Selection = 0;
-	void SelectionLogic(u32 hDown, u32 hHeld);
-
 	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // TownManager
-		{90, 100, 140, 35}, // Editor
-		{90, 160, 140, 35}, // Settings
+		{10, 40, 140, 35}, // Town Manager.
+		{170, 40, 140, 35}, // Editor.
+		{10, 100, 140, 35}, // Settings.
+		{170, 100, 140, 35}, // Update Center.
+		{10, 160, 140, 35}, // ?.	
+		{170, 160, 140, 35} // ?.
 	};
 };
 

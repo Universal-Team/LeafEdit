@@ -24,28 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#ifndef UPDATECENTER_HPP
+#define UPDATECENTER_HPP
 
-#include <3ds.h>
+#include "common.hpp"
+#include "structs.hpp"
 
-namespace Init {
-	// Load & Unload NL/WW Sheets & Font.
-	Result loadNLSheets();
-	Result loadWWSheets();
-	Result loadFont();
-	Result unloadNLSheets();
-	Result unloadWWSheets();
-	Result unloadFont();
-	
-	void checkForWelcomeAmiibo();
-	Result CheckSheets(int Mode);
+#include <vector>
 
-	// Init, Mainloop & Exit.
-	Result Init();
-	Result Initialize();
-	Result MainLoop();
-	Result Exit();
-}
+class UpdateCenter : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+
+private:
+	int Selection = 0;
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{90, 40, 140, 35}, // Release.
+		{90, 100, 140, 35}, // Nightly.
+		{90, 160, 140, 35}, // Assets.
+	};
+};
 
 #endif
