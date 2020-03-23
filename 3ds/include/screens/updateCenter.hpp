@@ -28,6 +28,7 @@
 #define UPDATECENTER_HPP
 
 #include "common.hpp"
+#include "download.hpp"
 #include "structs.hpp"
 
 #include <vector>
@@ -37,9 +38,17 @@ class UpdateCenter : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
+	UpdateCenter();
 private:
 	int Selection = 0;
+	void checkUpdate();
+	bool NightlyAvailable = false;
+	bool ReleaseAvailable = false;
+	bool changelogShown = false; // I have no clue if I keep that, lol.
+
+	ReleaseFetch latestRelease = {""};
+	NightlyFetch latestNightly = {""};
+
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{90, 40, 140, 35}, // Release.
 		{90, 100, 140, 35}, // Nightly.

@@ -449,24 +449,24 @@ void notConnectedMsg(void) {
 	}
 }
 
-std::string getLatestRelease(std::string repo, std::string item)
+ReleaseFetch getLatestRelease()
 {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
 	if (!socubuf)
 	{
-		return "";
+		return {""};
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
 	if (R_FAILED(ret))
 	{
 		free(socubuf);
-		return "";
+		return {""};
 	}
 
 	std::stringstream apiurlStream;
-	apiurlStream << "https://api.github.com/repos/" << repo << "/releases/latest";
+	apiurlStream << "https://api.github.com/repos/Universal-Team/LeafEdit/releases/latest";
 	std::string apiurl = apiurlStream.str();
 
 	CURL *hnd = curl_easy_init();
@@ -478,7 +478,7 @@ std::string getLatestRelease(std::string repo, std::string item)
 		result_buf = NULL;
 		result_sz = 0;
 		result_written = 0;
-		return "";
+		return {""};
 	}
 
 	CURLcode cres = curl_easy_perform(hnd);
@@ -495,14 +495,29 @@ std::string getLatestRelease(std::string repo, std::string item)
 		result_buf = NULL;
 		result_sz = 0;
 		result_written = 0;
-		return "";
+		return {""};
 	}
 
-	std::string jsonItem;
+	ReleaseFetch RF;
 	json parsedAPI = json::parse(result_buf);
-	if (parsedAPI[item].is_string()) {
-		jsonItem = parsedAPI[item];
+
+	if (parsedAPI["name"].is_string()) {
+		RF.ReleaseName = parsedAPI["name"];
+	} else {
+		RF.ReleaseName = "";
 	}
+	if (parsedAPI["tag_name"].is_string()) {
+		RF.Version = parsedAPI["tag_name"];
+	} else {
+		RF.Version = "";
+	}
+	if (parsedAPI["body"].is_string()) {
+		RF.Body = parsedAPI["body"];
+	} else {
+		RF.Body = "";
+	}
+	
+
 	socExit();
 	free(result_buf);
 	free(socubuf);
@@ -510,27 +525,27 @@ std::string getLatestRelease(std::string repo, std::string item)
 	result_sz = 0;
 	result_written = 0;
 
-	return jsonItem;
+	return RF;
 }
 
-std::string getLatestCommit(std::string repo, std::string item)
+NightlyFetch getLatestCommit()
 {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
 	if (!socubuf)
 	{
-		return "";
+		return {""};
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
 	if (R_FAILED(ret))
 	{
 		free(socubuf);
-		return "";
+		return {""};
 	}
 
 	std::stringstream apiurlStream;
-	apiurlStream << "https://api.github.com/repos/" << repo << "/commits/master";
+	apiurlStream << "https://api.github.com/repos/Universal-Team/LeafEdit/commits/master";
 	std::string apiurl = apiurlStream.str();
 
 	CURL *hnd = curl_easy_init();
@@ -542,7 +557,7 @@ std::string getLatestCommit(std::string repo, std::string item)
 		result_buf = NULL;
 		result_sz = 0;
 		result_written = 0;
-		return "";
+		return {""};
 	}
 
 	CURLcode cres = curl_easy_perform(hnd);
@@ -559,14 +574,24 @@ std::string getLatestCommit(std::string repo, std::string item)
 		result_buf = NULL;
 		result_sz = 0;
 		result_written = 0;
-		return "";
+		return {""};
 	}
 
-	std::string jsonItem;
+	NightlyFetch NF;
 	json parsedAPI = json::parse(result_buf);
-	if (parsedAPI[item].is_string()) {
-		jsonItem = parsedAPI[item];
+
+	if (parsedAPI["commit"]["message"].is_string()) {
+		NF.Message = parsedAPI["commit"]["message"];
+	} else {
+		NF.Message = "";
 	}
+	if (parsedAPI["sha"].is_string()) {
+		std::string Temp = parsedAPI["sha"];
+		NF.Target = Temp.substr(0,7);
+	} else {
+		NF.Target = "";
+	}
+
 	socExit();
 	free(result_buf);
 	free(socubuf);
@@ -574,78 +599,117 @@ std::string getLatestCommit(std::string repo, std::string item)
 	result_sz = 0;
 	result_written = 0;
 
-	return jsonItem;
-}
-
-std::string getLatestCommit(std::string repo, std::string array, std::string item)
-{
-	Result ret = 0;
-	void *socubuf = memalign(0x1000, 0x100000);
-	if (!socubuf)
-	{
-		return "";
-	}
-
-	ret = socInit((u32*)socubuf, 0x100000);
-	if (R_FAILED(ret))
-	{
-		free(socubuf);
-		return "";
-	}
-
-	std::stringstream apiurlStream;
-	apiurlStream << "https://api.github.com/repos/" << repo << "/commits/master";
-	std::string apiurl = apiurlStream.str();
-
-	CURL *hnd = curl_easy_init();
-	ret = setupContext(hnd, apiurl.c_str());
-	if (ret != 0) {
-		socExit();
-		free(result_buf);
-		free(socubuf);
-		result_buf = NULL;
-		result_sz = 0;
-		result_written = 0;
-		return "";
-	}
-
-	CURLcode cres = curl_easy_perform(hnd);
-	curl_easy_cleanup(hnd);
-	char* newbuf = (char*)realloc(result_buf, result_written + 1);
-	result_buf = newbuf;
-	result_buf[result_written] = 0; //nullbyte to end it as a proper C style string
-
-	if (cres != CURLE_OK) {
-		printf("Error in:\ncurl\n");
-		socExit();
-		free(result_buf);
-		free(socubuf);
-		result_buf = NULL;
-		result_sz = 0;
-		result_written = 0;
-		return "";
-	}
-
-	std::string jsonItem;
-	json parsedAPI = json::parse(result_buf);
-	if (parsedAPI[array][item].is_string()) {
-		jsonItem = parsedAPI[array][item];
-	}
-	socExit();
-	free(result_buf);
-	free(socubuf);
-	result_buf = NULL;
-	result_sz = 0;
-	result_written = 0;
-
-	return jsonItem;
+	return NF;
 }
 
 extern bool is3dsx;
 extern bool Is3dsxUpdated;
 extern std::string path3dsx;
 
-void Download::updateApp(bool nightly) {
+void setMessageText(const std::string &text) {
+	std::string _topTextStr(text);
+	std::vector<std::string> words;
+	std::size_t pos;
+	// std::replace( _topTextStr.begin(), _topTextStr.end(), '\n', ' ');
+	_topTextStr.erase(std::remove(_topTextStr.begin(), _topTextStr.end(), '\r'), _topTextStr.end());
+	while((pos = _topTextStr.find(' ')) != std::string::npos) {
+		words.push_back(_topTextStr.substr(0, pos));
+		_topTextStr = _topTextStr.substr(pos + 1);
+	}
+	if(_topTextStr.size())
+		words.push_back(_topTextStr);
+	std::string temp;
+	_topText.clear();
+	for(auto word : words) {
+		int width = Gui::GetStringWidth(0.7f, (temp + " " + word).c_str());
+		if(word.find('\n') != -1u)
+		{
+			word.erase(std::remove(word.begin(), word.end(), '\n'), word.end());
+			temp += " " + word;
+			_topText.push_back(temp);
+			temp = "";
+		}
+		else if(width > 350)
+		{
+			_topText.push_back(temp);
+			temp = word;
+		}
+		else
+		{
+			temp += " " + word;
+		}
+	}
+	if(temp.size())
+		_topText.push_back(temp);
+}
+
+void drawMessageText(int position) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, TRANSPARENT);
+	Gui::ScreenDraw(Top);
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("RELEASE_NOTES"), 400);
+	Gui::DrawString(0, 25, 0.7, WHITE, jsonName.c_str(), 395);
+	for (int i = 0; i < (int)_topText.size() && i < (10); i++) {
+		Gui::DrawString(0, ((i * 16) + 40), 0.7f, WHITE, _topText[i+position].c_str(), 395);
+	}
+	C3D_FrameEnd(0);
+}
+
+bool Download::showReleaseInfo(ReleaseFetch RF) {
+	setMessageText(RF.Body);
+	int textPosition = 0;
+	bool redrawText = true;
+
+	while(1) {
+		if(redrawText) {
+			drawMessageText(textPosition);
+			redrawText = false;
+		}
+
+		gspWaitForVBlank();
+		hidScanInput();
+		const u32 hDown = hidKeysDown();
+		const u32 hHeld = hidKeysHeld();
+
+		if(hHeld & KEY_UP || hHeld & KEY_DOWN) {
+			for(int i=0;i<10;i++)
+				gspWaitForVBlank();
+		}
+
+		if(hDown & KEY_A) {
+			return true;
+		} else if(hDown & KEY_B || hDown & KEY_Y || hDown & KEY_TOUCH) {
+			return false;
+		} else if(hHeld & KEY_UP) {
+			if(textPosition > 0) {
+				textPosition--;
+				redrawText = true;
+			}
+		} else if(hHeld & KEY_DOWN) {
+			if(textPosition < (int)(_topText.size() - 10)) {
+				textPosition++;
+				redrawText = true;
+			}
+		}
+	}
+}
+
+// Return latest Release & Nightly states.
+ReleaseFetch Download::getLatestRelease2(void) {
+	ReleaseFetch RF;
+	RF = getLatestRelease();
+	return RF;
+}
+
+NightlyFetch Download::getLatestNightly(void) {
+	NightlyFetch NF;
+	NF = getLatestCommit();
+	return NF;
+}
+
+Result Download::updateApp(bool nightly) {
 	static bool success = false;
 	if(nightly) {
 		if (is3dsx == false) {
@@ -656,7 +720,7 @@ void Download::updateApp(bool nightly) {
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "/LeafEdit/LeafEdit.cia") != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
-				return;
+				return -1;
 			}
 			showProgressBar = false;
 			Msg::DisplayMsg(Lang::get("INSTALLING_CIA"));
@@ -672,7 +736,7 @@ void Download::updateApp(bool nightly) {
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.3dsx?raw=true", path3dsx + "LeafEdit.3dsx") != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
-				return;
+				return -1;
 			}
 			showProgressBar = false;
 			success = true;
@@ -687,7 +751,7 @@ void Download::updateApp(bool nightly) {
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "/LeafEdit/LeafEdit.cia", false) != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
-				return;
+				return -1;
 			}
 			showProgressBar = false;
 			Msg::DisplayMsg(Lang::get("INSTALLING_CIA"));
@@ -703,7 +767,7 @@ void Download::updateApp(bool nightly) {
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.3dsx", path3dsx + "LeafEdit.3dsx", false) != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
-				return;
+				return -1;
 			}
 			showProgressBar = false;
 			success = true;
@@ -716,6 +780,7 @@ void Download::updateApp(bool nightly) {
 		}
 	}
 	success = false;
+	return 0;
 }
 
 void Download::downloadAssets(void) {

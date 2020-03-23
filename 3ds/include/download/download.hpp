@@ -40,6 +40,17 @@ enum DownloadError {
 	DL_ERROR_GIT,
 };
 
+struct NightlyFetch {
+	std::string Message;
+	std::string Target;
+};
+
+struct ReleaseFetch {
+	std::string Version;
+	std::string ReleaseName;
+	std::string Body;
+};
+
 Result downloadToFile(std::string url, std::string path);
 Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases);
 
@@ -51,35 +62,20 @@ void displayProgressBar();
  */
 bool checkWifiStatus(void);
 
-/**
- * Get info from the GitHub API about a Release.
- * repo is where to get from. (Ex. "RocketRobz/TWiLightMenu")
- * item is that to get from the API. (Ex. "tag_name")
- * @return the string from the API.
- */
-std::string getLatestRelease(std::string repo, std::string item);
 
-/**
- * Get info from the GitHub API about a Commit.
- * repo is where to get from. (Ex. "RocketRobz/TWiLightMenu")
- * item is that to get from the API. (Ex. "sha")
- * @return the string from the API.
- */
-std::string getLatestCommit(std::string repo, std::string item);
+ReleaseFetch getLatestRelease();
 
-/**
- * Get info from the GitHub API about a Commit.
- * repo is where to get from. (Ex. "RocketRobz/TWiLightMenu")
- * array is the array the item is in. (Ex. "commit")
- * item is that to get from the API. (Ex. "message")
- * @return the string from the API.
- */
-std::string getLatestCommit(std::string repo, std::string array, std::string item);
+NightlyFetch getLatestCommit();
 
 // LeafEdit's namespace for Downloads.
 namespace Download {
 	void downloadAssets(void);
-	void updateApp(bool nightly);
+	Result updateApp(bool nightly);
+
+	ReleaseFetch getLatestRelease2();
+	NightlyFetch getLatestNightly();
+
+	bool showReleaseInfo(ReleaseFetch RF);
 }
 
 #endif

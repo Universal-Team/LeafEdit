@@ -213,6 +213,7 @@ Result Init::Init() {
 	gfxInitDefault();
 	romfsInit();
 	amInit();
+	acInit();
 	Archive::init();
 	Gui::init();
 
@@ -349,5 +350,6 @@ Result Init::Exit() {
 	gfxExit();
 	romfsExit();
 	amExit();
+	acExit();
 	return 0;
 }

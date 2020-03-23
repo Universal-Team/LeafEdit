@@ -30,6 +30,7 @@
 	"CARD":							"Gamecard",
 	"CATCHPHRASE":					"Catchphrase",
 	"CHANGE_VILLAGER_LR":			"Press Left/Right to change the Villager.",
+	"CHECK_LEAFEDIT_UPDATES":		"Do you like to check for Updates?",
 	"CLEAR_BANK":					"Clear Bank",
 	"CLEAR_COUPONS":				"Clear Coupons",
 	"CLEAR_MEDALS":					"Clear Medals",
@@ -94,6 +95,7 @@
 	"EYE_COLOR":					"Eye Color",
 	
 	"FACE":							"Face",
+	"FETCHING_UPDATES":				"Fetching Updates...",
 	"FIND_BACKUP":					"You can find your backup at:\n\n%s",
 	"FILE_EXTRACTED":				"file extracted.",
 	"FILES_EXTRACTED":				"files extracted.",
@@ -127,6 +129,7 @@
 	"KOREA":						"Korea",
 
 	"LANGUAGE":						"Language",
+	"LATEST_VERSION":				"Latest Version: ",
 	"LAUNCH_TOWN":					"Launch Town",
 	"LAUNCH_TOWN_POPUP_A":			"Do you want to launch this town?",
 	"LAUNCH_TOWN_POPUP_X":			"Do you want to start this game normally?",
@@ -182,6 +185,7 @@
 	"READ_MODE":					"Read Mode",
 	"REFRESH":						"Press Start to Refresh the FileBrowse.",
 	"REGION_SELECT":				"Select the region of your game.",
+	"RELEASE_NOTES":				"Release Notes",
 	"REPLACE":						"Replace",
 	"RESTORE_SUCCESS":				"Restore succeeded!",
 	"RESTORE_TOWN":					"Restore Town",

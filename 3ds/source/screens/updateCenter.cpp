@@ -24,25 +24,57 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "download.hpp"
 #include "updateCenter.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+UpdateCenter::UpdateCenter() {
+	if (checkWifiStatus() == true) {
+		if (Msg::promptMsg(Lang::get("CHECK_LEAFEDIT_UPDATES"))) {
+			Msg::DisplayMsg(Lang::get("FETCHING_UPDATES"));
+			checkUpdate();
+		}
+	}
+}
+
+void UpdateCenter::checkUpdate() {
+	// Get Latest Release & Nightly.
+	latestRelease = Download::getLatestRelease2();
+	latestNightly = Download::getLatestNightly();
+	// Check if Nightly & Release matches.
+	if (Config::currentRelease != latestRelease.Version)	ReleaseAvailable = true;
+	if (Config::currentNightly != latestNightly.Target)		NightlyAvailable = true;
+}
+
 
 void UpdateCenter::Draw(void) const
 {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400);
+
+	// Display some Informations. :)
+	if (Selection == 0) {
+		Gui::DrawStringCentered(0, 50, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestRelease.Version, 400);
+		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, latestRelease.ReleaseName, 400);
+		Gui::DrawStringCentered(0, 120, 0.8f, WHITE, Lang::get("CURRENT_VERSION") + Config::currentRelease, 400);
+	} else if (Selection == 1) {
+		Gui::DrawStringCentered(0, 50, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestNightly.Target, 400);
+		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, latestNightly.Message, 400);
+		Gui::DrawStringCentered(0, 120, 0.8f, WHITE, Lang::get("CURRENT_VERSION") + Config::currentNightly, 400);
+	}
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
-		if (Selection == i) {
-			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
-		}
 	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_RELEASE")))/2-80+17.5, 0.8, WHITE, Lang::get("DOWNLOAD_RELEASE"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_NIGHTLY")))/2-20+17.5, 0.8, WHITE, Lang::get("DOWNLOAD_NIGHTLY"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_ASSETS")))/2+75-17.5, 0.8, WHITE, Lang::get("DOWNLOAD_ASSETS"), 130, 25);
+
+	// Draw Dots.
+	if (ReleaseAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[0].x+130, mainButtons[0].y+18, LIGHT_COLOR, 1, 1);
+	if (NightlyAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[1].x+130, mainButtons[1].y+18, LIGHT_COLOR, 1, 1);
+	// Draw Pointer.
+	GFX::DrawSprite(sprites_pointer_idx, mainButtons[Selection].x+130, mainButtons[Selection].y+25);
 }
 
 
@@ -52,6 +84,20 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 	
+	if (hDown & KEY_X) {
+		if (checkWifiStatus() == true) {
+			if (Msg::promptMsg(Lang::get("CHECK_LEAFEDIT_UPDATES"))) {
+				Msg::DisplayMsg(Lang::get("FETCHING_UPDATES"));
+				checkUpdate();
+			}
+		}
+	}
+
+	if (hDown & KEY_Y) {
+		if (Selection == 0) {
+			changelogShown = Download::showReleaseInfo(latestRelease);
+		}
+	}
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	} else if (hDown & KEY_DOWN) {
@@ -61,10 +107,16 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				Download::updateApp(false);
+				if (Download::updateApp(false) == 0) {
+					Config::currentRelease = latestRelease.Version;
+					ReleaseAvailable = false;
+				}
 				break;
 			case 1:
-				Download::updateApp(true);
+				if (Download::updateApp(true) == 0) {
+					Config::currentNightly = latestNightly.Target;
+					NightlyAvailable = false;
+				}
 				break;
 			case 2:
 				Download::downloadAssets();
@@ -74,9 +126,15 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Download::updateApp(false);
+			if (Download::updateApp(false) == 0) {
+				Config::currentRelease = latestRelease.Version;
+				ReleaseAvailable = false;
+			}
 		} else if (touching(touch, mainButtons[1])) {
-			Download::updateApp(true);
+			if (Download::updateApp(true) == 0) {
+				Config::currentNightly = latestNightly.Target;
+				NightlyAvailable = false;
+			}
 		} else if (touching(touch, mainButtons[2])) {
 			Download::downloadAssets();
 		}
