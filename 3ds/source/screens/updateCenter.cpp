@@ -74,10 +74,10 @@ void UpdateCenter::Draw(void) const
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_ASSETS")))/2+75-17.5, 0.8, WHITE, Lang::get("DOWNLOAD_ASSETS"), 130, 25);
 
 	// Draw Dots.
-	if (ReleaseAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[0].x+130, mainButtons[0].y+18, LIGHT_COLOR, 1, 1);
-	if (NightlyAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[1].x+130, mainButtons[1].y+18, LIGHT_COLOR, 1, 1);
+	if (ReleaseAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[0].x+130, mainButtons[0].y-4, LIGHT_COLOR, 1, 1);
+	if (NightlyAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[1].x+130, mainButtons[1].y-4, LIGHT_COLOR, 1, 1);
 	// Draw Pointer.
-	GFX::DrawSprite(sprites_pointer_idx, mainButtons[Selection].x+133, mainButtons[Selection].y+23);
+	GFX::DrawSprite(sprites_pointer_idx, mainButtons[Selection].x+133, mainButtons[Selection].y);
 }
 
 

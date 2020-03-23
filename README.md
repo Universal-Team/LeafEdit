@@ -4,6 +4,10 @@ This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager &
 
 This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core).
 
+## Citra User
+
+To use LeafEdit completely you need to get the Assets package from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/LeafEdit-Assets.7z) or from the resources/assets/ folder. Put the Files from the Assets Package or the resources/assets folder to `sdmc:/LeafEdit/Assets/` and you should be fine.
+
 ## Compilation
 
 To build LeafEdit from source, you need devkitARM installed along with libctru, 3ds-curl, 3ds-libjpeg-turbo and 3ds-libarchive. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm`, `pacman -S 3ds-libjpeg-turbo` and lastly `pacman -S 3ds-libarchive --noconfirm`. Now that you have everything installed, you just need to run clone the repository and run `make`.
