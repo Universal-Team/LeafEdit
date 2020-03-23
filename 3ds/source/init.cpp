@@ -70,6 +70,7 @@ C2D_SpriteSheet WWVillagers;
 bool NLSheetHasLoaded = false;
 bool WWSheetHasLoaded = false;
 bool FontHasLoaded	  = false;
+bool changesMade	  = false;
 
 // GodMode and whatnot.
 bool Debug = true;
@@ -348,7 +349,7 @@ Result Init::Exit() {
 	// Unload all sheets, because you don't know, if people exit properly like they should.
 	unloadNLSheets();
 	unloadWWSheets();
-	Config::save();
+	if (changesMade)	Config::save();
 	Archive::exit();
 	Gui::exit();
 	unloadFont();

@@ -35,6 +35,7 @@
 #include "screenCommon.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool changesMade;
 
 void Settings::Draw(void) const
 {
@@ -80,6 +81,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					break;
 				case 2:
 					Utils::colorLogic(Config::colorMode);
+					changesMade = true;
 					break;
 			}
 		}
@@ -91,6 +93,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<Credits>());
 			} else if (touching(touch, settingsButtons[2])) {
 				Utils::colorLogic(Config::colorMode);
+				changesMade = true;
 			}
 		}
 
@@ -152,6 +155,7 @@ void Settings::langScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Config::lang = i;
 				ItemManagement::LoadDatabase(Config::lang);
 				Lang::load(Config::lang);
+				changesMade = true;
 			}
 		}
 	}

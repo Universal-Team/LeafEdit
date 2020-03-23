@@ -65,14 +65,12 @@ using json = nlohmann::json;
 char progressBarMsg[128] = "";
 bool showProgressBar = false;
 bool progressBarType = 0; // 0 = Download | 1 = Extract
+extern bool changesMade;
 
-#define TIME_IN_US 1  
+#define TIME_IN_US 1
 #define TIMETYPE curl_off_t
 #define TIMEOPT CURLINFO_TOTAL_TIME_T
 #define MINIMAL_PROGRESS_FUNCTIONALITY_INTERVAL	3000000
-
-extern u32 progressBar;
-extern bool isScriptSelected;
 
 curl_off_t downloadTotal = 1; //Dont initialize with 0 to avoid division by zero later
 curl_off_t downloadNow = 0;
@@ -710,7 +708,7 @@ NightlyFetch Download::getLatestNightly(void) {
 }
 
 Result Download::updateApp(bool nightly) {
-	static bool success = false;
+	bool success = false;
 	if(nightly) {
 		if (is3dsx == false) {
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (CIA)").c_str());
@@ -724,6 +722,7 @@ Result Download::updateApp(bool nightly) {
 			}
 			showProgressBar = false;
 			Msg::DisplayMsg(Lang::get("INSTALLING_CIA"));
+			changesMade = true;
 			installCia("sdmc:/LeafEdit/LeafEdit.cia");
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
 			Msg::DisplayWarnMsg(Lang::get("DONE"));
@@ -755,6 +754,7 @@ Result Download::updateApp(bool nightly) {
 			}
 			showProgressBar = false;
 			Msg::DisplayMsg(Lang::get("INSTALLING_CIA"));
+			changesMade = true;
 			installCia("sdmc:/LeafEdit/LeafEdit.cia");
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
 			Msg::DisplayWarnMsg(Lang::get("DONE"));
@@ -775,6 +775,7 @@ Result Download::updateApp(bool nightly) {
 	}
 	Msg::DisplayWarnMsg(Lang::get("DONE"));
 	if (success == true) {
+		changesMade = true;
 		if (is3dsx == true) {
 			Is3dsxUpdated = true;
 		}
