@@ -26,6 +26,7 @@
 
 #include "archive.hpp"
 #include "config.hpp"
+#include "download.hpp"
 #include "init.hpp"
 #include "initial.hpp"
 #include "gameLoader.hpp"
@@ -191,7 +192,7 @@ Result Init::unloadWWSheets() {
 Result Init::loadFont() {
 	if (FontHasLoaded == false) {
 		if(access("sdmc:/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
-			Msg::DisplayWarnMsg("Font not found! Cannot load.");
+			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
 		} else {
 			Gui::loadFont(false, "sdmc:/LeafEdit/assets/font.bcfnt");
@@ -264,8 +265,14 @@ Result Init::Init() {
 		UNSELECTED_COLOR = UNSELECTED_DEEPRED;
 	}
 
+	// If sheets not found -> Download it.
+	if (CheckSheets(0) != 0 || CheckSheets(1) != 0) {
+		Download::downloadAssets();
+	}
+
 	// Only Load Font if found, else load System font.
 	loadFont();
+
 	checkForWelcomeAmiibo();
 
 	getCurrentUsage();
