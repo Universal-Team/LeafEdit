@@ -1,5 +1,5 @@
 /*
-*   This file is part of LeafEdit
+*   This file is part of Universal-Updater
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#ifndef EXTRACT_HPP
+#define EXTRACT_HPP
 
-#include <3ds.h>
+#include "common.hpp"
 
-namespace Init {
-	// Load & Unload NL/WW Sheets & Font.
-	Result loadNLSheets();
-	Result loadWWSheets();
-	Result loadFont();
-	Result unloadNLSheets();
-	Result unloadWWSheets();
-	Result unloadFont();
-	
-	void checkForWelcomeAmiibo();
-	Result CheckSheets(int Mode);
+enum ExtractError {
+	EXTRACT_ERROR_NONE = 0,
+	EXTRACT_ERROR_ARCHIVE,
+	EXTRACT_ERROR_ALLOC,
+	EXTRACT_ERROR_FIND,
+	EXTRACT_ERROR_READFILE,
+	EXTRACT_ERROR_OPENFILE,
+	EXTRACT_ERROR_WRITEFILE,
+};
 
-	// Init, Mainloop & Exit.
-	Result Init();
-	Result Initialize();
-	Result MainLoop();
-	Result Exit();
-}
+Result extractArchive(std::string archivePath, std::string wantedFile, std::string outputPath);
 
 #endif

@@ -1,5 +1,5 @@
 /*
-*   This file is part of LeafEdit
+*   This file is part of Universal-Updater
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,11 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#ifndef FORMATTING_HPP
+#define FORMATTING_HPP
 
-#include <3ds.h>
+#include <string>
 
-namespace Init {
-	// Load & Unload NL/WW Sheets & Font.
-	Result loadNLSheets();
-	Result loadWWSheets();
-	Result loadFont();
-	Result unloadNLSheets();
-	Result unloadWWSheets();
-	Result unloadFont();
-	
-	void checkForWelcomeAmiibo();
-	Result CheckSheets(int Mode);
-
-	// Init, Mainloop & Exit.
-	Result Init();
-	Result Initialize();
-	Result MainLoop();
-	Result Exit();
-}
+std::string formatBytes(int bytes);
 
 #endif

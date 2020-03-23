@@ -180,24 +180,29 @@ void Editor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch)
 // Prepare a New Leaf save.
 void Editor::PrepareNL(const std::string savePath) {
 	if(access(savePath.c_str(), F_OK) == 0) {
-		std::string prompt = Lang::get("NEWLEAF_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
-		if(Msg::promptMsg(prompt.c_str())) {
-			const char *save = savePath.c_str();
-			saveType = 0;
-			SaveFile = Save::Initialize(save, true);
-			// Check, if SaveFile has correct size.
-			if (SaveFile->GetSaveSize() != SIZE_SAVE) {
-				Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
-				SaveFile->Close();
-				return;
+		if (Init::CheckSheets(0) != 0) {
+			Msg::DisplayWarnMsg(Lang::get("ASSETS_NOT_FOUND"));
+			return;
+		} else {
+			std::string prompt = Lang::get("NEWLEAF_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
+			if(Msg::promptMsg(prompt.c_str())) {
+				const char *save = savePath.c_str();
+				saveType = 0;
+				SaveFile = Save::Initialize(save, true);
+				// Check, if SaveFile has correct size.
+				if (SaveFile->GetSaveSize() != SIZE_SAVE) {
+					Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
+					SaveFile->Close();
+					return;
+				}
+				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+				Init::loadNLSheets();
+				BuildingManagement::loadDatabase();
+				ItemManagement::LoadDatabase(1);
+				Lang::loadNL(1);
+				Utils::createBackup(false, savePath);
+				EditorMode = 1;
 			}
-			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-			Init::loadNLSheets();
-			BuildingManagement::loadDatabase();
-			ItemManagement::LoadDatabase(1);
-			Lang::loadNL(1);
-			Utils::createBackup(false, savePath);
-			EditorMode = 1;
 		}
 	}
 }
@@ -205,16 +210,21 @@ void Editor::PrepareNL(const std::string savePath) {
 // Prepare a Wild World save.
 void Editor::PrepareWW(const std::string savePath) {
 	if(access(savePath.c_str(), F_OK) == 0) {
-		std::string prompt = Lang::get("WILDWORLD_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
-		if(Msg::promptMsg(prompt.c_str())) {
-			const char *save = savePath.c_str();
-			saveType = 1; 
-			WWSaveFile = WWSave::Initialize(save, true);
-			Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-			Init::loadWWSheets();
-			WWItemManagement::LoadDatabase(1);
-			Lang::loadWW(1);
-			EditorMode = 1;
+		if (Init::CheckSheets(1) != 0) {
+			Msg::DisplayWarnMsg(Lang::get("ASSETS_NOT_FOUND"));
+			return;
+		} else {
+			std::string prompt = Lang::get("WILDWORLD_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
+			if(Msg::promptMsg(prompt.c_str())) {
+				const char *save = savePath.c_str();
+				saveType = 1; 
+				WWSaveFile = WWSave::Initialize(save, true);
+				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
+				Init::loadWWSheets();
+				WWItemManagement::LoadDatabase(1);
+				Lang::loadWW(1);
+				EditorMode = 1;
+			}
 		}
 	}
 }

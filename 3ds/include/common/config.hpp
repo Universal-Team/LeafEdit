@@ -45,6 +45,7 @@ namespace Config {
 
 	int getLang(const std::string &key);
 	extern int lang, colorMode;
+	extern std::string currentRelease, currentNightly;
 }
 
 #endif

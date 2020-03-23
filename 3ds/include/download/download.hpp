@@ -1,5 +1,5 @@
 /*
-*   This file is part of LeafEdit
+*   This file is part of Universal-Updater
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,28 +24,58 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#ifndef DOWNLOAD_HPP
+#define DOWNLOAD_HPP
 
-#include <3ds.h>
+#include "common.hpp"
 
-namespace Init {
-	// Load & Unload NL/WW Sheets & Font.
-	Result loadNLSheets();
-	Result loadWWSheets();
-	Result loadFont();
-	Result unloadNLSheets();
-	Result unloadWWSheets();
-	Result unloadFont();
-	
-	void checkForWelcomeAmiibo();
-	Result CheckSheets(int Mode);
+#define APP_TITLE "LeafEdit"
+#define VERSION_STRING "0.2.0"
 
-	// Init, Mainloop & Exit.
-	Result Init();
-	Result Initialize();
-	Result MainLoop();
-	Result Exit();
+enum DownloadError {
+	DL_ERROR_NONE = 0,
+	DL_ERROR_WRITEFILE,
+	DL_ERROR_ALLOC,
+	DL_ERROR_STATUSCODE,
+	DL_ERROR_GIT,
+};
+
+struct NightlyFetch {
+	std::string Message;
+	std::string Target;
+};
+
+struct ReleaseFetch {
+	std::string Version;
+	std::string ReleaseName;
+	std::string Body;
+};
+
+Result downloadToFile(std::string url, std::string path);
+Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases);
+
+void displayProgressBar();
+
+/**
+ * Check Wi-Fi status.
+ * @return True if Wi-Fi is connected; false if not.
+ */
+bool checkWifiStatus(void);
+
+
+ReleaseFetch getLatestRelease();
+
+NightlyFetch getLatestCommit();
+
+// LeafEdit's namespace for Downloads.
+namespace Download {
+	void downloadAssets(void);
+	Result updateApp(bool nightly);
+
+	ReleaseFetch getLatestRelease2();
+	NightlyFetch getLatestNightly();
+
+	bool showReleaseInfo(ReleaseFetch RF);
 }
 
 #endif

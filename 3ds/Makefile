@@ -82,9 +82,9 @@ SRCMAN 		:=	source/management/nl source/management/ww
 INCMAN 		:=	include/management/nl include/management/ww
 SRCSCREEN	:=	source/screens source/screens/nl source/screens/ww
 INCSCREEN	:=	include/screens include/screens/nl include/screens/ww
-SOURCES		:=	$(SOURCECORE) $(SRCMAN) $(SRCSCREEN) $(UNIVCORE) source source/common source/core source/gui source/lang 
+SOURCES		:=	$(SOURCECORE) $(SRCMAN) $(SRCSCREEN) $(UNIVCORE) source source/common source/core source/download source/gui source/lang 
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(INCMAN) $(INCSCREEN) $(UNIVCORE) include include/common include/core include/gui include/lang 
+INCLUDES	:=	$(INCLUDECORE) $(INCMAN) $(INCSCREEN) $(UNIVCORE) include include/common include/core include/download include/gui include/lang 
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
@@ -113,7 +113,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lturbojpeg -lcitro2d -lcitro3d -lctrud
+LIBS	:= -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -larchive -lbz2 -llzma -lm -lz -lturbojpeg -lcitro2d -lcitro3d -lctrud
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

@@ -33,7 +33,8 @@
 #include <unistd.h>
 
 int Config::lang, Config::colorMode;
-
+std::string Config::currentRelease;
+std::string Config::currentNightly;
 
 nlohmann::json configJson;
 
@@ -51,12 +52,28 @@ void Config::load() {
 	} else {
 		Config::colorMode = getInt("colorMode");
 	}
+
+	if(!configJson.contains("ReleaseVersion")) {
+		Config::currentRelease = "";
+	} else {
+		Config::currentRelease = getString("ReleaseVersion");
+	}
+
+	if(!configJson.contains("NightlyVersion")) {
+		Config::currentNightly = "";
+	} else {
+		Config::currentNightly = getString("NightlyVersion");
+	}
 }
 
 
 void Config::save() {
 	Config::setInt("Lang", Config::lang);
 	Config::setInt("colorMode", Config::colorMode);
+	// Versions.
+	Config::setString("ReleaseVersion", Config::currentRelease);
+	Config::setString("NightlyVersion", Config::currentNightly);
+
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
@@ -69,6 +86,8 @@ void Config::initializeNewConfig() {
 	fclose(file);
 	setInt("Lang", 1);
 	setInt("colorMode", 1);
+	setString("ReleaseVersion", "");
+	setString("NightlyVersion", "");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }

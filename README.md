@@ -1,17 +1,12 @@
 # LeafEdit
 
-This is a work in progress Animal Crossing: New Leaf Save Manager & Editor for the Nintendo 3DS!
+This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager & Editor for the Nintendo 3DS and Nintendo DS!
 
-## Building
-To build LeafEdit, you need:
-- devkitARM
-- Libctru
-- Citro2D
-- Citro3D
-- 3ds-libjpeg-turbo
+This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core).
 
-You can get all those things with Pacman by running: `pacman -S 3ds-dev 3ds-libjpeg-turbo --noconfirm`.
-You also need Bannertool & Makerom.
+## Compilation
+
+To build LeafEdit from source, you need devkitARM installed along with libctru, 3ds-curl, 3ds-libjpeg-turbo and 3ds-libarchive. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm`, `pacman -S 3ds-libjpeg-turbo` and lastly `pacman -S 3ds-libarchive --noconfirm`. Now that you have everything installed, you just need to run clone the repository and run `make`.
 
 ## Credits
 ### Main Developers
@@ -53,3 +48,4 @@ Spanish
 - [Flagbrew](https://github.com/FlagBrew): [Checkpoint](https://github.com/FlagBrew/Checkpoint)'s Code for the Backup & Restore part for Animal Crossing: New Leaf.
 - [Flame](https://github.com/FlameKat53): The Name Idea of LeafEdit.
 - [Kodtiz3D](https://github.com/Kodtiz3D): For the Icon and the Banner.
+- [Universal-Updater](https://github.com/Universal-Team/Universal-Updater): Download code being ported from this app.
