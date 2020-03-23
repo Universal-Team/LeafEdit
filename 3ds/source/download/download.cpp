@@ -796,7 +796,7 @@ void Download::downloadAssets(void) {
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("EXTRACTING_ASSET_PACKAGE").c_str());
 	filesExtracted = 0;
 	progressBarType = 1;
-	extractArchive("/LeafEdit/Assets-Package.7z", "/", "/LeafEdit/assets/");
+	extractArchive("/LeafEdit/Assets-Package.7z", "", "/LeafEdit/assets/");
 	showProgressBar = false;
 	deleteFile("sdmc:/LeafEdit/Assets-Package.7z");
 	Init::loadFont();
