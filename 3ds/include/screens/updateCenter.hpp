@@ -45,6 +45,7 @@ private:
 	bool NightlyAvailable = false;
 	bool ReleaseAvailable = false;
 	bool changelogShown = false; // I have no clue if I keep that, lol.
+	bool hasCheckedForUpdate = false; // Always false at startup.
 
 	ReleaseFetch latestRelease = {""};
 	NightlyFetch latestNightly = {""};
