@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, building-and-townmap, rewrite, download]
+    exclude: [translation, leafedit-core]
   tags:
     include: ['*']
 
