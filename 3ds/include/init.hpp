@@ -38,7 +38,6 @@ namespace Init {
 	Result unloadWWSheets();
 	Result unloadFont();
 	
-	void checkForWelcomeAmiibo();
 	Result CheckSheets(int Mode);
 
 	// Init, Mainloop & Exit.

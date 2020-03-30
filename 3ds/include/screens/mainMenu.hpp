@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -40,14 +40,22 @@ public:
 
 private:
 	int Selection = 0;
+
 	std::vector<Structs::ButtonPos> mainButtons = {
-		{10, 40, 140, 35}, // Town Manager.
-		{170, 40, 140, 35}, // Editor.
-		{10, 100, 140, 35}, // Settings.
-		{170, 100, 140, 35}, // Update Center.
-		{10, 160, 140, 35}, // ?.	
-		{170, 160, 140, 35} // ?.
+		{0, 25, 149, 52},
+		{162, 25, 149, 52},
+		{0, 85, 149, 52},
+		{162, 85, 149, 52},
+		{0, 150, 149, 52},
+		{162, 150, 149, 52},
 	};
 };
+
+//		Gui::sprite(3, button_button_tl_idx, 1, 27);
+//		Gui::sprite(3, button_button_2_idx, 162, 27);
+//		Gui::sprite(3, button_button_3_idx, 1, 91);
+//		Gui::sprite(3, button_button_4_idx, 162, 91);
+//		Gui::sprite(3, button_button_5_idx, 1, 154);
+//		Gui::sprite(3, button_button_br_idx, 162, 151);
 
 #endif

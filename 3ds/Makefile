@@ -76,15 +76,20 @@ endif
 TARGET		:=	LeafEdit
 BUILD		:=	build
 UNIVCORE	:= 	Universal-Core
-SOURCECORE	:=  ../core/source ../core/source/nl ../core/source/ww
-INCLUDECORE	:=	../core/include ../core/include/nl ../core/include/ww
-SRCMAN 		:=	source/management/nl source/management/ww
-INCMAN 		:=	include/management/nl include/management/ww
-SRCSCREEN	:=	source/screens source/screens/nl source/screens/ww
-INCSCREEN	:=	include/screens include/screens/nl include/screens/ww
-SOURCES		:=	$(SOURCECORE) $(SRCMAN) $(SRCSCREEN) $(UNIVCORE) source source/common source/core source/download source/gui source/lang 
+
+SOURCECORE	:= ../LeafEdit-Core/source \
+			   ../LeafEdit-Core/source/player \
+			   ../LeafEdit-Core/source/sav \
+			   ../LeafEdit-Core/source/villager 
+
+INCLUDECORE	:= ../LeafEdit-Core/include \
+			   ../LeafEdit-Core/include/player \
+			   ../LeafEdit-Core/include/sav \
+			   ../LeafEdit-Core/include/villager 
+
+SOURCES		:=	$(SOURCECORE) $(UNIVCORE) source source/common source/gui source/lang source/screens
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(INCMAN) $(INCSCREEN) $(UNIVCORE) include include/common include/core include/download include/gui include/lang 
+INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) include include/common include/gui include/lang include/screens include/sprite
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
@@ -113,7 +118,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -larchive -lbz2 -llzma -lm -lz -lturbojpeg -lcitro2d -lcitro3d -lctrud
+LIBS	:= -lcitro2d -lcitro3d -lctrud
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

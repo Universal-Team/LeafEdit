@@ -1,28 +1,12 @@
 --atlas -f rgba -z auto
 
-sprites/arrow.png
-sprites/back.png
-sprites/dot.png
-sprites/female.png
-sprites/gameCard.png
-sprites/itemHole.png
-sprites/leafEdit.png
-sprites/male.png
-sprites/noTPC.png
-sprites/pointer.png
-sprites/sdCard.png
-sprites/search.png
+sprites/bottom_screen_bot.png
+sprites/bottom_screen_top.png
+sprites/button.png
+sprites/selector.png
+sprites/top_screen_bot.png
+sprites/top_screen_top.png
 
 sprites/credits/discord.png
 sprites/credits/universal-core.png
 sprites/credits/stackZ.png
-
-sprites/icons/Icon.png
-sprites/icons/IconWA.png
-sprites/icons/IconWL.png
-sprites/icons/IconWW.png
-
-sprites/regions/europe.png
-sprites/regions/japan.png
-sprites/regions/korea.png
-sprites/regions/usa.png

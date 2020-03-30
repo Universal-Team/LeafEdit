@@ -22,8 +22,17 @@ include $(DEVKITARM)/ds_rules
 # all directories are relative to this makefile
 #---------------------------------------------------------------------------------
 BUILD		:=	build
-SOURCECORE	:= ../../core/source/ww
-INCLUDECORE	:= ../../core/include ../../core/include/ww
+
+SOURCECORE	:= ../../LeafEdit-Core/source \
+			   ../../LeafEdit-Core/source/player \
+			   ../../LeafEdit-Core/source/sav \
+			   ../../LeafEdit-Core/source/villager 
+
+INCLUDECORE	:= ../../LeafEdit-Core/include \
+			   ../../LeafEdit-Core/include/player \
+			   ../../LeafEdit-Core/include/sav \
+			   ../../LeafEdit-Core/include/villager 
+
 SOURCES		:=	$(SOURCECORE) \
 				source \
 				source/graphics \

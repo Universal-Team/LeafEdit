@@ -44,9 +44,11 @@ extern C2D_SpriteSheet WWVillagers;
 void GFX::DrawTop(bool useBars) {
 	Gui::ScreenDraw(Top);
 	if (useBars) {
-		Gui::Draw_Rect(0, 0, 400, 30, DARKER_COLOR);
-		Gui::Draw_Rect(0, 30, 400, 180, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 210, 400, 30, DARKER_COLOR);
+		Gui::Draw_Rect(0, 0, 400, 25, DARKER_COLOR);
+		Gui::Draw_Rect(0, 25, 400, 190, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 215, 400, 25, DARKER_COLOR);
+		DrawSprite(sprites_top_screen_top_idx, 0, 0);
+		DrawSprite(sprites_top_screen_bot_idx, 0, 215);
 	} else {
 		Gui::Draw_Rect(0, 0, 400, 240, LIGHT_COLOR);
 	}
@@ -55,9 +57,11 @@ void GFX::DrawTop(bool useBars) {
 void GFX::DrawBottom(bool useBars) {
 	Gui::ScreenDraw(Bottom);
 	if (useBars) {
-		Gui::Draw_Rect(0, 0, 320, 30, DARKER_COLOR);
-		Gui::Draw_Rect(0, 30, 320, 180, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 210, 320, 30, DARKER_COLOR);
+		Gui::Draw_Rect(0, 0, 320, 25, DARKER_COLOR);
+		Gui::Draw_Rect(0, 25, 320, 190, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 215, 320, 25, DARKER_COLOR);
+		DrawSprite(sprites_bottom_screen_top_idx, 0, 0);
+		DrawSprite(sprites_bottom_screen_bot_idx, 0, 215);
 	} else {
 		Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
 	}
@@ -137,21 +141,6 @@ int GFX::ListSelection(int current, const std::vector<std::string> &list, const 
 	}
 }
 
-void GFX::DrawArrow(int x, int y, float rotation) {
-	C2D_Sprite sprite;
-	C2D_ImageTint tint;
-	C2D_SetImageTint(&tint, C2D_TopLeft, DARKER_COLOR, 0.5);
-	C2D_SetImageTint(&tint, C2D_TopRight, DARKER_COLOR, 0.5);
-	C2D_SetImageTint(&tint, C2D_BotLeft, DARKER_COLOR, 0.5);
-	C2D_SetImageTint(&tint, C2D_BotRight, DARKER_COLOR, 0.5);
-
-	C2D_SpriteFromSheet(&sprite, sprites, sprites_arrow_idx);
-	C2D_SpriteRotateDegrees(&sprite, rotation);
-	C2D_SpriteSetPos(&sprite, x, y);
-	C2D_SpriteSetDepth(&sprite, 0.5);
-	C2D_DrawSpriteTinted(&sprite, &tint);
-}
-
 void GFX::DrawNPC(int img, int x, int y, float ScaleX, float ScaleY)
 {
 	Gui::DrawSprite(NPCs, img, x, y, ScaleX, ScaleY);
@@ -170,4 +159,11 @@ void GFX::DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX, float 
 	C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, img), x, y, 0.5f, &tint, ScaleX, ScaleY);
+}
+
+// Draw a Button and center Text on it.
+void GFX::DrawButton(int x, int y, std::string ButtonText) {
+	DrawSprite(sprites_button_idx, x, y);
+	// Draw String. TODO: Center.
+	Gui::DrawString(x+10, y+15, 0.9f, WHITE, ButtonText, 145, 30);
 }

@@ -24,7 +24,6 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "editor.hpp"
 #include "mainMenu.hpp"
 
 extern bool exiting;
@@ -54,12 +53,5 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_LEFT) {
 		if (selection > 0)	selection--;
 		selected = true;
-	}
-
-	if (hDown & KEY_A) {
-		if (selection == 0) {
-			Gui::setScreen(std::make_unique<Editor>());
-			Gui::DrawScreen();
-		}
 	}
 }

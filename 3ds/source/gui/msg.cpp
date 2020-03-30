@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -60,7 +60,7 @@ bool Msg::promptMsg2(std::string promptMsg)
 		Gui::Draw_Rect(170, 100, 140, 35, DARKER_COLOR);
 		Gui::DrawStringCentered(-150+70, 110, 0.8f, WHITE, Lang::get("YES"), 140);
 		Gui::DrawStringCentered(150-70, 110, 0.8f, WHITE, Lang::get("NO"), 140);
-		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
+//		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
 		C3D_FrameEnd(0);
 
 		// Selection part.
@@ -141,7 +141,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	GFX::DrawBottom();
 	Gui::Draw_Rect(100, 100, 140, 35, DARKER_COLOR);
 	Gui::DrawStringCentered(-60+70, 110, 0.8f, WHITE, Lang::get("OK"), 140);
-	GFX::DrawSprite(sprites_pointer_idx, promptBtn[2].x+120, promptBtn[2].y+25);
+//	GFX::DrawSprite(sprites_pointer_idx, promptBtn[2].x+120, promptBtn[2].y+25);
 	C3D_FrameEnd(0);
 
 	while(1)

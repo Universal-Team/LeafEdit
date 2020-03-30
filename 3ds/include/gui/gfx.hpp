@@ -48,27 +48,6 @@
 #define SELECTED_GREEN				C2D_Color32(38, 130, 40, 255)
 #define UNSELECTED_GREEN			C2D_Color32(38, 70, 40, 180)
 
-// Blue Tones.
-#define DARKER_BLUE					C2D_Color32(0, 0, 205, 255)
-#define LIGHT_BLUE					C2D_Color32(70, 130, 180, 255)
-#define LIGHTER_BLUE				C2D_Color32(70, 130, 155, 255)
-#define SELECTED_BLUE				C2D_Color32(30, 0, 130, 255)
-#define UNSELECTED_BLUE				C2D_Color32(30, 0, 70, 180)
-
-// Deep Blue.
-#define DARKER_DEEPBLUE				C2D_Color32(14, 32, 73, 255)
-#define LIGHT_DEEPBLUE				C2D_Color32(23, 53, 121, 255)
-#define LIGHTER_DEEPBLUE			C2D_Color32(23, 53, 145, 255)
-#define SELECTED_DEEPBLUE			C2D_Color32(38, 40, 140, 255)
-#define UNSELECTED_DEEPBLUE			C2D_Color32(38, 40, 70, 180)
-
-// Deep Red.
-#define DARKER_DEEPRED				C2D_Color32(73, 32, 14, 255)
-#define LIGHT_DEEPRED				C2D_Color32(121, 53, 23, 255)
-#define LIGHTER_DEEPRED				C2D_Color32(145, 53, 23, 255)
-#define SELECTED_DEEPRED			C2D_Color32(140, 40, 38, 255)
-#define UNSELECTED_DEEPRED			C2D_Color32(70, 40, 38, 180)
-
 extern u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR;
 
 
@@ -78,9 +57,6 @@ namespace GFX {
 	void DrawBottom(bool useBars = true);
 	void DrawFileBrowseBG(bool isTop = true);
 
-	// Draw Arrow.
-	void DrawArrow(int x, int y, float rotation = 0);
-
 	// Draw Sprites.
 	void DrawNPC(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawSprite(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
@@ -88,6 +64,8 @@ namespace GFX {
 
 	// Selection from list.
 	int ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg);
+
+	void DrawButton(int x, int y, std::string ButtonText = "");
 }
 
 #endif

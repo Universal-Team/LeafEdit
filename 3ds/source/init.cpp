@@ -24,12 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "archive.hpp"
-#include "config.hpp"
-#include "download.hpp"
 #include "init.hpp"
-#include "initial.hpp"
-#include "gameLoader.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
@@ -47,7 +42,6 @@ bool fadein = true;
 // If true -> Exit LeafEdit.
 bool exiting = false;
 
-bool WelcomeAmiibo;
 touchPosition touch;
 
 u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // Color Types.
@@ -214,9 +208,6 @@ Result Init::unloadFont() {
 Result Init::Init() {
 	gfxInitDefault();
 	romfsInit();
-	amInit();
-	acInit();
-	Archive::init();
 	Gui::init();
 
 	// make folders if they don't exist
@@ -233,48 +224,17 @@ Result Init::Init() {
 
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	cfguInit();
-	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
-		Config::initializeNewConfig();
-	}
-	Config::load();
-	Lang::load(Config::getLang("Lang"));
+	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 
-	if (Config::colorMode == 0) {
-		DARKER_COLOR = DARKER_GREEN;
-		LIGHT_COLOR = LIGHT_GREEN;
-		LIGHTER_COLOR = LIGHTER_GREEN;
-		SELECTED_COLOR = SELECTED_GREEN;
-		UNSELECTED_COLOR = UNSELECTED_GREEN;
-	} else if (Config::colorMode == 1) {
-		DARKER_COLOR = DARKER_BLUE;
-		LIGHT_COLOR = LIGHT_BLUE;
-		LIGHTER_COLOR = LIGHTER_BLUE;
-		SELECTED_COLOR = SELECTED_BLUE;
-		UNSELECTED_COLOR = UNSELECTED_BLUE;
-	} else if (Config::colorMode == 2) {
-		DARKER_COLOR = DARKER_DEEPBLUE;
-		LIGHT_COLOR = LIGHT_DEEPBLUE;
-		LIGHTER_COLOR = LIGHTER_DEEPBLUE;
-		SELECTED_COLOR = SELECTED_DEEPBLUE;
-		UNSELECTED_COLOR = UNSELECTED_DEEPBLUE;
-	} else {
-		DARKER_COLOR = DARKER_DEEPRED;
-		LIGHT_COLOR = LIGHT_DEEPRED;
-		LIGHTER_COLOR = LIGHTER_DEEPRED;
-		SELECTED_COLOR = SELECTED_DEEPRED;
-		UNSELECTED_COLOR = UNSELECTED_DEEPRED;
-	}
-
-	// If sheets not found -> Download it.
-	if (CheckSheets(0) != 0 || CheckSheets(1) != 0) {
-		Download::downloadAssets();
-	}
+	DARKER_COLOR = DARKER_GREEN;
+	LIGHT_COLOR = LIGHT_GREEN;
+	LIGHTER_COLOR = LIGHTER_GREEN;
+	SELECTED_COLOR = SELECTED_GREEN;
+	UNSELECTED_COLOR = UNSELECTED_GREEN;
 
 	// Only Load Font if found, else load System font.
 	loadFont();
-
-	checkForWelcomeAmiibo();
 
 	getCurrentUsage();
 	char path[PATH_MAX];
@@ -290,26 +250,11 @@ Result Init::Init() {
 	return 0;
 }
 
-// Check if AC:NL:WA Update is found.
-void Init::checkForWelcomeAmiibo() {
-	GameLoader::checkUpdate();
-	// Return the Welcome Amiibo State.
-	if (Config::getBool("update") == false) {
-		WelcomeAmiibo = false;
-	} else if (Config::getBool("update") == true) {
-		WelcomeAmiibo = true;
-	}
-}
-
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
 	// Set the Screen to the MainMenu.
-	if (Config::getBool("InitialSetup") != true) {
-		Gui::setScreen(std::make_unique<Initial>());
-	} else {
-		Gui::setScreen(std::make_unique<MainMenu>());
-	}
+	Gui::setScreen(std::make_unique<MainMenu>());
 	return 0;
 }
 
@@ -349,15 +294,11 @@ Result Init::Exit() {
 	// Unload all sheets, because you don't know, if people exit properly like they should.
 	unloadNLSheets();
 	unloadWWSheets();
-	if (changesMade)	Config::save();
-	Archive::exit();
 	Gui::exit();
 	unloadFont();
 	Gui::unloadSheet(sprites);
 	cfguExit();
 	gfxExit();
 	romfsExit();
-	amExit();
-	acExit();
 	return 0;
 }
