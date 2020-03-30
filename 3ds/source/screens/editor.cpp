@@ -26,6 +26,7 @@
 
 #include "editor.hpp"
 #include "fileBrowse.hpp"
+#include "playerEditor.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 
@@ -70,7 +71,7 @@ bool Editor::loadSave() {
 		printf("SaveFile returned nullptr.\n");
 		return false;
 	}
-	if (save->getType() == SaveType::WW)	saveT = 0;
+	if (save->getType() == SaveType::WW)		saveT = 0;
 	else if (save->getType() == SaveType::NL)	saveT = 2;
 	else if (save->getType() == SaveType::WA)	saveT = 4;
 
@@ -118,7 +119,13 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if(Selection < 2)	Selection++;
 	}
 
+	if (hDown & KEY_A) {
+		if (savesType != SaveType::UNUSED) {
+			if (Selection == 0)	Gui::setScreen(std::make_unique<PlayerEditor>());
+		}
+	}
 	if (hDown & KEY_B) {
+		savesType = SaveType::UNUSED;
 		Gui::screenBack();
 		return;
 	}
