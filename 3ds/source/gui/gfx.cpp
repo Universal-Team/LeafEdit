@@ -70,24 +70,28 @@ void GFX::DrawBottom(bool useBars) {
 void GFX::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
 		Gui::ScreenDraw(Top);
-		Gui::Draw_Rect(0, 0, 400, 27, DARKER_COLOR);
-		Gui::Draw_Rect(0, 27, 400, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 58, 400, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 89, 400, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 120, 400, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 151, 400, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 182, 400, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 213, 400, 27, DARKER_COLOR);
+		Gui::Draw_Rect(0, 0, 400, 25, DARKER_COLOR);
+		Gui::Draw_Rect(0, 25, 400, 31.67, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 56.67, 400, 31.67, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 88.34, 400, 31.67, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 120.01, 400, 31.67, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 151.68, 400, 31.67, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 183.35, 400, 31.67, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 215, 400, 25, DARKER_COLOR);
+		DrawSprite(sprites_top_screen_top_idx, 0, 0);
+		DrawSprite(sprites_top_screen_bot_idx, 0, 215);
 	} else {
 		Gui::ScreenDraw(Bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, DARKER_COLOR);
-		Gui::Draw_Rect(0, 27, 320, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 58, 320, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 89, 320, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 120, 320, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 151, 320, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 182, 320, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 213, 320, 27, DARKER_COLOR);
+		Gui::Draw_Rect(0, 0, 320, 25, DARKER_COLOR);
+		Gui::Draw_Rect(0, 25, 320, 31.67, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 56.67, 320, 31.67, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 88.34, 320, 31.67, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 120.01, 320, 31.67, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 151.68, 320, 31.67, LIGHT_COLOR);
+		Gui::Draw_Rect(0, 183.35, 320, 31.67, LIGHTER_COLOR);
+		Gui::Draw_Rect(0, 215, 320, 25, DARKER_COLOR);
+		DrawSprite(sprites_bottom_screen_top_idx, 0, 0);
+		DrawSprite(sprites_bottom_screen_bot_idx, 0, 215);
 	}
 }
 
@@ -161,9 +165,9 @@ void GFX::DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX, float 
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, img), x, y, 0.5f, &tint, ScaleX, ScaleY);
 }
 
-// Draw a Button and center Text on it.
+// Draw a Button and draw Text on it.
 void GFX::DrawButton(int x, int y, std::string ButtonText) {
 	DrawSprite(sprites_button_idx, x, y);
 	// Draw String. TODO: Center.
-	Gui::DrawString(x+10, y+15, 0.9f, WHITE, ButtonText, 145, 30);
+	Gui::DrawStringCentered(- (158/2) + x, y + (61/2) - (Gui::GetStringHeight(0.9f, ButtonText) / 2), 0.9f, WHITE, ButtonText, 145, 30);
 }

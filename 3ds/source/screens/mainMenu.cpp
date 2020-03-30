@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "editor.hpp"
 #include "mainMenu.hpp"
 #include "screenCommon.hpp"
 
@@ -32,7 +33,7 @@ extern bool fadein;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern bool exiting;
 
-std::vector<std::string> Strings = {
+const std::vector<std::string> Strings = {
 	"Editor",
 	"Settings",
 	"",
@@ -41,7 +42,6 @@ std::vector<std::string> Strings = {
 	"",
 };
 
-extern C2D_SpriteSheet sprites;
 void MainMenu::Draw(void) const
 {
 	GFX::DrawTop();
@@ -51,7 +51,7 @@ void MainMenu::Draw(void) const
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
 	}
-	Gui::DrawSprite(sprites, sprites_selector_idx, mainButtons[Selection].x+4, mainButtons[Selection].y+4);
+	GFX::DrawSprite(sprites_selector_idx, mainButtons[Selection].x+4, mainButtons[Selection].y+4);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
@@ -70,6 +70,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_START) {
 		exiting = true;
+	}
+
+	if (hDown & KEY_A) {
+		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>());
 	}
 
 	if (hHeld & KEY_SELECT) {

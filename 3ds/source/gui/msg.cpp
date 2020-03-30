@@ -32,10 +32,10 @@
 
 #include <vector>
 
-std::vector<Structs::ButtonPos> promptBtn = {
-	{10, 100, 140, 35}, // Yes.
-	{170, 100, 140, 35}, // No.
-	{100, 100, 140, 35}, // OK.
+const std::vector<Structs::ButtonPos> promptBtn = {
+	{0, 85, 149, 52}, // Yes.
+	{162, 85, 149, 52}, // No.
+	{80, 90, 149, 52} // OK.
 };
 
 extern touchPosition touch;
@@ -58,9 +58,9 @@ bool Msg::promptMsg2(std::string promptMsg)
 		// Draw Bottom Screen part.
 		Gui::Draw_Rect(10, 100, 140, 35, DARKER_COLOR);
 		Gui::Draw_Rect(170, 100, 140, 35, DARKER_COLOR);
-		Gui::DrawStringCentered(-150+70, 110, 0.8f, WHITE, Lang::get("YES"), 140);
-		Gui::DrawStringCentered(150-70, 110, 0.8f, WHITE, Lang::get("NO"), 140);
-//		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
+		GFX::DrawButton(promptBtn[0].x, promptBtn[0].y, Lang::get("YES"));
+		GFX::DrawButton(promptBtn[1].x, promptBtn[1].y, Lang::get("NO"));
+		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
 		C3D_FrameEnd(0);
 
 		// Selection part.
@@ -139,9 +139,8 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
 	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("A_CONTINUE"), 390);
 	GFX::DrawBottom();
-	Gui::Draw_Rect(100, 100, 140, 35, DARKER_COLOR);
-	Gui::DrawStringCentered(-60+70, 110, 0.8f, WHITE, Lang::get("OK"), 140);
-//	GFX::DrawSprite(sprites_pointer_idx, promptBtn[2].x+120, promptBtn[2].y+25);
+	GFX::DrawButton(promptBtn[2].x, promptBtn[2].y, Lang::get("OK"));
+	GFX::DrawSprite(sprites_pointer_idx, promptBtn[2].x+120, promptBtn[2].y+25);
 	C3D_FrameEnd(0);
 
 	while(1)

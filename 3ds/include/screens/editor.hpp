@@ -24,30 +24,31 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef EDITOR_HPP
+#define EDITOR_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class MainMenu : public Screen
+class Editor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
+	Editor();
 private:
 	int Selection = 0;
+	int saveT = -1; // No SaveType.
+	bool loadSave();
+	void SaveInitialize();
+	std::string saveName;
 
 	std::vector<Structs::ButtonPos> mainButtons = {
-		{0, 25, 149, 52},
-		{162, 25, 149, 52},
-		{0, 85, 149, 52},
-		{162, 85, 149, 52},
-		{0, 150, 149, 52},
-		{162, 150, 149, 52},
+		{80, 30, 149, 52},
+		{80, 90, 149, 52},
+		{80, 150, 149, 52},
 	};
 };
 
