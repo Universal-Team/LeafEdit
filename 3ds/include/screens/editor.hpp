@@ -37,8 +37,13 @@ class Editor : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	Editor();
 private:
+	enum class SaveState {
+		Loaded,
+		Unloaded
+	};
+
+	SaveState loadState = SaveState::Unloaded;
 	int Selection = 0;
 	int saveT = -1; // No SaveType.
 	bool loadSave();

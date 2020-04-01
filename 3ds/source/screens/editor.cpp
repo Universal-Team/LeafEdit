@@ -80,53 +80,62 @@ bool Editor::loadSave() {
 	return true;
 }
 
-Editor::Editor() {
-	SaveInitialize();
-}
-
 void Editor::SaveInitialize() {
 	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", "Select your SaveFile.");
-	if (!loadSave()) {
-		Msg::DisplayWarnMsg("Invalid SaveFile!");
+	// If User canceled, go screen back.
+	if (saveName == "") {
 		Gui::screenBack();
 		return;
+	}
+
+	if (!loadSave()) {
+		Msg::DisplayWarnMsg("Invalid SaveFile!");
+	} else {
+		loadState = SaveState::Loaded;
 	}
 }
 
 
 void Editor::Draw(void) const
 {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
-	if (saveT != -1) {
-		Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
-		std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
-		Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
+	if (loadState == SaveState::Loaded) {
+		GFX::DrawTop();
+		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
+		if (saveT != -1) {
+			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
+			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
+			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
+		}
+		GFX::DrawBottom();
+		for (int i = 0; i < 3; i++) {
+			GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
+		}
+		GFX::DrawSprite(sprites_selector_idx, mainButtons[Selection].x+4, mainButtons[Selection].y+4);
 	}
-	GFX::DrawBottom();
-	for (int i = 0; i < 3; i++) {
-		GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
-	}
-	GFX::DrawSprite(sprites_selector_idx, mainButtons[Selection].x+4, mainButtons[Selection].y+4);
 }
 
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
-	if(hDown & KEY_UP) {
-		if(Selection > 0)	Selection --;
-	} else if(hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	}
 
-	if (hDown & KEY_A) {
-		if (savesType != SaveType::UNUSED) {
-			if (Selection == 0)	Gui::setScreen(std::make_unique<PlayerEditor>());
+	if (loadState == SaveState::Loaded) {
+		// Navigation.
+		if(hDown & KEY_UP) {
+			if(Selection > 0)	Selection --;
+		} else if(hDown & KEY_DOWN) {
+			if(Selection < 2)	Selection++;
 		}
-	}
-	if (hDown & KEY_B) {
-		savesType = SaveType::UNUSED;
-		Gui::screenBack();
-		return;
+
+		if (hDown & KEY_A) {
+			if (savesType != SaveType::UNUSED) {
+				if (Selection == 0)	Gui::setScreen(std::make_unique<PlayerEditor>());
+			}
+		}
+		if (hDown & KEY_B) {
+			savesType = SaveType::UNUSED;
+			Gui::screenBack();
+			return;
+		}
+	} else {
+		SaveInitialize(); // Display Browse.
 	}
 }
