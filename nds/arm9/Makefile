@@ -26,12 +26,14 @@ BUILD		:=	build
 SOURCECORE	:= ../../LeafEdit-Core/source \
 			   ../../LeafEdit-Core/source/player \
 			   ../../LeafEdit-Core/source/sav \
-			   ../../LeafEdit-Core/source/villager 
+			   ../../LeafEdit-Core/source/town \
+			   ../../LeafEdit-Core/source/villager
 
 INCLUDECORE	:= ../../LeafEdit-Core/include \
 			   ../../LeafEdit-Core/include/player \
 			   ../../LeafEdit-Core/include/sav \
-			   ../../LeafEdit-Core/include/villager 
+			   ../../LeafEdit-Core/include/town \
+			   ../../LeafEdit-Core/include/villager
 
 SOURCES		:=	$(SOURCECORE) \
 				source \

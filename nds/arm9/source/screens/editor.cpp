@@ -26,13 +26,11 @@
 
 #include "editor.hpp"
 #include "fileBrowse.hpp"
-#include "playerEditor.hpp"
+#include "msg.hpp"
+//#include "playerEditor.hpp"
 #include "Sav.hpp"
-#include "screenCommon.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
 std::shared_ptr<Sav> save;
-static std::string SaveFile;
 // Bring that to other screens too.
 SaveType savesType = SaveType::UNUSED;
 
@@ -51,6 +49,10 @@ const std::vector<std::string> titleNames = {
 	"とびだせ どうぶつの森 amiibo+",
 	"Welcome amiibo",
 };
+
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+Editor::Editor() { Gui::hidePointer(); } // Hide Pointer when initializing.
 
 bool Editor::loadSave() {
 	save = nullptr;
@@ -71,17 +73,13 @@ bool Editor::loadSave() {
 		printf("SaveFile returned nullptr.\n");
 		return false;
 	}
-	if (save->getType() == SaveType::WW)		saveT = 0;
-	else if (save->getType() == SaveType::NL)	saveT = 2;
-	else if (save->getType() == SaveType::WA)	saveT = 4;
-
 	savesType = save->getType();
 	
 	return true;
 }
 
 void Editor::SaveInitialize() {
-	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", "Select your SaveFile.");
+	saveName = browseForSave();
 	// If User canceled, go screen back.
 	if (saveName == "") {
 		Gui::screenBack();
@@ -92,50 +90,70 @@ void Editor::SaveInitialize() {
 		Msg::DisplayWarnMsg("Invalid SaveFile!");
 	} else {
 		loadState = SaveState::Loaded;
+		// Clear Both Screens.
+		Gui::clearScreen(false, true);
+		Gui::clearScreen(true, true);
+		Gui::DrawScreen();
+		// Toggle Pointer.
+		Gui::showPointer();
+		selected = true;
 	}
 }
 
-
-void Editor::Draw(void) const
-{
+void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
-		GFX::DrawTop();
-		GFX::DrawTitle("LeafEdit - Editor");
-		if (saveT != -1) {
-			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
-			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
-			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
-		}
-		GFX::DrawBottom();
+		Gui::DrawTop(true);
+		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
+		Gui::DrawBottom(true);
+
 		for (int i = 0; i < 3; i++) {
-			GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
+			drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
 		}
-		GFX::DrawSprite(sprites_selector_idx, mainButtons[Selection].x+4, mainButtons[Selection].y+4);
+		printTextCentered("Player", 0, 40, false, true);
+		printTextCentered("Villager", 0, 90, false, true);
+		printTextCentered("Misc", 0, 140, false, true);
 	}
 }
 
-
-void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-
+void Editor::Logic(u16 hDown, touchPosition touch) {
+	// Only do Logic, if SaveState is loaded.
 	if (loadState == SaveState::Loaded) {
-		// Navigation.
-		if(hDown & KEY_UP) {
-			if(Selection > 0)	Selection --;
-		} else if(hDown & KEY_DOWN) {
-			if(Selection < 2)	Selection++;
-		}
+		Gui::updatePointer(mainButtons[Selection].x+60, mainButtons[Selection].y+12);
 
-		if (hDown & KEY_A) {
-			if (savesType != SaveType::UNUSED) {
-				if (Selection == 0)	Gui::setScreen(std::make_unique<PlayerEditor>());
-			}
-		}
 		if (hDown & KEY_B) {
-			savesType = SaveType::UNUSED;
 			Gui::screenBack();
+			Gui::DrawScreen();
+			selected = true;
 			return;
 		}
-	} else {
-		SaveInitialize(); // Display Browse.
+
+		if (hDown & KEY_DOWN) {
+			if (Selection < 2)	Selection++;
+			selected = true;
+		}
+		if (hDown & KEY_UP) {
+			if (Selection > 0)	Selection--;
+			selected = true;
+		}
+
+/*		if (hDown & KEY_A) {
+			if (Selection == 0) {
+				Gui::setScreen(std::make_unique<PlayerEditor>());
+				Gui::DrawScreen();
+				Gui::hidePointer();
+				selected = true;
+			}
+		}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, mainButtons[0])) {
+				Gui::setScreen(std::make_unique<PlayerEditor>());
+				Gui::DrawScreen();
+				Gui::hidePointer();
+				selected = true;
+			}
+		}
+*/	} else {
+		SaveInitialize();
 	}
 }

@@ -50,6 +50,7 @@ u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; 
 C2D_SpriteSheet Acres;
 C2D_SpriteSheet Badges;
 C2D_SpriteSheet Faces;
+C2D_SpriteSheet GUI;
 C2D_SpriteSheet Hairs;
 C2D_SpriteSheet Items;
 C2D_SpriteSheet NPCs;
@@ -223,6 +224,7 @@ Result Init::Init() {
 	mkdir("sdmc:/LeafEdit/TPC", 0777); // TPC path.
 
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
+	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
 	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
@@ -297,6 +299,7 @@ Result Init::Exit() {
 	Gui::exit();
 	unloadFont();
 	Gui::unloadSheet(sprites);
+	Gui::unloadSheet(GUI);
 	cfguExit();
 	gfxExit();
 	romfsExit();

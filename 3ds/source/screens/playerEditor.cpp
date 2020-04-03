@@ -65,7 +65,7 @@ void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void PlayerEditor::DrawPlayerSelection(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - PlayerSelection", 400);
+	GFX::DrawTitle("LeafEdit - PlayerSelection");
 	if (save->player(selectedPlayer)->exist()) {
 		Gui::DrawStringCentered(0, 50, 0.9f, WHITE, "Player " + std::to_string(selectedPlayer + 1) + "Exist!", 400);
 	}
@@ -111,7 +111,7 @@ void PlayerEditor::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touc
 void PlayerEditor::DrawSubMenu(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - Player SubMenu", 400);
+	GFX::DrawTitle("LeafEdit - Player SubMenu");
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);

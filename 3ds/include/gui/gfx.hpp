@@ -66,6 +66,7 @@ namespace GFX {
 	int ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg);
 
 	void DrawButton(int x, int y, std::string ButtonText = "");
+	void DrawTitle(std::string Text, bool top = true);
 }
 
 #endif

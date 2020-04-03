@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,19 +24,37 @@
 *         reasonable ways as different from the original version.
 */
 
-#pragma once
+#ifndef EDITOR_HPP
+#define EDITOR_HPP
 
-#ifndef SPRITEIDS_H
-#define SPRITEIDS_H
+#include "screenCommon.hpp"
+#include "structs.hpp"
 
-#include "acres.h"
-#include "gui.h"
-#include "items.h"
-#include "npc.h"
-#include "sprites.h"
-#include "villagers.h"
-#include "villagers2.h"
-#include "wwacres.h"
-#include "wwface.h"
+#include <vector>
+
+class Editor : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+	Editor();
+private:
+	enum class SaveState {
+		Loaded,
+		Unloaded
+	};
+
+	SaveState loadState = SaveState::Unloaded;
+	int Selection = 0;
+	bool loadSave();
+	void SaveInitialize();
+	std::string saveName;
+
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{80, 30, 88, 32, -1}, // Player.
+		{80, 80, 88, 32, -1}, // Villager.
+		{80, 130, 88, 32, -1}, // Misc.
+	};
+};
 
 #endif

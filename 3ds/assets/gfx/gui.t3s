@@ -1,0 +1,5 @@
+--atlas -f rgba -z auto
+
+gui/bottom_ui.png
+gui/top_ui.png
+gui/txt_box.png

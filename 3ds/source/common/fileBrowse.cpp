@@ -133,8 +133,8 @@ static void DrawBrowse(uint Selection, std::vector<DirEntry> dirContents, const 
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, 2, 0.8f, WHITE, Text, 395);
-	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("REFRESH"), 390);
+	GFX::DrawTitle(Text);
+	GFX::DrawTitle(Lang::get("REFRESH"), false);
 	for (uint i=(Selection<5) ? 0 : (uint)Selection-5;i<dirContents.size()&&i<((Selection<5) ? 6 : Selection+1);i++) {
 		if (i == Selection) {
 			dirs += "> " + dirContents[i].name + "\n\n";
@@ -145,7 +145,7 @@ static void DrawBrowse(uint Selection, std::vector<DirEntry> dirContents, const 
 	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
 		dirs += "\n\n";
 	}
-	Gui::DrawString(26, 32, 0.65f, WHITE, dirs.c_str(), 360);
+	Gui::DrawString(26, 32, 0.65f, BLACK, dirs.c_str(), 360);
 	GFX::DrawFileBrowseBG(false);
 	C3D_FrameEnd(0);
 }

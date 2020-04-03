@@ -45,7 +45,7 @@ const std::vector<std::string> Strings = {
 void MainMenu::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
+	GFX::DrawTitle("LeafEdit - MainMenu");
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -78,5 +78,9 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
+	if (hDown & KEY_X) {
+		Msg::DisplayWarnMsg("Look! I'm a TextBox!!!");
 	}
 }

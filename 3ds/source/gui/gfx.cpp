@@ -31,6 +31,7 @@
 extern C2D_SpriteSheet Acres;
 extern C2D_SpriteSheet Badges;
 extern C2D_SpriteSheet Faces;
+extern C2D_SpriteSheet GUI;
 extern C2D_SpriteSheet Hairs;
 extern C2D_SpriteSheet Items;
 extern C2D_SpriteSheet NPCs;
@@ -44,54 +45,26 @@ extern C2D_SpriteSheet WWVillagers;
 void GFX::DrawTop(bool useBars) {
 	Gui::ScreenDraw(Top);
 	if (useBars) {
-		Gui::Draw_Rect(0, 0, 400, 25, DARKER_COLOR);
-		Gui::Draw_Rect(0, 25, 400, 190, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 215, 400, 25, DARKER_COLOR);
-		DrawSprite(sprites_top_screen_top_idx, 0, 0);
-		DrawSprite(sprites_top_screen_bot_idx, 0, 215);
+		Gui::DrawSprite(GUI, gui_top_ui_idx, 0, 0);
 	} else {
-		Gui::Draw_Rect(0, 0, 400, 240, LIGHT_COLOR);
+		// TODO.
 	}
 }
 
 void GFX::DrawBottom(bool useBars) {
 	Gui::ScreenDraw(Bottom);
 	if (useBars) {
-		Gui::Draw_Rect(0, 0, 320, 25, DARKER_COLOR);
-		Gui::Draw_Rect(0, 25, 320, 190, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 215, 320, 25, DARKER_COLOR);
-		DrawSprite(sprites_bottom_screen_top_idx, 0, 0);
-		DrawSprite(sprites_bottom_screen_bot_idx, 0, 215);
+		Gui::DrawSprite(GUI, gui_bottom_ui_idx, 0, 0);
 	} else {
-		Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
+		// TODO.
 	}
 }
 
 void GFX::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
-		Gui::ScreenDraw(Top);
-		Gui::Draw_Rect(0, 0, 400, 25, DARKER_COLOR);
-		Gui::Draw_Rect(0, 25, 400, 31.67, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 56.67, 400, 31.67, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 88.34, 400, 31.67, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 120.01, 400, 31.67, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 151.68, 400, 31.67, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 183.35, 400, 31.67, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 215, 400, 25, DARKER_COLOR);
-		DrawSprite(sprites_top_screen_top_idx, 0, 0);
-		DrawSprite(sprites_top_screen_bot_idx, 0, 215);
+		DrawTop();
 	} else {
-		Gui::ScreenDraw(Bottom);
-		Gui::Draw_Rect(0, 0, 320, 25, DARKER_COLOR);
-		Gui::Draw_Rect(0, 25, 320, 31.67, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 56.67, 320, 31.67, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 88.34, 320, 31.67, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 120.01, 320, 31.67, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 151.68, 320, 31.67, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 183.35, 320, 31.67, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 215, 320, 25, DARKER_COLOR);
-		DrawSprite(sprites_bottom_screen_top_idx, 0, 0);
-		DrawSprite(sprites_bottom_screen_bot_idx, 0, 215);
+		DrawBottom();
 	}
 }
 
@@ -110,7 +83,7 @@ static void DrawList(int selection, const std::vector<std::string> &List, const 
 			lists += List[i] + "\n\n";
 		}
 	}
-	Gui::DrawString(26, 32, 0.65f, WHITE, lists, 360);
+	Gui::DrawString(26, 32, 0.65f, BLACK, lists, 360);
 	GFX::DrawFileBrowseBG(false);
 	C3D_FrameEnd(0);
 }
@@ -170,4 +143,23 @@ void GFX::DrawButton(int x, int y, std::string ButtonText) {
 	DrawSprite(sprites_button_idx, x, y);
 	// Draw String. TODO: Center.
 	Gui::DrawStringCentered(- (158/2) + x, y + (61/2) - (Gui::GetStringHeight(0.9f, ButtonText) / 2), 0.9f, WHITE, ButtonText, 145, 30);
+}
+
+void GFX::DrawTitle(std::string Text, bool top) {
+	// Cause the Bars are awful to read -> Draw slightly dimmed BG before text.
+	if (top) {
+		if (Gui::GetStringWidth(0.9f, Text) > 400) {
+			Gui::Draw_Rect(0, 0, 400, 20, C2D_Color32(0, 0, 0, 20)); // Do not draw more than 400px.
+		} else {
+			Gui::Draw_Rect(200 - Gui::GetStringWidth(0.9f, Text)/2, 0, Gui::GetStringWidth(0.9f, Text), 20, C2D_Color32(0, 0, 0, 20));
+		}
+		Gui::DrawStringCentered(0, -2, 0.9, WHITE, Text, 390);
+	} else {
+		if (Gui::GetStringWidth(0.9f, Text) > 400) {
+			Gui::Draw_Rect(0, 220, 400, 20, C2D_Color32(0, 0, 0, 20)); // Do not draw more than 400px.
+		} else {
+			Gui::Draw_Rect(200 - Gui::GetStringWidth(0.9f, Text)/2, 220, Gui::GetStringWidth(0.9f, Text), 20, C2D_Color32(0, 0, 0, 20));
+		}
+		Gui::DrawStringCentered(0, 220, 0.9, WHITE, Text, 390);
+	}
 }
