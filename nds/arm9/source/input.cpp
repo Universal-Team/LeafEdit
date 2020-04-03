@@ -12,7 +12,7 @@
 #include "sound.hpp"
 #include "stringUtils.hpp"
 
-#define u8u16(str) StringUtils::utf8to16(str)
+#define u8u16(str) StringUtils::UTF8toUTF16(str)
 
 char16_t iskatakana(char16_t c) { return c >= 0x30A1; }
 char16_t tokatakana(char16_t c) {
@@ -1143,7 +1143,7 @@ std::string Input::getLine(std::string Text, unsigned maxLength) {
 	}
 	drawRectangle(0, 192-keyboard.height-16, 256, keyboard.height+16, CLEAR, false, true);
 	drawRectangle(0, 0, 256, 20, CLEAR, true, true);
-	return StringUtils::utf16to8(string);
+	return StringUtils::UTF16toUTF8(string);
 }
 
 int Input::getInt(std::string Text) { return Input::getInt(Text, -1); }
@@ -1202,7 +1202,7 @@ int Input::getInt(std::string Text, unsigned max) {
 	drawRectangle(0, 0, 256, 192, CLEAR, false, true);
 	drawRectangle(0, 0, 256, 20, CLEAR, true, true);
 	if(string == u8u16("")) return -1;
-	unsigned i = std::stoi(StringUtils::utf16to8(string));
+	unsigned i = std::stoi(StringUtils::UTF16toUTF8(string));
 	if(i > max)	return max;
 	return i;
 }

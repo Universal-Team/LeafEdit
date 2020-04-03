@@ -26,6 +26,7 @@
 
 #include "playerEditor.hpp"
 #include "Sav.hpp"
+#include "stringUtils.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
@@ -67,7 +68,7 @@ void PlayerEditor::DrawPlayerSelection(void) const
 	GFX::DrawTop();
 	GFX::DrawTitle("LeafEdit - PlayerSelection");
 	if (save->player(selectedPlayer)->exist()) {
-		Gui::DrawStringCentered(0, 50, 0.9f, WHITE, "Player " + std::to_string(selectedPlayer + 1) + "Exist!", 400);
+		Gui::DrawStringCentered(0, 50, 0.9f, WHITE, StringUtils::UTF16toUTF8(save->player(selectedPlayer)->name()), 400);
 	}
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {

@@ -104,7 +104,8 @@ void Editor::Draw(void) const
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
-			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
+			std::string test = "Town Name: " + StringUtils::UTF16toUTF8(save->town()->name());
+			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, test, 400);
 		}
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {

@@ -120,7 +120,7 @@ void showDirectoryContents(const std::vector<DirEntry>& dirContents, int startRo
 		drawRectangle(10, (i+1)*16, 246, 16, CLEAR, false, true);
 
 		if(i < ((int)dirContents.size() - startRow)) {
-			std::u16string name = StringUtils::utf8to16(dirContents[i + startRow].name);
+			std::u16string name = StringUtils::UTF8toUTF16(dirContents[i + startRow].name);
 
 			// Trim to fit on screen
 			bool addEllipsis = false;
@@ -128,7 +128,7 @@ void showDirectoryContents(const std::vector<DirEntry>& dirContents, int startRo
 				name = name.substr(0, name.length()-1);
 				addEllipsis = true;
 			}
-			if(addEllipsis)	name += StringUtils::utf8to16("...");
+			if(addEllipsis)	name += StringUtils::UTF8toUTF16("...");
 
 			printText(name, 10, i*16+16, false, true);
 		}
@@ -219,8 +219,8 @@ void showTopMenu(std::vector<topMenuItem> topMenuContents) {
 			else if(topMenuContents[i+tmScreenOffset].name == "sd:")	drawSdText(i, topMenuContents[i+tmScreenOffset].valid);
 			else if(topMenuContents[i+tmScreenOffset].name == "card:")	drawSlot1Text(i, topMenuContents[i+tmScreenOffset].valid);
 			else {
-				std::u16string name = StringUtils::utf8to16(topMenuContents[i+tmScreenOffset].name);
-				name = name.substr(name.find_last_of(StringUtils::utf8to16("/"))+1); // Remove path to the file
+				std::u16string name = StringUtils::UTF8toUTF16(topMenuContents[i+tmScreenOffset].name);
+				name = name.substr(name.find_last_of(StringUtils::UTF8toUTF16("/"))+1); // Remove path to the file
 
 				// Trim to fit on screen
 				bool addEllipsis = false;
@@ -228,7 +228,7 @@ void showTopMenu(std::vector<topMenuItem> topMenuContents) {
 					name = name.substr(0, name.length()-1);
 					addEllipsis = true;
 				}
-				if(addEllipsis)	name += StringUtils::utf8to16("...");
+				if(addEllipsis)	name += StringUtils::UTF8toUTF16("...");
 
 				printTextTinted(name, topMenuContents[i+tmScreenOffset].valid ? TextColor::white : TextColor::red, 10, i*16+16, false, true);
 			}
@@ -377,8 +377,8 @@ std::string topMenuSelect(void) {
 			drawRectangle(0, 0, 256, 16, CLEAR, false, true);
 
 			// Print the path to the currently selected file
-			std::u16string path = StringUtils::utf8to16(topMenuContents[tmCurPos].name);
-			path = path.substr(0, path.find_last_of(StringUtils::utf8to16("/"))+1); // Cut to just the path
+			std::u16string path = StringUtils::UTF8toUTF16(topMenuContents[tmCurPos].name);
+			path = path.substr(0, path.find_last_of(StringUtils::UTF8toUTF16("/"))+1); // Cut to just the path
 			printTextMaxW(path, 250, 1, 4, 0, false, true);
 		}
 	}
