@@ -78,22 +78,30 @@ BUILD		:=	build
 UNIVCORE	:= 	Universal-Core
 
 SOURCECORE	:= ../LeafEdit-Core/source \
+			   ../LeafEdit-Core/source/acre \
 			   ../LeafEdit-Core/source/coreUtils \
+			   ../LeafEdit-Core/source/island \
+			   ../LeafEdit-Core/source/item \
+			   ../LeafEdit-Core/source/pattern \
 			   ../LeafEdit-Core/source/player \
 			   ../LeafEdit-Core/source/sav \
 			   ../LeafEdit-Core/source/town \
 			   ../LeafEdit-Core/source/villager
 
 INCLUDECORE	:= ../LeafEdit-Core/include \
+			   ../LeafEdit-Core/include/acre \
 			   ../LeafEdit-Core/include/coreUtils \
+			   ../LeafEdit-Core/include/island \
+			   ../LeafEdit-Core/include/item \
+			   ../LeafEdit-Core/include/pattern \
 			   ../LeafEdit-Core/include/player \
 			   ../LeafEdit-Core/include/sav \
 			   ../LeafEdit-Core/include/town \
 			   ../LeafEdit-Core/include/villager
 
-SOURCES		:=	$(SOURCECORE) $(UNIVCORE) source source/common source/gui source/lang source/screens
+SOURCES		:=	$(SOURCECORE) $(UNIVCORE) source source/common source/download source/gui source/lang source/screens
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) include include/common include/gui include/lang include/screens include/sprite
+INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) include include/common include/download include/gui include/lang include/screens include/sprite
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
@@ -110,7 +118,7 @@ RSF_FILE	:=	app/build-cia.rsf
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations \
+CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations -O0 \
 			-DV_STRING=\"$(GIT_VER)\" \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
@@ -122,7 +130,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcitro2d -lcitro3d -lctrud
+LIBS	:= -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -lz -lcitro2d -lcitro3d -lctrud
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

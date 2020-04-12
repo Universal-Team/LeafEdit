@@ -24,40 +24,31 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FILEBROWSE_HPP
-#define FILEBROWSE_HPP
+#ifndef OFFSETEDITOR_HPP
+#define OFFSETEDITOR_HPP
 
-#include <3ds.h>
-#include <cstring>
-#include <dirent.h>
-#include <string>
-#include <sys/stat.h>
+#include "common.hpp"
+#include "structs.hpp"
+
 #include <vector>
 
-struct DirEntry {
-	std::string name;
-	std::string path;
-	bool isDirectory;
-	off_t size;
+class OffsetEditor : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+
+private:
+	int Selection = 0;
+	int Mode = 0; // Read.
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{0, 25, 149, 52},
+		{0, 85, 149, 52},
+		{0, 150, 149, 52},
+		{162, 25, 149, 52},
+		{162, 85, 149, 52},
+		{162, 150, 149, 52},
+	};
 };
-
-struct FavSave {
-	std::string Name;
-	std::string Path;
-};
-
-namespace FavSaves {
-	void Parse();
-	void add(std::string name, std::string path);
-}
-
-bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList);
-void getDirectoryContents(std::vector<DirEntry>& dirContents);
-void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
-std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
-
-namespace SaveBrowse {
-	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
-}
 
 #endif

@@ -26,10 +26,12 @@
 
 #include "common.hpp"
 #include "fileBrowse.hpp"
+#include "keyboard.hpp"
 
 #include <3ds.h>
 #include <cstring>
 #include <dirent.h>
+#include <fstream>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <vector>
@@ -40,6 +42,7 @@
 #include <iostream>
 
 extern touchPosition touch;
+std::vector<FavSave> favDatabase;
 
 off_t getFileSize(const char *fileName)
 {
@@ -126,36 +129,90 @@ std::vector<std::string> getContents(const std::string &name, const std::vector<
 }
 
 // Draw the Browse.
-static void DrawBrowse(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
+static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
 	std::string dirs;
-	Gui::clearTextBufs();
-	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-	C2D_TargetClear(Top, BLACK);
-	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG();
-	GFX::DrawTitle(Text);
-	GFX::DrawTitle(Lang::get("REFRESH"), false);
-	for (uint i=(Selection<5) ? 0 : (uint)Selection-5;i<dirContents.size()&&i<((Selection<5) ? 6 : Selection+1);i++) {
-		if (i == Selection) {
-			dirs += "> " + dirContents[i].name + "\n\n";
-		} else {
-			dirs += dirContents[i].name + "\n\n";
-		}
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Text, 395);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
+	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
+		dirs += dirContents[i].name + "\n";
 	}
-	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
-		dirs += "\n\n";
+	for (uint i=0;i<((dirContents.size()<9) ? 9-dirContents.size() : 0);i++) {
+		dirs += "\n";
 	}
-	Gui::DrawString(26, 32, 0.65f, BLACK, dirs.c_str(), 360);
-	GFX::DrawFileBrowseBG(false);
-	C3D_FrameEnd(0);
+
+	if (Selection < 9)	GFX::DrawGUI(gui_fb_selector_top_idx, 0, 24 + ((int)Selection * 21));
+	else				GFX::DrawGUI(gui_fb_selector_top_idx, 0, 24 + (8 * 21));
+	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
 }
 
+// Draw Fav Browse.
+void DrawFavSaves(uint Selection) {
+	std::string saves;
+	GFX::DrawFileBrowseBG(false);
+	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<favDatabase.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
+		saves += favDatabase[i].Name + "\n";
+	}
+	for (uint i=0;i<((favDatabase.size()<9) ? 9-favDatabase.size() : 0);i++) {
+		saves += "\n";
+	}
+
+	if (Selection < 9)	GFX::DrawGUI(gui_fb_selector_bottom_idx, 0, 26 + ((int)Selection * 21));
+	else				GFX::DrawGUI(gui_fb_selector_bottom_idx, 0, 26 + (8 * 21));
+	Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360);
+}
+
+FavSave getFavSave(std::string line) {
+	FavSave FS;
+	if (line.size() != 0) {
+		FS.Name = line.substr(0, line.find(", "));
+		line = line.substr(line.find(", ")+1);
+	
+		FS.Path = line.substr(0, std::min(line.find(", "), line.length()-1));
+		line = line.substr(line.find(";"));
+	} else {
+		FS.Name = "-";
+		FS.Path = "-";
+	}
+	return FS;
+}
+
+// Implementation of favorite saves.
+void FavSaves::Parse() {
+	favDatabase.clear(); // Clear!
+
+	// if File not found -> Create!
+	if((access("sdmc:/LeafEdit/FavSaves.fs", F_OK) != 0)) {
+		std::ofstream outfile("sdmc:/LeafEdit/FavSaves.fs");
+		outfile.close();
+	}
+
+	std::ifstream in("sdmc:/LeafEdit/FavSaves.fs");
+	if(in.good()) {
+		std::string line;
+		while(std::getline(in, line)) {
+			favDatabase.push_back(getFavSave(line)); // PUSH!
+		}
+	}
+}
+
+// Add a favorite Save.
+void FavSaves::add(std::string name, std::string path) {
+	std::ofstream out;
+	out.open("sdmc:/LeafEdit/FavSaves.fs", std::ofstream::app);
+	out << name << ", " << path << ";" << std::endl;
+	out.close();
+	Parse(); // Reparse after it.
+}
 
 std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text) {
 	s32 selectedSave = 0;
-	static int keyRepeatDelay = 4;
-	static bool dirChanged = false;
+	s32 selectedFavSave = 0;
+	int keyRepeatDelay = 4;
+	bool dirChanged = false;
+	int Mode = 0;
 	std::vector<DirEntry> dirContents;
+	FavSaves::Parse(); // Parse.
 
 	// Initial dir change.
 	dirContents.clear();
@@ -167,8 +224,14 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 	}
 
 	while (1) {
+		Gui::clearTextBufs();
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(Top, BLACK);
+		C2D_TargetClear(Bottom, BLACK);
 		// Screen draw part.
-		DrawBrowse(selectedSave, dirContents, Text);
+		DrawBrowseTop(selectedSave, dirContents, Text);
+		DrawFavSaves(selectedFavSave);
+		C3D_FrameEnd(0);
 
 		// The input part.
 		hidScanInput();
@@ -188,40 +251,92 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 			dirChanged = false;
 		}
 
+		if (hDown & KEY_X) {
+			if (Mode == 0) {
+				if (favDatabase.size() > 0)	Mode = 1;
+			}
+			else			Mode = 0;
+		}
 		if (hDown & KEY_A) {
-			if (dirContents[selectedSave].isDirectory) {
-				chdir(dirContents[selectedSave].name.c_str());
-				selectedSave = 0;
-				dirChanged = true;
-			} else {
-				return dirContents[selectedSave].name;
+			if (Mode == 0) {
+				if (dirContents[selectedSave].isDirectory) {
+					chdir(dirContents[selectedSave].name.c_str());
+					selectedSave = 0;
+					dirChanged = true;
+				} else {
+					char path[PATH_MAX];
+					getcwd(path, PATH_MAX);
+					std::string output = path + dirContents[selectedSave].name;
+					return output;
+				}
+			} else if (Mode == 1) {
+				std::string file;
+				if (favDatabase[selectedFavSave].Path.size() > 3 || favDatabase[selectedFavSave].Path != "" || favDatabase[selectedFavSave].Path != "-") {
+					file = favDatabase[selectedFavSave].Path.substr(1, favDatabase[selectedFavSave].Path.size() -1);
+					if((access(file.c_str(), F_OK) == 0)) {
+						return file;
+					}
+				}
 			}
 		}
 
 		if (hHeld & KEY_UP) {
-			if (selectedSave > 0 && !keyRepeatDelay) {
-				selectedSave--;
-				keyRepeatDelay = 6;
+			if (Mode == 0) {
+				if (selectedSave > 0 && !keyRepeatDelay) {
+					selectedSave--;
+					keyRepeatDelay = 6;
+				}
+			} else {
+				if (selectedFavSave > 0 && !keyRepeatDelay) {
+					selectedFavSave--;
+					keyRepeatDelay = 6;
+				}
 			}
 		} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-			if ((uint)selectedSave < dirContents.size()-1) {
-				selectedSave++;
-				keyRepeatDelay = 6;
+			if (Mode == 0) {
+				if ((uint)selectedSave < dirContents.size()-1) {
+					selectedSave++;
+					keyRepeatDelay = 6;
+				}
+			} else {
+				if ((uint)selectedFavSave < favDatabase.size()-1) {
+					selectedFavSave++;
+					keyRepeatDelay = 6;
+				}
 			}
 		} else if (hDown & KEY_B) {
-			char path[PATH_MAX];
-			getcwd(path, PATH_MAX);
-			if(strcmp(path, "sdmc:/") == 0 || strcmp(path, "/") == 0) {
+			if (Mode == 0) {
+				char path[PATH_MAX];
+				getcwd(path, PATH_MAX);
+				if(strcmp(path, "sdmc:/") == 0 || strcmp(path, "/") == 0) {
+					if(Msg::promptMsg(Lang::get("CANCEL_SAVE_SELECTION"))) {
+						return "";
+					}
+				} else {
+					chdir("..");
+					selectedSave = 0;
+					dirChanged = true;
+				}
+			} else {
 				if(Msg::promptMsg(Lang::get("CANCEL_SAVE_SELECTION"))) {
 					return "";
 				}
-			} else {
-				chdir("..");
-				selectedSave = 0;
-				dirChanged = true;
 			}
 		} else if (hDown & KEY_START) {
 			dirChanged = true;
+		}
+		if (hDown & KEY_Y) {
+			if (Mode == 0) {
+				if (!dirContents[selectedSave].isDirectory) {
+					if (Msg::promptMsg("Do you like to add this to a Favorite Save?")) {
+						std::string name = Input::getString("Enter the favorite savename.");
+						char path[PATH_MAX];
+						getcwd(path, PATH_MAX);
+						std::string output = path + dirContents[selectedSave].name;
+						FavSaves::add(name, output);
+					}
+				}
+			}
 		}
 	}
 }

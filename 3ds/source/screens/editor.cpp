@@ -27,11 +27,14 @@
 #include "editor.hpp"
 #include "fileBrowse.hpp"
 #include "playerEditor.hpp"
+#include "saveUtils.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
+#include "scriptScreen.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 std::shared_ptr<Sav> save;
+std::unique_ptr<Town> town;
 static std::string SaveFile;
 // Bring that to other screens too.
 SaveType savesType = SaveType::UNUSED;
@@ -100,25 +103,43 @@ void Editor::Draw(void) const
 {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
-		GFX::DrawTitle("LeafEdit - Editor");
+		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Editor", 395);
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
-			std::string test = "Town Name: " + StringUtils::UTF16toUTF8(save->town()->name());
-			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, test, 400);
+			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
 		}
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {
-			GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
+			if (i == Selection)	GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i], true);
+			else				GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
 		}
-		GFX::DrawSprite(sprites_selector_idx, mainButtons[Selection].x+4, mainButtons[Selection].y+4);
+		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
+		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
 	}
 }
 
+void Editor::Saving() {
+	save->Finish();
+	FILE* out = fopen(saveName.c_str(), "rb+");
+	fwrite(save->rawData().get(), 1, save->getLength(), out);
+	fclose(out);
+}
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (loadState == SaveState::Loaded) {
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, icons[0])) {
+				savesType = SaveType::UNUSED;
+				Gui::screenBack();
+				return;
+			} else if (touching(touch, icons[1])) {
+				if (Msg::promptMsg("Do you like to save?")) {
+					Saving();
+				}
+			}
+		}
 		// Navigation.
 		if(hDown & KEY_UP) {
 			if(Selection > 0)	Selection --;
@@ -129,8 +150,11 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_A) {
 			if (savesType != SaveType::UNUSED) {
 				if (Selection == 0)	Gui::setScreen(std::make_unique<PlayerEditor>());
+				else if (Selection == 2)	Gui::setScreen(std::make_unique<ScriptScreen>());
 			}
+
 		}
+
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
 			Gui::screenBack();

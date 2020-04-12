@@ -24,14 +24,22 @@ include $(DEVKITARM)/ds_rules
 BUILD		:=	build
 
 SOURCECORE	:= ../../LeafEdit-Core/source \
+			   ../../LeafEdit-Core/source/acre \
 			   ../../LeafEdit-Core/source/coreUtils \
+			   ../../LeafEdit-Core/source/island \
+			   ../../LeafEdit-Core/source/item \
+			   ../../LeafEdit-Core/source/pattern \
 			   ../../LeafEdit-Core/source/player \
 			   ../../LeafEdit-Core/source/sav \
 			   ../../LeafEdit-Core/source/town \
 			   ../../LeafEdit-Core/source/villager
 
 INCLUDECORE	:= ../../LeafEdit-Core/include \
+			   ../../LeafEdit-Core/include/acre \
 			   ../../LeafEdit-Core/include/coreUtils \
+			   ../../LeafEdit-Core/include/island \
+			   ../../LeafEdit-Core/include/item \
+			   ../../LeafEdit-Core/include/pattern \
 			   ../../LeafEdit-Core/include/player \
 			   ../../LeafEdit-Core/include/sav \
 			   ../../LeafEdit-Core/include/town \

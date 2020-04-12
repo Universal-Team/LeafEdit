@@ -24,40 +24,53 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FILEBROWSE_HPP
-#define FILEBROWSE_HPP
+#ifndef SCRIPTSCREEN_HPP
+#define SCRIPTSCREEN_HPP
 
-#include <3ds.h>
-#include <cstring>
-#include <dirent.h>
-#include <string>
-#include <sys/stat.h>
+#include "common.hpp"
+#include "fileBrowse.hpp"
+#include "scriptHelper.hpp"
+#include "structs.hpp"
+
 #include <vector>
 
-struct DirEntry {
-	std::string name;
-	std::string path;
-	bool isDirectory;
-	off_t size;
+class ScriptScreen : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	ScriptScreen();
+private:
+	// Variables.
+	std::vector<ScriptInfo> scriptInfo;
+	std::vector<std::string> scriptEntries;
+	nlohmann::json scriptJson;
+	bool ScriptsFound = false;
+	int Mode = 0;
+	int Selection = 0;
+	int screenPos = 0;
+	std::vector<std::string> descLines;
+	std::string scriptDesc = "";
+	std::string currentFile;
+
+	// Browse stuff.
+	int keyRepeatDelay = 8;
+	int fastMode = false;
+	std::vector<DirEntry> dirContents;
+
+	// Utils.
+	bool returnIfExist();
+	void descript();
+	ScriptInfo parseInfos(const std::string fileName);
+	nlohmann::json openScriptFile();
+	std::vector<std::string> parseObjects(std::string Name);
+	void refreshList();
+
+	// Screens.
+	void DrawList(void) const;
+	void ListLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void DrawEntries(void) const;
+	void EntryLogic(u32 hDown, u32 hHeld, touchPosition touch);
 };
-
-struct FavSave {
-	std::string Name;
-	std::string Path;
-};
-
-namespace FavSaves {
-	void Parse();
-	void add(std::string name, std::string path);
-}
-
-bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList);
-void getDirectoryContents(std::vector<DirEntry>& dirContents);
-void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
-std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
-
-namespace SaveBrowse {
-	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
-}
 
 #endif

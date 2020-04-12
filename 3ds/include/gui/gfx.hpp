@@ -53,20 +53,20 @@ extern u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_
 
 namespace GFX {
 	// Draw basic GUI.
-	void DrawTop(bool useBars = true);
-	void DrawBottom(bool useBars = true);
+	void DrawTop(bool useBars = true, bool fullscreen = false);
+	void DrawBottom(bool fullscreen = false);
 	void DrawFileBrowseBG(bool isTop = true);
 
 	// Draw Sprites.
 	void DrawNPC(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawSprite(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	void DrawGUI(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX = 1, float ScaleY = 1);
 
 	// Selection from list.
 	int ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg);
 
-	void DrawButton(int x, int y, std::string ButtonText = "");
-	void DrawTitle(std::string Text, bool top = true);
+	void DrawButton(int x, int y, std::string ButtonText = "", bool selected = false);
 }
 
 #endif

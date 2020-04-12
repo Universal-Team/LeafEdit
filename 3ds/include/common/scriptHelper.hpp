@@ -24,40 +24,39 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FILEBROWSE_HPP
-#define FILEBROWSE_HPP
+#ifndef SCRIPTHELPER_HPP
+#define SCRIPTHELPER_HPP
+
+#include "json.hpp"
 
 #include <3ds.h>
-#include <cstring>
-#include <dirent.h>
 #include <string>
-#include <sys/stat.h>
-#include <vector>
 
-struct DirEntry {
-	std::string name;
-	std::string path;
-	bool isDirectory;
-	off_t size;
+// Script Struct which contains all information. :P
+struct ScriptInfo {
+	std::string Author;
+	std::string Description;
+	std::vector<std::string> Games;
+	std::vector<std::string> Regions;
+	std::string Title;
+	bool Valid;
 };
 
-struct FavSave {
-	std::string Name;
-	std::string Path;
-};
+#define SCRIPT_VERSION	1
 
-namespace FavSaves {
-	void Parse();
-	void add(std::string name, std::string path);
-}
-
-bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList);
-void getDirectoryContents(std::vector<DirEntry>& dirContents);
-void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
-std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
-
-namespace SaveBrowse {
-	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
+namespace ScriptHelper {
+	// Getter.
+	std::string getString(nlohmann::json json, const std::string &key, const std::string &key2);
+	int getNum(nlohmann::json json, const std::string &key, const std::string &key2);
+	// Compare's.
+	bool checkIfValid(const std::string scriptFile, int Mode = 0);
+	// General Script check.
+	bool isCorrectVersion(const std::vector<ScriptInfo> &info, int entry);
+	bool isCorrectRegion(const std::vector<ScriptInfo> &info, int entry);
+	// Entry Check.
+	bool checkVersion(const nlohmann::json &info, int entry);
+	bool checkRegion(const nlohmann::json &info, int entry);
+	void run(const nlohmann::json &json, int Selection);
 }
 
 #endif

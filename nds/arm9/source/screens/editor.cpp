@@ -116,7 +116,7 @@ void Editor::Draw(void) const {
 }
 
 void Editor::Logic(u16 hDown, touchPosition touch) {
-	// Only do Logic, if SaveState is loaded.
+	// Only do Logic, if Save is loaded.
 	if (loadState == SaveState::Loaded) {
 		Gui::updatePointer(mainButtons[Selection].x+60, mainButtons[Selection].y+12);
 
@@ -138,22 +138,20 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 
 /*		if (hDown & KEY_A) {
 			if (Selection == 0) {
-				Gui::setScreen(std::make_unique<PlayerEditor>());
+				Gui::setScreen(std::make_unique<PlayerScreen>());
 				Gui::DrawScreen();
-				Gui::hidePointer();
 				selected = true;
 			}
 		}
 
 		if (hDown & KEY_TOUCH) {
 			if (touching(touch, mainButtons[0])) {
-				Gui::setScreen(std::make_unique<PlayerEditor>());
+				Gui::setScreen(std::make_unique<PlayerScreen>());
 				Gui::DrawScreen();
-				Gui::hidePointer();
 				selected = true;
 			}
-		}
-*/	} else {
+		}*/
+	} else {
 		SaveInitialize();
 	}
 }

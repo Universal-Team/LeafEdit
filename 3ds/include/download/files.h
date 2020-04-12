@@ -1,6 +1,6 @@
 /*
-*   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   This file is part of Universal-Updater
+*   Copyright (C) 2019 VoltZ, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,40 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FILEBROWSE_HPP
-#define FILEBROWSE_HPP
+#pragma once
 
-#include <3ds.h>
-#include <cstring>
-#include <dirent.h>
-#include <string>
-#include <sys/stat.h>
-#include <vector>
+#include "common.hpp"
 
-struct DirEntry {
-	std::string name;
-	std::string path;
-	bool isDirectory;
-	off_t size;
-};
+#define WORKING_DIR	"/"
 
-struct FavSave {
-	std::string Name;
-	std::string Path;
-};
-
-namespace FavSaves {
-	void Parse();
-	void add(std::string name, std::string path);
-}
-
-bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList);
-void getDirectoryContents(std::vector<DirEntry>& dirContents);
-void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
-std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
-
-namespace SaveBrowse {
-	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
-}
-
-#endif
+Result makeDirs(const char * path);
+Result openFile(Handle* fileHandle, const char * path, bool write);
+Result deleteFile(const char * path);
+Result removeDir(const char * path);
+Result removeDirRecursive(const char * path);

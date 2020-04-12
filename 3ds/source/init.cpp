@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "download.hpp"
 #include "init.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
@@ -62,10 +63,10 @@ C2D_SpriteSheet WWFaces;
 C2D_SpriteSheet WWVillagers;
 
 // Is loaded state.
-bool NLSheetHasLoaded = false;
-bool WWSheetHasLoaded = false;
-bool FontHasLoaded	  = false;
-bool changesMade	  = false;
+bool NLSheetHasLoaded	= false;
+bool WWSheetHasLoaded	= false;
+bool FontHasLoaded		= false;
+bool changesMade		= false;
 
 // GodMode and whatnot.
 bool Debug = true;
@@ -221,7 +222,7 @@ Result Init::Init() {
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
-	mkdir("sdmc:/LeafEdit/TPC", 0777); // TPC path.
+	mkdir("sdmc:/LeafEdit/Scripts", 0777); // Scripts path.
 
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
@@ -234,6 +235,11 @@ Result Init::Init() {
 	LIGHTER_COLOR = LIGHTER_GREEN;
 	SELECTED_COLOR = SELECTED_GREEN;
 	UNSELECTED_COLOR = UNSELECTED_GREEN;
+
+	// If sheets not found -> Download it.
+	if (CheckSheets(0) != 0 || CheckSheets(1) != 0) {
+		Download::downloadAssets();
+	}
 
 	// Only Load Font if found, else load System font.
 	loadFont();

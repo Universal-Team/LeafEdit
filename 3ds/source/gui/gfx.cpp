@@ -42,29 +42,37 @@ extern C2D_SpriteSheet WWAcres;
 extern C2D_SpriteSheet WWFaces;
 extern C2D_SpriteSheet WWVillagers;
 
-void GFX::DrawTop(bool useBars) {
+void GFX::DrawTop(bool useBars, bool fullscreen) {
 	Gui::ScreenDraw(Top);
-	if (useBars) {
+	if (!fullscreen) {
+		// Draw BG.
 		Gui::DrawSprite(GUI, gui_top_ui_idx, 0, 0);
+		if (useBars) {
+			// Draw Bar. (We likely only need one.)
+			Gui::DrawSprite(GUI, gui_top_bar_idx, 0, 0);
+		}
 	} else {
-		// TODO.
+		// Just solid.
+		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(225,189,121, 255));
 	}
 }
 
-void GFX::DrawBottom(bool useBars) {
+void GFX::DrawBottom(bool fullscreen) {
 	Gui::ScreenDraw(Bottom);
-	if (useBars) {
+	if (!fullscreen) {
 		Gui::DrawSprite(GUI, gui_bottom_ui_idx, 0, 0);
 	} else {
-		// TODO.
+		Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(225,189,121, 255));
 	}
 }
 
 void GFX::DrawFileBrowseBG(bool isTop) {
-	if (isTop == true) {
-		DrawTop();
+	if (isTop) {
+		Gui::ScreenDraw(Top);
+		Gui::DrawSprite(GUI, gui_fb_bg_top_idx, 0, 0);
 	} else {
-		DrawBottom();
+		Gui::ScreenDraw(Bottom);
+		Gui::DrawSprite(GUI, gui_fb_bg_bottom_idx, 0, 0);
 	}
 }
 
@@ -128,6 +136,11 @@ void GFX::DrawSprite(int img, int x, int y, float ScaleX, float ScaleY)
 	Gui::DrawSprite(sprites, img, x, y, ScaleX, ScaleY);
 }
 
+void GFX::DrawGUI(int img, int x, int y, float ScaleX, float ScaleY)
+{
+	Gui::DrawSprite(GUI, img, x, y, ScaleX, ScaleY);
+}
+
 void GFX::DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX, float ScaleY)
 {
 	C2D_ImageTint tint;
@@ -139,27 +152,9 @@ void GFX::DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX, float 
 }
 
 // Draw a Button and draw Text on it.
-void GFX::DrawButton(int x, int y, std::string ButtonText) {
-	DrawSprite(sprites_button_idx, x, y);
+void GFX::DrawButton(int x, int y, std::string ButtonText, bool selected) {
+	if (selected)	Gui::DrawSprite(GUI, gui_button_selected_idx, x, y);
+	else 			Gui::DrawSprite(GUI, gui_button_idx, x, y);
 	// Draw String. TODO: Center.
-	Gui::DrawStringCentered(- (158/2) + x, y + (61/2) - (Gui::GetStringHeight(0.9f, ButtonText) / 2), 0.9f, WHITE, ButtonText, 145, 30);
-}
-
-void GFX::DrawTitle(std::string Text, bool top) {
-	// Cause the Bars are awful to read -> Draw slightly dimmed BG before text.
-	if (top) {
-		if (Gui::GetStringWidth(0.9f, Text) > 400) {
-			Gui::Draw_Rect(0, 0, 400, 20, C2D_Color32(0, 0, 0, 20)); // Do not draw more than 400px.
-		} else {
-			Gui::Draw_Rect(200 - Gui::GetStringWidth(0.9f, Text)/2, 0, Gui::GetStringWidth(0.9f, Text), 20, C2D_Color32(0, 0, 0, 20));
-		}
-		Gui::DrawStringCentered(0, -2, 0.9, WHITE, Text, 390);
-	} else {
-		if (Gui::GetStringWidth(0.9f, Text) > 400) {
-			Gui::Draw_Rect(0, 220, 400, 20, C2D_Color32(0, 0, 0, 20)); // Do not draw more than 400px.
-		} else {
-			Gui::Draw_Rect(200 - Gui::GetStringWidth(0.9f, Text)/2, 220, Gui::GetStringWidth(0.9f, Text), 20, C2D_Color32(0, 0, 0, 20));
-		}
-		Gui::DrawStringCentered(0, 220, 0.9, WHITE, Text, 390);
-	}
+	Gui::DrawStringCentered(- (158/2) + x, y + (61/2) - (Gui::GetStringHeight(0.9f, ButtonText) / 2), 0.9f, BLACK, ButtonText, 145, 30);
 }

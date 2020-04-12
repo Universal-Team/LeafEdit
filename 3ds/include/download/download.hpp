@@ -1,5 +1,5 @@
 /*
-*   This file is part of LeafEdit
+*   This file is part of Universal-Updater
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,40 +24,61 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FILEBROWSE_HPP
-#define FILEBROWSE_HPP
+#ifndef DOWNLOAD_HPP
+#define DOWNLOAD_HPP
 
-#include <3ds.h>
-#include <cstring>
-#include <dirent.h>
-#include <string>
-#include <sys/stat.h>
-#include <vector>
+#include "common.hpp"
 
-struct DirEntry {
-	std::string name;
-	std::string path;
-	bool isDirectory;
-	off_t size;
+#define APP_TITLE "LeafEdit"
+#define VERSION_STRING "0.2.0"
+
+enum DownloadError {
+	DL_ERROR_NONE = 0,
+	DL_ERROR_WRITEFILE,
+	DL_ERROR_ALLOC,
+	DL_ERROR_STATUSCODE,
+	DL_ERROR_GIT,
 };
 
-struct FavSave {
-	std::string Name;
-	std::string Path;
+struct NightlyFetch {
+	std::string Message;
+	std::string Target;
+	std::string Committer;
+	std::string Author;
 };
 
-namespace FavSaves {
-	void Parse();
-	void add(std::string name, std::string path);
-}
+struct ReleaseFetch {
+	std::string Version;
+	std::string ReleaseName;
+	std::string Body;
+	std::string Published;
+};
 
-bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList);
-void getDirectoryContents(std::vector<DirEntry>& dirContents);
-void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
-std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
+Result downloadToFile(std::string url, std::string path);
+Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases);
 
-namespace SaveBrowse {
-	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
+void displayProgressBar();
+
+/**
+ * Check Wi-Fi status.
+ * @return True if Wi-Fi is connected; false if not.
+ */
+bool checkWifiStatus(void);
+
+
+ReleaseFetch getLatestRelease();
+
+NightlyFetch getLatestCommit();
+
+// LeafEdit's namespace for Downloads.
+namespace Download {
+	void downloadAssets(void);
+	Result updateApp(bool nightly);
+
+	ReleaseFetch getLatestRelease2();
+	NightlyFetch getLatestNightly();
+
+	bool showReleaseInfo(ReleaseFetch RF);
 }
 
 #endif

@@ -48,12 +48,18 @@ private:
 	int saveT = -1; // No SaveType.
 	bool loadSave();
 	void SaveInitialize();
+	void Saving();
 	std::string saveName;
 
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{80, 30, 149, 52},
 		{80, 90, 149, 52},
-		{80, 150, 149, 52},
+		{80, 150, 149, 52}
+	};
+
+	std::vector<Structs::ButtonPos> icons = {
+		{286, 213, 27, 27},
+		{6, 219, 20, 20}
 	};
 };
 
