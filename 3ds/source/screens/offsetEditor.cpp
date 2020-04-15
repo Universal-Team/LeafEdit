@@ -89,12 +89,18 @@ void showString() {
 
 	if (save->getType() == SaveType::WW) {
 		switch (save->getRegion()) {
-			case WWRegion::EUR:
-			case WWRegion::JPN:
+			case WWRegion::USA_REV0:
+			case WWRegion::USA_REV1:
+			case WWRegion::EUR_REV1:
+			case WWRegion::JPN_REV0:
+			case WWRegion::JPN_REV1:
 				output = StringUtils::ReadWWString(save->savePointer(), offset, length, save->getRegion());
 				break;
-			case WWRegion::KOR:
+			case WWRegion::KOR_REV1:
 				output = StringUtils::ReadNLString(save->savePointer(), offset, length, u'\uFFFF');
+				break;
+			case WWRegion::UNKNOWN:
+				output = StringUtils::UTF8toUTF16("?");
 				break;
 		}
 	} else if (save->getType() == SaveType::NL || save->getType() == SaveType::WA) {
