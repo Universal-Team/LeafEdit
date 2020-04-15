@@ -29,10 +29,11 @@
 
 #include "common.hpp"
 #include "fileBrowse.hpp"
-#include "scriptHelper.hpp"
 #include "structs.hpp"
 
 #include <vector>
+
+#define PICOC_STACKSIZE (32 * 1024)
 
 class ScriptScreen : public Screen
 {
@@ -41,17 +42,14 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	ScriptScreen();
 private:
+	// picoC stuff.
+	void applyScript(std::string& file);
+	void parsePicoCScript(std::string& file);
+
 	// Variables.
-	std::vector<ScriptInfo> scriptInfo;
-	std::vector<std::string> scriptEntries;
-	nlohmann::json scriptJson;
 	bool ScriptsFound = false;
-	int Mode = 0;
 	int Selection = 0;
 	int screenPos = 0;
-	std::vector<std::string> descLines;
-	std::string scriptDesc = "";
-	std::string currentFile;
 
 	// Browse stuff.
 	int keyRepeatDelay = 8;
@@ -60,17 +58,7 @@ private:
 
 	// Utils.
 	bool returnIfExist();
-	void descript();
-	ScriptInfo parseInfos(const std::string fileName);
-	nlohmann::json openScriptFile();
-	std::vector<std::string> parseObjects(std::string Name);
 	void refreshList();
-
-	// Screens.
-	void DrawList(void) const;
-	void ListLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void DrawEntries(void) const;
-	void EntryLogic(u32 hDown, u32 hHeld, touchPosition touch);
 };
 
 #endif

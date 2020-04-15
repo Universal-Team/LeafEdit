@@ -29,7 +29,7 @@
 #include "Sav.hpp"
 #include "stringUtils.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
@@ -37,22 +37,6 @@ extern SaveType savesType;
 int selectedPlayer = 0;
 
 std::unique_ptr<Player> player = nullptr; // player pointer which is used at this screen.
-
-const std::vector<std::string> players = {
-	"Player 1",
-	"Player 2",
-	"Player 3",
-	"Player 4"
-};
-
-const std::vector<std::string> Strings = {
-	"Appearance",
-	"",
-	"",
-	"",
-	"",
-	""
-};
 
 void PlayerEditor::Draw(void) const {
 	if (Mode == 0)	DrawPlayerSelection();
@@ -70,12 +54,12 @@ void PlayerEditor::DrawPlayerSelection(void) const
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395);
 	if (save->player(selectedPlayer)->exist()) {
-		Gui::DrawStringCentered(0, 50, 0.9f, WHITE, StringUtils::UTF16toUTF8(save->player(selectedPlayer)->name()), 400);
+		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, StringUtils::UTF16toUTF8(save->player(selectedPlayer)->name()), 400);
 	}
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
-		if (i == selectedPlayer)	GFX::DrawButton(playerPos[i].x, playerPos[i].y, players[i], true);
-		else				GFX::DrawButton(playerPos[i].x, playerPos[i].y, players[i]);
+		GFX::DrawButton(playerPos[i]);
+		if (i == selectedPlayer)	GFX::DrawGUI(gui_pointer_idx, playerPos[i].x+100, playerPos[i].y+30);
 	}
 }
 
@@ -122,8 +106,8 @@ void PlayerEditor::DrawSubMenu(void) const
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
-		if (i == Selection)	GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i], true);
-		else				GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
+		GFX::DrawButton(mainButtons[i]);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
 }
 

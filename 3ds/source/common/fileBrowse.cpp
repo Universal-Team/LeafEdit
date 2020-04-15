@@ -141,8 +141,8 @@ static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, con
 		dirs += "\n";
 	}
 
-	if (Selection < 9)	GFX::DrawGUI(gui_fb_selector_top_idx, 0, 24 + ((int)Selection * 21));
-	else				GFX::DrawGUI(gui_fb_selector_top_idx, 0, 24 + (8 * 21));
+	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
+	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
 }
 
@@ -157,8 +157,8 @@ void DrawFavSaves(uint Selection) {
 		saves += "\n";
 	}
 
-	if (Selection < 9)	GFX::DrawGUI(gui_fb_selector_bottom_idx, 0, 26 + ((int)Selection * 21));
-	else				GFX::DrawGUI(gui_fb_selector_bottom_idx, 0, 26 + (8 * 21));
+	if (Selection < 9)	GFX::DrawSelector(false, 26 + ((int)Selection * 21));
+	else				GFX::DrawSelector(false, 26 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360);
 }
 

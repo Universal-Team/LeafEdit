@@ -31,17 +31,9 @@
 #include "saveUtils.hpp"
 #include "screenCommon.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
 
-const std::vector<std::string> Strings = {
-	"u8",
-	"u16",
-	"u32",
-	"u64",
-	"String",
-	"EncryptedInt32",
-};
 // Read.
 template <typename t>
 t Read() {
@@ -164,8 +156,8 @@ void OffsetEditor::Draw(void) const
 	Gui::DrawStringCentered(0, -2, 0.9, WHITE, title, 390);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
-		if (i == Selection)	GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i], true);
-		else 				GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
+		GFX::DrawButton(mainButtons[i]);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
 }
 

@@ -1,15 +1,15 @@
 --atlas -f rgba -z auto
 
 gui/back.png
+gui/bar.png
 gui/bottom_bar.png
-gui/bottom_ui.png
-gui/button.png
-gui/button_selected.png
-gui/fb_bg_bottom.png
-gui/fb_bg_top.png
-gui/fb_selector_bottom.png
-gui/fb_selector_top.png
+gui/button_corner.png
+gui/discord.png
+gui/pointer.png
 gui/save.png
+gui/selector_side.png
+gui/stackZ.png
+gui/tileBG.png
 gui/top_bar.png
-gui/top_ui.png
 gui/txt_box.png
+gui/universal-core.png

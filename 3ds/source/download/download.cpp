@@ -797,8 +797,8 @@ Result Download::updateApp(bool nightly) {
 }
 
 void Download::downloadAssets(void) {
-	// Acres NL.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 1 / 12");
+	// Acres AC:WW & AC:NL.
+	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 1 / 6");
 	showProgressBar = true;
 	Threads::create((ThreadFunc)displayProgressBar);
 	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/acres.t3x?raw=true", "sdmc:/LeafEdit/assets/acres.t3x") != 0) {
@@ -806,85 +806,44 @@ void Download::downloadAssets(void) {
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
-	// Badges NL.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 2 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/badges.t3x?raw=true", "sdmc:/LeafEdit/assets/badges.t3x") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-	// Faces NL.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 3 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/faces.t3x?raw=true", "sdmc:/LeafEdit/assets/faces.t3x") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-	// Font.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 4 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/font.bcfnt?raw=true", "sdmc:/LeafEdit/assets/font.bcfnt") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-	// Hairs NL.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 5 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/hairs.t3x?raw=true", "sdmc:/LeafEdit/assets/hairs.t3x") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 6 / 12");
+	// Items & Badges.
+	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 2 / 6");
 	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/items.t3x?raw=true", "sdmc:/LeafEdit/assets/items.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
-
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 7 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/NPCs.t3x?raw=true", "sdmc:/LeafEdit/assets/NPCs.t3x") != 0) {
+	// Faces & Hair.
+	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 3 / 6");
+	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/players.t3x?raw=true", "sdmc:/LeafEdit/assets/players.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
-
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 8 / 12");
+	// Font.
+	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 4 / 6");
+	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/font.bcfnt?raw=true", "sdmc:/LeafEdit/assets/font.bcfnt") != 0) {
+		showProgressBar = false;
+		Msg::DisplayWarnMsg("Download Failed!");
+		return;
+	}
+	// First Villager Sprite.
+	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 5 / 6");
 	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/villagers.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
-
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 9 / 12");
+	// Second Villager Sprite.
+	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 6 / 6");
 	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/villagers2.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers2.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 10 / 12");
-		if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/wwacres.t3x?raw=true", "sdmc:/LeafEdit/assets/wwacres.t3x") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 11 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/wwfaces.t3x?raw=true", "sdmc:/LeafEdit/assets/wwfaces.t3x") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 12 / 12");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/wwvillagers.t3x?raw=true", "sdmc:/LeafEdit/assets/wwvillagers.t3x") != 0) {
-		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
-		return;
-	}
-
 	showProgressBar = false;
+	// Load the Font, cause it's downloaded in that function.
 	Init::loadFont();
 	Msg::DisplayWarnMsg("Done!");
 }

@@ -30,15 +30,13 @@
 #include <3ds.h>
 
 namespace Init {
-	// Load & Unload NL/WW Sheets & Font.
-	Result loadNLSheets();
-	Result loadWWSheets();
+	// Load & Unload Sheets & Font.
+	Result loadSheets();
 	Result loadFont();
-	Result unloadNLSheets();
-	Result unloadWWSheets();
+	Result unloadSheets();
 	Result unloadFont();
 	
-	Result CheckSheets(int Mode);
+	Result CheckSheets();
 
 	// Init, Mainloop & Exit.
 	Result Init();

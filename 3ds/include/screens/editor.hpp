@@ -51,10 +51,10 @@ private:
 	void Saving();
 	std::string saveName;
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{80, 30, 149, 52},
-		{80, 90, 149, 52},
-		{80, 150, 149, 52}
+	std::vector<ButtonType> mainButtons = {
+		{95, 34, 130, 48, "Player"},
+		{95, 97, 130, 48, "Villager"},
+		{95, 159, 130, 48, "Misc"}
 	};
 
 	std::vector<Structs::ButtonPos> icons = {

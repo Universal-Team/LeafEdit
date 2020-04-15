@@ -49,22 +49,14 @@ u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; 
 
 // Include all spritesheet's.
 C2D_SpriteSheet Acres;
-C2D_SpriteSheet Badges;
-C2D_SpriteSheet Faces;
 C2D_SpriteSheet GUI;
-C2D_SpriteSheet Hairs;
 C2D_SpriteSheet Items;
-C2D_SpriteSheet NPCs;
-C2D_SpriteSheet sprites;
+C2D_SpriteSheet Players;
 C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
-C2D_SpriteSheet WWAcres;
-C2D_SpriteSheet WWFaces;
-C2D_SpriteSheet WWVillagers;
 
 // Is loaded state.
-bool NLSheetHasLoaded	= false;
-bool WWSheetHasLoaded	= false;
+bool sheetsLoaded		= false;
 bool FontHasLoaded		= false;
 bool changesMade		= false;
 
@@ -90,7 +82,14 @@ void getCurrentUsage(){
 }
 
 // If button Position pressed -> Do something.
-bool touching(touchPosition touch, Structs::ButtonPos button) {
+bool touching(touchPosition touch, ButtonType button) {
+	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength))
+		return true;
+	else
+		return false;
+}
+// Icons are handled through Structs::ButtonPos.
+bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
 		return true;
 	else
@@ -98,90 +97,45 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 }
 
 // Check if Sheets are found.
-Result Init::CheckSheets(int Mode) {
-	// 0 -> NL.
-	if (Mode == 0) {
-		if((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/badges.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/faces.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/hairs.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/NPCs.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
-				return 0;
-			} else {
-				return -1;
-			}
+Result Init::CheckSheets() {
+	if((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
+		return 0;
 	} else {
-		if((access("sdmc:/LeafEdit/assets/wwacres.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/wwfaces.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/wwvillagers.t3x", F_OK) == 0 )) {
-			  return 0;
-		} else {
-			  return -1;
-		}
+		return -1;
 	}
 }
 
 // Loading the Sheets.
-Result Init::loadNLSheets() {
-	if (NLSheetHasLoaded == false) {
-		if (CheckSheets(0) != 0) {
+Result Init::loadSheets() {
+	if (sheetsLoaded == false) {
+		if (CheckSheets() != 0) {
 			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
 			return -1;
 		} else {
 			Acres		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/acres.t3x");
-			Badges		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/badges.t3x");
-			Faces		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/faces.t3x");
-			Hairs		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/hairs.t3x");
 			Items		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/items.t3x");
-			NPCs		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/NPCs.t3x");
+			Players		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/players.t3x");
 			Villager	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers.t3x");
 			Villager2	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers2.t3x");
+			sheetsLoaded  = true;
 		}
 	}
-	NLSheetHasLoaded = true;
-	return 0;
-}
-
-Result Init::loadWWSheets() {
-	if (WWSheetHasLoaded == false) {
-		if (CheckSheets(1) != 0) {
-			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
-			return -1;
-		} else {
-			WWAcres	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/wwacres.t3x");
-			WWFaces		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/wwfaces.t3x");
-			WWVillagers	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/wwvillagers.t3x");
-		}
-	}
-	WWSheetHasLoaded = true;
 	return 0;
 }
 
 // Unload all Sheets.
-Result Init::unloadNLSheets() {
-	if (NLSheetHasLoaded == true) {
-		NLSheetHasLoaded = false;
+Result Init::unloadSheets() {
+	if (sheetsLoaded == true) {
 		C2D_SpriteSheetFree(Acres);
-		C2D_SpriteSheetFree(Badges);
-		C2D_SpriteSheetFree(Faces);
-		C2D_SpriteSheetFree(Hairs);
 		C2D_SpriteSheetFree(Items);
-		C2D_SpriteSheetFree(NPCs);
+		C2D_SpriteSheetFree(Players);
 		C2D_SpriteSheetFree(Villager);
 		C2D_SpriteSheetFree(Villager2);
-	}
-	return 0;
-}
-
-Result Init::unloadWWSheets() {
-	if (WWSheetHasLoaded == true) {
-		WWSheetHasLoaded = false;
-		C2D_SpriteSheetFree(WWAcres);
-		C2D_SpriteSheetFree(WWFaces);
-		C2D_SpriteSheetFree(WWVillagers);
+		sheetsLoaded = false;
 	}
 	return 0;
 }
@@ -224,7 +178,6 @@ Result Init::Init() {
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 	mkdir("sdmc:/LeafEdit/Scripts", 0777); // Scripts path.
 
-	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
 	Lang::load(1);
@@ -237,7 +190,7 @@ Result Init::Init() {
 	UNSELECTED_COLOR = UNSELECTED_GREEN;
 
 	// If sheets not found -> Download it.
-	if (CheckSheets(0) != 0 || CheckSheets(1) != 0) {
+	if (CheckSheets() != 0) {
 		Download::downloadAssets();
 	}
 
@@ -300,11 +253,9 @@ Result Init::MainLoop() {
 Result Init::Exit() {
 	// Exit every process.
 	// Unload all sheets, because you don't know, if people exit properly like they should.
-	unloadNLSheets();
-	unloadWWSheets();
+	unloadSheets();
 	Gui::exit();
 	unloadFont();
-	Gui::unloadSheet(sprites);
 	Gui::unloadSheet(GUI);
 	cfguExit();
 	gfxExit();

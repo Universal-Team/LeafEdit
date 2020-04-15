@@ -32,16 +32,16 @@
 
 #include <vector>
 
-const std::vector<Structs::ButtonPos> promptBtn = {
-	{0, 85, 149, 52}, // Yes.
-	{162, 85, 149, 52}, // No.
-	{80, 90, 149, 52} // OK.
+const std::vector<ButtonType> promptBtn = {
+	{0, 85, 149, 52, "Yes"}, // Yes.
+	{162, 85, 149, 52, "No"}, // No.
+	{80, 90, 149, 52, "Ok"} // OK.
 };
 
 const std::vector<std::string> prompt = {"YES", "NO"};
 
 extern touchPosition touch;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
 
 // Display a Message, which needs to be confirmed with A/B.
 bool Msg::promptMsg2(std::string promptMsg)
@@ -59,8 +59,8 @@ bool Msg::promptMsg2(std::string promptMsg)
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
 		for (int i = 0; i < (int)prompt.size(); i++) {
-			if (selection == i)	GFX::DrawButton(promptBtn[i].x, promptBtn[i].y, Lang::get(prompt[i]), true);
-			else				GFX::DrawButton(promptBtn[i].x, promptBtn[i].y, Lang::get(prompt[i]));
+			GFX::DrawButton(promptBtn[i]);
+			if (i == selection)	GFX::DrawGUI(gui_pointer_idx, promptBtn[i].x+100, promptBtn[i].y+30);
 		}
 		C3D_FrameEnd(0);
 
@@ -141,8 +141,8 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395);
 	GFX::DrawBottom();
-	GFX::DrawButton(promptBtn[2].x, promptBtn[2].y, Lang::get("OK"), true);
-	GFX::DrawSprite(sprites_selector_idx, promptBtn[2].x+4, promptBtn[2].y+4);
+	GFX::DrawButton(promptBtn[2]);
+	GFX::DrawGUI(gui_pointer_idx, promptBtn[2].x+100, promptBtn[2].y+30);
 	C3D_FrameEnd(0);
 
 	while(1)

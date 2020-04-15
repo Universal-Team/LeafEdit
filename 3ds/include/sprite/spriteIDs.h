@@ -24,19 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#pragma once
-
 #ifndef SPRITEIDS_H
 #define SPRITEIDS_H
 
 #include "acres.h"
 #include "gui.h"
 #include "items.h"
-#include "npc.h"
-#include "sprites.h"
-#include "villagers.h"
+#include "player.h"
+#include "villagers.h" // Villager Sheets cannot be combined cause of too much space. 48x48 looks too small.
 #include "villagers2.h"
-#include "wwacres.h"
-#include "wwface.h"
 
 #endif

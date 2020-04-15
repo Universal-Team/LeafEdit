@@ -201,3 +201,4 @@
 #define villagers2_Villager_397_idx 197
 #define villagers2_Villager_398_idx 198
 #define villagers2_Villager_399_idx 199
+#define villagers2_Villager_144_WW_idx 200

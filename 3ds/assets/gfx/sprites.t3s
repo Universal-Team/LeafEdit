@@ -1,9 +1,0 @@
---atlas -f rgba -z auto
-
-sprites/button.png
-sprites/pointer.png
-sprites/selector.png
-
-sprites/credits/discord.png
-sprites/credits/universal-core.png
-sprites/credits/stackZ.png

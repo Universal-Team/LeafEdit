@@ -32,18 +32,14 @@
 #include "screenCommon.hpp"
 #include "scriptScreen.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
+
 std::shared_ptr<Sav> save;
 std::unique_ptr<Town> town;
 static std::string SaveFile;
 // Bring that to other screens too.
 SaveType savesType = SaveType::UNUSED;
-
-const std::vector<std::string> Strings = {
-	"Player",
-	"Villager",
-	"Misc",
-};
 
 // Japanese | PAL.
 const std::vector<std::string> titleNames = {
@@ -111,8 +107,8 @@ void Editor::Draw(void) const
 		}
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {
-			if (i == Selection)	GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i], true);
-			else				GFX::DrawButton(mainButtons[i].x, mainButtons[i].y, Strings[i]);
+			GFX::DrawButton(mainButtons[i]);
+			if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 		}
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
@@ -130,11 +126,11 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
-			if (touching(touch, icons[0])) {
+			if (iconTouch(touch, icons[0])) {
 				savesType = SaveType::UNUSED;
 				Gui::screenBack();
 				return;
-			} else if (touching(touch, icons[1])) {
+			} else if (iconTouch(touch, icons[1])) {
 				if (Msg::promptMsg("Do you like to save?")) {
 					Saving();
 				}

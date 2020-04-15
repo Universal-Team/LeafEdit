@@ -24,11 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "scriptHelper.hpp"
+#include "Sav.hpp"
 #include "scriptScreen.hpp"
 
+#include "picoc.h"
+#undef min // Get rid of picoc's min function
 #include <unistd.h>
 
+extern std::shared_ptr<Sav> save;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Return if Scripts are found.
@@ -36,7 +39,7 @@ bool ScriptScreen::returnIfExist() {
 	dirContents.clear();
 	chdir("sdmc:/LeafEdit/Scripts/");
 	std::vector<DirEntry> dirContentsTemp;
-	getDirectoryContents(dirContentsTemp, {"json"});
+	getDirectoryContents(dirContentsTemp, {"c"});
 	for(uint i=0;i<dirContentsTemp.size();i++) {
 		dirContents.push_back(dirContentsTemp[i]);
 	}
@@ -50,113 +53,43 @@ ScriptScreen::ScriptScreen() {
 	refreshList();
 }
 
-void ScriptScreen::Draw(void) const
-{
-	if (Mode == 0)	DrawList();
-	else if (Mode == 1)	DrawEntries();
-}
-void ScriptScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (Mode == 0)	ListLogic(hDown, hHeld, touch);
-	else if (Mode == 1)	EntryLogic(hDown, hHeld, touch);
-}
-
-std::vector<std::string> ScriptScreen::parseObjects(std::string Name) {
-	FILE* file = fopen(Name.c_str(), "rt");
-	if(!file) {
-		printf("File not found\n");
-		return {{""}};
-	}
-	nlohmann::json json = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-
-	std::vector<std::string> objs;
-	for(auto it = json.begin();it != json.end(); it++) {
-		if(it.key() != "ScriptInfo") {
-			objs.push_back(it.key());
-		}
-	}
-	return objs;
-}
-
-// Parse Informations.
-ScriptInfo ScriptScreen::parseInfos(const std::string fileName) {
-	FILE* file = fopen(fileName.c_str(), "rt");
-	if(!file) {
-		printf("File not found\n");
-		return {""};
-	}
-	nlohmann::json json = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-
-	ScriptInfo info;
-	info.Author		 = ScriptHelper::getString(json, "ScriptInfo", "Author");
-	info.Description = ScriptHelper::getString(json, "ScriptInfo", "Description");
-	info.Games = json["ScriptInfo"]["Games"].get<std::vector<std::string>>();
-	info.Regions = json["ScriptInfo"]["Regions"].get<std::vector<std::string>>();
-	info.Title		 = ScriptHelper::getString(json, "ScriptInfo", "Title");
-	int ver = ScriptHelper::getNum(json, "ScriptInfo", "Version");
-	if (ver == SCRIPT_VERSION) {
-		info.Valid = true;
-	} else {
-		info.Valid = false;
-	}
-	return info;
-}
-// Opens a JSON File and parses it.
-nlohmann::json ScriptScreen::openScriptFile() {
-	FILE* file = fopen(currentFile.c_str(), "rt");
-	nlohmann::json jsonFile;
-	if(file)	jsonFile = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-	return jsonFile;
-}
 // Refresh the Scriptlist and return scriptFound state.
 void ScriptScreen::refreshList() {
 	if (returnIfExist() == true) {
 		Msg::DisplayMsg("Refreshing list...");
 		dirContents.clear();
-		scriptInfo.clear();
 		chdir("sdmc:/LeafEdit/Scripts/");
-		getDirectoryContents(dirContents, {"json"});
-		for(uint i=0;i<dirContents.size();i++) {
-			scriptInfo.push_back(parseInfos(dirContents[i].name));
+		std::vector<DirEntry> dirContentsTemp;
+		getDirectoryContents(dirContentsTemp, {"c"});
+		for(uint i=0;i<dirContentsTemp.size();i++) {
+			dirContents.push_back(dirContentsTemp[i]);
 		}
 		Selection = 0;
-		Mode = 0;
 		ScriptsFound = true;
 	} else {
 		Selection = 0;
-		Mode = 0;
 		ScriptsFound = false;
 	}
 }
 
 // Script Selection list.
-void ScriptScreen::DrawList(void) const {
+void ScriptScreen::Draw(void) const {
 	if (ScriptsFound) {
-		std::string line1;
-		std::string line2;
-		std::string scriptAmount = std::to_string(Selection +1) + " | " + std::to_string(scriptInfo.size());
-		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, scriptInfo[Selection].Title, 395);
-		Gui::DrawString(397-Gui::GetStringWidth(0.7f, scriptAmount), 239-Gui::GetStringHeight(0.7f, scriptAmount), 0.7f, BLACK, scriptAmount);
-
-		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, "Author: " + scriptInfo[Selection].Author, 395);
-		Gui::DrawStringCentered(0, 80, 0.9f, BLACK, "Game: " + scriptInfo[Selection].Games[0], 395);
-		Gui::DrawStringCentered(0, 110, 0.9f, BLACK, "Region: " + scriptInfo[Selection].Regions[0], 395);
-		Gui::DrawStringCentered(0, 140, 0.9f, BLACK, "Desc: " + scriptInfo[Selection].Description, 395);
-
-		GFX::DrawBottom();
-		for(int i=0;i<3 && i<(int)scriptInfo.size();i++) {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, DARKER_COLOR);
-			line1 = scriptInfo[screenPos + i].Title;
-			line2 = scriptInfo[screenPos + i].Author;
-			if(screenPos + i == Selection) {
-				Gui::Draw_Rect(0, 40+(i*57), 320, 45, LIGHTER_COLOR);
-			}
-			Gui::DrawStringCentered(0, 38+(i*57), 0.7f, WHITE, line1, 310);
-			Gui::DrawStringCentered(0, 62+(i*57), 0.7f, WHITE, line2, 310);
+		std::string scripts;
+		GFX::DrawFileBrowseBG();
+		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "Select the script you like to use.", 395);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
+		for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<(((uint)Selection<8) ? 9 :(uint)Selection+1);i++) {
+			scripts += dirContents[i].name + "\n";
 		}
+		for (uint i=0;i<((dirContents.size()<9) ? 9-dirContents.size() : 0);i++) {
+			scripts += "\n";
+		}
+
+		if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
+		else				GFX::DrawSelector(true, 24 + (8 * 21));
+		Gui::DrawString(5, 25, 0.85f, BLACK, scripts, 360);
+		GFX::DrawFileBrowseBG(false);
 	} else {
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2, 0.8f, WHITE, "No Scripts found!", 395);
@@ -164,28 +97,7 @@ void ScriptScreen::DrawList(void) const {
 	}
 }
 
-void ScriptScreen::DrawEntries(void) const {
-	std::string line1;
-	std::string scriptAmount = std::to_string(Selection +1) + " | " + std::to_string((int)scriptJson.at("ScriptContent").size());
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, std::string(scriptJson["ScriptInfo"]["Title"]), 395);
-	Gui::DrawString(397-Gui::GetStringWidth(0.7f, scriptAmount), 239-Gui::GetStringHeight(0.7f, scriptAmount), 0.7f, BLACK, scriptAmount);
-
-	Gui::DrawStringCentered(0, 50, 0.9f, BLACK, "Title: " + std::string(scriptJson["ScriptContent"][Selection]["Info"]["Title"]), 395);
-	Gui::DrawStringCentered(0, 80, 0.9f, BLACK, "Desc: " + std::string(scriptJson["ScriptContent"][Selection]["Info"]["Description"]), 395);
-
-	GFX::DrawBottom();
-	for(int i=0;i<3 && i<(int)scriptJson.at("ScriptContent").size();i++) {
-		Gui::Draw_Rect(0, 40+(i*57), 320, 45, DARKER_COLOR);
-		line1 = scriptJson["ScriptContent"][screenPos + i]["Info"]["Title"];
-		if(screenPos + i == Selection) {
-			Gui::Draw_Rect(0, 40+(i*57), 320, 45, LIGHTER_COLOR);
-		}
-		Gui::DrawStringCentered(0, 50+(i*57), 0.7f, WHITE, line1, 310);
-	}
-}
-
-void ScriptScreen::ListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void ScriptScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 	if (hDown & KEY_B) {
@@ -194,7 +106,7 @@ void ScriptScreen::ListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-		if (Selection < (int)scriptInfo.size()-1) {
+		if (Selection < (int)dirContents.size()-1) {
 			Selection++;
 		} else {
 			Selection = 0;
@@ -209,7 +121,7 @@ void ScriptScreen::ListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (Selection > 0) {
 			Selection--;
 		} else {
-			Selection = (int)scriptInfo.size()-1;
+			Selection = (int)dirContents.size()-1;
 		}
 		if (fastMode == true) {
 			keyRepeatDelay = 8;
@@ -222,27 +134,7 @@ void ScriptScreen::ListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (ScriptsFound) {
 			// Make sure this is not a Directory.
 			if (!dirContents[Selection].isDirectory) {
-				// Make sure the vector's size is not 0.
-				if (scriptInfo.size() != 0) {
-					// Make sure the Script is not invalid!
-					if (ScriptHelper::checkIfValid(dirContents[Selection].name, 1)) {
-						// Check for Correct Version.
-						if (ScriptHelper::isCorrectVersion(scriptInfo, Selection)) {
-							// Check for Correct Region.
-							if (ScriptHelper::isCorrectRegion(scriptInfo, Selection)) {
-								currentFile = dirContents[Selection].name;
-								scriptJson = openScriptFile();
-								scriptEntries = parseObjects(currentFile);
-								Selection = 0;
-								Mode = 1;
-							} else {
-								Msg::DisplayWaitMsg("Region not supported.");
-							}
-						} else {
-							Msg::DisplayWaitMsg("Game not supported.");
-						}
-					}
-				}
+				applyScript(dirContents[Selection].name);
 			}
 		}
 	}
@@ -254,65 +146,92 @@ void ScriptScreen::ListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void ScriptScreen::EntryLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (keyRepeatDelay)	keyRepeatDelay--;
+Picoc* picoC()
+{
+	static Picoc picoc;
+	PicocInitialise(&picoc, PICOC_STACKSIZE);
+	return &picoc;
+}
 
-	if (hDown & KEY_B) {
-		Selection = 0;
-		refreshList(); // Refresh Script list.
-		Mode = 0;
-		scriptEntries.clear();
+// Read a script.
+std::vector<u8> scriptRead(const std::string& path)
+{
+	std::vector<u8> ret;
+	size_t size = 0;
+	FILE* in	= fopen(path.c_str(), "rb");
+	fseek(in, 0, SEEK_END);
+	if (!ferror(in))
+	{
+		size = ftell(in);
+		fseek(in, 0, SEEK_SET);
+		ret = std::vector<u8>(size);
+		fread(ret.data(), 1, size, in);
+	}
+	else
+	{
+		Msg::DisplayWarnMsg("Error while opening the script.");
+	}
+	fclose(in);
+	return ret;
+}
+
+// Apply a script -> Run it.
+void ScriptScreen::applyScript(std::string& file)
+{
+	parsePicoCScript(file);
+	return;
+
+	auto scriptData = scriptRead(file);
+
+	if (scriptData.empty())
+	{
+		return;
+	}
+}
+
+// Parse a PicoC Script and pass SaveType, Region, SaveBuffer, Length etc to the argv's.
+void ScriptScreen::parsePicoCScript(std::string& file)
+{
+	// The loops used in PicoC make this basically a necessity
+	aptSetHomeAllowed(false);
+	// setup for printing errors
+	static char error[4096];
+	std::fill_n(error, sizeof(error), '\0');
+	// Save stdout state
+	int stdout_save = dup(STDOUT_FILENO);
+	// Set stdout to buffer to error
+	setvbuf(stdout, error, _IOFBF, 4096);
+
+	Picoc* picoc = picoC();
+	if (!PicocPlatformSetExitPoint(picoc))
+	{
+		PicocPlatformScanFile(picoc, file.c_str());
+		char* args[4];
+		args[0]				= (char*)save->rawData().get();
+		std::string length  = std::to_string(save->getLength());
+		args[1]				= length.data();
+		char version		= save->version();
+		args[2]				= &version;
+		char region			= save->region();
+		args[3]				= &region;
+		PicocCallMain(picoc, 4, args);
 	}
 
-		// Go one entry up.
-	if (hHeld & KEY_UP && !keyRepeatDelay) {
-		if (Selection > 0) {
-			Selection--;
-		} else {
-			Selection = (int)scriptJson.at("ScriptContent").size()-1;
-		}
-		if (fastMode == true) {
-			keyRepeatDelay = 8;
-		} else if (fastMode == false){
-			keyRepeatDelay = 8;
+	// Restore stdout state
+	dup2(stdout_save, STDOUT_FILENO);
+
+	if (picoc->PicocExitValue != 0)
+	{
+		std::string show = error;
+		if (!show.empty())
+		{
+			Msg::DisplayWaitMsg("Script Execution error!" + '\n' + file);
+			show += "\nExit code: " + std::to_string(picoc->PicocExitValue);
+			Msg::DisplayWaitMsg(show);
 		}
 	}
 
-		// Go one entry down.
-	if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-		if (Selection < (int)scriptJson.at("ScriptContent").size()-1) {
-			Selection++;
-		} else {
-			Selection = 0;
-		}
-		if (fastMode == true) {
-			keyRepeatDelay = 8;
-		} else if (fastMode == false){
-			keyRepeatDelay = 8;
-		}
-	}
-
-	if (hDown & KEY_A) {
-		// Check Game.
-		if (ScriptHelper::checkVersion(scriptJson, Selection)) {
-			// Check Region.
-			if (ScriptHelper::checkRegion(scriptJson, Selection)) {
-				// Prompt.
-				if (Msg::promptMsg("Do you like to execute this Entry?")) {
-					// Run Entry.
-					ScriptHelper::run(scriptJson, Selection);
-				}
-			} else {
-				Msg::DisplayWaitMsg("Region not supported.");
-			}
-		} else {
-			Msg::DisplayWaitMsg("Game not supported.");
-		}
-	} 
-	
-	if(Selection < screenPos) {
-		screenPos = Selection;
-	} else if (Selection > screenPos + 3 - 1) {
-		screenPos = Selection - 3 + 1;
-	}
+	PicocCleanup(picoc);
+	// And here we'll clean up
+	aptSetHomeAllowed(true);
 }

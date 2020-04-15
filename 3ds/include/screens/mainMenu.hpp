@@ -41,13 +41,13 @@ public:
 private:
 	int Selection = 0;
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{0, 25, 149, 52},
-		{162, 25, 149, 52},
-		{0, 85, 149, 52},
-		{162, 85, 149, 52},
-		{0, 150, 149, 52},
-		{162, 150, 149, 52},
+	std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "Editor"},
+		{175, 34, 130, 48, "Settings"},
+		{15, 97, 130, 48, "Credits"},
+		{175, 97, 130, 48, ""},
+		{15, 159, 130, 48, ""},
+		{175, 159, 130, 48, ""}
 	};
 };
 

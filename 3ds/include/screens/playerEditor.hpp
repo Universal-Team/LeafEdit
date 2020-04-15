@@ -41,20 +41,20 @@ private:
 	int Selection = 0;
 	int Mode = 0;
 
-	std::vector<Structs::ButtonPos> playerPos = {
-		{0, 60, 149, 52},
-		{162, 60, 149, 52},
-		{0, 130, 149, 52},
-		{162, 130, 149, 52}
+	std::vector<ButtonType> playerPos = {
+		{15, 48, 130, 48, "Player 1"},
+		{175, 48, 130, 48, "Player 2"},
+		{15, 144, 130, 48, "Player 3"},
+		{175, 144, 130, 48, "Player 4"}
 	};
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{0, 25, 149, 52},
-		{0, 85, 149, 52},
-		{0, 150, 149, 52},
-		{162, 25, 149, 52},
-		{162, 85, 149, 52},
-		{162, 150, 149, 52}
+	std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "Appearance"},
+		{15, 97, 130, 48, ""},
+		{15, 159, 130, 48, ""},
+		{175, 34, 130, 48, ""},
+		{175, 97, 130, 48, ""},
+		{175, 159, 130, 48, ""}
 	};
 
 	/*	Player Selection.	*/

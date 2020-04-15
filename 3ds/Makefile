@@ -99,9 +99,9 @@ INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/town \
 			   ../LeafEdit-Core/include/villager
 
-SOURCES		:=	$(SOURCECORE) $(UNIVCORE) source source/common source/download source/gui source/lang source/screens
+SOURCES		:=	$(SOURCECORE) $(UNIVCORE) source source/common source/download source/gui source/lang source/picoc source/picoc/cstdlib source/picoc/platform  source/screens
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) include include/common include/download include/gui include/lang include/screens include/sprite
+INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) include include/common include/download include/gui include/lang include/picoc include/screens include/sprite
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
@@ -120,6 +120,7 @@ ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations -O0 \
 			-DV_STRING=\"$(GIT_VER)\" \
+			-DUNIX_HOST \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 
