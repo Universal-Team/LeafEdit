@@ -24,31 +24,17 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef ITEMMANAGER_HPP
+#define ITEMMANAGER_HPP
 
 #include "common.hpp"
-#include "structs.hpp"
+#include "Item.hpp"
 
-#include <vector>
+#include <3ds.h>
+#include <string>
 
-class MainMenu : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Editor"},
-		{175, 34, 130, 48, "Settings"},
-		{15, 97, 130, 48, "Credits"},
-		{175, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-};
+namespace ItemManager {
+	u32 getColor(ItemType item);
+}
 
 #endif

@@ -80,6 +80,7 @@ UNIVCORE	:= 	Universal-Core
 SOURCECORE	:= ../LeafEdit-Core/source \
 			   ../LeafEdit-Core/source/acre \
 			   ../LeafEdit-Core/source/coreUtils \
+			   ../LeafEdit-Core/source/house \
 			   ../LeafEdit-Core/source/island \
 			   ../LeafEdit-Core/source/item \
 			   ../LeafEdit-Core/source/pattern \
@@ -91,6 +92,7 @@ SOURCECORE	:= ../LeafEdit-Core/source \
 INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/acre \
 			   ../LeafEdit-Core/include/coreUtils \
+			   ../LeafEdit-Core/include/house \
 			   ../LeafEdit-Core/include/island \
 			   ../LeafEdit-Core/include/item \
 			   ../LeafEdit-Core/include/pattern \
@@ -118,7 +120,7 @@ RSF_FILE	:=	app/build-cia.rsf
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations -O0 \
+CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations \
 			-DV_STRING=\"$(GIT_VER)\" \
 			-DUNIX_HOST \
 			-fomit-frame-pointer -ffunction-sections \

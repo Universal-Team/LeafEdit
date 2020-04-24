@@ -171,15 +171,17 @@ Result Init::Init() {
 	mkdir("sdmc:/LeafEdit", 0777); // main Path.
 	mkdir("sdmc:/LeafEdit/assets", 0777); // Assets path.
 	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
-	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
+	mkdir("sdmc:/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
 	mkdir("sdmc:/LeafEdit/Scripts", 0777); // Scripts path.
+	mkdir("sdmc:/LeafEdit/Pattern", 0777); // Pattern path.
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
+	Config::initColors();
 	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 

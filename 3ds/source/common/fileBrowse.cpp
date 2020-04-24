@@ -340,3 +340,90 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 		}
 	}
 }
+
+// Script File Selection.
+static void Drawbrowse(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
+	std::string dirs;
+	GFX::DrawFileBrowseBG();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Text, 395);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
+	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
+		dirs += dirContents[i].name + "\n";
+	}
+	for (uint i=0;i<((dirContents.size()<9) ? 9-dirContents.size() : 0);i++) {
+		dirs += "\n";
+	}
+
+	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
+	else				GFX::DrawSelector(true, 24 + (8 * 21));
+	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
+	GFX::DrawFileBrowseBG(false);
+}
+
+std::string searchForFile(char *path, char *Text) {
+	s32 selectedFile = 0;
+	int keyRepeatDelay = 4;
+	bool refreshed = false;
+	std::vector<DirEntry> dirContents;
+
+	// Initial dir change.
+	dirContents.clear();
+	chdir(path);
+	std::vector<DirEntry> dirContentsTemp;
+	getDirectoryContents(dirContentsTemp, {});
+	for(uint i=0;i<dirContentsTemp.size();i++) {
+		dirContents.push_back(dirContentsTemp[i]);
+	}
+
+	while (1) {
+		Gui::clearTextBufs();
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(Top, BLACK);
+		C2D_TargetClear(Bottom, BLACK);
+		// Screen draw part.
+		Drawbrowse(selectedFile, dirContents, Text);
+		C3D_FrameEnd(0);
+
+		// The input part.
+		hidScanInput();
+		u32 hDown = hidKeysDown();
+		u32 hHeld = hidKeysHeld();
+		hidTouchRead(&touch);
+		if (keyRepeatDelay)	keyRepeatDelay--;
+
+		// if directory changed -> Refresh it.
+		if (refreshed) {
+			dirContents.clear();
+			std::vector<DirEntry> dirContentsTemp;
+			getDirectoryContents(dirContentsTemp);
+			for(uint i=0;i<dirContentsTemp.size();i++) {
+				dirContents.push_back(dirContentsTemp[i]);
+			}
+			refreshed = false;
+		}
+
+		if (hDown & KEY_A) {
+			char path[PATH_MAX];
+			getcwd(path, PATH_MAX);
+			return path + dirContents[selectedFile].name;
+		}
+
+		if (hHeld & KEY_UP) {
+			if (selectedFile > 0 && !keyRepeatDelay) {
+				selectedFile--;
+				keyRepeatDelay = 6;
+			}
+		} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+			if ((uint)selectedFile < dirContents.size()-1) {
+				selectedFile++;
+				keyRepeatDelay = 6;
+			}
+		} else if (hDown & KEY_B) {
+			if (Msg::promptMsg("Cancel File Selection?\nThis returns ''.")) {
+				return "?";
+			}
+		} else if (hDown & KEY_START) {
+			refreshed = true;
+		}
+	}
+}

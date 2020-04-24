@@ -34,6 +34,16 @@ void GFX::DrawGUI(int img, int x, int y, float ScaleX, float ScaleY)
 	Gui::DrawSprite(GUI, img, x, y, ScaleX, ScaleY);
 }
 
+void GFX::DrawGUIBlend(int img, int x, int y, float ScaleX, float ScaleY, u32 color)
+{
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(GUI, img), x, y, 0.5f,  &tint, ScaleX, ScaleY);
+}
+
 // Code from PKSM. https://github.com/FlagBrew/PKSM/blob/master/3ds/source/gui/gui.cpp#L73
 Tex3DS_SubTexture _select_box(const C2D_Image& image, int x, int y, int endX, int endY)
 {
@@ -122,17 +132,15 @@ void GFX::DrawTop(bool useBars, bool fullscreen) {
 
 void GFX::DrawBottom(bool fullscreen) {
 	Gui::ScreenDraw(Bottom);
+	DrawGUI(gui_tileBG_idx, 0, 0);
+	DrawGUI(gui_tileBG_idx, 135, 0);
+	DrawGUI(gui_tileBG_idx, 270, 0);
+	DrawGUI(gui_tileBG_idx, 0, 132);
+	DrawGUI(gui_tileBG_idx, 135, 132);
+	DrawGUI(gui_tileBG_idx, 270, 132);
 	if (!fullscreen) {
-		DrawGUI(gui_tileBG_idx, 0, 0);
-		DrawGUI(gui_tileBG_idx, 135, 0);
-		DrawGUI(gui_tileBG_idx, 270, 0);
-		DrawGUI(gui_tileBG_idx, 0, 132);
-		DrawGUI(gui_tileBG_idx, 135, 132);
-		DrawGUI(gui_tileBG_idx, 270, 132);
 		DrawGUI(gui_bar_idx, 0, 0, 1, -1);
 		DrawGUI(gui_bar_idx, 0, 215);
-	} else {
-		Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(215, 178, 111, 255)); // Draw BG based on Tile's color.
 	}
 }
 
@@ -165,7 +173,7 @@ void GFX::DrawFileBrowseBG(bool isTop) {
 	}
 }
 
-static void DrawList(int selection, const std::vector<std::string> &List, const std::string &Msg) {
+void DrawList(int selection, const std::vector<std::string> List, const std::string Msg) {
 	std::string lists;
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -173,18 +181,24 @@ static void DrawList(int selection, const std::vector<std::string> &List, const 
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG(true);
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Msg, 400);
-	for (int i = (selection<5) ? 0 : selection-5;i< (int)List.size() && i <((selection<5) ? 6 : selection+1);i++) {
-		lists += List[i] + "\n\n";
+
+	for (int i=(selection<8) ? 0 : (uint)selection-8;i<(int)List.size()&&i<((selection<8) ? 9 : selection+1);i++) {
+		lists += List[i] + "\n";
 	}
+	for (uint i=0;i<((List.size()<9) ? 9-List.size() : 0);i++) {
+		lists += "\n";
+	}
+
 	// Selector Logic.
 	if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(26, 32, 0.65f, BLACK, lists, 360);
+	Gui::DrawString(5, 25, 0.85f, BLACK, lists, 360);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(List.size()), 395);
 	GFX::DrawFileBrowseBG(false);
 	C3D_FrameEnd(0);
 }
 
-int GFX::ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg) {
+int GFX::ListSelection(int current, const std::vector<std::string> list, const std::string Msg) {
 	s32 selection = current;
 	int keyRepeatDelay = 0;
 	while (1) {
@@ -215,8 +229,21 @@ int GFX::ListSelection(int current, const std::vector<std::string> &list, const 
 }
 
 // Draw a Button and draw Text on it.
-void GFX::DrawButton(const ButtonType button) {
+void GFX::DrawButton(const ButtonType button, float TextSize) {
 	DrawBtn(button.x, button.y, button.xLength, button.yLength);
 	// Draw String. TODO: Center.
-	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, 0.9f, BLACK, button.Text, button.xLength-17, button.yLength-5);
+	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, TextSize, BLACK, button.Text, button.xLength-17, button.yLength-5);
+}
+
+// Special Grid for Items. I need to do this here instead of using the Universal-Core one.
+void GFX::drawGrid(float xPos, float yPos, float Width, float Height, u32 itemColor)
+{
+	static constexpr int w	= 1;
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, itemColor);
+
+	// Grid part.
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, C2D_Color32(80, 80, 80, 100));	// top
+	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, C2D_Color32(80, 80, 80, 100));	// left
+	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, C2D_Color32(80, 80, 80, 100)); // right
+	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, C2D_Color32(80, 80, 80, 100));	// bottom
 }

@@ -28,6 +28,7 @@
 #define EDITOR_HPP
 
 #include "common.hpp"
+#include "coreUtils.hpp"
 #include "structs.hpp"
 
 #include <vector>
@@ -44,6 +45,7 @@ private:
 	};
 
 	SaveState loadState = SaveState::Unloaded;
+	bool hasSaved = false;
 	int Selection = 0;
 	int saveT = -1; // No SaveType.
 	bool loadSave();
@@ -61,6 +63,9 @@ private:
 		{286, 213, 27, 27},
 		{6, 219, 20, 20}
 	};
+
+	// 3DS specific struct.
+	Region_Lock RegionLock;
 };
 
 #endif

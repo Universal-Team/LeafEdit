@@ -27,12 +27,55 @@
 #include "credits.hpp"
 #include "editor.hpp"
 #include "mainMenu.hpp"
+#include "Sav.hpp"
+#include "saveUtils.hpp"
 #include "screenCommon.hpp"
 
 extern int fadealpha;
 extern bool fadein;
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
+extern std::shared_ptr<Sav> save;
+
+void doStuff() {
+	// Here we open the file and get the SaveType.
+	save = nullptr;
+	FILE* in = fopen("sdmc:/Nogba/BATTERY/Test.sav", "rb");
+	if(in) {
+		fseek(in, 0, SEEK_END);
+		u32 size = ftell(in);
+		fseek(in, 0, SEEK_SET);
+		std::shared_ptr<u8[]> saveData = std::shared_ptr<u8[]>(new u8[size]);
+		fread(saveData.get(), 1, size, in);
+		fclose(in);
+		save = Sav::getSave(saveData, size);
+	}
+	// Could not open file or savetype invalid, exit.
+	if (!save) {
+		Msg::DisplayWarnMsg("Could not open file!!");
+		exiting = true;
+		return;
+	}
+
+	// Save Modification Test.
+	for (int i = 0x00; i < 0x02; i++) {
+		save->savePointer()[i] = 0x01;
+	}
+	
+	// And now we update the checksum at the end and write to file.
+	save->Finish();
+	FILE* out = fopen("sdmc:/Nogba/BATTERY/Test.sav", "rb+");
+	fwrite(save->rawData().get(), 1, save->getLength(), out);
+	fclose(out);
+	// Exit.
+	exiting = true;
+}
+
+// Whole Testing stuff.
+MainMenu::MainMenu() {
+	//doStuff();
+}
+
 
 void MainMenu::Draw(void) const
 {

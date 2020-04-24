@@ -26,11 +26,15 @@
 
 #include "editor.hpp"
 #include "fileBrowse.hpp"
+#include "init.hpp"
+#include "lang.hpp"
 #include "playerEditor.hpp"
 #include "saveUtils.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "scriptScreen.hpp"
+#include "townMapEditor.hpp"
+#include "villagerViewer.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
@@ -40,6 +44,7 @@ std::unique_ptr<Town> town;
 static std::string SaveFile;
 // Bring that to other screens too.
 SaveType savesType = SaveType::UNUSED;
+bool changes = false;
 
 // Japanese | PAL.
 const std::vector<std::string> titleNames = {
@@ -75,6 +80,13 @@ bool Editor::loadSave() {
 	else if (save->getType() == SaveType::WA)	saveT = 4;
 
 	savesType = save->getType();
+
+	// Now handle the region struct thing.
+	if (savesType == SaveType::WA) {
+		this->RegionLock.RawByte = save->savePointer()[0x621CE];
+		this->RegionLock.DerivedID = this->RegionLock.RawByte & 0xF;
+		this->RegionLock.RegionID = static_cast<CFG_Region>(this->RegionLock.RawByte >> 4);
+	}
 	
 	return true;
 }
@@ -90,7 +102,18 @@ void Editor::SaveInitialize() {
 	if (!loadSave()) {
 		Msg::DisplayWarnMsg("Invalid SaveFile!");
 	} else {
-		loadState = SaveState::Loaded;
+		if (Init::loadSheets() == 0) {
+			if (savesType == SaveType::WW) {
+				Lang::loadWW(0);
+			} else {
+				Lang::loadNL(0);
+			}
+			loadState = SaveState::Loaded;
+		} else {
+			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
+			Gui::screenBack();
+			return;
+		}
 	}
 }
 
@@ -116,10 +139,22 @@ void Editor::Draw(void) const
 }
 
 void Editor::Saving() {
-	save->Finish();
-	FILE* out = fopen(saveName.c_str(), "rb+");
-	fwrite(save->rawData().get(), 1, save->getLength(), out);
-	fclose(out);
+	if (!changes) {
+		Msg::DisplayWaitMsg("Saving is useless. No changes have been made.");
+		return;
+	}
+
+	if (Msg::promptMsg("Do you like to save?")) {
+		// Handle AC:WA stuff here.
+		if (savesType == SaveType::WA) {
+			CoreUtils::FixInvalidBuildings();
+		}
+		save->Finish();
+		FILE* out = fopen(saveName.c_str(), "rb+");
+		fwrite(save->rawData().get(), 1, save->getLength(), out);
+		fclose(out);
+		hasSaved = true;
+	}
 }
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -127,13 +162,19 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
-				savesType = SaveType::UNUSED;
-				Gui::screenBack();
-				return;
-			} else if (iconTouch(touch, icons[1])) {
-				if (Msg::promptMsg("Do you like to save?")) {
-					Saving();
+				if (changes == true && hasSaved == false) {
+					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
+						savesType = SaveType::UNUSED;
+						Gui::screenBack();
+						return;
+					}
+				} else if ((changes == true && hasSaved == true) || (!changes)) {
+					savesType = SaveType::UNUSED;
+					Gui::screenBack();
+					return;
 				}
+			} else if (iconTouch(touch, icons[1])) {
+				Saving();
 			}
 		}
 		// Navigation.
@@ -145,10 +186,22 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		if (hDown & KEY_A) {
 			if (savesType != SaveType::UNUSED) {
-				if (Selection == 0)	Gui::setScreen(std::make_unique<PlayerEditor>());
-				else if (Selection == 2)	Gui::setScreen(std::make_unique<ScriptScreen>());
+				if (Selection == 0) {
+					Gui::setScreen(std::make_unique<PlayerEditor>());
+				} else if (Selection == 1) {
+					if (save->villager(0) != nullptr) {
+						Gui::setScreen(std::make_unique<VillagerViewer>());
+					} else {
+						Msg::NotImplementedYet();
+					}
+				} else if (Selection == 2) {
+					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
+						Gui::setScreen(std::make_unique<ScriptScreen>());
+					} else {
+						Msg::NotImplementedYet();
+					}
+				}
 			}
-
 		}
 
 		if (hDown & KEY_B) {

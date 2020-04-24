@@ -24,31 +24,23 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef COREUTILS_HPP
+#define COREUTILS_HPP
 
-#include "common.hpp"
-#include "structs.hpp"
+#include <3ds.h>
 
-#include <vector>
-
-class MainMenu : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Editor"},
-		{175, 34, 130, 48, "Settings"},
-		{15, 97, 130, 48, "Credits"},
-		{175, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
+// AC:NL | AC:WA Region Lock.
+struct Region_Lock {
+	u8 DerivedID;
+	CFG_Region RegionID;
+	u8 RawByte;
 };
+
+namespace CoreUtils {
+	void FixInvalidBuildings(void); // Replace Invalid Buildings with Empty. (Fixes crashes in game.)
+	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
+	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
+	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
+}
 
 #endif

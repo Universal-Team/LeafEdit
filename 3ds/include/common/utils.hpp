@@ -24,31 +24,26 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include "common.hpp"
-#include "structs.hpp"
 
-#include <vector>
+// Download stuff.
+namespace Utils {
+	bool matchPattern(std::string pattern, std::string tested);
+}
 
-class MainMenu : public Screen
+#define TEXTURE_TRANSFER_FLAGS \
+	(GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(1) | GX_TRANSFER_RAW_COPY(0) | \
+	GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGBA8) | \
+	GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
+
+// Citro2D Utils for C2D_Image.
+namespace C2DUtils
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Editor"},
-		{175, 34, 130, 48, "Settings"},
-		{15, 97, 130, 48, "Credits"},
-		{175, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-};
+	C2D_Image ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat);
+	void C2D_ImageDelete(C2D_Image image);
+}
 
 #endif

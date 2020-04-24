@@ -62,6 +62,7 @@ struct ButtonType {
 namespace GFX {
 	// Draw Sprites.
 	void DrawGUI(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	void DrawGUIBlend(int img, int x, int y, float ScaleX = 1, float ScaleY = 1, u32 color = C2D_Color32(0, 0, 0, 180));
 	void DrawSelector(bool top, int y);
 	void DrawBtn(int x, int y, int xLength, int yLength);
 	// Draw basic GUI.
@@ -70,9 +71,11 @@ namespace GFX {
 	void DrawFileBrowseBG(bool isTop = true);
 
 	// Selection from list.
-	int ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg);
+	int ListSelection(int current, const std::vector<std::string> list, const std::string Msg);
 
-	void DrawButton(const ButtonType button);
+	void DrawButton(const ButtonType button, float TextSize = 0.9f);
+
+	void drawGrid(float xPos, float yPos, float Width, float Height, u32 itemColor);
 }
 
 #endif

@@ -24,31 +24,48 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#include "Sav.hpp"
+#include "screenCommon.hpp"
+#include "spriteManagement.hpp"
+#include "villagerViewer.hpp"
 
-#include "common.hpp"
-#include "structs.hpp"
+extern std::vector<std::string> g_villagerDatabase;
+extern bool touching(touchPosition touch, ButtonType button);
 
-#include <vector>
+std::unique_ptr<Villager> villager;
+extern std::shared_ptr<Sav> save;
+// Bring that to other screens too.
+extern SaveType savesType;
 
-class MainMenu : public Screen
+VillagerViewer::VillagerViewer() {
+	villager = save->villager(Selection);
+}
+
+void VillagerViewer::Draw(void) const
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
+	SpriteManagement::DrawVillager(villager->id(), 160, 60);
+	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, "VillagerName: " + g_villagerDatabase[villager->id()], 395);
+	GFX::DrawBottom();
+}
 
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Editor"},
-		{175, 34, 130, 48, "Settings"},
-		{15, 97, 130, 48, "Credits"},
-		{175, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-};
+void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	// Navigation.
+	if ((hDown & KEY_RIGHT) || (hDown & KEY_R)) {
+		if(Selection < save->maxVillager() -1) {
+			Selection++;
+			villager = save->villager(Selection);
+		}
+	} else if ((hDown & KEY_LEFT) || (hDown & KEY_L)) {
+		if (Selection > 0) {
+			Selection--;
+			villager = save->villager(Selection);
+		}
+	}
 
-#endif
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+}

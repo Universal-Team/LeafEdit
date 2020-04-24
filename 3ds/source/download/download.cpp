@@ -376,7 +376,7 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 		for (auto jsonAsset : parsedAPI["assets"]) {
 			if (jsonAsset.is_object() && jsonAsset["name"].is_string() && jsonAsset["browser_download_url"].is_string()) {
 				std::string assetName = jsonAsset["name"];
-				if (matchPattern(asset, assetName)) {
+				if (Utils::matchPattern(asset, assetName)) {
 					assetUrl = jsonAsset["browser_download_url"];
 					break;
 				}
@@ -666,7 +666,7 @@ void drawMessageText(int position) {
 	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("RELEASE_NOTES"), 400);
 	Gui::DrawString(0, 25, 0.7, WHITE, jsonName.c_str(), 395);
 	for (int i = 0; i < (int)_topText.size() && i < (10); i++) {
-		Gui::DrawString(0, ((i * 16) + 40), 0.7f, WHITE, _topText[i+position].c_str(), 395);
+		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i+position].c_str(), 395);
 	}
 	C3D_FrameEnd(0);
 }
@@ -801,42 +801,42 @@ void Download::downloadAssets(void) {
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 1 / 6");
 	showProgressBar = true;
 	Threads::create((ThreadFunc)displayProgressBar);
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/acres.t3x?raw=true", "sdmc:/LeafEdit/assets/acres.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/LeafEdit/assets/acres.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Items & Badges.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 2 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/items.t3x?raw=true", "sdmc:/LeafEdit/assets/items.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/LeafEdit/assets/items.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Faces & Hair.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 3 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/players.t3x?raw=true", "sdmc:/LeafEdit/assets/players.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/LeafEdit/assets/players.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Font.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 4 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/font.bcfnt?raw=true", "sdmc:/LeafEdit/assets/font.bcfnt") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/LeafEdit/assets/font.bcfnt") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// First Villager Sprite.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 5 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/villagers.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Second Villager Sprite.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 6 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/assets/villagers2.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers2.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers2.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;

@@ -44,6 +44,7 @@ extern "C" {
 }
 
 // This is the new "screenCommon.hpp", lol.
+#include "config.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
 #include "json.hpp"
@@ -70,5 +71,6 @@ extern "C" {
 // GodMode and whatnot.
 extern bool GodMode;
 extern bool Debug;
+extern bool changes;
 
 #endif

@@ -24,31 +24,22 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef VILLAGERVIEWER_HPP
+#define VILLAGERVIEWER_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class MainMenu : public Screen
+class VillagerViewer : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
+	VillagerViewer();
 private:
 	int Selection = 0;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Editor"},
-		{175, 34, 130, 48, "Settings"},
-		{15, 97, 130, 48, "Credits"},
-		{175, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
 };
 
 #endif

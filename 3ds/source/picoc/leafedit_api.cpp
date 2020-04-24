@@ -24,12 +24,18 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "download.hpp"
 #include "encryptedInt32.hpp"
+#include "fileBrowse.hpp"
+#include "gfx.hpp"
+#include "ItemUtils.hpp"
+#include "keyboard.hpp"
 #include "Sav.hpp"
 #include "SavNL.hpp"
 #include "SavWW.hpp"
 #include "SavWA.hpp"
 #include "saveUtils.hpp"
+#include "thread.hpp"
 #include "utils.hpp"
 
 #include <algorithm>
@@ -38,7 +44,9 @@
 #include "picoc.h"
 
 extern std::shared_ptr<Sav> save;
-
+extern bool changes;
+extern char progressBarMsg[128];
+extern bool showProgressBar;
 
 [[noreturn]] void scriptFail(struct ParseState* Parser, const std::string& str) {
 	ProgramFail(Parser, str.c_str());
@@ -125,6 +133,7 @@ extern "C" {
 			scriptFail(Parser, "Incorrect number of args (%i) for Write U8.", NumArgs);
 		}
 		save->savePointer()[offset] = value;
+		changes = true;
 	}
 
 	// Write a u16.
@@ -137,6 +146,7 @@ extern "C" {
 			scriptFail(Parser, "Incorrect number of args (%i) for SaveUtils::Read<u16>.", NumArgs);
 		}
 		SaveUtils::Write<u16>(save->savePointer(), offset, value);
+		changes = true;
 	}
 	
 	// Write a u32.
@@ -149,5 +159,97 @@ extern "C" {
 			scriptFail(Parser, "Incorrect number of args (%i) for SaveUtils::Write<u32>.", NumArgs);
 		}
 		SaveUtils::Write<u32>(save->savePointer(), offset, value);
+		changes = true;
+	}
+
+	// Get the Item name from an ID.
+	void getItem(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs) {
+		if (NumArgs != 1) {
+			scriptFail(Parser, "Incorrect number of args (%i) for ItemUtils::getName(u16 ID).", NumArgs);
+		}
+
+		std::string itemName = ItemUtils::getName(Param[0]->Val->Integer);
+		ReturnValue->Val->Pointer = const_cast<char*>(itemName.c_str());
+	}
+
+	// Open the Keyboard and return a char*.
+	void keyboard_string(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs) {
+		if (NumArgs != 1) {
+			scriptFail(Parser, "Incorrect number of args (%i) for Input::getString(std::string Text).", NumArgs);
+		}
+
+		std::string output = Input::getString((char*)Param[0]->Val->Pointer);
+		ReturnValue->Val->Pointer = const_cast<char*>(output.c_str());
+	}
+
+	// Open the Keyboard and return an int.
+	void keyboard_value(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs) {
+		if (NumArgs != 1) {
+			scriptFail(Parser, "Incorrect number of args (%i) for Input::Numpad(std::string Text).", NumArgs);
+		}
+
+		std::string output = Input::Numpad((char*)Param[0]->Val->Pointer);
+		ReturnValue->Val->Integer = std::stoi(output);
+	}
+
+	// Select a index from a list. Return the position as an int.
+	void selectList(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
+	{
+		if (NumArgs != 3)
+		{
+			scriptFail(Parser, "Incorrect number of args (%i) for GFX::ListSelection.", NumArgs);
+		}
+		// Needed things for the function.
+		std::string msg;
+		std::vector<std::string> contents;
+		// Script param stuff.
+		int options = Param[2]->Val->Integer;
+		char** cnt = (char**)Param[1]->Val->Pointer;
+		char* message	= (char*)Param[0]->Val->Pointer;
+		msg = message;
+
+		// Set all to the Vector.
+		for (int i = 0; i < options; i++)
+		{
+			contents.emplace_back(cnt[i]);
+		}
+		// Get the result from the function and return it!
+		int result = (int)GFX::ListSelection(0, contents, message);
+		ReturnValue->Val->Integer = result;
+	}
+	void setChangesMade(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs) {
+		changes = true;
+	}
+
+	// Download a File.
+	void download_file(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
+	{
+		if (NumArgs != 3)
+		{
+			scriptFail(Parser, "Incorrect number of args (%i) for download_file().", NumArgs);
+		}
+
+		snprintf(progressBarMsg, sizeof(progressBarMsg), (char*)Param[2]->Val->Pointer);
+		showProgressBar = true;
+		Threads::create((ThreadFunc)displayProgressBar);
+		if (downloadToFile((char*)Param[0]->Val->Pointer, (char*)Param[1]->Val->Pointer) != 0) {
+			showProgressBar = false;
+			Msg::DisplayWarnMsg("Download Failed!");
+			return;
+		}
+		showProgressBar = false;
+	}
+
+	// Select a File from the SD Card.
+	void file_select(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
+	{
+		if (NumArgs != 2)
+		{
+			scriptFail(Parser, "Incorrect number of args (%i) for file_select().", NumArgs);
+		}
+
+		std::string output = searchForFile((char*)Param[0]->Val->Pointer, (char*)Param[1]->Val->Pointer);
+		ReturnValue->Val->Pointer = const_cast<char*>(output.c_str());
+		chdir("sdmc:/LeafEdit/Scripts/");
 	}
 }
