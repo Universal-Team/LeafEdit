@@ -28,6 +28,7 @@
 #define UTILS_HPP
 
 #include "common.hpp"
+#include <citro2d.h>
 
 // Download stuff.
 namespace Utils {

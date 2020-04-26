@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "coreUtils.hpp"
 #include "itemUtils.hpp"
 #include "playerEditor.hpp"
 #include "Sav.hpp"
@@ -83,7 +84,7 @@ void PlayerEditor::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touc
 		if (save->player(selectedPlayer)->exist()) {
 			// Set selected Player to unique_ptr.
 			player = save->player(selectedPlayer);
-			ItemUtils::LoadDatabase(1, savesType); // TODO: Handle this different?
+			CoreUtils::LoadPlayerTPC(save->player(selectedPlayer));
 			Mode = 1; // Sub Menu.
 		}
 	}
@@ -104,6 +105,13 @@ void PlayerEditor::DrawSubMenu(void) const
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()));
 	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()));
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
+
+	// Only display TPC if Player has TPC support and is not nullptr.
+	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
+	if (player->tpcImage() != nullptr && player->hasTPC()) {
+		C2D_DrawImageAt(TPCImage, 60, 80, 0.5);
+	}
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
@@ -129,6 +137,7 @@ void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Selection -= 3;
 		}
 	}
+	
 	if (hDown & KEY_B) {
 		Mode = 0;
 	}

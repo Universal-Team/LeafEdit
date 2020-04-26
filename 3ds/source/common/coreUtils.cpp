@@ -26,6 +26,7 @@
 
 #include "common.hpp" // For the common Headers.
 #include "coreUtils.hpp"
+#include "jpeg.h"
 #include "Sav.hpp"
 #include "saveUtils.hpp"
 #include "utils.hpp"
@@ -131,6 +132,23 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 			if (Msg::promptMsg("The region does not match the one from your console.\nWould you like to fix it?")) {
 				save->savePointer()[0x621CE] = regionLock.RawByte;
 			}
+		}
+	}
+}
+
+void CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
+	// Check if tpcImage is not nullpointer.
+	if (player->tpcImage() != nullptr) {
+		// Delete TPC Image if isn't nullptr.
+		if (TPCImage.tex != nullptr) {
+			C2DUtils::C2D_ImageDelete(TPCImage);
+			TPCImage.tex = nullptr;
+			TPCImage.subtex = nullptr;
+		}
+		
+		if (player->hasTPC()) {
+			// Load.
+			TPCImage = LoadPlayerPicture(player->tpcImage());
 		}
 	}
 }

@@ -196,7 +196,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
-						Gui::setScreen(std::make_unique<ScriptScreen>());
+						Gui::setScreen(std::make_unique<TownMapEditor>());
 					} else {
 						Msg::NotImplementedYet();
 					}

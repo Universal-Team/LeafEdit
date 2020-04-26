@@ -27,7 +27,9 @@
 #ifndef COREUTILS_HPP
 #define COREUTILS_HPP
 
+#include "Player.hpp"
 #include <3ds.h>
+#include <citro2d.h>
 
 // AC:NL | AC:WA Region Lock.
 struct Region_Lock {
@@ -36,11 +38,14 @@ struct Region_Lock {
 	u8 RawByte;
 };
 
+inline C2D_Image TPCImage;
+
 namespace CoreUtils {
 	void FixInvalidBuildings(void); // Replace Invalid Buildings with Empty. (Fixes crashes in game.)
 	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
 	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
 	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
+	void LoadPlayerTPC(std::shared_ptr<Player> player);
 }
 
 #endif
