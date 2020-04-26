@@ -65,6 +65,12 @@ bool Editor::loadSave() {
 		fread(saveData.get(), 1, size, in);
 		fclose(in);
 		save = Sav::getSave(saveData, size);
+		// Only allow Wild World saves.
+		if (save->getType() != SaveType::WW) {
+			printf("SaveFile is not a Wild World save!\n");
+			save = nullptr;
+			return false;
+		}
 	} else {
 		printf("Could not open SaveFile.\n");
 		return false;
