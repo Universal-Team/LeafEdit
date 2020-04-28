@@ -2,14 +2,13 @@
 #define LANG_HPP
 
 #include "json.hpp"
-
+#include "types.hpp"
 #include <string>
 
 namespace Lang {
 	std::string get(const std::string &key);
 	// Load in game strings.
-	void loadNL(int lang);
-	void loadWW(int lang);
+	void loadLang(int lang, SaveType save);
 	void load(int lang);
 }
 

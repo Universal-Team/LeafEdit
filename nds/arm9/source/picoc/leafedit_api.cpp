@@ -24,32 +24,43 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef LEAFEDIT_API_H
-#define LEAFEDIT_API_H
+#include "msg.hpp"
+#include "Sav.hpp"
+#include "SavNL.hpp"
+#include "SavWW.hpp"
+#include "SavWA.hpp"
+#include "saveUtils.hpp"
+
+#include <algorithm>
+#include <errno.h>
 
 #include "picoc.h"
 
-#include <3ds.h>
+extern std::shared_ptr<Sav> save;
 
-// Message stuff.
-void msg_warn(struct ParseState*, struct Value*, struct Value**, int);
-void msg_waitMsg(struct ParseState*, struct Value*, struct Value**, int);
-void msg_splash(struct ParseState*, struct Value*, struct Value**, int);
-void msg_prompt(struct ParseState*, struct Value*, struct Value**, int);
+[[noreturn]] void scriptFail(struct ParseState* Parser, const std::string& str) {
+	ProgramFail(Parser, str.c_str());
+	std::abort(); // Dummy call to suppress compiler warning: ProgramFail does not return
+}
 
-// Get String names.
-void getItem(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
+template <typename... Ts>
+[[noreturn]] void scriptFail(struct ParseState* Parser, const std::string& str, Ts... args) {
+	ProgramFail(Parser, str.c_str(), args...);
+	std::abort(); // Dummy call to suppress compiler warning: ProgramFail does not return
+}
 
-// Open the Keyboard and return a char* or int.
-void keyboard_string(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void keyboard_value(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
+extern "C" {
+	#include "leafedit_api.h"
 
-// List stuff.
-void selectList(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
+	// Display a warn Message.
+	void msg_warn(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
+	{
+		Msg::DisplayWarnMsg((char*)Param[0]->Val->Pointer);
+	}
 
-// Misc.
-void setChangesMade(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void download_file(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void file_select(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-#endif
+	// Display a message which will stay until pressed A.
+	void msg_waitMsg(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
+	{
+		Msg::DisplayWaitMsg((char*)Param[0]->Val->Pointer);
+	}
+}

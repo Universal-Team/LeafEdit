@@ -29,27 +29,10 @@
 
 #include "picoc.h"
 
-#include <3ds.h>
+#include <nds.h>
 
 // Message stuff.
 void msg_warn(struct ParseState*, struct Value*, struct Value**, int);
 void msg_waitMsg(struct ParseState*, struct Value*, struct Value**, int);
-void msg_splash(struct ParseState*, struct Value*, struct Value**, int);
-void msg_prompt(struct ParseState*, struct Value*, struct Value**, int);
-
-// Get String names.
-void getItem(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-// Open the Keyboard and return a char* or int.
-void keyboard_string(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void keyboard_value(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-// List stuff.
-void selectList(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-// Misc.
-void setChangesMade(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void download_file(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void file_select(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
 
 #endif

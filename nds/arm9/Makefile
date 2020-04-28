@@ -47,17 +47,25 @@ INCLUDECORE	:= ../../LeafEdit-Core/include \
 			   ../../LeafEdit-Core/include/town \
 			   ../../LeafEdit-Core/include/villager
 
+COMMON_SRC	:= ../../common/source ../../common/source/cstdlib \
+			   ../../external/picoc/source/interpreter
+COMMON_INC	:= ../../common/include ../../external/picoc/include
+
 SOURCES		:=	$(SOURCECORE) \
+				$(COMMON_SRC) \
 				source \
 				source/graphics \
 				source/management \
+				source/picoc \
 				source/saves \
 				source/screens \
 				source/utils
 INCLUDES	:=	$(INCLUDECORE) \
+				$(COMMON_INC) \
 				include \
 				include/graphics \
 				include/management \
+				include/picoc \
 				include/saves \
 				include/screens \
 				include/utils
@@ -71,6 +79,7 @@ ARCH	:=	-mthumb-interwork
 CFLAGS	:=	-g -Wall -Wno-psabi -O2\
  			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
 			-ffast-math \
+			-DUNIX_HOST \
 			-DVER_NUMBER=\"$(GIT_VER)\" \
 			$(ARCH)
 

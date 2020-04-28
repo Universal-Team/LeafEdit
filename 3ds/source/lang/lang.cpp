@@ -66,19 +66,9 @@ std::string Lang::get(const std::string &key) {
 
 std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
-void Lang::loadWW(int lang) {
-	loadToVector("romfs:/lang/"+langs[lang]+"/wwFaceType.txt", g_wwFaceType);
-	loadToVector("romfs:/lang/"+langs[lang]+"/wwHairColor.txt", g_wwHairColor);
-	loadToVector("romfs:/lang/"+langs[lang]+"/wwHairStyle.txt", g_wwHairStyle);
-	loadToVector("romfs:/lang/"+langs[lang]+"/wwVillager.txt", g_villagerDatabase);
-	loadToVector("romfs:/lang/"+langs[lang]+"/wwPersonalities.txt", g_personality);
-}
+// TODO. Add switch case and load the neccessary files.
+void Lang::loadLang(int lang, SaveType save) {
 
-void Lang::loadNL(int lang) {
-	loadToVector("romfs:/lang/"+langs[1]+"/badges.txt", g_badges);
-	loadToVector("romfs:/lang/"+langs[lang]+"/groups.txt", g_groups);
-	loadToVector("romfs:/lang/"+langs[lang]+"/personalities.txt", g_personality);
-	loadToVector("romfs:/lang/"+langs[lang]+"/villager.txt", g_villagerDatabase);
 }
 
 void Lang::load(int lang) {

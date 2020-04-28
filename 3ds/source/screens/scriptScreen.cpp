@@ -149,7 +149,7 @@ void ScriptScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 Picoc* picoC()
 {
 	static Picoc picoc;
-	PicocInitialise(&picoc, PICOC_STACKSIZE);
+	PicocInitialize(&picoc, PICOC_STACKSIZE);
 	return &picoc;
 }
 

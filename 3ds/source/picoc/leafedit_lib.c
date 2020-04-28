@@ -24,32 +24,35 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef LEAFEDIT_API_H
-#define LEAFEDIT_API_H
+#include "interpreter.h"
+#include "leafedit_api.h"
 
-#include "picoc.h"
+void UnixSetupFunc() {}
 
-#include <3ds.h>
+/* list of all library functions and their prototypes */
+struct LibraryFunction UnixFunctions[] =
+{
+	// Msg.
+	{ msg_warn,				"void msg_warn(char* warning);" },
+	{ msg_waitMsg,			"void msg_waitMsg(char* message);" },
+	{ msg_splash,			"void msg_splash(char* notification);" },
+	{ msg_prompt, 			"int msg_prompt(char* message);" },
+	// String Getter.
+	{ getItem,				"char *getItem(unsigned int ID);"},
+	// Keyboard.
+	{ keyboard_string,		"char *keyboard_string(char* message);"},
+	{ keyboard_value,		"int keyboard_value(char* message);"},
+	// List Selections.
+	{ selectList,			"int selectList(char* message, char** contents, int options);"},
+	// Misc.
+	{ setChangesMade,		"void setChangesMade();"},
+	{ download_file,		"void download_file(char* URL, char* Path, char* Message);"}, 
+	{ file_select,			"char* file_select(char* Path, char* Text);"},
+	// End.
+	{ NULL,					NULL }
+};
 
-// Message stuff.
-void msg_warn(struct ParseState*, struct Value*, struct Value**, int);
-void msg_waitMsg(struct ParseState*, struct Value*, struct Value**, int);
-void msg_splash(struct ParseState*, struct Value*, struct Value**, int);
-void msg_prompt(struct ParseState*, struct Value*, struct Value**, int);
-
-// Get String names.
-void getItem(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-// Open the Keyboard and return a char* or int.
-void keyboard_string(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void keyboard_value(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-// List stuff.
-void selectList(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-// Misc.
-void setChangesMade(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void download_file(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void file_select(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
-#endif
+void PlatformLibraryInit(Picoc *pc)
+{
+	IncludeRegister(pc, "leafedit.h", &UnixSetupFunc, &UnixFunctions[0], "");
+}

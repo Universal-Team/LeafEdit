@@ -103,11 +103,6 @@ void Editor::SaveInitialize() {
 		Msg::DisplayWarnMsg("Invalid SaveFile!");
 	} else {
 		if (Init::loadSheets() == 0) {
-			if (savesType == SaveType::WW) {
-				Lang::loadWW(0);
-			} else {
-				Lang::loadNL(0);
-			}
 			loadState = SaveState::Loaded;
 		} else {
 			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
@@ -196,7 +191,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
-						Gui::setScreen(std::make_unique<TownMapEditor>());
+						Gui::setScreen(std::make_unique<ScriptScreen>());
 					} else {
 						Msg::NotImplementedYet();
 					}
