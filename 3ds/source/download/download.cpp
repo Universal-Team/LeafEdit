@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "cia.hpp"
 #include "common.hpp"
 #include "download.hpp"
 #include "formatting.hpp"
@@ -33,19 +34,14 @@
 #include "screenCommon.hpp"
 #include "thread.hpp"
 
-extern "C" {
-	#include "cia.h"
-}
-
 #include <cstdio>
+#include <dirent.h>
 #include <iostream>
-#include <string>
-#include <vector>
 #include <regex>
-#include <curl/curl.h>
-
 #include <string>
 #include <vector>
+
+#include <curl/curl.h>
 
 #define  USER_AGENT   APP_TITLE "-" VERSION_STRING
 
@@ -57,6 +53,7 @@ std::string jsonName;
 
 using json = nlohmann::json;
 
+bool progressBarType = 0;
 char progressBarMsg[128] = "";
 bool showProgressBar = false;
 extern bool changesMade;
@@ -80,6 +77,9 @@ static LightEvent waitCommit;
 static bool killThread = false;
 static bool writeError = false;
 #define FILE_ALLOC_SIZE 0x60000
+
+// That are our install Progressbar variables.
+extern u64 installSize, installOffset;
 
 static int curlProgress(CURL *hnd,
 					curl_off_t dltotal, curl_off_t dlnow,
@@ -727,24 +727,30 @@ Result Download::updateApp(bool nightly) {
 	bool success = false;
 	if(nightly) {
 		if (is3dsx == false) {
+			// Download CIA Nightly.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (CIA)").c_str());
 			showProgressBar = true;
+			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "LeafEdit/LeafEdit.cia") != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
 				return -1;
 			}
-			showProgressBar = false;
-			Msg::DisplayMsg(Lang::get("INSTALLING_CIA"));
+			// Install and delete.
+			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			changesMade = true;
-			installCia("sdmc:/LeafEdit/LeafEdit.cia");
+			progressBarType = 1;
+			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
+			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
 			Msg::DisplayWarnMsg(Lang::get("DONE"));
 
 		} else if (is3dsx == true) {
+			// Download 3DSX Nightly.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (3DSX)").c_str());
 			showProgressBar = true;
+			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.3dsx?raw=true", path3dsx + "LeafEdit.3dsx") != 0) {
 				showProgressBar = false;
@@ -756,25 +762,29 @@ Result Download::updateApp(bool nightly) {
 		}
 	} else {
 		if (is3dsx == false) {
-			Msg::DisplayMsg(Lang::get("DOWNLOADING_LATEST_RELEASE") + " (CIA)");
+			// Download CIA Release.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (CIA)").c_str());
 			showProgressBar = true;
+			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "/LeafEdit/LeafEdit.cia", false) != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
 				return -1;
 			}
-			showProgressBar = false;
-			Msg::DisplayMsg(Lang::get("INSTALLING_CIA"));
+			// Install and delete.
+			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			changesMade = true;
-			installCia("sdmc:/LeafEdit/LeafEdit.cia");
+			progressBarType = 1;
+			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
+			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
 			Msg::DisplayWarnMsg(Lang::get("DONE"));
 		} else if (is3dsx == true) {
-			Msg::DisplayMsg(Lang::get("DOWNLOADING_LATEST_RELEASE") + " (3DSX)");
+			// Download 3DSX Release.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (3DSX)").c_str());
 			showProgressBar = true;
+			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.3dsx", path3dsx + "LeafEdit.3dsx", false) != 0) {
 				showProgressBar = false;
@@ -800,6 +810,7 @@ void Download::downloadAssets(void) {
 	// Acres AC:WW & AC:NL.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 1 / 6");
 	showProgressBar = true;
+	progressBarType = 0;
 	Threads::create((ThreadFunc)displayProgressBar);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/LeafEdit/assets/acres.t3x") != 0) {
 		showProgressBar = false;
@@ -858,23 +869,157 @@ void displayProgressBar() {
 			downloadTotal = downloadNow;
 		}
 
-		snprintf(str, sizeof(str), "%s / %s (%.2f%%)",
-				formatBytes(downloadNow).c_str(),
-				formatBytes(downloadTotal).c_str(),
-				((float)downloadNow/(float)downloadTotal) * 100.0f
-		);
+		if (progressBarType == 0) {
+			snprintf(str, sizeof(str), "%s / %s (%.2f%%)",
+					formatBytes(downloadNow).c_str(),
+					formatBytes(downloadTotal).c_str(),
+					((float)downloadNow/(float)downloadTotal) * 100.0f
+			);
+		} else {
+			snprintf(str, sizeof(str), "%s / %s (%.2f%%)",
+					formatBytes(installOffset).c_str(),
+					formatBytes(installSize).c_str(),
+					((float)installOffset/(float)installSize) * 100.0f);
+		};
 
 		Gui::clearTextBufs();
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawTop();
+
 		Gui::DrawStringCentered(0, 1, 0.7f, WHITE, progressBarMsg, 400);
 		Gui::DrawStringCentered(0, 80, 0.7f, WHITE, str, 400);
 		Gui::Draw_Rect(30, 120, 340, 30, BLACK);
-		Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, DARKER_COLOR);
+			// Download.
+		if (progressBarType == 0) {
+			Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, DARKER_COLOR);
+			// Install.
+		} else {
+			Gui::Draw_Rect(31, 121, (int)(((float)installOffset/(float)installSize) * 338.0f), 28, DARKER_COLOR);
+		}
 		GFX::DrawBottom();
 		C3D_FrameEnd(0);
 		gspWaitForVBlank();
 	}
+}
+
+// Get the contents from `Universal-Team/LeafEdit-Extras`.
+std::vector<ExtraEntry> Download::getExtraList(std::string category) {
+	Result ret = 0;
+	void *socubuf = memalign(0x1000, 0x100000);
+	std::vector<ExtraEntry> emptyVector;
+	if(!socubuf) {
+		return emptyVector;
+	}
+
+	ret = socInit((u32*)socubuf, 0x100000);
+	if(R_FAILED(ret)) {
+		free(socubuf);
+		return emptyVector;
+	}
+
+	std::stringstream apiurlStream;
+	apiurlStream << "https://api.github.com/repos/Universal-Team/LeafEdit-Extras/contents/" << category;
+	std::string apiurl = apiurlStream.str();
+
+	CURL *hnd = curl_easy_init();
+	ret = setupContext(hnd, apiurl.c_str());
+	if(ret != 0) {
+		socExit();
+		free(result_buf);
+		free(socubuf);
+		result_buf = NULL;
+		result_sz = 0;
+		result_written = 0;
+		return emptyVector;
+	}
+
+	CURLcode cres = curl_easy_perform(hnd);
+	curl_easy_cleanup(hnd);
+	char* newbuf = (char*)realloc(result_buf, result_written + 1);
+	result_buf = newbuf;
+	result_buf[result_written] = 0; //nullbyte to end it as a proper C style string
+
+	if (cres != CURLE_OK) {
+		printf("Error in:\ncurl\n");
+		socExit();
+		free(result_buf);
+		free(socubuf);
+		result_buf = NULL;
+		result_sz = 0;
+		result_written = 0;
+		return emptyVector;
+	}
+
+	std::vector<ExtraEntry> jsonItems;
+	json parsedAPI = json::parse(result_buf);
+	for(uint i=0;i<parsedAPI.size();i++) {
+		ExtraEntry extraEntry;
+		if(parsedAPI[i]["name"].is_string()) {
+			extraEntry.name = parsedAPI[i]["name"];
+		}
+		if(parsedAPI[i]["download_url"].is_string()) {
+			extraEntry.downloadUrl = parsedAPI[i]["download_url"];
+		}
+		jsonItems.push_back(extraEntry);
+	}
+
+	socExit();
+	free(result_buf);
+	free(socubuf);
+	result_buf = NULL;
+	result_sz = 0;
+	result_written = 0;
+
+	return jsonItems;
+}
+
+// Download Scripts for LeafEdit.
+void Download::downloadScripts(void) {
+	int selectedScriptType = 0;
+	int selectedScript = 0;
+	std::vector<ExtraEntry> scriptList;
+	std::vector<std::string> entryNames;
+	std::vector<std::string> scriptNames = {"Wild World", "New Leaf", "Welcome Amiibo", "Universal"};
+	std::string scriptFolders[] = {"wild-world", "new-leaf", "welcome-amiibo", "universal"};
+
+	chooseScriptType:
+		gspWaitForVBlank();
+		selectedScriptType = GFX::ListSelection(0, scriptNames, "For which game do you like to download scripts?");
+		if (selectedScriptType == -1) {
+			goto leave;
+		} else {
+			selectedScript = 0;
+			entryNames.clear();
+			goto chooseScript;
+		}
+
+	chooseScript:
+		Msg::DisplayMsg("Getting Script list...");
+		scriptList = getExtraList("scripts/" + scriptFolders[selectedScript]);
+		// Get the Names.
+		for (int i = 0; i < (int)scriptList.size(); i++) {
+			entryNames.push_back(scriptList[i].name);
+		}
+		// Create folder if not exist.
+		mkdir(("sdmc:/LeafEdit/Scripts/"+scriptFolders[selectedScriptType]).c_str(), 0777);
+
+		if (scriptList.size() == 0)	goto leave; // Don't allow the next selection.
+
+		while(1) {
+			gspWaitForVBlank();
+			selectedScript = GFX::ListSelection(0, entryNames, "Select the Scripts you like to download.");
+			if (selectedScript != -1) {
+				Msg::DisplayMsg(("Downloading: "+scriptList[selectedScript].name).c_str());
+				downloadToFile(scriptList[selectedScript].downloadUrl, ("sdmc:/LeafEdit/Scripts/"+scriptFolders[selectedScriptType]+"/"+scriptList[selectedScript].name).c_str());
+			} else {
+				selectedScriptType = 0;
+				scriptList.clear();
+				goto chooseScriptType;
+			}
+		}
+	
+	leave:
+		return;
 }

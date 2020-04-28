@@ -223,7 +223,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> list, const s
 		}
 
 		if (hidKeysDown() & KEY_B) {
-			return current;
+			return -1;
 		}
 	}
 }

@@ -34,10 +34,29 @@
 extern std::shared_ptr<Sav> save;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+std::string ScriptScreen::returnScriptPath() {
+	if (ScriptMode == 0) {
+		switch(save->getType()) {
+			case SaveType::WW:
+				return "sdmc:/LeafEdit/Scripts/wild-world/";
+			case SaveType::NL:
+				return "sdmc:/LeafEdit/Scripts/new-leaf/";
+			case SaveType::WA:
+				return "sdmc:/LeafEdit/Scripts/welcome-amiibo/";
+			case SaveType::UNUSED:
+				return "sdmc:/LeafEdit/Scripts/"; // Actually return nothing, but well.
+		}
+	} else {
+		return "sdmc:/LeafEdit/Scripts/universal/";
+	}
+	return "sdmc:/LeafEdit/Scripts/";
+}
+
+
 // Return if Scripts are found.
 bool ScriptScreen::returnIfExist() {
 	dirContents.clear();
-	chdir("sdmc:/LeafEdit/Scripts/");
+	chdir(returnScriptPath().c_str());
 	std::vector<DirEntry> dirContentsTemp;
 	getDirectoryContents(dirContentsTemp, {"c"});
 	for(uint i=0;i<dirContentsTemp.size();i++) {
@@ -58,7 +77,7 @@ void ScriptScreen::refreshList() {
 	if (returnIfExist() == true) {
 		Msg::DisplayMsg("Refreshing list...");
 		dirContents.clear();
-		chdir("sdmc:/LeafEdit/Scripts/");
+		chdir(returnScriptPath().c_str());
 		std::vector<DirEntry> dirContentsTemp;
 		getDirectoryContents(dirContentsTemp, {"c"});
 		for(uint i=0;i<dirContentsTemp.size();i++) {
@@ -78,7 +97,6 @@ void ScriptScreen::Draw(void) const {
 		std::string scripts;
 		GFX::DrawFileBrowseBG();
 		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "Select the script you like to use.", 395);
-		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
 		for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<(((uint)Selection<8) ? 9 :(uint)Selection+1);i++) {
 			scripts += dirContents[i].name + "\n";
 		}
@@ -89,6 +107,7 @@ void ScriptScreen::Draw(void) const {
 		if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 		else				GFX::DrawSelector(true, 24 + (8 * 21));
 		Gui::DrawString(5, 25, 0.85f, BLACK, scripts, 360);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(Selection) + " | " + std::to_string(dirContents.size()), 395);
 		GFX::DrawFileBrowseBG(false);
 	} else {
 		GFX::DrawTop();
@@ -105,44 +124,56 @@ void ScriptScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-	if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-		if (Selection < (int)dirContents.size()-1) {
-			Selection++;
+	if (hDown & KEY_Y) {
+		if (ScriptMode == 0) {
+			ScriptMode = 1;
 		} else {
-			Selection = 0;
+			ScriptMode = 0;
 		}
-		if (fastMode == true) {
-			keyRepeatDelay = 8;
-		} else if (fastMode == false){
-			keyRepeatDelay = 8;
-		}
-	}
-	if (hHeld & KEY_UP && !keyRepeatDelay) {
-		if (Selection > 0) {
-			Selection--;
-		} else {
-			Selection = (int)dirContents.size()-1;
-		}
-		if (fastMode == true) {
-			keyRepeatDelay = 8;
-		} else if (fastMode == false){
-			keyRepeatDelay = 8;
-		}
+		refreshList();
 	}
 
-	if (hDown & KEY_A) {
-		if (ScriptsFound) {
-			// Make sure this is not a Directory.
-			if (!dirContents[Selection].isDirectory) {
-				applyScript(dirContents[Selection].name);
+	if (ScriptsFound) {
+
+		if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+			if (Selection < (int)dirContents.size()-1) {
+				Selection++;
+			} else {
+				Selection = 0;
+			}
+			if (fastMode == true) {
+				keyRepeatDelay = 8;
+			} else if (fastMode == false){
+				keyRepeatDelay = 8;
 			}
 		}
-	}
-	// Update Screen when needed.
-	if(Selection < screenPos) {
-		screenPos = Selection;
-	} else if (Selection > screenPos + 3 - 1) {
-		screenPos = Selection - 3 + 1;
+		if (hHeld & KEY_UP && !keyRepeatDelay) {
+			if (Selection > 0) {
+				Selection--;
+			} else {
+				Selection = (int)dirContents.size()-1;
+			}
+			if (fastMode == true) {
+				keyRepeatDelay = 8;
+			} else if (fastMode == false){
+				keyRepeatDelay = 8;
+			}
+		}
+
+		if (hDown & KEY_A) {
+			if (ScriptsFound) {
+				// Make sure this is not a Directory.
+				if (!dirContents[Selection].isDirectory) {
+					applyScript(dirContents[Selection].name);
+				}
+			}
+		}
+		// Update Screen when needed.
+		if(Selection < screenPos) {
+			screenPos = Selection;
+		} else if (Selection > screenPos + 3 - 1) {
+			screenPos = Selection - 3 + 1;
+		}
 	}
 }
 

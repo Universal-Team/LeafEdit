@@ -26,11 +26,95 @@
 
 #include "config.hpp"
 
+	// Item Colors. TODO: Handle this inside `ItemManager`?
 	u32 Config::Pattern, Config::Building, Config::MoneyRock, Config::Furniture, Config::Gyroid, Config::Clothes,
 	Config::Song, Config::Paper, Config::Trash, Config::Shell,
-	Config::Fruit, Config::Turnip, Config::Catchable, Config::Item, Config::WallpaperCarpet, Config::Fossil, 
+	Config::Fruit, Config::Turnip, Config::Catchable, Config::Item, Config::WallpaperCarpet, Config::Fossil,
 	Config::Tool, Config::Tree, Config::Weed, Config::Flower, Config::Rock,
 	Config::Money, Config::ParchedFlower, Config::WateredFlower, Config::WiltedFlower, Config::Occupied, Config::Invalid;
+
+std::string Config::currentRelease;
+std::string Config::currentNightly;
+
+nlohmann::json configJson;
+
+void Config::load() {
+	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
+	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	fclose(file);
+
+	if(!configJson.contains("ReleaseVersion")) {
+		Config::currentRelease = "";
+	} else {
+		Config::currentRelease = getString("ReleaseVersion");
+	}
+
+	if(!configJson.contains("NightlyVersion")) {
+		Config::currentNightly = "";
+	} else {
+		Config::currentNightly = getString("NightlyVersion");
+	}
+}
+
+
+void Config::save() {
+	// Versions.
+	Config::setString("ReleaseVersion", Config::currentRelease);
+	Config::setString("NightlyVersion", Config::currentNightly);
+
+	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
+	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
+	fclose(file);
+}
+
+// If no Settings File is found, set a default one. ;)
+void Config::initializeNewConfig() {
+	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
+	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	fclose(file);
+	setString("ReleaseVersion", "");
+	setString("NightlyVersion", "");
+	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
+	fclose(file);
+}
+
+
+bool Config::getBool(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return false;
+	}
+	return configJson.at(key).get_ref<const bool&>();
+}
+void Config::setBool(const std::string &key, bool v) {
+	configJson[key] = v;
+}
+
+int Config::getInt(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return 0;
+	}
+	return configJson.at(key).get_ref<const int64_t&>();
+}
+void Config::setInt(const std::string &key, int v) {
+	configJson[key] = v;
+}
+
+std::string Config::getString(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return "";
+	}
+	return configJson.at(key).get_ref<const std::string&>();
+}
+void Config::setString(const std::string &key, const std::string &v) {
+	configJson[key] = v;
+}
+
+int Config::getLang(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return 1;
+	}
+	return configJson.at(key).get_ref<const int64_t&>();
+}
 
 void Config::initColors() {
 	Config::Furniture		= C2D_Color32(99, 226, 90, 255);

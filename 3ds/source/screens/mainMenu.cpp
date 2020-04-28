@@ -30,6 +30,7 @@
 #include "Sav.hpp"
 #include "saveUtils.hpp"
 #include "screenCommon.hpp"
+#include "updateCenter.hpp"
 
 extern int fadealpha;
 extern bool fadein;
@@ -110,6 +111,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>());
 		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>());
+		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>());
 	}
 
 	if (hHeld & KEY_SELECT) {

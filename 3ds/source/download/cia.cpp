@@ -1,6 +1,4 @@
-#include "cia.h"
-
-bool updatingSelf = false;
+#include "cia.hpp"
 
 Result CIA_LaunchTitle(u64 titleId, FS_MediaType mediaType) {
 	Result ret = 0;
@@ -31,7 +29,7 @@ Result deletePrevious(u64 titleid, FS_MediaType media)
 	}
 
 	u32 read_titles = 0;
-	u64 * titleIDs = malloc(titles_amount * sizeof(u64));
+	u64 * titleIDs = (u64*)malloc(titles_amount * sizeof(u64));
 	ret = AM_GetTitleList(&read_titles, media, titles_amount, titleIDs);
 	if (R_FAILED(ret)) {
 		free(titleIDs);
@@ -64,16 +62,16 @@ FS_MediaType getTitleDestination(u64 titleId) {
 	return platform == 0x0003 || (platform == 0x0004 && ((category & 0x8011) != 0 || (category == 0x0000 && variation == 0x02))) ? MEDIATYPE_NAND : MEDIATYPE_SD;
 }
 
+// Variables.
+u64 installSize = 0, installOffset = 0;
 
-Result installCia(const char * ciaPath)
+Result installCia(const char * ciaPath, bool updatingSelf)
 {
-	u64 size = 0;
-	u32 bytes;
-	Handle ciaHandle;
-	Handle fileHandle;
+	u32 bytes_read = 0, bytes_written;
+	installSize = 0, installOffset = 0; u64 size = 0;
+	Handle ciaHandle, fileHandle;
 	AM_TitleEntry info;
 	Result ret = 0;
-
 	FS_MediaType media = MEDIATYPE_SD;
 
 	ret = openFile(&fileHandle, ciaPath, false);
@@ -89,7 +87,6 @@ Result installCia(const char * ciaPath)
 	}
 
 	media = getTitleDestination(info.titleID);
-	updatingSelf = true;
 
 	if (!updatingSelf) {
 		ret = deletePrevious(info.titleID, media);
@@ -108,14 +105,19 @@ Result installCia(const char * ciaPath)
 		return ret;
 	}
 
-	u32 toRead = 0x20000;
-	u8 * cia_buffer = memalign(0x1000, toRead);
-	for (u64 startSize = size; size != 0; size -= toRead) {
-		if (size < toRead) toRead = size;
-		FSFILE_Read(fileHandle, &bytes, startSize-size, cia_buffer, toRead);
-		FSFILE_Write(ciaHandle, &bytes, startSize-size, cia_buffer, toRead, 0);
+	u32 toRead = 0x200000;
+	u8 *buf = new u8[toRead];
+	if(buf == nullptr) {
+		return -1;
 	}
-	free(cia_buffer);
+
+	installSize = size;
+	do {
+		FSFILE_Read(fileHandle, &bytes_read, installOffset, buf, toRead);
+		FSFILE_Write(ciaHandle, &bytes_written, installOffset, buf, toRead, FS_WRITE_FLUSH);
+		installOffset += bytes_read;
+	} while(installOffset < installSize);
+	delete[] buf;
 
 	ret = AM_FinishCiaInstall(ciaHandle);
 	if (R_FAILED(ret)) {

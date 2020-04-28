@@ -165,22 +165,31 @@ Result Init::Init() {
 	gfxInitDefault();
 	romfsInit();
 	Gui::init();
+	acInit();
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/LeafEdit", 0777); // main Path.
 	mkdir("sdmc:/LeafEdit/assets", 0777); // Assets path.
+	// Towns.
 	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
 	mkdir("sdmc:/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
+	// Scripts.
 	mkdir("sdmc:/LeafEdit/Scripts", 0777); // Scripts path.
+	mkdir("sdmc:/LeafEdit/Scripts/new-leaf", 0777); // New Leaf script path.
+	mkdir("sdmc:/LeafEdit/Scripts/wild-world", 0777); // Wild World script path.
+	mkdir("sdmc:/LeafEdit/Scripts/welcome-amiibo", 0777); // Welcome amiibo script path.
+	mkdir("sdmc:/LeafEdit/Scripts/universal", 0777); // Universal script path. (For All Games.)
+	// Pattern.
 	mkdir("sdmc:/LeafEdit/Pattern", 0777); // Pattern path.
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
+	Config::load();
 	Config::initColors();
 	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
@@ -256,6 +265,7 @@ Result Init::Exit() {
 	// Exit every process.
 	// Unload all sheets, because you don't know, if people exit properly like they should.
 	unloadSheets();
+	acExit();
 	Gui::exit();
 	unloadFont();
 	Gui::unloadSheet(GUI);

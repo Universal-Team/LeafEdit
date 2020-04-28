@@ -24,38 +24,40 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef UPDATECENTER_HPP
+#define UPDATECENTER_HPP
 
 #include "common.hpp"
+#include "download.hpp"
+#include "structs.hpp"
 
-#include <string>
+#include <vector>
 
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
+class UpdateCenter : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	UpdateCenter();
+private:
+	int Selection = 0;
+	void checkUpdate();
+	bool NightlyAvailable = false;
+	bool ReleaseAvailable = false;
+	bool changelogShown = false; // I have no clue if I keep that, lol.
+	bool hasCheckedForUpdate = false; // Always false at startup.
 
-	bool getBool(const std::string &key);
-	void setBool(const std::string &key, bool v);
+	ReleaseFetch latestRelease = {""};
+	NightlyFetch latestNightly = {""};
 
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-
-	std::string getString(const std::string &key);
-	void setString(const std::string &key, const std::string &v);
-
-	int getLang(const std::string &key);
-
-	// Init the Colors.
-	void initColors();
-
-	// All Colors.
-	extern u32 Pattern, Building, MoneyRock, Furniture, Gyroid, Clothes, Song, Paper, Trash, Shell,
-	Fruit, Turnip, Catchable, Item, WallpaperCarpet, Fossil, Tool, Tree, Weed, Flower, Rock,
-	Money, ParchedFlower, WateredFlower, WiltedFlower, Occupied, Invalid;
-
-	extern std::string currentRelease, currentNightly;
-}
+	std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "Download Release"},
+		{175, 34, 130, 48, "Download Nightly"},
+		{15, 97, 130, 48, "Download Assets"},
+		{175, 97, 130, 48, "Download Scripts"},
+		{15, 159, 130, 48, ""},
+		{175, 159, 130, 48, ""}
+	};
+};
 
 #endif

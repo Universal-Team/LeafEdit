@@ -50,6 +50,7 @@ private:
 	bool ScriptsFound = false;
 	int Selection = 0;
 	int screenPos = 0;
+	bool ScriptMode = 0; // 1 -> Universal, 0 -> Specific game.
 
 	// Browse stuff.
 	int keyRepeatDelay = 8;
@@ -59,6 +60,7 @@ private:
 	// Utils.
 	bool returnIfExist();
 	void refreshList();
+	std::string returnScriptPath();
 };
 
 #endif

@@ -54,6 +54,11 @@ struct ReleaseFetch {
 	std::string Published;
 };
 
+struct ExtraEntry {
+	std::string downloadUrl;
+	std::string name;
+};
+
 Result downloadToFile(std::string url, std::string path);
 Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases);
 
@@ -79,6 +84,9 @@ namespace Download {
 	NightlyFetch getLatestNightly();
 
 	bool showReleaseInfo(ReleaseFetch RF);
+
+	std::vector<ExtraEntry> getExtraList(std::string category);
+	void downloadScripts(void);
 }
 
 #endif
