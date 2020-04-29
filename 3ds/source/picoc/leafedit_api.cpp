@@ -28,7 +28,7 @@
 #include "encryptedInt32.hpp"
 #include "fileBrowse.hpp"
 #include "gfx.hpp"
-#include "ItemUtils.hpp"
+#include "itemUtils.hpp"
 #include "keyboard.hpp"
 #include "Sav.hpp"
 #include "SavNL.hpp"
