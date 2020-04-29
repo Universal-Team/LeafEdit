@@ -1,0 +1,20 @@
+--atlas -f rgba -z auto
+
+gui/back.png
+gui/bar.png
+gui/bottom_bar.png
+gui/button_corner.png
+gui/box_bot.png
+gui/box_middle.png
+gui/box_top.png
+gui/cross.png
+gui/discord.png
+gui/noTPC.png
+gui/pointer.png
+gui/save.png
+gui/selector_side.png
+gui/stackZ.png
+gui/tileBG.png
+gui/top_bar.png
+gui/universal-core.png
+gui/update.png

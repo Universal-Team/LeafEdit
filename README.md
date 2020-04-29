@@ -6,7 +6,7 @@ This Project has been made with [Universal-Core](https://github.com/Universal-Te
 
 ## Citra User
 
-To use LeafEdit completely you need to get the Assets package from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/LeafEdit-Assets.7z) or from the resources/assets/ folder. Put the Files from the Assets Package or the resources/assets folder to `sdmc:/LeafEdit/Assets/` and you should be fine.
+To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/LeafEdit/Assets/` and you should be fine.
 
 ## Compilation
 
@@ -14,11 +14,11 @@ To build LeafEdit from source, you need devkitARM installed along with libctru, 
 
 ## Credits
 ### Main Developers
-- [StackZ](https://github.com/SuperSaiyajinStackZ): App Idea and Main Developer.
+- [StackZ](https://github.com/SuperSaiyajinStackZ): App idea and main developer.
 ### Translators
 
 English
-- [Epicpkmn11](https://github.com/Epicpkmn11)
+- [Pk11](https://github.com/Epicpkmn11)
 - [StackZ](https://github.com/SuperSaiyajinStackZ)
 
 French
@@ -31,7 +31,7 @@ Italian
 - [edo9300](https://github.com/edo9300)
 
 Japanese
-- [Epicpkmn11](https://github.com/Epicpkmn11)
+- [Pk11](https://github.com/Epicpkmn11)
 
 Lithuanian
 - [lemonnade0](https://steamcommunity.com/profiles/76561198276444028)
@@ -45,11 +45,13 @@ Spanish
 - [YoSoy](https://twitter.com/riku200)
 
 ### Others
-- [Animal Crossing Wiki](https://animalcrossingwiki.de/start): For the NPC Character Graphics and Badges, which are Licensed under [CC Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
-- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the Core part and the Acres, Face, Hair, Items, Villagers and the hand_pointer sprite!
-- [Cuyler](https://github.com/Cuyler36): For helping for fixing the AC:WW's Checksum part and improving it's write functions!
+- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
 - [devkitPro](https://github.com/devkitPro), [Fincs](https://github.com/fincs), [Smealum](https://github.com/smealum), [Wintermute](https://github.com/WinterMute): For devkitARM, Citro2D, Citro3D and Libctru.
-- [Flagbrew](https://github.com/FlagBrew): [Checkpoint](https://github.com/FlagBrew/Checkpoint)'s Code for the Backup & Restore part for Animal Crossing: New Leaf.
-- [Flame](https://github.com/FlameKat53): The Name Idea of LeafEdit.
-- [Kodtiz3D](https://github.com/Kodtiz3D): For the Icon and the Banner.
+- [Flagbrew](https://github.com/FlagBrew): For [PKSM](https://github.com/FlagBrew/PKSM)'s picoC implementation.
+- [Flame](https://github.com/FlameKat53): The name idea of LeafEdit.
+- [Kodtiz3D](https://github.com/Kodtiz3D): For the icon and the banner.
+- [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core): The actual core part for LeafEdit.
+- [piepie62](https://github.com/piepie62): For being a big help on questions and having improvements suggestions.
+- [Pk11](https://github.com/Epicpkmn11): For being a big help.
+- [TotallyNotGuy](https://github.com/TotallyNotGuy): For the amazing graphic work!
 - [Universal-Updater](https://github.com/Universal-Team/Universal-Updater): Download code being ported from this app.

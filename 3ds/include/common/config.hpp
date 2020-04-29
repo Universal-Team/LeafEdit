@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -27,6 +27,8 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
+#include "common.hpp"
+
 #include <string>
 
 namespace Config {
@@ -44,7 +46,15 @@ namespace Config {
 	void setString(const std::string &key, const std::string &v);
 
 	int getLang(const std::string &key);
-	extern int lang, colorMode;
+
+	// Init the Colors.
+	void initColors();
+
+	// All Colors.
+	extern u32 Pattern, Building, MoneyRock, Furniture, Gyroid, Clothes, Song, Paper, Trash, Shell,
+	Fruit, Turnip, Catchable, Item, WallpaperCarpet, Fossil, Tool, Tree, Weed, Flower, Rock,
+	Money, ParchedFlower, WateredFlower, WiltedFlower, Occupied, Invalid;
+
 	extern std::string currentRelease, currentNightly;
 }
 

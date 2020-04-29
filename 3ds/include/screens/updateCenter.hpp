@@ -50,10 +50,13 @@ private:
 	ReleaseFetch latestRelease = {""};
 	NightlyFetch latestNightly = {""};
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // Release.
-		{90, 100, 140, 35}, // Nightly.
-		{90, 160, 140, 35}, // Assets.
+	std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "Download Release"},
+		{175, 34, 130, 48, "Download Nightly"},
+		{15, 97, 130, 48, "Download Assets"},
+		{175, 97, 130, 48, "Download Scripts"},
+		{15, 159, 130, 48, ""},
+		{175, 159, 130, 48, ""}
 	};
 };
 

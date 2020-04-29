@@ -3,7 +3,7 @@
 #include "keyboard.hpp"
 #include "screenCommon.hpp"
 #include "structs.hpp"
-#include "utils.hpp"
+#include "stringUtils.hpp"
 
 #include <string>
 #include <stdio.h>
@@ -36,42 +36,42 @@ Structs::Key modifierKeys[] = {
 	{" ",     85, 90, 120},	// Space
 };
 Structs::Key NumpadStruct[] = {
-	{"1", 10, 30},
-	{"2", 90, 30},
-	{"3", 170, 30},
+	{"1", 10, 25},
+	{"2", 90, 25},
+	{"3", 170, 25},
 
-	{"4", 10, 100},
-	{"5", 90, 100},
-	{"6", 170, 100},
+	{"4", 10, 95},
+	{"5", 90, 95},
+	{"6", 170, 95},
 
-	{"7", 10, 170},
-	{"8", 90, 170},
-	{"9", 170, 170},
+	{"7", 10, 165},
+	{"8", 90, 165},
+	{"9", 170, 165},
 
-	{"0", 250, 100},
+	{"0", 250, 95},
 
-	{"E", 250, 170},
+	{"E", 250, 165},
 
-	{"B", 250, 30},
+	{"B", 250, 25},
 };
 Structs::ButtonPos Numbers [] = {
-	{10, 30, 60, 50}, // 1
-	{90, 30, 60, 50}, // 2
-	{170, 30, 60, 50}, // 3
+	{10, 25, 60, 50}, // 1
+	{90, 25, 60, 50}, // 2
+	{170, 25, 60, 50}, // 3
 
-	{10, 100, 60, 50},
-	{90, 100, 60, 50},
-	{170, 100, 60, 50},
+	{10, 95, 60, 50},
+	{90, 95, 60, 50},
+	{170, 95, 60, 50},
 
-	{10, 170, 60, 50},
-	{90, 170, 60, 50},
-	{170, 170, 60, 50},
+	{10, 165, 60, 50},
+	{90, 165, 60, 50},
+	{170, 165, 60, 50},
 
-	{250, 100, 60, 50}, // 0.
+	{250, 95, 60, 50}, // 0.
 
-	{250, 170, 60, 50}, // Enter.
+	{250, 165, 60, 50}, // Enter.
 
-	{250, 30, 60, 50}, // Backspace.
+	{250, 25, 60, 50}, // Backspace.
 };
 
 
@@ -127,7 +127,7 @@ Structs::ButtonPos Hex [] = {
 	{190, 150, 30, 20}, // Enter.
 };
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 void Input::DrawHex()
 {
@@ -285,8 +285,7 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Text, 400);
 			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
-			Gui::ScreenDraw(Bottom);
-			Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
+			GFX::DrawBottom();
 			DrawNumpad();
 			scanKeys();
 			hDown = keysDown();
@@ -303,35 +302,35 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 		if(hDown & KEY_TOUCH) {
 			touchRead(&touch);
 			if(string.length() < maxLength) {
-				if (touching(touch, Numbers[0])) {
+				if (iconTouch(touch, Numbers[0])) {
 					string += "1";
-				} else if (touching(touch, Numbers[1])) {
+				} else if (iconTouch(touch, Numbers[1])) {
 					string += "2";
-				} else if (touching(touch, Numbers[2])) {
+				} else if (iconTouch(touch, Numbers[2])) {
 					string += "3";
-				} else if (touching(touch, Numbers[3])) {
+				} else if (iconTouch(touch, Numbers[3])) {
 					string += "4";
-				} else if (touching(touch, Numbers[4])) {
+				} else if (iconTouch(touch, Numbers[4])) {
 					string += "5";
-				} else if (touching(touch, Numbers[5])) {
+				} else if (iconTouch(touch, Numbers[5])) {
 					string += "6";
-				} else if (touching(touch, Numbers[6])) {
+				} else if (iconTouch(touch, Numbers[6])) {
 					string += "7";
-				} else if (touching(touch, Numbers[7])) {
+				} else if (iconTouch(touch, Numbers[7])) {
 					string += "8";
-				} else if (touching(touch, Numbers[8])) {
+				} else if (iconTouch(touch, Numbers[8])) {
 					string += "9";
-				} else if (touching(touch, Numbers[9])) {
+				} else if (iconTouch(touch, Numbers[9])) {
 					string += "0";
 				}
 			}
 		}
 
-		if(hDown & KEY_B || touching(touch, Numbers[11])) {
+		if(hDown & KEY_B || iconTouch(touch, Numbers[11])) {
 			string = string.substr(0, string.length()-1);
 		}
 
-		if(hDown & KEY_START || touching(touch, Numbers[10]) || enter) {
+		if(hDown & KEY_START || iconTouch(touch, Numbers[10]) || enter) {
 			break;
 		}
 	}
@@ -377,49 +376,49 @@ std::string Input::getHex(int max, std::string Text)
 		if(hDown & KEY_TOUCH) {
 			touchRead(&touch);
 			if((int)string.length() < max) {
-				if (touching(touch, Hex[0])) {
+				if (iconTouch(touch, Hex[0])) {
 					string += "1";
-				} else if (touching(touch, Hex[1])) {
+				} else if (iconTouch(touch, Hex[1])) {
 					string += "2";
-				} else if (touching(touch, Hex[2])) {
+				} else if (iconTouch(touch, Hex[2])) {
 					string += "3";
-				} else if (touching(touch, Hex[3])) {
+				} else if (iconTouch(touch, Hex[3])) {
 					string += "4";
-				} else if (touching(touch, Hex[4])) {
+				} else if (iconTouch(touch, Hex[4])) {
 					string += "5";
-				} else if (touching(touch, Hex[5])) {
+				} else if (iconTouch(touch, Hex[5])) {
 					string += "6";
-				} else if (touching(touch, Hex[6])) {
+				} else if (iconTouch(touch, Hex[6])) {
 					string += "7";
-				} else if (touching(touch, Hex[7])) {
+				} else if (iconTouch(touch, Hex[7])) {
 					string += "8";
-				} else if (touching(touch, Hex[8])) {
+				} else if (iconTouch(touch, Hex[8])) {
 					string += "9";
-				} else if (touching(touch, Hex[9])) {
+				} else if (iconTouch(touch, Hex[9])) {
 					string += "0";
-				} else if (touching(touch, Hex[10])) {
+				} else if (iconTouch(touch, Hex[10])) {
 					string += "A";
-				} else if (touching(touch, Hex[11])) {
+				} else if (iconTouch(touch, Hex[11])) {
 					string += "B";
-				} else if (touching(touch, Hex[12])) {
+				} else if (iconTouch(touch, Hex[12])) {
 					string += "C";
-				} else if (touching(touch, Hex[13])) {
+				} else if (iconTouch(touch, Hex[13])) {
 					string += "D";
-				} else if (touching(touch, Hex[14])) {
+				} else if (iconTouch(touch, Hex[14])) {
 					string += "E";
-				} else if (touching(touch, Hex[15])) {
+				} else if (iconTouch(touch, Hex[15])) {
 					string += "F";
-				} else if (touching(touch, Hex[16])) {
+				} else if (iconTouch(touch, Hex[16])) {
 					string += "x";
 				}
 			}
 		}
 
-		if(hDown & KEY_B || touching(touch, Hex[17])) {
+		if(hDown & KEY_B || iconTouch(touch, Hex[17])) {
 			string = string.substr(0, string.length()-1);
 		}
 
-		if(hDown & KEY_START || touching(touch, Hex[18]) || enter) {
+		if(hDown & KEY_START || iconTouch(touch, Hex[18]) || enter) {
 			break;
 		}
 	}

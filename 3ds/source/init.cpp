@@ -24,12 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "archive.hpp"
-#include "config.hpp"
 #include "download.hpp"
 #include "init.hpp"
-#include "initial.hpp"
-#include "gameLoader.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
@@ -47,30 +43,22 @@ bool fadein = true;
 // If true -> Exit LeafEdit.
 bool exiting = false;
 
-bool WelcomeAmiibo;
 touchPosition touch;
 
 u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // Color Types.
 
 // Include all spritesheet's.
 C2D_SpriteSheet Acres;
-C2D_SpriteSheet Badges;
-C2D_SpriteSheet Faces;
-C2D_SpriteSheet Hairs;
+C2D_SpriteSheet GUI;
 C2D_SpriteSheet Items;
-C2D_SpriteSheet NPCs;
-C2D_SpriteSheet sprites;
+C2D_SpriteSheet Players;
 C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
-C2D_SpriteSheet WWAcres;
-C2D_SpriteSheet WWFaces;
-C2D_SpriteSheet WWVillagers;
 
 // Is loaded state.
-bool NLSheetHasLoaded = false;
-bool WWSheetHasLoaded = false;
-bool FontHasLoaded	  = false;
-bool changesMade	  = false;
+bool sheetsLoaded		= false;
+bool FontHasLoaded		= false;
+bool changesMade		= false;
 
 // GodMode and whatnot.
 bool Debug = true;
@@ -94,7 +82,14 @@ void getCurrentUsage(){
 }
 
 // If button Position pressed -> Do something.
-bool touching(touchPosition touch, Structs::ButtonPos button) {
+bool touching(touchPosition touch, ButtonType button) {
+	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength))
+		return true;
+	else
+		return false;
+}
+// Icons are handled through Structs::ButtonPos.
+bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
 		return true;
 	else
@@ -102,90 +97,45 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 }
 
 // Check if Sheets are found.
-Result Init::CheckSheets(int Mode) {
-	// 0 -> NL.
-	if (Mode == 0) {
-		if((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/badges.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/faces.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/hairs.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/NPCs.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
-				return 0;
-			} else {
-				return -1;
-			}
+Result Init::CheckSheets() {
+	if((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
+		return 0;
 	} else {
-		if((access("sdmc:/LeafEdit/assets/wwacres.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/wwfaces.t3x", F_OK) == 0 ) ||
-		  (access("sdmc:/LeafEdit/assets/wwvillagers.t3x", F_OK) == 0 )) {
-			  return 0;
-		} else {
-			  return -1;
-		}
+		return -1;
 	}
 }
 
 // Loading the Sheets.
-Result Init::loadNLSheets() {
-	if (NLSheetHasLoaded == false) {
-		if (CheckSheets(0) != 0) {
+Result Init::loadSheets() {
+	if (sheetsLoaded == false) {
+		if (CheckSheets() != 0) {
 			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
 			return -1;
 		} else {
 			Acres		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/acres.t3x");
-			Badges		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/badges.t3x");
-			Faces		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/faces.t3x");
-			Hairs		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/hairs.t3x");
 			Items		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/items.t3x");
-			NPCs		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/NPCs.t3x");
+			Players		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/players.t3x");
 			Villager	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers.t3x");
 			Villager2	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers2.t3x");
+			sheetsLoaded  = true;
 		}
 	}
-	NLSheetHasLoaded = true;
-	return 0;
-}
-
-Result Init::loadWWSheets() {
-	if (WWSheetHasLoaded == false) {
-		if (CheckSheets(1) != 0) {
-			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
-			return -1;
-		} else {
-			WWAcres	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/wwacres.t3x");
-			WWFaces		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/wwfaces.t3x");
-			WWVillagers	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/wwvillagers.t3x");
-		}
-	}
-	WWSheetHasLoaded = true;
 	return 0;
 }
 
 // Unload all Sheets.
-Result Init::unloadNLSheets() {
-	if (NLSheetHasLoaded == true) {
-		NLSheetHasLoaded = false;
+Result Init::unloadSheets() {
+	if (sheetsLoaded == true) {
 		C2D_SpriteSheetFree(Acres);
-		C2D_SpriteSheetFree(Badges);
-		C2D_SpriteSheetFree(Faces);
-		C2D_SpriteSheetFree(Hairs);
 		C2D_SpriteSheetFree(Items);
-		C2D_SpriteSheetFree(NPCs);
+		C2D_SpriteSheetFree(Players);
 		C2D_SpriteSheetFree(Villager);
 		C2D_SpriteSheetFree(Villager2);
-	}
-	return 0;
-}
-
-Result Init::unloadWWSheets() {
-	if (WWSheetHasLoaded == true) {
-		WWSheetHasLoaded = false;
-		C2D_SpriteSheetFree(WWAcres);
-		C2D_SpriteSheetFree(WWFaces);
-		C2D_SpriteSheetFree(WWVillagers);
+		sheetsLoaded = false;
 	}
 	return 0;
 }
@@ -214,67 +164,49 @@ Result Init::unloadFont() {
 Result Init::Init() {
 	gfxInitDefault();
 	romfsInit();
-	amInit();
-	acInit();
-	Archive::init();
 	Gui::init();
+	acInit();
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/LeafEdit", 0777); // main Path.
 	mkdir("sdmc:/LeafEdit/assets", 0777); // Assets path.
+	// Towns.
 	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
-	mkdir("sdmc:/LeafEdit/Towns/Old", 0777); // Old Path.
+	mkdir("sdmc:/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
-	mkdir("sdmc:/LeafEdit/TPC", 0777); // TPC path.
+	// Scripts.
+	mkdir("sdmc:/LeafEdit/Scripts", 0777); // Scripts path.
+	mkdir("sdmc:/LeafEdit/Scripts/new-leaf", 0777); // New Leaf script path.
+	mkdir("sdmc:/LeafEdit/Scripts/wild-world", 0777); // Wild World script path.
+	mkdir("sdmc:/LeafEdit/Scripts/welcome-amiibo", 0777); // Welcome amiibo script path.
+	mkdir("sdmc:/LeafEdit/Scripts/universal", 0777); // Universal script path. (For All Games.)
+	// Pattern.
+	mkdir("sdmc:/LeafEdit/Pattern", 0777); // Pattern path.
 
-	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
+	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
-	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
-		Config::initializeNewConfig();
-	}
 	Config::load();
-	Lang::load(Config::getLang("Lang"));
+	Config::initColors();
+	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 
-	if (Config::colorMode == 0) {
-		DARKER_COLOR = DARKER_GREEN;
-		LIGHT_COLOR = LIGHT_GREEN;
-		LIGHTER_COLOR = LIGHTER_GREEN;
-		SELECTED_COLOR = SELECTED_GREEN;
-		UNSELECTED_COLOR = UNSELECTED_GREEN;
-	} else if (Config::colorMode == 1) {
-		DARKER_COLOR = DARKER_BLUE;
-		LIGHT_COLOR = LIGHT_BLUE;
-		LIGHTER_COLOR = LIGHTER_BLUE;
-		SELECTED_COLOR = SELECTED_BLUE;
-		UNSELECTED_COLOR = UNSELECTED_BLUE;
-	} else if (Config::colorMode == 2) {
-		DARKER_COLOR = DARKER_DEEPBLUE;
-		LIGHT_COLOR = LIGHT_DEEPBLUE;
-		LIGHTER_COLOR = LIGHTER_DEEPBLUE;
-		SELECTED_COLOR = SELECTED_DEEPBLUE;
-		UNSELECTED_COLOR = UNSELECTED_DEEPBLUE;
-	} else {
-		DARKER_COLOR = DARKER_DEEPRED;
-		LIGHT_COLOR = LIGHT_DEEPRED;
-		LIGHTER_COLOR = LIGHTER_DEEPRED;
-		SELECTED_COLOR = SELECTED_DEEPRED;
-		UNSELECTED_COLOR = UNSELECTED_DEEPRED;
-	}
+	DARKER_COLOR = DARKER_GREEN;
+	LIGHT_COLOR = LIGHT_GREEN;
+	LIGHTER_COLOR = LIGHTER_GREEN;
+	SELECTED_COLOR = SELECTED_GREEN;
+	UNSELECTED_COLOR = UNSELECTED_GREEN;
 
 	// If sheets not found -> Download it.
-	if (CheckSheets(0) != 0 || CheckSheets(1) != 0) {
+	if (CheckSheets() != 0) {
 		Download::downloadAssets();
 	}
 
 	// Only Load Font if found, else load System font.
 	loadFont();
-
-	checkForWelcomeAmiibo();
 
 	getCurrentUsage();
 	char path[PATH_MAX];
@@ -290,26 +222,11 @@ Result Init::Init() {
 	return 0;
 }
 
-// Check if AC:NL:WA Update is found.
-void Init::checkForWelcomeAmiibo() {
-	GameLoader::checkUpdate();
-	// Return the Welcome Amiibo State.
-	if (Config::getBool("update") == false) {
-		WelcomeAmiibo = false;
-	} else if (Config::getBool("update") == true) {
-		WelcomeAmiibo = true;
-	}
-}
-
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
 	// Set the Screen to the MainMenu.
-	if (Config::getBool("InitialSetup") != true) {
-		Gui::setScreen(std::make_unique<Initial>());
-	} else {
-		Gui::setScreen(std::make_unique<MainMenu>());
-	}
+	Gui::setScreen(std::make_unique<MainMenu>());
 	return 0;
 }
 
@@ -347,17 +264,13 @@ Result Init::MainLoop() {
 Result Init::Exit() {
 	// Exit every process.
 	// Unload all sheets, because you don't know, if people exit properly like they should.
-	unloadNLSheets();
-	unloadWWSheets();
-	if (changesMade)	Config::save();
-	Archive::exit();
+	unloadSheets();
+	acExit();
 	Gui::exit();
 	unloadFont();
-	Gui::unloadSheet(sprites);
+	Gui::unloadSheet(GUI);
 	cfguExit();
 	gfxExit();
 	romfsExit();
-	amExit();
-	acExit();
 	return 0;
 }

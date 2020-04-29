@@ -27,67 +27,153 @@
 #include "gfx.hpp"
 #include "screenCommon.hpp"
 
-// Include all spritesheet's maybe for their draw function here?
-extern C2D_SpriteSheet Acres;
-extern C2D_SpriteSheet Badges;
-extern C2D_SpriteSheet Faces;
-extern C2D_SpriteSheet Hairs;
-extern C2D_SpriteSheet Items;
-extern C2D_SpriteSheet NPCs;
-extern C2D_SpriteSheet sprites;
-extern C2D_SpriteSheet Villager;
-extern C2D_SpriteSheet Villager2;
-extern C2D_SpriteSheet WWAcres;
-extern C2D_SpriteSheet WWFaces;
-extern C2D_SpriteSheet WWVillagers;
+extern C2D_SpriteSheet GUI;
 
-void GFX::DrawTop(bool useBars) {
-	Gui::ScreenDraw(Top);
-	if (useBars) {
-		Gui::Draw_Rect(0, 0, 400, 30, DARKER_COLOR);
-		Gui::Draw_Rect(0, 30, 400, 180, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 210, 400, 30, DARKER_COLOR);
+void GFX::DrawGUI(int img, int x, int y, float ScaleX, float ScaleY)
+{
+	Gui::DrawSprite(GUI, img, x, y, ScaleX, ScaleY);
+}
+
+void GFX::DrawGUIBlend(int img, int x, int y, float ScaleX, float ScaleY, u32 color)
+{
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
+	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(GUI, img), x, y, 0.5f,  &tint, ScaleX, ScaleY);
+}
+
+// Code from PKSM. https://github.com/FlagBrew/PKSM/blob/master/3ds/source/gui/gui.cpp#L73
+Tex3DS_SubTexture _select_box(const C2D_Image& image, int x, int y, int endX, int endY)
+{
+	Tex3DS_SubTexture tex = *image.subtex;
+	if (x != endX)
+	{
+		int deltaX  = endX - x;
+		float texRL = tex.left - tex.right;
+		tex.left    = tex.left - (float)texRL / tex.width * x;
+		tex.right   = tex.left - (float)texRL / tex.width * deltaX;
+		tex.width   = deltaX;
+	}
+	if (y != endY)
+	{
+		float texTB = tex.top - tex.bottom;
+		int deltaY  = endY - y;
+		tex.top     = tex.top - (float)texTB / tex.height * y;
+		tex.bottom  = tex.top - (float)texTB / tex.height * deltaY;
+		tex.height  = deltaY;
+	}
+	return tex;
+}
+
+void GFX::DrawSelector(bool top, int y)
+{
+	C2D_Image sprite = C2D_SpriteSheetGetImage(GUI, gui_selector_side_idx);
+	Tex3DS_SubTexture tex = _select_box(sprite, 8, 0, 9, 21); // Get Height.
+	if (top) {
+		// Draw Sides.
+		DrawGUI(gui_selector_side_idx, 0, y);
+		DrawGUI(gui_selector_side_idx, 391, y, -1.0, 1.0);
+		// Stretch the middle!
+		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 382.0, 1);
 	} else {
-		Gui::Draw_Rect(0, 0, 400, 240, LIGHT_COLOR);
+		// Draw Sides.
+		DrawGUI(gui_selector_side_idx, 0, y);
+		DrawGUI(gui_selector_side_idx, 311, y, -1.0, 1.0);
+		// Stretch the middle!
+		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 302.0, 1);
 	}
 }
 
-void GFX::DrawBottom(bool useBars) {
-	Gui::ScreenDraw(Bottom);
-	if (useBars) {
-		Gui::Draw_Rect(0, 0, 320, 30, DARKER_COLOR);
-		Gui::Draw_Rect(0, 30, 320, 180, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 210, 320, 30, DARKER_COLOR);
+void GFX::DrawBtn(int x, int y, int xLength, int yLength)
+{
+	C2D_Image sprite = C2D_SpriteSheetGetImage(GUI, gui_button_corner_idx);
+	Tex3DS_SubTexture tex;
+	// Corners.
+	DrawGUI(gui_button_corner_idx, x, y);
+	DrawGUI(gui_button_corner_idx, x + xLength - 14, y, -1.0, 1.0);
+	DrawGUI(gui_button_corner_idx, x, y + yLength - 14, 1.0, -1.0);
+	DrawGUI(gui_button_corner_idx, x + xLength - 14, y + yLength - 14, -1.0, -1.0);
+	// Height draw.
+	tex = _select_box(sprite, 0, 11, 14, 12); // Get Height.
+	C2D_DrawImageAt({sprite.tex, &tex}, x, y + 14, 0.5f, nullptr, 1, yLength - 28);
+	C2D_DrawImageAt({sprite.tex, &tex}, x + xLength - 14, y + 14, 0.5f, nullptr, -1, yLength - 28);
+	// Width draw.
+	tex = _select_box(sprite, 11, 0, 12, 14); // Get Width.
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y, 0.5f, nullptr, xLength - 28, 1);
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + yLength - 14, 0.5f, nullptr, xLength - 28, -1);
+	// And now the middle!
+	tex = _select_box(sprite, 11, 11, 12, 12); // Get Corner pixel.
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + 14, 0.5f, nullptr, xLength - 28, yLength - 28);
+}
+
+void GFX::DrawTop(bool useBars, bool fullscreen) {
+	Gui::ScreenDraw(Top);
+	if (!fullscreen) {
+		// Draw Tiled BG.
+		DrawGUI(gui_tileBG_idx, 0, 0);
+		DrawGUI(gui_tileBG_idx, 135, 0);
+		DrawGUI(gui_tileBG_idx, 270, 0);
+		DrawGUI(gui_tileBG_idx, 0, 132);
+		DrawGUI(gui_tileBG_idx, 135, 132);
+		DrawGUI(gui_tileBG_idx, 270, 132);
+		// Draw grass bar on bottom.
+		DrawGUI(gui_bar_idx, 0, 215);
+		if (useBars) {
+			// Draw Text bar, so Text is readable.
+			DrawGUI(gui_top_bar_idx, 0, 0);
+		}
 	} else {
-		Gui::Draw_Rect(0, 0, 320, 240, LIGHT_COLOR);
+		// Just solid.
+		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(215, 178, 111, 255)); // Draw BG based on Tile's color.
+	}
+}
+
+void GFX::DrawBottom(bool fullscreen) {
+	Gui::ScreenDraw(Bottom);
+	DrawGUI(gui_tileBG_idx, 0, 0);
+	DrawGUI(gui_tileBG_idx, 135, 0);
+	DrawGUI(gui_tileBG_idx, 270, 0);
+	DrawGUI(gui_tileBG_idx, 0, 132);
+	DrawGUI(gui_tileBG_idx, 135, 132);
+	DrawGUI(gui_tileBG_idx, 270, 132);
+	if (!fullscreen) {
+		DrawGUI(gui_bar_idx, 0, 0, 1, -1);
+		DrawGUI(gui_bar_idx, 0, 215);
 	}
 }
 
 void GFX::DrawFileBrowseBG(bool isTop) {
-	if (isTop == true) {
+	if (isTop) {
 		Gui::ScreenDraw(Top);
-		Gui::Draw_Rect(0, 0, 400, 27, DARKER_COLOR);
-		Gui::Draw_Rect(0, 27, 400, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 58, 400, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 89, 400, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 120, 400, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 151, 400, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 182, 400, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 213, 400, 27, DARKER_COLOR);
+		// Draw Bakground.
+		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+		// Draw FileBrowse Bars.
+		Gui::Draw_Rect(0, 45, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 87, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 129, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 171, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		// Draw Textbox bars.
+		DrawGUI(gui_top_bar_idx, 0, 0);
+		DrawGUI(gui_bottom_bar_idx, 0, 208);
 	} else {
 		Gui::ScreenDraw(Bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, DARKER_COLOR);
-		Gui::Draw_Rect(0, 27, 320, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 58, 320, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 89, 320, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 120, 320, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 151, 320, 31, LIGHT_COLOR);
-		Gui::Draw_Rect(0, 182, 320, 31, LIGHTER_COLOR);
-		Gui::Draw_Rect(0, 213, 320, 27, DARKER_COLOR);
+		// Draw Background.
+		Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+		// Draw FileBrowse Bars.
+		Gui::Draw_Rect(0, 24, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 67, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 109, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 152, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		Gui::Draw_Rect(0, 194, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+		// Draw grass Bars.
+		DrawGUI(gui_bar_idx, 0, 0, 1, -1);
+		DrawGUI(gui_bar_idx, 0, 215);
 	}
 }
 
-static void DrawList(int selection, const std::vector<std::string> &List, const std::string &Msg) {
+void DrawList(int selection, const std::vector<std::string> List, const std::string Msg) {
 	std::string lists;
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -95,19 +181,24 @@ static void DrawList(int selection, const std::vector<std::string> &List, const 
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG(true);
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Msg, 400);
-	for (int i = (selection<5) ? 0 : selection-5;i< (int)List.size() && i <((selection<5) ? 6 : selection+1);i++) {
-		if (i == selection) {
-			lists += "> " + List[i] + "\n\n";
-		} else {
-			lists += List[i] + "\n\n";
-		}
+
+	for (int i=(selection<8) ? 0 : (uint)selection-8;i<(int)List.size()&&i<((selection<8) ? 9 : selection+1);i++) {
+		lists += List[i] + "\n";
 	}
-	Gui::DrawString(26, 32, 0.65f, WHITE, lists, 360);
+	for (uint i=0;i<((List.size()<9) ? 9-List.size() : 0);i++) {
+		lists += "\n";
+	}
+
+	// Selector Logic.
+	if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
+	else				GFX::DrawSelector(true, 24 + (8 * 21));
+	Gui::DrawString(5, 25, 0.85f, BLACK, lists, 360);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(List.size()), 395);
 	GFX::DrawFileBrowseBG(false);
 	C3D_FrameEnd(0);
 }
 
-int GFX::ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg) {
+int GFX::ListSelection(int current, const std::vector<std::string> list, const std::string Msg) {
 	s32 selection = current;
 	int keyRepeatDelay = 0;
 	while (1) {
@@ -132,42 +223,27 @@ int GFX::ListSelection(int current, const std::vector<std::string> &list, const 
 		}
 
 		if (hidKeysDown() & KEY_B) {
-			return current;
+			return -1;
 		}
 	}
 }
 
-void GFX::DrawArrow(int x, int y, float rotation) {
-	C2D_Sprite sprite;
-	C2D_ImageTint tint;
-	C2D_SetImageTint(&tint, C2D_TopLeft, DARKER_COLOR, 0.5);
-	C2D_SetImageTint(&tint, C2D_TopRight, DARKER_COLOR, 0.5);
-	C2D_SetImageTint(&tint, C2D_BotLeft, DARKER_COLOR, 0.5);
-	C2D_SetImageTint(&tint, C2D_BotRight, DARKER_COLOR, 0.5);
-
-	C2D_SpriteFromSheet(&sprite, sprites, sprites_arrow_idx);
-	C2D_SpriteRotateDegrees(&sprite, rotation);
-	C2D_SpriteSetPos(&sprite, x, y);
-	C2D_SpriteSetDepth(&sprite, 0.5);
-	C2D_DrawSpriteTinted(&sprite, &tint);
+// Draw a Button and draw Text on it.
+void GFX::DrawButton(const ButtonType button, float TextSize) {
+	DrawBtn(button.x, button.y, button.xLength, button.yLength);
+	// Draw String. TODO: Center.
+	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, TextSize, BLACK, button.Text, button.xLength-17, button.yLength-5);
 }
 
-void GFX::DrawNPC(int img, int x, int y, float ScaleX, float ScaleY)
+// Special Grid for Items. I need to do this here instead of using the Universal-Core one.
+void GFX::drawGrid(float xPos, float yPos, float Width, float Height, u32 itemColor)
 {
-	Gui::DrawSprite(NPCs, img, x, y, ScaleX, ScaleY);
-}
+	static constexpr int w	= 1;
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, itemColor);
 
-void GFX::DrawSprite(int img, int x, int y, float ScaleX, float ScaleY)
-{
-	Gui::DrawSprite(sprites, img, x, y, ScaleX, ScaleY);
-}
-
-void GFX::DrawSpriteBlend(int img, int x, int y, u32 color, float ScaleX, float ScaleY)
-{
-	C2D_ImageTint tint;
-	C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
-	C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
-	C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
-	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, img), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	// Grid part.
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, C2D_Color32(80, 80, 80, 100));	// top
+	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, C2D_Color32(80, 80, 80, 100));	// left
+	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, C2D_Color32(80, 80, 80, 100)); // right
+	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, C2D_Color32(80, 80, 80, 100));	// bottom
 }

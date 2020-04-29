@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,260 +24,187 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "buildingManagement.hpp"
 #include "editor.hpp"
 #include "fileBrowse.hpp"
 #include "init.hpp"
-#include "itemManagement.hpp"
-#include "miscEditor.hpp"
-#include "miscEditorWW.hpp"
-#include "offsets.hpp"
+#include "lang.hpp"
 #include "playerEditor.hpp"
-#include "playerEditorWW.hpp"
-#include "save.hpp"
-#include "utils.hpp"
-#include "villagerManagement.hpp"
+#include "saveUtils.hpp"
+#include "Sav.hpp"
+#include "screenCommon.hpp"
+#include "scriptScreen.hpp"
+#include "townMapEditor.hpp"
 #include "villagerViewer.hpp"
-#include "villagerViewerWW.hpp"
-#include "wwItemManagement.hpp"
-#include "wwsave.hpp"
 
-#include <unistd.h>
+extern bool touching(touchPosition touch, ButtonType button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
-extern std::vector<std::string> g_villagerDatabase;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
-int saveType = 0; // Type of the save.. NL/WW.
-Save *SaveFile;
-WWSave *WWSaveFile;
+std::shared_ptr<Sav> save;
+std::unique_ptr<Town> town;
+static std::string SaveFile;
+// Bring that to other screens too.
+SaveType savesType = SaveType::UNUSED;
+bool changes = false;
 
-void Editor::Draw(void) const {
-	if (EditorMode == 0) {
-		DrawMain();
-	} else if (EditorMode == 1) {
-		DrawEditor();
+// Japanese | PAL.
+const std::vector<std::string> titleNames = {
+	"おいでよ どうぶつの森",
+	"Wild World",
+	"とびだせ どうぶつの森",
+	"New Leaf",
+	"とびだせ どうぶつの森 amiibo+",
+	"Welcome amiibo",
+};
+
+bool Editor::loadSave() {
+	save = nullptr;
+	FILE* in = fopen(saveName.c_str(), "rb");
+	if(in) {
+		fseek(in, 0, SEEK_END);
+		u32 size = ftell(in);
+		fseek(in, 0, SEEK_SET);
+		std::shared_ptr<u8[]> saveData = std::shared_ptr<u8[]>(new u8[size]);
+		fread(saveData.get(), 1, size, in);
+		fclose(in);
+		save = Sav::getSave(saveData, size);
+	} else {
+		printf("Could not open SaveFile.\n");
+		return false;
+	}
+	if(!save) {
+		printf("SaveFile returned nullptr.\n");
+		return false;
+	}
+	if (save->getType() == SaveType::WW)		saveT = 0;
+	else if (save->getType() == SaveType::NL)	saveT = 2;
+	else if (save->getType() == SaveType::WA)	saveT = 4;
+
+	savesType = save->getType();
+
+	// Now handle the region struct thing.
+	if (savesType == SaveType::WA) {
+		this->RegionLock.RawByte = save->savePointer()[0x621CE];
+		this->RegionLock.DerivedID = this->RegionLock.RawByte & 0xF;
+		this->RegionLock.RegionID = static_cast<CFG_Region>(this->RegionLock.RawByte >> 4);
+	}
+	
+	return true;
+}
+
+void Editor::SaveInitialize() {
+	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", "Select your SaveFile.");
+	// If User canceled, go screen back.
+	if (saveName == "") {
+		Gui::screenBack();
+		return;
+	}
+
+	if (!loadSave()) {
+		Msg::DisplayWarnMsg("Invalid SaveFile!");
+	} else {
+		if (Init::loadSheets() == 0) {
+			loadState = SaveState::Loaded;
+		} else {
+			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
+			Gui::screenBack();
+			return;
+		}
+	}
+}
+
+
+void Editor::Draw(void) const
+{
+	if (loadState == SaveState::Loaded) {
+		GFX::DrawTop();
+		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Editor", 395);
+		if (saveT != -1) {
+			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
+			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
+			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
+		}
+		GFX::DrawBottom();
+		for (int i = 0; i < 3; i++) {
+			GFX::DrawButton(mainButtons[i]);
+			if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		}
+		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
+		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
+	}
+}
+
+void Editor::Saving() {
+	if (!changes) {
+		Msg::DisplayWaitMsg("Saving is useless. No changes have been made.");
+		return;
+	}
+
+	if (Msg::promptMsg("Do you like to save?")) {
+		// Handle AC:WA stuff here.
+		if (savesType == SaveType::WA) {
+			CoreUtils::FixInvalidBuildings();
+		}
+		save->Finish();
+		FILE* out = fopen(saveName.c_str(), "rb+");
+		fwrite(save->rawData().get(), 1, save->getLength(), out);
+		fclose(out);
+		hasSaved = true;
 	}
 }
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (EditorMode == 0) {
-		MainLogic(hDown, hHeld, touch);
-	} else if (EditorMode == 1) {
-		EditorLogic(hDown, hHeld, touch);
-	}
-}
 
-void Editor::DrawMain(void) const {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
-	GFX::DrawBottom();
-	for (int i = 0; i < 2; i++) {
-		Gui::Draw_Rect(editorMainBtn[i].x, editorMainBtn[i].y, editorMainBtn[i].w, editorMainBtn[i].h, UNSELECTED_COLOR);
-		if (Selection == i) {
-			GFX::DrawSprite(sprites_pointer_idx, editorMainBtn[i].x+130, editorMainBtn[i].y+25);
-		}
-	}
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("RAW_SAVES")))/2-20+17.5, 0.8, WHITE, Lang::get("RAW_SAVES"), 130, 25);
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("MEDIATYPE")))/2-20+17.5, 0.8, WHITE, Lang::get("MEDIATYPE"), 130, 25);
-}
-
-void Editor::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_RIGHT) {
-		if (Selection == 0)	Selection = 1;
-	} else if (hDown & KEY_LEFT) {
-		if (Selection == 1)	Selection = 0;
-	}
-
-	if (hDown & KEY_A) {
-		if (Selection == 0) {
-			std::string path = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", Lang::get("SELECT_A_SAVE"));
-			if (path != "") {
-				if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "sav") == 0)) {
-					PrepareWW(path);
-				} else if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "dat") == 0)) {
-					PrepareNL(path);
-				}
-			}
-		} else if (Selection == 1) {
-			Msg::NotImplementedYet();
-		}
-	}
-	if (hDown & KEY_TOUCH) {
-		if (touching(touch, editorMainBtn[0])) {
-			std::string path = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", Lang::get("SELECT_A_SAVE"));
-			if (path != "") {
-				if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "sav") == 0)) {
-					PrepareWW(path);
-				} else if ((strcasecmp(path.substr(path.length()-3, 3).c_str(), "dat") == 0)) {
-					PrepareNL(path);
-				}
-			}
-		} else if (touching(touch, editorMainBtn[1])) {
-			Msg::NotImplementedYet();
-		}
-	}
-
-	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
-	}
-}
-
-void Editor::DrawEditor(void) const
-{
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 400);
-	GFX::DrawBottom();
-
-	for (int i = 0; i < 3; i++) {
-		Gui::Draw_Rect(editorButtons[i].x, editorButtons[i].y, editorButtons[i].w, editorButtons[i].h, UNSELECTED_COLOR);
-		if (Selection == i) {
-			GFX::DrawSprite(sprites_pointer_idx, editorButtons[i].x+130, editorButtons[i].y+25);
-		}
-	}
-	GFX::DrawSprite(sprites_back_idx, editorButtons[3].x, editorButtons[3].y);
-
-	Gui::DrawStringCentered(0, editorButtons[0].y+10, 0.8f, WHITE, Lang::get("PLAYER"), 130);
-	Gui::DrawStringCentered(0, editorButtons[1].y+10, 0.8f, WHITE, Lang::get("VILLAGER"), 130);
-	Gui::DrawStringCentered(0, editorButtons[2].y+10, 0.8f, WHITE, Lang::get("MISC_EDITOR"), 130);
-}
-
-void Editor::EditorLogic(u32 hDown, u32 hHeld, touchPosition touch)
-{
-	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
-	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
-	}
-
-	if ((hDown & KEY_TOUCH && touching(touch, editorButtons[3])) || (hDown & KEY_START)) {
-		if (saveType == 0) {
-			saveNL();
-		} else if (saveType == 1) {
-			saveWW();
-		}
-	}
-
-	if (hDown & KEY_A) {
-		SetMode(Selection);
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("START_SAVE"));
-	}
-
-	if (hDown & KEY_TOUCH) {
-		if (touching(touch, editorButtons[0])) {
-			SetMode(0);
-		} else if (touching(touch, editorButtons[1])) {
-			SetMode(1);
-		} else if (touching(touch, editorButtons[2])) {
-			SetMode(2);
-		}
-	}
-}
-
-
-// Prepare a New Leaf save.
-void Editor::PrepareNL(const std::string savePath) {
-	if(access(savePath.c_str(), F_OK) == 0) {
-		if (Init::CheckSheets(0) != 0) {
-			Msg::DisplayWarnMsg(Lang::get("ASSETS_NOT_FOUND"));
-			return;
-		} else {
-			std::string prompt = Lang::get("NEWLEAF_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
-			if(Msg::promptMsg(prompt.c_str())) {
-				const char *save = savePath.c_str();
-				saveType = 0;
-				SaveFile = Save::Initialize(save, true);
-				// Check, if SaveFile has correct size.
-				if (SaveFile->GetSaveSize() != SIZE_SAVE) {
-					Msg::DisplayWarnMsg(Lang::get("SAVE_INCORRECT_SIZE"));
-					SaveFile->Close();
+	if (loadState == SaveState::Loaded) {
+		if (hDown & KEY_TOUCH) {
+			if (iconTouch(touch, icons[0])) {
+				if (changes == true && hasSaved == false) {
+					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
+						savesType = SaveType::UNUSED;
+						Gui::screenBack();
+						return;
+					}
+				} else if ((changes == true && hasSaved == true) || (!changes)) {
+					savesType = SaveType::UNUSED;
+					Gui::screenBack();
 					return;
 				}
-				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-				Init::loadNLSheets();
-				BuildingManagement::loadDatabase();
-				ItemManagement::LoadDatabase(1);
-				Lang::loadNL(1);
-				Utils::createBackup(false, savePath);
-				EditorMode = 1;
+			} else if (iconTouch(touch, icons[1])) {
+				Saving();
 			}
 		}
-	}
-}
+		// Navigation.
+		if(hDown & KEY_UP) {
+			if(Selection > 0)	Selection --;
+		} else if(hDown & KEY_DOWN) {
+			if(Selection < 2)	Selection++;
+		}
 
-// Prepare a Wild World save.
-void Editor::PrepareWW(const std::string savePath) {
-	if(access(savePath.c_str(), F_OK) == 0) {
-		if (Init::CheckSheets(1) != 0) {
-			Msg::DisplayWarnMsg(Lang::get("ASSETS_NOT_FOUND"));
+		if (hDown & KEY_A) {
+			if (savesType != SaveType::UNUSED) {
+				if (Selection == 0) {
+					Gui::setScreen(std::make_unique<PlayerEditor>());
+				} else if (Selection == 1) {
+					if (save->villager(0) != nullptr) {
+						Gui::setScreen(std::make_unique<VillagerViewer>());
+					} else {
+						Msg::NotImplementedYet();
+					}
+				} else if (Selection == 2) {
+					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
+						Gui::setScreen(std::make_unique<ScriptScreen>());
+					} else {
+						Msg::NotImplementedYet();
+					}
+				}
+			}
+		}
+
+		if (hDown & KEY_B) {
+			savesType = SaveType::UNUSED;
+			Gui::screenBack();
 			return;
-		} else {
-			std::string prompt = Lang::get("WILDWORLD_SAVE_DETECTED") + "\n" + Lang::get("LOAD_THIS_SAVE");
-			if(Msg::promptMsg(prompt.c_str())) {
-				const char *save = savePath.c_str();
-				saveType = 1; 
-				WWSaveFile = WWSave::Initialize(save, true);
-				Msg::DisplayMsg(Lang::get("PREPARING_EDITOR"));
-				Init::loadWWSheets();
-				WWItemManagement::LoadDatabase(1);
-				Lang::loadWW(1);
-				EditorMode = 1;
-			}
-		}
-	}
-}
-
-// Set Screen.
-void Editor::SetMode(int mode) {
-	if (saveType == 0) {
-		switch (mode) {
-			case 0:
-				Gui::setScreen(std::make_unique<PlayerEditor>());
-				break;
-			case 1:
-				Gui::setScreen(std::make_unique<VillagerViewer>());
-				break;
-			case 2:
-				Gui::setScreen(std::make_unique<MiscEditor>());
-				break;
 		}
 	} else {
-		switch (mode) {
-			case 0:
-				Gui::setScreen(std::make_unique<PlayerEditorWW>());
-				break;
-			case 1:
-				Gui::setScreen(std::make_unique<VillagerViewerWW>());
-				break;
-			case 2:
-				Gui::setScreen(std::make_unique<MiscEditorWW>());
-				break;
-		}
+		SaveInitialize(); // Display Browse.
 	}
-}
-
-void Editor::saveNL() {
-	if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
-		// Update Save Region.
-		SaveFile->FixSaveRegion();
-		SaveFile->Commit(false);
-	}
-	// Set Screen to Browse & Reset Save Folder.
-	SaveFile->Close();
-	Init::unloadNLSheets();
-	Gui::screenBack();
-	return;
-}
-
-void Editor::saveWW() {
-	if (Msg::promptMsg(Lang::get("SAVE_CHANGES"))) {
-		WWSaveFile->Commit(false);
-	}
-	// Set Screen to Browse & Reset Save Folder.
-	WWSaveFile->Close();
-	Init::unloadWWSheets();
-	Gui::screenBack();
-	return;
 }

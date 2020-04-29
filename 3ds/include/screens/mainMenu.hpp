@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -37,16 +37,17 @@ class MainMenu : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
+	MainMenu();
 private:
 	int Selection = 0;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{10, 40, 140, 35}, // Town Manager.
-		{170, 40, 140, 35}, // Editor.
-		{10, 100, 140, 35}, // Settings.
-		{170, 100, 140, 35}, // Update Center.
-		{10, 160, 140, 35}, // ?.	
-		{170, 160, 140, 35} // ?.
+
+	std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "Editor"},
+		{175, 34, 130, 48, "Settings"},
+		{15, 97, 130, 48, "Credits"},
+		{175, 97, 130, 48, "Update Center"},
+		{15, 159, 130, 48, ""},
+		{175, 159, 130, 48, ""}
 	};
 };
 

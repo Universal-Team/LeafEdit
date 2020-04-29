@@ -41,7 +41,7 @@ void Msg::DisplayWarnMsg(const std::string &Text) {
 		swiWaitForVBlank();
 	}
 	// Clear Layer 2 again.
-	Gui::clearScreen(true, true);
+	Gui::DrawScreen();
 }
 
 // Display a Message, which can be skipped with A.
@@ -61,5 +61,5 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 		if(keysDown() & KEY_A)
 			break;
 	}
-	Gui::clearScreen(true, true);
+	Gui::DrawScreen();
 }

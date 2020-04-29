@@ -26,12 +26,12 @@
 
 #include "updateCenter.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
 
 UpdateCenter::UpdateCenter() {
 	if (checkWifiStatus() == true) {
-		if (Msg::promptMsg(Lang::get("CHECK_LEAFEDIT_UPDATES"))) {
-			Msg::DisplayMsg(Lang::get("FETCHING_UPDATES"));
+		if (Msg::promptMsg("Do you like to check for updates?")) {
+			Msg::DisplayMsg("Fetching latest updates...");
 			checkUpdate();
 		}
 	}
@@ -51,36 +51,30 @@ void UpdateCenter::checkUpdate() {
 void UpdateCenter::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400);
-
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - Update Center", 400);
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
 	// Display some Informations. :)
 	if (Selection == 0) {
-		Gui::DrawStringCentered(0, 60, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestRelease.Version, 395);
-		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("PUBLISHED_AT") + latestRelease.Published, 395, 90);
-		Gui::DrawStringCentered(0, 100, 0.8f, WHITE, latestRelease.ReleaseName, 395);
-		Gui::DrawStringCentered(0, 215, 0.8f, WHITE, Lang::get("CURRENT_VERSION") + Config::currentRelease, 395);
+		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Latest Version: " + latestRelease.Version, 395);
+		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "Published at: " + latestRelease.Published, 395, 90);
+		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestRelease.ReleaseName, 395);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + Config::currentRelease, 395);
 	} else if (Selection == 1) {
-		Gui::DrawStringCentered(0, 40, 0.8f, WHITE, Lang::get("LATEST_VERSION") + latestNightly.Target, 395);
-		Gui::DrawStringCentered(0, 60, 0.8f, WHITE, Lang::get("COMMITTED_BY") + latestNightly.Committer, 395, 90);
-		Gui::DrawStringCentered(0, 80, 0.8f, WHITE, Lang::get("AUTHORED_BY") + latestNightly.Author, 395, 90);
-		Gui::DrawStringCentered(0, 100, 0.8f, WHITE, latestNightly.Message, 395, 90);
-		Gui::DrawStringCentered(0, 215, 0.8f, WHITE, Lang::get("CURRENT_VERSION") + Config::currentNightly, 395);
+		Gui::DrawStringCentered(0, 40, 0.8f, BLACK, "Latest Version: " + latestNightly.Target, 395);
+		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Committed by: " + latestNightly.Committer, 395, 90);
+		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "Authored by: " + latestNightly.Author, 395, 90);
+		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestNightly.Message, 395, 90);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + Config::currentNightly, 395);
 	}
 
 	GFX::DrawBottom();
-	for (int i = 0; i < 3; i++) {
-		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
+	for (int i = 0; i < 6; i++) {
+		GFX::DrawButton(mainButtons[i]);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_RELEASE")))/2-80+17.5, 0.8, WHITE, Lang::get("DOWNLOAD_RELEASE"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_NIGHTLY")))/2-20+17.5, 0.8, WHITE, Lang::get("DOWNLOAD_NIGHTLY"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, Lang::get("DOWNLOAD_ASSETS")))/2+75-17.5, 0.8, WHITE, Lang::get("DOWNLOAD_ASSETS"), 130, 25);
-
-	// Draw Dots.
-	if (ReleaseAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[0].x+130, mainButtons[0].y-4, LIGHT_COLOR, 1, 1);
-	if (NightlyAvailable)	GFX::DrawSpriteBlend(sprites_dot_idx, mainButtons[1].x+130, mainButtons[1].y-4, LIGHT_COLOR, 1, 1);
-	// Draw Pointer.
-	GFX::DrawSprite(sprites_pointer_idx, mainButtons[Selection].x+133, mainButtons[Selection].y);
+	if (ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x+124, mainButtons[0].y-4);
+	if (NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x+124, mainButtons[1].y-4);
 }
 
 
@@ -92,8 +86,8 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	if (hDown & KEY_X) {
 		if (checkWifiStatus() == true) {
-			if (Msg::promptMsg(Lang::get("CHECK_LEAFEDIT_UPDATES"))) {
-				Msg::DisplayMsg(Lang::get("FETCHING_UPDATES"));
+			if (Msg::promptMsg("Do you like to check for LeafEdit updates?")) {
+				Msg::DisplayMsg("Fetching updates...");
 				checkUpdate();
 			}
 		}
@@ -101,108 +95,149 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_Y) {
 		if (Selection == 0) {
-			changelogShown = Download::showReleaseInfo(latestRelease);
+			if (checkWifiStatus() == true) {
+				changelogShown = Download::showReleaseInfo(latestRelease);
+			}
 		}
 	}
-	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
-	} else if (hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
+
+	// Navigation.
+	if(hDown & KEY_UP) {
+		if(Selection > 1)	Selection -= 2;
+	} else if(hDown & KEY_DOWN) {
+		if(Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
+	} else if (hDown & KEY_LEFT) {
+		if (Selection%2) Selection--;
+	} else if (hDown & KEY_RIGHT) {
+		if (!(Selection%2)) Selection++;
 	}
 
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				if (hasCheckedForUpdate) {
-					if (ReleaseAvailable == false) {
-						if (Msg::promptMsg(Lang::get("SEEM_ON_LATEST"))) {
+				if (checkWifiStatus() == true) {
+					if (hasCheckedForUpdate) {
+						if (ReleaseAvailable == false) {
+							if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
+								if (Download::updateApp(false) == 0) {
+									Config::currentRelease = latestRelease.Version;
+									ReleaseAvailable = false;
+								}
+							}
+						}
+					} else {
+						if (checkWifiStatus() == true) {
 							if (Download::updateApp(false) == 0) {
 								Config::currentRelease = latestRelease.Version;
 								ReleaseAvailable = false;
 							}
 						}
-					} else {
-						if (Download::updateApp(false) == 0) {
-							Config::currentRelease = latestRelease.Version;
-							ReleaseAvailable = false;
-						}
 					}
 				} else {
 					// Still allow updating even if not checked, but with no version set.
-					Download::updateApp(false);
+					if (checkWifiStatus() == true) {
+						Download::updateApp(false);
+					}
 				}
 				break;
 			case 1:
-				if (hasCheckedForUpdate) {
-					if (NightlyAvailable == false) {
-						if (Msg::promptMsg(Lang::get("SEEM_ON_LATEST"))) {
+				if (checkWifiStatus() == true) {
+					if (hasCheckedForUpdate) {
+						if (NightlyAvailable == false) {
+							if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
+								if (Download::updateApp(true) == 0) {
+									Config::currentNightly = latestNightly.Target;
+									NightlyAvailable = false;
+								}
+							}
+						}
+					} else {
+						if (checkWifiStatus() == true) {
 							if (Download::updateApp(true) == 0) {
 								Config::currentNightly = latestNightly.Target;
 								NightlyAvailable = false;
 							}
 						}
-					} else {
-						if (Download::updateApp(true) == 0) {
-							Config::currentNightly = latestNightly.Target;
-							NightlyAvailable = false;
-						}
 					}
 				} else {
 					// Still allow updating even if not checked, but with no version set.
-					Download::updateApp(true);
+					if (checkWifiStatus() == true) {
+						Download::updateApp(true);
+					}
 				}
 				break;
 			case 2:
-				Download::downloadAssets();
+				if (checkWifiStatus() == true) {
+					Download::downloadAssets();
+				}
+				break;
+			case 3:
+				if (checkWifiStatus() == true) {
+					Download::downloadScripts();
+				}
 				break;
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (hasCheckedForUpdate) {
-				if (ReleaseAvailable == false) {
-					if (Msg::promptMsg(Lang::get("SEEM_ON_LATEST"))) {
+			if (checkWifiStatus() == true) {
+				if (hasCheckedForUpdate) {
+					if (ReleaseAvailable == false) {
+						if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
+							if (Download::updateApp(false) == 0) {
+								Config::currentRelease = latestRelease.Version;
+								ReleaseAvailable = false;
+							}
+						}
+					}
+				} else {
+					if (checkWifiStatus() == true) {
 						if (Download::updateApp(false) == 0) {
 							Config::currentRelease = latestRelease.Version;
 							ReleaseAvailable = false;
 						}
 					}
-				} else {
-					if (Download::updateApp(false) == 0) {
-						Config::currentRelease = latestRelease.Version;
-						ReleaseAvailable = false;
-					}
 				}
 			} else {
 				// Still allow updating even if not checked, but with no version set.
-				Download::updateApp(false);
+				if (checkWifiStatus() == true) {
+					Download::updateApp(false);
+				}
 			}
 		} else if (touching(touch, mainButtons[1])) {
-			if (hasCheckedForUpdate) {
-				if (NightlyAvailable == false) {
-					if (Msg::promptMsg(Lang::get("SEEM_ON_LATEST"))) {
+			if (checkWifiStatus() == true) {
+				if (hasCheckedForUpdate) {
+					if (NightlyAvailable == false) {
+						if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
+							if (Download::updateApp(true) == 0) {
+								Config::currentNightly = latestNightly.Target;
+								NightlyAvailable = false;
+							}
+						}
+					}
+				} else {
+					if (checkWifiStatus() == true) {
 						if (Download::updateApp(true) == 0) {
 							Config::currentNightly = latestNightly.Target;
 							NightlyAvailable = false;
 						}
 					}
-				} else {
-					if (Download::updateApp(true) == 0) {
-						Config::currentNightly = latestNightly.Target;
-						NightlyAvailable = false;
-					}
 				}
 			} else {
 				// Still allow updating even if not checked, but with no version set.
-				Download::updateApp(true);
+				if (checkWifiStatus() == true) {
+					Download::updateApp(true);
+				}
 			}
 		} else if (touching(touch, mainButtons[2])) {
-			Download::downloadAssets();
+			if (checkWifiStatus() == true) {
+				Download::downloadAssets();
+			}
+		} else if (touching(touch, mainButtons[3])) {
+			if (checkWifiStatus() == true) {
+				Download::downloadScripts();
+			}
 		}
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
 }

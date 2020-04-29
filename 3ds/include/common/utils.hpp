@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -27,44 +27,24 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "archive.hpp"
-#include "player.hpp"
-
-#include <3ds.h>
+#include "common.hpp"
 #include <citro2d.h>
-#include <stdarg.h>
-#include <string>
-#include <vector>
 
-// String Utils.
-namespace StringUtils
-{
-	std::u16string UTF8toUTF16(const std::string &text);
-	std::string UTF16toUTF8(const std::u16string& src);
-	std::string format(std::string fmt_str, ...);
+// Download stuff.
+namespace Utils {
+	bool matchPattern(std::string pattern, std::string tested);
 }
-// Editor Utils.
-namespace EditorUtils
-{
-	std::vector<u32> findPlayerReferences(Player *player);
-}
-// App Utils.
-namespace Utils
-{
-	void colorLogic(int mode);
-	void createBackup(bool isCard, std::string savePath);
-}
+
 #define TEXTURE_TRANSFER_FLAGS \
 	(GX_TRANSFER_FLIP_VERT(0) | GX_TRANSFER_OUT_TILED(1) | GX_TRANSFER_RAW_COPY(0) | \
 	GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGBA8) | \
 	GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
-// Citro2D Utils.
+
+// Citro2D Utils for C2D_Image.
 namespace C2DUtils
 {
 	C2D_Image ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat);
 	void C2D_ImageDelete(C2D_Image image);
 }
-
-u16	strToU16(std::string str);
 
 #endif

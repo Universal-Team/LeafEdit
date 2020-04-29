@@ -22,19 +22,50 @@ include $(DEVKITARM)/ds_rules
 # all directories are relative to this makefile
 #---------------------------------------------------------------------------------
 BUILD		:=	build
-SOURCECORE	:= ../../core/source/ww
-INCLUDECORE	:= ../../core/include ../../core/include/ww
+
+SOURCECORE	:= ../../LeafEdit-Core/source \
+			   ../../LeafEdit-Core/source/acre \
+			   ../../LeafEdit-Core/source/coreUtils \
+			   ../../LeafEdit-Core/source/house \
+			   ../../LeafEdit-Core/source/island \
+			   ../../LeafEdit-Core/source/item \
+			   ../../LeafEdit-Core/source/pattern \
+			   ../../LeafEdit-Core/source/player \
+			   ../../LeafEdit-Core/source/sav \
+			   ../../LeafEdit-Core/source/town \
+			   ../../LeafEdit-Core/source/villager
+
+INCLUDECORE	:= ../../LeafEdit-Core/include \
+			   ../../LeafEdit-Core/include/acre \
+			   ../../LeafEdit-Core/include/coreUtils \
+			   ../../LeafEdit-Core/include/house \
+			   ../../LeafEdit-Core/include/island \
+			   ../../LeafEdit-Core/include/item \
+			   ../../LeafEdit-Core/include/pattern \
+			   ../../LeafEdit-Core/include/player \
+			   ../../LeafEdit-Core/include/sav \
+			   ../../LeafEdit-Core/include/town \
+			   ../../LeafEdit-Core/include/villager
+
+COMMON_SRC	:= ../../common/source ../../common/source/cstdlib \
+			   ../../external/picoc/source/interpreter
+COMMON_INC	:= ../../common/include ../../external/picoc/include
+
 SOURCES		:=	$(SOURCECORE) \
+				$(COMMON_SRC) \
 				source \
 				source/graphics \
 				source/management \
+				source/picoc \
 				source/saves \
 				source/screens \
 				source/utils
 INCLUDES	:=	$(INCLUDECORE) \
+				$(COMMON_INC) \
 				include \
 				include/graphics \
 				include/management \
+				include/picoc \
 				include/saves \
 				include/screens \
 				include/utils
@@ -48,6 +79,7 @@ ARCH	:=	-mthumb-interwork
 CFLAGS	:=	-g -Wall -Wno-psabi -O2\
  			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
 			-ffast-math \
+			-DUNIX_HOST \
 			-DVER_NUMBER=\"$(GIT_VER)\" \
 			$(ARCH)
 

@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -28,6 +28,7 @@
 #define EDITOR_HPP
 
 #include "common.hpp"
+#include "coreUtils.hpp"
 #include "structs.hpp"
 
 #include <vector>
@@ -37,35 +38,34 @@ class Editor : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
 private:
-	int EditorMode = 0; // 0 Main, 1 Editor.
+	enum class SaveState {
+		Loaded,
+		Unloaded
+	};
+
+	SaveState loadState = SaveState::Unloaded;
+	bool hasSaved = false;
 	int Selection = 0;
-	// Set Functions for save.
-	void SetMode(int mode);
-	void PrepareNL(const std::string savePath);
-	void PrepareWW(const std::string savePath);
-	void saveNL();
-	void saveWW();
+	int saveT = -1; // No SaveType.
+	bool loadSave();
+	void SaveInitialize();
+	void Saving();
+	std::string saveName;
 
-	// Draws & Logic.
-	void DrawMain(void) const; // Main Screen.
-	void MainLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	void DrawEditor(void) const;
-	void EditorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	
-	std::vector<Structs::ButtonPos> editorButtons = {
-		{90, 40, 140, 35}, // Player.
-		{90, 100, 140, 35}, // Villager.
-		{90, 160, 140, 35}, // WIP.
-		{293, 213, 27, 27}, // Saving.
+	std::vector<ButtonType> mainButtons = {
+		{95, 34, 130, 48, "Player"},
+		{95, 97, 130, 48, "Villager"},
+		{95, 159, 130, 48, "Misc"}
 	};
 
-	std::vector<Structs::ButtonPos> editorMainBtn = {
-		{10, 100, 140, 35}, // RAW Saves.
-		{170, 100, 140, 35}, // Title Loader.
+	std::vector<Structs::ButtonPos> icons = {
+		{286, 213, 27, 27},
+		{6, 219, 20, 20}
 	};
+
+	// 3DS specific struct.
+	Region_Lock RegionLock;
 };
 
 #endif

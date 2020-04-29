@@ -76,15 +76,37 @@ endif
 TARGET		:=	LeafEdit
 BUILD		:=	build
 UNIVCORE	:= 	Universal-Core
-SOURCECORE	:=  ../core/source ../core/source/nl ../core/source/ww
-INCLUDECORE	:=	../core/include ../core/include/nl ../core/include/ww
-SRCMAN 		:=	source/management/nl source/management/ww
-INCMAN 		:=	include/management/nl include/management/ww
-SRCSCREEN	:=	source/screens source/screens/nl source/screens/ww
-INCSCREEN	:=	include/screens include/screens/nl include/screens/ww
-SOURCES		:=	$(SOURCECORE) $(SRCMAN) $(SRCSCREEN) $(UNIVCORE) source source/common source/core source/download source/gui source/lang 
+
+SOURCECORE	:= ../LeafEdit-Core/source \
+			   ../LeafEdit-Core/source/acre \
+			   ../LeafEdit-Core/source/coreUtils \
+			   ../LeafEdit-Core/source/house \
+			   ../LeafEdit-Core/source/island \
+			   ../LeafEdit-Core/source/item \
+			   ../LeafEdit-Core/source/pattern \
+			   ../LeafEdit-Core/source/player \
+			   ../LeafEdit-Core/source/sav \
+			   ../LeafEdit-Core/source/town \
+			   ../LeafEdit-Core/source/villager
+
+INCLUDECORE	:= ../LeafEdit-Core/include \
+			   ../LeafEdit-Core/include/acre \
+			   ../LeafEdit-Core/include/coreUtils \
+			   ../LeafEdit-Core/include/house \
+			   ../LeafEdit-Core/include/island \
+			   ../LeafEdit-Core/include/item \
+			   ../LeafEdit-Core/include/pattern \
+			   ../LeafEdit-Core/include/player \
+			   ../LeafEdit-Core/include/sav \
+			   ../LeafEdit-Core/include/town \
+			   ../LeafEdit-Core/include/villager
+
+COMMON_SRC	:= ../common/source ../common/source/cstdlib ../external/picoc/source/interpreter
+COMMON_INC	:=	../common/include ../external/picoc/include
+
+SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/picoc source/screens
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(INCMAN) $(INCSCREEN) $(UNIVCORE) include include/common include/core include/download include/gui include/lang 
+INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) $(COMMON_INC) include include/common include/download include/gui include/lang include/picoc include/screens include/sprite
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
@@ -103,6 +125,7 @@ ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations \
 			-DV_STRING=\"$(GIT_VER)\" \
+			-DUNIX_HOST \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 
@@ -113,7 +136,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -larchive -lbz2 -llzma -lm -lz -lturbojpeg -lcitro2d -lcitro3d -lctrud
+LIBS	:= -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -lz -lturbojpeg -lcitro2d -lcitro3d -lctrud
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

@@ -28,8 +28,8 @@
 #define EDITOR_HPP
 
 #include "screenCommon.hpp"
-
 #include "structs.hpp"
+
 #include <vector>
 
 class Editor : public Screen
@@ -37,11 +37,18 @@ class Editor : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
+	Editor();
 private:
-	int EditorMode = 0;
-	int selection = 0;
+	enum class SaveState {
+		Loaded,
+		Unloaded
+	};
 
-	void SubMenuLogic(u16 hDown, touchPosition touch);
+	SaveState loadState = SaveState::Unloaded;
+	int Selection = 0;
+	bool loadSave();
+	void SaveInitialize();
+	std::string saveName;
 
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{80, 30, 88, 32, -1}, // Player.

@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -24,42 +24,70 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "credits.hpp"
 #include "editor.hpp"
 #include "mainMenu.hpp"
+#include "Sav.hpp"
+#include "saveUtils.hpp"
 #include "screenCommon.hpp"
-#include "settings.hpp"
 #include "updateCenter.hpp"
 
 extern int fadealpha;
 extern bool fadein;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
+extern std::shared_ptr<Sav> save;
+
+void doStuff() {
+	// Here we open the file and get the SaveType.
+	save = nullptr;
+	FILE* in = fopen("sdmc:/Nogba/BATTERY/Test.sav", "rb");
+	if(in) {
+		fseek(in, 0, SEEK_END);
+		u32 size = ftell(in);
+		fseek(in, 0, SEEK_SET);
+		std::shared_ptr<u8[]> saveData = std::shared_ptr<u8[]>(new u8[size]);
+		fread(saveData.get(), 1, size, in);
+		fclose(in);
+		save = Sav::getSave(saveData, size);
+	}
+	// Could not open file or savetype invalid, exit.
+	if (!save) {
+		Msg::DisplayWarnMsg("Could not open file!!");
+		exiting = true;
+		return;
+	}
+
+	// Save Modification Test.
+	for (int i = 0x00; i < 0x02; i++) {
+		save->savePointer()[i] = 0x01;
+	}
+	
+	// And now we update the checksum at the end and write to file.
+	save->Finish();
+	FILE* out = fopen("sdmc:/Nogba/BATTERY/Test.sav", "rb+");
+	fwrite(save->rawData().get(), 1, save->getLength(), out);
+	fclose(out);
+	// Exit.
+	exiting = true;
+}
+
+// Whole Testing stuff.
+MainMenu::MainMenu() {
+	//doStuff();
+}
+
 
 void MainMenu::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit", 400);
+	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - MainMenu", 390);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
-		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, UNSELECTED_COLOR);
-		if (Selection == i) {
-			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
-		}
+		GFX::DrawButton(mainButtons[i]);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
-
-	// Town Manager.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("TOWN_MANAGER")))/2-80+17.5, 0.8, WHITE, Lang::get("TOWN_MANAGER"), 130, 25);
-	// Settings.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, Lang::get("SETTINGS")))/2-20+17.5, 0.8, WHITE, Lang::get("SETTINGS"), 130, 25);
-	// Unknown.
-	Gui::DrawStringCentered(-80, (240-Gui::GetStringHeight(0.8, "?"))/2+75-17.5, 0.8, WHITE, "?", 130, 25);
-	// Editor.
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("EDITOR")))/2-80+17.5, 0.8, WHITE, Lang::get("EDITOR"), 130, 25);
-	// Update Center.
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, Lang::get("UPDATE_CENTER")))/2-20+17.5, 0.8, WHITE, Lang::get("UPDATE_CENTER"), 130, 25);
-	// Unknown
-	Gui::DrawStringCentered(80, (240-Gui::GetStringHeight(0.8, "?"))/2+75-17.5, 0.8, WHITE, "?", 130, 25);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 }
 
@@ -79,41 +107,18 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_START) {
 		exiting = true;
 	}
-	
-	if (hDown & KEY_A) {
-		switch(Selection) {
-			case 0:
-				Msg::DisplayWarnMsg("Title Loader needs to be reimplemented.");
-				break;
-			case 1:
-				if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-					Gui::setScreen(std::make_unique<Editor>());
-				}
-				break;
-			case 2:
-				Gui::setScreen(std::make_unique<Settings>());
-				break;
-			case 3:
-				Gui::setScreen(std::make_unique<UpdateCenter>());
-				break;
-		}
-	}
 
-	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
-			Msg::DisplayWarnMsg("Title Loader needs to be reimplemented.");
-		} else if (touching(touch, mainButtons[1])) {
-			if (Msg::promptMsg2(Lang::get("EXPERIMENTAL_EDITOR"))) {
-				Gui::setScreen(std::make_unique<Editor>());
-			}
-		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Settings>());
-		} else if (touching(touch, mainButtons[3])) {
-			Gui::setScreen(std::make_unique<UpdateCenter>());
-		}
+	if (hDown & KEY_A) {
+		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>());
+		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>());
+		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>());
 	}
 
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	}
+
+	if (hDown & KEY_X) {
+		Msg::DisplayWarnMsg("Look! I'm a TextBox!!!");
 	}
 }

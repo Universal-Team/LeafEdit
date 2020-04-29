@@ -26,21 +26,88 @@
 
 #include "editor.hpp"
 #include "fileBrowse.hpp"
-#include "miscEditor.hpp"
 #include "msg.hpp"
-#include "playerEditor.hpp"
-#include "villagerViewer.hpp"
-#include "wwoffsets.hpp"
-#include "wwPlayer.hpp"
-#include "wwsave.hpp"
+//#include "playerEditor.hpp"
+#include "Sav.hpp"
 
-WWSave* SaveFile;
-std::string save = "";
+std::shared_ptr<Sav> save;
+// Bring that to other screens too.
+SaveType savesType = SaveType::UNUSED;
+
+const std::vector<std::string> Strings = {
+	"Player",
+	"Villager",
+	"Misc",
+};
+
+// Japanese | PAL.
+const std::vector<std::string> titleNames = {
+	"おいでよ どうぶつの森",
+	"Wild World",
+	"とびだせ どうぶつの森",
+	"New Leaf",
+	"とびだせ どうぶつの森 amiibo+",
+	"Welcome amiibo",
+};
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+Editor::Editor() { Gui::hidePointer(); } // Hide Pointer when initializing.
+
+bool Editor::loadSave() {
+	save = nullptr;
+	FILE* in = fopen(saveName.c_str(), "rb");
+	if(in) {
+		fseek(in, 0, SEEK_END);
+		u32 size = ftell(in);
+		fseek(in, 0, SEEK_SET);
+		std::shared_ptr<u8[]> saveData = std::shared_ptr<u8[]>(new u8[size]);
+		fread(saveData.get(), 1, size, in);
+		fclose(in);
+		save = Sav::getSave(saveData, size);
+		// Only allow Wild World saves.
+		if (save->getType() != SaveType::WW) {
+			printf("SaveFile is not a Wild World save!\n");
+			save = nullptr;
+			return false;
+		}
+	} else {
+		printf("Could not open SaveFile.\n");
+		return false;
+	}
+	if(!save) {
+		printf("SaveFile returned nullptr.\n");
+		return false;
+	}
+	savesType = save->getType();
+	
+	return true;
+}
+
+void Editor::SaveInitialize() {
+	saveName = browseForSave();
+	// If User canceled, go screen back.
+	if (saveName == "") {
+		Gui::screenBack();
+		return;
+	}
+
+	if (!loadSave()) {
+		Msg::DisplayWarnMsg("Invalid SaveFile!");
+	} else {
+		loadState = SaveState::Loaded;
+		// Clear Both Screens.
+		Gui::clearScreen(false, true);
+		Gui::clearScreen(true, true);
+		Gui::DrawScreen();
+		// Toggle Pointer.
+		Gui::showPointer();
+		selected = true;
+	}
+}
+
 void Editor::Draw(void) const {
-	if (EditorMode != 0) {
+	if (loadState == SaveState::Loaded) {
 		Gui::DrawTop(true);
 		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
 		Gui::DrawBottom(true);
@@ -55,79 +122,42 @@ void Editor::Draw(void) const {
 }
 
 void Editor::Logic(u16 hDown, touchPosition touch) {
-	if (EditorMode == 1) {
-		SubMenuLogic(hDown, touch);
+	// Only do Logic, if Save is loaded.
+	if (loadState == SaveState::Loaded) {
+		Gui::updatePointer(mainButtons[Selection].x+60, mainButtons[Selection].y+12);
+
+		if (hDown & KEY_B) {
+			Gui::screenBack();
+			Gui::DrawScreen();
+			selected = true;
+			return;
+		}
+
+		if (hDown & KEY_DOWN) {
+			if (Selection < 2)	Selection++;
+			selected = true;
+		}
+		if (hDown & KEY_UP) {
+			if (Selection > 0)	Selection--;
+			selected = true;
+		}
+
+/*		if (hDown & KEY_A) {
+			if (Selection == 0) {
+				Gui::setScreen(std::make_unique<PlayerScreen>());
+				Gui::DrawScreen();
+				selected = true;
+			}
+		}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, mainButtons[0])) {
+				Gui::setScreen(std::make_unique<PlayerScreen>());
+				Gui::DrawScreen();
+				selected = true;
+			}
+		}*/
 	} else {
-		// Toggle Pointer.
-		Gui::hidePointer();
-
-		save = browseForSave();
-		// Clear Both Screens.
-		Gui::clearScreen(false, true);
-		Gui::clearScreen(true, true);
-		const char *saves = save.c_str();
-		SaveFile = WWSave::Initialize(saves, true);
-		EditorMode = 1;
-		Gui::DrawScreen();
-		// Toggle Pointer.
-		Gui::showPointer();
-		selected = true;
-	}
-}
-
-void Editor::SubMenuLogic(u16 hDown, touchPosition touch) {
-	Gui::updatePointer(mainButtons[selection].x+60, mainButtons[selection].y+12);
-
-	if (hDown & KEY_START) {
-		Msg::DisplayWaitMsg("Closing the File now!");
-		SaveFile->Commit(false);
-		SaveFile->Close();
-		Gui::screenBack();
-		Gui::DrawScreen();
-		selected = true;
-		return;
-	}
-
-	if (hDown & KEY_DOWN) {
-		if (selection < 2)	selection++;
-		selected = true;
-	}
-	if (hDown & KEY_UP) {
-		if (selection > 0)	selection--;
-		selected = true;
-	}
-
-	if (hDown & KEY_A) {
-		if (selection == 0) {
-			Gui::setScreen(std::make_unique<PlayerEditor>());
-			Gui::DrawScreen();
-			Gui::hidePointer();
-			selected = true;
-		} else if (selection == 1) {
-			Gui::setScreen(std::make_unique<VillagerViewer>());
-			Gui::hidePointer();
-			Gui::DrawScreen();
-		} else if (selection == 2) {
-			Gui::setScreen(std::make_unique<MiscEditor>());
-			Gui::DrawScreen();
-			selected = true;
-		}
-	}
-
-	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<PlayerEditor>());
-			Gui::DrawScreen();
-			Gui::hidePointer();
-			selected = true;
-		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<VillagerViewer>());
-			Gui::hidePointer();
-			Gui::DrawScreen();
-		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<MiscEditor>());
-			Gui::DrawScreen();
-			selected = true;
-		}
+		SaveInitialize();
 	}
 }

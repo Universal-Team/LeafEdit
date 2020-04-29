@@ -18,3 +18,4 @@ nds/graphics/bmp2ds
 bannertool*
 makerom*
 *.exe
+3ds/romfs/gfx/gui.t3x

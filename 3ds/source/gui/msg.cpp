@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
@@ -32,14 +32,29 @@
 
 #include <vector>
 
-std::vector<Structs::ButtonPos> promptBtn = {
-	{10, 100, 140, 35}, // Yes.
-	{170, 100, 140, 35}, // No.
-	{100, 100, 140, 35}, // OK.
+const std::vector<ButtonType> promptBtn = {
+	{0, 85, 149, 52, "Yes"}, // Yes.
+	{162, 85, 149, 52, "No"}, // No.
+	{80, 90, 149, 52, "Ok"} // OK.
 };
 
+const std::vector<std::string> prompt = {"YES", "NO"};
+
 extern touchPosition touch;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(touchPosition touch, ButtonType button);
+extern C2D_SpriteSheet GUI;
+
+static void DrawBox(int y, u8 rows) {
+	// Draw Top & Bottom.
+	GFX::DrawGUI(gui_box_top_idx, 0, y);
+	GFX::DrawGUI(gui_box_bot_idx, 0, y + 24 + (40 * rows));
+
+	C2D_Image sprite = C2D_SpriteSheetGetImage(GUI, gui_box_middle_idx);
+	for (u8 row = 0; row < rows; row++)
+	{
+		C2D_DrawImageAt(sprite, 0, y + 24 + ( row * sprite.subtex->height), 0.5f);
+	}
+}
 
 // Display a Message, which needs to be confirmed with A/B.
 bool Msg::promptMsg2(std::string promptMsg)
@@ -51,16 +66,15 @@ bool Msg::promptMsg2(std::string promptMsg)
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
-		GFX::DrawTop();
-		Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
+		GFX::DrawTop(false);
+		DrawBox(80, 1);
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70);
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
-		Gui::Draw_Rect(10, 100, 140, 35, DARKER_COLOR);
-		Gui::Draw_Rect(170, 100, 140, 35, DARKER_COLOR);
-		Gui::DrawStringCentered(-150+70, 110, 0.8f, WHITE, Lang::get("YES"), 140);
-		Gui::DrawStringCentered(150-70, 110, 0.8f, WHITE, Lang::get("NO"), 140);
-		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
+		for (int i = 0; i < (int)prompt.size(); i++) {
+			GFX::DrawButton(promptBtn[i]);
+			if (i == selection)	GFX::DrawGUI(gui_pointer_idx, promptBtn[i].x+100, promptBtn[i].y+30);
+		}
 		C3D_FrameEnd(0);
 
 		// Selection part.
@@ -100,8 +114,8 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
-	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
+	GFX::DrawTop(false);
+	DrawBox(80, 1);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
@@ -117,8 +131,8 @@ void Msg::DisplayWarnMsg2(std::string Text)
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
-	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
+	GFX::DrawTop(false);
+	DrawBox(80, 1);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
@@ -134,14 +148,14 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
-	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
+	GFX::DrawTop(false);
+	DrawBox(80, 1);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("A_CONTINUE"), 390);
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395);
 	GFX::DrawBottom();
-	Gui::Draw_Rect(100, 100, 140, 35, DARKER_COLOR);
-	Gui::DrawStringCentered(-60+70, 110, 0.8f, WHITE, Lang::get("OK"), 140);
-	GFX::DrawSprite(sprites_pointer_idx, promptBtn[2].x+120, promptBtn[2].y+25);
+	GFX::DrawButton(promptBtn[2]);
+	GFX::DrawGUI(gui_pointer_idx, promptBtn[2].x+100, promptBtn[2].y+30);
 	C3D_FrameEnd(0);
 
 	while(1)
@@ -153,6 +167,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	}
 }
 
+// TODO.
 void Msg::HelperBox(std::string Msg) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -173,8 +188,8 @@ void Msg::DisplayMsg(std::string Message) {
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
-	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, DARKER_COLOR);
+	GFX::DrawTop(false);
+	DrawBox(80, 1);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Message))/2, 0.8f, WHITE, Message, 390, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);

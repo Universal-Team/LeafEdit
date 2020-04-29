@@ -22,8 +22,6 @@
 	SOFTWARE.
 */
 
-#pragma once
-
 #ifndef JPEG_H
 #define JPEG_H
 
@@ -36,8 +34,7 @@ struct JPEGInfo
 	void *image;
 };
 
-JPEGInfo DecompressJPEG(const void * jpegSrc, const u32 jpegSize);
+JPEGInfo DecompressJPEG(const void *jpegSrc, const u32 jpegSize);
 C2D_Image LoadPlayerPicture(const void *tpcData);
-
 
 #endif
