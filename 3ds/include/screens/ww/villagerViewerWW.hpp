@@ -24,48 +24,22 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITOR_HPP
-#define PLAYEREDITOR_HPP
+#ifndef VILLAGERVIEWERWW_HPP
+#define VILLAGERVIEWERWW_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class PlayerEditor : public Screen
+class VillagerViewerWW : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	VillagerViewerWW();
 private:
 	int Selection = 0;
-	int Mode = 0;
-
-	std::vector<ButtonType> playerPos = {
-		{15, 48, 130, 48, "Player 1"},
-		{175, 48, 130, 48, "Player 2"},
-		{15, 144, 130, 48, "Player 3"},
-		{175, 144, 130, 48, "Player 4"}
-	};
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
-		{15, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 34, 130, 48, ""},
-		{175, 97, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-
-	/*	Player Selection.	*/
-	void DrawPlayerSelection(void) const;
-	void PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/*	Appearance.	*/
-	/*	Player.	*/
 };
 
 #endif

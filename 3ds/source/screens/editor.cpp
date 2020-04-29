@@ -28,13 +28,20 @@
 #include "fileBrowse.hpp"
 #include "init.hpp"
 #include "lang.hpp"
-#include "playerEditor.hpp"
+
+#include "playerEditorNL.hpp"
+#include "playerEditorWW.hpp"
+
 #include "saveUtils.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "scriptScreen.hpp"
-#include "townMapEditor.hpp"
-#include "villagerViewer.hpp"
+
+#include "townMapEditorNL.hpp"
+#include "townMapEditorWW.hpp"
+
+#include "villagerViewerNL.hpp"
+#include "villagerViewerWW.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
@@ -181,17 +188,36 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		if (hDown & KEY_A) {
 			if (savesType != SaveType::UNUSED) {
+				// Player Editor.
 				if (Selection == 0) {
-					Gui::setScreen(std::make_unique<PlayerEditor>());
-				} else if (Selection == 1) {
-					if (save->villager(0) != nullptr) {
-						//Gui::setScreen(std::make_unique<VillagerViewer>());
+					if (save->player(0) != nullptr) {
+						if (savesType == SaveType::WW) {
+							Gui::setScreen(std::make_unique<PlayerEditorWW>());
+						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+							Gui::setScreen(std::make_unique<PlayerEditorNL>());
+						}
 					} else {
 						Msg::NotImplementedYet();
 					}
+					// Villager Viewer.
+				} else if (Selection == 1) {
+					if (save->villager(0) != nullptr) {
+						if (savesType == SaveType::WW) {
+							//Gui::setScreen(std::make_unique<VillagerViewerWW>());
+						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+							//Gui::setScreen(std::make_unique<VillagerViewerNL>());
+						}
+					} else {
+						Msg::NotImplementedYet();
+					}
+					// Town Map Editor.
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
-						Gui::setScreen(std::make_unique<ScriptScreen>());
+						if (savesType == SaveType::WW) {
+							Gui::setScreen(std::make_unique<TownMapEditorWW>());
+						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+							Gui::setScreen(std::make_unique<TownMapEditorNL>());
+						}
 					} else {
 						Msg::NotImplementedYet();
 					}

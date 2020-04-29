@@ -27,40 +27,38 @@
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
-#include "villagerViewer.hpp"
+#include "villagerViewerWW.hpp"
 
 extern std::vector<std::string> g_villagerDatabase;
 extern bool touching(touchPosition touch, ButtonType button);
 
-std::unique_ptr<Villager> villager;
+std::unique_ptr<Villager> villagerWW;
 extern std::shared_ptr<Sav> save;
-// Bring that to other screens too.
-extern SaveType savesType;
 
-VillagerViewer::VillagerViewer() {
-	villager = save->villager(Selection);
+VillagerViewerWW::VillagerViewerWW() {
+	villagerWW = save->villager(Selection);
 }
 
-void VillagerViewer::Draw(void) const
+void VillagerViewerWW::Draw(void) const
 {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
-	SpriteManagement::DrawVillager(villager->id(), 160, 60);
-	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, "VillagerName: " + g_villagerDatabase[villager->id()], 395);
+	SpriteManagement::DrawVillager(villagerWW->id(), 160, 60);
+	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, "VillagerName: " + g_villagerDatabase[villagerWW->id()], 395);
 	GFX::DrawBottom();
 }
 
-void VillagerViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if ((hDown & KEY_RIGHT) || (hDown & KEY_R)) {
 		if(Selection < save->maxVillager() -1) {
 			Selection++;
-			villager = save->villager(Selection);
+			villagerWW = save->villager(Selection);
 		}
 	} else if ((hDown & KEY_LEFT) || (hDown & KEY_L)) {
 		if (Selection > 0) {
 			Selection--;
-			villager = save->villager(Selection);
+			villagerWW = save->villager(Selection);
 		}
 	}
 

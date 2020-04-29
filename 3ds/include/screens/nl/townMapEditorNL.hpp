@@ -24,25 +24,25 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TOWNMAPEDITOR_HPP
-#define TOWNMAPEDITOR_HPP
+#ifndef TOWNMAPEDITORNL_HPP
+#define TOWNMAPEDITORNL_HPP
 
 #include "Acre.hpp"
 #include "common.hpp"
 #include "Item.hpp"
 #include "structs.hpp"
 
-class TownMapEditor : public Screen
+class TownMapEditorNL : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	TownMapEditor();
+	TownMapEditorNL();
 private:
 	// Specific stuff.
 	u32 maxAcres;
 	std::unique_ptr<Item> MapItems[5120]; // Complete Town Map Items.
-	std::unique_ptr<Acre> FullAcres[42]; // Complete Acres. 36 on AC:WW, but 42 on AC:NL & AC:WA.
+	std::unique_ptr<Acre> FullAcres[42]; // Complete Acres.
 
 	/* Main Screen. */
 	void DrawMapScreen(void) const;
@@ -101,14 +101,6 @@ private:
 		{20, 140, 280, 30} // Name.
 	};
 
-	// Display AC:WW Top Screen Map.
-	const std::vector<Structs::ButtonPos> WWMapPos = {
-		{5, 40, 32, 32} ,{37, 40, 32, 32}, {69, 40, 32, 32}, {101, 40, 32, 32},
-		{5, 72, 32, 32}, {37, 72, 32, 32}, {69, 72, 32, 32}, {101, 72, 32, 32},
-		{5, 104, 32, 32}, {37, 104, 32, 32}, {69, 104, 32, 32}, {101, 104, 32, 32},
-		{5, 136, 32, 32}, {37, 136, 32, 32}, {69, 136, 32, 32}, {101, 136, 32, 32}
-	};
-
 	// Town Map Display [NL / Top Screen.]
 	const std::vector<Structs::ButtonPos> townPos = {
 		{5, 40, 40, 40},{45, 40, 40, 40},{85, 40, 40, 40},
@@ -156,51 +148,6 @@ private:
 
 		{20, 200, 40, 40},{60, 200, 40, 40},{100, 200, 40, 40},
 		{140, 200, 40, 40},{180, 200, 40, 40},{220, 200, 40, 40},{260, 200, 40, 40}
-	};
-	// Display AC:WW's full Town Map.
-	const std::vector<Structs::ButtonPos> wwPos = {
-		// First Line.
-		{64, 16, 32, 32},
-		{96, 16, 32, 32},
-		{128, 16, 32, 32},
-		{160, 16, 32, 32},
-		{192, 16, 32, 32},
-		{224, 16, 32, 32},
-		// Second Line.
-		{64, 48, 32, 32},
-		{96, 48, 32, 32},
-		{128, 48, 32, 32},
-		{160, 48, 32, 32},
-		{192, 48, 32, 32},
-		{224, 48, 32, 32},
-		// Third Line.
-		{64, 80, 32, 32},
-		{96, 80, 32, 32},
-		{128, 80, 32, 32},
-		{160, 80, 32, 32},
-		{192, 80, 32, 32},
-		{224, 80, 32, 32},
-		// Fourth Line.
-		{64, 112, 32, 32},
-		{96, 112, 32, 32},
-		{128, 112, 32, 32},
-		{160, 112, 32, 32},
-		{192, 112, 32, 32},
-		{224, 112, 32, 32},
-		// Fifth Line.
-		{64, 144, 32, 32},
-		{96, 144, 32, 32},
-		{128, 144, 32, 32},
-		{160, 144, 32, 32},
-		{192, 144, 32, 32},
-		{224, 144, 32, 32},
-		// Sixth Line.
-		{64, 176, 32, 32},
-		{96, 176, 32, 32},
-		{128, 176, 32, 32},
-		{160, 176, 32, 32},
-		{192, 176, 32, 32},
-		{224, 176, 32, 32}
 	};
 
 	// Display Button.

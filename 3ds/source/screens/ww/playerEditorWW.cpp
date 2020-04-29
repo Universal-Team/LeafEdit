@@ -26,7 +26,7 @@
 
 #include "coreUtils.hpp"
 #include "itemUtils.hpp"
-#include "playerEditor.hpp"
+#include "playerEditorWW.hpp"
 #include "Sav.hpp"
 #include "stringUtils.hpp"
 
@@ -35,82 +35,75 @@ extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
-int selectedPlayer = 0;
+int selectedPlayerWW = 0;
 
-std::unique_ptr<Player> player = nullptr; // player pointer which is used at this screen.
+std::unique_ptr<Player> playerWW = nullptr; // player pointer which is used at this screen.
 
-void PlayerEditor::Draw(void) const {
+void PlayerEditorWW::Draw(void) const {
 	if (Mode == 0)	DrawPlayerSelection();
 	else if (Mode == 1)	DrawSubMenu();
 }
 
-void PlayerEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Mode == 0)	PlayerSelectionLogic(hDown, hHeld, touch);
 	else if (Mode == 1)	SubMenuLogic(hDown, hHeld, touch);
 }
 
 /*	Player Selection	*/
-void PlayerEditor::DrawPlayerSelection(void) const
+void PlayerEditorWW::DrawPlayerSelection(void) const
 {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395);
-	if (save->player(selectedPlayer)->exist()) {
-		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, StringUtils::UTF16toUTF8(save->player(selectedPlayer)->name()), 400);
+	if (save->player(selectedPlayerWW)->exist()) {
+		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, StringUtils::UTF16toUTF8(save->player(selectedPlayerWW)->name()), 400);
 	}
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
 		GFX::DrawButton(playerPos[i]);
-		if (i == selectedPlayer)	GFX::DrawGUI(gui_pointer_idx, playerPos[i].x+100, playerPos[i].y+30);
+		if (i == selectedPlayerWW)	GFX::DrawGUI(gui_pointer_idx, playerPos[i].x+100, playerPos[i].y+30);
 	}
 }
 
-void PlayerEditor::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayerEditorWW::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
-		if (selectedPlayer > 1)	selectedPlayer -= 2;
+		if (selectedPlayerWW > 1)	selectedPlayerWW -= 2;
 	}
 	if (hDown & KEY_DOWN) {
-		if (selectedPlayer < 2)	selectedPlayer += 2;
+		if (selectedPlayerWW < 2)	selectedPlayerWW += 2;
 	}
 	if (hDown & KEY_RIGHT) {
-		if (selectedPlayer < 3)	selectedPlayer++;
+		if (selectedPlayerWW < 3)	selectedPlayerWW++;
 	}
 	if (hDown & KEY_LEFT) {
-		if (selectedPlayer > 0)	selectedPlayer--;
+		if (selectedPlayerWW > 0)	selectedPlayerWW--;
 	}
 
 	if (hDown & KEY_A) {
 		// Check if player exist.
-		if (save->player(selectedPlayer)->exist()) {
+		if (save->player(selectedPlayerWW)->exist()) {
 			// Set selected Player to unique_ptr.
-			player = save->player(selectedPlayer);
-			CoreUtils::LoadPlayerTPC(save->player(selectedPlayer));
+			playerWW = save->player(selectedPlayerWW);
 			Mode = 1; // Sub Menu.
 		}
 	}
 
 	if (hDown & KEY_B) {
-		player = nullptr; // Set unique_ptr to nullptr again cause out of scope.
+		playerWW = nullptr; // Set unique_ptr to nullptr again cause out of scope.
 		Gui::screenBack();
 		return;
 	}
 }
 
 /*	Sub Menu.	*/
-void PlayerEditor::DrawSubMenu(void) const
+void PlayerEditorWW::DrawSubMenu(void) const
 {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(player->name()));
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()));
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()));
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
-
-	// Only display TPC if Player has TPC support and is not nullptr.
-	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
-	if (player->tpcImage() != nullptr && player->hasTPC()) {
-		C2D_DrawImageAt(TPCImage, 60, 80, 0.5);
-	}
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(playerWW->name()));
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(playerWW->wallet()));
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(playerWW->bank()));
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(playerWW->face()));
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -119,7 +112,7 @@ void PlayerEditor::DrawSubMenu(void) const
 	}
 }
 
-void PlayerEditor::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
