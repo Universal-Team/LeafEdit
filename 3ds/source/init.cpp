@@ -166,6 +166,7 @@ Result Init::Init() {
 	romfsInit();
 	Gui::init();
 	acInit();
+	amInit();
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
@@ -189,6 +190,11 @@ Result Init::Init() {
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
+
+	// We need to make sure, the file exist.
+	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
+		Config::initializeNewConfig();
+	}
 	Config::load();
 	Config::initColors();
 	Lang::load(1);
@@ -266,8 +272,10 @@ Result Init::Exit() {
 	// Unload all sheets, because you don't know, if people exit properly like they should.
 	unloadSheets();
 	acExit();
+	amExit();
 	Gui::exit();
 	unloadFont();
+	if (changesMade)	Config::save();
 	Gui::unloadSheet(GUI);
 	cfguExit();
 	gfxExit();

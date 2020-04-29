@@ -53,7 +53,7 @@ std::string jsonName;
 
 using json = nlohmann::json;
 
-bool progressBarType = 0;
+int progressBarType = 0;
 char progressBarMsg[128] = "";
 bool showProgressBar = false;
 extern bool changesMade;
@@ -723,7 +723,7 @@ NightlyFetch Download::getLatestNightly(void) {
 	return NF;
 }
 
-Result Download::updateApp(bool nightly) {
+Result Download::updateApp(bool nightly, const std::string &version) {
 	bool success = false;
 	if(nightly) {
 		if (is3dsx == false) {
@@ -732,20 +732,19 @@ Result Download::updateApp(bool nightly) {
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
-			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "LeafEdit/LeafEdit.cia") != 0) {
+			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "sdmc:/LeafEdit/LeafEdit.cia") != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
 				return -1;
 			}
 			// Install and delete.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
-			changesMade = true;
 			progressBarType = 1;
+			if (version != "")	Config::currentRelease = version;
+			changesMade = true;
 			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
-			Msg::DisplayWarnMsg(Lang::get("DONE"));
-
 		} else if (is3dsx == true) {
 			// Download 3DSX Nightly.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (3DSX)").c_str());
@@ -758,6 +757,7 @@ Result Download::updateApp(bool nightly) {
 				return -1;
 			}
 			showProgressBar = false;
+			if (version != "")	Config::currentNightly = version;
 			success = true;
 		}
 	} else {
@@ -767,19 +767,19 @@ Result Download::updateApp(bool nightly) {
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
-			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "/LeafEdit/LeafEdit.cia", false) != 0) {
+			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "sdmc:/LeafEdit/LeafEdit.cia", false) != 0) {
 				showProgressBar = false;
 				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
 				return -1;
 			}
 			// Install and delete.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
-			changesMade = true;
 			progressBarType = 1;
+			if (version != "")	Config::currentRelease = version;
+			changesMade = true;
 			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
-			Msg::DisplayWarnMsg(Lang::get("DONE"));
 		} else if (is3dsx == true) {
 			// Download 3DSX Release.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (3DSX)").c_str());
@@ -792,12 +792,13 @@ Result Download::updateApp(bool nightly) {
 				return -1;
 			}
 			showProgressBar = false;
+			if (version != "")	Config::currentRelease = version;
 			success = true;
 		}
 	}
 	Msg::DisplayWarnMsg(Lang::get("DONE"));
+	if (version != "")	changesMade = true;
 	if (success == true) {
-		changesMade = true;
 		if (is3dsx == true) {
 			Is3dsxUpdated = true;
 		}

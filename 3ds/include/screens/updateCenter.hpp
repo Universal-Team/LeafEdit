@@ -52,10 +52,10 @@ private:
 
 	std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "Download Release"},
-		{175, 34, 130, 48, "Download Nightly"},
 		{15, 97, 130, 48, "Download Assets"},
-		{175, 97, 130, 48, "Download Scripts"},
 		{15, 159, 130, 48, ""},
+		{175, 34, 130, 48, "Download Nightly"},
+		{175, 97, 130, 48, "Download Scripts"},
 		{175, 159, 130, 48, ""}
 	};
 };

@@ -185,7 +185,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<PlayerEditor>());
 				} else if (Selection == 1) {
 					if (save->villager(0) != nullptr) {
-						Gui::setScreen(std::make_unique<VillagerViewer>());
+						//Gui::setScreen(std::make_unique<VillagerViewer>());
 					} else {
 						Msg::NotImplementedYet();
 					}

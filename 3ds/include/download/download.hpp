@@ -78,7 +78,7 @@ NightlyFetch getLatestCommit();
 // LeafEdit's namespace for Downloads.
 namespace Download {
 	void downloadAssets(void);
-	Result updateApp(bool nightly);
+	Result updateApp(bool nightly, const std::string &version);
 
 	ReleaseFetch getLatestRelease2();
 	NightlyFetch getLatestNightly();
