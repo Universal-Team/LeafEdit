@@ -32,10 +32,10 @@
 #include "playerEditorNL.hpp"
 #include "playerEditorWW.hpp"
 
+#include "pluginScreen.hpp"
 #include "saveUtils.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
-#include "scriptScreen.hpp"
 
 #include "townMapEditorNL.hpp"
 #include "townMapEditorWW.hpp"
@@ -225,6 +225,10 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 		}
 
+		if (hDown & KEY_X) {
+			Gui::setScreen(std::make_unique<PluginScreen>());
+		}
+		
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
 			Gui::screenBack();

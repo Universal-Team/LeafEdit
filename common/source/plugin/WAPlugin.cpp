@@ -24,10 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef LEAFEDIT_RANDOM_H
-#define LEAFEDIT_RANDOM_H
-
-void LeafEdit_Rand(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-void LeafEdit_Srand(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs);
-
+#ifdef _3DS
+	#include "gfx.hpp"
+#elif ARM9
+	#include "gui.hpp"
 #endif
+#include "msg.hpp"
+#include "WAPlugin.hpp"
+
+int WAPlugin::scriptMain() {
+	int returnResult = 0;
+	int functionExecute = 0;
+	#ifdef _3DS
+		//functionExecute = GFX::ListSelection(0, scriptEntries, "Please Select an Entry.");
+	#elif ARM9
+		//functionExecute = Gui::selectList(0, scriptEntries, "Please Select an Entry.");
+	#endif
+
+	switch(functionExecute) {
+		case -1:
+			returnResult = -1;
+			break;
+	}
+	return returnResult;
+}

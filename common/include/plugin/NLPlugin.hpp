@@ -24,43 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SCRIPTSCREEN_HPP
-#define SCRIPTSCREEN_HPP
+#ifndef LEAFEDIT_NL_PLUGIN_HPP
+#define LEAFEDIT_NL_PLUGIN_HPP
 
-#include "common.hpp"
-#include "fileBrowse.hpp"
-#include "structs.hpp"
+#include "Plugin.hpp"
+#include "types.hpp"
 
+#include <string>
 #include <vector>
 
-#define PICOC_STACKSIZE (32 * 1024)
-
-class ScriptScreen : public Screen
-{
+class NLPlugin : public Plugin {
 public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	ScriptScreen();
+	// Constructor and Destructor. DO NOT CHANGE THIS!
+	NLPlugin() : Plugin() { }
+	virtual ~NLPlugin() { }
+	// Main Plugin function which get's called.
+	int scriptMain() override;
 private:
-	// picoC stuff.
-	void applyScript(std::string& file);
-	void parsePicoCScript(std::string& file);
-
-	// Variables.
-	bool ScriptsFound = false;
-	int Selection = 0;
-	int screenPos = 0;
-	bool ScriptMode = 0; // 1 -> Universal, 0 -> Specific game.
-
-	// Browse stuff.
-	int keyRepeatDelay = 8;
-	int fastMode = false;
-	std::vector<DirEntry> dirContents;
-
-	// Utils.
-	bool returnIfExist();
-	void refreshList();
-	std::string returnScriptPath();
+	// All Script Entries are listed at this vector.
+	const std::vector<std::string> scriptEntries = {""};
+	
+	// All Functions are here. All Functions *must* have an integer as a return value.
 };
 
 #endif

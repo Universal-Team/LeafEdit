@@ -24,43 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "msg.hpp"
-#include "Sav.hpp"
-#include "SavNL.hpp"
-#include "SavWW.hpp"
-#include "SavWA.hpp"
-#include "saveUtils.hpp"
+#ifndef LEAFEDIT_WW_PLUGIN_HPP
+#define LEAFEDIT_WW_PLUGIN_HPP
 
-#include <algorithm>
-#include <errno.h>
+#include "Plugin.hpp"
+#include "types.hpp"
 
-#include "picoc.h"
+#include <string>
+#include <vector>
 
-extern std::shared_ptr<Sav> save;
+class WWPlugin : public Plugin {
+public:
+	// Constructor and Destructor. DO NOT CHANGE THIS!
+	WWPlugin() : Plugin() { }
+	virtual ~WWPlugin() { }
+	// Main Plugin function which get's called.
+	int scriptMain() override;
+private:
+	// All Script Entries are listed at this vector.
+	const std::vector<std::string> scriptEntries = {""};
+	
+	// All Functions are here. All Functions *must* have an integer as a return value.
+};
 
-[[noreturn]] void scriptFail(struct ParseState* Parser, const std::string& str) {
-	ProgramFail(Parser, str.c_str());
-	std::abort(); // Dummy call to suppress compiler warning: ProgramFail does not return
-}
-
-template <typename... Ts>
-[[noreturn]] void scriptFail(struct ParseState* Parser, const std::string& str, Ts... args) {
-	ProgramFail(Parser, str.c_str(), args...);
-	std::abort(); // Dummy call to suppress compiler warning: ProgramFail does not return
-}
-
-extern "C" {
-	#include "leafedit_api.h"
-
-	// Display a warn Message.
-	void msg_warn(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
-	{
-		Msg::DisplayWarnMsg((char*)Param[0]->Val->Pointer);
-	}
-
-	// Display a message which will stay until pressed A.
-	void msg_waitMsg(struct ParseState* Parser, struct Value* ReturnValue, struct Value** Param, int NumArgs)
-	{
-		Msg::DisplayWaitMsg((char*)Param[0]->Val->Pointer);
-	}
-}
+#endif

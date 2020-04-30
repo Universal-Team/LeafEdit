@@ -24,41 +24,28 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "graphics.hpp"
-#include "screen.hpp"
+#ifndef LEAFEDIT_TEST_PLUGIN_HPP
+#define LEAFEDIT_TEST_PLUGIN_HPP
 
-#include <nds.h>
+#include "Plugin.hpp"
+#include "types.hpp"
 
-namespace Gui {
-	// Pointer stuff.
-	void showPointer();
-	void hidePointer();
-	void togglePointer(); // Update Pointer for visible | not visible.
-	void updatePointer(int x, int y); // Update Pointer position when selected is true.
+#include <string>
+#include <vector>
 
-	// Screen stuff.
-	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
-	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
-	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
-	void screenBack(void); // Go a screen back. Needs "return;" at the end.
-
-	// GUI Stuff.
-	void DrawTop(bool useBars);
-	void DrawBottom(bool useBars);
-
-	/* 	Clear a Screen & Layer.
- 		* bool top is whether to draw on the top or bottom screen.
- 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
-	*/ 
-	void clearScreen(bool top, bool layer);
-
-	// Sprites stuff
-
-	extern int keyboardSpriteID, pointerID;
-
-	void initSprites(void);
-	void loadSprites(void);
+// This is used for Tests.
+class TestPlugin : public Plugin {
+public:
+	// Constructor and Destructor. DO NOT CHANGE THIS!
+	TestPlugin() : Plugin() { }
+	virtual ~TestPlugin() { }
+	// Main Plugin function which get's called.
+	int scriptMain() override;
+private:
+	// All Script Entries are listed at this vector.
+	const std::vector<std::string> scriptEntries = {""};
 	
-	// Select something from a list.
-	int selectList(int current, const std::vector<std::string> &list, const std::string Text);
+	// All Functions are here. All Functions *must* have an integer as a return value.
 };
+
+#endif

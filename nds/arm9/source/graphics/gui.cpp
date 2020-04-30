@@ -130,7 +130,9 @@ void Gui::loadSprites(void) {
 	fillSpriteImage(pointerID, false, 32, 0, 0, pointerImg);
 }
 
-static void drawList(int screenPos, bool background, const std::vector<std::string> &list) {
+static void drawList(int screenPos, bool background, const std::vector<std::string> &list, const std::string Text) {
+	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, true, false);
+	printTextCentered(Text, 0, 0, true, true);
 	if (background) {
 		// Clear screen.
 		drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
@@ -143,13 +145,13 @@ static void drawList(int screenPos, bool background, const std::vector<std::stri
 	}
 }
 
-int Gui::selectList(int current, const std::vector<std::string> &list) {
+int Gui::selectList(int current, const std::vector<std::string> &list, const std::string Text) {
 	// Set pointer position
 	setSpriteVisibility(Gui::pointerID, false, true);
 	setSpritePosition(pointerID, false, 4+getTextWidth(list[current]), -2);
 	updateOam();
 
-	drawList(current, true, list);
+	drawList(current, true, list, Text);
 
 	int held, pressed, screenPos = current, newSelection = current, entriesPerScreen = 9;
 	while(1) {
@@ -186,10 +188,10 @@ int Gui::selectList(int current, const std::vector<std::string> &list) {
 		// Scroll screen if needed.
 		if (newSelection < screenPos) {
 			screenPos = newSelection;
-			drawList(screenPos, false, list);
+			drawList(screenPos, false, list, Text);
 		} else if (newSelection > screenPos + entriesPerScreen - 1) {
 			screenPos = newSelection - entriesPerScreen + 1;
-			drawList(screenPos, false, list);
+			drawList(screenPos, false, list, Text);
 		}
 
 		// Move pointer.

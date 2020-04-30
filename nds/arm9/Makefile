@@ -47,16 +47,14 @@ INCLUDECORE	:= ../../LeafEdit-Core/include \
 			   ../../LeafEdit-Core/include/town \
 			   ../../LeafEdit-Core/include/villager
 
-COMMON_SRC	:= ../../common/source ../../common/source/cstdlib \
-			   ../../external/picoc/source/interpreter
-COMMON_INC	:= ../../common/include ../../external/picoc/include
+COMMON_SRC	:= ../../common/source ../../common/source/plugin
+COMMON_INC	:= ../../common/include ../../common/include/plugin
 
 SOURCES		:=	$(SOURCECORE) \
 				$(COMMON_SRC) \
 				source \
 				source/graphics \
 				source/management \
-				source/picoc \
 				source/saves \
 				source/screens \
 				source/utils
@@ -65,7 +63,6 @@ INCLUDES	:=	$(INCLUDECORE) \
 				include \
 				include/graphics \
 				include/management \
-				include/picoc \
 				include/saves \
 				include/screens \
 				include/utils

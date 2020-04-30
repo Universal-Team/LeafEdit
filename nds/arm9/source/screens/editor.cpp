@@ -28,6 +28,7 @@
 #include "fileBrowse.hpp"
 #include "msg.hpp"
 //#include "playerEditor.hpp"
+#include "pluginScreen.hpp"
 #include "Sav.hpp"
 
 std::shared_ptr<Sav> save;
@@ -133,6 +134,12 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 			return;
 		}
 
+		if (hDown & KEY_X) {
+			Gui::setScreen(std::make_unique<PluginScreen>());
+			Gui::DrawScreen();
+			selected = true;
+		}
+		
 		if (hDown & KEY_DOWN) {
 			if (Selection < 2)	Selection++;
 			selected = true;

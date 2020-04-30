@@ -24,41 +24,29 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "graphics.hpp"
-#include "screen.hpp"
+#ifdef _3DS
+	#include "gfx.hpp"
+#elif ARM9
+	#include "gui.hpp"
+#endif
 
-#include <nds.h>
+#include "msg.hpp"
+#include "NLPlugin.hpp"
 
-namespace Gui {
-	// Pointer stuff.
-	void showPointer();
-	void hidePointer();
-	void togglePointer(); // Update Pointer for visible | not visible.
-	void updatePointer(int x, int y); // Update Pointer position when selected is true.
-
-	// Screen stuff.
-	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
-	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
-	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
-	void screenBack(void); // Go a screen back. Needs "return;" at the end.
-
-	// GUI Stuff.
-	void DrawTop(bool useBars);
-	void DrawBottom(bool useBars);
-
-	/* 	Clear a Screen & Layer.
- 		* bool top is whether to draw on the top or bottom screen.
- 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
-	*/ 
-	void clearScreen(bool top, bool layer);
-
-	// Sprites stuff
-
-	extern int keyboardSpriteID, pointerID;
-
-	void initSprites(void);
-	void loadSprites(void);
+int NLPlugin::scriptMain() {
+	int returnResult = 0;
+	int functionExecute = 0;
 	
-	// Select something from a list.
-	int selectList(int current, const std::vector<std::string> &list, const std::string Text);
-};
+	#ifdef _3DS
+		//functionExecute = GFX::ListSelection(0, scriptEntries, "Please Select an Entry.");
+	#elif ARM9
+		//functionExecute = Gui::selectList(0, scriptEntries, "Please Select an Entry.");
+	#endif
+
+	switch(functionExecute) {
+		case -1:
+			returnResult = -1;
+			break;
+	}
+	return returnResult;
+}

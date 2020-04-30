@@ -117,8 +117,4 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hHeld & KEY_SELECT) {
 		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
 	}
-
-	if (hDown & KEY_X) {
-		Msg::DisplayWarnMsg("Look! I'm a TextBox!!!");
-	}
 }

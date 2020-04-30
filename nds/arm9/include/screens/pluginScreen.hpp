@@ -24,35 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "interpreter.h"
-#include "leafedit_api.h"
+#ifndef PLUGINSCREEN_HPP
+#define PLUGINSCREEN_HPP
 
-void UnixSetupFunc() {}
+#include "Plugin.hpp"
+#include "screenCommon.hpp"
+#include "structs.hpp"
 
-/* list of all library functions and their prototypes */
-struct LibraryFunction UnixFunctions[] =
+#include <vector>
+
+class PluginScreen : public Screen
 {
-	// Msg.
-	{ msg_warn,				"void msg_warn(char* warning);" },
-	{ msg_waitMsg,			"void msg_waitMsg(char* message);" },
-	{ msg_splash,			"void msg_splash(char* notification);" },
-	{ msg_prompt, 			"int msg_prompt(char* message);" },
-	// String Getter.
-	{ getItem,				"char *getItem(unsigned int ID);"},
-	// Keyboard.
-	{ keyboard_string,		"char *keyboard_string(char* message);"},
-	{ keyboard_value,		"int keyboard_value(char* message);"},
-	// List Selections.
-	{ selectList,			"int selectList(char* message, char** contents, int options);"},
-	// Misc.
-	{ setChangesMade,		"void setChangesMade();"},
-	{ download_file,		"void download_file(char* URL, char* Path, char* Message);"}, 
-	{ file_select,			"char* file_select(char* Path, char* Text);"},
-	// End.
-	{ NULL,					NULL }
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	std::unique_ptr<Plugin> plugin = nullptr;
+	int selection = 0;
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{20, 78, 88, 32, -1}, // Unique.
+		{148, 78, 88, 32, -1}, // Universal.
+	};
 };
 
-void PlatformLibraryInit(Picoc *pc)
-{
-	IncludeRegister(pc, "leafedit.h", &UnixSetupFunc, &UnixFunctions[0], "");
-}
+#endif

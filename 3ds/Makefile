@@ -101,12 +101,12 @@ INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/town \
 			   ../LeafEdit-Core/include/villager
 
-COMMON_SRC	:= ../common/source ../common/source/cstdlib ../external/picoc/source/interpreter
-COMMON_INC	:=	../common/include ../external/picoc/include
+COMMON_SRC	:= ../common/source ../common/source/plugin
+COMMON_INC	:=	../common/include ../common/include/plugin
 
-SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/picoc source/screens source/screens/nl source/screens/ww
+SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/screens source/screens/nl source/screens/ww
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) $(COMMON_INC) include include/common include/download include/gui include/lang include/picoc include/screens include/screens/nl include/screens/ww include/sprite
+INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) $(COMMON_INC) include include/common include/download include/gui include/lang include/screens include/screens/nl include/screens/ww include/sprite
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs

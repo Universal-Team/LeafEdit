@@ -24,21 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#include <random>
+#ifndef LEAFEDIT_UNIVERSAL_PLUGIN_HPP
+#define LEAFEDIT_UNIVERSAL_PLUGIN_HPP
 
-std::mt19937 randomNumbers;
+#include "Plugin.hpp"
+#include "types.hpp"
 
-extern "C" {
-	#include "leafedit_random.h"
-	#include "picoc.h"
+#include <string>
+#include <vector>
 
-	void LeafEdit_Rand(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-	{
-		ReturnValue->Val->Integer = randomNumbers() >> 1;
-	}
+class UniversalPlugin : public Plugin {
+public:
+	// Constructor and Destructor. DO NOT CHANGE THIS!
+	UniversalPlugin() : Plugin() { }
+	virtual ~UniversalPlugin() { }
+	// Main Plugin function which get's called.
+	int scriptMain() override;
+private:
+	// All Script Entries are listed at this vector.
+	const std::vector<std::string> scriptEntries = {""};
+	
+	// All Functions are here. All Functions *must* have an integer as a return value.
+};
 
-	void LeafEdit_Srand(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-	{
-		randomNumbers.seed(Param[0]->Val->Integer);
-	}
-}
+#endif

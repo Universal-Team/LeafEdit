@@ -24,22 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "interpreter.h"
-#include "leafedit_api.h"
+#ifndef LEAFEDIT_WA_PLUGIN_HPP
+#define LEAFEDIT_WA_PLUGIN_HPP
 
-void UnixSetupFunc() {}
+#include "Plugin.hpp"
+#include "types.hpp"
 
-/* list of all library functions and their prototypes */
-struct LibraryFunction UnixFunctions[] =
-{
-	// Msg.
-	{ msg_warn,				"void msg_warn(char* warning);" },
-	{ msg_waitMsg,			"void msg_waitMsg(char* message);" },
-	// End.
-	{ NULL,					NULL }
+#include <string>
+#include <vector>
+
+class WAPlugin : public Plugin {
+public:
+	// Constructor and Destructor. DO NOT CHANGE THIS!
+	WAPlugin() : Plugin() { }
+	virtual ~WAPlugin() { }
+	// Main Plugin function which get's called.
+	int scriptMain() override;
+private:
+	// All Script Entries are listed at this vector.
+	const std::vector<std::string> scriptEntries = {""};
+	
+	// All Functions are here. All Functions *must* have an integer as a return value.
 };
 
-void PlatformLibraryInit(Picoc *pc)
-{
-	IncludeRegister(pc, "leafedit.h", &UnixSetupFunc, &UnixFunctions[0], "");
-}
+#endif

@@ -24,15 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef LEAFEDIT_API_H
-#define LEAFEDIT_API_H
-
-#include "picoc.h"
-
-#include <nds.h>
-
-// Message stuff.
-void msg_warn(struct ParseState*, struct Value*, struct Value**, int);
-void msg_waitMsg(struct ParseState*, struct Value*, struct Value**, int);
-
+#ifdef _3DS
+	#include "gfx.hpp"
+#elif ARM9
+	#include "gui.hpp"
 #endif
+#include "msg.hpp"
+#include "UniversalPlugin.hpp"
+
+int UniversalPlugin::scriptMain() {
+	int returnResult = 0;
+	int functionExecute = 0;
+	#ifdef _3DS
+		//functionExecute = GFX::ListSelection(0, scriptEntries, "Please Select an Entry.");
+	#elif ARM9
+		//functionExecute = Gui::selectList(0, scriptEntries, "Please Select an Entry.");
+	#endif
+
+	switch(functionExecute) {
+		case -1:
+			returnResult = -1;
+			break;
+	}
+	return returnResult;
+}

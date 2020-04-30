@@ -24,41 +24,28 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "graphics.hpp"
-#include "screen.hpp"
+#ifndef PLUGINSCREEN_HPP
+#define PLUGINSCREEN_HPP
 
-#include <nds.h>
+#include "common.hpp"
+#include "Plugin.hpp"
+#include "structs.hpp"
 
-namespace Gui {
-	// Pointer stuff.
-	void showPointer();
-	void hidePointer();
-	void togglePointer(); // Update Pointer for visible | not visible.
-	void updatePointer(int x, int y); // Update Pointer position when selected is true.
+#include <memory>
+#include <vector>
 
-	// Screen stuff.
-	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
-	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
-	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
-	void screenBack(void); // Go a screen back. Needs "return;" at the end.
-
-	// GUI Stuff.
-	void DrawTop(bool useBars);
-	void DrawBottom(bool useBars);
-
-	/* 	Clear a Screen & Layer.
- 		* bool top is whether to draw on the top or bottom screen.
- 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
-	*/ 
-	void clearScreen(bool top, bool layer);
-
-	// Sprites stuff
-
-	extern int keyboardSpriteID, pointerID;
-
-	void initSprites(void);
-	void loadSprites(void);
-	
-	// Select something from a list.
-	int selectList(int current, const std::vector<std::string> &list, const std::string Text);
+class PluginScreen : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+private:
+	std::unique_ptr<Plugin> plugin = nullptr;
+	int selection = 0;
+	std::vector<ButtonType> mainButtons = {
+		{15, 97, 130, 48, "Unique"},
+		{175, 97, 130, 48, "Universal"}
+	};
 };
+
+#endif
