@@ -24,30 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef MISCEDITOR_HPP
+#define MISCEDITOR_HPP
 
-#include "common.hpp"
+#include "screenCommon.hpp"
 
-#include <string>
+#include "structs.hpp"
+#include <vector>
 
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
+class MiscEditor : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	int selection = 0;
 
-	bool getBool(const std::string &key);
-	void setBool(const std::string &key, bool v);
-
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-
-	std::string getString(const std::string &key);
-	void setString(const std::string &key, const std::string &v);
-
-	int getLang(const std::string &key);
-
-	extern std::string currentRelease, currentNightly;
-}
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{80, 30, 88, 32, -1}, // Acres Editor.
+		{80, 80, 88, 32, -1}, // Town Editor.
+		{80, 130, 88, 32, -1}, // ?.
+	};
+};
 
 #endif

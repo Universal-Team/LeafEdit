@@ -24,36 +24,62 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef UPDATECENTER_HPP
-#define UPDATECENTER_HPP
+#ifndef TOWNMAPEDITOR_HPP
+#define TOWNMAPEDITOR_HPP
 
-#include "common.hpp"
-#include "download.hpp"
+#include "screenCommon.hpp"
+
 #include "structs.hpp"
-
 #include <vector>
 
-class UpdateCenter : public Screen
+class TownMapEditor : public Screen
 {
 public:
 	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	UpdateCenter();
+	void Logic(u16 hDown, touchPosition touch) override;
+	TownMapEditor();
 private:
-	int Selection = 0;
-	void checkUpdate();
-	bool NightlyAvailable = false;
-	bool ReleaseAvailable = false;
-	bool changelogShown = false; // I have no clue if I keep that, lol.
-	bool hasCheckedForUpdate = false; // Always false at startup.
+	// TEMP.
+	u16 TempItem;
 
-	ReleaseFetch latestRelease = {""};
-	NightlyFetch latestNightly = {""};
+	// Main Draws.
+	void DrawMain(void) const;
+	void DrawTempItem(void) const;
 
-	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "Download Release"},
-		{95, 97, 130, 48, "Download Nightly"},
-		{95, 159, 130, 48, "Download Assets"}
+	// Main Logics.
+	void MainLogic(u16 hDown, touchPosition touch);
+	void TempLogic(u16 hDown, touchPosition touch);
+
+	/* Mostly selection stuff. */
+	int Mode = 0;
+	int selection = 0; // Selection for "Items" / "Buildings".
+	int selectionMode = 0;
+	int currentPosX = 0;
+	int currentPosY = 0;
+	int currentAcre = 0;
+	int MapSelection = 0;
+	int PositionX = 0;
+	int PositionY = 0;
+
+	void DrawPosition(void) const;
+	void DrawCurrentPos();
+	void updateTopGrid();
+	void updateBottomGrid();
+	void DrawTownMapEditor() const;
+	void convertToPosition();
+	void convertToSelection();
+	void updateAcreImage();
+	void DrawInformation() const;
+	void injectTo(int MapSlot);
+
+	int SelectionToAcre() const;
+	void DrawGrid(void) const;
+
+	std::vector<Structs::ButtonPos> TempPos = {
+		{80, 30, 88, 32, -1}, // Manually.
+		{80, 80, 88, 32, -1}, // Selection.
+		{80, 130, 88, 32, -1}, // ?.
+		{175, 100, 75, 25, -1} // Temp Items. (MainScreen)
 	};
 };
 

@@ -24,14 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "cardSaves.hpp"
 #include "editor.hpp"
 #include "fileBrowse.hpp"
+#include "gui.hpp"
+#include "miscEditor.hpp"
 #include "msg.hpp"
-//#include "playerEditor.hpp"
-#include "pluginScreen.hpp"
+#include "playerEditor.hpp"
 #include "Sav.hpp"
+#include "villagerViewer.hpp"
 
+bool changes = false;
 std::shared_ptr<Sav> save;
+extern bool loadedFromCart;
+
 // Bring that to other screens too.
 SaveType savesType = SaveType::UNUSED;
 
@@ -103,8 +109,28 @@ void Editor::SaveInitialize() {
 		Gui::DrawScreen();
 		// Toggle Pointer.
 		Gui::showPointer();
+		// Display Save icon.
+		setSpriteVisibility(Gui::saveID, false, true);
+		setSpritePosition(Gui::saveID, false, 225, 172);
+		updateOam();
 		selected = true;
 	}
+}
+
+void Editor::Saving() {
+	if (!changes) {
+		Msg::DisplayWaitMsg("Saving is useless. No changes have been made.");
+		return;
+	}
+
+	save->Finish();
+	FILE* out = fopen(saveName.c_str(), "rb+");
+	fwrite(save->rawData().get(), 1, save->getLength(), out);
+	fclose(out);
+	if (loadedFromCart) {
+		restoreSave();
+	}
+	hasSaved = true;
 }
 
 void Editor::Draw(void) const {
@@ -129,15 +155,14 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 
 		if (hDown & KEY_B) {
 			Gui::screenBack();
+			// Hide save icon.
+			setSpriteVisibility(Gui::saveID, false, false);
+			updateOam();
 			Gui::DrawScreen();
 			selected = true;
+			changes = false; // Reset state.
+			loadedFromCart = false;
 			return;
-		}
-
-		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<PluginScreen>());
-			Gui::DrawScreen();
-			selected = true;
 		}
 		
 		if (hDown & KEY_DOWN) {
@@ -149,21 +174,73 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 			selected = true;
 		}
 
-/*		if (hDown & KEY_A) {
+		if (hDown & KEY_A) {
 			if (Selection == 0) {
-				Gui::setScreen(std::make_unique<PlayerScreen>());
+				// Check if Player is not nullptr.
+				if (save->player(0) != nullptr) {
+					Gui::setScreen(std::make_unique<PlayerEditor>());
+					// Hide save icon.
+					setSpriteVisibility(Gui::saveID, false, false);
+					updateOam();
+					Gui::DrawScreen();
+					Gui::hidePointer();
+					selected = true;
+				}
+			} else if (Selection == 1) {
+				// Check if Villager is not nullptr.
+				if (save->villager(0) != nullptr) {
+					Gui::setScreen(std::make_unique<VillagerViewer>());
+					// Hide save icon.
+					setSpriteVisibility(Gui::saveID, false, false);
+					updateOam();
+					Gui::hidePointer();
+					Gui::DrawScreen();
+				}
+			} else if (Selection == 2) {
+				Gui::setScreen(std::make_unique<MiscEditor>());
+				// Hide save icon.
+				setSpriteVisibility(Gui::saveID, false, false);
+				updateOam();
 				Gui::DrawScreen();
 				selected = true;
 			}
 		}
 
+
 		if (hDown & KEY_TOUCH) {
 			if (touching(touch, mainButtons[0])) {
-				Gui::setScreen(std::make_unique<PlayerScreen>());
+				// Check if Player is not nullptr.
+				if (save->player(0) != nullptr) {
+					Gui::setScreen(std::make_unique<PlayerEditor>());
+					// Hide save icon.
+					setSpriteVisibility(Gui::saveID, false, false);
+					updateOam();
+					Gui::DrawScreen();
+					Gui::hidePointer();
+					selected = true;
+				}
+			} else if (touching(touch, mainButtons[1])) {
+				// Check if Villager is not nullptr.
+				if (save->villager(0) != nullptr) {
+					Gui::setScreen(std::make_unique<VillagerViewer>());
+					// Hide save icon.
+					setSpriteVisibility(Gui::saveID, false, false);
+					updateOam();
+					Gui::hidePointer();
+					Gui::DrawScreen();
+				}
+			} else if (touching(touch, mainButtons[2])) {
+				Gui::setScreen(std::make_unique<MiscEditor>());
+				// Hide save icon.
+				setSpriteVisibility(Gui::saveID, false, false);
+				updateOam();
 				Gui::DrawScreen();
 				selected = true;
+			} else if (touching(touch, mainButtons[3])) {
+				Saving();
 			}
-		}*/
+		}
+
 	} else {
 		SaveInitialize();
 	}

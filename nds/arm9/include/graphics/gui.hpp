@@ -54,7 +54,7 @@ namespace Gui {
 
 	// Sprites stuff
 
-	extern int keyboardSpriteID, pointerID;
+	extern int keyboardSpriteID, pointerID, saveID;
 
 	void initSprites(void);
 	void loadSprites(void);

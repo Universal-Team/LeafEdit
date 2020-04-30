@@ -28,6 +28,7 @@
 #include "init.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
+#include "itemManager.hpp"
 #include "lang.hpp"
 #include "mainMenu.hpp"
 #include "screenCommon.hpp"
@@ -179,12 +180,6 @@ Result Init::Init() {
 	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
-	// Scripts.
-	mkdir("sdmc:/LeafEdit/Scripts", 0777); // Scripts path.
-	mkdir("sdmc:/LeafEdit/Scripts/new-leaf", 0777); // New Leaf script path.
-	mkdir("sdmc:/LeafEdit/Scripts/wild-world", 0777); // Wild World script path.
-	mkdir("sdmc:/LeafEdit/Scripts/welcome-amiibo", 0777); // Welcome amiibo script path.
-	mkdir("sdmc:/LeafEdit/Scripts/universal", 0777); // Universal script path. (For All Games.)
 	// Pattern.
 	mkdir("sdmc:/LeafEdit/Pattern", 0777); // Pattern path.
 
@@ -196,7 +191,7 @@ Result Init::Init() {
 		Config::initializeNewConfig();
 	}
 	Config::load();
-	Config::initColors();
+	ItemManager::loadColors();
 	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 

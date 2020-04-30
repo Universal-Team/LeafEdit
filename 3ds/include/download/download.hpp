@@ -86,7 +86,6 @@ namespace Download {
 	bool showReleaseInfo(ReleaseFetch RF);
 
 	std::vector<ExtraEntry> getExtraList(std::string category);
-	void downloadScripts(void);
 }
 
 #endif

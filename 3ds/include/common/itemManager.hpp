@@ -35,6 +35,11 @@
 
 namespace ItemManager {
 	u32 getColor(ItemType item);
+	void loadColors();
+	// All Colors.
+	extern u32 Pattern, Building, MoneyRock, Furniture, Gyroid, Clothes, Song, Paper, Trash, Shell,
+	Fruit, Turnip, Catchable, Item, WallpaperCarpet, Fossil, Tool, Tree, Weed, Flower, Rock,
+	Money, ParchedFlower, WateredFlower, WiltedFlower, Occupied, Invalid;
 }
 
 #endif

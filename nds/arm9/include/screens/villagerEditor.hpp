@@ -24,30 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef VILLAGEREDITOR_HPP
+#define VILLAGEREDITOR_HPP
 
-#include "common.hpp"
+#include "screenCommon.hpp"
 
-#include <string>
+#include "structs.hpp"
+#include <vector>
 
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
+class VillagerEditor : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	int villagerMode = 0;
+	int Selection = 0;
+	std::string returnPersonality() const;
+	void DrawSubMenu(void) const;
+	void DrawBox(void) const;
 
-	bool getBool(const std::string &key);
-	void setBool(const std::string &key, bool v);
-
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-
-	std::string getString(const std::string &key);
-	void setString(const std::string &key, const std::string &v);
-
-	int getLang(const std::string &key);
-
-	extern std::string currentRelease, currentNightly;
-}
+	std::vector<Structs::ButtonPos> villagerButtons = {
+		{20, 30, 88, 32, -1}, // Replace.
+		{20, 80, 88, 32, -1}, // Personality.
+		{20, 130, 88, 32, -1}, // ?.
+		{148, 30, 88, 32, -1}, // ?.
+		{148, 80, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1}, // ?.
+	};
+};
 
 #endif

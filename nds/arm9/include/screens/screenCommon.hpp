@@ -33,5 +33,6 @@
 #include "screen.hpp"
 
 extern bool selected;
+extern bool changes;
 
 #endif

@@ -24,30 +24,19 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef GRAPHICMANAGEMENT_HPP
+#define GRAPHICMANAGEMENT_HPP
 
-#include "common.hpp"
-
+#include <nds.h>
+#include <stdio.h>
 #include <string>
 
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
-
-	bool getBool(const std::string &key);
-	void setBool(const std::string &key, bool v);
-
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-
-	std::string getString(const std::string &key);
-	void setString(const std::string &key, const std::string &v);
-
-	int getLang(const std::string &key);
-
-	extern std::string currentRelease, currentNightly;
+namespace GraphicManagement
+{
+	void DrawVillager(u8 villagerID, int x, int y, bool top = true);
+	void DrawAcre(u8 AcreID, int x, int y, float ScaleX = 1, float ScaleY = 1, bool top = true, bool Layer = true);
+	void DrawTownMap();
+	void DrawTownMapEditor();
 }
 
 #endif

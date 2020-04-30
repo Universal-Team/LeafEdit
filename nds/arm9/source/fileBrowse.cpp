@@ -43,6 +43,7 @@
 char fatLabel[14];
 char sdLabel[14];
 u32 copyBuf[copyBufSize];
+bool loadedFromCart = false;
 
 struct topMenuItem {
 	std::string name;
@@ -324,6 +325,7 @@ std::string topMenuSelect(void) {
 				Sound::play(Sound::click);
 				dumpSave();
 				showTopMenuOnExit = 1;
+				loadedFromCart = true;
 				return cardSave;
 			} else if(topMenuContents[tmCurPos].valid) {
 				Sound::play(Sound::click);
@@ -505,10 +507,6 @@ std::string browseForSave(void) {
 		std::string str = topMenuSelect();
 		if(str != "")	return str;
 	}
-
-	// Draw backgrounds
-	// drawImageDMA(0, 0, boxBgTop, true, false);
-	// drawImageDMA(0, 0, listBg, false, false);
 
 	// Clear text
 	drawRectangle(0, 0, 256, 192, CLEAR, true, true);

@@ -112,7 +112,7 @@ void Gui::clearScreen(bool top, bool layer) {
 }
 
 // Sprites stuff
-int Gui::keyboardSpriteID, Gui::pointerID;
+int Gui::keyboardSpriteID, Gui::pointerID, Gui::saveID;
 
 // Initialize Sprite.
 void Gui::initSprites(void) {
@@ -122,12 +122,18 @@ void Gui::initSprites(void) {
 	pointerID = initSprite(false, SpriteSize_32x32);
 	prepareSprite(pointerID, false, 0, 0, 0);
 	setSpriteVisibility(pointerID, false, false);
+
+	saveID = initSprite(false, SpriteSize_32x32);
+	prepareSprite(saveID, false, 0, 0, 0);
+	setSpriteVisibility(saveID, false, false);
 }
 
 // Load sprites.
 void Gui::loadSprites(void) {
 	Image pointerImg = loadImage("/graphics/pointer.gfx");
+	Image saveImg = loadImage("/graphics/save.gfx");
 	fillSpriteImage(pointerID, false, 32, 0, 0, pointerImg);
+	fillSpriteImage(saveID, false, 32, 0, 0, saveImg);
 }
 
 static void drawList(int screenPos, bool background, const std::vector<std::string> &list, const std::string Text) {

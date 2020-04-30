@@ -24,39 +24,76 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#ifndef ACRESEDITOR_HPP
+#define ACRESEDITOR_HPP
 
 #include "screenCommon.hpp"
-#include "structs.hpp"
 
+#include "structs.hpp"
 #include <vector>
 
-class Editor : public Screen
+class AcresEditor : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
-	Editor();
 private:
-	enum class SaveState {
-		Loaded,
-		Unloaded
-	};
+	// Draw stuff.
+	void DrawTop(void) const; // Draw Acre Image Selection.
+	void DrawAcres() const; // Draw the Acres from the bottom screen.
 
-	bool hasSaved = false;
-	SaveState loadState = SaveState::Unloaded;
-	int Selection = 0;
-	bool loadSave();
-	void SaveInitialize();
-	void Saving();
-	std::string saveName;
+	// Selection stuff.
+	int Selection = 0; // Selected Acre.
+	u8 selectedAcre = 0; // Acre ID.
+	bool FastMode = false; // Fast Scroll mode.
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{80, 30, 88, 32, -1}, // Player.
-		{80, 80, 88, 32, -1}, // Villager.
-		{80, 130, 88, 32, -1}, // Misc.
-		{225, 172, 32, 32, -1}, // Save.
+	// Update stuff.
+	void updateTop(); // Update the Top Screen.
+	void updateAcres(); // Update Acres.
+
+	std::vector<Structs::ButtonPos> MapPos = {
+		// First Line.
+		{32, 0, 32, 32},
+		{64, 0, 32, 32},
+		{96, 0, 32, 32},
+		{128, 0, 32, 32},
+		{160, 0, 32, 32},
+		{192, 0, 32, 32},
+		// Second Line.
+		{32, 32, 32, 32},
+		{64, 32, 32, 32},
+		{96, 32, 32, 32},
+		{128, 32, 32, 32},
+		{160, 32, 32, 32},
+		{192, 32, 32, 32},
+		// Third Line.
+		{32, 64, 32, 32},
+		{64, 64, 32, 32},
+		{96, 64, 32, 32},
+		{128, 64, 32, 32},
+		{160, 64, 32, 32},
+		{192, 64, 32, 32},
+		// Fourth Line.
+		{32, 96, 32, 32},
+		{64, 96, 32, 32},
+		{96, 96, 32, 32},
+		{128, 96, 32, 32},
+		{160, 96, 32, 32},
+		{192, 96, 32, 32},
+		// Fifth Line.
+		{32, 128, 32, 32},
+		{64, 128, 32, 32},
+		{96, 128, 32, 32},
+		{128, 128, 32, 32},
+		{160, 128, 32, 32},
+		{192, 128, 32, 32},
+		// Sixth Line.
+		{32, 160, 32, 32},
+		{64, 160, 32, 32},
+		{96, 160, 32, 32},
+		{128, 160, 32, 32},
+		{160, 160, 32, 32},
+		{192, 160, 32, 32}
 	};
 };
 

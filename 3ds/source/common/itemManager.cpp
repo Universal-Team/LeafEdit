@@ -27,74 +27,112 @@
 #include "common.hpp"
 #include "itemManager.hpp"
 
+	// All Colors.
+	u32 ItemManager::Pattern, ItemManager::Building, ItemManager::MoneyRock, ItemManager::Furniture, ItemManager::Gyroid, ItemManager::Clothes,
+	ItemManager::Song, ItemManager::Paper, ItemManager::Trash, ItemManager::Shell,
+	ItemManager::Fruit, ItemManager::Turnip, ItemManager::Catchable, ItemManager::Item, ItemManager::WallpaperCarpet, ItemManager::Fossil,
+	ItemManager::Tool, ItemManager::Tree, ItemManager::Weed, ItemManager::Flower, ItemManager::Rock,
+	ItemManager::Money, ItemManager::ParchedFlower, ItemManager::WateredFlower, ItemManager::WiltedFlower, ItemManager::Occupied, ItemManager::Invalid;
+
+void ItemManager::loadColors() {
+	Furniture		= C2D_Color32(99, 226, 90, 255);
+	Gyroid			= C2D_Color32(218, 155, 80, 255);
+	Clothes			= C2D_Color32(83, 143, 185, 255);
+	Song			= C2D_Color32(181, 237, 196, 255);
+	Paper			= C2D_Color32(181, 237, 234, 255);
+	Trash			= C2D_Color32(119, 136, 89, 255);
+	Shell			= C2D_Color32(252, 203, 211, 255);
+	Fruit			= C2D_Color32(225, 177, 225, 255);
+	Turnip			= C2D_Color32(199, 187, 175, 255);
+	Catchable		= C2D_Color32(198, 230, 101, 255);
+	Item			= C2D_Color32(252, 181, 52, 255);
+	WallpaperCarpet = C2D_Color32(172, 102, 102, 255);
+	Fossil			= C2D_Color32(116, 100, 89, 255);
+	Tool			= C2D_Color32(153, 153, 153, 255);
+	Tree			= C2D_Color32(161, 106, 67, 255);
+	Weed			= C2D_Color32(52, 152, 52, 255);
+	Flower			= C2D_Color32(237, 133, 196, 255);
+	Rock			= C2D_Color32(52, 52, 52, 255);
+	MoneyRock		= C2D_Color32(180, 89, 89, 255);
+	Money			= C2D_Color32(252, 252, 52, 255);
+	Building		= C2D_Color32(119, 119, 119, 255);
+	ParchedFlower	= C2D_Color32(180, 133, 52, 255);
+	WateredFlower	= C2D_Color32(52, 177, 177, 255);
+	Pattern			= C2D_Color32(172, 172, 252, 255);
+	WiltedFlower	= C2D_Color32(112, 112, 92, 255);
+	Occupied		= C2D_Color32(165, 165, 165, 255);
+	Invalid			= C2D_Color32(252, 52, 52, 255);
+}
+
+
 u32 ItemManager::getColor(ItemType item) {
 	switch(item) {
 		case ItemType::Empty:
 			return C2D_Color32(0, 0, 0, 0); // Transparent.
 		case ItemType::Furniture:
-			return Config::Furniture;
+			return Furniture;
 		case ItemType::Gyroid:
-			return Config::Gyroid;
+			return Gyroid;
 		case ItemType::Diary:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
 		case ItemType::Clothes:
-			return Config::Clothes;
+			return Clothes;
 		case ItemType::Song:
-			return Config::Song;
+			return Song;
 		case ItemType::Paper:
-			return Config::Paper;
+			return Paper;
 		case ItemType::Trash:
-			return Config::Trash;
+			return Trash;
 		case ItemType::Shell:
-			return Config::Shell;
+			return Shell;
 		case ItemType::Fruit:
-			return Config::Fruit;
+			return Fruit;
 		case ItemType::Turnip:
-			return Config::Turnip;
+			return Turnip;
 		case ItemType::Catchable:
-			return Config::Catchable;
+			return Catchable;
 		case ItemType::QuestItem:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
 		case ItemType::Item:
-			return Config::Item;
+			return Item;
 		case ItemType::RaffleTicket:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
 		case ItemType::WallpaperCarpet:
-			return Config::WallpaperCarpet;
+			return WallpaperCarpet;
 		case ItemType::Fossil:
-			return Config::Fossil;
+			return Fossil;
 		case ItemType::Tool:
-			return Config::Tool;
+			return Tool;
 		case ItemType::Tree:
-			return Config::Tree;
+			return Tree;
 		case ItemType::Weed:
-			return Config::Weed;
+			return Weed;
 		case ItemType::Flower:
-			return Config::Flower;
+			return Flower;
 		case ItemType::Rock:
-			return Config::Rock;
+			return Rock;
 		case ItemType::MoneyRock:
-			return Config::MoneyRock;
+			return MoneyRock;
 		case ItemType::Signboard:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
 		case ItemType::Money:
-			return Config::Money;
+			return Money;
 		case ItemType::HouseObject:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
 		case ItemType::Building:
-			return Config::Building;
+			return Building;
 		case ItemType::ParchedFlower:
-			return Config::ParchedFlower;
+			return ParchedFlower;
 		case ItemType::WateredFlower:
-			return Config::WateredFlower;
+			return WateredFlower;
 		case ItemType::Pattern:
-			return Config::Pattern;
+			return Pattern;
 		case ItemType::WiltedFlower:
-			return Config::WiltedFlower;
+			return WiltedFlower;
 		case ItemType::Occupied:
-			return Config::Occupied;
+			return Occupied;
 		case ItemType::Invalid:
-			return Config::Invalid;
+			return Invalid;
 	}
 	return C2D_Color32(0, 0, 0, 0); // Should not happen.
 }
