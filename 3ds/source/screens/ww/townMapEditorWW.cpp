@@ -61,7 +61,7 @@ void TownMapEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 // Initialize Screen.
 TownMapEditorWW::TownMapEditorWW() {
-	ItemUtils::LoadDatabase(1, SaveType::WW); // TODO: Handle this at Editor loading instead?
+	ItemUtils::LoadDatabase(SaveType::WW); // TODO: Handle this at Editor loading instead?
 	// Get Town Map Items.
 	for (int i = 0; i < 4096; i++) {
 		this->MapItems[i] = save->town()->item(i);

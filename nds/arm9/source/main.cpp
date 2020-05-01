@@ -29,6 +29,7 @@
 #include "config.hpp"
 #include "fileBrowse.hpp"
 #include "flashcard.hpp"
+#include "itemUtils.hpp"
 #include "lang.hpp"
 #include "mainMenu.hpp"
 #include "nitrofs.h"
@@ -92,6 +93,7 @@ int main(int argc, char **argv) {
 
 	Config::load();
 	Colors::load();
+	ItemUtils::LoadDatabase(SaveType::WW);
 	loadFont();
 	Lang::load(1);
 	printTextCentered("Loading...", 0, 32, false, true);
