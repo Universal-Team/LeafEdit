@@ -74,7 +74,6 @@ private:
 	void updateAcreImage();
 	void DrawInformation() const;
 	void injectTo(int MapSlot);
-	void updateItemGrid(void) const;
 
 	int SelectionToAcre() const;
 	void DrawGrid(void) const;
