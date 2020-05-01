@@ -33,7 +33,6 @@ extern std::shared_ptr<Sav> save;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 std::unique_ptr<Player> player = nullptr;
-int selectedPassedPlayer;
 
 extern std::vector<std::string> g_hairStyle;
 extern std::vector<std::string> g_hairColor;
@@ -199,13 +198,14 @@ void PlayerEditor::PlayerSelectionLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		cp = selectedPlayer;
-		player = save->player(selectedPlayer);
-		selection = 0;
-		screen = 1;
-		Gui::DrawScreen();
-		Gui::showPointer();
-		selected = true;
+		if (save->player(selectedPlayer)->exist()) {
+			player = save->player(selectedPlayer);
+			selection = 0;
+			screen = 1;
+			Gui::DrawScreen();
+			Gui::showPointer();
+			selected = true;
+		}
 	}
 
 	if (hDown & KEY_B) {
