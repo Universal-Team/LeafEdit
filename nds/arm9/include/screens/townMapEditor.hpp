@@ -27,6 +27,7 @@
 #ifndef TOWNMAPEDITOR_HPP
 #define TOWNMAPEDITOR_HPP
 
+#include "Item.hpp"
 #include "screenCommon.hpp"
 
 #include "structs.hpp"
@@ -40,6 +41,8 @@ public:
 	TownMapEditor();
 private:
 	// TEMP.
+	std::unique_ptr<Item> MapItems[4096];
+	std::unique_ptr<Acre> townAcres[36];
 	u16 TempItem;
 
 	// Main Draws.
@@ -71,6 +74,7 @@ private:
 	void updateAcreImage();
 	void DrawInformation() const;
 	void injectTo(int MapSlot);
+	void updateItemGrid(void) const;
 
 	int SelectionToAcre() const;
 	void DrawGrid(void) const;

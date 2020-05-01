@@ -25,6 +25,7 @@
 */
 
 #include "graphicManagement.hpp"
+#include "itemManager.hpp"
 #include "itemUtils.hpp"
 #include "gui.hpp"
 #include "input.hpp"
@@ -36,6 +37,15 @@ extern std::shared_ptr<Sav> save;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 TownMapEditor::TownMapEditor() {
+	// Get Town Items.
+	for (int i = 0; i < 4096; i++) {
+		this->MapItems[i] = save->town()->item(i);
+	}
+
+	for (int i = 0; i < 36; i++) {
+		this->townAcres[i] = save->town()->acre(i);
+	}
+
 	// Initialize Temp Item.
 	TempItem = 65521;
 }
@@ -60,10 +70,25 @@ void TownMapEditor::DrawTempItem() const {
 	Notes end.
 */
 void TownMapEditor::DrawGrid(void) const {
-	for (int i = 0; i < 256; i++) {
+	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
-				drawOutline(10 + (x*10), 15 + (y*10), 10, 10, BLACK, false, false);
+				drawRectangle(10 + (x*10), 15 + (y*10), 10, 10, ItemManager::getColor(this->MapItems[i]->itemtype()), false, true);
+				drawOutline(10 + (x*10), 15 + (y*10), 10, 10, BLACK, false, true);
+			}
+		}
+	}
+}
+
+void TownMapEditor::updateItemGrid(void) const {
+	// Clear Grid.
+	drawRectangle(10, 15, 160, 160, CLEAR, false, true);
+
+	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
+		for (u32 y = 0; y < 16; y++) {
+			for (u32 x = 0; x < 16; x++, i++) {
+				drawRectangle(10 + (x*10), 15 + (y*10), 10, 10, ItemManager::getColor(this->MapItems[i]->itemtype()), false, true);
+				drawOutline(10 + (x*10), 15 + (y*10), 10, 10, BLACK, false, true);
 			}
 		}
 	}
@@ -71,25 +96,25 @@ void TownMapEditor::DrawGrid(void) const {
 
 void TownMapEditor::DrawTownMapEditor() const {
 	// First Line.
-	GraphicManagement::DrawAcre(save->town()->acre(7)->id(), 10, 30, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(8)->id(), 42, 30, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(9)->id(), 74, 30, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(10)->id(), 106, 30, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[7]->id(), 10, 30, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[8]->id(), 42, 30, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[9]->id(), 74, 30, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[10]->id(), 106, 30, 1, 1, true, false);
 	// Second Line.
-	GraphicManagement::DrawAcre(save->town()->acre(13)->id(), 10, 62, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(14)->id(), 42, 62, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(15)->id(), 74, 62, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(16)->id(), 106, 62, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[13]->id(), 10, 62, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[14]->id(), 42, 62, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[15]->id(), 74, 62, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[16]->id(), 106, 62, 1, 1, true, false);
 	// Third Line.
-	GraphicManagement::DrawAcre(save->town()->acre(19)->id(), 10, 94, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(20)->id(), 42, 94, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(21)->id(), 74, 94, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(22)->id(), 106, 94, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[19]->id(), 10, 94, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[20]->id(), 42, 94, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[21]->id(), 74, 94, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[22]->id(), 106, 94, 1, 1, true, false);
 	// Fourth Line.
-	GraphicManagement::DrawAcre(save->town()->acre(25)->id(), 10, 126, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(26)->id(), 42, 126, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(27)->id(), 74, 126, 1, 1, true, false);
-	GraphicManagement::DrawAcre(save->town()->acre(28)->id(), 106, 126, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[25]->id(), 10, 126, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[26]->id(), 42, 126, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[27]->id(), 74, 126, 1, 1, true, false);
+	GraphicManagement::DrawAcre(this->townAcres[28]->id(), 106, 126, 1, 1, true, false);
 }
 
 int TownMapEditor::SelectionToAcre() const {
@@ -163,7 +188,7 @@ void TownMapEditor::DrawMain(void) const {
 	}
 	DrawInformation();
 	Gui::DrawBottom(false);
-	GraphicManagement::DrawAcre(save->town()->acre(SelectionToAcre())->id(), 10, 15, 5, 5, false, false);
+	GraphicManagement::DrawAcre(this->townAcres[SelectionToAcre()]->id(), 10, 15, 5, 5, false, false);
 	DrawGrid();
 	DrawPosition();
 	drawRectangle(175, 100, 75, 25, DARK_GREEN, DARK_GREEN, false, false);
@@ -199,7 +224,7 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_Y) {
-		this->TempItem = save->town()->item(MapSelection)->id();
+		this->TempItem = this->MapItems[MapSelection]->id();
 	}
 
 	if (hDown & KEY_RIGHT) {
@@ -315,8 +340,9 @@ void TownMapEditor::TempLogic(u16 hDown, touchPosition touch) {
 
 void TownMapEditor::injectTo(int MapSlot) {
 	if (ItemUtils::getName(this->TempItem) != "???") {
-		save->town()->item(MapSelection)->id(this->TempItem);
+		this->MapItems[MapSelection]->id(this->TempItem);
 		Gui::DrawScreen();
+		updateItemGrid();
 		changes = true;
 	}
 }
@@ -331,7 +357,7 @@ void TownMapEditor::DrawInformation() const {
 
 	// Display Informations.
 	printText("Current Position:\n" +  std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 40, true, true);
-	printText("Current Item:\n" + ItemUtils::getName(save->town()->item(MapSelection)->id()), 150, 70, true, true);
+	printText("Current Item:\n" + ItemUtils::getName(this->MapItems[MapSelection]->id()), 150, 70, true, true);
 }
 
 void TownMapEditor::updateTopGrid() {
@@ -372,10 +398,11 @@ void TownMapEditor::updateBottomGrid() {
 void TownMapEditor::updateAcreImage() {
 	Gui::clearScreen(false, false); // Clear Layer.
 	Gui::DrawBottom(false); // Draw Base UI.
-	GraphicManagement::DrawAcre(save->town()->acre(SelectionToAcre())->id(), 10, 15, 5, 5, false, false);
+	GraphicManagement::DrawAcre(this->townAcres[SelectionToAcre()]->id(), 10, 15, 5, 5, false, false);
 	DrawGrid();
 	drawRectangle(175, 100, 75, 25, DARK_GREEN, DARK_GREEN, false, false);
 	printText("Temp Item", 178, 105, false, false);
+	updateItemGrid();
 }
 
 void TownMapEditor::convertToSelection() {
