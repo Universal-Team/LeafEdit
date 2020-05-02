@@ -73,19 +73,33 @@ bool Editor::loadSave() {
 		fclose(in);
 		save = Sav::getSave(saveData, size);
 		// Only allow Wild World saves.
-		if (save->getType() != SaveType::WW) {
-			printf("SaveFile is not a Wild World save!\n");
-			save = nullptr;
-			return false;
+		if (save) {
+			if (save->getType() != SaveType::WW) {
+				printf("SaveFile is not a Wild World save!\n");
+				save = nullptr;
+				return false;
+			}
 		}
+
+		// Check if town exist.
+		if (save) {
+			if (save->town()->exist() != true) {
+				printf("Town does not exist!\n");
+				save = nullptr;
+				return false; // Town does not exist!
+			}
+		}
+
 	} else {
 		printf("Could not open SaveFile.\n");
 		return false;
 	}
+
 	if(!save) {
 		printf("SaveFile returned nullptr.\n");
 		return false;
 	}
+	
 	savesType = save->getType();
 	
 	return true;
@@ -137,6 +151,17 @@ void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
 		Gui::DrawTop(true);
 		printTextCentered("LeafEdit - Editor", 0, 0, true, true);
+
+		// Region test.
+		if (save->region() == 3) {
+			printTextCentered("Europe | USA", 0, 60, true, true);
+		} else if (save->region() == 4) {
+			printTextCentered("Japanese", 0, 60, true, true);
+		} else if (save->region() == 6) {
+			printTextCentered("Korean", 0, 60, true, true);
+		} else if (save->region() ==06) {
+			printTextCentered("Unknown", 0, 60, true, true);
+		}
 		Gui::DrawBottom(true);
 
 		for (int i = 0; i < 3; i++) {
@@ -178,13 +203,16 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 			if (Selection == 0) {
 				// Check if Player is not nullptr.
 				if (save->player(0) != nullptr) {
-					Gui::setScreen(std::make_unique<PlayerEditor>());
-					// Hide save icon.
-					setSpriteVisibility(Gui::saveID, false, false);
-					updateOam();
-					Gui::DrawScreen();
-					Gui::hidePointer();
-					selected = true;
+					// We gonna check here, if Player 1 even exist. We don't want to access this screen, if no player exist.
+					if (save->player(0)->exist()) {
+						Gui::setScreen(std::make_unique<PlayerEditor>());
+						// Hide save icon.
+						setSpriteVisibility(Gui::saveID, false, false);
+						updateOam();
+						Gui::DrawScreen();
+						Gui::hidePointer();
+						selected = true;
+					}
 				}
 			} else if (Selection == 1) {
 				// Check if Villager is not nullptr.
@@ -211,13 +239,16 @@ void Editor::Logic(u16 hDown, touchPosition touch) {
 			if (touching(touch, mainButtons[0])) {
 				// Check if Player is not nullptr.
 				if (save->player(0) != nullptr) {
-					Gui::setScreen(std::make_unique<PlayerEditor>());
-					// Hide save icon.
-					setSpriteVisibility(Gui::saveID, false, false);
-					updateOam();
-					Gui::DrawScreen();
-					Gui::hidePointer();
-					selected = true;
+					// We gonna check here, if Player 1 even exist. We don't want to access this screen, if no player exist.
+					if (save->player(0)->exist()) {
+						Gui::setScreen(std::make_unique<PlayerEditor>());
+						// Hide save icon.
+						setSpriteVisibility(Gui::saveID, false, false);
+						updateOam();
+						Gui::DrawScreen();
+						Gui::hidePointer();
+						selected = true;
+					}
 				}
 			} else if (touching(touch, mainButtons[1])) {
 				// Check if Villager is not nullptr.

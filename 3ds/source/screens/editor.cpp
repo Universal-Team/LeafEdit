@@ -74,14 +74,26 @@ bool Editor::loadSave() {
 		fread(saveData.get(), 1, size, in);
 		fclose(in);
 		save = Sav::getSave(saveData, size);
+
+		// Check if town exist on AC:WW.
+		if (save) {
+			if (save->getType() == SaveType::WW) {
+				if (save->town()->exist() != true) {
+					return false; // Town does not exist!
+				}
+			}
+		}
+
 	} else {
 		printf("Could not open SaveFile.\n");
 		return false;
 	}
+
 	if(!save) {
 		printf("SaveFile returned nullptr.\n");
 		return false;
 	}
+	
 	if (save->getType() == SaveType::WW)		saveT = 0;
 	else if (save->getType() == SaveType::NL)	saveT = 2;
 	else if (save->getType() == SaveType::WA)	saveT = 4;

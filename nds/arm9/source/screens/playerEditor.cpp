@@ -189,8 +189,8 @@ void PlayerEditor::PlayerSelectionLogic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_RIGHT) {
 		selectedPlayer++;
-		Gui::DrawScreen();
 		if(selectedPlayer > maxPlayer)	selectedPlayer = 0;
+		Gui::DrawScreen();
 	} else if (hDown & KEY_LEFT) {
 		selectedPlayer--;
 		if(selectedPlayer < 0)	selectedPlayer = maxPlayer;
