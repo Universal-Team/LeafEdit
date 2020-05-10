@@ -8,7 +8,7 @@
 namespace Lang {
 	std::string get(const std::string &key);
 	// Load in game strings.
-	void loadLang(int lang, SaveType save);
+	void loadGameStrings(int lang, SaveType save);
 	void load(int lang);
 }
 

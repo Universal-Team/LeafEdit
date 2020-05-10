@@ -35,82 +35,40 @@ extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
-int selectedPlayerNL = 0;
-
-std::unique_ptr<Player> playerNL = nullptr; // player pointer which is used at this screen.
+PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) {
+	this->TPC = CoreUtils::LoadPlayerTPC(this->player);
+}
+// Destroy TPC.
+PlayerEditorNL::~PlayerEditorNL() {
+	if (this->TPC.tex != nullptr) {
+		C2DUtils::C2D_ImageDelete(this->TPC);
+		this->TPC.tex = nullptr;
+		this->TPC.subtex = nullptr;
+	}
+}
 
 void PlayerEditorNL::Draw(void) const {
-	if (Mode == 0)	DrawPlayerSelection();
-	else if (Mode == 1)	DrawSubMenu();
+	if (Mode == 0)	DrawSubMenu();
 }
 
 void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (Mode == 0)	PlayerSelectionLogic(hDown, hHeld, touch);
-	else if (Mode == 1)	SubMenuLogic(hDown, hHeld, touch);
-}
-
-/*	Player Selection	*/
-void PlayerEditorNL::DrawPlayerSelection(void) const
-{
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395);
-	if (save->player(selectedPlayerNL)->exist()) {
-		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, StringUtils::UTF16toUTF8(save->player(selectedPlayerNL)->name()), 400);
-	}
-
-	GFX::DrawBottom();
-	for (int i = 0; i < 4; i++) {
-		GFX::DrawButton(playerPos[i]);
-		if (i == selectedPlayerNL)	GFX::DrawGUI(gui_pointer_idx, playerPos[i].x+100, playerPos[i].y+30);
-	}
-}
-
-void PlayerEditorNL::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
-	if (hDown & KEY_UP) {
-		if (selectedPlayerNL > 1)	selectedPlayerNL -= 2;
-	}
-	if (hDown & KEY_DOWN) {
-		if (selectedPlayerNL < 2)	selectedPlayerNL += 2;
-	}
-	if (hDown & KEY_RIGHT) {
-		if (selectedPlayerNL < 3)	selectedPlayerNL++;
-	}
-	if (hDown & KEY_LEFT) {
-		if (selectedPlayerNL > 0)	selectedPlayerNL--;
-	}
-
-	if (hDown & KEY_A) {
-		// Check if player exist.
-		if (save->player(selectedPlayerNL)->exist()) {
-			// Set selected Player to unique_ptr.
-			playerNL = save->player(selectedPlayerNL);
-			CoreUtils::LoadPlayerTPC(save->player(selectedPlayerNL));
-			Mode = 1; // Sub Menu.
-		}
-	}
-
-	if (hDown & KEY_B) {
-		playerNL = nullptr; // Set unique_ptr to nullptr again cause out of scope.
-		Gui::screenBack();
-		return;
-	}
+	if (Mode == 0)	SubMenuLogic(hDown, hHeld, touch);
 }
 
 /*	Sub Menu.	*/
 void PlayerEditorNL::DrawSubMenu(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(playerNL->name()));
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(playerNL->wallet()));
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(playerNL->bank()));
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(playerNL->face()));
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(player->name()));
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()));
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()));
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
 
 	// Only display TPC if Player has TPC support and is not nullptr.
 	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
-	if (playerNL->tpcImage() != nullptr && playerNL->hasTPC()) {
-		C2D_DrawImageAt(TPCImage, 60, 80, 0.5);
+	if (player->tpcImage() != nullptr && player->hasTPC()) {
+		C2D_DrawImageAt(TPC, 60, 80, 0.5);
 	}
 
 	GFX::DrawBottom();
@@ -140,6 +98,7 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 	
 	if (hDown & KEY_B) {
-		Mode = 0;
+		Gui::screenBack();
+		return;
 	}
 }

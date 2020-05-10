@@ -159,7 +159,7 @@ void OffsetEditor::Draw(void) const
 	if (Mode == 0)	title += "Read Mode";
 	else			title += "Write Mode";
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2, 0.9, WHITE, title, 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, title, 390);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);

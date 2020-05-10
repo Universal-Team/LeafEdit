@@ -24,59 +24,72 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGEREDITOR_HPP
-#define VILLAGEREDITOR_HPP
+#ifndef VILLAGEREDITORNL_HPP
+#define VILLAGEREDITORNL_HPP
 
+#include "common.hpp"
 #include "Item.hpp"
 #include "screenCommon.hpp"
+#include "Villager.hpp"
 
 #include "structs.hpp"
 #include <vector>
 
-class VillagerEditor : public Screen
+class VillagerEditorNL : public Screen
 {
 public:
 	void Draw(void) const override;
-	void Logic(u16 hDown, touchPosition touch) override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	VillagerEditorNL(std::shared_ptr<Villager> v): villager(v) { }
 private:
-	std::unique_ptr<Item> villagerItems[15];
-
+	std::unique_ptr<Item> villagerItems[20];
+	std::shared_ptr<Villager> villager;
 	int villagerMode = 0;
 	int Selection = 0;
 	int itemSelection = 0;
-	std::string returnPersonality() const;
+	u32 itemIndex = 0;
+	bool isList = false; // If scrolling the list.
+
+	int keyRepeatDelay = 0;
+	u16 itemID = 0;
+
 	void DrawSubMenu(void) const;
 	void DrawItems(void) const;
 	void DrawBox(void) const;
 	void updateInfo(void) const;
-	void subLogic(u16 hDown, touchPosition touch);
-	void ItemLogic(u16 hDown, touchPosition touch);
+	void subLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void ItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	std::vector<Structs::ButtonPos> villagerButtons = {
-		{20, 30, 88, 32, -1}, // Replace.
-		{20, 80, 88, 32, -1}, // Personality.
-		{20, 130, 88, 32, -1}, // Items.
-		{148, 30, 88, 32, -1}, // ?.
-		{148, 80, 88, 32, -1}, // ?.
-		{148, 130, 88, 32, -1}, // ?.
+	std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "Replace"}, // Replace.
+		{15, 97, 130, 48, "Personality"}, // Personality.
+		{15, 159, 130, 48, "Items"}, // Items.
+		{175, 34, 130, 48, "Catchphrase"}, // Catchphrase.
+		{175, 97, 130, 48, "Status"}, // Status.
+		{175, 159, 130, 48, ""} // ?.
 	};
 
 	std::vector<Structs::ButtonPos> items = {
-		{25, 40, 30, 30, -1}, // Furniture 0.
-		{65, 40, 30, 30, -1}, // Furniture 1.
-		{105, 40, 30, 30, -1}, // Furniture 2.
-		{145, 40, 30, 30, -1}, // Furniture 3.
-		{185, 40, 30, 30, -1}, // Furniture 4.
-		{25, 80, 30, 30, -1}, // Furniture 5.
-		{65, 80, 30, 30, -1}, // Furniture 6.
-		{105, 80, 30, 30, -1}, // Furniture 7.
-		{145, 80, 30, 30, -1}, // Furniture 8.
-		{185, 80, 30, 30, -1}, // Furniture 9.
-		{25, 140, 30, 30, -1}, // Shirt.
-		{65, 140, 30, 30, -1}, // Song.
-		{105, 140, 30, 30, -1}, // Wallpaper.
-		{145, 140, 30, 30, -1}, // Carpet.
-		{185, 140, 30, 30, -1} // Umbrella.
+		{65, 40, 30, 30}, // Furniture 0.
+		{105, 40, 30, 30}, // Furniture 1.
+		{145, 40, 30, 30}, // Furniture 2.
+		{185, 40, 30, 30}, // Furniture 3.
+		{225, 40, 30, 30}, // Furniture 4.
+		{65, 80, 30, 30}, // Furniture 5.
+		{105, 80, 30, 30}, // Furniture 6.
+		{145, 80, 30, 30}, // Furniture 7.
+		{185, 80, 30, 30}, // Furniture 8.
+		{225, 80, 30, 30}, // Furniture 9.
+		{65, 120, 30, 30}, // Furniture 10.
+		{105, 120, 30, 30}, // Furniture 11.
+		{145, 120, 30, 30}, // Furniture 12.
+		{185, 120, 30, 30}, // Furniture 13.
+		{225, 120, 30, 30}, // Furniture 14.
+		{65, 170, 30, 30}, // Shirt.
+		{105, 170, 30, 30}, // Song.
+		{145, 170, 30, 30}, // Wallpaper.
+		{185, 170, 30, 30}, // Carpet.
+		{225, 170, 30, 30} // Umbrella.
 	};
 };
 

@@ -36,6 +36,10 @@
 namespace ItemManager {
 	u32 getColor(ItemType item);
 	void loadColors();
+	// Getter's.
+	int getIndex(const u16 &v);
+	int getIndexString(const int &current, const std::string &v);
+
 	// All Colors.
 	extern u32 Pattern, Building, MoneyRock, Furniture, Gyroid, Clothes, Song, Paper, Trash, Shell,
 	Fruit, Turnip, Catchable, Item, WallpaperCarpet, Fossil, Tool, Tree, Weed, Flower, Rock,

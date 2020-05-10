@@ -27,9 +27,10 @@
 #ifndef ACRESEDITOR_HPP
 #define ACRESEDITOR_HPP
 
+#include "Acre.hpp"
 #include "screenCommon.hpp"
-
 #include "structs.hpp"
+
 #include <vector>
 
 class AcresEditor : public Screen
@@ -37,7 +38,10 @@ class AcresEditor : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
+	AcresEditor();
 private:
+	std::unique_ptr<Acre> acres[36];
+
 	// Draw stuff.
 	void DrawTop(void) const; // Draw Acre Image Selection.
 	void DrawAcres() const; // Draw the Acres from the bottom screen.
@@ -45,7 +49,6 @@ private:
 	// Selection stuff.
 	int Selection = 0; // Selected Acre.
 	u8 selectedAcre = 0; // Acre ID.
-	bool FastMode = false; // Fast Scroll mode.
 
 	// Update stuff.
 	void updateTop(); // Update the Top Screen.

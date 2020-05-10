@@ -136,19 +136,21 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	}
 }
 
-void CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
-	// Check if tpcImage is not nullpointer.
+// Needed for the noTPC Image.
+extern C2D_SpriteSheet GUI;
+
+C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
+	C2D_Image temp;
+
 	if (player->tpcImage() != nullptr) {
-		// Delete TPC Image if isn't nullptr.
-		if (TPCImage.tex != nullptr) {
-			C2DUtils::C2D_ImageDelete(TPCImage);
-			TPCImage.tex = nullptr;
-			TPCImage.subtex = nullptr;
-		}
-		
 		if (player->hasTPC()) {
 			// Load.
-			TPCImage = LoadPlayerPicture(player->tpcImage());
+			temp = LoadPlayerPicture(player->tpcImage());
+			return temp;
+		} else {
+			return C2D_SpriteSheetGetImage(GUI, gui_noTPC_idx);
 		}
+	} else {
+		return C2D_SpriteSheetGetImage(GUI, gui_noTPC_idx);
 	}
 }

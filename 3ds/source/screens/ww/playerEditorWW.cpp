@@ -24,86 +24,32 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "coreUtils.hpp"
-#include "itemUtils.hpp"
 #include "playerEditorWW.hpp"
 #include "Sav.hpp"
 #include "stringUtils.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
-// Bring that to other screens too.
-extern SaveType savesType;
 
-int selectedPlayerWW = 0;
-
-std::unique_ptr<Player> playerWW = nullptr; // player pointer which is used at this screen.
+PlayerEditorWW::PlayerEditorWW(std::shared_ptr<Player> p): player(p) { }
 
 void PlayerEditorWW::Draw(void) const {
-	if (Mode == 0)	DrawPlayerSelection();
-	else if (Mode == 1)	DrawSubMenu();
+	if (Mode == 0)	DrawSubMenu();
 }
 
 void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (Mode == 0)	PlayerSelectionLogic(hDown, hHeld, touch);
-	else if (Mode == 1)	SubMenuLogic(hDown, hHeld, touch);
-}
-
-/*	Player Selection	*/
-void PlayerEditorWW::DrawPlayerSelection(void) const
-{
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395);
-	if (save->player(selectedPlayerWW)->exist()) {
-		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, StringUtils::UTF16toUTF8(save->player(selectedPlayerWW)->name()), 400);
-	}
-	GFX::DrawBottom();
-	for (int i = 0; i < 4; i++) {
-		GFX::DrawButton(playerPos[i]);
-		if (i == selectedPlayerWW)	GFX::DrawGUI(gui_pointer_idx, playerPos[i].x+100, playerPos[i].y+30);
-	}
-}
-
-void PlayerEditorWW::PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
-	if (hDown & KEY_UP) {
-		if (selectedPlayerWW > 1)	selectedPlayerWW -= 2;
-	}
-	if (hDown & KEY_DOWN) {
-		if (selectedPlayerWW < 2)	selectedPlayerWW += 2;
-	}
-	if (hDown & KEY_RIGHT) {
-		if (selectedPlayerWW < 3)	selectedPlayerWW++;
-	}
-	if (hDown & KEY_LEFT) {
-		if (selectedPlayerWW > 0)	selectedPlayerWW--;
-	}
-
-	if (hDown & KEY_A) {
-		// Check if player exist.
-		if (save->player(selectedPlayerWW)->exist()) {
-			// Set selected Player to unique_ptr.
-			playerWW = save->player(selectedPlayerWW);
-			Mode = 1; // Sub Menu.
-		}
-	}
-
-	if (hDown & KEY_B) {
-		playerWW = nullptr; // Set unique_ptr to nullptr again cause out of scope.
-		Gui::screenBack();
-		return;
-	}
+	if (Mode == 0)	SubMenuLogic(hDown, hHeld, touch);
 }
 
 /*	Sub Menu.	*/
 void PlayerEditorWW::DrawSubMenu(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(playerWW->name()));
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(playerWW->wallet()));
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(playerWW->bank()));
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(playerWW->face()));
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(player->name()));
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()));
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()));
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -132,6 +78,7 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 	
 	if (hDown & KEY_B) {
-		Mode = 0;
+		Gui::screenBack();
+		return;
 	}
 }

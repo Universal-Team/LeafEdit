@@ -26,6 +26,9 @@
 
 #include "common.hpp"
 #include "itemManager.hpp"
+#include <vector>
+
+extern std::vector<std::pair<u16, std::string>> itemDB;
 
 	// All Colors.
 	u32 ItemManager::Pattern, ItemManager::Building, ItemManager::MoneyRock, ItemManager::Furniture, ItemManager::Gyroid, ItemManager::Clothes,
@@ -135,4 +138,62 @@ u32 ItemManager::getColor(ItemType item) {
 			return Invalid;
 	}
 	return C2D_Color32(0, 0, 0, 0); // Should not happen.
+}
+
+// Get the index of the current Item for the selection.
+int ItemManager::getIndex(const u16 &v) {
+	if (v == itemDB[0].first || v >= 0xFFF1)
+	{
+		return 0;
+	}
+	int index = -1, min = 0, mid = 0, max = itemDB.size();
+	while (min <= max)
+	{
+		mid = min + (max - min) / 2;
+		if (itemDB[mid].first == v)
+		{
+			index = mid;
+			break;
+		}
+		if (itemDB[mid].first < v)
+		{
+			min = mid + 1;
+		}
+		else
+		{
+			max = mid - 1;
+		}
+	}
+	return index >= 0 ? index : 0;
+}
+
+// Get the index of the current Item for the selection.
+int ItemManager::getIndexString(const int &current, const std::string &v) {
+	if (v == "") {
+		return current;
+	}
+
+	if (v == itemDB[0].second) {
+		return 0;
+	}
+
+	int index = -1, min = 0, mid = 0, max = itemDB.size();
+	while (min <= max)
+	{
+		mid = min + (max - min) / 2;
+		if (itemDB[mid].second == v)
+		{
+			index = mid;
+			break;
+		}
+		if (itemDB[mid].second < v)
+		{
+			min = mid + 1;
+		}
+		else
+		{
+			max = mid - 1;
+		}
+	}
+	return index >= 0 ? index : 0;
 }

@@ -33,6 +33,13 @@ extern std::shared_ptr<Sav> save;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+AcresEditor::AcresEditor() {
+	// Get Acres.
+	for (int i = 0; i < 36; i++) {
+		this->acres[i] = save->town()->acre(i);
+	}
+}
+
 // Draw Functions.
 void AcresEditor::DrawTop(void) const {
 	printTextCentered("LeafEdit - Acres Editor", 0, 0, true, true);
@@ -49,7 +56,7 @@ void AcresEditor::Draw(void) const {
 
 void AcresEditor::DrawAcres() const {
 	for (int i = 0; i < 36; i++) {
-		GraphicManagement::DrawAcre(save->town()->acre(i)->id(), MapPos[i].x, MapPos[i].y, 1, 1, false);
+		GraphicManagement::DrawAcre(this->acres[i]->id(), MapPos[i].x, MapPos[i].y, 1, 1, false);
 	}
 }
 
@@ -66,6 +73,7 @@ void AcresEditor::updateAcres() {
 
 // Complete Logic.
 void AcresEditor::Logic(u16 hDown, touchPosition touch) {
+	u16 held = keysDownRepeat();
 	Gui::updatePointer(MapPos[Selection].x+14, MapPos[Selection].y+14);
 
 	if (hDown & KEY_B) {
@@ -77,14 +85,14 @@ void AcresEditor::Logic(u16 hDown, touchPosition touch) {
 
 	// Set current Acre.
 	if (hDown & KEY_A) {
-		save->town()->acre(Selection)->id(selectedAcre);
+		this->acres[Selection]->id(selectedAcre);
 		updateAcres();
 		changes = true;
 	}
 
 	// Display current Acre on Top.
 	if (hDown & KEY_Y) {
-		selectedAcre = save->town()->acre(Selection)->id();
+		selectedAcre = this->acres[Selection]->id();
 		updateTop();
 	}
 
@@ -96,57 +104,38 @@ void AcresEditor::Logic(u16 hDown, touchPosition touch) {
 			}
 		}
 	}
-	if (hDown & KEY_RIGHT) {
+	if (held & KEY_RIGHT) {
 		if (Selection < 35)	Selection++;
 		selected = true;
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (held & KEY_LEFT) {
 		if (Selection > 0)	Selection--;
 		selected = true;
 	}
 
-	if (hDown & KEY_UP) {
+	if (held & KEY_UP) {
 		if (Selection > 5)	Selection -= 6;
 		selected = true;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (held & KEY_DOWN) {
 		if (Selection < 30)	Selection += 6;
 		selected = true;
 	}
 
 	// Top Screen Acre Selection.
-	if (FastMode) {
-		if (keysHeld() & KEY_L) {
-			if (selectedAcre > 0) {
-				selectedAcre--;
-				updateTop();
-			}
-		}
-		if (keysHeld() & KEY_R) {
-			if (selectedAcre < MAX_ACRE) {
-				selectedAcre++;
-				updateTop();
-			}
-		}
-	} else {
-		if (hDown & KEY_L) {
-			if (selectedAcre > 0) {
-				selectedAcre--;
-				updateTop();
-			}
-		}
-		if (hDown & KEY_R) {
-			if (selectedAcre < MAX_ACRE) {
-				selectedAcre++;
-				updateTop();
-			}
+	if (held & KEY_L) {
+		if (selectedAcre > 0) {
+			selectedAcre--;
+			updateTop();
 		}
 	}
-
-	if (hDown & KEY_X) {
-		if (FastMode)	FastMode = false;
-		else	FastMode = true;
+	
+	if (held & KEY_R) {
+		if (selectedAcre < MAX_ACRE) {
+			selectedAcre++;
+			updateTop();
+		}
 	}
 }

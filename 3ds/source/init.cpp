@@ -40,6 +40,7 @@
 // The classic Fade Effect! ;P
 int fadealpha = 255;
 bool fadein = true;
+int barOffset; // The additional offset for the text on the clean style.
 
 // If true -> Exit LeafEdit.
 bool exiting = false;
@@ -191,6 +192,12 @@ Result Init::Init() {
 		Config::initializeNewConfig();
 	}
 	Config::load();
+	if (Config::newStyle) {
+		barOffset = 0;
+	} else {
+		barOffset = 2;
+	}
+	
 	ItemManager::loadColors();
 	Lang::load(1);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.

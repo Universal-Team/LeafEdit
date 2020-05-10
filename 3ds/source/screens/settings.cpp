@@ -24,26 +24,63 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COREUTILS_HPP
-#define COREUTILS_HPP
+#include "common.hpp"
+#include "screenCommon.hpp"
+#include "settings.hpp"
 
-#include "Player.hpp"
-#include <3ds.h>
-#include <citro2d.h>
+extern bool changesMade;
+extern bool touching(touchPosition touch, ButtonType button);
 
-// AC:NL | AC:WA Region Lock.
-struct Region_Lock {
-	u8 DerivedID;
-	CFG_Region RegionID;
-	u8 RawByte;
-};
-
-namespace CoreUtils {
-	void FixInvalidBuildings(void); // Replace Invalid Buildings with Empty. (Fixes crashes in game.)
-	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
-	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
-	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
-	C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
+void Settings::Draw(void) const
+{
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Settings", 390);
+	GFX::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		GFX::DrawButton(mainButtons[i]);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+	}
 }
 
-#endif
+
+void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	// Navigation.
+	if (hDown & KEY_DOWN) {
+		if (Selection < 2)	Selection++;
+	}
+
+	if (hDown & KEY_UP) {
+		if (Selection > 0)	Selection--;
+	}
+
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+	
+	if (hDown & KEY_A) {
+		if (Selection == 0) {
+			if (Config::newStyle) {
+				Config::newStyle = false;
+				barOffset = 2;
+			}else {
+				Config::newStyle = true;
+				barOffset = 0;
+			}
+			changesMade = true;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			if (Config::newStyle) {
+				Config::newStyle = false;
+				barOffset = 2;
+			}else {
+				Config::newStyle = true;
+				barOffset = 0;
+			}
+			changesMade = true;
+		}
+	}
+}

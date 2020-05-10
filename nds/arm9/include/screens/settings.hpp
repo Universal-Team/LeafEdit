@@ -24,26 +24,29 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COREUTILS_HPP
-#define COREUTILS_HPP
+#ifndef SETTINGS_HPP
+#define SETTINGS_HPP
 
-#include "Player.hpp"
-#include <3ds.h>
-#include <citro2d.h>
+#include "screenCommon.hpp"
+#include "structs.hpp"
 
-// AC:NL | AC:WA Region Lock.
-struct Region_Lock {
-	u8 DerivedID;
-	CFG_Region RegionID;
-	u8 RawByte;
+#include <vector>
+
+class SettingsScreen : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u16 hDown, touchPosition touch) override;
+private:
+	int selection = 0;
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{20, 30, 88, 32, -1}, // ?.
+		{20, 80, 88, 32, -1}, // ?.
+		{20, 130, 88, 32, -1}, // ?.
+		{148, 30, 88, 32, -1}, // ?.
+		{148, 80, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1}, // ?.
+	};
 };
-
-namespace CoreUtils {
-	void FixInvalidBuildings(void); // Replace Invalid Buildings with Empty. (Fixes crashes in game.)
-	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
-	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
-	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
-	C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
-}
 
 #endif

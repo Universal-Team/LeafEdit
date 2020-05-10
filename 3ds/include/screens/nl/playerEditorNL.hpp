@@ -28,6 +28,7 @@
 #define PLAYEREDITORNL_HPP
 
 #include "common.hpp"
+#include "coreUtils.hpp"
 #include "structs.hpp"
 
 #include <vector>
@@ -37,16 +38,13 @@ class PlayerEditorNL : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	PlayerEditorNL(std::shared_ptr<Player> p);
+	~PlayerEditorNL();
 private:
+	C2D_Image TPC;
 	int Selection = 0;
 	int Mode = 0;
-
-	std::vector<ButtonType> playerPos = {
-		{15, 48, 130, 48, "Player 1"},
-		{175, 48, 130, 48, "Player 2"},
-		{15, 144, 130, 48, "Player 3"},
-		{175, 144, 130, 48, "Player 4"}
-	};
+	std::shared_ptr<Player> player;
 
 	std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "Appearance"},
@@ -56,10 +54,6 @@ private:
 		{175, 97, 130, 48, ""},
 		{175, 159, 130, 48, ""}
 	};
-
-	/*	Player Selection.	*/
-	void DrawPlayerSelection(void) const;
-	void PlayerSelectionLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);

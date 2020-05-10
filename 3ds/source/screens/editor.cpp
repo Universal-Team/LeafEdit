@@ -27,10 +27,10 @@
 #include "editor.hpp"
 #include "fileBrowse.hpp"
 #include "init.hpp"
+#include "itemUtils.hpp"
 #include "lang.hpp"
 
-#include "playerEditorNL.hpp"
-#include "playerEditorWW.hpp"
+#include "playerSelector.hpp"
 
 #include "pluginScreen.hpp"
 #include "saveUtils.hpp"
@@ -121,7 +121,10 @@ void Editor::SaveInitialize() {
 	if (!loadSave()) {
 		Msg::DisplayWarnMsg("Invalid SaveFile!");
 	} else {
+		Msg::DisplayWarnMsg("Loading Editor... Please wait.");
 		if (Init::loadSheets() == 0) {
+			ItemUtils::LoadDatabase(savesType);
+			Lang::loadGameStrings(1, savesType);
 			loadState = SaveState::Loaded;
 		} else {
 			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
@@ -136,7 +139,7 @@ void Editor::Draw(void) const
 {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Editor", 395);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Editor", 395);
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
@@ -203,11 +206,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Player Editor.
 				if (Selection == 0) {
 					if (save->player(0) != nullptr) {
-						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<PlayerEditorWW>());
-						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<PlayerEditorNL>());
-						}
+						Gui::setScreen(std::make_unique<PlayerSelector>());
 					} else {
 						Msg::NotImplementedYet();
 					}
@@ -215,9 +214,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 1) {
 					if (save->villager(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							//Gui::setScreen(std::make_unique<VillagerViewerWW>());
+							Gui::setScreen(std::make_unique<VillagerViewerWW>());
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							//Gui::setScreen(std::make_unique<VillagerViewerNL>());
+							Gui::setScreen(std::make_unique<VillagerViewerNL>());
 						}
 					} else {
 						Msg::NotImplementedYet();

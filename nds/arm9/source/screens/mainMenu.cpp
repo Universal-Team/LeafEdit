@@ -26,6 +26,7 @@
 
 #include "editor.hpp"
 #include "mainMenu.hpp"
+#include "settings.hpp"
 
 extern bool exiting;
 
@@ -60,6 +61,10 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 		if (selection == 0) {
 			Gui::setScreen(std::make_unique<Editor>());
 			Gui::DrawScreen();
+		} else if (selection == 1) {
+			Gui::setScreen(std::make_unique<SettingsScreen>());
+			Gui::DrawScreen();
+			selected = true;
 		}
 	}
 }

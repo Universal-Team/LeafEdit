@@ -43,7 +43,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 void PluginScreen::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - Plugin", 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Plugin", 390);
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(mainButtons[i]);

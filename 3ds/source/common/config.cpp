@@ -28,24 +28,31 @@
 
 std::string Config::currentRelease;
 std::string Config::currentNightly;
+bool Config::newStyle;
 
 nlohmann::json configJson;
 
 void Config::load() {
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
-	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	if (file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	if(!configJson.contains("ReleaseVersion")) {
+	if (!configJson.contains("ReleaseVersion")) {
 		Config::currentRelease = "";
 	} else {
 		Config::currentRelease = getString("ReleaseVersion");
 	}
 
-	if(!configJson.contains("NightlyVersion")) {
+	if (!configJson.contains("NightlyVersion")) {
 		Config::currentNightly = "";
 	} else {
 		Config::currentNightly = getString("NightlyVersion");
+	}
+
+	if (!configJson.contains("NewStyle")) {
+		Config::newStyle = true;
+	} else {
+		Config::newStyle = getBool("NewStyle");
 	}
 }
 
@@ -54,6 +61,7 @@ void Config::save() {
 	// Versions.
 	Config::setString("ReleaseVersion", Config::currentRelease);
 	Config::setString("NightlyVersion", Config::currentNightly);
+	Config::setBool("NewStyle", Config::newStyle);
 
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
@@ -67,6 +75,7 @@ void Config::initializeNewConfig() {
 	fclose(file);
 	setString("ReleaseVersion", "");
 	setString("NightlyVersion", "");
+	Config::setBool("NewStyle", true);
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }

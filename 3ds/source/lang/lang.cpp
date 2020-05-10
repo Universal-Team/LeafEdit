@@ -67,8 +67,24 @@ std::string Lang::get(const std::string &key) {
 std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
 // TODO. Add switch case and load the neccessary files.
-void Lang::loadLang(int lang, SaveType save) {
-
+void Lang::loadGameStrings(int lang, SaveType save) {
+	switch (save) {
+		case SaveType::WW:
+			loadToVector("romfs:/lang/strings/wwFaceType.txt", g_wwFaceType);
+			loadToVector("romfs:/lang/strings/wwHairColor.txt", g_wwHairColor);
+			loadToVector("romfs:/lang/strings/wwHairStyle.txt", g_wwHairStyle);
+			loadToVector("romfs:/lang/strings/villagerWW.txt", g_villagerDatabase);
+			loadToVector("romfs:/lang/strings/personalitiesWW.txt", g_personality);
+			break;
+		case SaveType::NL:
+		case SaveType::WA:
+			loadToVector("romfs:/lang/strings/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/personalitiesNL.txt", g_personality);
+			loadToVector("romfs:/lang/strings/villagerWA.txt", g_villagerDatabase);
+			break;
+		case SaveType::UNUSED:
+			break;
+	}
 }
 
 void Lang::load(int lang) {

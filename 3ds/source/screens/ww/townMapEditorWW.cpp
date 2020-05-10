@@ -61,7 +61,6 @@ void TownMapEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 // Initialize Screen.
 TownMapEditorWW::TownMapEditorWW() {
-	ItemUtils::LoadDatabase(SaveType::WW); // TODO: Handle this at Editor loading instead?
 	// Get Town Map Items.
 	for (int i = 0; i < 4096; i++) {
 		this->MapItems[i] = save->town()->item(i);
@@ -195,7 +194,7 @@ void TownMapEditorWW::DrawCurrentPos(void) const {
 // Draw Town Map Editor screen.
 void TownMapEditorWW::DrawMapScreen(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400);
 	DrawInformation();
 
 	// Bottom Screen part. Grid & Acre.
@@ -404,7 +403,7 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 
 void TownMapEditorWW::DrawTempItem(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Temp Item", 400);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Temp Item", 400);
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		Gui::Draw_Rect(tempItemPos[i].x, tempItemPos[i].y, tempItemPos[i].w, tempItemPos[i].h, DARKER_COLOR);
@@ -472,7 +471,7 @@ void TownMapEditorWW::DrawMap(void) const {
 // Draw the Acre Selection from the Top Screen.
 void TownMapEditorWW::DrawTopSelection(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Acre Editor", 400);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Acre Editor", 400);
 	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, "Acre ID: " + std::to_string(selectedAcre), 400);
 	if (selectedAcre == 0) {
 		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.

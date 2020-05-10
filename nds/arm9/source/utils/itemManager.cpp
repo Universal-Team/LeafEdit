@@ -24,7 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "gui.hpp"
 #include "itemManager.hpp"
+
+#include <vector>
+
+extern std::vector<std::pair<u16, std::string>> itemDB;
 
 // Return color index of the ItemPalette array.
 u8 ItemManager::getColor(ItemType item) {
@@ -97,4 +102,112 @@ u8 ItemManager::getColor(ItemType item) {
 			return 0xFA;
 	}
 	return 0x0; // Should not happen.
+}
+
+// Get the index of the current Item for the selection.
+int getIndex(std::vector<std::pair<u16, std::string>>& search, const u16& v) {
+	if (v == search[0].first || v >= 0xFFF1)
+	{
+		return 0;
+	}
+	int index = -1, min = 0, mid = 0, max = search.size();
+	while (min <= max)
+	{
+		mid = min + (max - min) / 2;
+		if (search[mid].first == v)
+		{
+			index = mid;
+			break;
+		}
+		if (search[mid].first < v)
+		{
+			min = mid + 1;
+		}
+		else
+		{
+			max = mid - 1;
+		}
+	}
+	return index >= 0 ? index : 0;
+}
+
+// Draw's the List for the Item Selection.
+static void drawItemList(int screenPos, bool background, const std::string Text) {
+	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, true, false);
+	printTextCentered(Text, 0, 0, true, true);
+	if (background) {
+		// Clear screen.
+		drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
+	}
+	// Clear text.
+	drawRectangle(0, 0, 256, 192, CLEAR, false, true);
+	// Print list.
+	for (unsigned i=0;i<std::min(9u, itemDB.size()-screenPos);i++) {
+		printText(itemDB[screenPos+i].second, 4, 4+(i*20), false, true);
+	}
+}
+
+/*
+*	Select an Item from the Item List.
+*	current for the current Item ID.
+*	Text for the Text which should be displayed.
+*/
+
+u16 ItemManager::selectItem(u16 current, const std::string Text) {
+	int index = getIndex(itemDB, current); // Get the current Index of the Item.
+	// Set pointer position.
+	setSpriteVisibility(Gui::pointerID, false, true);
+	setSpritePosition(Gui::pointerID, false, 4+getTextWidth(itemDB[index].second), -2);
+	updateOam();
+
+	// Initial list draw.
+	drawItemList(index, true, Text);
+
+	// Get min & max ID's.
+	u16 minID = 0, maxID = itemDB.size();
+
+	// Used variables.
+	int held, pressed, screenPos = index, newSelection = index, entriesPerScreen = 9;
+	while(1) {
+		do {
+			swiWaitForVBlank();
+			scanKeys();
+			pressed = keysDown();
+			held = keysDownRepeat();
+		} while(!held);
+
+		if (held & KEY_UP) {
+			if (newSelection > minID)	newSelection--;
+			else	newSelection = maxID-1;
+		} else if (held & KEY_DOWN) {
+			if (newSelection < (int)maxID-1)	newSelection++;
+			else newSelection = minID;
+		} else if (held & KEY_LEFT) {
+			newSelection -= entriesPerScreen;
+			if (newSelection < minID)	newSelection = minID;
+		} else if (held & KEY_RIGHT) {
+			newSelection += entriesPerScreen;
+			if (newSelection > (int)maxID-1)	newSelection = maxID-1;
+		} else if (pressed & KEY_A) {
+			Gui::hidePointer();
+			return itemDB[newSelection].first;
+
+		} if (pressed & KEY_B) {
+			Gui::hidePointer();
+			return current;
+		}
+
+		// Scroll screen if needed.
+		if (newSelection < screenPos) {
+			screenPos = newSelection;
+			drawItemList(screenPos, false, Text);
+		} else if (newSelection > screenPos + entriesPerScreen - 1) {
+			screenPos = newSelection - entriesPerScreen + 1;
+			drawItemList(screenPos, false, Text);
+		}
+
+		// Move pointer.
+		setSpritePosition(Gui::pointerID, false, 3+getTextWidth(itemDB[newSelection].second), (20*(newSelection-screenPos)-2)+10);
+		updateOam();
+	}
 }

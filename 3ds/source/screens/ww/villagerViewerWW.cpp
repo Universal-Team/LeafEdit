@@ -27,43 +27,73 @@
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
+#include "villagerEditorWW.hpp"
 #include "villagerViewerWW.hpp"
 
 extern std::vector<std::string> g_villagerDatabase;
 extern bool touching(touchPosition touch, ButtonType button);
-
-std::unique_ptr<Villager> villagerWW;
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 
 VillagerViewerWW::VillagerViewerWW() {
-	villagerWW = save->villager(Selection);
+	// Get all Villager ID's for display.
+	for (int i = 0; i < 8; i++) {
+		this->ID[i] = save->villager(i)->id();
+	}
 }
 
 void VillagerViewerWW::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
-	SpriteManagement::DrawVillager(villagerWW->id(), 160, 60);
-	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, "VillagerName: " + g_villagerDatabase[villagerWW->id()], 395);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
+	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
+	Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->viewerIndex], 395);
+	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, "Villager ID: " + std::to_string(this->viewerIndex), 395);
 	GFX::DrawBottom();
+	for (int i = 0; i < 8; i++) {
+		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
+	}
+	GFX::DrawGUI(gui_pointer_idx, villagers[Selection].x+18, villagers[Selection].y+20);
 }
 
 void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
-	if ((hDown & KEY_RIGHT) || (hDown & KEY_R)) {
-		if(Selection < save->maxVillager() -1) {
+	if (hDown & KEY_RIGHT) {
+		if (Selection < save->maxVillager()) {
 			Selection++;
-			villagerWW = save->villager(Selection);
 		}
-	} else if ((hDown & KEY_LEFT) || (hDown & KEY_L)) {
+	} else if (hDown & KEY_LEFT) {
 		if (Selection > 0) {
 			Selection--;
-			villagerWW = save->villager(Selection);
+		}
+	}
+
+	if (hDown & KEY_R) {
+		if (this->viewerIndex < 150)	this->viewerIndex++;
+	}
+
+	if (hDown & KEY_L) {
+		if (this->viewerIndex > 0)	this->viewerIndex--;
+	}
+
+	if (hDown & KEY_A) {
+		if (save->villager(Selection)->exist()) {
+			Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(Selection)));
 		}
 	}
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 8; i++) {
+			if (iconTouch(touch, villagers[i])) {
+				if (save->villager(i)->exist()) {
+					Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(i)));
+				}
+			}
+		}
 	}
 }

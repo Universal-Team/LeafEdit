@@ -61,22 +61,24 @@ void VillagerViewer::DrawVillagerList(void) const {
 }
 
 void VillagerViewer::VillagerListLogic(u16 hDown, touchPosition touch) {
+	u16 held = keysDownRepeat();
+
 	// Switch current Villager.
-	if (hDown & KEY_DOWN) {
+	if (held & KEY_DOWN) {
 		villagerViewerSprite++;
 		if (villagerViewerSprite > 149)	villagerViewerSprite = 0;
 		Gui::DrawScreen();
-	} else if (hDown & KEY_UP) {
+	} else if (held & KEY_UP) {
 		villagerViewerSprite--;
 		if (villagerViewerSprite < 0)	villagerViewerSprite = 149;
 		Gui::DrawScreen();
 
-	} else if (hDown & KEY_RIGHT) {
+	} else if (held & KEY_RIGHT) {
 		villagerViewerSprite += 10;
 		if (villagerViewerSprite > 139)	villagerViewerSprite = 0;
 		Gui::DrawScreen();
 
-	} else if (hDown & KEY_LEFT) {
+	} else if (held & KEY_LEFT) {
 		villagerViewerSprite -= 10;
 		if (villagerViewerSprite < 0)	villagerViewerSprite = 149;
 		Gui::DrawScreen();
@@ -99,23 +101,27 @@ void VillagerViewer::Logic(u16 hDown, touchPosition touch) {
 }
 
 void VillagerViewer::VillagerLogic(u16 hDown) {
+	u16 held = keysDownRepeat();
+
 	// Switch to the Villager Editor Screen.
-	
 	if (hDown & KEY_A) {
-		Gui::setScreen(std::make_unique<VillagerEditor>());
-		Gui::DrawScreen();
-		Gui::showPointer();
-		selected = true;
+		// Only allow Villager Editor if Villager exist.
+		if (villager->exist()) {
+			Gui::setScreen(std::make_unique<VillagerEditor>());
+			Gui::DrawScreen();
+			Gui::showPointer();
+			selected = true;
+		}
 	}
 
 	// Switch current Villager.
-	if (hDown & KEY_R) {
+	if (held & KEY_R) {
 		if(currentVillager < 7) {
 			currentVillager++;
 			villager = save->villager(currentVillager);
 			Gui::DrawScreen();
 		}
-	} else if (hDown & KEY_L) {
+	} else if (held & KEY_L) {
 		if(currentVillager > 0) {
 			currentVillager--;
 			villager = save->villager(currentVillager);

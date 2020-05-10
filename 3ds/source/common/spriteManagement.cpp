@@ -104,7 +104,7 @@ void SpriteManagement::DrawAcres(u8 acreID, int x, int y, float ScaleX, float Sc
 }
 
 // AC:WW Villager Index, which point to the correct SpriteSheet ID.
-const std::vector<int> wwVillagerIndex = {
+const std::array<int, 150> wwVillagerIndex = {
 	0, 1, 2, 3, 7, 8, 9, 10, 21, 22, 23, 24, 25,
 	35, 36, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
 	64, 65, 66, 67, 68, 69, 80, 81, 82, 89, 90, 93, 94,
@@ -118,6 +118,37 @@ const std::vector<int> wwVillagerIndex = {
 	121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 142, 143, 148, 149,
 	161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 181, 182, 188, 189, 190, 191,
 	200, 46, 47, 48, 49, 50
+};
+
+std::array<int, 333> nlVillagerIndex = {
+	0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16,
+	18, 19, 20, 21, 22, 23, 24, 25, 28, 30, 31, 32, 33, 35,
+	36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+	51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65,
+	66, 67, 68, 69, 70, 73, 75, 76, 77, 78, 80, 81, 82, 83,
+	84, 86, 87, 88, 89, 90, 92, 93, 94, 96, 97, 98, 99,
+	100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 111,
+	112, 113, 114, 115, 116, 117, 118, 119, 122, 123, 124,
+	125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135,
+	136, 137, 139, 141, 142, 143, 144, 145, 146, 147, 148,
+	150, 152, 153, 155, 156, 157, 158, 159, 160, 161, 162,
+	164, 166, 167, 169, 170, 171, 172, 173, 174, 176, 177,
+	178, 179, 180, 181, 182, 185, 186, 187, 188, 190, 191,
+	192, 193, 194, 195, 196, 197, 199,
+	// Second SpriteSheet -- 168
+	0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18,
+	19, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37,
+	38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+	55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+	71, 73, 74, 78, 79, 80, 81, 82, 83, 84, 85, 87, 88, 89, 90,
+	91, 92, 93, 94, 95, 96, 97, 98, 100, 101, 102, 103, 104, 105,
+	106, 107, 108, 109, 110, 111, 114, 115, 116, 117, 118, 119,
+	121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 133, 134,
+	136, 137, 138, 139, 140, 142, 143, 146, 147, 148, 149, 150,
+	153, 154, 155, 156, 157, 158, 159, 161, 162, 163, 164, 165,
+	166, 167, 168, 169, 170, 171, 172, 175, 176, 177, 178, 181,
+	182, 184, 185, 186, 187, 188, 189, 190, 191, 193, 194, 196,
+	197
 };
 
 void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, float ScaleY) {
@@ -136,6 +167,16 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 			break;
 		// Pretty sure AC:NL needs a special handling for the Villagers, cause the SpriteSheet has AC:WA special ones(?) TODO!
 		case SaveType::NL:
+			if (villagerID > 333) {
+				Gui::DrawSprite(Villager2, 199, x, y, ScaleX, ScaleY);
+				break;
+			}
+			if (villagerID < 168) {
+				Gui::DrawSprite(Villager, nlVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
+			} else {
+				Gui::DrawSprite(Villager2, nlVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
+			}
+			break;
 		case SaveType::WA:
 			 // Display empty Villager.
 			if (villagerID > 399) {

@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common.hpp"
 #include "gfx.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
@@ -67,7 +68,11 @@ bool Msg::promptMsg2(std::string promptMsg)
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawTop(false);
-		DrawBox(80, 1);
+		if (!Config::newStyle) {
+			Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
+		} else {
+			DrawBox(80, 1);
+		}
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70);
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
@@ -115,7 +120,11 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop(false);
-	DrawBox(80, 1);
+	if (!Config::newStyle) {
+		Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
+	} else {
+		DrawBox(80, 1);
+	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
@@ -132,7 +141,11 @@ void Msg::DisplayWarnMsg2(std::string Text)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop(false);
-	DrawBox(80, 1);
+	if (!Config::newStyle) {
+		Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
+	} else {
+		DrawBox(80, 1);
+	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
@@ -149,7 +162,11 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop(false);
-	DrawBox(80, 1);
+	if (!Config::newStyle) {
+		Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
+	} else {
+		DrawBox(80, 1);
+	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395);
@@ -189,7 +206,11 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop(false);
-	DrawBox(80, 1);
+	if (!Config::newStyle) {
+		Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
+	} else {
+		DrawBox(80, 1);
+	}
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Message))/2, 0.8f, WHITE, Message, 390, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);

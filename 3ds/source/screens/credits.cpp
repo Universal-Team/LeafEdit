@@ -33,8 +33,8 @@ void Credits::Draw(void) const {
 	// 3 -> QR Code.
 	if (DisplayMode != 3) {
 		GFX::DrawTop();
-		GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-		Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "LeafEdit - Credits", 400);
+		if (Config::newStyle)	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Credits", 400);
 		Gui::DrawStringCentered(0, 30, 0.9f, BLACK, "Developed by Universal-Team.", 390);
 		Gui::DrawStringCentered(0, 70, 0.9f, BLACK, Lang::get("MAIN_DEV"), 390);
 		GFX::DrawGUI(gui_stackZ_idx, 5, 85);
@@ -45,7 +45,7 @@ void Credits::Draw(void) const {
 	}
 
 	if (DisplayMode == 1) {
-		Gui::DrawStringCentered(0, 2, 0.8f, BLACK, "General Credits", 310);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.8f, BLACK, "General Credits", 310);
 		Gui::DrawStringCentered(0, 30, 0.8f, BLACK, "Cuyler, Slattz", 310);
 		Gui::DrawStringCentered(0, 50, 0.7f, BLACK, "For a lot of pre-research work with NLTK & ACSE.", 310);
 		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "piepie62, FlagBrew, PKSM-Core", 310);
@@ -55,7 +55,7 @@ void Credits::Draw(void) const {
 		Gui::DrawStringCentered(0, 180, 0.8f, BLACK, "TotallyNotGuy", 310);
 		Gui::DrawStringCentered(0, 200, 0.7f, BLACK, "For the amazing Graphic work!", 310);
 	} else if (DisplayMode == 2) {
-		Gui::DrawStringCentered(0, 2, 0.8f, BLACK, "Translators", 310);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.8f, BLACK, "Translators", 310);
 		Gui::DrawString(5, 45, 0.8f, BLACK, "Deutsch\nEnglish\nEspañol\nFrançais\nItaliano\nLietuvių\nPortuguês\n日本語", 310);
 		Gui::DrawString(150, 45, 0.8f, BLACK, "StackZ\nStackZ\nYoSoy\nantoine62\nedo9300\nlemonnade0\nChips, David Pires\nPk11", 310);
 	} else if (DisplayMode == 3) {
@@ -69,7 +69,7 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (DisplayMode < 3)	DisplayMode++;
 	}
 	if (hDown & KEY_LEFT) {
-		if (DisplayMode > 0)	DisplayMode--;
+		if (DisplayMode > 1)	DisplayMode--;
 	}
 
 	if (hDown & KEY_B) {
@@ -79,7 +79,6 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 // Qr Code.
-
 void Credits::qr_code() const
 {
 	GFX::DrawTop();
@@ -87,7 +86,6 @@ void Credits::qr_code() const
 	GFX::DrawGUI(gui_discord_idx, 115, 35);
 	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
-	//GFX::DrawGUI(gui_back_idx, touchPos[0].x, touchPos[0].y);
 }
 
 void Credits::Loop() {

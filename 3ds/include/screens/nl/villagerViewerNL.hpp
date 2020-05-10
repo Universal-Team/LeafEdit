@@ -40,6 +40,22 @@ public:
 	VillagerViewerNL();
 private:
 	int Selection = 0;
+	u16 ID[10];
+	u16 viewerIndex = 0;
+
+	std::vector<Structs::ButtonPos> villagers = {
+		{15, 50, 48, 48},
+		{73, 50, 48, 48},
+		{131, 50, 48, 48},
+		{189, 50, 48, 48},
+		{247, 50, 48, 48},
+		
+		{15, 125, 48, 48},
+		{73, 125, 48, 48},
+		{131, 125, 48, 48},
+		{189, 125, 48, 48},
+		{247, 125, 48, 48}
+	};
 };
 
 #endif

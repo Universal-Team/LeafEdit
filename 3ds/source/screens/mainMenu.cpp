@@ -30,6 +30,7 @@
 #include "Sav.hpp"
 #include "saveUtils.hpp"
 #include "screenCommon.hpp"
+#include "settings.hpp"
 #include "updateCenter.hpp"
 
 extern int fadealpha;
@@ -38,10 +39,11 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
 extern std::shared_ptr<Sav> save;
 
+#define TESTPATH	"sdmc:/acww/saves/EUR.sav9"
 void doStuff() {
 	// Here we open the file and get the SaveType.
 	save = nullptr;
-	FILE* in = fopen("sdmc:/Nogba/BATTERY/Test.sav", "rb");
+	FILE* in = fopen(TESTPATH, "rb");
 	if(in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
@@ -51,21 +53,25 @@ void doStuff() {
 		fclose(in);
 		save = Sav::getSave(saveData, size);
 	}
+
 	// Could not open file or savetype invalid, exit.
 	if (!save) {
-		Msg::DisplayWarnMsg("Could not open file!!");
+		Msg::DisplayWarnMsg("Save is !save.");
 		exiting = true;
 		return;
 	}
 
 	// Save Modification Test.
-	for (int i = 0x00; i < 0x02; i++) {
-		save->savePointer()[i] = 0x01;
-	}
-	
+//	for (int i = 0x747C; i < 0x747D; i++) {
+//		save->savePointer()[i] = 0x01;
+//	}
+
+	save->savePointer()[0x8A41] = 0x1B;
+	save->savePointer()[0x8A89] = 0x1B;
+
 	// And now we update the checksum at the end and write to file.
 	save->Finish();
-	FILE* out = fopen("sdmc:/Nogba/BATTERY/Test.sav", "rb+");
+	FILE* out = fopen(TESTPATH, "rb+");
 	fwrite(save->rawData().get(), 1, save->getLength(), out);
 	fclose(out);
 	// Exit.
@@ -81,7 +87,7 @@ MainMenu::MainMenu() {
 void MainMenu::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - MainMenu", 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - MainMenu", 390);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -110,11 +116,20 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>());
+		else if (Selection == 1)	Gui::setScreen(std::make_unique<Settings>());
 		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>());
 		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>());
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("A_SELECTION") + "\n" + Lang::get("B_BACK"));
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			Gui::setScreen(std::make_unique<Editor>());
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<Settings>());
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<Credits>());
+		} else if (touching(touch, mainButtons[3])) {
+			Gui::setScreen(std::make_unique<UpdateCenter>());
+		}
 	}
 }

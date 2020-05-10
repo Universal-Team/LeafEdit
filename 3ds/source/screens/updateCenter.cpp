@@ -52,8 +52,8 @@ void UpdateCenter::checkUpdate() {
 void UpdateCenter::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - Update Center", 400);
-	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Update Center", 400);
+	if (Config::newStyle)	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
 	// Display some Informations. :)
 	if (Selection == 0) {
 		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Latest Version: " + latestRelease.Version, 395);

@@ -72,5 +72,6 @@ extern "C" {
 extern bool GodMode;
 extern bool Debug;
 extern bool changes;
+extern int barOffset;
 
 #endif

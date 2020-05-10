@@ -48,6 +48,7 @@ namespace Config {
 	int getLang(const std::string &key);
 
 	extern std::string currentRelease, currentNightly;
+	extern bool newStyle;
 }
 
 #endif

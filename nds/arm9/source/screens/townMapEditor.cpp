@@ -190,6 +190,8 @@ void TownMapEditor::Draw(void) const {
 }
 
 void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
+	u16 held = keysDownRepeat();
+
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		Gui::DrawScreen();
@@ -213,7 +215,7 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 		this->TempItem = this->MapItems[MapSelection]->id();
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (held & KEY_RIGHT) {
 		if (currentPosX == 15 && currentAcre < 15) {
 			// Go one Acre next and reset X to 0.
 			currentAcre++;
@@ -232,7 +234,7 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (held & KEY_LEFT) {
 		if (currentPosX == 0 && currentAcre > 0) {
 			// Go one Acre before.
 			currentAcre--;
@@ -251,7 +253,7 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (held & KEY_DOWN) {
 		if (currentPosY == 15 && currentAcre < 12) {
 			// Go one Acre down & reset Y to 0.
 			currentAcre += 4;
@@ -270,7 +272,7 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_UP) {
+	if (held & KEY_UP) {
 		if (currentPosY == 0 && currentAcre > 3) {
 			// Go one Acre up.
 			currentAcre -= 4;
@@ -306,6 +308,10 @@ void TownMapEditor::TempLogic(u16 hDown, touchPosition touch) {
 				this->TempItem = ID;
 				Gui::DrawScreen();
 			}
+		} else if (selection == 1) {
+			Gui::clearScreen(true, true);
+			this->TempItem = ItemManager::selectItem(this->TempItem, "Please select an Item.");
+			Gui::DrawScreen();
 		}
 	}
 

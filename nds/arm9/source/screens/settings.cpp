@@ -24,26 +24,36 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COREUTILS_HPP
-#define COREUTILS_HPP
+#include "screenCommon.hpp"
+#include "settings.hpp"
 
-#include "Player.hpp"
-#include <3ds.h>
-#include <citro2d.h>
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-// AC:NL | AC:WA Region Lock.
-struct Region_Lock {
-	u8 DerivedID;
-	CFG_Region RegionID;
-	u8 RawByte;
-};
 
-namespace CoreUtils {
-	void FixInvalidBuildings(void); // Replace Invalid Buildings with Empty. (Fixes crashes in game.)
-	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
-	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
-	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
-	C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
+void SettingsScreen::Draw(void) const
+{
+	Gui::DrawTop(true);
+	printTextCentered("LeafEdit - Settings", 0, 1, true, true);
+	Gui::DrawBottom(true);
+	for (int i = 0; i < 6; i++) {
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+	}
+	printTextCentered("", -64, 40, false, true);
+	printTextCentered("", -64, 90, false, true);
+	printTextCentered("", -64, 140, false, true);
+	printTextCentered("", 64, 40, false, true);
+	printTextCentered("", 64, 90, false, true);
+	printTextCentered("", 64, 140, false, true);
 }
 
-#endif
+
+void SettingsScreen::Logic(u16 hDown, touchPosition touch) {
+	Gui::updatePointer(mainButtons[selection].x+60, mainButtons[selection].y+12);
+
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		Gui::DrawScreen();
+		selected = true;
+		return;
+	}
+}

@@ -27,45 +27,95 @@
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
+#include "villagerEditorNL.hpp"
 #include "villagerViewerNL.hpp"
 
 extern std::vector<std::string> g_villagerDatabase;
 extern bool touching(touchPosition touch, ButtonType button);
-
-std::unique_ptr<Villager> villagerNL;
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
+extern std::array<int, 333> nlVillagerIndex;
+
 VillagerViewerNL::VillagerViewerNL() {
-	villagerNL = save->villager(Selection);
+	// Get all Villager ID's for display.
+	for (int i = 0; i < 10; i++) {
+		this->ID[i] = save->villager(i)->id();
+	}
+}
+
+const std::string getVillagerName(int index) {
+	if (index < 168) {
+		return g_villagerDatabase[nlVillagerIndex[index]];
+	} else {
+		return g_villagerDatabase[200 + nlVillagerIndex[index]];
+	}
 }
 
 void VillagerViewerNL::Draw(void) const
 {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
-	SpriteManagement::DrawVillager(villagerNL->id(), 160, 60);
-	Gui::DrawStringCentered(0, 130, 0.9f, WHITE, "VillagerName: " + g_villagerDatabase[villagerNL->id()], 395);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
+
+	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
+	// Special handle for AC:NL & AC:WA.
+	if (savesType == SaveType::WA) {
+		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->viewerIndex], 395);
+	} else {
+		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + getVillagerName(this->viewerIndex), 395);
+	}
+	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, "Villager ID: " + std::to_string(this->viewerIndex), 395);
 	GFX::DrawBottom();
+	for (int i = 0; i < 10; i++) {
+		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
+	}
+	GFX::DrawGUI(gui_pointer_idx, villagers[Selection].x+18, villagers[Selection].y+20);
 }
 
 void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
-	if ((hDown & KEY_RIGHT) || (hDown & KEY_R)) {
-		if(Selection < save->maxVillager() -1) {
+	if (hDown & KEY_RIGHT) {
+		if(Selection < save->maxVillager()) {
 			Selection++;
-			villagerNL = save->villager(Selection);
 		}
-	} else if ((hDown & KEY_LEFT) || (hDown & KEY_L)) {
+	} else if (hDown & KEY_LEFT) {
 		if (Selection > 0) {
 			Selection--;
-			villagerNL = save->villager(Selection);
+		}
+	}
+
+	if (hDown & KEY_R) {
+		if (savesType == SaveType::WA) {
+			if (this->viewerIndex < 398)	this->viewerIndex++;
+		} else {
+			if (this->viewerIndex < 332)	this->viewerIndex++;
+		}
+	}
+
+	if (hDown & KEY_L) {
+		if (this->viewerIndex > 0)	this->viewerIndex--;
+	}
+
+	if (hDown & KEY_A) {
+		if (save->villager(Selection)->exist()) {
+			Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(Selection)));
 		}
 	}
 
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 10; i++) {
+			if (iconTouch(touch, villagers[i])) {
+				if (save->villager(i)->exist()) {
+					Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(i)));
+				}
+			}
+		}
 	}
 }

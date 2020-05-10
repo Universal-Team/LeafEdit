@@ -16,8 +16,8 @@ const u16 defaultPalette[] = {
 };
 
 
-const u16 itemPalette[] = {
-	0x7C1F, // Empty 0xE0
+std::array<u16, 0x1B> itemPalette = {
+	0x0000, // Empty 0xE0
 	0xD294, // Occupied 0xE1
 	0xE21D, // Flower 0xE2
 	0x9A46, // Weed 0xE3
@@ -75,6 +75,6 @@ void Colors::load(void) {
 
 	tonccpy(BG_PALETTE, palette, sizeof(palette));
 	tonccpy(BG_PALETTE_SUB, palette, sizeof(palette));
-	tonccpy(BG_PALETTE + 0xE0, itemPalette, sizeof(itemPalette));
-	tonccpy(BG_PALETTE_SUB + 0xE0, itemPalette, sizeof(itemPalette));
+	tonccpy(BG_PALETTE + 0xE0, itemPalette.data(), itemPalette.size());
+	tonccpy(BG_PALETTE_SUB + 0xE0, itemPalette.data(), itemPalette.size());
 }

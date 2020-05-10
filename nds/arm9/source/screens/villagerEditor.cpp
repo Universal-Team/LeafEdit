@@ -26,6 +26,8 @@
 
 #include "graphicManagement.hpp"
 #include "input.hpp"
+#include "itemManager.hpp"
+#include "itemUtils.hpp"
 #include "msg.hpp"
 #include "villagerEditor.hpp"
 #include "Sav.hpp"
@@ -44,6 +46,16 @@ std::string VillagerEditor::returnPersonality() const {
 void VillagerEditor::Draw(void) const {
 	if (villagerMode == 0) {
 		DrawSubMenu();
+	} else {
+		DrawItems();
+	}
+}
+
+void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
+	if (villagerMode == 0) {
+		subLogic(hDown, touch);
+	} else {
+		ItemLogic(hDown, touch);
 	}
 }
 
@@ -51,11 +63,14 @@ void VillagerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop(true);
 	DrawBox();
 
-	GraphicManagement::DrawVillager(villager->id(), 100, 40);
+//	GraphicManagement::DrawVillager(villager->id(), 100, 40);
 	printTextCentered("Villager Personality: " + returnPersonality(), 0, 170, true, true);
 	printTextCentered(g_villagerDatabase[villager->id()], 0, 150, true, true);
 	printTextCentered("Villager ID: " + std::to_string(villager->id()), 0, 130, true, true);
 
+	printTextCentered(ItemUtils::getName(villager->wallpaper()->id()), 0, 30, true, true);
+	printTextCentered(ItemUtils::getName(villager->carpet()->id()), 0, 50, true, true);
+	printTextCentered(ItemUtils::getName(villager->furniture(3)->id()), 0, 70, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
@@ -65,7 +80,23 @@ void VillagerEditor::DrawSubMenu(void) const {
 	printTextCentered("Personality", -64, 90, false, true);
 }
 
-void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
+void VillagerEditor::updateInfo(void) const {
+	Gui::clearScreen(true, true);
+	printTextCentered("Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 0, 30, true, true);
+}
+void VillagerEditor::DrawItems(void) const {
+	Gui::DrawTop(true);
+	updateInfo();
+	Gui::DrawBottom(true);
+
+	// Draw Villagers Items.
+	for (int i = 0; i < 15; i++) {
+		drawRectangle(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), false, true);
+		drawOutline(items[i].x, items[i].y, items[i].w, items[i].h, BLACK, false, true);
+	}
+}
+
+void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 	Gui::updatePointer(villagerButtons[Selection].x+60, villagerButtons[Selection].y+12);
 
 	// Selection.
@@ -114,6 +145,22 @@ void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
 				selected = true;
 				changes = true;
 				break;
+			case 2:
+				// Get Furniture Items.
+				for (int i = 0; i < 10; i++) {
+					this->villagerItems[i] = villager->furniture(i);
+				}
+				// Get other stuff.
+				this->villagerItems[10] = villager->wallpaper();
+				this->villagerItems[11] = villager->carpet();
+				this->villagerItems[12] = villager->song();
+				this->villagerItems[13] = villager->shirt();
+				this->villagerItems[14] = villager->umbrella();
+
+				villagerMode = 1;
+				Gui::DrawScreen();
+				selected = true;
+				break;
 		}
 	}
 
@@ -124,6 +171,48 @@ void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
 		Gui::hidePointer();
 		selected = true;
 		return;
+	}
+}
+
+void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch)
+{
+	Gui::updatePointer(items[itemSelection].x+15, items[itemSelection].y+15);
+	u16 held = keysDownRepeat();
+
+	if (held & KEY_RIGHT) {
+		if (itemSelection < 13) {
+			itemSelection++;
+			updateInfo();
+			selected = true;
+		}
+	}
+
+	if (held & KEY_LEFT) {
+		if (itemSelection > 0) {
+			itemSelection--;
+			updateInfo();
+			selected = true;
+		}
+	}
+
+	if (hDown & KEY_B) {
+		villagerMode = 0;
+		Gui::DrawScreen();
+		// Reset Items to nullptr.
+		for (int i = 0; i < 15; i++) {
+			this->villagerItems[i] = nullptr;
+		}
+		selected = true;
+	}
+
+	if (hDown & KEY_A) {
+		Gui::clearScreen(true, true);
+		u16 TempItem = ItemManager::selectItem(this->villagerItems[itemSelection]->id(), "Please select an Item.");
+		this->villagerItems[itemSelection]->id(TempItem);
+		Gui::DrawScreen();
+		Gui::showPointer();
+		selected = true;
+		changes = true;
 	}
 }
 

@@ -132,7 +132,7 @@ std::vector<std::string> getContents(const std::string &name, const std::vector<
 static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
 	std::string dirs;
 	GFX::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Text, 395);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text, 395);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
 	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
 		dirs += dirContents[i].name + "\n";
@@ -143,7 +143,11 @@ static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, con
 
 	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
+	if (!Config::newStyle) {
+		Gui::DrawString(5, 23, 0.85f, BLACK, dirs, 360);
+	} else {
+		Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
+	}
 }
 
 // Draw Fav Browse.
@@ -157,9 +161,18 @@ void DrawFavSaves(uint Selection) {
 		saves += "\n";
 	}
 
-	if (Selection < 9)	GFX::DrawSelector(false, 26 + ((int)Selection * 21));
-	else				GFX::DrawSelector(false, 26 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360);
+	if (!Config::newStyle) {
+		if (Selection < 9)	GFX::DrawSelector(false, 24 + ((int)Selection * 21));
+		else				GFX::DrawSelector(false, 24 + (8 * 21));
+	} else {
+		if (Selection < 9)	GFX::DrawSelector(false, 26 + ((int)Selection * 21));
+		else				GFX::DrawSelector(false, 26 + (8 * 21));
+	}
+	if (!Config::newStyle) {
+		Gui::DrawString(5, 23, 0.85f, BLACK, saves, 360);
+	} else {
+		Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360);
+	}
 }
 
 FavSave getFavSave(std::string line) {
