@@ -60,7 +60,10 @@ private:
 	int selectMode = 0; // No sub Selection.
 
 	// General Item stuff.
-	u16 itemID = 0;
+	u16 itemID = 65521;
+	u32 itemIndex = 0;
+	bool isItemSelection = false; // If scrolling the list.
+	int keyRepeatDelay = 0;
 
 	// Utilities Draw.
 	void DrawGrid(void) const;
@@ -93,9 +96,9 @@ private:
 	bool FastMode = false; // Scrolling speed.
 	int selection = 0;
 
-	std::vector<Structs::ButtonPos> tempItemPos = {
-		{20, 40, 280, 30}, // ID.
-		{20, 90, 280, 30} // Name.
+	std::vector<ButtonType> tempItemPos = {
+		{20, 45, 280, 50, ""}, // ID.
+		{20, 145, 280, 50, "Switch to Item Selection"}
 	};
 
 	// Display AC:WW Top Screen Map.

@@ -35,7 +35,7 @@
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
-
+extern std::vector<std::pair<u16, std::string>> itemDB;
 extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
@@ -327,6 +327,8 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			if (selection == 0) {
 				Mode = 1; // Acres.
 			} else if (selection == 1) {
+				selection = 0;
+				this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
 				Mode = 2; // Temp Selection.
 			} else if (selection == 2) {
 				removeWeeds();
@@ -408,21 +410,35 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 }
 
 void TownMapEditorNL::DrawTempItem(void) const {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Temp Item", 400);
+	std::string itemList;
+	GFX::DrawFileBrowseBG(true);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->itemID), 390);
+
+	for (int i=(this->itemIndex<8) ? 0 : (int)this->itemIndex-8;i<(int)itemDB.size()&&i<(((int)this->itemIndex<8) ? 9 : (int)this->itemIndex+1);i++) {
+		itemList += itemDB[i].second + "\n";
+	}
+	for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
+		itemList += "\n";
+	}
+
+	// Selector Logic.
+	if (this->itemIndex < 9)	GFX::DrawSelector(true, 24 + ((int)this->itemIndex * 21));
+	else				GFX::DrawSelector(true, 24 + (8 * 21));
+	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395);
+	
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
-		Gui::Draw_Rect(tempItemPos[i].x, tempItemPos[i].y, tempItemPos[i].w, tempItemPos[i].h, DARKER_COLOR);
-		if (selection == i) {
-			GFX::DrawGUI(gui_pointer_idx, tempItemPos[i].x+130, tempItemPos[i].y+25);
-		}
+		GFX::DrawButton(tempItemPos[i], 0.8f);
 	}
-	// Item ID.
-	Gui::DrawStringCentered(0, 45, 0.7f, BLACK, "Item ID: " + std::to_string(itemID), 320);
-	// Item Flags.
-	Gui::DrawStringCentered(0, 95, 0.7f, BLACK, "Item Flags: " + std::to_string(itemFlag), 320);
-	// Item Name.
-	Gui::DrawStringCentered(0, 145, 0.7f, BLACK, "Item Name: " + ItemUtils::getName(itemID), 320);
+
+	// We have no other choice.
+	Gui::DrawStringCentered(tempItemPos[0].x - 160 + (tempItemPos[0].xLength/2), tempItemPos[0].y + (tempItemPos[0].yLength/2) - 10, 0.9f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength-17, tempItemPos[0].yLength-5);
+	Gui::DrawStringCentered(tempItemPos[1].x - 160 + (tempItemPos[1].xLength/2), tempItemPos[1].y + (tempItemPos[1].yLength/2) - 10, 0.9f, BLACK, "Item Flags: " + std::to_string(this->itemFlag), tempItemPos[1].xLength-17, tempItemPos[1].yLength-5);
+	
+	if (!this->isItemSelection) {
+		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
+	}
 }
 
 void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -431,34 +447,71 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Mode = 0;
 	}
 
-	if (hDown & KEY_DOWN) {
-		if (selection < 2)	selection++;
-	}
+	if (this->isItemSelection) {
+		if (this->keyRepeatDelay)	this->keyRepeatDelay--;
 
-	if (hDown & KEY_UP) {
-		if (selection > 0)	selection--;
-	}
-
-	if (hDown & KEY_A) {
-		switch (selection) {
-			case 0:
-				itemID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, itemID);
-				break;
-			case 1:
-				itemFlag = Input::handleu16(2, "Enter the Flags.", 99, itemFlag);
-				break;
-			case 2:
-				break;
+		if (hHeld & KEY_DOWN && !this->keyRepeatDelay) {
+			if (this->itemIndex < itemDB.size()-1)	this->itemIndex++;
+			else	this->itemIndex = 0;
+			this->keyRepeatDelay = 6;
 		}
-	}
 
-	if (hDown & KEY_TOUCH) {
-		if (iconTouch(touch, tempItemPos[0])) {
-			itemID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, itemID);
-		} else if (iconTouch(touch, tempItemPos[1])) {
-			itemFlag = Input::handleu16(2, "Enter the Flags.", 99, itemFlag);
-		} else if (iconTouch(touch, tempItemPos[2])) {
-			// TODO: Item List Selection.
+		if (hHeld & KEY_UP && !this->keyRepeatDelay) {
+			if (this->itemIndex > 0)	this->itemIndex--;
+			else if (this->itemIndex == 0)	this->itemIndex = itemDB.size()-1;
+			this->keyRepeatDelay = 6;
+		}
+
+
+		if (hHeld & KEY_RIGHT && !this->keyRepeatDelay) {
+			if ((this->itemIndex + 9) > itemDB.size()-1) {
+				this->itemIndex = itemDB.size()-1;
+			} else {
+				this->itemIndex += 9;
+			}
+			this->keyRepeatDelay = 6;
+		}
+
+		if (hDown & KEY_A) {
+			this->itemID = itemDB[this->itemIndex].first;
+		}
+
+		if (hDown & KEY_X) {
+			this->isItemSelection = false;
+		}
+	} else {
+		if (hDown & KEY_DOWN) {
+			if (selection < 2)	selection++;
+		}
+
+		if (hDown & KEY_UP) {
+			if (selection > 0)	selection--;
+		}
+
+		if (hDown & KEY_A) {
+			switch (selection) {
+				case 0:
+					this->itemID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, this->itemID);
+					this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
+					break;
+				case 1:
+					this->itemFlag = Input::handleu16(2, "Enter the Flags.", 99, itemFlag);
+					break;
+				case 2:
+					this->isItemSelection = true;
+					break;
+			}
+		}
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, tempItemPos[0])) {
+				this->itemID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, this->itemID);
+				this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
+			} else if (touching(touch, tempItemPos[1])) {
+				this->itemFlag = Input::handleu16(2, "Enter the Flags.", 99, this->itemFlag);
+			} else if (touching(touch, tempItemPos[2])) {
+				this->isItemSelection = true;
+			}
 		}
 	}
 }

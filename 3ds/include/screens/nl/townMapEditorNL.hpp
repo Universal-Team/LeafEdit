@@ -60,8 +60,11 @@ private:
 	int selectMode = 0; // No sub Selection.
 
 	// General Item stuff.
-	u16 itemID = 0;
+	u16 itemID = 32766;
 	u16 itemFlag = 0;
+	u32 itemIndex = 0;
+	bool isItemSelection = false;
+	int keyRepeatDelay = 0;
 
 	// Utilities Draw.
 	void DrawGrid(void) const;
@@ -95,10 +98,10 @@ private:
 	bool FastMode = false; // Scrolling speed.
 	int selection = 0;
 
-	std::vector<Structs::ButtonPos> tempItemPos = {
-		{20, 40, 280, 30}, // ID.
-		{20, 90, 280, 30}, // Flag.
-		{20, 140, 280, 30} // Name.
+	std::vector<ButtonType> tempItemPos = {
+		{20, 28, 280, 50, ""}, // ID.
+		{20, 98, 280, 50, ""}, // Flag.
+		{20, 168, 280, 50, "Switch to Item Selection"}
 	};
 
 	// Town Map Display [NL / Top Screen.]
