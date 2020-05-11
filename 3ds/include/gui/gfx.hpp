@@ -33,6 +33,7 @@
 #include <3ds.h>
 #include <citro2d.h>
 #include <citro3d.h>
+#include <string>
 #include <vector>
 
 // Default colors i guess.
