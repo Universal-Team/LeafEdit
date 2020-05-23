@@ -55,14 +55,19 @@ void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float Scale
 }
 
 // Draws the Face sprite from a Player.
-void SpriteManagement::DrawFace(u8 face, int x, int y, float ScaleX, float ScaleY) {
+void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX, float ScaleY) {
 	switch(save->getType()) {
 		case SaveType::WW:
 			Gui::DrawSprite(Players, 56 + face, x, y, ScaleX, ScaleY); // Hair & Face are the same on AC:WW.
 			break;
 		case SaveType::NL:
 		case SaveType::WA:
-			Gui::DrawSprite(Players, 32 + face, x, y, ScaleX, ScaleY); // Face starts at 32.
+			// Face starts at 32.
+			if (Gender == 1) {
+				Gui::DrawSprite(Players, 32 + face +12, x, y, ScaleX, ScaleY);
+			} else {
+				Gui::DrawSprite(Players, 32 + face, x, y, ScaleX, ScaleY);
+			}
 			break;
 		case SaveType::UNUSED:
 			break;
@@ -196,13 +201,17 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 }
 
 // Draws the Badge Sprite.
-void SpriteManagement::DrawBadge(u8 badge, int x, int y, float ScaleX, float ScaleY) {
+void SpriteManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX, float ScaleY) {
 	switch(save->getType()) {
 		case SaveType::WW:
 			break; // Don't exist here.
 		case SaveType::NL:
 		case SaveType::WA:
-			Gui::DrawSprite(Items, 394 + badge, x, y, ScaleX, ScaleY); // Start at 394.
+			if (badge != 0) {
+				Gui::DrawSprite(Items, 394 + 3*badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
+			} else {
+				Gui::DrawSprite(Items, 394 + 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
+			}
 			break;
 		case SaveType::UNUSED:
 			break;

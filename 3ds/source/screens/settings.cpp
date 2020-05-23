@@ -28,13 +28,13 @@
 #include "screenCommon.hpp"
 #include "settings.hpp"
 
+extern std::unique_ptr<Config> config;
 extern bool changesMade;
 extern bool touching(touchPosition touch, ButtonType button);
 
-void Settings::Draw(void) const
-{
+void Settings::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Settings", 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Settings", 390, 0, font);
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(mainButtons[i]);
@@ -60,11 +60,11 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
-			if (Config::newStyle) {
-				Config::newStyle = false;
+			if (config->newStyle()) {
+				config->newStyle(false);
 				barOffset = 2;
-			}else {
-				Config::newStyle = true;
+			} else {
+				config->newStyle(true);
 				barOffset = 0;
 			}
 			changesMade = true;
@@ -73,11 +73,11 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (Config::newStyle) {
-				Config::newStyle = false;
+			if (config->newStyle()) {
+				config->newStyle(false);
 				barOffset = 2;
-			}else {
-				Config::newStyle = true;
+			} else {
+				config->newStyle(true);
 				barOffset = 0;
 			}
 			changesMade = true;

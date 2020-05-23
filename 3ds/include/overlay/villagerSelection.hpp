@@ -24,53 +24,40 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITORNL_HPP
-#define PLAYEREDITORNL_HPP
+#ifndef VILLAGER_SELECTION_OVERLAY_HPP
+#define VILLAGER_SELECTION_OVERLAY_HPP
 
-#include "common.hpp"
-#include "coreUtils.hpp"
-#include "structs.hpp"
+#include "overlay.hpp"
+#include "screenCommon.hpp"
+#include "Villager.hpp"
 
-#include <vector>
+#include <memory>
 
-class PlayerEditorNL : public Screen
-{
+class VillagerSelection : public Overlay {
+protected:
+	std::shared_ptr<Villager> villager;
+	SaveType save;
 public:
-	void Draw(void) const override;
+	VillagerSelection(std::shared_ptr<Villager> v, const SaveType st) : villager(v), save(st)
+	{
+		this->isUsed = true;
+		if (this->save == SaveType::WA) {
+			this->maxSelection = 398;
+		} else if (this->save == SaveType::NL) {
+			this->maxSelection = 332;
+		} else if (this->save == SaveType::WW) {
+			this->maxSelection = 149;
+		}
+	}
+
+	~VillagerSelection() override { }
+	void DrawOverlayTop(void) const override;
+	void DrawOverlayBottom(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PlayerEditorNL(std::shared_ptr<Player> p);
-	~PlayerEditorNL();
+
 private:
-	C2D_Image TPC;
-	int Selection = 0;
-	int Mode = 0;
-	std::shared_ptr<Player> player;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
-		{15, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 34, 130, 48, ""},
-		{175, 97, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-
-	std::vector<ButtonType> appearanceBtn = {
-		{15, 34, 130, 48, "Player Name"},
-		{15, 97, 130, 48, "Hair Style"},
-		{15, 159, 130, 48, "Face"},
-		{175, 34, 130, 48, "Tan Value"},
-		{175, 97, 130, 48, "Hair Color"},
-		{175, 159, 130, 48, "Eye Color"}
-	};
-
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/*	Appearance.	*/
-	void DrawAppearance(void) const;
-	void AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	/*	Player.	*/
+	int selection = 0;
+	int maxSelection = 0;
 };
 
 #endif

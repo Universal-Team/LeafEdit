@@ -54,19 +54,18 @@ const std::string getVillagerName(int index) {
 	}
 }
 
-void VillagerViewerNL::Draw(void) const
-{
+void VillagerViewerNL::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395, 0, font);
 
 	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
 	// Special handle for AC:NL & AC:WA.
 	if (savesType == SaveType::WA) {
-		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->viewerIndex], 395);
+		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->viewerIndex], 395, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + getVillagerName(this->viewerIndex), 395);
+		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + getVillagerName(this->viewerIndex), 395, 0, font);
 	}
-	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, "Villager ID: " + std::to_string(this->viewerIndex), 395);
+	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, "Villager ID: " + std::to_string(this->viewerIndex), 395, 0, font);
 	GFX::DrawBottom();
 	for (int i = 0; i < 10; i++) {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);

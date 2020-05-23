@@ -46,6 +46,7 @@ t Read() {
 	}
 	return SaveUtils::Read<t>(save->savePointer(), offset);
 }
+
 // Write.
 template <typename t>
 void Write() {
@@ -74,6 +75,7 @@ void show(const t value) {
 	snprintf(message, sizeof(message), Lang::get("OUTPUT").c_str(), std::to_string(value).c_str());
 	Msg::DisplayWaitMsg(message);
 }
+
 // Show String.
 void showString() {
 	u32 offset;
@@ -159,7 +161,7 @@ void OffsetEditor::Draw(void) const
 	if (Mode == 0)	title += "Read Mode";
 	else			title += "Write Mode";
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, title, 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, title, 390, 0, font);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);

@@ -24,53 +24,25 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITORNL_HPP
-#define PLAYEREDITORNL_HPP
+#ifndef SPRITEMANAGEMENT_HPP
+#define SPRITEMANAGEMENT_HPP
 
-#include "common.hpp"
-#include "coreUtils.hpp"
-#include "structs.hpp"
+#include <3ds.h>
+#include <string>
 
-#include <vector>
-
-class PlayerEditorNL : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PlayerEditorNL(std::shared_ptr<Player> p);
-	~PlayerEditorNL();
-private:
-	C2D_Image TPC;
-	int Selection = 0;
-	int Mode = 0;
-	std::shared_ptr<Player> player;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
-		{15, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 34, 130, 48, ""},
-		{175, 97, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-
-	std::vector<ButtonType> appearanceBtn = {
-		{15, 34, 130, 48, "Player Name"},
-		{15, 97, 130, 48, "Hair Style"},
-		{15, 159, 130, 48, "Face"},
-		{175, 34, 130, 48, "Tan Value"},
-		{175, 97, 130, 48, "Hair Color"},
-		{175, 159, 130, 48, "Eye Color"}
-	};
-
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/*	Appearance.	*/
-	void DrawAppearance(void) const;
-	void AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	/*	Player.	*/
-};
+namespace SpriteManagement {
+	// Draw Hairs.
+	void DrawHair(u8 hair, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Draw Faces.
+	void DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Draw Items.
+	void DrawItem(u8 itemCategory, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Draw Acres.
+	void DrawAcres(u8 acreID, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Draw Villagers.
+	void DrawVillager(u16 villagerID, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Draw Badges.
+	void DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX = 1, float ScaleY = 1);
+}
 
 #endif

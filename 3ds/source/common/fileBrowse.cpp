@@ -43,9 +43,9 @@
 
 extern touchPosition touch;
 std::vector<FavSave> favDatabase;
+extern std::unique_ptr<Config> config;
 
-off_t getFileSize(const char *fileName)
-{
+off_t getFileSize(const char *fileName) {
 	FILE* fp = fopen(fileName, "rb");
 	off_t fsize = 0;
 	if (fp) {
@@ -53,8 +53,8 @@ off_t getFileSize(const char *fileName)
 		fsize = ftell(fp);			// Get source file's size
 		fseek(fp, 0, SEEK_SET);
 	}
-	fclose(fp);
 
+	fclose(fp);
 	return fsize;
 }
 
@@ -69,16 +69,19 @@ bool nameEndsWith(const std::string& name, const std::vector<std::string> extens
 		const std::string ext = extensionList.at(i);
 		if(strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
 	}
+
 	return false;
 }
 
 bool dirEntryPredicate(const DirEntry& lhs, const DirEntry& rhs) {
-	if(!lhs.isDirectory && rhs.isDirectory) {
+	if (!lhs.isDirectory && rhs.isDirectory) {
 		return false;
 	}
-	if(lhs.isDirectory && !rhs.isDirectory) {
+
+	if (lhs.isDirectory && !rhs.isDirectory) {
 		return true;
 	}
+
 	return strcasecmp(lhs.name.c_str(), rhs.name.c_str()) < 0;
 }
 
@@ -89,7 +92,7 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 
 	DIR *pdir = opendir(".");
 
-	if(pdir == NULL) {
+	if (pdir == NULL) {
 		Msg::DisplayMsg("Unable to open the directory.");
 		for(int i=0;i<120;i++)	gspWaitForVBlank();
 	} else {
@@ -107,6 +110,7 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 				dirContents.push_back(dirEntry);
 			}
 		}
+
 		closedir(pdir);
 	}
 	sort(dirContents.begin(), dirContents.end(), dirEntryPredicate);
@@ -121,9 +125,10 @@ std::vector<std::string> getContents(const std::string &name, const std::vector<
 	DIR* pdir = opendir(name.c_str());
 	struct dirent *pent;
 	while ((pent = readdir(pdir)) != NULL) {
-		if(nameEndsWith(pent->d_name, extensionList))
+		if (nameEndsWith(pent->d_name, extensionList))
 			dirContents.push_back(pent->d_name);
 	}
+
 	closedir(pdir);
 	return dirContents;
 }
@@ -132,21 +137,22 @@ std::vector<std::string> getContents(const std::string &name, const std::vector<
 static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
 	std::string dirs;
 	GFX::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text, 395);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text, 395, 0, font);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395, 0, font);
 	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
 		dirs += dirContents[i].name + "\n";
 	}
+
 	for (uint i=0;i<((dirContents.size()<9) ? 9-dirContents.size() : 0);i++) {
 		dirs += "\n";
 	}
 
 	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	if (!Config::newStyle) {
-		Gui::DrawString(5, 23, 0.85f, BLACK, dirs, 360);
+	if (!config->newStyle()) {
+		Gui::DrawString(5, 23, 0.85f, BLACK, dirs, 360, 0, font);
 	} else {
-		Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
+		Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
 	}
 }
 
@@ -157,21 +163,23 @@ void DrawFavSaves(uint Selection) {
 	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<favDatabase.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
 		saves += favDatabase[i].Name + "\n";
 	}
+
 	for (uint i=0;i<((favDatabase.size()<9) ? 9-favDatabase.size() : 0);i++) {
 		saves += "\n";
 	}
 
-	if (!Config::newStyle) {
+	if (!config->newStyle()) {
 		if (Selection < 9)	GFX::DrawSelector(false, 24 + ((int)Selection * 21));
 		else				GFX::DrawSelector(false, 24 + (8 * 21));
 	} else {
 		if (Selection < 9)	GFX::DrawSelector(false, 26 + ((int)Selection * 21));
 		else				GFX::DrawSelector(false, 26 + (8 * 21));
 	}
-	if (!Config::newStyle) {
-		Gui::DrawString(5, 23, 0.85f, BLACK, saves, 360);
+
+	if (!config->newStyle()) {
+		Gui::DrawString(5, 23, 0.85f, BLACK, saves, 360, 0, font);
 	} else {
-		Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360);
+		Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360, 0, font);
 	}
 }
 
@@ -187,6 +195,7 @@ FavSave getFavSave(std::string line) {
 		FS.Name = "-";
 		FS.Path = "-";
 	}
+
 	return FS;
 }
 
@@ -195,13 +204,13 @@ void FavSaves::Parse() {
 	favDatabase.clear(); // Clear!
 
 	// if File not found -> Create!
-	if((access("sdmc:/LeafEdit/FavSaves.fs", F_OK) != 0)) {
+	if ((access("sdmc:/LeafEdit/FavSaves.fs", F_OK) != 0)) {
 		std::ofstream outfile("sdmc:/LeafEdit/FavSaves.fs");
 		outfile.close();
 	}
 
 	std::ifstream in("sdmc:/LeafEdit/FavSaves.fs");
-	if(in.good()) {
+	if (in.good()) {
 		std::string line;
 		while(std::getline(in, line)) {
 			favDatabase.push_back(getFavSave(line)); // PUSH!
@@ -270,6 +279,7 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 			}
 			else			Mode = 0;
 		}
+
 		if (hDown & KEY_A) {
 			if (Mode == 0) {
 				if (dirContents[selectedSave].isDirectory) {
@@ -338,6 +348,7 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 		} else if (hDown & KEY_START) {
 			dirChanged = true;
 		}
+
 		if (hDown & KEY_Y) {
 			if (Mode == 0) {
 				if (!dirContents[selectedSave].isDirectory) {
@@ -358,18 +369,19 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 static void Drawbrowse(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
 	std::string dirs;
 	GFX::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Text, 395);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Text, 395, 0, font);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395, 0, font);
 	for (uint i=(Selection<8) ? 0 : (uint)Selection-8;i<dirContents.size()&&i<((Selection<8) ? 9 : Selection+1);i++) {
 		dirs += dirContents[i].name + "\n";
 	}
+
 	for (uint i=0;i<((dirContents.size()<9) ? 9-dirContents.size() : 0);i++) {
 		dirs += "\n";
 	}
 
 	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360);
+	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
 	GFX::DrawFileBrowseBG(false);
 }
 

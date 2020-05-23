@@ -27,7 +27,9 @@
 #include "coreUtils.hpp"
 #include "itemUtils.hpp"
 #include "playerEditorNL.hpp"
+#include "playerManagement.hpp"
 #include "Sav.hpp"
+#include "spriteManagement.hpp"
 #include "stringUtils.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
@@ -38,6 +40,7 @@ extern SaveType savesType;
 PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) {
 	this->TPC = CoreUtils::LoadPlayerTPC(this->player);
 }
+
 // Destroy TPC.
 PlayerEditorNL::~PlayerEditorNL() {
 	if (this->TPC.tex != nullptr) {
@@ -48,57 +51,115 @@ PlayerEditorNL::~PlayerEditorNL() {
 }
 
 void PlayerEditorNL::Draw(void) const {
-	if (Mode == 0)	DrawSubMenu();
+	if (this->Mode == 0)	this->DrawSubMenu();
+	else if (this->Mode == 1)	this->DrawAppearance();
 }
 
 void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (Mode == 0)	SubMenuLogic(hDown, hHeld, touch);
+	if (this->Mode == 0)	this->SubMenuLogic(hDown, hHeld, touch);
+	else if (this->Mode == 1)	this->AppearanceLogic(hDown, hHeld, touch);
 }
 
 /*	Sub Menu.	*/
-void PlayerEditorNL::DrawSubMenu(void) const
-{
+void PlayerEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(player->name()));
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()));
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()));
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395, 0, font);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(this->player->name()), 0, 0, font);
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(this->player->wallet()), 0, 0, font);
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(this->player->bank()), 0, 0, font);
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(this->player->face()), 0, 0, font);
 
 	// Only display TPC if Player has TPC support and is not nullptr.
 	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
-	if (player->tpcImage() != nullptr && player->hasTPC()) {
-		C2D_DrawImageAt(TPC, 60, 80, 0.5);
+	if (this->player->tpcImage() != nullptr && this->player->hasTPC()) {
+		C2D_DrawImageAt(this->TPC, 60, 80, 0.5);
 	}
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
-		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		GFX::DrawButton(this->mainButtons[i]);
+		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
 	}
 }
 
 void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
+		if (this->Selection > 0)	this->Selection--;
 	}
 	if (hDown & KEY_DOWN) {
-			if(Selection < 5)	Selection++;
+		if (this->Selection < 5)	this->Selection++;
 	}
 	if (hDown & KEY_RIGHT) {
-		if (Selection < 3) {
-			Selection += 3;
+		if (this->Selection < 3) {
+			this->Selection += 3;
 		}
 	}
 	if (hDown & KEY_LEFT) {
-		if (Selection < 6 && Selection > 2) {
-			Selection -= 3;
+		if (this->Selection < 6 && this->Selection > 2) {
+			this->Selection -= 3;
+		}
+	}
+
+	if (hDown & KEY_A) {
+		if (this->Selection == 0) {
+			this->Mode = 1;
 		}
 	}
 	
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+}
+
+/*	Appearance.	*/
+void PlayerEditorNL::DrawAppearance(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
+	// Playername & TAN.
+	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
+	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, "Player Name: " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
+	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, "Tan Value: " + std::to_string((this->player->tan())), 380, 0, font);
+
+	// Player Hair & Face sprites.
+	SpriteManagement::DrawHair(this->player->hairstyle(), 118, 106);
+	SpriteManagement::DrawFace(this->player->gender(), this->player->face(), 115, 166);
+
+	// Hair Color.
+	Gui::Draw_Rect(200, 105, 90, 40, PlayerManagement::getHairColor(this->player->haircolor(), savesType));
+	// Eye Color.
+	Gui::Draw_Rect(200, 155, 90, 40, PlayerManagement::getEyeColor(this->player->eyecolor()));
+
+	GFX::DrawBottom();
+	for (int i = 0; i < 6; i++) {
+		GFX::DrawButton(this->appearanceBtn[i]);
+		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
+	}
+}
+
+void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	// Navigation.
+	if (hDown & KEY_UP) {
+		if (this->Selection > 0)	this->Selection--;
+	}
+	if (hDown & KEY_DOWN) {
+		if (this->Selection < 5)	this->Selection++;
+	}
+	if (hDown & KEY_RIGHT) {
+		if (this->Selection < 3) {
+			this->Selection += 3;
+		}
+	}
+	if (hDown & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) {
+			this->Selection -= 3;
+		}
+	}
+	
+	if (hDown & KEY_B) {
+		this->Selection = 0;
+		this->Mode = 0;
 	}
 }

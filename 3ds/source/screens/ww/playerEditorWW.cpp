@@ -42,14 +42,13 @@ void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 /*	Sub Menu.	*/
-void PlayerEditorWW::DrawSubMenu(void) const
-{
+void PlayerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(player->name()));
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()));
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()));
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()));
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395, 0, font);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(player->name()), 0, 0, font);
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(player->wallet()), 0, 0, font);
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(player->bank()), 0, 0, font);
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(player->face()), 0, 0, font);
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -63,14 +62,17 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	}
+
 	if (hDown & KEY_DOWN) {
-			if(Selection < 5)	Selection++;
+		if(Selection < 5)	Selection++;
 	}
+
 	if (hDown & KEY_RIGHT) {
 		if (Selection < 3) {
 			Selection += 3;
 		}
 	}
+	
 	if (hDown & KEY_LEFT) {
 		if (Selection < 6 && Selection > 2) {
 			Selection -= 3;

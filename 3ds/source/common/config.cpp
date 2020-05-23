@@ -24,96 +24,110 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common.hpp"
 #include "config.hpp"
+#include "json.hpp"
 
-std::string Config::currentRelease;
-std::string Config::currentNightly;
-bool Config::newStyle;
+#include <3ds.h>
+#include <string>
+#include <unistd.h>
 
-nlohmann::json configJson;
+// In case it doesn't exist.
+void Config::initialize() {
+	// Create through fopen "Write".
+	FILE *file = fopen("sdmc:/LeafEdit/Settings.json", "w");
 
-void Config::load() {
+	// Set default values.
+	this->setBool("NewStyle", true);
+	this->setString("CurrentRelease", "");
+	this->setString("CurrentNightly", "");
+	this->setInt("Language", 1);
+
+	// Write to file.
+	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
+	fclose(file); // Now we have the file and can properly access it.
+}
+
+Config::Config() {
+	if (access("sdmc:/LeafEdit/Settings.json", F_OK) != 0 ) {
+		this->initialize();
+	}
 	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
-	if (file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	if (!configJson.contains("ReleaseVersion")) {
-		Config::currentRelease = "";
+	// Here we get the initial colors.
+
+	if (!this->json.contains("NewStyle")) {
+		this->newStyle(true);
 	} else {
-		Config::currentRelease = getString("ReleaseVersion");
+		this->newStyle(this->getBool("NewStyle"));
 	}
 
-	if (!configJson.contains("NightlyVersion")) {
-		Config::currentNightly = "";
+	if (!this->json.contains("CurrentRelease")) {
+		this->currentRelease("");
 	} else {
-		Config::currentNightly = getString("NightlyVersion");
+		this->currentRelease(this->getString("CurrentRelease"));
 	}
 
-	if (!configJson.contains("NewStyle")) {
-		Config::newStyle = true;
+	if (!this->json.contains("CurrentNightly")) {
+		this->currentNightly("");
 	} else {
-		Config::newStyle = getBool("NewStyle");
+		this->currentNightly(this->getString("CurrentNightly"));
 	}
+
+	if (!this->json.contains("Language")) {
+		this->language(1);
+	} else {
+		this->language(this->getInt("Language"));
+	}
+
+	this->changesMade = false; // No changes made yet.
 }
 
 
+// Write to config if changesMade.
 void Config::save() {
-	// Versions.
-	Config::setString("ReleaseVersion", Config::currentRelease);
-	Config::setString("NightlyVersion", Config::currentNightly);
-	Config::setBool("NewStyle", Config::newStyle);
-
-	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "w");
-	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
-	fclose(file);
-}
-
-// If no Settings File is found, set a default one. ;)
-void Config::initializeNewConfig() {
-	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
-	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-	setString("ReleaseVersion", "");
-	setString("NightlyVersion", "");
-	Config::setBool("NewStyle", true);
-	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
-	fclose(file);
+	if (this->changesMade) {
+		FILE *file = fopen("sdmc:/LeafEdit/Settings.json", "w");
+		// Set values.
+		this->setBool("NewStyle", this->newStyle());
+		this->setString("CurrentRelease", this->currentRelease());
+		this->setString("CurrentNightly", this->currentNightly());
+		this->setInt("Language", this->language());
+		// Write changes to file.
+		fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
+		fclose(file);
+	}
 }
 
 
 bool Config::getBool(const std::string &key) {
-	if(!configJson.contains(key)) {
+	if(!this->json.contains(key)) {
 		return false;
 	}
-	return configJson.at(key).get_ref<const bool&>();
+
+	return this->json.at(key).get_ref<const bool&>();
 }
-void Config::setBool(const std::string &key, bool v) {
-	configJson[key] = v;
-}
+
+void Config::setBool(const std::string &key, bool v) { this->json[key] = v; }
 
 int Config::getInt(const std::string &key) {
-	if(!configJson.contains(key)) {
+	if(!this->json.contains(key)) {
 		return 0;
 	}
-	return configJson.at(key).get_ref<const int64_t&>();
+
+	return this->json.at(key).get_ref<const int64_t&>();
 }
-void Config::setInt(const std::string &key, int v) {
-	configJson[key] = v;
-}
+
+void Config::setInt(const std::string &key, int v) { this->json[key] = v; }
 
 std::string Config::getString(const std::string &key) {
-	if(!configJson.contains(key)) {
+	if(!this->json.contains(key)) {
 		return "";
 	}
-	return configJson.at(key).get_ref<const std::string&>();
-}
-void Config::setString(const std::string &key, const std::string &v) {
-	configJson[key] = v;
+
+	return this->json.at(key).get_ref<const std::string&>();
 }
 
-int Config::getLang(const std::string &key) {
-	if(!configJson.contains(key)) {
-		return 1;
-	}
-	return configJson.at(key).get_ref<const int64_t&>();
-}
+void Config::setString(const std::string &key, const std::string &v) { this->json[key] = v; }

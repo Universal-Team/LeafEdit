@@ -84,10 +84,9 @@ MainMenu::MainMenu() {
 }
 
 
-void MainMenu::Draw(void) const
-{
+void MainMenu::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - MainMenu", 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - MainMenu", 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, fadealpha)); // Fade in/out effect
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {

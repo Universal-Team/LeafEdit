@@ -57,6 +57,7 @@ int progressBarType = 0;
 char progressBarMsg[128] = "";
 bool showProgressBar = false;
 extern bool changesMade;
+extern std::unique_ptr<Config> config;
 
 #define TIME_IN_US 1
 #define TIMETYPE curl_off_t
@@ -87,7 +88,6 @@ static int curlProgress(CURL *hnd,
 {
 	downloadTotal = dltotal;
 	downloadNow = dlnow;
-
 	return 0;
 }
 
@@ -148,7 +148,6 @@ static size_t file_handle_data(char *ptr, size_t size, size_t nmemb, void *userd
 }
 
 Result downloadToFile(std::string url, std::string path) {
-
 	Result retcode = 0;
 	downloadTotal = 1;
 	downloadNow = 0;
@@ -228,18 +227,22 @@ exit:
 	if (socubuf) {
 		free(socubuf);
 	}
+
 	if (downfile) {
 		fclose(downfile);
 		downfile = NULL;
 	}
+
 	if (g_buffers[0]) {
 		free(g_buffers[0]);
 		g_buffers[0] = NULL;
 	}
+
 	if (g_buffers[1]) {
 		free(g_buffers[1]);
 		g_buffers[1] = NULL;
 	}
+
 	g_index = 0;
 	file_buffer_pos = 0;
 	file_toCommit_size = 0;
@@ -250,36 +253,30 @@ exit:
 
 // following function is from
 // https://github.com/angelsl/libctrfgh/blob/master/curl_test/src/main.c
-static size_t handle_data(char* ptr, size_t size, size_t nmemb, void* userdata)
-{
+static size_t handle_data(char* ptr, size_t size, size_t nmemb, void* userdata) {
 	(void) userdata;
 	const size_t bsz = size*nmemb;
 
-	if (result_sz == 0 || !result_buf)
-	{
+	if (result_sz == 0 || !result_buf) {
 		result_sz = 0x1000;
 		result_buf = (char*)malloc(result_sz);
 	}
 
 	bool need_realloc = false;
-	while (result_written + bsz > result_sz)
-	{
+	while (result_written + bsz > result_sz) {
 		result_sz <<= 1;
 		need_realloc = true;
 	}
 
-	if (need_realloc)
-	{
+	if (need_realloc) {
 		char *new_buf = (char*)realloc(result_buf, result_sz);
-		if (!new_buf)
-		{
+		if (!new_buf) {
 			return 0;
 		}
 		result_buf = new_buf;
 	}
 
-	if (!result_buf)
-	{
+	if (!result_buf) {
 		return 0;
 	}
 
@@ -288,8 +285,7 @@ static size_t handle_data(char* ptr, size_t size, size_t nmemb, void* userdata)
 	return bsz;
 }
 
-static Result setupContext(CURL *hnd, const char * url)
-{
+static Result setupContext(CURL *hnd, const char * url) {
 	downloadTotal = 1;
 	downloadNow = 0;
 	curl_easy_setopt(hnd, CURLOPT_XFERINFOFUNCTION, curlProgress);
@@ -309,18 +305,15 @@ static Result setupContext(CURL *hnd, const char * url)
 	return 0;
 }
 
-Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases)
-{
+Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases) {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
-	if (!socubuf)
-	{
+	if (!socubuf) {
 		return -1;
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
-	if (R_FAILED(ret))
-	{
+	if (R_FAILED(ret)) {
 		free(socubuf);
 		return ret;
 	}
@@ -390,10 +383,8 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 	result_sz = 0;
 	result_written = 0;
 
-	if (assetUrl.empty())
-		ret = DL_ERROR_GIT;
-	else
-		ret = downloadToFile(assetUrl, path);
+	if (assetUrl.empty())	ret = DL_ERROR_GIT;
+	else	ret = downloadToFile(assetUrl, path);
 
 	return ret;
 }
@@ -441,18 +432,15 @@ void notConnectedMsg(void) {
 	}
 }
 
-ReleaseFetch getLatestRelease()
-{
+ReleaseFetch getLatestRelease() {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
-	if (!socubuf)
-	{
+	if (!socubuf) {
 		return {""};
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
-	if (R_FAILED(ret))
-	{
+	if (R_FAILED(ret)) {
 		free(socubuf);
 		return {""};
 	}
@@ -529,18 +517,15 @@ ReleaseFetch getLatestRelease()
 	return RF;
 }
 
-NightlyFetch getLatestCommit()
-{
+NightlyFetch getLatestCommit() {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
-	if (!socubuf)
-	{
+	if (!socubuf) {
 		return {""};
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
-	if (R_FAILED(ret))
-	{
+	if (R_FAILED(ret)) {
 		free(socubuf);
 		return {""};
 	}
@@ -630,31 +615,28 @@ void setMessageText(const std::string &text) {
 		words.push_back(_topTextStr.substr(0, pos));
 		_topTextStr = _topTextStr.substr(pos + 1);
 	}
-	if(_topTextStr.size())
-		words.push_back(_topTextStr);
+
+	if (_topTextStr.size())	words.push_back(_topTextStr);
 	std::string temp;
 	_topText.clear();
+
 	for(auto word : words) {
 		int width = Gui::GetStringWidth(0.7f, (temp + " " + word).c_str());
-		if(word.find('\n') != -1u)
-		{
+
+		if (word.find('\n') != -1u) {
 			word.erase(std::remove(word.begin(), word.end(), '\n'), word.end());
 			temp += " " + word;
 			_topText.push_back(temp);
 			temp = "";
-		}
-		else if(width > 350)
-		{
+		} else if (width > 350) {
 			_topText.push_back(temp);
 			temp = word;
-		}
-		else
-		{
+		} else {
 			temp += " " + word;
 		}
 	}
-	if(temp.size())
-		_topText.push_back(temp);
+
+	if(temp.size())	_topText.push_back(temp);
 }
 
 void drawMessageText(int position) {
@@ -740,8 +722,8 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			// Install and delete.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			progressBarType = 1;
-			if (version != "")	Config::currentRelease = version;
-			changesMade = true;
+			if (version != "")	config->currentNightly(version);
+			config->save(); // Needed to do that here.
 			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
@@ -757,7 +739,8 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 				return -1;
 			}
 			showProgressBar = false;
-			if (version != "")	Config::currentNightly = version;
+			if (version != "")	config->currentNightly(version);
+			config->save(); // Needed to do that here.
 			success = true;
 		}
 	} else {
@@ -775,8 +758,8 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			// Install and delete.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			progressBarType = 1;
-			if (version != "")	Config::currentRelease = version;
-			changesMade = true;
+			if (version != "")	config->currentRelease(version);
+			config->save(); // Needed to do that here.
 			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
@@ -792,12 +775,13 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 				return -1;
 			}
 			showProgressBar = false;
-			if (version != "")	Config::currentRelease = version;
+			if (version != "")	config->currentRelease(version);
+			config->save(); // Needed to do that here.
 			success = true;
 		}
 	}
 	Msg::DisplayWarnMsg(Lang::get("DONE"));
-	if (version != "")	changesMade = true;
+	if (version != "")
 	if (success == true) {
 		if (is3dsx == true) {
 			Is3dsxUpdated = true;
@@ -889,9 +873,10 @@ void displayProgressBar() {
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawTop();
 
-		Gui::DrawStringCentered(0, 1, 0.7f, WHITE, progressBarMsg, 400);
-		Gui::DrawStringCentered(0, 80, 0.7f, WHITE, str, 400);
+		Gui::DrawStringCentered(0, 1, 0.7f, WHITE, progressBarMsg, 400, 0, font);
+		Gui::DrawStringCentered(0, 80, 0.7f, WHITE, str, 400, 0, font);
 		Gui::Draw_Rect(30, 120, 340, 30, BLACK);
+
 			// Download.
 		if (progressBarType == 0) {
 			Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, DARKER_COLOR);
@@ -899,6 +884,7 @@ void displayProgressBar() {
 		} else {
 			Gui::Draw_Rect(31, 121, (int)(((float)installOffset/(float)installSize) * 338.0f), 28, DARKER_COLOR);
 		}
+
 		GFX::DrawBottom();
 		C3D_FrameEnd(0);
 		gspWaitForVBlank();

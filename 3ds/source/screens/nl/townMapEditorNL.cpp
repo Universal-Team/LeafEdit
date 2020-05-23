@@ -40,8 +40,7 @@ extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
-void TownMapEditorNL::Draw(void) const
-{
+void TownMapEditorNL::Draw(void) const {
 	if (Mode == 0) {
 		DrawMapScreen();
 	} else if (Mode == 1) {
@@ -192,8 +191,8 @@ void TownMapEditorNL::DrawInformation() const {
 	for (int i = 0; i < 20; i++) {
 		SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(i)]->id(), townPos[i].x, townPos[i].y);
 	}
-	Gui::DrawString(210, 60, 0.7f, BLACK, "Current Position: " + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150);
-	Gui::DrawString(210, 90, 0.6f, BLACK, "Current Item: " + MapItems[MapSelection]->name(), 190);
+	Gui::DrawString(210, 60, 0.7f, BLACK, "Current Position: " + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 0, font);
+	Gui::DrawString(210, 90, 0.6f, BLACK, "Current Item: " + MapItems[MapSelection]->name(), 190, 0, font);
 	Gui::drawGrid(townPos[currentAcre].x, townPos[currentAcre].y, townPos[currentAcre].w, townPos[currentAcre].h, BLACK);
 }
 
@@ -205,7 +204,7 @@ void TownMapEditorNL::DrawCurrentPos(void) const {
 // Draw Town Map Editor screen.
 void TownMapEditorNL::DrawMapScreen(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400, 0, font);
 	DrawInformation();
 
 	// Bottom Screen part. Grid & Acre.
@@ -412,7 +411,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 void TownMapEditorNL::DrawTempItem(void) const {
 	std::string itemList;
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->itemID), 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->itemID), 390, 0, font);
 
 	for (int i=(this->itemIndex<8) ? 0 : (int)this->itemIndex-8;i<(int)itemDB.size()&&i<(((int)this->itemIndex<8) ? 9 : (int)this->itemIndex+1);i++) {
 		itemList += itemDB[i].second + "\n";
@@ -424,8 +423,8 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	// Selector Logic.
 	if (this->itemIndex < 9)	GFX::DrawSelector(true, 24 + ((int)this->itemIndex * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395);
+	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
 	
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
@@ -433,8 +432,8 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	}
 
 	// We have no other choice.
-	Gui::DrawStringCentered(tempItemPos[0].x - 160 + (tempItemPos[0].xLength/2), tempItemPos[0].y + (tempItemPos[0].yLength/2) - 10, 0.9f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength-17, tempItemPos[0].yLength-5);
-	Gui::DrawStringCentered(tempItemPos[1].x - 160 + (tempItemPos[1].xLength/2), tempItemPos[1].y + (tempItemPos[1].yLength/2) - 10, 0.9f, BLACK, "Item Flags: " + std::to_string(this->itemFlag), tempItemPos[1].xLength-17, tempItemPos[1].yLength-5);
+	Gui::DrawStringCentered(tempItemPos[0].x - 160 + (tempItemPos[0].xLength/2), tempItemPos[0].y + (tempItemPos[0].yLength/2) - 10, 0.9f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength-17, tempItemPos[0].yLength-5, font);
+	Gui::DrawStringCentered(tempItemPos[1].x - 160 + (tempItemPos[1].xLength/2), tempItemPos[1].y + (tempItemPos[1].yLength/2) - 10, 0.9f, BLACK, "Item Flags: " + std::to_string(this->itemFlag), tempItemPos[1].xLength-17, tempItemPos[1].yLength-5, font);
 	
 	if (!this->isItemSelection) {
 		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
@@ -534,6 +533,7 @@ void TownMapEditorNL::DrawFullMap(void) const {
 	for (int i = 0; i < 42; i++) {
 		SpriteManagement::DrawAcres(FullAcres[i]->id(), acreMapPos[i].x, acreMapPos[i].y);
 	}
+
 	// Draw Grid.
 	for (int i = 0; i < 42; i++) {
 		for (u32 y = 0; y < 6; y++) {
@@ -542,6 +542,7 @@ void TownMapEditorNL::DrawFullMap(void) const {
 			}
 		}
 	}
+
 	GFX::DrawGUI(gui_pointer_idx, acreMapPos[selection].x+20, acreMapPos[selection].y+20);
 }
 
@@ -551,6 +552,7 @@ void TownMapEditorNL::DrawMap(void) const {
 	for (int i = 0; i < 20; i++) {
 		SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(i)]->id(), acreTownPos[i].x, acreTownPos[i].y);
 	}
+
 	// Draw Grid.
 	for (int i = 0; i < 20; i++) {
 		for (u32 y = 0; y < 4; y++) {
@@ -559,14 +561,15 @@ void TownMapEditorNL::DrawMap(void) const {
 			}
 		}
 	}
+
 	GFX::DrawGUI(gui_pointer_idx, acreTownPos[selection].x+20, acreTownPos[selection].y+20);
 }
 
 // Draw the Acre Selection from the Top Screen.
 void TownMapEditorNL::DrawTopSelection(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Acre Editor", 400);
-	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, "Acre ID: " + std::to_string(selectedAcre), 400);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Acre Editor", 400, 0, font);
+	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, "Acre ID: " + std::to_string(selectedAcre), 400, 0, font);
 	if (selectedAcre == 0) {
 		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);

@@ -24,25 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SPRITEMANAGEMENT_HPP
-#define SPRITEMANAGEMENT_HPP
+#ifndef OVERLAY_HPP
+#define OVERLAY_HPP
 
-#include <3ds.h>
-#include <string>
+#include "screenCommon.hpp"
 
-namespace SpriteManagement {
-	// Draw Hairs.
-	void DrawHair(u8 hair, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Faces.
-	void DrawFace(u8 face, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Items.
-	void DrawItem(u8 itemCategory, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Acres.
-	void DrawAcres(u8 acreID, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Villagers.
-	void DrawVillager(u16 villagerID, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Badges.
-	void DrawBadge(u8 badge, int x, int y, float ScaleX = 1, float ScaleY = 1);
-}
+#include <memory>
+
+class Overlay {
+public:
+	virtual ~Overlay() {}
+	virtual void DrawOverlayTop(void) const = 0;
+	virtual void DrawOverlayBottom(void) const = 0;
+	virtual void Logic(u32 hDown, u32 hHeld, touchPosition touch) = 0;
+	bool isUsed = false;
+};
 
 #endif

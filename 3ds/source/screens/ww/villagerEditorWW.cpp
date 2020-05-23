@@ -30,7 +30,9 @@
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
 #include "villagerEditorWW.hpp"
+#include "villagerSelection.hpp"
 
+extern std::unique_ptr<Overlay> overlay;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::vector<std::string> g_personality;
 extern bool touching(touchPosition touch, ButtonType button);
@@ -59,11 +61,11 @@ void VillagerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Villager Editor", 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Villager Editor", 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
-	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->villager->id()], 395);
-	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, "Personality: " + getPersonality(this->villager->personality()), 395);
-	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, "Catchphrase: ", 395);
+	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->villager->id()], 395, 0, font);
+	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, "Personality: " + getPersonality(this->villager->personality()), 395, 0, font);
+	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, "Catchphrase: ", 395, 0, font);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
@@ -97,8 +99,7 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		u8 tempSelect = 0;
 		switch (Selection) {
 			case 0:
-				tempSelect = (u8)GFX::ListSelection(this->villager->id(), g_villagerDatabase, "Select your wanted Villager.");
-				this->villager->id(tempSelect);
+				overlay = std::make_unique<VillagerSelection>(this->villager, SaveType::WW);
 				break;
 			case 1:
 				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, "Select the wanted personality.");
@@ -131,11 +132,12 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void VillagerEditorWW::DrawItems(void) const {
 	std::string itemList;
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390, 0, font);
 
 	for (int i=(itemIndex<8) ? 0 : (int)itemIndex-8;i<(int)itemDB.size()&&i<(((int)itemIndex<8) ? 9 : (int)itemIndex+1);i++) {
 		itemList += itemDB[i].second + "\n";
 	}
+
 	for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
 		itemList += "\n";
 	}
@@ -143,19 +145,19 @@ void VillagerEditorWW::DrawItems(void) const {
 	// Selector Logic.
 	if (itemIndex < 9)	GFX::DrawSelector(true, 24 + ((int)itemIndex * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395);
+	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
 
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 15; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
+
 	GFX::DrawGUI(gui_pointer_idx, items[itemSelection].x+15, items[itemSelection].y+15);
 }
 
-void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch)
-{
+void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (keyRepeatDelay)	keyRepeatDelay--;
 
 	if (hDown & KEY_SELECT) {

@@ -67,7 +67,7 @@ PlayerSelector::~PlayerSelector() {
 
 void PlayerSelector::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395, 0, font);
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
 			// Only display TPC if New Leaf or Welcome Amiibo.
@@ -77,7 +77,7 @@ void PlayerSelector::Draw(void) const {
 				// Else draw NoTPC Image instead.
 				GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f);
 			}
-			Gui::DrawString(18 + (i * 100), 150, 0.64f, BLACK, this->playerNames[i]);
+			Gui::DrawString(18 + (i * 100), 150, 0.64f, BLACK, this->playerNames[i], 400, 0, font);
 		}
 	}
 

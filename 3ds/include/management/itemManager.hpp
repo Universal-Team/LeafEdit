@@ -39,7 +39,8 @@ namespace ItemManager {
 	// Getter's.
 	int getIndex(const u16 &v);
 	int getIndexString(const int &current, const std::string &v);
-
+	u16 selectItem(u16 currentID);
+	
 	// All Colors.
 	extern u32 Pattern, Building, MoneyRock, Furniture, Gyroid, Clothes, Song, Paper, Trash, Shell,
 	Fruit, Turnip, Catchable, Item, WallpaperCarpet, Fossil, Tool, Tree, Weed, Flower, Rock,

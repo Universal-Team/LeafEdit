@@ -28,6 +28,7 @@
 #define COMMON_HPP
 
 #include <3ds.h>
+#include <citro2d.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,9 +51,11 @@ extern "C" {
 #include "json.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
+#include "overlay.hpp"
 #include "screenCommon.hpp"
 #include "utils.hpp"
 
+#include <memory>
 #endif
 
 //Title IDs
@@ -73,5 +76,6 @@ extern bool GodMode;
 extern bool Debug;
 extern bool changes;
 extern int barOffset;
+extern C2D_Font font;
 
 #endif

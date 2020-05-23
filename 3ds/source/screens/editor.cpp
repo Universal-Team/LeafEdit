@@ -139,11 +139,11 @@ void Editor::Draw(void) const
 {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Editor", 395);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Editor", 395, 0, font);
 		if (saveT != -1) {
-			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400); // +1 for PAL names.
+			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
-			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400);
+			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {

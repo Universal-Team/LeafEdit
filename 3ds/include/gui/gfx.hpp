@@ -77,6 +77,8 @@ namespace GFX {
 	void DrawButton(const ButtonType button, float TextSize = 0.9f);
 
 	void drawGrid(float xPos, float yPos, float Width, float Height, u32 itemColor, u32 gridColor = C2D_Color32(80, 80, 80, 100));
+
+	void Main(u32 hDown, u32 hHeld, touchPosition touch);
 }
 
 #endif

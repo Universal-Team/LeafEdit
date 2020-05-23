@@ -24,53 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITORNL_HPP
-#define PLAYEREDITORNL_HPP
+#ifndef PLAYERMANAGEMENT_HPP
+#define PLAYERMANAGEMENT_HPP
 
-#include "common.hpp"
-#include "coreUtils.hpp"
-#include "structs.hpp"
+#include <3ds.h>
+#include <string>
 
-#include <vector>
+namespace PlayerManagement {
+	// Get the Hair Color RGB.
+	u32 getHairColor(u8 hairColor, SaveType save);
+	// Get the Eye Color RGB. (NL / WA only.)
+	u32 getEyeColor(u8 eyeColor);
 
-class PlayerEditorNL : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PlayerEditorNL(std::shared_ptr<Player> p);
-	~PlayerEditorNL();
-private:
-	C2D_Image TPC;
-	int Selection = 0;
-	int Mode = 0;
-	std::shared_ptr<Player> player;
-
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
-		{15, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
-		{175, 34, 130, 48, ""},
-		{175, 97, 130, 48, ""},
-		{175, 159, 130, 48, ""}
-	};
-
-	std::vector<ButtonType> appearanceBtn = {
-		{15, 34, 130, 48, "Player Name"},
-		{15, 97, 130, 48, "Hair Style"},
-		{15, 159, 130, 48, "Face"},
-		{175, 34, 130, 48, "Tan Value"},
-		{175, 97, 130, 48, "Hair Color"},
-		{175, 159, 130, 48, "Eye Color"}
-	};
-
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/*	Appearance.	*/
-	void DrawAppearance(void) const;
-	void AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	/*	Player.	*/
-};
+	u8 SelectHair(u8 currentHair);
+	void DrawHairSelection(int selection, bool isFemale = false);
+}
 
 #endif

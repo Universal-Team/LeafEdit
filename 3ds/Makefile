@@ -104,9 +104,9 @@ INCLUDECORE	:= ../LeafEdit-Core/include \
 COMMON_SRC	:= ../common/source ../common/source/plugin
 COMMON_INC	:=	../common/include ../common/include/plugin
 
-SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/screens source/screens/nl source/screens/ww
+SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/management source/overlay source/screens source/screens/nl source/screens/ww
 DATA		:=	data
-INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) $(COMMON_INC) include include/common include/download include/gui include/lang include/screens include/screens/nl include/screens/ww include/sprite
+INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) $(COMMON_INC) include include/common include/download include/gui include/lang include/management include/overlay include/screens include/screens/nl include/screens/ww include/sprite
 GRAPHICS	:=	assets/gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs

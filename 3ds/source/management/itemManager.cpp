@@ -25,7 +25,9 @@
 */
 
 #include "common.hpp"
+#include "gfx.hpp"
 #include "itemManager.hpp"
+#include "itemUtils.hpp"
 #include <vector>
 
 extern std::vector<std::pair<u16, std::string>> itemDB;
@@ -196,4 +198,55 @@ int ItemManager::getIndexString(const int &current, const std::string &v) {
 		}
 	}
 	return index >= 0 ? index : 0;
+}
+
+u16 ItemManager::selectItem(u16 currentID) {
+	std::string itemList;
+	int selection = getIndex(currentID);
+	int keyRepeatDelay = 0;
+	while (1) {
+		Gui::clearTextBufs();
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C2D_TargetClear(Top, BLACK);
+		C2D_TargetClear(Bottom, BLACK);
+		GFX::DrawFileBrowseBG(true);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Old Item: " + ItemUtils::getName(currentID), 390);
+
+		for (int i=(selection<8) ? 0 : (int)selection-8;i<(int)itemDB.size()&&i<(((int)selection<8) ? 9 : (int)selection+1);i++) {
+			itemList += itemDB[i].second + "\n";
+		}
+		for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
+			itemList += "\n";
+		}
+
+		// Selector Logic.
+		if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
+		else				GFX::DrawSelector(true, 24 + (8 * 21));
+		Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(itemDB.size()), 395);
+		GFX::DrawBottom();
+		C3D_FrameEnd(0);
+
+		hidScanInput();
+		if (keyRepeatDelay)	keyRepeatDelay--;
+		if (hidKeysHeld() & KEY_DOWN && !keyRepeatDelay) {
+			if (selection < (int)itemDB.size()-1)	selection++;
+			else	selection = 0;
+			keyRepeatDelay = 4;
+		}
+
+		if (hidKeysHeld() & KEY_UP && !keyRepeatDelay) {
+			if (selection > 0)	selection--;
+			else if (selection == 0)	selection = (int)itemDB.size()-1;
+			keyRepeatDelay = 4;
+		}
+
+		if (hidKeysDown() & KEY_A) {
+			return itemDB[selection].first;
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return currentID;
+		}
+	}
 }

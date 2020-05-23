@@ -26,6 +26,7 @@
 
 #include "updateCenter.hpp"
 
+extern std::unique_ptr<Config> config;
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool changesMade;
 
@@ -43,29 +44,28 @@ void UpdateCenter::checkUpdate() {
 	latestRelease = Download::getLatestRelease2();
 	latestNightly = Download::getLatestNightly();
 	// Check if Nightly & Release matches.
-	if (Config::currentRelease != latestRelease.Version)	ReleaseAvailable = true;
-	if (Config::currentNightly != latestNightly.Target)		NightlyAvailable = true;
+	if (config->currentRelease() != latestRelease.Version)	ReleaseAvailable = true;
+	if (config->currentNightly() != latestNightly.Target)		NightlyAvailable = true;
 	hasCheckedForUpdate = true;
 }
 
 
-void UpdateCenter::Draw(void) const
-{
+void UpdateCenter::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Update Center", 400);
-	if (Config::newStyle)	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Update Center", 400, 0, font);
+	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
 	// Display some Informations. :)
 	if (Selection == 0) {
-		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Latest Version: " + latestRelease.Version, 395);
-		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "Published at: " + latestRelease.Published, 395, 90);
-		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestRelease.ReleaseName, 395);
-		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + Config::currentRelease, 395);
+		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Latest Version: " + latestRelease.Version, 395, 0, font);
+		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "Published at: " + latestRelease.Published, 395, 90, font);
+		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestRelease.ReleaseName, 395, 0, font);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + config->currentRelease(), 395, 0, font);
 	} else if (Selection == 1) {
-		Gui::DrawStringCentered(0, 40, 0.8f, BLACK, "Latest Version: " + latestNightly.Target, 395);
-		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Committed by: " + latestNightly.Committer, 395, 90);
-		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "Authored by: " + latestNightly.Author, 395, 90);
-		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestNightly.Message, 395, 90);
-		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + Config::currentNightly, 395);
+		Gui::DrawStringCentered(0, 40, 0.8f, BLACK, "Latest Version: " + latestNightly.Target, 395, 0, font);
+		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, "Committed by: " + latestNightly.Committer, 395, 90, font);
+		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, "Authored by: " + latestNightly.Author, 395, 90, font);
+		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestNightly.Message, 395, 90, font);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + config->currentNightly(), 395, 0, font);
 	}
 
 	GFX::DrawBottom();
@@ -74,8 +74,8 @@ void UpdateCenter::Draw(void) const
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
 
-	if (ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x+124, mainButtons[0].y-4);
-	if (NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x+124, mainButtons[1].y-4);
+	if (this->ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x+124, mainButtons[0].y-4);
+	if (this->NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x+124, mainButtons[1].y-4);
 }
 
 

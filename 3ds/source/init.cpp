@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "config.hpp"
 #include "download.hpp"
 #include "init.hpp"
 #include "gfx.hpp"
@@ -41,7 +42,7 @@
 int fadealpha = 255;
 bool fadein = true;
 int barOffset; // The additional offset for the text on the clean style.
-
+std::unique_ptr<Config> config;
 // If true -> Exit LeafEdit.
 bool exiting = false;
 
@@ -56,6 +57,7 @@ C2D_SpriteSheet Items;
 C2D_SpriteSheet Players;
 C2D_SpriteSheet Villager;
 C2D_SpriteSheet Villager2;
+C2D_Font font;
 
 // Is loaded state.
 bool sheetsLoaded		= false;
@@ -75,7 +77,7 @@ void getCurrentUsage(){
 	u64 id;
 	APT_GetProgramID(&id);
 
-	if(id == 0x0004000004392100){
+	if (id == 0x0004000004392100){
 		is3dsx = false;
 		return;
 	}
@@ -85,17 +87,14 @@ void getCurrentUsage(){
 
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, ButtonType button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength))
-		return true;
-	else
-		return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength))	return true;
+	else	return false;
 }
+
 // Icons are handled through Structs::ButtonPos.
 bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
-		return true;
-	else
-		return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
+	else	return false;
 }
 
 // Check if Sheets are found.
@@ -148,17 +147,19 @@ Result Init::loadFont() {
 			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
 		} else {
-			Gui::loadFont(false, "sdmc:/LeafEdit/assets/font.bcfnt");
+			Gui::loadFont(font, "sdmc:/LeafEdit/assets/font.bcfnt");
 		}
 	}
+
 	FontHasLoaded = true;
 	return 0;
 }
 
 Result Init::unloadFont() {
 	if (FontHasLoaded == true) {
-		Gui::unloadFont();
+		Gui::unloadFont(font);
 	}
+
 	FontHasLoaded = false;
 	return 0;
 }
@@ -188,18 +189,16 @@ Result Init::Init() {
 	cfguInit();
 
 	// We need to make sure, the file exist.
-	if(access("sdmc:/LeafEdit/Settings.json", F_OK) == -1 ) {
-		Config::initializeNewConfig();
-	}
-	Config::load();
-	if (Config::newStyle) {
+	config = std::make_unique<Config>();
+
+	if (config->newStyle()) {
 		barOffset = 0;
 	} else {
 		barOffset = 2;
 	}
 	
 	ItemManager::loadColors();
-	Lang::load(1);
+	Lang::load(config->language());
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 
 	DARKER_COLOR = DARKER_GREEN;
@@ -209,9 +208,7 @@ Result Init::Init() {
 	UNSELECTED_COLOR = UNSELECTED_GREEN;
 
 	// If sheets not found -> Download it.
-	if (CheckSheets() != 0) {
-		Download::downloadAssets();
-	}
+	if (CheckSheets() != 0) { Download::downloadAssets(); }
 
 	// Only Load Font if found, else load System font.
 	loadFont();
@@ -253,7 +250,7 @@ Result Init::MainLoop() {
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		Gui::clearTextBufs();
-		Gui::mainLoop(hDown, hHeld, touch);
+		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 
 		if (fadein == true) {
@@ -276,8 +273,8 @@ Result Init::Exit() {
 	acExit();
 	amExit();
 	Gui::exit();
-	unloadFont();
-	if (changesMade)	Config::save();
+	Init::unloadFont();
+	config->save();
 	Gui::unloadSheet(GUI);
 	cfguExit();
 	gfxExit();

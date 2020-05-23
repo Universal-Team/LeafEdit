@@ -24,31 +24,49 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef _LEAFEDIT_CONFIG_HPP
+#define _LEAFEDIT_CONFIG_HPP
 
-#include "common.hpp"
+#include "json.hpp"
 
+#include <3ds.h>
 #include <string>
 
-namespace Config {
-	void load();
+class Config {
+public:
+	Config();
 	void save();
-	void initializeNewConfig();
+	void initialize();
 
+	// Using new Style.
+	bool newStyle() { return this->v_newStyle; }
+	void newStyle(bool v) { this->v_newStyle = v; if (!this->changesMade)	this->changesMade = true; }
+	// Current Release.
+	std::string currentRelease() { return this->v_currentRelease; }
+	void currentRelease(std::string v) { this->v_currentRelease = v; if (!this->changesMade)	this->changesMade = true; }
+	// Current Nightly.
+	std::string currentNightly() { return this->v_currentNightly; }
+	void currentNightly(std::string v) { this->v_currentNightly = v; if (!this->changesMade)	this->changesMade = true; }
+	// Language.
+	int language() { return this->v_language; }
+	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
+
+	// Mainly helper.
 	bool getBool(const std::string &key);
 	void setBool(const std::string &key, bool v);
-
 	int getInt(const std::string &key);
 	void setInt(const std::string &key, int v);
-
 	std::string getString(const std::string &key);
 	void setString(const std::string &key, const std::string &v);
+private:
+	nlohmann::json json; // Our private JSON file.
+	bool changesMade = false;
 
-	int getLang(const std::string &key);
-
-	extern std::string currentRelease, currentNightly;
-	extern bool newStyle;
-}
+	// variables for the config.
+	bool v_newStyle;
+	std::string v_currentRelease;
+	std::string v_currentNightly;
+	int v_language;
+};
 
 #endif
