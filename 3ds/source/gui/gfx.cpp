@@ -335,7 +335,6 @@ void GFX::drawGrid(float xPos, float yPos, float Width, float Height, u32 itemCo
 
 // Main Logic.
 std::unique_ptr<Overlay> overlay;
-extern std::stack<std::unique_ptr<Screen>> screens;
 
 // Main Logic.
 void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -351,11 +350,11 @@ void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
 			overlay->DrawOverlayBottom();
 			overlay->Logic(hDown, hHeld, touch);
 		} else {
-			screens.top()->Draw();
-			screens.top()->Logic(hDown, hHeld, touch);
+			Gui::DrawScreen(true);
+			Gui::ScreenLogic(hDown, hHeld, touch, true, true);
 		}
 	} else {
-		screens.top()->Draw();
-		screens.top()->Logic(hDown, hHeld, touch);
+		Gui::DrawScreen(true);
+		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
 	}
 }

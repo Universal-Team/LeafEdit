@@ -38,9 +38,6 @@
 #include <dirent.h>
 #include <unistd.h>
 
-// The classic Fade Effect! ;P
-int fadealpha = 255;
-bool fadein = true;
 int barOffset; // The additional offset for the text on the clean style.
 std::unique_ptr<Config> config;
 // If true -> Exit LeafEdit.
@@ -99,7 +96,7 @@ bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
 
 // Check if Sheets are found.
 Result Init::CheckSheets() {
-	if((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
+	if ((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
@@ -117,12 +114,12 @@ Result Init::loadSheets() {
 			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
 			return -1;
 		} else {
-			Acres		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/acres.t3x");
-			Items		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/items.t3x");
-			Players		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/players.t3x");
-			Villager	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers.t3x");
-			Villager2	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers2.t3x");
-			sheetsLoaded  = true;
+			Acres			= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/acres.t3x");
+			Items			= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/items.t3x");
+			Players			= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/players.t3x");
+			Villager		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers.t3x");
+			Villager2		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers2.t3x");
+			sheetsLoaded	= true;
 		}
 	}
 	return 0;
@@ -231,7 +228,7 @@ Result Init::Init() {
 Result Init::Initialize() {
 	Init(); // Init base stuff.
 	// Set the Screen to the MainMenu.
-	Gui::setScreen(std::make_unique<MainMenu>());
+	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }
 
@@ -240,8 +237,7 @@ Result Init::MainLoop() {
 	Initialize();
 
 	// Loop as long as the status is not exiting.
-	while (aptMainLoop() && !exiting && !Is3dsxUpdated)
-	{
+	while (aptMainLoop()) {
 		hidScanInput();
 		u32 hHeld = hidKeysHeld();
 		u32 hDown = hidKeysDown();
@@ -253,13 +249,11 @@ Result Init::MainLoop() {
 		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 
-		if (fadein == true) {
-			fadealpha -= 3;
-			if (fadealpha < 0) {
-				fadealpha = 0;
-				fadein = false;
-			}
+		if (exiting || Is3dsxUpdated) {
+			if (!fadeout)	break;
 		}
+
+		Gui::fadeEffects(16, 16, true);
 	}
 	// Exit all services and exit the app.
 	Exit();

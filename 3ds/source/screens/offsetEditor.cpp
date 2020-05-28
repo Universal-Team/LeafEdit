@@ -155,8 +155,7 @@ void EditEncryptedInt32() {
 	SaveUtils::Write<u32>(save->savePointer(), offset + 0x04, encryptionData);
 }
 
-void OffsetEditor::Draw(void) const
-{
+void OffsetEditor::Draw(void) const {
 	std::string title = "LeafEdit - Offset Editor - ";
 	if (Mode == 0)	title += "Read Mode";
 	else			title += "Write Mode";

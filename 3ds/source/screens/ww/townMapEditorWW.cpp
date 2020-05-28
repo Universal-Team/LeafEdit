@@ -198,7 +198,7 @@ void TownMapEditorWW::DrawMapScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400, 0, font);
 	DrawInformation();
-
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	// Bottom Screen part. Grid & Acre.
 	GFX::DrawBottom(true); // We need the full screen.
 	SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(currentAcre)]->id(), 10, 40, 5, 5);
@@ -217,6 +217,7 @@ void TownMapEditorWW::DrawMapScreen(void) const {
 	} else {
 		GFX::DrawGUI(gui_pointer_idx, mainButtons[selection].x+40, mainButtons[selection].y+13);
 	}
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Inject the current Temp Item to a slot.
@@ -306,8 +307,7 @@ void TownMapEditorWW::updateStuff() {
 
 void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if ((hDown & KEY_B) || (hDown & KEY_TOUCH && iconTouch(touch, icons[0]))) {
-		Gui::screenBack();
-		return;
+		Gui::screenBack(true);
 	}
 
 	// Switch the select Mode from Town Map Selection to operation selection.
@@ -423,7 +423,7 @@ void TownMapEditorWW::DrawTempItem(void) const {
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
-
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(tempItemPos[i], 0.8f);
@@ -434,6 +434,7 @@ void TownMapEditorWW::DrawTempItem(void) const {
 	if (!this->isItemSelection) {
 		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
 	}
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void TownMapEditorWW::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -512,7 +513,9 @@ void TownMapEditorWW::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void TownMapEditorWW::DrawAcres(void) const {
 	DrawTopSelection();
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	DrawMap();
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw TownMap.
