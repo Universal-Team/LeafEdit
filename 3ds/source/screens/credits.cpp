@@ -37,8 +37,8 @@ void Credits::Draw(void) const {
 		if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Credits", 400, 0, font);
 		Gui::DrawStringCentered(0, 30, 0.9f, BLACK, "Developed by Universal-Team.", 390, 0, font);
-		Gui::DrawStringCentered(0, 70, 0.9f, BLACK, Lang::get("MAIN_DEV"), 390, 0, font);
-		GFX::DrawGUI(gui_stackZ_idx, 5, 85);
+		Gui::DrawStringCentered(0, 70, 0.9f, BLACK, "Main Developer: SuperSaiyajinStackie", 390, 0, font);
+		GFX::DrawGUI(gui_stackie_idx, 5, 85);
 		GFX::DrawGUI(gui_universal_core_idx, 200, 110);
 		Gui::DrawString(395-Gui::GetStringWidth(0.8, std::string("Current Version: ") + V_STRING, font), 219, 0.8, WHITE, std::string("Current Version: ") + V_STRING, 400, 0, font);
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -60,7 +60,7 @@ void Credits::Draw(void) const {
 	} else if (DisplayMode == 2) {
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.8f, BLACK, "Translators", 310, 0, font);
 		Gui::DrawString(5, 45, 0.8f, BLACK, "Deutsch\nEnglish\nEspañol\nFrançais\nItaliano\nLietuvių\nPortuguês\n日本語", 310, 0, font);
-		Gui::DrawString(150, 45, 0.8f, BLACK, "StackZ\nStackZ\nYoSoy\nantoine62\nedo9300\nlemonnade0\nChips, David Pires\nPk11", 310, 0, font);
+		Gui::DrawString(150, 45, 0.8f, BLACK, "SuperSaiyajinStackie\nSuperSaiyajinStackie\nYoSoy\nantoine62\nedo9300\nlemonnade0\nChips, David Pires\nPk11", 310, 0, font);
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	} else if (DisplayMode == 3) {
 		qr_code();

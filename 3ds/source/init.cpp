@@ -227,6 +227,8 @@ Result Init::Init() {
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
+	fadein = true;
+	fadealpha = 255;
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
