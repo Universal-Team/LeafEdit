@@ -111,7 +111,7 @@ bool Editor::loadSave() {
 }
 
 void Editor::SaveInitialize() {
-	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", "Select your SaveFile.");
+	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", "Select your SaveFile.");
 	// If User canceled, go screen back.
 	if (saveName == "") {
 		Gui::screenBack(true);
