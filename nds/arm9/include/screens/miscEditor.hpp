@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MISCEDITOR_HPP
-#define MISCEDITOR_HPP
+#ifndef _LEAFEDIT_MISCEDITOR_HPP
+#define _LEAFEDIT_MISCEDITOR_HPP
 
 #include "screenCommon.hpp"
 
 #include "structs.hpp"
 #include <vector>
 
-class MiscEditor : public Screen
-{
+class MiscEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -43,7 +42,7 @@ private:
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{80, 30, 88, 32, -1}, // Acres Editor.
 		{80, 80, 88, 32, -1}, // Town Editor.
-		{80, 130, 88, 32, -1}, // ?.
+		{80, 130, 88, 32, -1} // ?.
 	};
 };
 

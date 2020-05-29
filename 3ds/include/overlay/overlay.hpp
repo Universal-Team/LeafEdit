@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef OVERLAY_HPP
-#define OVERLAY_HPP
+#ifndef _LEAFEDIT_OVERLAY_HPP
+#define _LEAFEDIT_OVERLAY_HPP
 
 #include "screenCommon.hpp"
 

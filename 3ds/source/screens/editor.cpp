@@ -111,11 +111,10 @@ bool Editor::loadSave() {
 }
 
 void Editor::SaveInitialize() {
-	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/LeafEdit/Towns/", "Select your SaveFile.");
+	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", "Select your SaveFile.");
 	// If User canceled, go screen back.
 	if (saveName == "") {
-		Gui::screenBack();
-		return;
+		Gui::screenBack(true);
 	}
 
 	if (!loadSave()) {
@@ -128,15 +127,13 @@ void Editor::SaveInitialize() {
 			loadState = SaveState::Loaded;
 		} else {
 			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
-			Gui::screenBack();
-			return;
+			Gui::screenBack(true);
 		}
 	}
 }
 
 
-void Editor::Draw(void) const
-{
+void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Editor", 395, 0, font);
@@ -145,6 +142,7 @@ void Editor::Draw(void) const
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
 			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {
 			GFX::DrawButton(mainButtons[i]);
@@ -153,6 +151,7 @@ void Editor::Draw(void) const
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
 	}
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void Editor::Saving() {
@@ -182,13 +181,11 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				if (changes == true && hasSaved == false) {
 					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
 						savesType = SaveType::UNUSED;
-						Gui::screenBack();
-						return;
+						Gui::screenBack(true);
 					}
 				} else if ((changes == true && hasSaved == true) || (!changes)) {
 					savesType = SaveType::UNUSED;
-					Gui::screenBack();
-					return;
+					Gui::screenBack(true);
 				}
 			} else if (iconTouch(touch, icons[1])) {
 				Saving();
@@ -206,7 +203,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Player Editor.
 				if (Selection == 0) {
 					if (save->player(0) != nullptr) {
-						Gui::setScreen(std::make_unique<PlayerSelector>());
+						Gui::setScreen(std::make_unique<PlayerSelector>(), true, true);
 					} else {
 						Msg::NotImplementedYet();
 					}
@@ -214,9 +211,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 1) {
 					if (save->villager(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<VillagerViewerWW>());
+							Gui::setScreen(std::make_unique<VillagerViewerWW>(), true, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<VillagerViewerNL>());
+							Gui::setScreen(std::make_unique<VillagerViewerNL>(), true, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -225,9 +222,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<TownMapEditorWW>());
+							Gui::setScreen(std::make_unique<TownMapEditorWW>(), true, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<TownMapEditorNL>());
+							Gui::setScreen(std::make_unique<TownMapEditorNL>(), true, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -237,13 +234,12 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<PluginScreen>());
+			Gui::setScreen(std::make_unique<PluginScreen>(), true, true);
 		}
 		
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
-			Gui::screenBack();
-			return;
+			Gui::screenBack(true);
 		}
 	} else {
 		SaveInitialize(); // Display Browse.

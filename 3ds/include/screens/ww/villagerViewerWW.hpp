@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGERVIEWERWW_HPP
-#define VILLAGERVIEWERWW_HPP
+#ifndef _LEAFEDIT_VILLAGERVIEWER_WW_HPP
+#define _LEAFEDIT_VILLAGERVIEWER_WW_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class VillagerViewerWW : public Screen
-{
+class VillagerViewerWW : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYERSELECTOR_HPP
-#define PLAYERSELECTOR_HPP
+#ifndef _LEAFEDIT_PLAYERSELECTOR_HPP
+#define _LEAFEDIT_PLAYERSELECTOR_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
@@ -33,8 +33,7 @@
 #include <citro2d.h>
 #include <vector>
 
-class PlayerSelector : public Screen
-{
+class PlayerSelector : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

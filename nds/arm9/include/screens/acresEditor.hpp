@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ACRESEDITOR_HPP
-#define ACRESEDITOR_HPP
+#ifndef _LEAFEDIT_ACRESEDITOR_HPP
+#define _LEAFEDIT_ACRESEDITOR_HPP
 
 #include "Acre.hpp"
 #include "screenCommon.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class AcresEditor : public Screen
-{
+class AcresEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;

@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef UPDATECENTER_HPP
-#define UPDATECENTER_HPP
+#ifndef _LEAFEDIT_UPDATECENTER_HPP
+#define _LEAFEDIT_UPDATECENTER_HPP
 
 #include "common.hpp"
 #include "download.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class UpdateCenter : public Screen
-{
+class UpdateCenter : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

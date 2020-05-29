@@ -40,22 +40,22 @@ extern SaveType savesType;
 extern bool touching(touchPosition touch, ButtonType button);
 
 
-void PluginScreen::Draw(void) const
-{
+void PluginScreen::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Plugin", 390, 0, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void PluginScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
+		Gui::screenBack(true);
 	}
 
 	if (hDown & KEY_RIGHT) {
@@ -83,8 +83,7 @@ void PluginScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (plugin->scriptMain() != 0) {
 				Msg::DisplayWarnMsg("An error occured while executing script.");
 			}
-			Gui::screenBack();
-			return;
+			Gui::screenBack(true);
 		}
 	}
 }

@@ -84,7 +84,9 @@ void PlayerSelector::Draw(void) const {
 	if (save->player(selectedPlayer)->exist()) {
 		Gui::drawAnimatedSelector((100 * selectedPlayer) + 18, 45, 64, 104, .030, C2D_Color32(0, 0, 180, 255), C2D_Color32(0, 0, 0, 0));
 	}
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -92,6 +94,7 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_RIGHT) {
 		if (selectedPlayer < 3)	selectedPlayer++;
 	}
+
 	if (hDown & KEY_LEFT) {
 		if (selectedPlayer > 0)	selectedPlayer--;
 	}
@@ -101,16 +104,15 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (save->player(selectedPlayer)->exist()) {
 			// New Leaf & Welcome Amiibo.
 			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(selectedPlayer)));
+				Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(selectedPlayer)), true, true);
 				// Wild World.
 			} else if (savesType == SaveType::WW) {
-				Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(selectedPlayer)));
+				Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(selectedPlayer)), true, true);
 			}
 		}
 	}
 
 	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
+		Gui::screenBack(true);
 	}
 }

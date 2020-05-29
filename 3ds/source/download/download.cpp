@@ -797,42 +797,42 @@ void Download::downloadAssets(void) {
 	showProgressBar = true;
 	progressBarType = 0;
 	Threads::create((ThreadFunc)displayProgressBar);
-	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/LeafEdit/assets/acres.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/acres.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Items & Badges.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 2 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/LeafEdit/assets/items.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/items.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Faces & Hair.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 3 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/LeafEdit/assets/players.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/players.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Font.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 4 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/LeafEdit/assets/font.bcfnt") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/3ds/LeafEdit/assets/font.bcfnt") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// First Villager Sprite.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 5 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;
 	}
 	// Second Villager Sprite.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 6 / 6");
-	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/LeafEdit/assets/villagers2.t3x") != 0) {
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers2.t3x") != 0) {
 		showProgressBar = false;
 		Msg::DisplayWarnMsg("Download Failed!");
 		return;

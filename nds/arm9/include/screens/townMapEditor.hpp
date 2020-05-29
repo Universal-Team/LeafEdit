@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TOWNMAPEDITOR_HPP
-#define TOWNMAPEDITOR_HPP
+#ifndef _LEAFEDIT_TOWNMAPEDITOR_HPP
+#define _LEAFEDIT_TOWNMAPEDITOR_HPP
 
 #include "Item.hpp"
 #include "screenCommon.hpp"
@@ -33,8 +33,7 @@
 #include "structs.hpp"
 #include <vector>
 
-class TownMapEditor : public Screen
-{
+class TownMapEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;

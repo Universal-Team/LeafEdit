@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITOR_HPP
-#define PLAYEREDITOR_HPP
+#ifndef _LEAFEDIT_PLAYEREDITOR_HPP
+#define _LEAFEDIT_PLAYEREDITOR_HPP
 
 #include "screenCommon.hpp"
 
 #include "structs.hpp"
 #include <vector>
 
-class PlayerEditor : public Screen
-{
+class PlayerEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -57,7 +56,7 @@ private:
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{80, 30, 88, 32, -1}, // Player.
 		{80, 80, 88, 32, -1}, // Items.
-		{80, 130, 88, 32, -1}, // Appearance.
+		{80, 130, 88, 32, -1} // Appearance.
 	};
 
 	std::vector<Structs::ButtonPos> playerButtons = {
@@ -66,7 +65,7 @@ private:
 		{20, 130, 88, 32, -1}, // ?.
 		{148, 30, 88, 32, -1}, // ?.
 		{148, 80, 88, 32, -1}, // ?.
-		{148, 130, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1} // ?.
 	};
 };
 

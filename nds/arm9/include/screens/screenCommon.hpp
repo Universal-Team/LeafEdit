@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SCREENCOMMON_HPP
-#define SCREENCOMMON_HPP
+#ifndef _LEAFEDIT_SCREENCOMMON_HPP
+#define _LEAFEDIT_SCREENCOMMON_HPP
 
 #include "colors.hpp"
 #include "graphics.hpp"

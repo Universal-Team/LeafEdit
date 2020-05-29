@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, leafedit-core]
+    exclude: [translation, experimental-probably]
   tags:
     include: ['*']
 

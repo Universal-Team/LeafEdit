@@ -10,22 +10,22 @@ To use LeafEdit completely you need to get the assets from [here](https://github
 
 ## Compilation
 
-To build LeafEdit from source, you need devkitARM installed along with libctru, 3ds-curl, 3ds-libjpeg-turbo and 3ds-libarchive. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm`, `pacman -S 3ds-libjpeg-turbo` and lastly `pacman -S 3ds-libarchive --noconfirm`. Now that you have everything installed, you just need to run clone the repository and run `make`.
+To build LeafEdit from source, you need devkitARM installed along with libctru, 3ds-curl and 3ds-libjpeg-turbo. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm` and lastly `pacman -S 3ds-libjpeg-turbo`. Now that you have everything installed, you just need to run clone the repository and run `make`.
 
 ## Credits
 ### Main Developers
-- [StackZ](https://github.com/SuperSaiyajinStackZ): App idea and main developer.
+- [StackZ](https://github.com/SuperSaiyajinStackZ) / [Stackie](https://github.com/SuperSaiyajinStackie): App idea and main developer.
 ### Translators
 
 English
 - [Pk11](https://github.com/Epicpkmn11)
-- [StackZ](https://github.com/SuperSaiyajinStackZ)
+- [Stackie](https://github.com/SuperSaiyajinStackie)
 
 French
 - [antoine62](https://github.com/antoine62)
 
 German
-- [StackZ](https://github.com/SuperSaiyajinStackZ)
+- [Stackie](https://github.com/SuperSaiyajinStackie)
 
 Italian
 - [edo9300](https://github.com/edo9300)

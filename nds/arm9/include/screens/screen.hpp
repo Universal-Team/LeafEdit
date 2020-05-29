@@ -24,19 +24,17 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SCREEN_HPP
-#define SCREEN_HPP
+#ifndef _LEAFEDIT_SCREEN_HPP
+#define _LEAFEDIT_SCREEN_HPP
 
 #include <memory>
 #include <nds.h>
 
-class Screen
-{
+class Screen {
 public:
 	virtual ~Screen() {}
 	virtual void Logic(u16 hDown, touchPosition touch) = 0;
 	virtual void Draw() const = 0;
-private:
 };
 
 #endif

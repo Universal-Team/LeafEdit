@@ -74,14 +74,17 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		}
 
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70, font);
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
 		for (int i = 0; i < (int)prompt.size(); i++) {
 			GFX::DrawButton(promptBtn[i]);
 			if (i == selection)	GFX::DrawGUI(gui_pointer_idx, promptBtn[i].x+100, promptBtn[i].y+30);
 		}
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		C3D_FrameEnd(0);
 
+		Gui::fadeEffects(16, 16, false);
 		// Selection part.
 		gspWaitForVBlank();
 		hidScanInput();
@@ -176,12 +179,15 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395, 0, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	GFX::DrawButton(promptBtn[2]);
 	GFX::DrawGUI(gui_pointer_idx, promptBtn[2].x+100, promptBtn[2].y+30);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	C3D_FrameEnd(0);
 
 	while(1) {
+		Gui::fadeEffects(16, 16, false);
 		hidScanInput();
 		hidTouchRead(&touch);
 		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))

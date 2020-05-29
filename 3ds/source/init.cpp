@@ -38,9 +38,6 @@
 #include <dirent.h>
 #include <unistd.h>
 
-// The classic Fade Effect! ;P
-int fadealpha = 255;
-bool fadein = true;
 int barOffset; // The additional offset for the text on the clean style.
 std::unique_ptr<Config> config;
 // If true -> Exit LeafEdit.
@@ -99,11 +96,11 @@ bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
 
 // Check if Sheets are found.
 Result Init::CheckSheets() {
-	if((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
+	if ((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/3ds/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/3ds/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/3ds/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
+	(access("sdmc:/3ds/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
 		return 0;
 	} else {
 		return -1;
@@ -117,12 +114,12 @@ Result Init::loadSheets() {
 			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
 			return -1;
 		} else {
-			Acres		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/acres.t3x");
-			Items		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/items.t3x");
-			Players		= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/players.t3x");
-			Villager	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers.t3x");
-			Villager2	= C2D_SpriteSheetLoad("sdmc:/LeafEdit/assets/villagers2.t3x");
-			sheetsLoaded  = true;
+			Acres			= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/acres.t3x");
+			Items			= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/items.t3x");
+			Players			= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/players.t3x");
+			Villager		= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/villagers.t3x");
+			Villager2		= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/villagers2.t3x");
+			sheetsLoaded	= true;
 		}
 	}
 	return 0;
@@ -143,11 +140,11 @@ Result Init::unloadSheets() {
 
 Result Init::loadFont() {
 	if (FontHasLoaded == false) {
-		if(access("sdmc:/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
+		if(access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
 			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
 		} else {
-			Gui::loadFont(font, "sdmc:/LeafEdit/assets/font.bcfnt");
+			Gui::loadFont(font, "sdmc:/3ds/LeafEdit/assets/font.bcfnt");
 		}
 	}
 
@@ -173,17 +170,17 @@ Result Init::Init() {
 
 	// make folders if they don't exist
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
-	mkdir("sdmc:/LeafEdit", 0777); // main Path.
-	mkdir("sdmc:/LeafEdit/assets", 0777); // Assets path.
+	mkdir("sdmc:/3ds/LeafEdit", 0777); // main Path.
+	mkdir("sdmc:/3ds/LeafEdit/assets", 0777); // Assets path.
 	// Towns.
-	mkdir("sdmc:/LeafEdit/Towns", 0777); // Town Management Path.
-	mkdir("sdmc:/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
-	mkdir("sdmc:/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
-	mkdir("sdmc:/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
-	mkdir("sdmc:/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
-	mkdir("sdmc:/LeafEdit/Backups", 0777); // Backup path.
+	mkdir("sdmc:/3ds/LeafEdit/Towns", 0777); // Town Management Path.
+	mkdir("sdmc:/3ds/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
+	mkdir("sdmc:/3ds/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
+	mkdir("sdmc:/3ds/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
+	mkdir("sdmc:/3ds/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
+	mkdir("sdmc:/3ds/LeafEdit/Backups", 0777); // Backup path.
 	// Pattern.
-	mkdir("sdmc:/LeafEdit/Pattern", 0777); // Pattern path.
+	mkdir("sdmc:/3ds/LeafEdit/Pattern", 0777); // Pattern path.
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
@@ -230,8 +227,10 @@ Result Init::Init() {
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
+	fadein = true;
+	fadealpha = 255;
 	// Set the Screen to the MainMenu.
-	Gui::setScreen(std::make_unique<MainMenu>());
+	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }
 
@@ -240,8 +239,7 @@ Result Init::MainLoop() {
 	Initialize();
 
 	// Loop as long as the status is not exiting.
-	while (aptMainLoop() && !exiting && !Is3dsxUpdated)
-	{
+	while (aptMainLoop()) {
 		hidScanInput();
 		u32 hHeld = hidKeysHeld();
 		u32 hDown = hidKeysDown();
@@ -253,13 +251,11 @@ Result Init::MainLoop() {
 		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 
-		if (fadein == true) {
-			fadealpha -= 3;
-			if (fadealpha < 0) {
-				fadealpha = 0;
-				fadein = false;
-			}
+		if (exiting || Is3dsxUpdated) {
+			if (!fadeout)	break;
 		}
+
+		Gui::fadeEffects(16, 16, true);
 	}
 	// Exit all services and exit the app.
 	Exit();
