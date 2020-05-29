@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SETTINGS_HPP
-#define SETTINGS_HPP
+#ifndef _LEAFEDIT_SETTINGS_HPP
+#define _LEAFEDIT_SETTINGS_HPP
 
 #include "screenCommon.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class SettingsScreen : public Screen
-{
+class SettingsScreen : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -45,7 +44,7 @@ private:
 		{20, 130, 88, 32, -1}, // ?.
 		{148, 30, 88, 32, -1}, // ?.
 		{148, 80, 88, 32, -1}, // ?.
-		{148, 130, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1} // ?.
 	};
 };
 

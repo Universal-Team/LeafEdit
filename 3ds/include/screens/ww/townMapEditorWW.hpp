@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TOWNMAPEDITORWW_HPP
-#define TOWNMAPEDITORWW_HPP
+#ifndef _LEAFEDIT_TOWNMAPEDITOR_WW_HPP
+#define _LEAFEDIT_TOWNMAPEDITOR_WW_HPP
 
 #include "Acre.hpp"
 #include "common.hpp"
 #include "Item.hpp"
 #include "structs.hpp"
 
-class TownMapEditorWW : public Screen
-{
+class TownMapEditorWW : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

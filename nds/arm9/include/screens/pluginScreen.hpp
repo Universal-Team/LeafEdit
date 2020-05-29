@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLUGINSCREEN_HPP
-#define PLUGINSCREEN_HPP
+#ifndef _LEAFEDIT_PLUGINSCREEN_HPP
+#define _LEAFEDIT_PLUGINSCREEN_HPP
 
 #include "Plugin.hpp"
 #include "screenCommon.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class PluginScreen : public Screen
-{
+class PluginScreen : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -43,7 +42,7 @@ private:
 	int selection = 0;
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{20, 78, 88, 32, -1}, // Unique.
-		{148, 78, 88, 32, -1}, // Universal.
+		{148, 78, 88, 32, -1} // Universal.
 	};
 };
 

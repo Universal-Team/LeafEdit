@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGEREDITOR_HPP
-#define VILLAGEREDITOR_HPP
+#ifndef _LEAFEDIT_VILLAGEREDITOR_HPP
+#define _LEAFEDIT_VILLAGEREDITOR_HPP
 
 #include "Item.hpp"
 #include "screenCommon.hpp"
@@ -33,8 +33,7 @@
 #include "structs.hpp"
 #include <vector>
 
-class VillagerEditor : public Screen
-{
+class VillagerEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -58,7 +57,7 @@ private:
 		{20, 130, 88, 32, -1}, // Items.
 		{148, 30, 88, 32, -1}, // ?.
 		{148, 80, 88, 32, -1}, // ?.
-		{148, 130, 88, 32, -1}, // ?.
+		{148, 130, 88, 32, -1} // ?.
 	};
 
 	std::vector<Structs::ButtonPos> items = {

@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#ifndef _LEAFEDIT_EDITOR_HPP
+#define _LEAFEDIT_EDITOR_HPP
 
 #include "common.hpp"
 #include "coreUtils.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class Editor : public Screen
-{
+class Editor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGER_SELECTION_OVERLAY_HPP
-#define VILLAGER_SELECTION_OVERLAY_HPP
+#ifndef _LEAFEDIT_VILLAGER_SELECTION_OVERLAY_HPP
+#define _LEAFEDIT_VILLAGER_SELECTION_OVERLAY_HPP
 
 #include "overlay.hpp"
 #include "screenCommon.hpp"
@@ -38,8 +38,7 @@ protected:
 	std::shared_ptr<Villager> villager;
 	SaveType save;
 public:
-	VillagerSelection(std::shared_ptr<Villager> v, const SaveType st) : villager(v), save(st)
-	{
+	VillagerSelection(std::shared_ptr<Villager> v, const SaveType st) : villager(v), save(st) {
 		this->isUsed = true;
 		if (this->save == SaveType::WA) {
 			this->maxSelection = 398;

@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef EDITOR_HPP
-#define EDITOR_HPP
+#ifndef _LEAFEDIT_EDITOR_HPP
+#define _LEAFEDIT_EDITOR_HPP
 
 #include "screenCommon.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class Editor : public Screen
-{
+class Editor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -56,7 +55,7 @@ private:
 		{80, 30, 88, 32, -1}, // Player.
 		{80, 80, 88, 32, -1}, // Villager.
 		{80, 130, 88, 32, -1}, // Misc.
-		{225, 172, 32, 32, -1}, // Save.
+		{225, 172, 32, 32, -1} // Save.
 	};
 };
 

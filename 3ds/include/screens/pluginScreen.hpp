@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLUGINSCREEN_HPP
-#define PLUGINSCREEN_HPP
+#ifndef _LEAFEDIT_PLUGINSCREEN_HPP
+#define _LEAFEDIT_PLUGINSCREEN_HPP
 
 #include "common.hpp"
 #include "Plugin.hpp"
@@ -34,8 +34,7 @@
 #include <memory>
 #include <vector>
 
-class PluginScreen : public Screen
-{
+class PluginScreen : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

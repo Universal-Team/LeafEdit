@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYEREDITORWW_HPP
-#define PLAYEREDITORWW_HPP
+#ifndef _LEAFEDIT_PLAYEREDITOR_WW_HPP
+#define _LEAFEDIT_PLAYEREDITOR_WW_HPP
 
 #include "common.hpp"
 #include "Player.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class PlayerEditorWW : public Screen
-{
+class PlayerEditorWW : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

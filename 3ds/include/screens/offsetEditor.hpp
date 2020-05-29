@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef OFFSETEDITOR_HPP
-#define OFFSETEDITOR_HPP
+#ifndef _LEAFEDIT_OFFSETEDITOR_HPP
+#define _LEAFEDIT_OFFSETEDITOR_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class OffsetEditor : public Screen
-{
+class OffsetEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

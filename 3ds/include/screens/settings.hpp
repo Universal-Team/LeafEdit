@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SETTINGS_HPP
-#define SETTINGS_HPP
+#ifndef _LEAFEDIT_SETTINGS_HPP
+#define _LEAFEDIT_SETTINGS_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class Settings : public Screen
-{
+class Settings : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

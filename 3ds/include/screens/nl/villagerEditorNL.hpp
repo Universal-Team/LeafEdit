@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef VILLAGEREDITORNL_HPP
-#define VILLAGEREDITORNL_HPP
+#ifndef _LEAFEDIT_VILLAGEREDITOR_NL_HPP
+#define _LEAFEDIT_VILLAGEREDITOR_NL_HPP
 
 #include "common.hpp"
 #include "Item.hpp"
@@ -35,8 +35,7 @@
 #include "structs.hpp"
 #include <vector>
 
-class VillagerEditorNL : public Screen
-{
+class VillagerEditorNL : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
