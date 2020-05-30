@@ -171,7 +171,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	}
 
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70, font);
-	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
+	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
@@ -182,6 +182,35 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 
 	while(1) {
 		Gui::fadeEffects(16, 16, false);
+		hidScanInput();
+		hidTouchRead(&touch);
+		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))	break;
+	}
+}
+
+// Display a Message, which can be skipped with A.
+void Msg::DisplayWaitMsgInit(std::string waitMsg, ...) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+
+	Gui::ScreenDraw(Top);
+	Gui::Draw_Rect(0, 0, 400, 25, C2D_Color32(14, 73, 32, 255));
+	Gui::Draw_Rect(0, 25, 400, 190, C2D_Color32(23, 121, 53, 255));
+	Gui::Draw_Rect(0, 215, 400, 25, C2D_Color32(14, 73, 32, 255));
+	Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
+
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	
+	Gui::ScreenDraw(Bottom);
+	Gui::Draw_Rect(0, 0, 320, 25, C2D_Color32(14, 73, 32, 255));
+	Gui::Draw_Rect(0, 25, 320, 190, C2D_Color32(23, 121, 53, 255));
+	Gui::Draw_Rect(0, 215, 320, 25, C2D_Color32(14, 73, 32, 255));
+	C3D_FrameEnd(0);
+
+	while(1) {
 		hidScanInput();
 		hidTouchRead(&touch);
 		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))	break;

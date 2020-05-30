@@ -184,7 +184,13 @@ Result Init::Init() {
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
-	// We need to make sure, the file exist.
+
+	// Check for location changes.
+	if (access("sdmc:/LeafEdit/Settings.json", F_OK) == 0  && access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0) {
+		Msg::DisplayWaitMsgInit("Mainpath got changed.\nPlease move your stuff to 'sdmc:/3ds/LeafEdit/'.");
+	}
+
+
 	config = std::make_unique<Config>();
 
 	if (config->newStyle()) {
@@ -195,7 +201,7 @@ Result Init::Init() {
 	
 	ItemManager::loadColors();
 	Lang::load(config->language());
-	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
+	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 
 	DARKER_COLOR = DARKER_GREEN;
 	LIGHT_COLOR = LIGHT_GREEN;

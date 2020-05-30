@@ -37,7 +37,7 @@ void Credits::Draw(void) const {
 		if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Credits", 400, 0, font);
 		Gui::DrawStringCentered(0, 30, 0.9f, BLACK, "Developed by Universal-Team.", 390, 0, font);
-		Gui::DrawStringCentered(0, 70, 0.9f, BLACK, "Main Developer: SuperSaiyajinStackie", 390, 0, font);
+		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, "Main Developer: SuperSaiyajinStackie", 390, 0, font);
 		GFX::DrawGUI(gui_stackie_idx, 5, 85);
 		GFX::DrawGUI(gui_universal_core_idx, 200, 110);
 		Gui::DrawString(395-Gui::GetStringWidth(0.8, std::string("Current Version: ") + V_STRING, font), 219, 0.8, WHITE, std::string("Current Version: ") + V_STRING, 400, 0, font);
