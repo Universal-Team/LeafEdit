@@ -29,8 +29,7 @@
 
 #include <string>
 
-namespace Msg
-{
+namespace Msg {
 	void DisplayWarnMsg(std::string Text); // Display a Warn Message for about 2 seconds.
 	void DisplayWarnMsg2(std::string Text); // Display a Warn Message for about 2 seconds. Used for more text.
 	bool promptMsg(std::string msg); // This will be used for the prompt Messages, which needs confirmation with A or cancel with B.
@@ -38,7 +37,7 @@ namespace Msg
 	void DisplayWaitMsg(std::string waitMsg, ...); // Will Display a Message, which needs a confirmation with A.
 	void NotImplementedYet(void); // Display a not Implemented Message.
 	void DisplayMsg(std::string Message); // Display just a Message.
-	void HelperBox(std::string Msg); // Helper Box?
+	void HelperBox(std::string Msg); // Helper Box.
 }
 
 #endif

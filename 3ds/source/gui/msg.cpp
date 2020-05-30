@@ -75,12 +75,14 @@ bool Msg::promptMsg2(std::string promptMsg) {
 
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70, font);
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
 		for (int i = 0; i < (int)prompt.size(); i++) {
 			GFX::DrawButton(promptBtn[i]);
 			if (i == selection)	GFX::DrawGUI(gui_pointer_idx, promptBtn[i].x+100, promptBtn[i].y+30);
 		}
+
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		C3D_FrameEnd(0);
 
@@ -90,27 +92,17 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		hidScanInput();
 		hidTouchRead(&touch);
 
-		if (hidKeysDown() & KEY_LEFT) {
-			selection = 0;
-		} else if(hidKeysDown() & KEY_RIGHT) {
-			selection = 1;
-		}
+		if (hidKeysDown() & KEY_LEFT)	selection = 0;
+		else if(hidKeysDown() & KEY_RIGHT)	selection = 1;
 
 		if (hidKeysDown() & KEY_A) {
-			if (selection == 0) {
-				return true;
-			} else {
-				return false;
-			}
+			if (selection == 0)	return true;
+			else	return false;
 		}
 
-		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[0])) {
-			return true;
-		}
+		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[0]))	return true;
 
-		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[1])) {
-			return false;
-		}
+		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[1]))	return false;
 	}
 }
 
@@ -126,7 +118,7 @@ void Msg::DisplayWarnMsg(std::string Text) {
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop(false);
 
-	if (config->newStyle()) {
+	if (!config->newStyle()) {
 		Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
 	} else {
 		DrawBox(80, 1);
@@ -135,6 +127,7 @@ void Msg::DisplayWarnMsg(std::string Text) {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70, font);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
+
 	for (int i = 0; i < 60*2; i++) {
 		gspWaitForVBlank();
 	}
@@ -157,6 +150,7 @@ void Msg::DisplayWarnMsg2(std::string Text) {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70, font);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
+
 	for (int i = 0; i < 60*2; i++) {
 		gspWaitForVBlank();
 	}
@@ -190,8 +184,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 		Gui::fadeEffects(16, 16, false);
 		hidScanInput();
 		hidTouchRead(&touch);
-		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))
-			break;
+		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))	break;
 	}
 }
 

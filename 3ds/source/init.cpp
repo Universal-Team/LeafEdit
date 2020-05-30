@@ -96,7 +96,7 @@ bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
 
 // Check if Sheets are found.
 Result Init::CheckSheets() {
-	if ((access("sdmc:/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
+	if ((access("sdmc:/3ds/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/3ds/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/3ds/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/3ds/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
@@ -184,7 +184,6 @@ Result Init::Init() {
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
-
 	// We need to make sure, the file exist.
 	config = std::make_unique<Config>();
 

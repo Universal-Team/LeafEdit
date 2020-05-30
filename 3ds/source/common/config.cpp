@@ -35,24 +35,23 @@
 // In case it doesn't exist.
 void Config::initialize() {
 	// Create through fopen "Write".
-	FILE *file = fopen("sdmc:/LeafEdit/Settings.json", "w");
-
+	FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
 	// Set default values.
 	this->setBool("NewStyle", true);
 	this->setString("CurrentRelease", "");
 	this->setString("CurrentNightly", "");
 	this->setInt("Language", 1);
-
 	// Write to file.
 	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
 	fclose(file); // Now we have the file and can properly access it.
 }
 
 Config::Config() {
-	if (access("sdmc:/LeafEdit/Settings.json", F_OK) != 0 ) {
+	if (access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0 ) {
 		this->initialize();
 	}
-	FILE* file = fopen("sdmc:/LeafEdit/Settings.json", "r");
+
+	FILE* file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "r");
 	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
@@ -89,7 +88,7 @@ Config::Config() {
 // Write to config if changesMade.
 void Config::save() {
 	if (this->changesMade) {
-		FILE *file = fopen("sdmc:/LeafEdit/Settings.json", "w");
+		FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
 		// Set values.
 		this->setBool("NewStyle", this->newStyle());
 		this->setString("CurrentRelease", this->currentRelease());
