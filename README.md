@@ -42,6 +42,7 @@ Portuguese
 
 Spanish
 - [Daniyel33](https://github.com/Daniyel33)
+- [XxPhoenix1996xX](https://github.com/XxPhoenix1996xX)
 - [YoSoy](https://twitter.com/riku200)
 
 ### Others
