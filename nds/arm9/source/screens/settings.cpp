@@ -30,14 +30,14 @@
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 
-void SettingsScreen::Draw(void) const
-{
+void SettingsScreen::Draw(void) const {
 	Gui::DrawTop(true);
 	printTextCentered("LeafEdit - Settings", 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
+
 	printTextCentered("", -64, 40, false, true);
 	printTextCentered("", -64, 90, false, true);
 	printTextCentered("", -64, 140, false, true);

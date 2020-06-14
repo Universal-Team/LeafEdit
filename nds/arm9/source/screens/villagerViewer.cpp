@@ -42,8 +42,7 @@ VillagerViewer::VillagerViewer() {
 	villager = save->villager(0);
 }
 
-void VillagerViewer::Draw(void) const
-{
+void VillagerViewer::Draw(void) const {
 	if (villagerMode == 0) {
 		DrawVillager();
 	} else if (villagerMode == 1) {
@@ -160,13 +159,12 @@ void VillagerViewer::DrawVillager(void) const {
 }
 
 // This will draw the current Villager and Title for the Villager Viewer Screen.
-void VillagerViewer::DrawCurrentVillager(void) const
-{
+void VillagerViewer::DrawCurrentVillager(void) const {
 	printTextCentered("LeafEdit - Villager Viewer", 0, 2, true, true);
 	printTextCentered("Current Villager: " + std::to_string(currentVillager+1), 0, 180, true, true);
 }
 
 void VillagerViewer::DrawBox(void) const {
-	drawRectangle(20, 132, 176, 50, DARK_GREEN, true, true);
-	drawRectangle(20, 162, 176, 50, DARK_GREEN, true, true);
+	drawRectangle(20, 132, 176, 50, GRAY, true, true);
+	drawRectangle(20, 162, 176, 50, GRAY, true, true);
 }

@@ -73,7 +73,7 @@ void VillagerEditor::DrawSubMenu(void) const {
 	printTextCentered(ItemUtils::getName(villager->furniture(3)->id()), 0, 70, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
-		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, GRAY, false, true);
 	}
 
 	printTextCentered("Replace", -64, 40, false, true);
@@ -84,6 +84,7 @@ void VillagerEditor::updateInfo(void) const {
 	Gui::clearScreen(true, true);
 	printTextCentered("Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 0, 30, true, true);
 }
+
 void VillagerEditor::DrawItems(void) const {
 	Gui::DrawTop(true);
 	updateInfo();
@@ -174,8 +175,7 @@ void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 	}
 }
 
-void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch)
-{
+void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch) {
 	Gui::updatePointer(items[itemSelection].x+15, items[itemSelection].y+15);
 	u16 held = keysDownRepeat();
 
@@ -202,6 +202,7 @@ void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch)
 		for (int i = 0; i < 15; i++) {
 			this->villagerItems[i] = nullptr;
 		}
+
 		selected = true;
 	}
 
@@ -217,6 +218,6 @@ void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch)
 }
 
 void VillagerEditor::DrawBox(void) const {
-	drawRectangle(20, 132, 176, 50, DARK_GREEN, true, true);
-	drawRectangle(20, 162, 176, 50, DARK_GREEN, true, true);
+	drawRectangle(20, 132, 176, 50, GRAY, true, true);
+	drawRectangle(20, 162, 176, 50, GRAY, true, true);
 }

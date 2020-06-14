@@ -88,22 +88,22 @@ void Gui::screenBack()
 void Gui::DrawTop(bool useBars)
 {
 	if (useBars) {
-		drawRectangle(0, 20, 256, 152, GREEN, true, false);
-		drawRectangle(0, 0, 256, 20, DARK_GREEN, true, false);
-		drawRectangle(0, 172, 256, 20, DARK_GREEN, true, false);
+		drawRectangle(0, 20, 256, 152, DARKER_GRAY, true, false);
+		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, true, false);
+		drawRectangle(0, 172, 256, 20, DARKERER_GRAY, true, false);
 	} else {
-		drawRectangle(0, 0, 256, 192, GREEN, true, false);
+		drawRectangle(0, 0, 256, 192, DARKER_GRAY, true, false);
 	}
 }
 
 void Gui::DrawBottom(bool useBars)
 {
 	if (useBars) {
-		drawRectangle(0, 20, 256, 152, GREEN, false, false);
-		drawRectangle(0, 0, 256, 20, DARK_GREEN, false, false);
-		drawRectangle(0, 172, 256, 20, DARK_GREEN, false, false);
+		drawRectangle(0, 20, 256, 152, DARKER_GRAY, false, false);
+		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, false, false);
+		drawRectangle(0, 172, 256, 20, DARKERER_GRAY, false, false);
 	} else {
-		drawRectangle(0, 0, 256, 192, GREEN, false, false);
+		drawRectangle(0, 0, 256, 192, DARKER_GRAY, false, false);
 	}
 }
 

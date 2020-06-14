@@ -48,7 +48,7 @@ const std::vector<std::string> &TanLevel = {
 void PlayerEditor::DrawPlayerBoxes(void) const {
 	for (u32 y = 0; y < 2; y++) {
 		for (u32 x = 0; x < 2; x++) {
-			drawRectangle(20 + x*120, 35 + y*70, 100, 50, DARK_GREEN, true, true);
+			drawRectangle(20 + x*120, 35 + y*70, 100, 50, GRAY, true, true);
 		}
 	}
 }
@@ -86,7 +86,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true); 
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 3; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
 	printTextCentered("Player", 0, 40, false, true);
 	printTextCentered("Items", 0, 90, false, true);
@@ -105,7 +105,7 @@ void PlayerEditor::DrawPlayerScreen(void) const {
 	printTextCentered("HairStyle: " + std::to_string(player->hairstyle()), 0, 165, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
-		drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, GRAY, false, true);
 	}
 	printTextCentered("Bells", -64, 40, false, true);
 	printTextCentered("Name", -64, 90, false, true);

@@ -39,7 +39,7 @@ void MiscEditor::Draw(void) const {
 	Gui::DrawBottom(true);
 
 	for (int i = 0; i < 3; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
 	printTextCentered("Acres Editor", 0, 40, false, true);
 	printTextCentered("Town Editor", 0, 90, false, true);

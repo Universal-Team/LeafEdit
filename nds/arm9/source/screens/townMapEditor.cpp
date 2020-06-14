@@ -57,8 +57,9 @@ void TownMapEditor::DrawTempItem() const {
 	printTextCentered("Item ID: " + std::to_string(this->TempItem), 0, 80, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 3; i++) {
-		drawRectangle(TempPos[i].x, TempPos[i].y, TempPos[i].w, TempPos[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(TempPos[i].x, TempPos[i].y, TempPos[i].w, TempPos[i].h, GRAY, false, true);
 	}
+
 	printTextCentered("Manually", 0, 40, false, true);
 	printTextCentered("Selection", 0, 90, false, true);
 }
@@ -172,12 +173,13 @@ void TownMapEditor::DrawMain(void) const {
 			}
 		}
 	}
+
 	DrawInformation();
 	Gui::DrawBottom(false);
 	GraphicManagement::DrawAcre(this->townAcres[SelectionToAcre()]->id(), 10, 15, 5, 5, false, false);
 	DrawGrid();
 	DrawPosition();
-	drawRectangle(175, 100, 75, 25, DARK_GREEN, DARK_GREEN, false, false);
+	drawRectangle(175, 100, 75, 25, GRAY, false, false);
 	printText("Temp Item", 178, 105, false, false);
 }
 
@@ -393,6 +395,7 @@ void TownMapEditor::updateBottomGrid() {
 			}
 		}
 	}
+
 	DrawPosition();
 }
 
@@ -400,7 +403,7 @@ void TownMapEditor::updateAcreImage() {
 	Gui::clearScreen(false, false); // Clear Layer.
 	Gui::DrawBottom(false); // Draw Base UI.
 	GraphicManagement::DrawAcre(this->townAcres[SelectionToAcre()]->id(), 10, 15, 5, 5, false, false);
-	drawRectangle(175, 100, 75, 25, DARK_GREEN, DARK_GREEN, false, false);
+	drawRectangle(175, 100, 75, 25, GRAY, false, false);
 	printText("Temp Item", 178, 105, false, false);
 }
 

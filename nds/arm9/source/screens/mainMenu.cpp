@@ -35,7 +35,7 @@ void MainMenu::Draw(void) const {
 	printTextCentered("LeafEdit - MainMenu", 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 2; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
 	printTextCentered("Editor", -64, 88, false, true);
 	printTextCentered("Settings", 64, 88, false, true);

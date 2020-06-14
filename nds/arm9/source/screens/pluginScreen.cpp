@@ -43,7 +43,7 @@ void PluginScreen::Draw(void) const
 	printTextCentered("LeafEdit - Plugin", 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 2; i++) {
-		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, DARK_GREEN, DARK_GREEN, false, true);
+		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
 	printTextCentered("Unique", -64, 88, false, true);
 	printTextCentered("Universal", 64, 88, false, true);
