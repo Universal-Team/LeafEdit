@@ -1,10 +1,10 @@
-Alligator
-Anteater
-Bear
-Bird
-Bull
-Cat
-Chicken
+Alligatore
+Formichiere
+Orso
+Uccello
+Toro
+Gatto
+Pollo
 Cow
 Cub
 Deer
