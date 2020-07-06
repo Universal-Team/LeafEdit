@@ -25,17 +25,14 @@
 */
 
 #include "utils.hpp"
-
 #include <regex>
 
-bool Utils::matchPattern(std::string pattern, std::string tested)
-{
+bool Utils::matchPattern(std::string pattern, std::string tested) {
 	std::regex patternRegex(pattern);
 	return regex_match(tested, patternRegex);
 }
 
-static inline u32 Pow2(u32 x)
-{
+static inline u32 Pow2(u32 x) {
 	if (x <= 64)
 		return 64;
 
@@ -57,8 +54,7 @@ C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, G
 	u32 *dst = buffer;
 	u32 *src = imageData;
 
-	for (u32 h = height; h > 0; h--)
-	{
+	for (u32 h = height; h > 0; h--) {
 		memcpy(dst, src, width * sizeof(u32));
 		dst += widthPow2;
 		src += width;
@@ -98,9 +94,10 @@ C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, G
 }
 
 // Delete | free's a C2D_Image.
-void C2DUtils::C2D_ImageDelete(C2D_Image image)
-{
-	C3D_TexDelete(image.tex);
-	delete image.tex;
-	delete image.subtex;
+void C2DUtils::C2D_ImageDelete(C2D_Image image) {
+	if (image.tex != nullptr && image.subtex != nullptr) {
+		C3D_TexDelete(image.tex);
+		delete image.tex;
+		delete image.subtex;
+	}
 }

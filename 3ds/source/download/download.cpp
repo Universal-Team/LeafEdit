@@ -645,10 +645,10 @@ void drawMessageText(int position) {
 	C2D_TargetClear(Top, TRANSPARENT);
 	Gui::ScreenDraw(Top);
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Release Notes", 395);
-	Gui::DrawString(0, 25, 0.7, BLACK, jsonName.c_str(), 395);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Release Notes", 395, 0, font);
+	Gui::DrawString(0, 25, 0.7, BLACK, jsonName.c_str(), 395, 0, font);
 	for (int i = 0; i < (int)_topText.size() && i < (10); i++) {
-		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i+position].c_str(), 395);
+		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i+position].c_str(), 395, 0, font);
 	}
 	C3D_FrameEnd(0);
 }

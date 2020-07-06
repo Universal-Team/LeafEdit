@@ -43,7 +43,7 @@ PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) {
 
 // Destroy TPC.
 PlayerEditorNL::~PlayerEditorNL() {
-	if (this->TPC.tex != nullptr) {
+	if (this->TPC.tex != nullptr && this->TPC.subtex != nullptr) {
 		C2DUtils::C2D_ImageDelete(this->TPC);
 		this->TPC.tex = nullptr;
 		this->TPC.subtex = nullptr;
@@ -71,17 +71,15 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 
 	// Only display TPC if Player has TPC support and is not nullptr.
 	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
-	if (this->player->tpcImage() != nullptr && this->player->hasTPC()) {
+	if (this->player->tpcImage() != nullptr && this->player->hasTPC() && this->TPC.tex != nullptr) {
 		C2D_DrawImageAt(this->TPC, 60, 80, 0.5);
 	}
 
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
 		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -89,14 +87,17 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0)	this->Selection--;
 	}
+
 	if (hDown & KEY_DOWN) {
 		if (this->Selection < 5)	this->Selection++;
 	}
+
 	if (hDown & KEY_RIGHT) {
 		if (this->Selection < 3) {
 			this->Selection += 3;
 		}
 	}
+
 	if (hDown & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) {
 			this->Selection -= 3;
@@ -110,7 +111,7 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 	
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack();
 	}
 }
 
@@ -132,13 +133,12 @@ void PlayerEditorNL::DrawAppearance(void) const {
 	Gui::Draw_Rect(200, 105, 90, 40, PlayerManagement::getHairColor(this->player->haircolor(), savesType));
 	// Eye Color.
 	Gui::Draw_Rect(200, 155, 90, 40, PlayerManagement::getEyeColor(this->player->eyecolor()));
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->appearanceBtn[i]);
 		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -146,14 +146,17 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0)	this->Selection--;
 	}
+
 	if (hDown & KEY_DOWN) {
 		if (this->Selection < 5)	this->Selection++;
 	}
+
 	if (hDown & KEY_RIGHT) {
 		if (this->Selection < 3) {
 			this->Selection += 3;
 		}
 	}
+	
 	if (hDown & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) {
 			this->Selection -= 3;

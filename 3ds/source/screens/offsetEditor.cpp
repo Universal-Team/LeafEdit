@@ -44,6 +44,7 @@ t Read() {
 	} else {
 		offset = 0x0; // Offset was not entered properly.
 	}
+
 	return SaveUtils::Read<t>(save->savePointer(), offset);
 }
 
@@ -65,6 +66,7 @@ void Write() {
 	} else {
 		return; // No, do not write.
 	}
+
 	SaveUtils::Write<t>(save->savePointer(), offset, value);
 }
 
@@ -147,8 +149,8 @@ void EditEncryptedInt32() {
 	} else {
 		return; // Do not Write.
 	}
-	EI32.value = value;
 
+	EI32.value = value;
 	// Writing.
 	EI32.encrypt(encryptedInt, encryptionData);
 	SaveUtils::Write<u32>(save->savePointer(), offset, encryptedInt);
@@ -172,16 +174,19 @@ void OffsetEditor::Draw(void) const {
 void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
+		if (Selection > 0)	Selection--;
 	}
+
 	if (hDown & KEY_DOWN) {
-			if(Selection < 5)	Selection++;
+		if (Selection < 5)	Selection++;
 	}
+
 	if (hDown & KEY_RIGHT) {
 		if (Selection < 3) {
 			Selection += 3;
 		}
 	}
+	
 	if (hDown & KEY_LEFT) {
 		if (Selection < 6 && Selection > 2) {
 			Selection -= 3;

@@ -44,7 +44,7 @@ void doStuff() {
 	// Here we open the file and get the SaveType.
 	save = nullptr;
 	FILE* in = fopen(TESTPATH, "rb");
-	if(in) {
+	if (in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
 		fseek(in, 0, SEEK_SET);
@@ -87,22 +87,20 @@ MainMenu::MainMenu() {
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - MainMenu", 390, 0, font);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
-	if(hDown & KEY_UP) {
-		if(Selection > 1)	Selection -= 2;
-	} else if(hDown & KEY_DOWN) {
-		if(Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
+	if (hDown & KEY_UP) {
+		if (Selection > 1)	Selection -= 2;
+	} else if (hDown & KEY_DOWN) {
+		if (Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
 	} else if (hDown & KEY_LEFT) {
 		if (Selection%2) Selection--;
 	} else if (hDown & KEY_RIGHT) {
@@ -110,27 +108,25 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_START) {
-		fadecolor = 0;
-		fadeout = true;
 		exiting = true;
 	}
 
 	if (hDown & KEY_A) {
-		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>(), true, true);
-		else if (Selection == 1)	Gui::setScreen(std::make_unique<Settings>(), true, true);
-		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>(), true, true);
-		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>(), true, true);
+		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>(), false, true);
+		else if (Selection == 1)	Gui::setScreen(std::make_unique<Settings>(), false, true);
+		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>(), false, true);
+		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>(), false, true);
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<Editor>(), true, true);
+			Gui::setScreen(std::make_unique<Editor>(), false, true);
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<Settings>(), true, true);
+			Gui::setScreen(std::make_unique<Settings>(), false, true);
 		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Credits>(), true, true);
+			Gui::setScreen(std::make_unique<Credits>(), false, true);
 		} else if (touching(touch, mainButtons[3])) {
-			Gui::setScreen(std::make_unique<UpdateCenter>(), true, true);
+			Gui::setScreen(std::make_unique<UpdateCenter>(), false, true);
 		}
 	}
 }

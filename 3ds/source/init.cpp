@@ -48,12 +48,7 @@ touchPosition touch;
 u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // Color Types.
 
 // Include all spritesheet's.
-C2D_SpriteSheet Acres;
-C2D_SpriteSheet GUI;
-C2D_SpriteSheet Items;
-C2D_SpriteSheet Players;
-C2D_SpriteSheet Villager;
-C2D_SpriteSheet Villager2;
+C2D_SpriteSheet Acres, GUI, Items, Players, Villager, Villager2;
 C2D_Font font;
 
 // Is loaded state.
@@ -122,6 +117,7 @@ Result Init::loadSheets() {
 			sheetsLoaded	= true;
 		}
 	}
+
 	return 0;
 }
 
@@ -135,6 +131,7 @@ Result Init::unloadSheets() {
 		C2D_SpriteSheetFree(Villager2);
 		sheetsLoaded = false;
 	}
+
 	return 0;
 }
 
@@ -232,8 +229,6 @@ Result Init::Init() {
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
-	fadein = true;
-	fadealpha = 255;
 	// Set the Screen to the MainMenu.
 	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
@@ -259,8 +254,6 @@ Result Init::MainLoop() {
 		if (exiting || Is3dsxUpdated) {
 			if (!fadeout)	break;
 		}
-
-		Gui::fadeEffects(16, 16, true);
 	}
 	// Exit all services and exit the app.
 	Exit();

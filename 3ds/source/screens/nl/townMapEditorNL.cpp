@@ -141,6 +141,7 @@ int TownMapEditorNL::SelectionToAcre(int i) const {
 			return 33;
 			break;
 	}
+
 	return 8; // Should Never Happen.
 }
 
@@ -206,7 +207,6 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400, 0, font);
 	DrawInformation();
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	// Bottom Screen part. Grid & Acre.
 	GFX::DrawBottom(true); // We need the full screen.
@@ -226,8 +226,6 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	} else {
 		GFX::DrawGUI(gui_pointer_idx, mainButtons[selection].x+40, mainButtons[selection].y+13);
 	}
-
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Inject the current Temp Item to a slot.
@@ -248,6 +246,7 @@ void TownMapEditorNL::remove(u16 ID) {
 			removedAmount++;
 		}
 	}
+
 	if (removedAmount > 0)	changes = true;
 	Msg::DisplayWaitMsg("Removed " + std::to_string(removedAmount) + " Items.");
 }
@@ -261,6 +260,7 @@ void TownMapEditorNL::removeWeeds() {
 			removedAmount++;
 		}
 	}
+
 	if (removedAmount > 0)	changes = true;
 	Msg::DisplayWaitMsg("Removed " + std::to_string(removedAmount) + " Weeds.");
 }
@@ -271,6 +271,7 @@ void TownMapEditorNL::setAll(u16 ID) {
 		for (int i = 0; i < 5120; i++) {
 			MapItems[i]->id(ID);
 		}
+
 		changes = true;
 		Msg::DisplayWaitMsg("Filled Town with " + ItemUtils::getName(ID) + ".");
 	}
@@ -285,6 +286,7 @@ void TownMapEditorNL::waterFlowers() {
 			wateredAmount++;
 		}
 	}
+
 	if (wateredAmount > 0)	changes = true;
 	Msg::DisplayWaitMsg("Watered " + std::to_string(wateredAmount) + " Flowers.");
 }
@@ -300,6 +302,7 @@ void TownMapEditorNL::replace(u16 oldID, u16 newID) {
 			}
 		}
 	}
+
 	if (replacedAmount > 0)	changes = true;
 }
 
@@ -311,7 +314,7 @@ void TownMapEditorNL::updateStuff() {
 
 void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if ((hDown & KEY_B) || (hDown & KEY_TOUCH && iconTouch(touch, icons[0]))) {
-		Gui::screenBack(true);
+		Gui::screenBack();
 	}
 
 	// Switch the select Mode from Town Map Selection to operation selection.
@@ -427,7 +430,7 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(tempItemPos[i], 0.8f);
@@ -440,7 +443,6 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	if (!this->isItemSelection) {
 		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -523,13 +525,11 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void TownMapEditorNL::DrawAcres(void) const {
 	DrawTopSelection();
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	if (GodMode) {
 		DrawFullMap();
 	} else {
 		DrawMap();
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw the Full TownMap. [Used by GodMode enabled.]
@@ -668,6 +668,7 @@ void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				selectedAcre--;
 			}
 		}
+		
 		if (keysHeld() & KEY_R) {
 			if (selectedAcre < maxAcres) {
 				selectedAcre++;

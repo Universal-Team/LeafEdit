@@ -67,14 +67,12 @@ void VillagerViewerNL::Draw(void) const {
 	}
 
 	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, "Villager ID: " + std::to_string(this->viewerIndex), 395, 0, font);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 10; i++) {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
 	}
 
 	GFX::DrawGUI(gui_pointer_idx, villagers[Selection].x+18, villagers[Selection].y+20);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -103,19 +101,19 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (save->villager(Selection)->exist()) {
-			Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(Selection)), true, true);
+			Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(Selection)), false, true);
 		}
 	}
 
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack();
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 10; i++) {
 			if (iconTouch(touch, villagers[i])) {
 				if (save->villager(i)->exist()) {
-					Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(i)), true, true);
+					Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(i)), false, true);
 				}
 			}
 		}

@@ -66,7 +66,7 @@ const std::vector<std::string> titleNames = {
 bool Editor::loadSave() {
 	save = nullptr;
 	FILE* in = fopen(saveName.c_str(), "rb");
-	if(in) {
+	if (in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
 		fseek(in, 0, SEEK_SET);
@@ -89,7 +89,7 @@ bool Editor::loadSave() {
 		return false;
 	}
 
-	if(!save) {
+	if (!save) {
 		printf("SaveFile returned nullptr.\n");
 		return false;
 	}
@@ -114,7 +114,7 @@ void Editor::SaveInitialize() {
 	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", "Select your SaveFile.");
 	// If User canceled, go screen back.
 	if (saveName == "") {
-		Gui::screenBack(true);
+		Gui::screenBack();
 	}
 
 	if (!loadSave()) {
@@ -142,7 +142,7 @@ void Editor::Draw(void) const {
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
 			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
-		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {
 			GFX::DrawButton(mainButtons[i]);
@@ -151,7 +151,6 @@ void Editor::Draw(void) const {
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void Editor::Saving() {
@@ -165,6 +164,7 @@ void Editor::Saving() {
 		if (savesType == SaveType::WA) {
 			CoreUtils::FixInvalidBuildings();
 		}
+
 		save->Finish();
 		FILE* out = fopen(saveName.c_str(), "rb+");
 		fwrite(save->rawData().get(), 1, save->getLength(), out);
@@ -174,18 +174,17 @@ void Editor::Saving() {
 }
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
 				if (changes == true && hasSaved == false) {
 					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
 						savesType = SaveType::UNUSED;
-						Gui::screenBack(true);
+						Gui::screenBack();
 					}
 				} else if ((changes == true && hasSaved == true) || (!changes)) {
 					savesType = SaveType::UNUSED;
-					Gui::screenBack(true);
+					Gui::screenBack();
 				}
 			} else if (iconTouch(touch, icons[1])) {
 				Saving();
@@ -203,7 +202,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Player Editor.
 				if (Selection == 0) {
 					if (save->player(0) != nullptr) {
-						Gui::setScreen(std::make_unique<PlayerSelector>(), true, true);
+						Gui::setScreen(std::make_unique<PlayerSelector>(), false, true);
 					} else {
 						Msg::NotImplementedYet();
 					}
@@ -211,9 +210,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 1) {
 					if (save->villager(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<VillagerViewerWW>(), true, true);
+							Gui::setScreen(std::make_unique<VillagerViewerWW>(), false, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<VillagerViewerNL>(), true, true);
+							Gui::setScreen(std::make_unique<VillagerViewerNL>(), false, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -222,9 +221,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<TownMapEditorWW>(), true, true);
+							Gui::setScreen(std::make_unique<TownMapEditorWW>(), false, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<TownMapEditorNL>(), true, true);
+							Gui::setScreen(std::make_unique<TownMapEditorNL>(), false, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -234,12 +233,12 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<PluginScreen>(), true, true);
+			Gui::setScreen(std::make_unique<PluginScreen>(), false, true);
 		}
 		
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
-			Gui::screenBack(true);
+			Gui::screenBack();
 		}
 	} else {
 		SaveInitialize(); // Display Browse.

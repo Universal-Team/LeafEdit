@@ -68,7 +68,6 @@ void UpdateCenter::Draw(void) const {
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + config->currentNightly(), 395, 0, font);
 	}
 
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(mainButtons[i]);
@@ -77,18 +76,16 @@ void UpdateCenter::Draw(void) const {
 
 	if (this->ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x+124, mainButtons[0].y-4);
 	if (this->NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x+124, mainButtons[1].y-4);
-
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack();
 	}
 	
 	if (hDown & KEY_X) {
-		if (checkWifiStatus() == true) {
+		if (checkWifiStatus()) {
 			if (Msg::promptMsg("Do you like to check for LeafEdit updates?")) {
 				Msg::DisplayMsg("Fetching updates...");
 				checkUpdate();
@@ -98,25 +95,25 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_Y) {
 		if (Selection == 0) {
-			if (checkWifiStatus() == true) {
+			if (checkWifiStatus()) {
 				changelogShown = Download::showReleaseInfo(latestRelease);
 			}
 		}
 	}
 
 	// Navigation.
-	if(hDown & KEY_UP) {
-		if(Selection > 0)	Selection --;
-	} else if(hDown & KEY_DOWN) {
-		if(Selection < 2)	Selection++;
+	if (hDown & KEY_UP) {
+		if (Selection > 0)	Selection --;
+	} else if (hDown & KEY_DOWN) {
+		if (Selection < 2)	Selection++;
 	}
 
 	if (hDown & KEY_A) {
 		switch(Selection) {
 			case 0:
-				if (checkWifiStatus() == true) {
+				if (checkWifiStatus()) {
 					if (hasCheckedForUpdate) {
-						if (ReleaseAvailable == false) {
+						if (!ReleaseAvailable) {
 							if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
 								if (Download::updateApp(false, latestRelease.Version) == 0) {
 									ReleaseAvailable = false;
@@ -134,9 +131,9 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 				break;
 			case 1:
-				if (checkWifiStatus() == true) {
+				if (checkWifiStatus()) {
 					if (hasCheckedForUpdate) {
-						if (NightlyAvailable == false) {
+						if (!NightlyAvailable) {
 							if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
 								if (Download::updateApp(true, latestNightly.Target) == 0) {
 									NightlyAvailable = false;
@@ -149,14 +146,14 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						}
 					} else {
 						// Still allow updating even if not checked, but with no version set.
-						if (checkWifiStatus() == true) {
+						if (checkWifiStatus()) {
 							Download::updateApp(true, latestNightly.Target);
 						}
 					}
 				}
 				break;
 			case 2:
-				if (checkWifiStatus() == true) {
+				if (checkWifiStatus()) {
 					Download::downloadAssets();
 				}
 				break;
@@ -165,9 +162,9 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (checkWifiStatus() == true) {
+			if (checkWifiStatus()) {
 				if (hasCheckedForUpdate) {
-					if (ReleaseAvailable == false) {
+					if (!ReleaseAvailable) {
 						if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
 							if (Download::updateApp(false, latestRelease.Version) == 0) {
 								ReleaseAvailable = false;
@@ -180,15 +177,15 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				} else {
 					// Still allow updating even if not checked, but with no version set.
-					if (checkWifiStatus() == true) {
+					if (checkWifiStatus()) {
 						Download::updateApp(false, latestRelease.Version);
 					}
 				}
 			}
 		} else if (touching(touch, mainButtons[1])) {
-			if (checkWifiStatus() == true) {
+			if (checkWifiStatus()) {
 				if (hasCheckedForUpdate) {
-					if (NightlyAvailable == false) {
+					if (!NightlyAvailable) {
 						if (Msg::promptMsg("You seem to be on the latest Version.\nDo you still want to update?")) {
 							if (Download::updateApp(true, latestNightly.Target) == 0) {
 								NightlyAvailable = false;
@@ -201,13 +198,13 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				} else {
 					// Still allow updating even if not checked, but with no version set.
-					if (checkWifiStatus() == true) {
+					if (checkWifiStatus()) {
 						Download::updateApp(true, latestNightly.Target);
 					}
 				}
 			}
 		} else if (touching(touch, mainButtons[2])) {
-			if (checkWifiStatus() == true) {
+			if (checkWifiStatus()) {
 				Download::downloadAssets();
 			}
 		}

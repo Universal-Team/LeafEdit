@@ -59,15 +59,15 @@ off_t getFileSize(const char *fileName) {
 }
 
 bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList) {
-	if(name.substr(0, 2) == "._") return false;
+	if (name.substr(0, 2) == "._") return false;
 
-	if(name.size() == 0) return false;
+	if (name.size() == 0) return false;
 
-	if(extensionList.size() == 0) return true;
+	if (extensionList.size() == 0) return true;
 
 	for(int i = 0; i <(int)extensionList.size(); i++) {
 		const std::string ext = extensionList.at(i);
-		if(strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
+		if (strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
 	}
 
 	return false;
@@ -100,19 +100,20 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 			DirEntry dirEntry;
 
 			struct dirent* pent = readdir(pdir);
-			if(pent == NULL) break;
+			if (pent == NULL) break;
 
 			stat(pent->d_name, &st);
 			dirEntry.name = pent->d_name;
 			dirEntry.isDirectory = (st.st_mode & S_IFDIR) ? true : false;
 
-			if(dirEntry.name.compare(".") != 0 && (dirEntry.isDirectory || nameEndsWith(dirEntry.name, extensionList))) {
+			if (dirEntry.name.compare(".") != 0 && (dirEntry.isDirectory || nameEndsWith(dirEntry.name, extensionList))) {
 				dirContents.push_back(dirEntry);
 			}
 		}
 
 		closedir(pdir);
 	}
+
 	sort(dirContents.begin(), dirContents.end(), dirEntryPredicate);
 }
 
@@ -154,7 +155,6 @@ static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, con
 	} else {
 		Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw Fav Browse.
@@ -182,7 +182,6 @@ void DrawFavSaves(uint Selection) {
 	} else {
 		Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360, 0, font);
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 FavSave getFavSave(std::string line) {
@@ -384,9 +383,7 @@ static void Drawbrowse(uint Selection, std::vector<DirEntry> dirContents, const 
 	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawFileBrowseBG(false);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 std::string searchForFile(char *path, char *Text) {
@@ -428,6 +425,7 @@ std::string searchForFile(char *path, char *Text) {
 			for(uint i=0;i<dirContentsTemp.size();i++) {
 				dirContents.push_back(dirContentsTemp[i]);
 			}
+
 			refreshed = false;
 		}
 

@@ -351,10 +351,10 @@ void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
 			overlay->Logic(hDown, hHeld, touch);
 		} else {
 			Gui::DrawScreen(true);
-			Gui::ScreenLogic(hDown, hHeld, touch, true, true);
+			Gui::ScreenLogic(hDown, hHeld, touch, false, true);
 		}
 	} else {
 		Gui::DrawScreen(true);
-		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
+		Gui::ScreenLogic(hDown, hHeld, touch, false, true);
 	}
 }
