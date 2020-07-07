@@ -79,7 +79,7 @@ C2D_Image LoadPlayerPicture(const void *tpcData) {
 
 	if (jpeg.width > TPC_MAX_WIDTH || jpeg.height > TPC_MAX_HEIGHT || jpeg.image == nullptr) {
 		if (jpeg.image != nullptr) linearFree(jpeg.image);
-		return C2D_SpriteSheetGetImage(GUI, gui_noTPC_idx);
+		return {nullptr}; // Return nullptr!
 	}
 
 	C2D_Image image = C2DUtils::ImageDataToC2DImage((u32*)jpeg.image, jpeg.width, jpeg.height, GPU_RGBA8);

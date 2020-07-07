@@ -140,17 +140,14 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 extern C2D_SpriteSheet GUI;
 
 C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
-	C2D_Image temp;
-
 	if (player->tpcImage() != nullptr) {
 		if (player->hasTPC()) {
 			// Load.
-			temp = LoadPlayerPicture(player->tpcImage());
-			return temp;
+			return LoadPlayerPicture(player->tpcImage());
 		} else {
-			return C2D_SpriteSheetGetImage(GUI, gui_noTPC_idx);
+			return {nullptr};
 		}
 	} else {
-		return C2D_SpriteSheetGetImage(GUI, gui_noTPC_idx);
+		return {nullptr};
 	}
 }

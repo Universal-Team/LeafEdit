@@ -144,28 +144,25 @@ u32 ItemManager::getColor(ItemType item) {
 
 // Get the index of the current Item for the selection.
 int ItemManager::getIndex(const u16 &v) {
-	if (v == itemDB[0].first || v >= 0xFFF1)
-	{
+	if (v == itemDB[0].first || v >= 0xFFF1) {
 		return 0;
 	}
+
 	int index = -1, min = 0, mid = 0, max = itemDB.size();
-	while (min <= max)
-	{
+	while (min <= max) {
 		mid = min + (max - min) / 2;
-		if (itemDB[mid].first == v)
-		{
+		if (itemDB[mid].first == v) {
 			index = mid;
 			break;
 		}
-		if (itemDB[mid].first < v)
-		{
+
+		if (itemDB[mid].first < v) {
 			min = mid + 1;
-		}
-		else
-		{
+		} else {
 			max = mid - 1;
 		}
 	}
+
 	return index >= 0 ? index : 0;
 }
 
@@ -180,23 +177,18 @@ int ItemManager::getIndexString(const int &current, const std::string &v) {
 	}
 
 	int index = -1, min = 0, mid = 0, max = itemDB.size();
-	while (min <= max)
-	{
+	while (min <= max) {
 		mid = min + (max - min) / 2;
-		if (itemDB[mid].second == v)
-		{
+		if (itemDB[mid].second == v) {
 			index = mid;
 			break;
-		}
-		if (itemDB[mid].second < v)
-		{
+		} if (itemDB[mid].second < v) {
 			min = mid + 1;
-		}
-		else
-		{
+		} else {
 			max = mid - 1;
 		}
 	}
+
 	return index >= 0 ? index : 0;
 }
 
@@ -215,6 +207,7 @@ u16 ItemManager::selectItem(u16 currentID) {
 		for (int i=(selection<8) ? 0 : (int)selection-8;i<(int)itemDB.size()&&i<(((int)selection<8) ? 9 : (int)selection+1);i++) {
 			itemList += itemDB[i].second + "\n";
 		}
+		
 		for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
 			itemList += "\n";
 		}
