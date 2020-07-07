@@ -124,6 +124,7 @@ void Editor::SaveInitialize() {
 		if (Init::loadSheets() == 0) {
 			ItemUtils::LoadDatabase(savesType);
 			Lang::loadGameStrings(1, savesType);
+			CoreUtils::createBackup();
 			loadState = SaveState::Loaded;
 		} else {
 			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");

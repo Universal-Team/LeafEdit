@@ -41,7 +41,7 @@ private:
 
 	std::vector<ButtonType> mainButtons = {
 		{95, 34, 130, 48, "Change Style"},
-		{95, 97, 130, 48, ""},
+		{95, 97, 130, 48, "Toggle Backups"},
 		{95, 159, 130, 48, ""}
 	};
 };

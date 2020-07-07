@@ -68,6 +68,10 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 			
 			changesMade = true;
+		} else if (Selection == 1) {
+			if (Msg::promptMsg("Would you like to toggle Backups?")) {
+				config->createBackups(config->createBackups() ? false : true);
+			}
 		}
 	}
 
@@ -82,6 +86,10 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 
 			changesMade = true;
+		} else if (touching(touch, mainButtons[1])) {
+			if (Msg::promptMsg("Would you like to toggle Backups?")) {
+				config->createBackups(config->createBackups() ? false : true);
+			}
 		}
 	}
 }

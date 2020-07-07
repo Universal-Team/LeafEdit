@@ -31,7 +31,11 @@
 #include "saveUtils.hpp"
 #include "utils.hpp"
 
+#include <ctime> // For the time string.
+#include <dirent.h> // For mkdir.
+
 extern std::shared_ptr<Sav> save;
+extern std::unique_ptr<Config> config;
 
 // Fix Invalid Buildings and replace them with "Empty".
 void CoreUtils::FixInvalidBuildings(void) {
@@ -43,6 +47,7 @@ void CoreUtils::FixInvalidBuildings(void) {
 		} else if (save->getType() == SaveType::WA) {
 			offset = 0x04be88;
 		}
+
 		for (int i = 0; i < 58; i++) {
 			u8 building = save->savePointer()[(offset + (i * 4))]; // Get building IDs.
 			if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
@@ -52,6 +57,7 @@ void CoreUtils::FixInvalidBuildings(void) {
 						return;
 					}
 				}
+
 				SaveUtils::Write<u32>(save->savePointer(), offset + (i * 4), static_cast<u32>(0x000000FC)); // Write empty building.
 			}
 		}
@@ -62,9 +68,8 @@ void CoreUtils::FixInvalidBuildings(void) {
 u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
 	if (RegionID == CFG_REGION_JPN) { // If region is JPN
 		return 0;
-	}
 
-	else if (RegionID == CFG_REGION_USA) { // If region is USA
+	} else if (RegionID == CFG_REGION_USA) { // If region is USA
 		switch (LanguageID) {
 			case CFG_LANGUAGE_FR: // If lang is French
 				return 3;
@@ -73,9 +78,8 @@ u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
 			default: // If lang is English & other langs
 				return 1;
 		}
-	}
 
-	else if (RegionID == CFG_REGION_EUR) { // If region is EUR
+	} else if (RegionID == CFG_REGION_EUR) { // If region is EUR
 		switch (LanguageID) {
 			case CFG_LANGUAGE_FR: // If lang is French
 				return 6;
@@ -88,9 +92,8 @@ u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
 			default:
 				return 4;
 		}
-	}
 
-	else if (RegionID == CFG_REGION_KOR) { // If region is KOR
+	} else if (RegionID == CFG_REGION_KOR) { // If region is KOR
 		return 9;
 	}
 
@@ -136,9 +139,6 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	}
 }
 
-// Needed for the noTPC Image.
-extern C2D_SpriteSheet GUI;
-
 C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 	if (player->tpcImage() != nullptr) {
 		if (player->hasTPC()) {
@@ -149,5 +149,40 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 		}
 	} else {
 		return {nullptr};
+	}
+}
+
+void CoreUtils::createBackup() {
+	if (config->createBackups()) {
+		std::string fileName;
+		switch(save->getType()) {
+			case SaveType::WW:
+				fileName = "ACWW.sav";
+				break;
+			case SaveType::NL:
+				fileName = "garden.dat";
+				break;
+			case SaveType::WA:
+				fileName = "garden_plus.dat";
+				break;
+			case SaveType::UNUSED:
+				fileName = "?";
+				break;
+		}
+
+		if (fileName != "?") {
+			Msg::DisplayWarnMsg("Create Backup... Please wait.");
+			char stringTime[15] = {0};
+			time_t unixTime = time(NULL);
+			struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+			std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+			std::string path = "/3ds/LeafEdit/Backups/" + std::string(stringTime);
+			mkdir(path.c_str(), 0777); // Create folder.
+			path += "/" + fileName;
+
+			FILE *file = fopen(path.c_str(), "w");
+			fwrite(save->rawData().get(), 1, save->getLength(), file);
+			fclose(file);
+		}
 	}
 }
