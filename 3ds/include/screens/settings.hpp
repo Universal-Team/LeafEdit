@@ -40,8 +40,8 @@ private:
 	int Selection = 0;
 
 	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "Change Style"},
-		{95, 97, 130, 48, "Toggle Backups"},
+		{95, 34, 130, 48, "STYLE_CHANGE"},
+		{95, 97, 130, 48, "TOGGLE_BACKUP"},
 		{95, 159, 130, 48, ""}
 	};
 };

@@ -42,7 +42,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 
 void PluginScreen::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Plugin", 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("PLUGIN"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
@@ -80,10 +80,12 @@ void PluginScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (selection == 1) {
 			plugin = std::make_unique<UniversalPlugin>();
 		}
+		
 		if (plugin != nullptr) {
 			if (plugin->scriptMain() != 0) {
-				Msg::DisplayWarnMsg("An error occured while executing script.");
+				Msg::DisplayWarnMsg(Lang::get("ERROR_SCRIPT"));
 			}
+
 			Gui::screenBack(doFade);
 		}
 	}

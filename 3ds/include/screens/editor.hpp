@@ -53,9 +53,9 @@ private:
 	std::string saveName;
 
 	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "Player"},
-		{95, 97, 130, 48, "Villager"},
-		{95, 159, 130, 48, "Misc"}
+		{95, 34, 130, 48, "PLAYER"},
+		{95, 97, 130, 48, "VILLAGER"},
+		{95, 159, 130, 48, "MISC_EDITOR"}
 	};
 
 	std::vector<Structs::ButtonPos> icons = {

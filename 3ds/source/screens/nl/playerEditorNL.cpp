@@ -63,11 +63,11 @@ void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 /*	Sub Menu.	*/
 void PlayerEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Player SubMenu", 395, 0, font);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Player Name: " + StringUtils::UTF16toUTF8(this->player->name()), 0, 0, font);
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Wallet: " + std::to_string(this->player->wallet()), 0, 0, font);
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, "Bank: " + std::to_string(this->player->bank()), 0, 0, font);
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "FaceType: " + std::to_string(this->player->face()), 0, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 0, 0, font);
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string(this->player->wallet()), 0, 0, font);
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BAK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PLAYER_FACETYPE") + ": " + std::to_string(this->player->face()), 0, 0, font);
 
 	// Only display TPC if Player has TPC support and is not nullptr.
 	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
@@ -125,8 +125,8 @@ void PlayerEditorNL::DrawAppearance(void) const {
 	// Playername & TAN.
 	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
-	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, "Player Name: " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
-	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, "Tan Value: " + std::to_string((this->player->tan())), 380, 0, font);
+	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
+	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("PLAYER_TAN_VALUE") + ": " + std::to_string((this->player->tan())), 380, 0, font);
 
 	// Player Hair & Face sprites.
 	SpriteManagement::DrawHair(this->player->hairstyle(), 118, 106);

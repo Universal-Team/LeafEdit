@@ -58,9 +58,10 @@ static void loadToVector(std::string path, std::vector<std::string> &vec) {
 }
 
 std::string Lang::get(const std::string &key) {
-	if(!appJson.contains(key)) {
-		return "MISSING: " + key;
+	if (!appJson.contains(key)) {
+		return "";
 	}
+	
 	return appJson.at(key).get_ref<const std::string&>();
 }
 

@@ -30,4 +30,5 @@
 namespace Msg {
 	void DisplayWarnMsg(const std::string &Text);
 	void DisplayWaitMsg(std::string waitMsg, ...);
+	bool promptMsg(std::string promptMsg);
 };

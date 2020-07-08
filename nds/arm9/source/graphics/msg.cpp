@@ -26,6 +26,7 @@
 
 #include "colors.hpp"
 #include "gui.hpp"
+#include "lang.hpp"
 #include "msg.hpp"
 
 void Msg::DisplayWarnMsg(const std::string &Text) {
@@ -36,6 +37,7 @@ void Msg::DisplayWarnMsg(const std::string &Text) {
 	for (int i = 0; i < 60*2; i++) {
 		swiWaitForVBlank();
 	}
+
 	// Clear Layer 2 again.
 	Gui::DrawScreen();
 }
@@ -46,12 +48,27 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	Gui::clearScreen(true, true);
 	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
 	printTextCentered(waitMsg, 0, 80, true, true);
-	printTextCentered("Press A to continue.", 0, 175, true, true);
-	while(1)
-	{
+	printTextCentered(Lang::get("A_CONTINUE"), 0, 175, true, true);
+	while(1) {
 		scanKeys();
-		if(keysDown() & KEY_A)
-			break;
+		if (keysDown() & KEY_A) break;
 	}
+
+	Gui::DrawScreen();
+}
+
+// Display a Message, which can be skipped with A.
+bool Msg::promptMsg(std::string promptMsg) {
+	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
+	printTextCentered(promptMsg, 0, 80, true, true);
+	while(1) {
+		scanKeys();
+		if (keysDown() & KEY_A) return true;
+		if (keysDown() & KEY_B) return false;
+	}
+
 	Gui::DrawScreen();
 }

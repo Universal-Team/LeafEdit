@@ -60,11 +60,11 @@ private:
 	void ItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Replace"}, // Replace.
-		{15, 97, 130, 48, "Personality"}, // Personality.
-		{15, 159, 130, 48, "Items"}, // Items.
-		{175, 34, 130, 48, "Catchphrase"}, // Catchphrase.
-		{175, 97, 130, 48, "Status"}, // Status.
+		{15, 34, 130, 48, "VILLAGER_REPLACE"}, // Replace.
+		{15, 97, 130, 48, "VILLAGER_PERSONALITY"}, // Personality.
+		{15, 159, 130, 48, "ITEMS"}, // Items.
+		{175, 34, 130, 48, "VILLAGER_CATCHPHRASE"}, // Catchphrase.
+		{175, 97, 130, 48, "VILLAGER_STATUS"}, // Status.
 		{175, 159, 130, 48, ""} // ?.
 	};
 

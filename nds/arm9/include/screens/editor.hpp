@@ -46,7 +46,6 @@ private:
 	bool hasSaved = false;
 	SaveState loadState = SaveState::Unloaded;
 	int Selection = 0;
-	bool loadSave();
 	void SaveInitialize();
 	void Saving();
 	std::string saveName;

@@ -202,7 +202,7 @@ u16 ItemManager::selectItem(u16 currentID) {
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawFileBrowseBG(true);
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Old Item: " + ItemUtils::getName(currentID), 390);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("OLD_ITEM") + ItemUtils::getName(currentID), 390);
 
 		for (int i=(selection<8) ? 0 : (int)selection-8;i<(int)itemDB.size()&&i<(((int)selection<8) ? 9 : (int)selection+1);i++) {
 			itemList += itemDB[i].second + "\n";

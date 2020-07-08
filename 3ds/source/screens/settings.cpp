@@ -34,7 +34,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 
 void Settings::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Settings", 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
@@ -72,7 +72,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			
 			changesMade = true;
 		} else if (Selection == 1) {
-			if (Msg::promptMsg("Would you like to toggle Backups?")) {
+			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
 				config->createBackups(config->createBackups() ? false : true);
 			}
 		}
@@ -90,7 +90,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			changesMade = true;
 		} else if (touching(touch, mainButtons[1])) {
-			if (Msg::promptMsg("Would you like to toggle Backups?")) {
+			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
 				config->createBackups(config->createBackups() ? false : true);
 			}
 		}

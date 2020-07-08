@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
 
 	// Init filesystem
-	if(!fatInitDefault()) {
+	if (!fatInitDefault()) {
 		// Prints error if fatInitDefault() fails
 		consoleDemoInit();
 		printf("fatInitDefault() failed...");
@@ -72,10 +72,10 @@ int main(int argc, char **argv) {
 	mkdir(sdFound() ? "sd:/_nds/LeafEdit/backups" : "fat:/_nds/LeafEdit/backups", 0777);
 
 	// Try to init NitroFS from argv provided to the game when it was launched
-	if(!nitroFSInit(argv[0])) {
+	if (!nitroFSInit(argv[0])) {
 		// If that fails, try to init NitroFS on 'LeafEdit.nds'
-		if(!nitroFSInit("LeafEdit.nds")) {
-			if(!nitroFSInit("/_nds/LeafEdit/LeafEdit.nds")) {
+		if (!nitroFSInit("LeafEdit.nds")) {
+			if (!nitroFSInit("/_nds/LeafEdit/LeafEdit.nds")) {
 				// Prints error if nitroFSInit() fails
 				consoleDemoInit();
 				printf("nitroFSInit() failed...\n\n");
@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 	ItemUtils::LoadDatabase(SaveType::WW);
 	loadFont();
 	Lang::load(1);
-	printTextCentered("Loading...", 0, 32, false, true);
+	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
 
 	Sound::init();
 	Gui::initSprites();
@@ -117,5 +117,6 @@ int main(int argc, char **argv) {
 		touchRead(&touch);
 		Gui::mainLoop(hDown, touch);
 	}
+	
 	return 0;
 }

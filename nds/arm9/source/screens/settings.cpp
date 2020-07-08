@@ -32,7 +32,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void SettingsScreen::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Settings", 0, 1, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("SETTINGS"), 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);

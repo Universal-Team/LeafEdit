@@ -26,19 +26,20 @@
 
 #include "editor.hpp"
 #include "mainMenu.hpp"
+#include "msg.hpp"
 #include "settings.hpp"
 
 extern bool exiting;
 
 void MainMenu::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - MainMenu", 0, 1, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("MAINMENU"), 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 2; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
-	printTextCentered("Editor", -64, 88, false, true);
-	printTextCentered("Settings", 64, 88, false, true);
+	printTextCentered(Lang::get("EDITOR"), -64, 88, false, true);
+	printTextCentered(Lang::get("SETTINGS"), 64, 88, false, true);
 }
 
 void MainMenu::Logic(u16 hDown, touchPosition touch) {
@@ -52,6 +53,7 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 		if (selection < 1)	selection++;
 		selected = true;
 	}
+
 	if (hDown & KEY_LEFT) {
 		if (selection > 0)	selection--;
 		selected = true;
@@ -59,7 +61,9 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (selection == 0) {
-			Gui::setScreen(std::make_unique<Editor>());
+			if (Msg::promptMsg(Lang::get("EXPERIMENTAL_EDITOR"))) {
+				Gui::setScreen(std::make_unique<Editor>());
+			}
 			Gui::DrawScreen();
 		} else if (selection == 1) {
 			Gui::setScreen(std::make_unique<SettingsScreen>());

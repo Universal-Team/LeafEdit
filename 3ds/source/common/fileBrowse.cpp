@@ -357,8 +357,8 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 		if (hDown & KEY_Y) {
 			if (Mode == 0) {
 				if (!dirContents[selectedSave].isDirectory) {
-					if (Msg::promptMsg("Do you like to add this to a Favorite Save?")) {
-						std::string name = Input::getString("Enter the favorite savename.");
+					if (Msg::promptMsg(Lang::get("ADD_FAVORITE_SAVE"))) {
+						std::string name = Input::getString(Lang::get("ENTER_FAV_SAVE_NAME"));
 						char path[PATH_MAX];
 						getcwd(path, PATH_MAX);
 						std::string output = path + dirContents[selectedSave].name;
@@ -452,7 +452,7 @@ std::string searchForFile(char *path, char *Text) {
 				keyRepeatDelay = 6;
 			}
 		} else if (hDown & KEY_B) {
-			if (Msg::promptMsg("Cancel File Selection?\nThis returns ''.")) {
+			if (Msg::promptMsg(Lang::get("CANCEL_FILE_SELECTION"))) {
 				return "?";
 			}
 		} else if (hDown & KEY_START) {

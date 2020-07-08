@@ -37,16 +37,15 @@
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 
-void PluginScreen::Draw(void) const
-{
+void PluginScreen::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Plugin", 0, 1, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("PLUGIN"), 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 2; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
-	printTextCentered("Unique", -64, 88, false, true);
-	printTextCentered("Universal", 64, 88, false, true);
+	printTextCentered(Lang::get("UNIQUE"), -64, 88, false, true);
+	printTextCentered(Lang::get("UNIVERSAL"), 64, 88, false, true);
 }
 
 
@@ -64,6 +63,7 @@ void PluginScreen::Logic(u16 hDown, touchPosition touch) {
 		if (selection < 1)	selection++;
 		selected = true;
 	}
+	
 	if (hDown & KEY_LEFT) {
 		if (selection > 0)	selection--;
 		selected = true;
@@ -75,10 +75,12 @@ void PluginScreen::Logic(u16 hDown, touchPosition touch) {
 		} else if (selection == 1) {
 			plugin = std::make_unique<UniversalPlugin>();
 		}
+
 		if (plugin != nullptr) {
 			if (plugin->scriptMain() != 0) {
-				Msg::DisplayWarnMsg("An error occured while executing script.");
+				Msg::DisplayWarnMsg(Lang::get("SCRIPT_ERROR"));
 			}
+
 			Gui::screenBack();
 			Gui::DrawScreen();
 			// In case it was hidden.

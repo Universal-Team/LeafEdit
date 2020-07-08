@@ -30,20 +30,19 @@
 #include "Sav.hpp"
 #include "townMapEditor.hpp"
 
-extern std::shared_ptr<Sav> save;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void MiscEditor::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Misc Editor", 0, 0, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("MISC_EDITOR"), 0, 0, true, true);
 	Gui::DrawBottom(true);
 
 	for (int i = 0; i < 3; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
-	printTextCentered("Acres Editor", 0, 40, false, true);
-	printTextCentered("Town Editor", 0, 90, false, true);
-	printTextCentered("Plugin", 0, 140, false, true);
+	printTextCentered(Lang::get("ACRE_EDITOR"), 0, 40, false, true);
+	printTextCentered(Lang::get("TOWN_EDITOR"), 0, 90, false, true);
+	printTextCentered(Lang::get("PLUGIN"), 0, 140, false, true);
 }
 
 void MiscEditor::Logic(u16 hDown, touchPosition touch) {

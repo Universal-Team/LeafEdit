@@ -29,10 +29,8 @@
 #include "msg.hpp"
 #include "villagerEditor.hpp"
 #include "villagerViewer.hpp"
-#include "Sav.hpp"
 
 
-extern std::shared_ptr<Sav> save;
 extern std::vector<std::string> g_villagerDatabase;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 std::unique_ptr<Villager> villager;
@@ -54,7 +52,7 @@ void VillagerViewer::DrawVillagerList(void) const {
 	Gui::DrawTop(true);
 	DrawBox();
 	GraphicManagement::DrawVillager(villagerViewerSprite, 100, 60);
-	printTextCentered("Villager ID: " + std::to_string(villagerViewerSprite), 0, 160, true, true);
+	printTextCentered(Lang::get("VILLAGER_ID") + ": " + std::to_string(villagerViewerSprite), 0, 160, true, true);
 	printTextCentered(g_villagerDatabase[villagerViewerSprite], 0, 130, true, true);
 	Gui::DrawBottom(true);
 }
@@ -154,14 +152,14 @@ void VillagerViewer::DrawVillager(void) const {
 	DrawCurrentVillager();
 	GraphicManagement::DrawVillager(villager->id(), 100, 60);
 	printTextCentered(g_villagerDatabase[villager->id()], 0, 130, true, true);
-	printTextCentered("Villager ID: " + std::to_string(villager->id()), 0, 160, true, true);
+	printTextCentered(Lang::get("VILLAGER_ID") + ": " + std::to_string(villager->id()), 0, 160, true, true);
 	Gui::DrawBottom(true);
 }
 
 // This will draw the current Villager and Title for the Villager Viewer Screen.
 void VillagerViewer::DrawCurrentVillager(void) const {
-	printTextCentered("LeafEdit - Villager Viewer", 0, 2, true, true);
-	printTextCentered("Current Villager: " + std::to_string(currentVillager+1), 0, 180, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 0, 2, true, true);
+	printTextCentered(Lang::get("CURRENT_VILLAGER") + std::to_string(currentVillager+1), 0, 180, true, true);
 }
 
 void VillagerViewer::DrawBox(void) const {

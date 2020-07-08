@@ -68,7 +68,7 @@ PlayerSelector::~PlayerSelector() {
 
 void PlayerSelector::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - PlayerSelection", 395, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 395, 0, font);
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
 			// Only display TPC if New Leaf or Welcome Amiibo.

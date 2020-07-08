@@ -44,7 +44,7 @@ private:
 	std::shared_ptr<Player> player;
 
 	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
+		{15, 34, 130, 48, "APPEARANCE"},
 		{15, 97, 130, 48, ""},
 		{15, 159, 130, 48, ""},
 		{175, 34, 130, 48, ""},

@@ -25,9 +25,10 @@ void loadToVector(std::string path, std::vector<std::string> &vec) {
 }
 
 std::string Lang::get(const std::string &key) {
-	if(!appJson.contains(key)) {
-		return "MISSING: " + key;
+	if (!appJson.contains(key)) {
+		return "";
 	}
+
 	return appJson.at(key).get_ref<const std::string&>();
 }
 
@@ -42,7 +43,7 @@ void Lang::load(int lang) {
 
 	// Load app strings
 	FILE* file = fopen(("nitro:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
-	if(file) {
+	if (file) {
 		appJson = nlohmann::json::parse(file, nullptr, false);
 		fclose(file);
 	}

@@ -27,9 +27,6 @@
 #include "input.hpp"
 #include "msg.hpp"
 #include "playerEditor.hpp"
-#include "Sav.hpp"
-
-extern std::shared_ptr<Sav> save;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 std::unique_ptr<Player> player = nullptr;
@@ -65,9 +62,9 @@ void PlayerEditor::Draw(void) const {
 
 void PlayerEditor::DrawPlayerSelection(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Player Selection", 0, 0, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("PLAYER_SELECTION"), 0, 0, true, true);
 	DrawPlayerBoxes();
-	printTextCentered("Current Player: " + std::to_string(selectedPlayer+1), 0, 172, true, true);
+	printTextCentered(Lang::get("CURRENT_PLAYER") + std::to_string(selectedPlayer+1), 0, 172, true, true);
 	Gui::DrawBottom(true);
 }
 
@@ -83,36 +80,37 @@ void PlayerEditor::Logic(u16 hDown, touchPosition touch) {
 
 void PlayerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Player Sub Menu", 0, 0, true, true); 
+	printTextCentered("LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 0, 0, true, true); 
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 3; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
-	printTextCentered("Player", 0, 40, false, true);
-	printTextCentered("Items", 0, 90, false, true);
-	printTextCentered("Appearance", 0, 140, false, true);
+	printTextCentered(Lang::get("PLAYER"), 0, 40, false, true);
+	printTextCentered(Lang::get("ITEMS"), 0, 90, false, true);
+	printTextCentered(Lang::get("APPEARANCE"), 0, 140, false, true);
 }
 
 void PlayerEditor::DrawPlayerScreen(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Player Editor", 0, 0, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("PLAYER_EDITOR"), 0, 0, true, true);
 	drawRectangle(20, 35, 216, 30, DARK_GREEN, true, true);
 	printTextCentered(player->name(), 0, 40, true, true);
-	printTextCentered("Bells: " + std::to_string(player->wallet()), 0, 65, true, true);
-	printTextCentered("Gender: " + std::to_string(player->gender()), 0, 90, true, true);
-	printTextCentered("TAN: " + std::to_string(player->tan()), 0, 115, true, true);
-	printTextCentered("Facetype: " + std::to_string(player->face()), 0, 140, true, true);
-	printTextCentered("HairStyle: " + std::to_string(player->hairstyle()), 0, 165, true, true);
+	printTextCentered(Lang::get("PLAYER_WALLET") + ": " + std::to_string(player->wallet()), 0, 65, true, true);
+	printTextCentered(Lang::get("PLAYER_GENDER") + ": " + std::to_string(player->gender()), 0, 90, true, true);
+	printTextCentered(Lang::get("PLAYER_TAN_VALUE") + ": " + std::to_string(player->tan()), 0, 115, true, true);
+	printTextCentered(Lang::get("PLAYER_FACE") + ": " + std::to_string(player->face()), 0, 140, true, true);
+	printTextCentered(Lang::get("PLAYER_HAIRSTYLE") + ": " + std::to_string(player->hairstyle()), 0, 165, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(playerButtons[i].x, playerButtons[i].y, playerButtons[i].w, playerButtons[i].h, GRAY, false, true);
 	}
-	printTextCentered("Bells", -64, 40, false, true);
-	printTextCentered("Name", -64, 90, false, true);
-	printTextCentered("Gender", -64, 140, false, true);
-	printTextCentered("TAN", 64, 40, false, true);
-	printTextCentered("FaceType", 64, 90, false, true);
-	printTextCentered("HairStyle", 64, 140, false, true);
+	
+	printTextCentered(Lang::get("PLAYER_WALLET"), -64, 40, false, true);
+	printTextCentered(Lang::get("PLAYER_NAME"), -64, 90, false, true);
+	printTextCentered(Lang::get("PLAYER_GENDER"), -64, 140, false, true);
+	printTextCentered(Lang::get("PLAYER_TAN_VALUE"), 64, 40, false, true);
+	printTextCentered(Lang::get("PLAYER_FACE"), 64, 90, false, true);
+	printTextCentered(Lang::get("PLAYER_HAIRSTYLE"), 64, 140, false, true);
 }
 
 void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {

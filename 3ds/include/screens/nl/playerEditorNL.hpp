@@ -46,7 +46,7 @@ private:
 	std::shared_ptr<Player> player;
 
 	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
+		{15, 34, 130, 48, "APPEARANCE"},
 		{15, 97, 130, 48, ""},
 		{15, 159, 130, 48, ""},
 		{175, 34, 130, 48, ""},
@@ -55,12 +55,12 @@ private:
 	};
 
 	std::vector<ButtonType> appearanceBtn = {
-		{15, 34, 130, 48, "Player Name"},
-		{15, 97, 130, 48, "Hair Style"},
-		{15, 159, 130, 48, "Face"},
-		{175, 34, 130, 48, "Tan Value"},
-		{175, 97, 130, 48, "Hair Color"},
-		{175, 159, 130, 48, "Eye Color"}
+		{15, 34, 130, 48, "PLAYER_NAME"},
+		{15, 97, 130, 48, "PLAYER_HAIR_STYLE"},
+		{15, 159, 130, 48, "PLAYER_FACETYPE"},
+		{175, 34, 130, 48, "PLAYER_TAN_VALUE"},
+		{175, 97, 130, 48, "PLAYER_HAIR_COLOR"},
+		{175, 159, 130, 48, "PLAYER_EYE_COLOR"}
 	};
 
 	void DrawSubMenu(void) const;

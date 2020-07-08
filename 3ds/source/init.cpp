@@ -186,7 +186,7 @@ Result Init::Init() {
 
 	// Check for location changes.
 	if (access("sdmc:/LeafEdit/Settings.json", F_OK) == 0  && access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0) {
-		Msg::DisplayWaitMsgInit("Mainpath got changed.\nPlease move your stuff to 'sdmc:/3ds/LeafEdit/'.");
+		Msg::DisplayWaitMsgInit(Lang::get("MAINPATH_CHANGE"));
 	}
 
 

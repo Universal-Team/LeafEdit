@@ -34,9 +34,9 @@
 #include <vector>
 
 const std::vector<ButtonType> promptBtn = {
-	{0, 85, 149, 52, "Yes"}, // Yes.
-	{162, 85, 149, 52, "No"}, // No.
-	{80, 90, 149, 52, "Ok"} // OK.
+	{0, 85, 149, 52, "YES"}, // Yes.
+	{162, 85, 149, 52, "NO"}, // No.
+	{80, 90, 149, 52, "OK"} // OK.
 };
 
 const std::vector<std::string> prompt = {"YES", "NO"};

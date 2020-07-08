@@ -1,5 +1,5 @@
 /*
-*   This file is part of Universal-Updater
+*   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,21 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "formatting.hpp"
+#ifndef _LEAFEDIT_CORE_UTILS_HPP
+#define _LEAFEDIT_CORE_UTILS_HPP
 
-// adapted from GM9i's byte parsing.
-std::string formatBytes(int bytes) {
-	char out[32];
-	if (bytes == 1)
-		snprintf(out, sizeof(out), "%d Byte", bytes);
-	else if (bytes < 1024)
-		snprintf(out, sizeof(out), "%d Bytes", bytes);
-	else if (bytes < 1024 * 1024)
-		snprintf(out, sizeof(out), "%.1f KB", (float)bytes / 1024);
-	else if (bytes < 1024 * 1024 * 1024)
-		snprintf(out, sizeof(out), "%.1f MB", (float)bytes / 1024 / 1024);
-	else
-		snprintf(out, sizeof(out), "%.1f GB", (float)bytes / 1024 / 1024 / 1024);
+#include <nds.h>
+#include <string>
 
-	return out;
+namespace CoreUtils {
+	bool loadSave(const std::string saveFile);
+	void saveChanges();
 }
+
+#endif

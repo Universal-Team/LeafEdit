@@ -30,9 +30,13 @@
 #include "colors.hpp"
 #include "graphics.hpp"
 #include "gui.hpp"
+#include "lang.hpp"
+#include "Sav.hpp"
 #include "screen.hpp"
 
 extern bool selected;
 extern bool changes;
+extern SaveType savesType;
+extern std::shared_ptr<Sav> save;
 
 #endif

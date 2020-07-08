@@ -42,8 +42,8 @@ private:
 	std::unique_ptr<Plugin> plugin = nullptr;
 	int selection = 0;
 	std::vector<ButtonType> mainButtons = {
-		{15, 97, 130, 48, "Unique"},
-		{175, 97, 130, 48, "Universal"}
+		{15, 97, 130, 48, "UNIQUE"},
+		{175, 97, 130, 48, "UNIVERSAL"}
 	};
 };
 

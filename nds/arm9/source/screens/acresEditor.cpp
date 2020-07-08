@@ -28,7 +28,6 @@
 #include "graphicManagement.hpp"
 #include "Sav.hpp"
 
-extern std::shared_ptr<Sav> save;
 #define MAX_ACRE 130 // Define the Max Amount of Acres.
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -42,9 +41,9 @@ AcresEditor::AcresEditor() {
 
 // Draw Functions.
 void AcresEditor::DrawTop(void) const {
-	printTextCentered("LeafEdit - Acres Editor", 0, 0, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("ACRE_EDITOR"), 0, 0, true, true);
 	GraphicManagement::DrawAcre(selectedAcre, 90, 70, 2, 2); // Current Selected ACRE.
-	printTextCentered("Acre ID: " + std::to_string(selectedAcre), 0, 150, true, true);
+	printTextCentered(Lang::get("ACRE_ID") + std::to_string(selectedAcre), 0, 150, true, true);
 }
 
 void AcresEditor::Draw(void) const {
@@ -104,6 +103,7 @@ void AcresEditor::Logic(u16 hDown, touchPosition touch) {
 			}
 		}
 	}
+	
 	if (held & KEY_RIGHT) {
 		if (Selection < 35)	Selection++;
 		selected = true;

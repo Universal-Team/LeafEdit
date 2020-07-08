@@ -29,10 +29,7 @@
 #include "itemUtils.hpp"
 #include "gui.hpp"
 #include "input.hpp"
-#include "Sav.hpp"
 #include "townMapEditor.hpp"
-
-extern std::shared_ptr<Sav> save;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -52,16 +49,16 @@ TownMapEditor::TownMapEditor() {
 
 void TownMapEditor::DrawTempItem() const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Temp Item", 0, 0, true, true);
-	printTextCentered("Item Name: " + ItemUtils::getName(this->TempItem), 0, 50, true, true);
-	printTextCentered("Item ID: " + std::to_string(this->TempItem), 0, 80, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("TEMP_ITEM"), 0, 0, true, true);
+	printTextCentered(Lang::get("ITEM_NAME") + ItemUtils::getName(this->TempItem), 0, 50, true, true);
+	printTextCentered(Lang::get("ITEM_ID") + std::to_string(this->TempItem), 0, 80, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 3; i++) {
 		drawRectangle(TempPos[i].x, TempPos[i].y, TempPos[i].w, TempPos[i].h, GRAY, false, true);
 	}
 
-	printTextCentered("Manually", 0, 40, false, true);
-	printTextCentered("Selection", 0, 90, false, true);
+	printTextCentered(Lang::get("ITEM_MANUALLY"), 0, 40, false, true);
+	printTextCentered(Lang::get("ITEM_SELECTION"), 0, 90, false, true);
 }
 
 
@@ -155,6 +152,7 @@ int TownMapEditor::SelectionToAcre() const {
 			return 28;
 			break;
 	}
+
 	return 7; // Should Never Happen.
 }
 
@@ -180,7 +178,7 @@ void TownMapEditor::DrawMain(void) const {
 	DrawGrid();
 	DrawPosition();
 	drawRectangle(175, 100, 75, 25, GRAY, false, false);
-	printText("Temp Item", 178, 105, false, false);
+	printText(Lang::get("TEMP_ITEM"), 178, 105, false, false);
 }
 
 void TownMapEditor::Draw(void) const {
@@ -305,14 +303,14 @@ void TownMapEditor::TempLogic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (selection == 0) {
-			int ID = Input::getInt("Enter the Decimal Item ID.", 99999);
+			int ID = Input::getInt(Lang::get("ENTER_DECIMAL_ID"), 99999);
 			if(ID != -1) {
 				this->TempItem = ID;
 				Gui::DrawScreen();
 			}
 		} else if (selection == 1) {
 			Gui::clearScreen(true, true);
-			this->TempItem = ItemManager::selectItem(this->TempItem, "Please select an Item.");
+			this->TempItem = ItemManager::selectItem(this->TempItem, Lang::get("SELECT_ITEM"));
 			Gui::DrawScreen();
 		}
 	}
@@ -350,8 +348,8 @@ void TownMapEditor::DrawInformation() const {
 	drawOutline(10 + (x*32), 30 + (currentAcre/4*32), 32, 32, WHITE, true, true);
 
 	// Display Informations.
-	printText("Current Position:\n" +  std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 40, true, true);
-	printText("Current Item:\n" + ItemUtils::getName(this->MapItems[MapSelection]->id()), 150, 70, true, true);
+	printText(Lang::get("CURRENT_POSITION") + "\n" + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 40, true, true);
+	printText(Lang::get("CURRENT_ITEM") + "\n" + ItemUtils::getName(this->MapItems[MapSelection]->id()), 150, 70, true, true);
 }
 
 void TownMapEditor::updateTopGrid() {
@@ -404,7 +402,7 @@ void TownMapEditor::updateAcreImage() {
 	Gui::DrawBottom(false); // Draw Base UI.
 	GraphicManagement::DrawAcre(this->townAcres[SelectionToAcre()]->id(), 10, 15, 5, 5, false, false);
 	drawRectangle(175, 100, 75, 25, GRAY, false, false);
-	printText("Temp Item", 178, 105, false, false);
+	printText(Lang::get("TEMP_ITEM"), 178, 105, false, false);
 }
 
 void TownMapEditor::convertToSelection() {

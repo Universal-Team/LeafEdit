@@ -111,24 +111,24 @@ bool Editor::loadSave() {
 }
 
 void Editor::SaveInitialize() {
-	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", "Select your SaveFile.");
+	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
 	// If User canceled, go screen back.
 	if (saveName == "") {
-		Gui::screenBack();
+		Gui::screenBack(doFade);
 	}
 
 	if (!loadSave()) {
-		Msg::DisplayWarnMsg("Invalid SaveFile!");
+		Msg::DisplayWarnMsg(Lang::get("INVALID_SAVEFILE"));
 	} else {
-		Msg::DisplayWarnMsg("Loading Editor... Please wait.");
+		Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
 		if (Init::loadSheets() == 0) {
 			ItemUtils::LoadDatabase(savesType);
 			Lang::loadGameStrings(1, savesType);
 			CoreUtils::createBackup();
 			loadState = SaveState::Loaded;
 		} else {
-			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
-			Gui::screenBack(true);
+			Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
+			Gui::screenBack(doFade);
 		}
 	}
 }
@@ -137,7 +137,7 @@ void Editor::SaveInitialize() {
 void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Editor", 395, 0, font);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
@@ -159,11 +159,11 @@ void Editor::Draw(void) const {
 
 void Editor::Saving() {
 	if (!changes) {
-		Msg::DisplayWaitMsg("Saving is useless. No changes have been made.");
+		Msg::DisplayWaitMsg(Lang::get("SAVING_USELESS"));
 		return;
 	}
 
-	if (Msg::promptMsg("Do you like to save?")) {
+	if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
 		// Handle AC:WA stuff here.
 		if (savesType == SaveType::WA) {
 			CoreUtils::FixInvalidBuildings();
@@ -182,7 +182,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
 				if (changes == true && hasSaved == false) {
-					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
+					if (Msg::promptMsg(Lang::get("UNSAVED_CHANGES"))) {
 						savesType = SaveType::UNUSED;
 						Gui::screenBack(doFade);
 					}

@@ -9,6 +9,7 @@ Result CIA_LaunchTitle(u64 titleId, FS_MediaType mediaType) {
 		printf("Error In:\nAPT_PrepareToDoApplicationJump");
 		return ret;
 	}
+	
 	if (R_FAILED(ret = APT_DoApplicationJump(param, sizeof(param), hmac))) {
 		printf("Error In:\nAPT_DoApplicationJump");
 		return ret;
@@ -17,8 +18,7 @@ Result CIA_LaunchTitle(u64 titleId, FS_MediaType mediaType) {
 	return 0;
 }
 
-Result deletePrevious(u64 titleid, FS_MediaType media)
-{
+Result deletePrevious(u64 titleid, FS_MediaType media) {
 	Result ret = 0;
 
 	u32 titles_amount = 0;
@@ -65,8 +65,7 @@ FS_MediaType getTitleDestination(u64 titleId) {
 // Variables.
 u64 installSize = 0, installOffset = 0;
 
-Result installCia(const char * ciaPath, bool updatingSelf)
-{
+Result installCia(const char * ciaPath, bool updatingSelf) {
 	u32 bytes_read = 0, bytes_written;
 	installSize = 0, installOffset = 0; u64 size = 0;
 	Handle ciaHandle, fileHandle;
@@ -99,6 +98,7 @@ Result installCia(const char * ciaPath, bool updatingSelf)
 		printf("Error in:\nFSFILE_GetSize\n");
 		return ret;
 	}
+
 	ret = AM_StartCiaInstall(media, &ciaHandle);
 	if (R_FAILED(ret)) {
 		printf("Error in:\nAM_StartCiaInstall\n");
@@ -107,7 +107,7 @@ Result installCia(const char * ciaPath, bool updatingSelf)
 
 	u32 toRead = 0x200000;
 	u8 *buf = new u8[toRead];
-	if(buf == nullptr) {
+	if (buf == nullptr) {
 		return -1;
 	}
 
@@ -124,6 +124,7 @@ Result installCia(const char * ciaPath, bool updatingSelf)
 		printf("Error in:\nAM_FinishCiaInstall\n");
 		return ret;
 	}
+
 	ret = FSFILE_Close(fileHandle);
 	if (R_FAILED(ret)) {
 		printf("Error in:\nFSFILE_Close\n");
@@ -134,5 +135,6 @@ Result installCia(const char * ciaPath, bool updatingSelf)
 		if (R_FAILED(ret = CIA_LaunchTitle(info.titleID, MEDIATYPE_SD)))
 			return ret;
 	}
+
 	return 0;
 }

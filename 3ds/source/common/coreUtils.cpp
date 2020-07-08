@@ -53,7 +53,7 @@ void CoreUtils::FixInvalidBuildings(void) {
 			if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
 				if (!ask) {
 					ask = true;
-					if (!Msg::promptMsg("Invalid Buildings have been found on your save.\nDo you like to fix them through Empty Buildings?")) {
+					if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
 						return;
 					}
 				}
@@ -132,7 +132,7 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	if (save->getType() == SaveType::WA) {
 		if (UpdateSaveRegion(regionLock))
 		{
-			if (Msg::promptMsg("The region does not match the one from your console.\nWould you like to fix it?")) {
+			if (Msg::promptMsg(Lang::get("REGION_NOT_MATCH"))) {
 				save->savePointer()[0x621CE] = regionLock.RawByte;
 			}
 		}
