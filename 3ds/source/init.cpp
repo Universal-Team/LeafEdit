@@ -32,6 +32,7 @@
 #include "itemManager.hpp"
 #include "lang.hpp"
 #include "mainMenu.hpp"
+#include "splash.hpp"
 #include "screenCommon.hpp"
 
 #include <3ds.h>
@@ -42,6 +43,7 @@ int barOffset; // The additional offset for the text on the clean style.
 std::unique_ptr<Config> config;
 // If true -> Exit LeafEdit.
 bool exiting = false;
+bool doFade = true;
 
 touchPosition touch;
 
@@ -229,8 +231,13 @@ Result Init::Init() {
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
-	// Set the Screen to the MainMenu.
-	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
+	if (doFade) {
+		fadein = true;
+		fadealpha = 255;
+	}
+
+	// Set the Screen to the Splash.
+	Gui::setScreen(std::make_unique<Splash>(), false, true);
 	return 0;
 }
 
@@ -250,10 +257,12 @@ Result Init::MainLoop() {
 		Gui::clearTextBufs();
 		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
-
+		
 		if (exiting || Is3dsxUpdated) {
 			if (!fadeout)	break;
 		}
+
+		Gui::fadeEffects(16, 16, true);
 	}
 	// Exit all services and exit the app.
 	Exit();

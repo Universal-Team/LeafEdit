@@ -179,6 +179,7 @@ void TownMapEditorNL::convertToPosition() {
 	} else if (currentAcre > 14 && currentAcre < 20) {
 		acre = 3;
 	}
+
 	PositionY = (16 + acre * 16) + currentPosY;
 }
 
@@ -209,6 +210,7 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	DrawInformation();
 
 	// Bottom Screen part. Grid & Acre.
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom(true); // We need the full screen.
 	SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(currentAcre)]->id(), 15, 20, 5, 5);
 	// Draw current Position + Grid.
@@ -226,6 +228,8 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	} else {
 		GFX::DrawGUI(gui_pointer_idx, mainButtons[selection].x+40, mainButtons[selection].y+13);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Inject the current Temp Item to a slot.
@@ -314,7 +318,7 @@ void TownMapEditorNL::updateStuff() {
 
 void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if ((hDown & KEY_B) || (hDown & KEY_TOUCH && iconTouch(touch, icons[0]))) {
-		Gui::screenBack();
+		Gui::screenBack(doFade);
 	}
 
 	// Switch the select Mode from Town Map Selection to operation selection.
@@ -430,7 +434,7 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
-
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(tempItemPos[i], 0.8f);
@@ -443,6 +447,8 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	if (!this->isItemSelection) {
 		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -549,6 +555,7 @@ void TownMapEditorNL::DrawFullMap(void) const {
 	}
 
 	GFX::DrawGUI(gui_pointer_idx, acreMapPos[selection].x+20, acreMapPos[selection].y+20);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw smaller TownMap. (Only affects AC:NL.)
@@ -568,6 +575,7 @@ void TownMapEditorNL::DrawMap(void) const {
 	}
 
 	GFX::DrawGUI(gui_pointer_idx, acreTownPos[selection].x+20, acreTownPos[selection].y+20);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw the Acre Selection from the Top Screen.
@@ -600,6 +608,8 @@ void TownMapEditorNL::DrawTopSelection(void) const {
 		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
 		SpriteManagement::DrawAcres(selectedAcre+2, 350, 100, 1, 1);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 

@@ -24,67 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "pluginScreen.hpp"
-#include "screenCommon.hpp"
-
-// Include all Plugin's.
-#include "NLPlugin.hpp"
-#include "UniversalPlugin.hpp"
-#include "WAPlugin.hpp"
-#include "WWPlugin.hpp"
-// Test Purpose.
-#include "TestPlugin.hpp"
-
-extern SaveType savesType;
+#include "mainMenu.hpp"
+#include "splash.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
 
-
-void PluginScreen::Draw(void) const {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Plugin", 390, 0, font);
+void Splash::Draw(void) const {
+	Gui::ScreenDraw(Top);
+	GFX::DrawGUI(gui_dev_by_idx, 0, 0);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
-	for (int i = 0; i < 2; i++) {
-		GFX::DrawButton(mainButtons[i]);
-		if (i == selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
-	}
-
+	Gui::ScreenDraw(Bottom);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(23, 121, 53, 255));
+	GFX::DrawGUI(gui_banner_idx, 32, 56);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
-void PluginScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_B) {
-		Gui::screenBack(doFade);
-	}
-
-	if (hDown & KEY_RIGHT) {
-		if (selection < 1)	selection++;
-	}
-
-	if (hDown & KEY_LEFT) {
-		if (selection > 0)	selection--;
-	}
-
-	if (hDown & KEY_A) {
-		if (selection == 0) {
-			// Get correct Plugin.
-			if (savesType == SaveType::WW) {
-				plugin = std::make_unique<WWPlugin>();
-			} else if (savesType == SaveType::NL) {
-				plugin = std::make_unique<NLPlugin>();
-			} else if (savesType == SaveType::WA) {
-				plugin = std::make_unique<WAPlugin>();
-			}
-		} else if (selection == 1) {
-			plugin = std::make_unique<UniversalPlugin>();
-		}
-		if (plugin != nullptr) {
-			if (plugin->scriptMain() != 0) {
-				Msg::DisplayWarnMsg("An error occured while executing script.");
-			}
-			Gui::screenBack(doFade);
+void Splash::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (this->delay > 0) {
+		this->delay--;
+		if (this->delay <= 0) {
+			Gui::setScreen(std::make_unique<MainMenu>(), doFade, true);
 		}
 	}
 }

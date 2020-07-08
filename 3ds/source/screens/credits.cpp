@@ -56,17 +56,19 @@ void Credits::Draw(void) const {
 		Gui::DrawStringCentered(0, 150, 0.7f, BLACK, "For helping me out by problems.", 310, 0, font);
 		Gui::DrawStringCentered(0, 180, 0.8f, BLACK, "TotallyNotGuy", 310, 0, font);
 		Gui::DrawStringCentered(0, 200, 0.7f, BLACK, "For the amazing Graphic work!", 310, 0, font);
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	} else if (DisplayMode == 2) {
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.8f, BLACK, "Translators", 310, 0, font);
 		Gui::DrawString(5, 45, 0.8f, BLACK, "Deutsch\nEnglish\nEspañol\nFrançais\nItaliano\nLietuvių\nPortuguês\n日本語", 310, 0, font);
 		Gui::DrawString(150, 45, 0.8f, BLACK, "SuperSaiyajinStackZ\nSuperSaiyajinStackZ\nYoSoy\nantoine62\nedo9300\nlemonnade0\nChips, David Pires\nPk11", 310, 0, font);
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	} else if (DisplayMode == 3) {
 		qr_code();
 	}
 }
 
 void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	Loop();
+	this->Loop();
 
 	if (hDown & KEY_RIGHT) {
 		if (DisplayMode < 3)	DisplayMode++;
@@ -77,7 +79,7 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_B) {
-		Gui::screenBack();
+		Gui::screenBack(doFade);
 	}
 }
 

@@ -31,7 +31,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool changesMade;
 
 UpdateCenter::UpdateCenter() {
-	if (checkWifiStatus() == true) {
+	if (checkWifiStatus()) {
 		if (Msg::promptMsg("Do you like to check for updates?")) {
 			Msg::DisplayMsg("Fetching latest updates...");
 			checkUpdate();
@@ -44,8 +44,8 @@ void UpdateCenter::checkUpdate() {
 	latestRelease = Download::getLatestRelease2();
 	latestNightly = Download::getLatestNightly();
 	// Check if Nightly & Release matches.
-	if (config->currentRelease() != latestRelease.Version)	ReleaseAvailable = true;
-	if (config->currentNightly() != latestNightly.Target)		NightlyAvailable = true;
+	if (config->currentRelease() != latestRelease.Version) ReleaseAvailable = true;
+	if (config->currentNightly() != latestNightly.Target) NightlyAvailable = true;
 	hasCheckedForUpdate = true;
 }
 
@@ -68,6 +68,7 @@ void UpdateCenter::Draw(void) const {
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, "Current Version: " + config->currentNightly(), 395, 0, font);
 	}
 
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(mainButtons[i]);
@@ -76,12 +77,13 @@ void UpdateCenter::Draw(void) const {
 
 	if (this->ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x+124, mainButtons[0].y-4);
 	if (this->NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x+124, mainButtons[1].y-4);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
-		Gui::screenBack();
+		Gui::screenBack(doFade);
 	}
 	
 	if (hDown & KEY_X) {

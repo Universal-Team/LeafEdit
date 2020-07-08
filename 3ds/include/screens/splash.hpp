@@ -24,56 +24,17 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_COMMON_HPP
-#define _LEAFEDIT_COMMON_HPP
+#ifndef _LEAFEDIT_SPLASH_HPP
+#define _LEAFEDIT_SPLASH_HPP
 
-#include <3ds.h>
-#include <citro2d.h>
+#include "common.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include "files.h"
-
-#include <malloc.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-
-#ifdef __cplusplus
-}
-
-// This is the new "screenCommon.hpp", lol.
-#include "config.hpp"
-#include "gfx.hpp"
-#include "gui.hpp"
-#include "json.hpp"
-#include "lang.hpp"
-#include "msg.hpp"
-#include "overlay.hpp"
-#include "screenCommon.hpp"
-#include "utils.hpp"
-
-#include <memory>
-#endif
-
-// Title IDs.
-#define OldJPN				0x0004000000086200
-#define OldUSA				0x0004000000086300
-#define OldEUR				0x0004000000086400
-#define OldKOR				0x0004000000086500
-
-#define WelcomeAmiiboJPN	0x0004000000198D00
-#define WelcomeAmiiboUSA	0x0004000000198E00
-#define WelcomeAmiiboEUR	0x0004000000198F00
-#define WelcomeAmiiboKOR	0x0004000000199000
-
-#define WelcomeLuxury		0x00040000004C5700
-
-// GodMode and whatnot.
-extern bool changes, doFade, Debug, GodMode;
-extern int barOffset;
-extern C2D_Font font;
+class Splash : public Screen {
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+private:
+	int delay = 150;
+};
 
 #endif

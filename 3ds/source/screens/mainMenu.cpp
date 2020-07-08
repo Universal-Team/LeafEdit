@@ -39,7 +39,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
 extern std::shared_ptr<Sav> save;
 
-#define TESTPATH	"sdmc:/acww/saves/EUR.sav9"
+#define TESTPATH	"sdmc:/nogba/Battery/EUR.sav"
 void doStuff() {
 	// Here we open the file and get the SaveType.
 	save = nullptr;
@@ -66,9 +66,6 @@ void doStuff() {
 //		save->savePointer()[i] = 0x01;
 //	}
 
-	save->savePointer()[0x8A41] = 0x1B;
-	save->savePointer()[0x8A89] = 0x1B;
-
 	// And now we update the checksum at the end and write to file.
 	save->Finish();
 	FILE* out = fopen(TESTPATH, "rb+");
@@ -87,11 +84,14 @@ MainMenu::MainMenu() {
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - MainMenu", 390, 0, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
@@ -112,21 +112,21 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>(), false, true);
-		else if (Selection == 1)	Gui::setScreen(std::make_unique<Settings>(), false, true);
-		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>(), false, true);
-		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>(), false, true);
+		if (Selection == 0)	Gui::setScreen(std::make_unique<Editor>(), doFade, true);
+		else if (Selection == 1)	Gui::setScreen(std::make_unique<Settings>(), doFade, true);
+		else if (Selection == 2)	Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+		else if (Selection == 3)	Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<Editor>(), false, true);
+			Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<Settings>(), false, true);
+			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Credits>(), false, true);
+			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
 		} else if (touching(touch, mainButtons[3])) {
-			Gui::setScreen(std::make_unique<UpdateCenter>(), false, true);
+			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}
 	}
 }

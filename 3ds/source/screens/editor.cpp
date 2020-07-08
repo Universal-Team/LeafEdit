@@ -144,6 +144,7 @@ void Editor::Draw(void) const {
 			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
 
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {
 			GFX::DrawButton(mainButtons[i]);
@@ -152,6 +153,8 @@ void Editor::Draw(void) const {
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void Editor::Saving() {
@@ -181,11 +184,11 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				if (changes == true && hasSaved == false) {
 					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
 						savesType = SaveType::UNUSED;
-						Gui::screenBack();
+						Gui::screenBack(doFade);
 					}
 				} else if ((changes == true && hasSaved == true) || (!changes)) {
 					savesType = SaveType::UNUSED;
-					Gui::screenBack();
+					Gui::screenBack(doFade);
 				}
 			} else if (iconTouch(touch, icons[1])) {
 				Saving();
@@ -203,7 +206,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Player Editor.
 				if (Selection == 0) {
 					if (save->player(0) != nullptr) {
-						Gui::setScreen(std::make_unique<PlayerSelector>(), false, true);
+						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
 					} else {
 						Msg::NotImplementedYet();
 					}
@@ -211,9 +214,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 1) {
 					if (save->villager(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<VillagerViewerWW>(), false, true);
+							Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<VillagerViewerNL>(), false, true);
+							Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -222,9 +225,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<TownMapEditorWW>(), false, true);
+							Gui::setScreen(std::make_unique<TownMapEditorWW>(), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<TownMapEditorNL>(), false, true);
+							Gui::setScreen(std::make_unique<TownMapEditorNL>(), doFade, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -234,12 +237,12 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<PluginScreen>(), false, true);
+			Gui::setScreen(std::make_unique<PluginScreen>(), doFade, true);
 		}
 		
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
-			Gui::screenBack();
+			Gui::screenBack(doFade);
 		}
 	} else {
 		SaveInitialize(); // Display Browse.

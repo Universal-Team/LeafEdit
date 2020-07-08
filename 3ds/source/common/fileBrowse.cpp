@@ -155,6 +155,8 @@ static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, con
 	} else {
 		Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw Fav Browse.
@@ -182,6 +184,8 @@ void DrawFavSaves(uint Selection) {
 	} else {
 		Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360, 0, font);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 FavSave getFavSave(std::string line) {
@@ -383,7 +387,9 @@ static void Drawbrowse(uint Selection, std::vector<DirEntry> dirContents, const 
 	if (Selection < 9)	GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawFileBrowseBG(false);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 std::string searchForFile(char *path, char *Text) {
