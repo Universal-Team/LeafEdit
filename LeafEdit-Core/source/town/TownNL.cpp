@@ -33,7 +33,7 @@ u8 TownNL::grasstype() {
 	return townPointer()[0x80+0x04da01];
 }
 void TownNL::grasstype(u8 v) {
-	townPointer()[0x80+0x04da01] = v;
+	SaveUtils::Write<u8>(this->townPointer(), 0x80+0x04da01, v);
 }
 
 // Town Name.

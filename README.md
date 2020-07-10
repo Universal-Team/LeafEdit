@@ -63,6 +63,7 @@ Spanish
 - [Flame](https://github.com/FlameKat53): The name idea of LeafEdit.
 - [Kodtiz3D](https://github.com/Kodtiz3D): For the icon and the banner.
 - [FlagBrew](https://github.com/FlagBrew) / [piepie62](https://github.com/piepie62): For helping out by problems and [PKSM-Core](https://github.com/FlagBrew/PKSM-Core)'s Save Structure inspiration. LeafEdit's Core Structure is very similar to the one from PKSM-Core.
+- [Lukas](https://github.com/RedShyGuy): For some useful AC:NL offsets for the core.
 - [Pk11](https://github.com/Epicpkmn11): For being a big help.
 - [TotallyNotGuy](https://github.com/TotallyNotGuy): For the amazing graphic work!
 - [Universal-Updater](https://github.com/Universal-Team/Universal-Updater): Download code being ported from this app.

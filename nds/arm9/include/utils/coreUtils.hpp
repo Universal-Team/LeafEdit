@@ -33,6 +33,7 @@
 namespace CoreUtils {
 	bool loadSave(const std::string saveFile);
 	void saveChanges();
+	void createBackup();
 }
 
 #endif

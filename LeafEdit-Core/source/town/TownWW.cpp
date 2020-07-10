@@ -49,7 +49,7 @@ void TownWW::grasstype(u8 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			townPointer()[0x2200] = v;
+			SaveUtils::Write<u8>(this->townPointer(), 0x2200, v);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:

@@ -34,6 +34,7 @@
 #include "types.hpp"
 #include "Villager.hpp"
 
+#include <cstring>
 #include <memory>
 #include <vector>
 
@@ -49,7 +50,10 @@ protected:
 public:
 	// Constructor, Destructor and stuff.
 	virtual ~Sav() {}
-	Sav(std::shared_ptr<u8[]> data, u32 length) : saveData(data), saveLength(length) {}
+	Sav(std::shared_ptr<u8[]> data, u32 length) : saveData(data), saveLength(length) {
+		this->changesMade(false); // Initialize as false here.
+	}
+
 	Sav(const Sav& save) = delete;
 	Sav& operator=(const Sav& save) = delete;
 
@@ -71,7 +75,7 @@ public:
 	// return Sav stuff.
 	u32 getLength() const { return saveLength; }
 	std::shared_ptr<u8[]> rawData() const { return saveData; }
-	
+
 	// Pass game | version.
 	const u8 version() {
 		switch(this->getType()) {
@@ -80,6 +84,7 @@ public:
 			case SaveType::WA:		return 3; // AC:WA.
 			case SaveType::UNUSED:	return 0; // Not Valid / Unused.
 		}
+
 		return 0; // Should not happen actually.
 	}
 
@@ -94,14 +99,19 @@ public:
 			case WWRegion::KOR_REV1:	return 6; // KOR Revision 1.
 			case WWRegion::UNKNOWN:		return 0; // Unknown.
 		}
+
 		return 0; // Should not happen actually.
 	}
 
 	virtual SaveType getType() = 0;
 	virtual WWRegion getRegion() = 0;
+	bool changes = false;
+
+	void changesMade(bool v) { if (v != this->changes) this->changes = v; }
+	bool changesMade() { return this->changes; }
 
 	u8 *savePointer() const {
-		return saveData.get();
+		return this->saveData.get();
 	}
 };
 

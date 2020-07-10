@@ -65,6 +65,7 @@ std::u16string PatternWW::name() {
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
+
 	return StringUtils::UTF8toUTF16("?");
 }
 void PatternWW::name(std::u16string v) {
@@ -98,6 +99,7 @@ u16 PatternWW::creatorid() {
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
+
 	return 0;
 }
 void PatternWW::creatorid(u16 v) {
@@ -130,6 +132,7 @@ std::u16string PatternWW::creatorname() {
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
+
 	return StringUtils::UTF8toUTF16("?");
 }
 void PatternWW::creatorname(std::u16string v) {
@@ -163,6 +166,7 @@ u8 PatternWW::creatorGender() {
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
+
 	return 0;
 }
 void PatternWW::creatorGender(u8 v) {
@@ -192,6 +196,7 @@ u16 PatternWW::origtownid() {
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
+
 	return 0;
 }
 void PatternWW::origtownid(u16 v) {
@@ -224,6 +229,7 @@ std::u16string PatternWW::origtownname() {
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
+
 	return StringUtils::UTF8toUTF16("?");
 }
 void PatternWW::origtownname(std::u16string v) {
@@ -268,6 +274,7 @@ u8 PatternWW::designtype() {
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
+
 	return 0;
 }
 void PatternWW::designtype(u8 v) {
@@ -308,10 +315,12 @@ void PatternWW::dumpPattern(const std::string fileName) {
 		FILE* ptrn = fopen(fileName.c_str(), "wb");
 		// Set Buffer.
 		u8 *patternData = new u8[size];
+		
 		// Write Pattern data to Buffer.
 		for(int i = 0; i < (int)size; i++) {
-			patternData[i] = patternPointer()[i];
+			SaveUtils::Write<u8>(patternData, i, this->patternPointer()[i], false);
 		}
+
 		// Write to file and close.
 		fwrite(patternData, 1, size, ptrn);
 		fclose(ptrn);
@@ -356,13 +365,16 @@ void PatternWW::injectPattern(const std::string fileName) {
 		if (allowInject) {
 			u8 *patternData = new u8[size];
 			fread(patternData, 1, size, ptrn);
+
 			// Set Buffer data to save.
-			for(int i = 0; i < (int)size; i++){
-				patternPointer()[i] = patternData[i];
+			for(int i = 0; i < (int)size; i++) {
+				SaveUtils::Write<u8>(this->patternPointer(), i, patternData[i]);
 			}
+
 			// Free Buffer.
 			delete(patternData);
 		}
+
 		// Close File, cause we don't need it.
 		fclose(ptrn);
 	}

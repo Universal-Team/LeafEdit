@@ -49,14 +49,14 @@ void VillagerWW::id(u16 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			villagerPointer()[0x6CB] = (u8)v;
+			SaveUtils::Write<u8>(this->villagerPointer(), 0x6CB, (u8)v);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			villagerPointer()[0x595] = (u8)v;
+			SaveUtils::Write<u8>(this->villagerPointer(), 0x595, (u8)v);
 			break;
 		case WWRegion::KOR_REV1:
-			villagerPointer()[0x7A7] = (u8)v;
+			SaveUtils::Write<u8>(this->villagerPointer(), 0x7A7, (u8)v);
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -84,6 +84,7 @@ u8 VillagerWW::personality() {
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
+
 	return 0;
 }
 void VillagerWW::personality(u8 v) {
@@ -91,14 +92,14 @@ void VillagerWW::personality(u8 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			villagerPointer()[0x6CA] = v;
+			SaveUtils::Write<u8>(this->villagerPointer(), 0x6CA, v);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			villagerPointer()[0x594] = v;
+			SaveUtils::Write<u8>(this->villagerPointer(), 0x594, v);
 			break;
 		case WWRegion::KOR_REV1:
-			villagerPointer()[0x7A6] = v;
+			SaveUtils::Write<u8>(this->villagerPointer(), 0x7A6, v);
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -120,6 +121,7 @@ std::unique_ptr<Item> VillagerWW::song() {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+
 	return nullptr;
 }
 
@@ -138,6 +140,7 @@ std::unique_ptr<Item> VillagerWW::shirt() {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+
 	return nullptr;
 }
 
@@ -156,6 +159,7 @@ std::unique_ptr<Item> VillagerWW::wallpaper() {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+
 	return nullptr;
 }
 
@@ -174,6 +178,7 @@ std::unique_ptr<Item> VillagerWW::carpet() {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+
 	return nullptr;
 }
 
@@ -192,6 +197,7 @@ std::unique_ptr<Item> VillagerWW::umbrella() {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+
 	return nullptr;
 }
 
@@ -211,5 +217,6 @@ std::unique_ptr<Item> VillagerWW::furniture(int slot) {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+	
 	return nullptr;
 }

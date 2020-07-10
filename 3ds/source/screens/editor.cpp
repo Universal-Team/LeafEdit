@@ -158,17 +158,17 @@ void Editor::Draw(void) const {
 }
 
 void Editor::Saving() {
-	if (!changes) {
+	if (!save->changesMade()) {
 		Msg::DisplayWaitMsg(Lang::get("SAVING_USELESS"));
 		return;
 	}
 
-	if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
-		// Handle AC:WA stuff here.
-		if (savesType == SaveType::WA) {
-			CoreUtils::FixInvalidBuildings();
-		}
+	// Handle AC:WA stuff here.
+	if (savesType == SaveType::WA) {
+		CoreUtils::FixInvalidBuildings();
+	}
 
+	if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
 		save->Finish();
 		FILE* out = fopen(saveName.c_str(), "rb+");
 		fwrite(save->rawData().get(), 1, save->getLength(), out);
@@ -181,24 +181,24 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
-				if (changes == true && hasSaved == false) {
+				if (save->changesMade() && !this->hasSaved) {
 					if (Msg::promptMsg(Lang::get("UNSAVED_CHANGES"))) {
 						savesType = SaveType::UNUSED;
 						Gui::screenBack(doFade);
 					}
-				} else if ((changes == true && hasSaved == true) || (!changes)) {
+				} else if ((save->changesMade() && this->hasSaved) || (!save->changesMade())) {
 					savesType = SaveType::UNUSED;
 					Gui::screenBack(doFade);
 				}
 			} else if (iconTouch(touch, icons[1])) {
-				Saving();
+				this->Saving();
 			}
 		}
 		// Navigation.
-		if(hDown & KEY_UP) {
-			if(Selection > 0)	Selection --;
-		} else if(hDown & KEY_DOWN) {
-			if(Selection < 2)	Selection++;
+		if (hDown & KEY_UP) {
+			if (Selection > 0)	Selection --;
+		} else if (hDown & KEY_DOWN) {
+			if (Selection < 2)	Selection++;
 		}
 
 		if (hDown & KEY_A) {

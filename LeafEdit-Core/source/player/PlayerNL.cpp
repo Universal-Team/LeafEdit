@@ -35,7 +35,7 @@ u8 PlayerNL::face() {
 	return playerPointer()[0x06];
 }
 void PlayerNL::face(u8 v) {
-	playerPointer()[0x06] = v;
+	SaveUtils::Write<u8>(this->playerPointer(), 0x06, v);
 }
 
 // Tan.
@@ -51,7 +51,7 @@ u8 PlayerNL::gender() {
 	return playerPointer()[0x55BA];
 }
 void PlayerNL::gender(u8 v) {
-	playerPointer()[0x55BA] = v;
+	SaveUtils::Write<u8>(this->playerPointer(), 0x55BA, v);
 }
 
 // HairStyle.
@@ -59,7 +59,7 @@ u8 PlayerNL::hairstyle() {
 	return playerPointer()[0x04];
 }
 void PlayerNL::hairstyle(u8 v) {
-	playerPointer()[0x04] = v;
+	SaveUtils::Write<u8>(this->playerPointer(), 0x04, v);
 }
 
 // HairColor.
@@ -67,7 +67,7 @@ u8 PlayerNL::haircolor() {
 	return playerPointer()[0x05];
 }
 void PlayerNL::haircolor(u8 v) {
-	playerPointer()[0x05] = v;
+	SaveUtils::Write<u8>(this->playerPointer(), 0x05, v);
 }
 
 // EyeColor.
@@ -75,18 +75,18 @@ u8 PlayerNL::eyecolor() {
 	return playerPointer()[0x07];
 }
 void PlayerNL::eyecolor(u8 v) {
-	playerPointer()[0x07] = v;
+	SaveUtils::Write<u8>(this->playerPointer(), 0x07, v);
 }
 
-// Badges. 
+// Badges.
 u8 PlayerNL::badge(int badge) {
 	return playerPointer()[0x569C + badge];
 }
 void PlayerNL::badge(int badge, u8 v) {
-	playerPointer()[0x569C + badge] = v;
+	SaveUtils::Write<u8>(this->playerPointer(), 0x569C + badge, v);
 }
 
-// Player ID. 
+// Player ID.
 u16 PlayerNL::playerid() {
 	return SaveUtils::Read<u16>(playerPointer(), 0x55A6);
 }
@@ -200,5 +200,6 @@ u8* PlayerNL::tpcImage() {
 			memcpy(TPCBuffer, data.get() + offset + 0x5724, 0x1400);
 		}
 	}
+	
 	return TPCBuffer;
 }

@@ -79,7 +79,7 @@ u8 PatternWA::creatorGender() {
 	return patternPointer()[0x3E];
 }
 void PatternWA::creatorGender(u8 v) {
-	patternPointer()[0x3E] = v;
+	SaveUtils::Write<u8>(this->patternPointer(), 0x3E, v);
 }
 
 // Town ID.
@@ -116,13 +116,15 @@ void PatternWA::ownPattern(std::unique_ptr<Player> player) {
 u8 PatternWA::designtype() {
 	return (patternPointer()[0x69] & 9);
 }
-void PatternWA::designtype(u8 v) { }
+void PatternWA::designtype(u8 v) {
+	SaveUtils::Write<u8>(this->patternPointer(), 0x69 & 9, v); // Right?
+}
 
 // Dump a Pattern to file.
 void PatternWA::dumpPattern(const std::string fileName) {
 	// Get Pattern size?
 	u32 size = 0;
-	if (patternPointer()[0x69] == 0x09){
+	if (this->patternPointer()[0x69] == 0x09){
 		size = 620;
 	} else {
 		size = 2160;
@@ -132,10 +134,12 @@ void PatternWA::dumpPattern(const std::string fileName) {
 	FILE* ptrn = fopen(fileName.c_str(), "wb");
 	// Set Buffer.
 	u8 *patternData = new u8[size];
+	
 	// Write Pattern data to Buffer.
 	for(int i = 0; i < (int)size; i++) {
-		patternData[i] = patternPointer()[i];
+		SaveUtils::Write<u8>(patternData, i, this->patternPointer()[i], false);
 	}
+
 	// Write to file and close.
 	fwrite(patternData, 1, size, ptrn);
 	fclose(ptrn);
@@ -145,7 +149,7 @@ void PatternWA::dumpPattern(const std::string fileName) {
 
 // Inject a Pattern from a file.
 void PatternWA::injectPattern(const std::string fileName) {
-	if((access(fileName.c_str(), F_OK) != 0))	return; // File not found. Do NOTHING.
+	if ((access(fileName.c_str(), F_OK) != 0))	return; // File not found. Do NOTHING.
 	u32 size;
 	// Open file and get size.
 	FILE* ptrn = fopen(fileName.c_str(), "rb");
@@ -155,10 +159,12 @@ void PatternWA::injectPattern(const std::string fileName) {
 	// Create Buffer with the size and read the file.
 	u8 *patternData = new u8[size];
 	fread(patternData, 1, size, ptrn);
+
 	// Set Buffer data to save.
-	for(int i = 0; i < (int)size; i++){
-		patternPointer()[i] = patternData[i];
+	for(int i = 0; i < (int)size; i++) {
+		SaveUtils::Write<u8>(this->patternPointer(), i, patternData[i]);
 	}
+
 	// Close File, cause we don't need it.
 	fclose(ptrn);
 	// Free Buffer.

@@ -65,7 +65,7 @@ public:
 
 	int maxVillager() override { return 7; }
 private:
-	u8 *savePointer() {
+	u8 *savePointer() const {
 		return dataPointer.get();
 	}
 };

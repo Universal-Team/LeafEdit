@@ -46,7 +46,7 @@ u8 VillagerWA::personality() {
 	return villagerPointer()[0x2];
 }
 void VillagerWA::personality(u8 v) {
-	villagerPointer()[0x2] = v;
+	SaveUtils::Write<u8>(this->villagerPointer(), 0x2, v);
 }
 
 // Villager Song.

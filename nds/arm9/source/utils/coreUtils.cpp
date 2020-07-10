@@ -26,9 +26,13 @@
 
 #include "cardSaves.hpp"
 #include "coreUtils.hpp"
+#include "flashcard.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
 #include "Sav.hpp"
+
+#include <ctime> // For the time string.
+#include <dirent.h> // For mkdir.
 
 std::shared_ptr<Sav> save;
 extern bool loadedFromCart;
@@ -82,8 +86,8 @@ bool CoreUtils::loadSave(const std::string saveFile) {
 }
 
 void CoreUtils::saveChanges() {
-	if (changes) {
-		if (save != nullptr) {
+	if (save != nullptr) {
+		if (save->changesMade()) {
 			save->Finish();
 			FILE* out = fopen(saveName.c_str(), "rb+");
 			fwrite(save->rawData().get(), 1, save->getLength(), out);
@@ -95,4 +99,22 @@ void CoreUtils::saveChanges() {
 	} else {
 		Msg::DisplayWaitMsg(Lang::get("SAVING_USELESS"));
 	}
+}
+
+void CoreUtils::createBackup() {
+	// TODO: Rewrite config here too.
+	//if (config->createBackups()) {
+		Msg::DisplayWaitMsg("Create Backup... Please wait."); // Rewrite to an appearing message until the backup was successfully done.
+		char stringTime[15] = {0};
+		time_t unixTime = time(NULL);
+		struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+		std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+		std::string path = (sdFound() ? "sd:/_nds/LeafEdit/Backups/" : "fat:/_nds/LeafEdit/Backups/") + std::string(stringTime);
+		mkdir(path.c_str(), 0777); // Create folder.
+		path += "/ACWW.sav";
+
+		FILE *file = fopen(path.c_str(), "w");
+		fwrite(save->rawData().get(), 1, save->getLength(), file);
+		fclose(file);
+	//}
 }
