@@ -42,6 +42,7 @@ void Gui::togglePointer() {
 		toggle = false;
 		setSpriteVisibility(Gui::pointerID, false, true);
 	}
+
 	updateOam();
 }
 
@@ -73,20 +74,17 @@ void Gui::mainLoop(u16 hDown, touchPosition touch) {
 	screens.top()->Logic(hDown, touch);
 }
 
-void Gui::setScreen(std::unique_ptr<Screen> screen)
-{
+void Gui::setScreen(std::unique_ptr<Screen> screen) {
 	screens.push(std::move(screen));
 }
 
-void Gui::screenBack()
-{
+void Gui::screenBack() {
 	screens.pop();
 }
 
 // Basic GUI Stuff.
 
-void Gui::DrawTop(bool useBars)
-{
+void Gui::DrawTop(bool useBars) {
 	if (useBars) {
 		drawRectangle(0, 20, 256, 152, DARKER_GRAY, true, false);
 		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, true, false);
@@ -96,8 +94,7 @@ void Gui::DrawTop(bool useBars)
 	}
 }
 
-void Gui::DrawBottom(bool useBars)
-{
+void Gui::DrawBottom(bool useBars) {
 	if (useBars) {
 		drawRectangle(0, 20, 256, 152, DARKER_GRAY, false, false);
 		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, false, false);
@@ -143,6 +140,7 @@ static void drawList(int screenPos, bool background, const std::vector<std::stri
 		// Clear screen.
 		drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
 	}
+	
 	// Clear text.
 	drawRectangle(0, 0, 256, 192, CLEAR, false, true);
 	// Print list.

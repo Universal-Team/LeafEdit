@@ -25,16 +25,19 @@
 */
 
 #include "cardSaves.hpp"
+#include "config.hpp"
 #include "coreUtils.hpp"
 #include "flashcard.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
 #include "Sav.hpp"
+#include "screenCommon.hpp"
 
 #include <ctime> // For the time string.
 #include <dirent.h> // For mkdir.
 
 std::shared_ptr<Sav> save;
+extern std::unique_ptr<Config> config;
 extern bool loadedFromCart;
 extern bool changes;
 SaveType savesType = SaveType::UNUSED;
@@ -55,7 +58,7 @@ bool CoreUtils::loadSave(const std::string saveFile) {
 		// Only allow Wild World saves.
 		if (save) {
 			if (save->getType() != SaveType::WW) {
-				printf("SaveFile is not a Wild World save!\n");
+				Log->Write("SaveFile is not a Wild World save!", false);
 				save = nullptr;
 				return false;
 			}
@@ -64,23 +67,25 @@ bool CoreUtils::loadSave(const std::string saveFile) {
 		// Check if town exist.
 		if (save) {
 			if (save->town()->exist() != true) {
-				printf("Town does not exist!\n");
+				Log->Write("Town does not exist!", false);
 				save = nullptr;
 				return false; // Town does not exist!
 			}
 		}
 
 	} else {
-		printf("Could not open SaveFile.\n");
+		Log->Write("Could not open SaveFile.", false);
 		return false;
 	}
 
 	if (!save) {
-		printf("SaveFile returned nullptr.\n");
+		Log->Write("SaveFile returned nullptr", false);
 		return false;
 	}
 	
 	savesType = save->getType();
+
+	CoreUtils::createBackup(); // Create backup there.
 	
 	return true;
 }
@@ -102,8 +107,7 @@ void CoreUtils::saveChanges() {
 }
 
 void CoreUtils::createBackup() {
-	// TODO: Rewrite config here too.
-	//if (config->createBackups()) {
+	if (config->createBackups()) {
 		Msg::DisplayWaitMsg("Create Backup... Please wait."); // Rewrite to an appearing message until the backup was successfully done.
 		char stringTime[15] = {0};
 		time_t unixTime = time(NULL);
@@ -116,5 +120,5 @@ void CoreUtils::createBackup() {
 		FILE *file = fopen(path.c_str(), "w");
 		fwrite(save->rawData().get(), 1, save->getLength(), file);
 		fclose(file);
-	//}
+	}
 }

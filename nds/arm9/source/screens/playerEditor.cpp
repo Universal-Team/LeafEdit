@@ -93,7 +93,7 @@ void PlayerEditor::DrawSubMenu(void) const {
 void PlayerEditor::DrawPlayerScreen(void) const {
 	Gui::DrawTop(true);
 	printTextCentered("LeafEdit - " + Lang::get("PLAYER_EDITOR"), 0, 0, true, true);
-	drawRectangle(20, 35, 216, 30, DARK_GREEN, true, true);
+	drawRectangle(20, 35, 216, 30, GRAY, true, true);
 	printTextCentered(player->name(), 0, 40, true, true);
 	printTextCentered(Lang::get("PLAYER_WALLET") + ": " + std::to_string(player->wallet()), 0, 65, true, true);
 	printTextCentered(Lang::get("PLAYER_GENDER") + ": " + std::to_string(player->gender()), 0, 90, true, true);
@@ -125,12 +125,12 @@ void PlayerEditor::PlayerLogic(u16 hDown, touchPosition touch) {
 
 	// Selection.
 	if (hDown & KEY_UP) {
-		if(selection > 0)	selection--;
+		if(selection > 0) selection--;
 		selected = true;
 	}
 	
 	if (hDown & KEY_DOWN) {
-		if(selection < 5)	selection++;
+		if(selection < 5) selection++;
 		selected = true;
 	}
 
@@ -170,7 +170,7 @@ void PlayerEditor::SubMenuLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-			// Player.
+		// Player.
 		if (selection == 0) {
 			selection = 0;
 			screen = 2;
@@ -187,11 +187,11 @@ void PlayerEditor::PlayerSelectionLogic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_RIGHT) {
 		selectedPlayer++;
-		if(selectedPlayer > maxPlayer)	selectedPlayer = 0;
+		if (selectedPlayer > maxPlayer) selectedPlayer = 0;
 		Gui::DrawScreen();
 	} else if (hDown & KEY_LEFT) {
 		selectedPlayer--;
-		if(selectedPlayer < 0)	selectedPlayer = maxPlayer;
+		if (selectedPlayer < 0) selectedPlayer = maxPlayer;
 		Gui::DrawScreen();
 	}
 

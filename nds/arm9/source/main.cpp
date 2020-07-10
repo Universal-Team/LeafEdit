@@ -38,6 +38,7 @@
 #include "structs.hpp"
 
 touchPosition touch;
+std::unique_ptr<Config> config;
 bool exiting = false;
 
 // If button Position pressed -> Do something.
@@ -91,11 +92,11 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	Config::load();
+	config = std::make_unique<Config>();
 	Colors::load();
 	ItemUtils::LoadDatabase(SaveType::WW);
 	loadFont();
-	Lang::load(1);
+	Lang::load(config->language());
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
 	Log = std::make_unique<Logging>();
 

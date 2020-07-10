@@ -28,6 +28,7 @@
 
 #ifndef SPI_BUS_HPP
 #define SPI_BUS_HPP
+
 #include <nds.h>
 
 // This is a handy typedef for nonstandard SPI buses, i.e. games with some
