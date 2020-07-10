@@ -26,18 +26,18 @@ To build LeafEdit from source, you need devkitARM installed along with libctru, 
 
 ## Credits
 ### Main Developers
-- [StackZ](https://github.com/SuperSaiyajinStackZ) / [Stackie](https://github.com/SuperSaiyajinStackie): App idea and main developer.
+- [SuperSaiyajinStackZ](https://github.com/SuperSaiyajinStackZ): App idea and main developer of LeafEdit.
 ### Translators
 
 English
 - [Pk11](https://github.com/Epicpkmn11)
-- [Stackie](https://github.com/SuperSaiyajinStackie)
+- [SuperSaiyajinStackZ](https://github.com/SuperSaiyajinStackZ)
 
 French
 - [antoine62](https://github.com/antoine62)
 
 German
-- [Stackie](https://github.com/SuperSaiyajinStackie)
+- [SuperSaiyajinStackZ](https://github.com/SuperSaiyajinStackZ)
 
 Italian
 - [edo9300](https://github.com/edo9300)
@@ -58,13 +58,11 @@ Spanish
 - [YoSoy](https://twitter.com/riku200)
 
 ### Others
-- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
+- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For some core work of NLTK & ACSE research and for the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
 - [devkitPro](https://github.com/devkitPro), [Fincs](https://github.com/fincs), [Smealum](https://github.com/smealum), [Wintermute](https://github.com/WinterMute): For devkitARM, Citro2D, Citro3D and Libctru.
-- [Flagbrew](https://github.com/FlagBrew): For [PKSM](https://github.com/FlagBrew/PKSM)'s picoC implementation.
 - [Flame](https://github.com/FlameKat53): The name idea of LeafEdit.
 - [Kodtiz3D](https://github.com/Kodtiz3D): For the icon and the banner.
-- [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core): The actual core part for LeafEdit.
-- [piepie62](https://github.com/piepie62): For being a big help on questions and having improvements suggestions.
+- [FlagBrew](https://github.com/FlagBrew) / [piepie62](https://github.com/piepie62): For helping out by problems and [PKSM-Core](https://github.com/FlagBrew/PKSM-Core)'s Save Structure inspiration. LeafEdit's Core Structure is very similar to the one from PKSM-Core.
 - [Pk11](https://github.com/Epicpkmn11): For being a big help.
 - [TotallyNotGuy](https://github.com/TotallyNotGuy): For the amazing graphic work!
 - [Universal-Updater](https://github.com/Universal-Team/Universal-Updater): Download code being ported from this app.

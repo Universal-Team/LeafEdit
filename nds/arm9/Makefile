@@ -74,9 +74,8 @@ MUSIC		:=
 ARCH	:=	-mthumb-interwork
 
 CFLAGS	:=	-g -Wall -Wno-psabi -O2\
- 			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
+			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
 			-ffast-math \
-			-DUNIX_HOST \
 			-DVER_NUMBER=\"$(GIT_VER)\" \
 			$(ARCH)
 
