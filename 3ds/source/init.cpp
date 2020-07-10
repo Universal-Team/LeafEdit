@@ -236,6 +236,8 @@ Result Init::Initialize() {
 		fadealpha = 255;
 	}
 
+	Log = std::make_unique<Logging>();
+
 	// Set the Screen to the Splash.
 	Gui::setScreen(std::make_unique<Splash>(), false, true);
 	return 0;

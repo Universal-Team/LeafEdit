@@ -97,6 +97,7 @@ int main(int argc, char **argv) {
 	loadFont();
 	Lang::load(1);
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
+	Log = std::make_unique<Logging>();
 
 	Sound::init();
 	Gui::initSprites();
