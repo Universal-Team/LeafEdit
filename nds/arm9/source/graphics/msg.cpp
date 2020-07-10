@@ -29,9 +29,11 @@
 #include "lang.hpp"
 #include "msg.hpp"
 
-void Msg::DisplayWarnMsg(const std::string &Text) {
+void Msg::DisplayWarnMsg(const std::string &Text, bool showPointer) {
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	Gui::hidePointer();
 	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
 	printTextCentered(Text, 0, 80, true, true);
 	for (int i = 0; i < 60*2; i++) {
@@ -40,12 +42,15 @@ void Msg::DisplayWarnMsg(const std::string &Text) {
 
 	// Clear Layer 2 again.
 	Gui::DrawScreen();
+	if (showPointer) Gui::showPointer();
 }
 
 // Display a Message, which can be skipped with A.
-void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
+void Msg::DisplayWaitMsg(std::string waitMsg, bool showPointer) {
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	Gui::hidePointer();
 	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
 	printTextCentered(waitMsg, 0, 80, true, true);
 	printTextCentered(Lang::get("A_CONTINUE"), 0, 175, true, true);
@@ -55,20 +60,36 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	}
 
 	Gui::DrawScreen();
+	if (showPointer) Gui::showPointer();
 }
 
 // Display a Message, which can be skipped with A.
-bool Msg::promptMsg(std::string promptMsg) {
+bool Msg::promptMsg(std::string promptMsg, bool showPointer) {
+	bool result = false, doAction = true;
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
+	Gui::hidePointer();
 	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
 	printTextCentered(promptMsg, 0, 80, true, true);
-	while(1) {
+	printTextCentered(Lang::get("A_CONFIRM_B_CANCEL"), 0, 175, true, true);
+
+	while(doAction) {
 		scanKeys();
-		if (keysDown() & KEY_A) return true;
-		if (keysDown() & KEY_B) return false;
+		if (keysDown() & KEY_A) {
+			result = true;
+			doAction = false;
+		}
+
+		if (keysDown() & KEY_B) {
+			result = false;
+			doAction = false;
+		}
 	}
 
 	Gui::DrawScreen();
+	if (showPointer) Gui::showPointer();
+	return result;
 }
+
+void Msg::notImplemented(bool showPointer) { Msg::DisplayWarnMsg(Lang::get("NOT_IMPLEMENTED_YET"), showPointer); }

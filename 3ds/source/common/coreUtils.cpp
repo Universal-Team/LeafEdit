@@ -39,26 +39,28 @@ extern std::unique_ptr<Config> config;
 
 // Fix Invalid Buildings and replace them with "Empty".
 void CoreUtils::FixInvalidBuildings(void) {
-	u32 offset = 0;
-	bool ask = false;
-	if (save->getType() == SaveType::WA || save->getType() == SaveType::NL) {
-		if (save->getType() == SaveType::NL) {
-			offset = 0x80+0x049528;
-		} else if (save->getType() == SaveType::WA) {
-			offset = 0x04be88;
-		}
+	if (save != nullptr) { // Make sure save is not nullpointer.
+		u32 offset = 0;
+		bool ask = false;
+		if (save->getType() == SaveType::WA || save->getType() == SaveType::NL) {
+			if (save->getType() == SaveType::NL) {
+				offset = 0x80+0x049528;
+			} else if (save->getType() == SaveType::WA) {
+				offset = 0x04be88;
+			}
 
-		for (int i = 0; i < 58; i++) {
-			u8 building = save->savePointer()[(offset + (i * 4))]; // Get building IDs.
-			if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
-				if (!ask) {
-					ask = true;
-					if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
-						return;
+			for (int i = 0; i < 58; i++) {
+				u8 building = save->savePointer()[(offset + (i * 4))]; // Get building IDs.
+				if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
+					if (!ask) {
+						ask = true;
+						if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
+							return;
+						}
 					}
-				}
 
-				SaveUtils::Write<u32>(save->savePointer(), offset + (i * 4), static_cast<u32>(0x000000FC)); // Write empty building.
+					SaveUtils::Write<u32>(save->savePointer(), offset + (i * 4), static_cast<u32>(0x000000FC)); // Write empty building.
+				}
 			}
 		}
 	}
@@ -129,18 +131,19 @@ bool CoreUtils::UpdateSaveRegion(Region_Lock &regionLock) {
 
 // Fix the Save Region.
 void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
-	if (save->getType() == SaveType::WA) {
-		if (UpdateSaveRegion(regionLock))
-		{
-			if (Msg::promptMsg(Lang::get("REGION_NOT_MATCH"))) {
-				save->savePointer()[0x621CE] = regionLock.RawByte;
+	if (save != nullptr) {
+		if (save->getType() == SaveType::WA) {
+			if (UpdateSaveRegion(regionLock)) {
+				if (Msg::promptMsg(Lang::get("REGION_NOT_MATCH"))) {
+					save->savePointer()[0x621CE] = regionLock.RawByte;
+				}
 			}
 		}
 	}
 }
 
 C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
-	if (player->tpcImage() != nullptr) {
+	if (player != nullptr || player->tpcImage() != nullptr) {
 		if (player->hasTPC()) {
 			// Load.
 			return LoadPlayerPicture(player->tpcImage());
@@ -153,36 +156,43 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 }
 
 void CoreUtils::createBackup() {
-	if (config->createBackups()) {
-		std::string fileName;
-		switch(save->getType()) {
-			case SaveType::WW:
-				fileName = "ACWW.sav";
-				break;
-			case SaveType::NL:
-				fileName = "garden.dat";
-				break;
-			case SaveType::WA:
-				fileName = "garden_plus.dat";
-				break;
-			case SaveType::UNUSED:
-				fileName = "?";
-				break;
-		}
+	// Make sure save is not nullpointer.
+	if (save != nullptr) {
+		if (config->createBackups()) {
+			std::string fileName;
+			switch(save->getType()) {
+				case SaveType::WW:
+					fileName = "ACWW.sav";
+					break;
+				case SaveType::NL:
+					fileName = "garden.dat";
+					break;
+				case SaveType::WA:
+					fileName = "garden_plus.dat";
+					break;
+				case SaveType::UNUSED:
+					fileName = "?";
+					break;
+			}
 
-		if (fileName != "?") {
-			Msg::DisplayWarnMsg("Create Backup... Please wait.");
-			char stringTime[15] = {0};
-			time_t unixTime = time(NULL);
-			struct tm* timeStruct = gmtime((const time_t*)&unixTime);
-			std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
-			std::string path = "/3ds/LeafEdit/Backups/" + std::string(stringTime);
-			mkdir(path.c_str(), 0777); // Create folder.
-			path += "/" + fileName;
+			if (fileName != "?") {
+				Msg::DisplayMsg(Lang::get("CREATING_BACKUP"));
+				char stringTime[15] = {0};
+				time_t unixTime = time(NULL);
+				struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+				std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+				std::string path = "/3ds/LeafEdit/Backups/" + std::string(stringTime);
+				mkdir(path.c_str(), 0777); // Create folder.
+				path += "/" + fileName;
 
-			FILE *file = fopen(path.c_str(), "w");
-			fwrite(save->rawData().get(), 1, save->getLength(), file);
-			fclose(file);
+				FILE *file = fopen(path.c_str(), "w");
+				fwrite(save->rawData().get(), 1, save->getLength(), file);
+				fclose(file);
+
+				char message[200];
+				snprintf(message, sizeof(message), Lang::get("BACKUP_RESULT").c_str(), path.c_str());
+				Msg::DisplayWaitMsg(message);
+			}
 		}
 	}
 }

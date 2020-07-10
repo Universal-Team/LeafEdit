@@ -1,8 +1,11 @@
 {
+	"A_CONFIRM_B_CANCEL": "Press A to confirm, B to cancel.",
 	"A_CONTINUE": "Press A to continue.",
 	"ACRE_EDITOR": "Acres Editor",
 	"ACRE_ID": "Acre ID: ",
 	"APPEARANCE": "Appearance",
+
+	"BACKUP_RESULT": "Backup created at:\n%s",
 
 	"CANCEL": "Cancel",
 	"CARD": "card:",
@@ -31,7 +34,9 @@
 	"MALE": "Male",
 	"MISC_EDITOR": "Misc Editor",
 
+	"NO": "No",
 	"NO_CARD_INSERTED": "No card inserted.",
+	"NOT_IMPLEMENTED_YET": "This is not implemented yet!",
 
 	"PLAYER": "Player",
 	"PLAYER_EDITOR": "Player Editor",
@@ -65,5 +70,7 @@
 	"VILLAGER_ID": "Villager ID",
 	"VILLAGER_PERSONALITY": "Personality",
 	"VILLAGER_REPLACE": "Replace",
-	"VILLAGER_VIEWER": "Villager Viewer"
+	"VILLAGER_VIEWER": "Villager Viewer",
+
+	"YES": "Yes"
 }

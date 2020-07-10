@@ -38,6 +38,7 @@ void MainMenu::Draw(void) const {
 	for (int i = 0; i < 2; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);
 	}
+	
 	printTextCentered(Lang::get("EDITOR"), -64, 88, false, true);
 	printTextCentered(Lang::get("SETTINGS"), 64, 88, false, true);
 }

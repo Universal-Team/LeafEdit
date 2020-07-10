@@ -176,6 +176,10 @@ void PlayerEditor::SubMenuLogic(u16 hDown, touchPosition touch) {
 			screen = 2;
 			Gui::DrawScreen();
 			selected = true;
+		} else if (selection == 1) {
+			Msg::notImplemented();
+		} else if (selection == 2) {
+			Msg::notImplemented();
 		}
 	}
 }

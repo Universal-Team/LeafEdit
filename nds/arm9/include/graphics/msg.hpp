@@ -28,7 +28,8 @@
 #include "screen.hpp"
 
 namespace Msg {
-	void DisplayWarnMsg(const std::string &Text);
-	void DisplayWaitMsg(std::string waitMsg, ...);
-	bool promptMsg(std::string promptMsg);
+	void DisplayWarnMsg(const std::string &Text, bool showPointer = true);
+	void DisplayWaitMsg(std::string waitMsg, bool showPointer = true);
+	bool promptMsg(std::string promptMsg, bool showPointer = true);
+	void notImplemented(bool showPointer = true);
 };

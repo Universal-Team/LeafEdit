@@ -107,18 +107,24 @@ void CoreUtils::saveChanges() {
 }
 
 void CoreUtils::createBackup() {
-	if (config->createBackups()) {
-		Msg::DisplayWaitMsg("Create Backup... Please wait."); // Rewrite to an appearing message until the backup was successfully done.
-		char stringTime[15] = {0};
-		time_t unixTime = time(NULL);
-		struct tm* timeStruct = gmtime((const time_t*)&unixTime);
-		std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
-		std::string path = (sdFound() ? "sd:/_nds/LeafEdit/Backups/" : "fat:/_nds/LeafEdit/Backups/") + std::string(stringTime);
-		mkdir(path.c_str(), 0777); // Create folder.
-		path += "/ACWW.sav";
+	if (save != nullptr) {
+		if (config->createBackups()) {
+			Msg::DisplayWaitMsg("Create Backup... Please wait.", false); // Rewrite to an appearing message until the backup was successfully done.
+			char stringTime[15] = {0};
+			time_t unixTime = time(NULL);
+			struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+			std::strftime(stringTime, 14, "%Y%m%d%H%M%S", timeStruct);
+			std::string path = (sdFound() ? "sd:/_nds/LeafEdit/Backups/" : "fat:/_nds/LeafEdit/Backups/") + std::string(stringTime);
+			mkdir(path.c_str(), 0777); // Create folder.
+			path += "/ACWW.sav";
 
-		FILE *file = fopen(path.c_str(), "w");
-		fwrite(save->rawData().get(), 1, save->getLength(), file);
-		fclose(file);
+			FILE *file = fopen(path.c_str(), "w");
+			fwrite(save->rawData().get(), 1, save->getLength(), file);
+			fclose(file);
+
+			char message[200];
+			snprintf(message, sizeof(message), Lang::get("BACKUP_RESULT").c_str(), path.c_str());
+			Msg::DisplayWaitMsg(message);
+		}
 	}
 }

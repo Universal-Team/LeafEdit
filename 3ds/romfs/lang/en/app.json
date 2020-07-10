@@ -7,12 +7,15 @@
 	"APPEARANCE": "Appearance",
 	"AUTHORED_BY": "Authored by: ",
 
+	"BACKUP_RESULT": "Backup created at:\n%s",
+
 	"CANCEL_FILE_SELECTION": "Cancel File Selection?\nThis returns '?'.",
 	"CANCEL_SAVE_SELECTION": "Cancel the Save Selection?",
 	"CLEAR_WEEDS": "Clear Weeds",
 	"COMMITTED_BY": "Committed by: ",
 	"CONNECT_WIFI": "Please connect to Wi-Fi.",
 	"CORE_STRUCTURE": "For helping me and basically the idea of the Core-Structure.",
+	"CREATING_BACKUP": "Creating backup... Please wait.",
 	"CREDITS": "Credits",
 	"CURRENT_ITEM": "Current Item: ",
 	"CURRENT_PAGE": "Current Page: ",
@@ -62,8 +65,10 @@
 	"MAINMENU": "MainMenu",
 	"MISC_EDITOR": "Misc Editor",
 
+	"NO": "No",
 	"NOT_IMPLEMENTED": "This is not implemented yet!",
 
+	"OK": "OK",
 	"OLD_ITEM": "Old Item: ",
 	"ON_LATEST_VERSION": "You seem to be on the latest Version.\nDo you still want to update?",
 
@@ -123,5 +128,7 @@
 	"VILLAGER_VIEWER": "Villager Viewer",
 	
 	"WATER_FLOWERS": "Water Flowers",
-	"WATERED_FLOWERS": "Watered %i flowers."
+	"WATERED_FLOWERS": "Watered %i flowers.",
+
+	"YES": "Yes"
 }
