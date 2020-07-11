@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef _LEAFEDIT_COMMON_HPP
+#define _LEAFEDIT_COMMON_HPP
 
 #include <3ds.h>
 #include <citro2d.h>
@@ -58,7 +58,7 @@ extern "C" {
 #include <memory>
 #endif
 
-//Title IDs
+// Title IDs.
 #define OldJPN				0x0004000000086200
 #define OldUSA				0x0004000000086300
 #define OldEUR				0x0004000000086400
@@ -72,9 +72,7 @@ extern "C" {
 #define WelcomeLuxury		0x00040000004C5700
 
 // GodMode and whatnot.
-extern bool GodMode;
-extern bool Debug;
-extern bool changes;
+extern bool changes, doFade, Debug, GodMode;
 extern int barOffset;
 extern C2D_Font font;
 

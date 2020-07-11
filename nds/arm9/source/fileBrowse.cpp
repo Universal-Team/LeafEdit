@@ -27,12 +27,13 @@
 #include <strings.h>
 #include <unistd.h>
 
+#include "cardSaves.hpp"
+#include "coreUtils.hpp"
 #include "flashcard.hpp"
 #include "colors.hpp"
 #include "graphics.hpp"
 #include "input.hpp"
 #include "lang.hpp"
-#include "cardSaves.hpp"
 #include "sound.hpp"
 #include "stringUtils.hpp"
 
@@ -51,26 +52,29 @@ struct topMenuItem {
 };
 
 bool nameEndsWith(const std::string &name, const std::vector<std::string> &extensionList) {
-	if(name.substr(0, 2) == "._") return false;
+	if (name.substr(0, 2) == "._") return false;
 
-	if(name.size() == 0) return false;
+	if (name.size() == 0) return false;
 
-	if(extensionList.size() == 0) return true;
+	if (extensionList.size() == 0) return true;
 
 	for(int i = 0; i <(int)extensionList.size(); i++) {
 		const std::string ext = extensionList.at(i);
 		if(strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
 	}
+
 	return false;
 }
 
 bool dirEntryPredicate(const DirEntry& lhs, const DirEntry& rhs) {
-	if(!lhs.isDirectory && rhs.isDirectory) {
+	if (!lhs.isDirectory && rhs.isDirectory) {
 		return false;
 	}
-	if(lhs.isDirectory && !rhs.isDirectory) {
+
+	if (lhs.isDirectory && !rhs.isDirectory) {
 		return true;
 	}
+
 	return strcasecmp(lhs.name.c_str(), rhs.name.c_str()) < 0;
 }
 
@@ -81,25 +85,27 @@ void getDirectoryContents(std::vector<DirEntry> &dirContents, const std::vector<
 
 	DIR *pdir = opendir(".");
 
-	if(pdir == NULL) {
+	if (pdir == NULL) {
 		printText("Unable to open the directory.", 0, 0, false, true);
 	} else {
 		while(true) {
 			DirEntry dirEntry;
 
 			struct dirent* pent = readdir(pdir);
-			if(pent == NULL)	break;
+			if (pent == NULL)	break;
 
 			stat(pent->d_name, &st);
 			dirEntry.name = pent->d_name;
 			dirEntry.isDirectory = (st.st_mode & S_IFDIR) ? true : false;
 
-			if(dirEntry.name.compare(".") != 0 && (dirEntry.isDirectory || nameEndsWith(dirEntry.name, extensionList))) {
+			if (dirEntry.name.compare(".") != 0 && (dirEntry.isDirectory || nameEndsWith(dirEntry.name, extensionList))) {
 				dirContents.push_back(dirEntry);
 			}
 		}
+
 		closedir(pdir);
 	}
+
 	sort(dirContents.begin(), dirContents.end(), dirEntryPredicate);
 }
 
@@ -120,7 +126,7 @@ void showDirectoryContents(const std::vector<DirEntry>& dirContents, int startRo
 		// Clear row
 		drawRectangle(10, (i+1)*16, 246, 16, CLEAR, false, true);
 
-		if(i < ((int)dirContents.size() - startRow)) {
+		if (i < ((int)dirContents.size() - startRow)) {
 			std::u16string name = StringUtils::UTF8toUTF16(dirContents[i + startRow].name);
 
 			// Trim to fit on screen
@@ -129,7 +135,8 @@ void showDirectoryContents(const std::vector<DirEntry>& dirContents, int startRo
 				name = name.substr(0, name.length()-1);
 				addEllipsis = true;
 			}
-			if(addEllipsis)	name += StringUtils::UTF8toUTF16("...");
+
+			if (addEllipsis)	name += StringUtils::UTF8toUTF16("...");
 
 			printText(name, 10, i*16+16, false, true);
 		}
@@ -166,40 +173,41 @@ void updateDriveLabel(bool fat) {
 void drawSdText(int i, bool valid) {
 	char str[20];
 	updateDriveLabel(false);
-	snprintf(str, sizeof(str), "sd: (%s)", sdLabel[0] == '\0' ? "SD Card" : sdLabel);
+	snprintf(str, sizeof(str), "sd: (%s)", sdLabel[0] == '\0' ? Lang::get("SD_CARD").c_str() : sdLabel);
 	printTextTinted(str, valid ? TextColor::white : TextColor::red, 10, (i+1)*16, false, true);
 }
 
 void drawFatText(int i, bool valid) {
 	char str[21];
 	updateDriveLabel(true);
-	snprintf(str, sizeof(str), "fat: (%s)", fatLabel[0] == '\0' ? "Flashcard" : fatLabel);
+	snprintf(str, sizeof(str), "fat: (%s)", fatLabel[0] == '\0' ? Lang::get("FLASHCARD").c_str() : fatLabel);
 	printTextTinted(str, valid ? TextColor::white : TextColor::red, 10, (i+1)*16, false, true);
 }
 
 void drawSlot1Text(int i, bool valid) {
 	char slot1Text[34];
-	snprintf(slot1Text, sizeof(slot1Text), "Slot-1: (%s) [%s]", REG_SCFG_MC == 0x11 ? "No card inserted" : gamename, gameid);
+	snprintf(slot1Text, sizeof(slot1Text), "Slot-1: (%s) [%s]", REG_SCFG_MC == 0x11 ? Lang::get("NO_CARD_INSERTED").c_str() : gamename, gameid);
 	printTextTinted(slot1Text, valid ? TextColor::white : TextColor::red, 10, (i+1)*16, false, true);
 }
 
 bool updateSlot1Text(int &cardWait, bool valid) {
-	if(REG_SCFG_MC == 0x11) {
+	if (REG_SCFG_MC == 0x11) {
 		disableSlot1();
 		cardWait = 30;
-		if(!noCardMessageSet) {
+		if (!noCardMessageSet) {
 			drawRectangle(10, ((tmSlot1Offset-tmScreenOffset)+1)*16, 246, 16, CLEAR, false, true);
-			printText("Slot-1: (No card inserted)", 10, ((tmSlot1Offset-tmScreenOffset)+1)*16, false, true);
+			printText("Slot-1: " + Lang::get("NO_CARD_INSERTED"), 10, ((tmSlot1Offset-tmScreenOffset)+1)*16, false, true);
 			noCardMessageSet = true;
 			return false;
 		}
 	}
-	if(cardWait > 0) {
+
+	if (cardWait > 0) {
 		cardWait--;
 	} else if(cardWait == 0) {
 		cardWait--;
 		enableSlot1();
-		if(updateCardInfo()) {
+		if (updateCardInfo()) {
 			valid = isValidTid(gameid);
 			drawRectangle(10, ((tmSlot1Offset-tmScreenOffset)+1)*16, 246, 16, CLEAR, false, true);
 			drawSlot1Text(tmSlot1Offset-tmScreenOffset, valid);
@@ -207,6 +215,7 @@ bool updateSlot1Text(int &cardWait, bool valid) {
 			return valid;
 		}
 	}
+
 	return valid;
 }
 
@@ -215,10 +224,10 @@ void showTopMenu(std::vector<topMenuItem> topMenuContents) {
 		// Clear row
 		drawRectangle(10, (i+1)*16, 246, 16, CLEAR, false, true);
 
-		if(i<topMenuContents.size()) {
+		if (i<topMenuContents.size()) {
 			if(topMenuContents[i+tmScreenOffset].name == "fat:")	drawFatText(i, topMenuContents[i+tmScreenOffset].valid);
 			else if(topMenuContents[i+tmScreenOffset].name == "sd:")	drawSdText(i, topMenuContents[i+tmScreenOffset].valid);
-			else if(topMenuContents[i+tmScreenOffset].name == "card:")	drawSlot1Text(i, topMenuContents[i+tmScreenOffset].valid);
+			else if(topMenuContents[i+tmScreenOffset].name == Lang::get("CARD"))	drawSlot1Text(i, topMenuContents[i+tmScreenOffset].valid);
 			else {
 				std::u16string name = StringUtils::UTF8toUTF16(topMenuContents[i+tmScreenOffset].name);
 				name = name.substr(name.find_last_of(StringUtils::UTF8toUTF16("/"))+1); // Remove path to the file
@@ -229,7 +238,8 @@ void showTopMenu(std::vector<topMenuItem> topMenuContents) {
 					name = name.substr(0, name.length()-1);
 					addEllipsis = true;
 				}
-				if(addEllipsis)	name += StringUtils::UTF8toUTF16("...");
+
+				if (addEllipsis)	name += StringUtils::UTF8toUTF16("...");
 
 				printTextTinted(name, topMenuContents[i+tmScreenOffset].valid ? TextColor::white : TextColor::red, 10, i*16+16, false, true);
 			}
@@ -241,42 +251,38 @@ std::string topMenuSelect(void) {
 	int pressed, held;
 	touchPosition touch;
 
-	// Draw backgrounds
-	// drawImageDMA(0, 0, boxBgTop, true, false);
-	// drawImageDMA(0, 0, listBg, false, false);
-
 	// Clear text
 	drawRectangle(0, 0, 256, 192, CLEAR, true, true);
 	drawRectangle(0, 0, 256, 192, CLEAR, false, true);
 
-	// Print version number
+	// Print version number of the app.
 	printText(VER_NUMBER, 256-getTextWidth(VER_NUMBER)-1, 176, true, true);
 
-	if(!flashcardFound())	updateCardInfo();
+	if (!flashcardFound())	updateCardInfo();
 
 	std::vector<topMenuItem> topMenuContents;
 
-	if(flashcardFound())	topMenuContents.push_back({"fat:", true});
-	if(sdFound())	topMenuContents.push_back({"sd:", true});
-	if(!flashcardFound())	topMenuContents.push_back({"card:", false});
-	if(!flashcardFound())	tmSlot1Offset = topMenuContents.size()-1;
+	if (flashcardFound())	topMenuContents.push_back({"fat:", true});
+	if (sdFound())	topMenuContents.push_back({"sd:", true});
+	if (!flashcardFound())	topMenuContents.push_back({Lang::get("CARD"), false});
+	if (!flashcardFound())	tmSlot1Offset = topMenuContents.size()-1;
 
 	FILE* favs = fopen((sdFound() ? "sd:/_nds/LeafEdit/favorites.lst" : "fat:/_nds/LeafEdit/favorites.lst"), "rb");
 
-	if(favs) {
+	if (favs) {
 		char* line = NULL;
 		size_t len = 0;
 
 		while(__getline(&line, &len, favs) != -1) {
-			line[strlen(line)-1] = '\0'; // Remove newline
+			line[strlen(line)-1] = '\0'; // Remove newline.
 			topMenuContents.push_back({line, (access(line, F_OK) == 0)});
 		}
 	}
 
 	int cardWait = 0;
-	if(!flashcardFound())	topMenuContents[tmSlot1Offset].valid = updateSlot1Text(cardWait, topMenuContents[tmSlot1Offset].valid);
+	if (!flashcardFound())	topMenuContents[tmSlot1Offset].valid = updateSlot1Text(cardWait, topMenuContents[tmSlot1Offset].valid);
 
-	// Show topMenuContents
+	// Show topMenuContents.
 	showTopMenu(topMenuContents);
 
 	while(1) {
@@ -301,64 +307,66 @@ std::string topMenuSelect(void) {
 
 		} while(!held);
 
-		if(held & KEY_UP) {
+		if (held & KEY_UP) {
 			if(tmCurPos > 0)	tmCurPos -= 1;
 			else	tmCurPos = topMenuContents.size()-1;
-		} else if(held & KEY_DOWN) {
-			if(tmCurPos < (int)topMenuContents.size()-1)	tmCurPos += 1;
+		} else if (held & KEY_DOWN) {
+			if (tmCurPos < (int)topMenuContents.size()-1)	tmCurPos += 1;
 			else	tmCurPos = 0;
-		} else if(held & KEY_LEFT) {
+		} else if (held & KEY_LEFT) {
 			tmCurPos -= ENTRY_PAGE_LENGTH;
-			if(tmCurPos < 0)	tmCurPos = 0;
-		} else if(held & KEY_RIGHT) {
+			if (tmCurPos < 0)	tmCurPos = 0;
+		} else if (held & KEY_RIGHT) {
 			tmCurPos += ENTRY_PAGE_LENGTH;
-			if(tmCurPos > (int)topMenuContents.size()-1)	tmCurPos = topMenuContents.size()-1;
-		} else if(pressed & KEY_A) {
+			if (tmCurPos > (int)topMenuContents.size()-1)	tmCurPos = topMenuContents.size()-1;
+		} else if (pressed & KEY_A) {
 			selection:
-			if(topMenuContents[tmCurPos].name == "fat:") {
+			if (topMenuContents[tmCurPos].name == "fat:") {
 				chdir("fat:/");
 				return "";
-			} else if(topMenuContents[tmCurPos].name == "sd:") {
+			} else if (topMenuContents[tmCurPos].name == "sd:") {
 				chdir("sd:/");
 				return "";
-			} else if(topMenuContents[tmCurPos].name == "card:" && topMenuContents[tmSlot1Offset].valid) {
+			} else if (topMenuContents[tmCurPos].name == Lang::get("CARD") && topMenuContents[tmSlot1Offset].valid) {
 				Sound::play(Sound::click);
 				dumpSave();
 				showTopMenuOnExit = 1;
 				loadedFromCart = true;
 				return cardSave;
-			} else if(topMenuContents[tmCurPos].valid) {
+			} else if (topMenuContents[tmCurPos].valid) {
 				Sound::play(Sound::click);
 				showTopMenuOnExit = 1;
 				return topMenuContents[tmCurPos].name;
 			}
-		} else if(pressed & KEY_X) {
+		} else if (pressed & KEY_X) {
 			Sound::play(Sound::click);
-			if((topMenuContents[tmCurPos].name != "fat:") && (topMenuContents[tmCurPos].name != "sd:") && (topMenuContents[tmCurPos].name != "card:")) {
-				if(Input::getBool(Lang::get("remove"), Lang::get("cancel"))) {
+			if ((topMenuContents[tmCurPos].name != "fat:") && (topMenuContents[tmCurPos].name != "sd:") && (topMenuContents[tmCurPos].name != Lang::get("CARD"))) {
+				if (Input::getBool(Lang::get("REMOVE"), Lang::get("CANCEL"))) {
 					topMenuContents.erase(topMenuContents.begin()+tmCurPos);
 
 					FILE* out = fopen((sdFound() ? "sd:/_nds/LeafEdit/favorites.lst" : "fat:/_nds/LeafEdit/favorites.lst"), "wb");
 
-					if(out) {
+					if (out) {
 						for(int i=0;i<(int)topMenuContents.size();i++) {
-							if(topMenuContents[i].name != "fat:" && topMenuContents[i].name != "sd:" && topMenuContents[i].name != "card:") {
+							if(topMenuContents[i].name != "fat:" && topMenuContents[i].name != "sd:" && topMenuContents[i].name != Lang::get("CARD")) {
 								fwrite((topMenuContents[i].name+"\n").c_str(), 1, (topMenuContents[i].name+"\n").size(), out);
 							}
 						}
 						fclose(out);
 					}
 				}
-				if(tmCurPos > (int)topMenuContents.size()-1) {
+
+				if (tmCurPos > (int)topMenuContents.size()-1) {
 					tmCurPos = topMenuContents.size()-1;
 					tmScreenOffset = std::max(tmCurPos - ENTRIES_PER_SCREEN + 1, 0);
 				}
+
 				showTopMenu(topMenuContents);
 			}
-		} else if(pressed & KEY_TOUCH) {
+		} else if (pressed & KEY_TOUCH) {
 			touchRead(&touch);
 			for(int i=0;i<std::min(ENTRIES_PER_SCREEN, (int)topMenuContents.size());i++) {
-				if(touch.py > (i+1)*16 && touch.py < (i+2)*16) {
+				if (touch.py > (i+1)*16 && touch.py < (i+2)*16) {
 					tmCurPos = i;
 					goto selection;
 				}
@@ -366,15 +374,15 @@ std::string topMenuSelect(void) {
 		}
 
 		// Scroll screen if needed
-		if(tmCurPos < tmScreenOffset) {
+		if (tmCurPos < tmScreenOffset) {
 			tmScreenOffset = tmCurPos;
 			showTopMenu(topMenuContents);
-		} else if(tmCurPos > tmScreenOffset + ENTRIES_PER_SCREEN - 1) {
+		} else if (tmCurPos > tmScreenOffset + ENTRIES_PER_SCREEN - 1) {
 			tmScreenOffset = tmCurPos - ENTRIES_PER_SCREEN + 1;
 			showTopMenu(topMenuContents);
 		}
 
-		if(held & KEY_UP || held & KEY_DOWN || held & KEY_LEFT || held & KEY_RIGHT || pressed & KEY_X) {
+		if (held & KEY_UP || held & KEY_DOWN || held & KEY_LEFT || held & KEY_RIGHT || pressed & KEY_X) {
 			// Clear the path area of the screen
 			drawRectangle(0, 0, 256, 16, CLEAR, false, true);
 
@@ -415,26 +423,26 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 			held = keysDownRepeat();
 		} while(!held);
 
-		if(held & KEY_UP) {
-			if(fileOffset > 0)	fileOffset -= 1;
+		if (held & KEY_UP) {
+			if (fileOffset > 0)	fileOffset -= 1;
 			else	fileOffset = dirContents.size()-1;
-		} else if(held & KEY_DOWN) {
-			if(fileOffset < (int)dirContents.size()-1)	fileOffset += 1;
+		} else if (held & KEY_DOWN) {
+			if (fileOffset < (int)dirContents.size()-1)	fileOffset += 1;
 			else	fileOffset = 0;
-		} else if(held & KEY_LEFT) {
+		} else if (held & KEY_LEFT) {
 			fileOffset -= ENTRY_PAGE_LENGTH;
-			if(fileOffset < 0)	fileOffset = 0;
-		} else if(held & KEY_RIGHT) {
+			if (fileOffset < 0)	fileOffset = 0;
+		} else if (held & KEY_RIGHT) {
 			fileOffset += ENTRY_PAGE_LENGTH;
-			if(fileOffset > (int)dirContents.size()-1)	fileOffset = dirContents.size()-1;
-		} else if(pressed & KEY_A) {
+			if (fileOffset > (int)dirContents.size()-1)	fileOffset = dirContents.size()-1;
+		} else if (pressed & KEY_A) {
 			selection:
 			DirEntry* entry = &dirContents.at(fileOffset);
-			if(entry->isDirectory && !canChooseDirs) {
+			if (entry->isDirectory && !canChooseDirs) {
 				// Don't go up directory if in the start directory
 				char path[PATH_MAX];
 				getcwd(path, PATH_MAX);
-				if(!accessSubdirectories && entry->name == ".." && (strcmp(startPath, path) == 0))	continue;
+				if (!accessSubdirectories && entry->name == ".." && (strcmp(startPath, path) == 0))	continue;
 
 				// Enter selected directory
 				chdir(entry->name.c_str());
@@ -447,43 +455,44 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 				// Return the chosen file
 				return entry->name;
 			}
-		} else if(pressed & KEY_B) {
+		} else if (pressed & KEY_B) {
 			// Don't go up directory if in the start directory
 			char path[PATH_MAX];
 			getcwd(path, PATH_MAX);
-			if(!accessSubdirectories && (strcmp(startPath, path) == 0)) {
+			if (!accessSubdirectories && (strcmp(startPath, path) == 0)) {
 				Sound::play(Sound::back);
 				return "";
 			}
 
 			// Go up a directory
-			if((strcmp (path, "sd:/") == 0) || (strcmp (path, "fat:/") == 0)) {
+			if ((strcmp (path, "sd:/") == 0) || (strcmp (path, "fat:/") == 0)) {
 				std::string str = topMenuSelect();
-				if(str != "")	return str;
+				if (str != "")	return str;
 			} else {
 				chdir("..");
 			}
+
 			getDirectoryContents(dirContents, extensionList);
 			screenOffset = 0;
 			fileOffset = 0;
 			showDirectoryContents(dirContents, screenOffset);
-		} else if(pressed & KEY_Y && !dirContents[fileOffset].isDirectory && accessSubdirectories) { // accessSubdirectory check is a hack to make it not trigger except in save selection
-			// if(loadSave(dirContents[fileOffset].name)) { // TODO: Check if its a valid save here
+		} else if (pressed & KEY_Y && !dirContents[fileOffset].isDirectory && accessSubdirectories) { // accessSubdirectory check is a hack to make it not trigger except in save selection.
+			if (CoreUtils::loadSave(dirContents[fileOffset].name)) {
 				Sound::play(Sound::click);
 				char path[PATH_MAX];
 				getcwd(path, PATH_MAX);
 
 				FILE* favs = fopen((sdFound() ? "sd:/_nds/LeafEdit/favorites.lst" : "fat:/_nds/LeafEdit/favorites.lst"), "ab");
 
-				if(favs) {
+				if (favs) {
 					fwrite((path+dirContents[fileOffset].name+"\n").c_str(), 1, (path+dirContents[fileOffset].name+"\n").size(), favs);
 					fclose(favs);
 				}
-			// }
+			}
 		} else if(pressed & KEY_TOUCH) {
 			touchRead(&touch);
 			for(int i=0;i<std::min(ENTRIES_PER_SCREEN, (int)dirContents.size());i++) {
-				if(touch.py > (i+1)*16 && touch.py < (i+2)*16) {
+				if (touch.py > (i+1)*16 && touch.py < (i+2)*16) {
 					fileOffset = i;
 					goto selection;
 				}
@@ -491,10 +500,10 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 		}
 
 		// Scroll screen if needed
-		if(fileOffset < screenOffset) {
+		if (fileOffset < screenOffset) {
 			screenOffset = fileOffset;
 			showDirectoryContents(dirContents, screenOffset);
-		} else if(fileOffset > screenOffset + ENTRIES_PER_SCREEN - 1) {
+		} else if (fileOffset > screenOffset + ENTRIES_PER_SCREEN - 1) {
 			screenOffset = fileOffset - ENTRIES_PER_SCREEN + 1;
 			showDirectoryContents(dirContents, screenOffset);
 		}
@@ -505,7 +514,7 @@ std::string browseForSave(void) {
 	if(showTopMenuOnExit) {
 		showTopMenuOnExit = 0;
 		std::string str = topMenuSelect();
-		if(str != "")	return str;
+		if (str != "")	return str;
 	}
 
 	// Clear text
@@ -522,6 +531,7 @@ std::string browseForSave(void) {
 		snprintf(sav, sizeof(sav), "sav%i", i);
 		extensionList.push_back(sav);
 	}
+
 	return browseForFile(extensionList, true);
 }
 
@@ -529,13 +539,13 @@ std::string browseForSave(void) {
 int fcopy(const char *sourcePath, const char *destinationPath) {
 	DIR *isDir = opendir(sourcePath);
 
-	if(isDir == NULL) {
+	if (isDir == NULL) {
 		closedir(isDir);
 
 		// Source path is a file
 		FILE* sourceFile = fopen(sourcePath, "rb");
 		off_t fsize = 0;
-		if(sourceFile) {
+		if (sourceFile) {
 			fseek(sourceFile, 0, SEEK_END);
 			fsize = ftell(sourceFile);			// Get source file's size
 			fseek(sourceFile, 0, SEEK_SET);
@@ -544,7 +554,7 @@ int fcopy(const char *sourcePath, const char *destinationPath) {
 		}
 
 		FILE* destinationFile = fopen(destinationPath, "wb");
-			fseek(destinationFile, 0, SEEK_SET);
+		fseek(destinationFile, 0, SEEK_SET);
 
 		off_t offset = 0;
 		drawOutline(5, 39, 247, 18, DARKERER_GRAY, false, true);
@@ -555,7 +565,7 @@ int fcopy(const char *sourcePath, const char *destinationPath) {
 			fwrite(copyBuf, 2, numr, destinationFile);
 			offset += copyBufSize;
 
-			if(offset > fsize) {
+			if (offset > fsize) {
 				fclose(sourceFile);
 				fclose(destinationFile);
 
@@ -563,6 +573,7 @@ int fcopy(const char *sourcePath, const char *destinationPath) {
 				return 1;
 			}
 		}
+
 		drawRectangle(4, 39, 248, 18, CLEAR, false, true);
 		return -1;
 	} else {

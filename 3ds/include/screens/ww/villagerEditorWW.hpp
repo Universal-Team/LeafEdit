@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -59,11 +59,11 @@ private:
 	void ItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Replace"}, // Replace.
-		{15, 97, 130, 48, "Personality"}, // Personality.
-		{15, 159, 130, 48, "Items"}, // Items.
-		{175, 34, 130, 48, "Catchphrase"}, // Catchphrase.
-		{175, 97, 130, 48, "Status"}, // Status.
+		{15, 34, 130, 48, "VILLAGER_REPLACE"}, // Replace.
+		{15, 97, 130, 48, "VILLAGER_PERSONALITY"}, // Personality.
+		{15, 159, 130, 48, "ITEMS"}, // Items.
+		{175, 34, 130, 48, "VILLAGER_CATCHPHRASE"}, // Catchphrase.
+		{175, 97, 130, 48, "VILLAGER_STATUS"}, // Status.
 		{175, 159, 130, 48, ""} // ?.
 	};
 

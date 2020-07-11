@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ private:
 	std::shared_ptr<Player> player;
 
 	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "Appearance"},
+		{15, 34, 130, 48, "APPEARANCE"},
 		{15, 97, 130, 48, ""},
 		{15, 159, 130, 48, ""},
 		{175, 34, 130, 48, ""},

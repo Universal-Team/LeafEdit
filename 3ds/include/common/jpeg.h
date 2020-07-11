@@ -27,8 +27,7 @@
 
 #include <citro2d.h>
 
-struct JPEGInfo
-{
+struct JPEGInfo {
 	u32 width;
 	u32 height;
 	void *image;

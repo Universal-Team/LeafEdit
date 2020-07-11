@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,20 +42,21 @@ extern bool touching(touchPosition touch, ButtonType button);
 
 void PluginScreen::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Plugin", 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("PLUGIN"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void PluginScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 
 	if (hDown & KEY_RIGHT) {
@@ -79,11 +80,13 @@ void PluginScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (selection == 1) {
 			plugin = std::make_unique<UniversalPlugin>();
 		}
+		
 		if (plugin != nullptr) {
 			if (plugin->scriptMain() != 0) {
-				Msg::DisplayWarnMsg("An error occured while executing script.");
+				Msg::DisplayWarnMsg(Lang::get("ERROR_SCRIPT"));
 			}
-			Gui::screenBack(true);
+
+			Gui::screenBack(doFade);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void SettingsScreen::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("LeafEdit - Settings", 0, 1, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("SETTINGS"), 0, 1, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, GRAY, false, true);

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include "itemManager.hpp"
 #include "lang.hpp"
 #include "mainMenu.hpp"
+#include "splash.hpp"
 #include "screenCommon.hpp"
 
 #include <3ds.h>
@@ -42,18 +43,14 @@ int barOffset; // The additional offset for the text on the clean style.
 std::unique_ptr<Config> config;
 // If true -> Exit LeafEdit.
 bool exiting = false;
+bool doFade = true;
 
 touchPosition touch;
 
 u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // Color Types.
 
 // Include all spritesheet's.
-C2D_SpriteSheet Acres;
-C2D_SpriteSheet GUI;
-C2D_SpriteSheet Items;
-C2D_SpriteSheet Players;
-C2D_SpriteSheet Villager;
-C2D_SpriteSheet Villager2;
+C2D_SpriteSheet Acres, GUI, Items, Players, Villager, Villager2;
 C2D_Font font;
 
 // Is loaded state.
@@ -122,6 +119,7 @@ Result Init::loadSheets() {
 			sheetsLoaded	= true;
 		}
 	}
+
 	return 0;
 }
 
@@ -135,6 +133,7 @@ Result Init::unloadSheets() {
 		C2D_SpriteSheetFree(Villager2);
 		sheetsLoaded = false;
 	}
+
 	return 0;
 }
 
@@ -187,7 +186,7 @@ Result Init::Init() {
 
 	// Check for location changes.
 	if (access("sdmc:/LeafEdit/Settings.json", F_OK) == 0  && access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0) {
-		Msg::DisplayWaitMsgInit("Mainpath got changed.\nPlease move your stuff to 'sdmc:/3ds/LeafEdit/'.");
+		Msg::DisplayWaitMsgInit(Lang::get("MAINPATH_CHANGE"));
 	}
 
 
@@ -232,10 +231,15 @@ Result Init::Init() {
 // Screen set & Init part.
 Result Init::Initialize() {
 	Init(); // Init base stuff.
-	fadein = true;
-	fadealpha = 255;
-	// Set the Screen to the MainMenu.
-	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
+	if (doFade) {
+		fadein = true;
+		fadealpha = 255;
+	}
+
+	Log = std::make_unique<Logging>();
+
+	// Set the Screen to the Splash.
+	Gui::setScreen(std::make_unique<Splash>(), false, true);
 	return 0;
 }
 
@@ -255,7 +259,7 @@ Result Init::MainLoop() {
 		Gui::clearTextBufs();
 		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
-
+		
 		if (exiting || Is3dsxUpdated) {
 			if (!fadeout)	break;
 		}

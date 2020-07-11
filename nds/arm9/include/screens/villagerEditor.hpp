@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -37,8 +37,10 @@ class VillagerEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
+	VillagerEditor(std::shared_ptr<Villager> v): villager(v) { }
 private:
 	std::unique_ptr<Item> villagerItems[15];
+	std::shared_ptr<Villager> villager;
 
 	int villagerMode = 0;
 	int Selection = 0;

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -61,17 +61,19 @@ void VillagerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Villager Editor", 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
-	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->villager->id()], 395, 0, font);
-	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, "Personality: " + getPersonality(this->villager->personality()), 395, 0, font);
-	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, "Catchphrase: ", 395, 0, font);
+	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->villager->id()], 395, 0, font);
+	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, Lang::get("VILLAGER_PERSONALITY") + ": " + getPersonality(this->villager->personality()), 395, 0, font);
+	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, Lang::get("VILLAGER_CATCHPHRASE") + ": ", 395, 0, font);
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -104,7 +106,7 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				overlay = std::make_unique<VillagerSelection>(this->villager, SaveType::WW);
 				break;
 			case 1:
-				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, "Select the wanted personality.");
+				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
 				this->villager->personality(tempSelect);
 				break;
 			case 2:
@@ -112,6 +114,7 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				for (int i = 0; i < 10; i++) {
 					this->villagerItems[i] = villager->furniture(i);
 				}
+
 				// Get other stuff.
 				this->villagerItems[10] = villager->wallpaper();
 				this->villagerItems[11] = villager->carpet();
@@ -126,14 +129,14 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 }
 
 void VillagerEditorWW::DrawItems(void) const {
 	std::string itemList;
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390, 0, font);
 
 	for (int i=(itemIndex<8) ? 0 : (int)itemIndex-8;i<(int)itemDB.size()&&i<(((int)itemIndex<8) ? 9 : (int)itemIndex+1);i++) {
 		itemList += itemDB[i].second + "\n";
@@ -148,8 +151,8 @@ void VillagerEditorWW::DrawItems(void) const {
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
 	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
-
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 15; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
@@ -187,6 +190,7 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			} else {
 				itemIndex += 9;
 			}
+			
 			keyRepeatDelay = 6;
 		}
 

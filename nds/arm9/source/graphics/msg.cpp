@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -26,32 +26,70 @@
 
 #include "colors.hpp"
 #include "gui.hpp"
+#include "lang.hpp"
 #include "msg.hpp"
 
-void Msg::DisplayWarnMsg(const std::string &Text) {
+void Msg::DisplayWarnMsg(const std::string &Text, bool showPointer) {
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	Gui::hidePointer();
 	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
 	printTextCentered(Text, 0, 80, true, true);
 	for (int i = 0; i < 60*2; i++) {
 		swiWaitForVBlank();
 	}
+
 	// Clear Layer 2 again.
 	Gui::DrawScreen();
+	if (showPointer) Gui::showPointer();
 }
 
 // Display a Message, which can be skipped with A.
-void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
+void Msg::DisplayWaitMsg(std::string waitMsg, bool showPointer) {
 	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
 	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	Gui::hidePointer();
 	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
 	printTextCentered(waitMsg, 0, 80, true, true);
-	printTextCentered("Press A to continue.", 0, 175, true, true);
-	while(1)
-	{
+	printTextCentered(Lang::get("A_CONTINUE"), 0, 175, true, true);
+	while(1) {
 		scanKeys();
-		if(keysDown() & KEY_A)
-			break;
+		if (keysDown() & KEY_A) break;
 	}
+
 	Gui::DrawScreen();
+	if (showPointer) Gui::showPointer();
 }
+
+// Display a Message, which can be skipped with A.
+bool Msg::promptMsg(std::string promptMsg, bool showPointer) {
+	bool result = false, doAction = true;
+	// Clearing Layer 2 first, so we can draw perfectly fine on this Layer.
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+	Gui::hidePointer();
+	drawRectangle(0, 70, 256, 60, DARKER_GRAY, true, true);
+	printTextCentered(promptMsg, 0, 80, true, true);
+	printTextCentered(Lang::get("A_CONFIRM_B_CANCEL"), 0, 175, true, true);
+
+	while(doAction) {
+		scanKeys();
+		if (keysDown() & KEY_A) {
+			result = true;
+			doAction = false;
+		}
+
+		if (keysDown() & KEY_B) {
+			result = false;
+			doAction = false;
+		}
+	}
+
+	Gui::DrawScreen();
+	if (showPointer) Gui::showPointer();
+	return result;
+}
+
+void Msg::notImplemented(bool showPointer) { Msg::DisplayWarnMsg(Lang::get("NOT_IMPLEMENTED_YET"), showPointer); }

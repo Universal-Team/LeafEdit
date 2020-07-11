@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -62,22 +62,24 @@ void VillagerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Villager Editor", 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
 	// Villager names have specific handle.
 	if (savesType == SaveType::WA) {
-		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->villager->id()], 395, 0, font);
+		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->villager->id()], 395, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, "Villager Name: " + getVillagerName(this->villager->id()), 395, 0, font);
+		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + getVillagerName(this->villager->id()), 395, 0, font);
 	}
-	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, "Personality: " + getPersonality(this->villager->personality()), 395, 0, font);
-	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, "Catchphrase: ", 395, 0, font);
+	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, Lang::get("VILLAGER_PERSONALITY") + ": " + getPersonality(this->villager->personality()), 395, 0, font);
+	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, Lang::get("VILLAGER_CATCHPHRASE") + ": ", 395, 0, font);
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -110,7 +112,7 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				overlay = std::make_unique<VillagerSelection>(this->villager, savesType);
 				break;
 			case 1:
-				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, "Select the wanted personality.");
+				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
 				this->villager->personality((u8)tempSelect);
 				break;
 			case 2:
@@ -132,14 +134,14 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 }
 
 void VillagerEditorNL::DrawItems(void) const {
 	std::string itemList;
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390, 0, font);
 
 	for (int i=(itemIndex<8) ? 0 : (int)itemIndex-8;i<(int)itemDB.size()&&i<(((int)itemIndex<8) ? 9 : (int)itemIndex+1);i++) {
 		itemList += itemDB[i].second + "\n";
@@ -160,6 +162,7 @@ void VillagerEditorNL::DrawItems(void) const {
 	for (int i = 0; i < 20; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
+
 	GFX::DrawGUI(gui_pointer_idx, items[itemSelection].x+15, items[itemSelection].y+15);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -192,6 +195,7 @@ void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			} else {
 				itemIndex += 9;
 			}
+			
 			keyRepeatDelay = 6;
 		}
 

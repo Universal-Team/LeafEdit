@@ -1,6 +1,6 @@
 /*
 *   This file is part of Universal-Updater
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -130,6 +130,7 @@ static size_t file_handle_data(char *ptr, size_t size, size_t nmemb, void *userd
 
 		if (!fsCommitThread || !g_buffers[0] || !g_buffers[1]) return 0;
 	}
+
 	if (file_buffer_pos + bsz >= FILE_ALLOC_SIZE) {
 		tofill = FILE_ALLOC_SIZE - file_buffer_pos;
 		memcpy(g_buffers[g_index] + file_buffer_pos, ptr, tofill);
@@ -142,6 +143,7 @@ static size_t file_handle_data(char *ptr, size_t size, size_t nmemb, void *userd
 		g_index = !g_index;
 		LightEvent_Signal(&readyToCommit);
 	}
+
 	memcpy(g_buffers[g_index] + file_buffer_pos, ptr + tofill, bsz - tofill);
 	file_buffer_pos += bsz - tofill;
 	return bsz;
@@ -645,10 +647,10 @@ void drawMessageText(int position) {
 	C2D_TargetClear(Top, TRANSPARENT);
 	Gui::ScreenDraw(Top);
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - Release Notes", 395);
-	Gui::DrawString(0, 25, 0.7, BLACK, jsonName.c_str(), 395);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("RELEASE_NOTES"), 395, 0, font);
+	Gui::DrawString(0, 25, 0.7, BLACK, jsonName.c_str(), 395, 0, font);
 	for (int i = 0; i < (int)_topText.size() && i < (10); i++) {
-		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i+position].c_str(), 395);
+		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i+position].c_str(), 395, 0, font);
 	}
 	C3D_FrameEnd(0);
 }
@@ -707,8 +709,8 @@ NightlyFetch Download::getLatestNightly(void) {
 
 Result Download::updateApp(bool nightly, const std::string &version) {
 	bool success = false;
-	if(nightly) {
-		if (is3dsx == false) {
+	if (nightly) {
+		if (!is3dsx) {
 			// Download CIA Nightly.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (CIA)").c_str());
 			showProgressBar = true;
@@ -716,9 +718,10 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "sdmc:/LeafEdit/LeafEdit.cia") != 0) {
 				showProgressBar = false;
-				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
+				downloadFailed();
 				return -1;
 			}
+
 			// Install and delete.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			progressBarType = 1;
@@ -727,7 +730,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
-		} else if (is3dsx == true) {
+		} else if (is3dsx) {
 			// Download 3DSX Nightly.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (3DSX)").c_str());
 			showProgressBar = true;
@@ -735,7 +738,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.3dsx?raw=true", path3dsx + "LeafEdit.3dsx") != 0) {
 				showProgressBar = false;
-				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
+				downloadFailed();
 				return -1;
 			}
 			showProgressBar = false;
@@ -744,7 +747,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			success = true;
 		}
 	} else {
-		if (is3dsx == false) {
+		if (!is3dsx) {
 			// Download CIA Release.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (CIA)").c_str());
 			showProgressBar = true;
@@ -752,9 +755,10 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "sdmc:/LeafEdit/LeafEdit.cia", false) != 0) {
 				showProgressBar = false;
-				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
+				downloadFailed();
 				return -1;
 			}
+
 			// Install and delete.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			progressBarType = 1;
@@ -763,7 +767,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
-		} else if (is3dsx == true) {
+		} else if (is3dsx) {
 			// Download 3DSX Release.
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (3DSX)").c_str());
 			showProgressBar = true;
@@ -771,77 +775,80 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			Threads::create((ThreadFunc)displayProgressBar);
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.3dsx", path3dsx + "LeafEdit.3dsx", false) != 0) {
 				showProgressBar = false;
-				Msg::DisplayWarnMsg(Lang::get("DOWNLOAD_FAILED"));
+				downloadFailed();
 				return -1;
 			}
+
 			showProgressBar = false;
 			if (version != "")	config->currentRelease(version);
 			config->save(); // Needed to do that here.
 			success = true;
 		}
 	}
-	Msg::DisplayWarnMsg(Lang::get("DONE"));
+	
+	doneMsg();
 	if (version != "")
-	if (success == true) {
-		if (is3dsx == true) {
+	if (success) {
+		if (is3dsx) {
 			Is3dsxUpdated = true;
 		}
 	}
+	
 	success = false;
 	return 0;
 }
 
 void Download::downloadAssets(void) {
 	// Acres AC:WW & AC:NL.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 1 / 6");
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 1, 6);
 	showProgressBar = true;
 	progressBarType = 0;
 	Threads::create((ThreadFunc)displayProgressBar);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/acres.t3x") != 0) {
 		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
+		downloadFailed();
 		return;
 	}
 	// Items & Badges.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 2 / 6");
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 2, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/items.t3x") != 0) {
 		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
+		downloadFailed();
 		return;
 	}
 	// Faces & Hair.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 3 / 6");
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 3, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/players.t3x") != 0) {
 		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
+		downloadFailed();
 		return;
 	}
 	// Font.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 4 / 6");
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 4, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/3ds/LeafEdit/assets/font.bcfnt") != 0) {
 		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
+		downloadFailed();
 		return;
 	}
 	// First Villager Sprite.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 5 / 6");
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 5, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers.t3x") != 0) {
 		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
+		downloadFailed();
 		return;
 	}
 	// Second Villager Sprite.
-	snprintf(progressBarMsg, sizeof(progressBarMsg), "Downloading Assets... 6 / 6");
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 6, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers2.t3x") != 0) {
 		showProgressBar = false;
-		Msg::DisplayWarnMsg("Download Failed!");
+		downloadFailed();
 		return;
 	}
 
 	showProgressBar = false;
 	// Load the Font, cause it's downloaded in that function.
 	Init::loadFont();
-	Msg::DisplayWarnMsg("Done!");
+	doneMsg();
 }
 
 void displayProgressBar() {

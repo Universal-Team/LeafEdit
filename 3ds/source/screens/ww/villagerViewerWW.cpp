@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -36,6 +36,10 @@ extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 
 VillagerViewerWW::VillagerViewerWW() {
+	this->update();
+}
+
+void VillagerViewerWW::update() {
 	// Get all Villager ID's for display.
 	for (int i = 0; i < 8; i++) {
 		this->ID[i] = save->villager(i)->id();
@@ -44,10 +48,10 @@ VillagerViewerWW::VillagerViewerWW() {
 
 void VillagerViewerWW::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - VillagerViewer", 395, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
 	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
-	Gui::DrawStringCentered(0, 150, 0.9f, BLACK, "Villager Name: " + g_villagerDatabase[this->viewerIndex], 395, 0, font);
-	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, "Villager ID: " + std::to_string(this->viewerIndex), 395, 0, font);
+	Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->viewerIndex], 395, 0, font);
+	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, Lang::get("VILLAGER_ID") + std::to_string(this->viewerIndex), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 8; i++) {
@@ -70,6 +74,8 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_SELECT)	this->update();
+	
 	if (hDown & KEY_R) {
 		if (this->viewerIndex < 150)	this->viewerIndex++;
 	}
@@ -80,19 +86,19 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (save->villager(Selection)->exist()) {
-			Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(Selection)), true, true);
+			Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(Selection)), false, true);
 		}
 	}
 
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 8; i++) {
 			if (iconTouch(touch, villagers[i])) {
 				if (save->villager(i)->exist()) {
-					Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(i)), true, true);
+					Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(i)), doFade, true);
 				}
 			}
 		}

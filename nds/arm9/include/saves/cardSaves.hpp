@@ -1,5 +1,5 @@
-#ifndef CARD_SAVES_HPP
-#define CARD_SAVES_HPP
+#ifndef _LEAFEDIT_CARD_SAVES_HPP
+#define _LEAFEDIT_CARD_SAVES_HPP
 #include "auxspi.hpp"
 
 #define cardSave "sd:/_nds/LeafEdit/backups/card.sav"

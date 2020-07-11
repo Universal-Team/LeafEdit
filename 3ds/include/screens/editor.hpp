@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -53,9 +53,9 @@ private:
 	std::string saveName;
 
 	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "Player"},
-		{95, 97, 130, 48, "Villager"},
-		{95, 159, 130, 48, "Misc"}
+		{95, 34, 130, 48, "PLAYER"},
+		{95, 97, 130, 48, "VILLAGER"},
+		{95, 159, 130, 48, "MISC_EDITOR"}
 	};
 
 	std::vector<Structs::ButtonPos> icons = {

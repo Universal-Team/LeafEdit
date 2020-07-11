@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,13 +34,14 @@ extern bool touching(touchPosition touch, ButtonType button);
 
 void Settings::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - Settings", 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -56,7 +57,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_B) {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 	
 	if (hDown & KEY_A) {
@@ -68,7 +69,12 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->newStyle(true);
 				barOffset = 0;
 			}
+			
 			changesMade = true;
+		} else if (Selection == 1) {
+			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
+				config->createBackups(config->createBackups() ? false : true);
+			}
 		}
 	}
 
@@ -81,7 +87,12 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->newStyle(true);
 				barOffset = 0;
 			}
+
 			changesMade = true;
+		} else if (touching(touch, mainButtons[1])) {
+			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
+				config->createBackups(config->createBackups() ? false : true);
+			}
 		}
 	}
 }

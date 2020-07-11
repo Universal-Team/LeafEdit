@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ Tex3DS_SubTexture _select_box(const C2D_Image& image, int x, int y, int endX, in
 		tex.bottom	= tex.top - (float)texTB / tex.height * deltaY;
 		tex.height	= deltaY;
 	}
+
 	return tex;
 }
 
@@ -318,7 +319,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> list, const s
 void GFX::DrawButton(const ButtonType button, float TextSize) {
 	DrawBtn(button.x, button.y, button.xLength, button.yLength);
 	// Draw String.
-	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, TextSize, BLACK, button.Text, button.xLength-17, button.yLength-5, font);
+	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, TextSize, BLACK, Lang::get(button.Text), button.xLength-17, button.yLength-5, font);
 }
 
 // Special Grid for Items. I need to do this here instead of using the Universal-Core one.
@@ -351,10 +352,10 @@ void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
 			overlay->Logic(hDown, hHeld, touch);
 		} else {
 			Gui::DrawScreen(true);
-			Gui::ScreenLogic(hDown, hHeld, touch, true, true);
+			Gui::ScreenLogic(hDown, hHeld, touch, doFade, true);
 		}
 	} else {
 		Gui::DrawScreen(true);
-		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
+		Gui::ScreenLogic(hDown, hHeld, touch, doFade, true);
 	}
 }

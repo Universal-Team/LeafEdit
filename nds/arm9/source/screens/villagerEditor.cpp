@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,15 +32,12 @@
 #include "villagerEditor.hpp"
 #include "Sav.hpp"
 
-extern std::unique_ptr<Villager> villager;
-extern std::shared_ptr<Sav> save;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::vector<std::string> g_personality;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-extern int currentVillager;
 
 std::string VillagerEditor::returnPersonality() const {
-	return g_personality[villager->personality()];
+	return g_personality[this->villager->personality()];
 }
 
 void VillagerEditor::Draw(void) const {
@@ -64,25 +61,21 @@ void VillagerEditor::DrawSubMenu(void) const {
 	DrawBox();
 
 //	GraphicManagement::DrawVillager(villager->id(), 100, 40);
-	printTextCentered("Villager Personality: " + returnPersonality(), 0, 170, true, true);
-	printTextCentered(g_villagerDatabase[villager->id()], 0, 150, true, true);
-	printTextCentered("Villager ID: " + std::to_string(villager->id()), 0, 130, true, true);
-
-	printTextCentered(ItemUtils::getName(villager->wallpaper()->id()), 0, 30, true, true);
-	printTextCentered(ItemUtils::getName(villager->carpet()->id()), 0, 50, true, true);
-	printTextCentered(ItemUtils::getName(villager->furniture(3)->id()), 0, 70, true, true);
+	printTextCentered(Lang::get("VILLAGER_PERSONALITY") + ": " + this->returnPersonality(), 0, 170, true, true);
+	printTextCentered(g_villagerDatabase[this->villager->id()], 0, 150, true, true);
+	printTextCentered(Lang::get("VILLAGER_ID") + ": " + std::to_string(this->villager->id()), 0, 130, true, true);
 	Gui::DrawBottom(true);
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, GRAY, false, true);
 	}
 
-	printTextCentered("Replace", -64, 40, false, true);
-	printTextCentered("Personality", -64, 90, false, true);
+	printTextCentered(Lang::get("VILLAGER_REPLACE"), -64, 40, false, true);
+	printTextCentered(Lang::get("VILLAGER_PERSONALITY"), -64, 90, false, true);
 }
 
 void VillagerEditor::updateInfo(void) const {
 	Gui::clearScreen(true, true);
-	printTextCentered("Current Item: " + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 0, 30, true, true);
+	printTextCentered(Lang::get("CURRENT_ITEM") + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 0, 30, true, true);
 }
 
 void VillagerEditor::DrawItems(void) const {
@@ -102,12 +95,12 @@ void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 
 	// Selection.
 	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
+		if (Selection > 0)	Selection--;
 		selected = true;
 	}
 	
 	if (hDown & KEY_DOWN) {
-		if(Selection < 5)	Selection++;
+		if (Selection < 5)	Selection++;
 		selected = true;
 	}
 
@@ -130,8 +123,8 @@ void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 		switch (Selection) {
 			case 0:
 				Gui::clearScreen(true, true);
-				tempSelect = (u8)Gui::selectList(villager->id(), g_villagerDatabase, "Select your wanted Villager.");
-				villager->id(tempSelect);
+				tempSelect = (u8)Gui::selectList(villager->id(), g_villagerDatabase, Lang::get("SELECT_VILLAGER"));
+				this->villager->id(tempSelect);
 				Gui::DrawScreen();
 				Gui::showPointer();
 				selected = true;
@@ -139,8 +132,8 @@ void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 				break;
 			case 1:
 				Gui::clearScreen(true, true);
-				tempSelect = (u8)Gui::selectList(villager->personality(), g_personality, "Select the wanted personality.");
-				villager->personality(tempSelect);
+				tempSelect = (u8)Gui::selectList(villager->personality(), g_personality, Lang::get("SELECT_PERSONALITY"));
+				this->villager->personality(tempSelect);
 				Gui::DrawScreen();
 				Gui::showPointer();
 				selected = true;
@@ -149,16 +142,17 @@ void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 			case 2:
 				// Get Furniture Items.
 				for (int i = 0; i < 10; i++) {
-					this->villagerItems[i] = villager->furniture(i);
+					this->villagerItems[i] = this->villager->furniture(i);
 				}
-				// Get other stuff.
-				this->villagerItems[10] = villager->wallpaper();
-				this->villagerItems[11] = villager->carpet();
-				this->villagerItems[12] = villager->song();
-				this->villagerItems[13] = villager->shirt();
-				this->villagerItems[14] = villager->umbrella();
 
-				villagerMode = 1;
+				// Get other stuff.
+				this->villagerItems[10] = this->villager->wallpaper();
+				this->villagerItems[11] = this->villager->carpet();
+				this->villagerItems[12] = this->villager->song();
+				this->villagerItems[13] = this->villager->shirt();
+				this->villagerItems[14] = this->villager->umbrella();
+
+				this->villagerMode = 1;
 				Gui::DrawScreen();
 				selected = true;
 				break;
@@ -208,7 +202,7 @@ void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		Gui::clearScreen(true, true);
-		u16 TempItem = ItemManager::selectItem(this->villagerItems[itemSelection]->id(), "Please select an Item.");
+		u16 TempItem = ItemManager::selectItem(this->villagerItems[itemSelection]->id(), Lang::get("SELECT_ITEM"));
 		this->villagerItems[itemSelection]->id(TempItem);
 		Gui::DrawScreen();
 		Gui::showPointer();

@@ -1,10 +1,9 @@
 #include "colors.hpp"
-#include <nds.h>
-
-#include "config.hpp"
 #include "graphics.hpp"
-#include "json.hpp"
 #include "tonccpy.h"
+
+#include <array>
+#include <nds.h>
 
 const u16 defaultPalette[] = {
 	0x0000, 0xFBDE, 0xE739, 0xCA52, 0xBDEF, 0x98C6, 0x94A5, 0x8842, 0x8000, // Grays
@@ -56,22 +55,8 @@ const std::string keys[] = {
 };
 
 void Colors::load(void) {
-	nlohmann::json themeJson;
-
-	FILE* file = fopen((Config::getString("themeDir")+"/theme.json").c_str(), "r");
-	if(file) {
-		themeJson = nlohmann::json::parse(file, nullptr, false);
-		fclose(file);
-	}
-
 	u16 palette[sizeof(defaultPalette)];
 	tonccpy(palette, defaultPalette, sizeof(palette));
-
-	for(int i=0;i<16;i++) {
-		if(themeJson.contains(keys[i]) && themeJson[keys[i]].is_string()) {
-			palette[i] = stoi(themeJson[keys[i]].get_ref<std::string&>(), nullptr, 0);
-		}
-	}
 
 	tonccpy(BG_PALETTE, palette, sizeof(palette));
 	tonccpy(BG_PALETTE_SUB, palette, sizeof(palette));

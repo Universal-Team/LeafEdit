@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,6 +32,9 @@
 #include <string>
 #include <unistd.h>
 
+// Used to add missing stuff for the JSON.
+void Config::addMissingThings() { }
+
 // In case it doesn't exist.
 void Config::initialize() {
 	// Create through fopen "Write".
@@ -41,13 +44,17 @@ void Config::initialize() {
 	this->setString("CurrentRelease", "");
 	this->setString("CurrentNightly", "");
 	this->setInt("Language", 1);
+	this->setBool("Create_Backups", true);
+	this->setInt("Version", this->configVersion);
+
 	// Write to file.
-	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
+	const std::string dump = this->json.dump(1, '\t');
+	fwrite(dump.c_str(), 1, this->json.dump(1, '\t').size(), file);
 	fclose(file); // Now we have the file and can properly access it.
 }
 
 Config::Config() {
-	if (access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0 ) {
+	if (access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0) {
 		this->initialize();
 	}
 
@@ -55,7 +62,15 @@ Config::Config() {
 	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	// Here we get the initial colors.
+	if (!this->json.contains("Version")) {
+		// Let us create a new one.
+		this->initialize();
+	}
+
+	// Here we add the missing things.
+	if (this->json["Version"] < this->configVersion) {
+		this->addMissingThings();
+	}
 
 	if (!this->json.contains("NewStyle")) {
 		this->newStyle(true);
@@ -81,6 +96,18 @@ Config::Config() {
 		this->language(this->getInt("Language"));
 	}
 
+	if (!this->json.contains("Create_Backups")) {
+		this->createBackups(true);
+	} else {
+		this->createBackups(this->getBool("Create_Backups"));
+	}
+
+	if (!this->json.contains("Version")) {
+		this->version(this->configVersion);
+	} else {
+		this->version(this->getInt("Version"));
+	}
+
 	this->changesMade = false; // No changes made yet.
 }
 
@@ -94,15 +121,18 @@ void Config::save() {
 		this->setString("CurrentRelease", this->currentRelease());
 		this->setString("CurrentNightly", this->currentNightly());
 		this->setInt("Language", this->language());
+		this->setBool("Create_Backups", this->createBackups());
+		this->setInt("Version", this->version());
 		// Write changes to file.
-		fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
+		const std::string dump = this->json.dump(1, '\t');
+		fwrite(dump.c_str(), 1, this->json.dump(1, '\t').size(), file);
 		fclose(file);
 	}
 }
 
 
 bool Config::getBool(const std::string &key) {
-	if(!this->json.contains(key)) {
+	if (!this->json.contains(key)) {
 		return false;
 	}
 
@@ -112,7 +142,7 @@ bool Config::getBool(const std::string &key) {
 void Config::setBool(const std::string &key, bool v) { this->json[key] = v; }
 
 int Config::getInt(const std::string &key) {
-	if(!this->json.contains(key)) {
+	if (!this->json.contains(key)) {
 		return 0;
 	}
 
@@ -122,7 +152,7 @@ int Config::getInt(const std::string &key) {
 void Config::setInt(const std::string &key, int v) { this->json[key] = v; }
 
 std::string Config::getString(const std::string &key) {
-	if(!this->json.contains(key)) {
+	if (!this->json.contains(key)) {
 		return "";
 	}
 

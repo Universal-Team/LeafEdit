@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ public:
 	Config();
 	void save();
 	void initialize();
+	void addMissingThings();
 
 	// Using new Style.
 	bool newStyle() { return this->v_newStyle; }
@@ -50,6 +51,12 @@ public:
 	// Language.
 	int language() { return this->v_language; }
 	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
+	// Do Backups.
+	bool createBackups() { return this->v_createBackups; }
+	void createBackups(bool v) { this->v_createBackups = v; if (!this->changesMade)	this->changesMade = true; }
+	// Version.
+	int version() { return this->v_version; }
+	void version(int v) { this->v_version = v; if (!this->changesMade)	this->changesMade = true; }
 
 	// Mainly helper.
 	bool getBool(const std::string &key);
@@ -63,10 +70,11 @@ private:
 	bool changesMade = false;
 
 	// variables for the config.
-	bool v_newStyle;
-	std::string v_currentRelease;
-	std::string v_currentNightly;
-	int v_language;
+	bool v_newStyle, v_createBackups;
+	std::string v_currentRelease, v_currentNightly;
+	int v_language, v_version;
+
+	int configVersion = 1; // Update this by changes.
 };
 
 #endif

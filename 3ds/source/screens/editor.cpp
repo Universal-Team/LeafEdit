@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ const std::vector<std::string> titleNames = {
 bool Editor::loadSave() {
 	save = nullptr;
 	FILE* in = fopen(saveName.c_str(), "rb");
-	if(in) {
+	if (in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
 		fseek(in, 0, SEEK_SET);
@@ -89,7 +89,7 @@ bool Editor::loadSave() {
 		return false;
 	}
 
-	if(!save) {
+	if (!save) {
 		printf("SaveFile returned nullptr.\n");
 		return false;
 	}
@@ -111,23 +111,24 @@ bool Editor::loadSave() {
 }
 
 void Editor::SaveInitialize() {
-	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", "Select your SaveFile.");
+	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
 	// If User canceled, go screen back.
 	if (saveName == "") {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 
 	if (!loadSave()) {
-		Msg::DisplayWarnMsg("Invalid SaveFile!");
+		Msg::DisplayWarnMsg(Lang::get("INVALID_SAVEFILE"));
 	} else {
-		Msg::DisplayWarnMsg("Loading Editor... Please wait.");
+		Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
 		if (Init::loadSheets() == 0) {
 			ItemUtils::LoadDatabase(savesType);
 			Lang::loadGameStrings(1, savesType);
+			CoreUtils::createBackup();
 			loadState = SaveState::Loaded;
 		} else {
-			Msg::DisplayWarnMsg("Failed to load SpriteSheets...");
-			Gui::screenBack(true);
+			Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
+			Gui::screenBack(doFade);
 		}
 	}
 }
@@ -136,12 +137,13 @@ void Editor::SaveInitialize() {
 void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Editor", 395, 0, font);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
 			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
+
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		GFX::DrawBottom();
 		for (int i = 0; i < 3; i++) {
@@ -151,20 +153,22 @@ void Editor::Draw(void) const {
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void Editor::Saving() {
-	if (!changes) {
-		Msg::DisplayWaitMsg("Saving is useless. No changes have been made.");
+	if (!save->changesMade()) {
+		Msg::DisplayWaitMsg(Lang::get("SAVING_USELESS"));
 		return;
 	}
 
-	if (Msg::promptMsg("Do you like to save?")) {
-		// Handle AC:WA stuff here.
-		if (savesType == SaveType::WA) {
-			CoreUtils::FixInvalidBuildings();
-		}
+	// Handle AC:WA stuff here.
+	if (savesType == SaveType::WA) {
+		CoreUtils::FixInvalidBuildings();
+	}
+
+	if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
 		save->Finish();
 		FILE* out = fopen(saveName.c_str(), "rb+");
 		fwrite(save->rawData().get(), 1, save->getLength(), out);
@@ -174,28 +178,27 @@ void Editor::Saving() {
 }
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
-				if (changes == true && hasSaved == false) {
-					if (Msg::promptMsg("You have unsaved changes. Do you like to exit without saving?")) {
+				if (save->changesMade() && !this->hasSaved) {
+					if (Msg::promptMsg(Lang::get("UNSAVED_CHANGES"))) {
 						savesType = SaveType::UNUSED;
-						Gui::screenBack(true);
+						Gui::screenBack(doFade);
 					}
-				} else if ((changes == true && hasSaved == true) || (!changes)) {
+				} else if ((save->changesMade() && this->hasSaved) || (!save->changesMade())) {
 					savesType = SaveType::UNUSED;
-					Gui::screenBack(true);
+					Gui::screenBack(doFade);
 				}
 			} else if (iconTouch(touch, icons[1])) {
-				Saving();
+				this->Saving();
 			}
 		}
 		// Navigation.
-		if(hDown & KEY_UP) {
-			if(Selection > 0)	Selection --;
-		} else if(hDown & KEY_DOWN) {
-			if(Selection < 2)	Selection++;
+		if (hDown & KEY_UP) {
+			if (Selection > 0)	Selection --;
+		} else if (hDown & KEY_DOWN) {
+			if (Selection < 2)	Selection++;
 		}
 
 		if (hDown & KEY_A) {
@@ -203,7 +206,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Player Editor.
 				if (Selection == 0) {
 					if (save->player(0) != nullptr) {
-						Gui::setScreen(std::make_unique<PlayerSelector>(), true, true);
+						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
 					} else {
 						Msg::NotImplementedYet();
 					}
@@ -211,9 +214,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 1) {
 					if (save->villager(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<VillagerViewerWW>(), true, true);
+							Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<VillagerViewerNL>(), true, true);
+							Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -222,9 +225,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (Selection == 2) {
 					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<TownMapEditorWW>(), true, true);
+							Gui::setScreen(std::make_unique<TownMapEditorWW>(), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<TownMapEditorNL>(), true, true);
+							Gui::setScreen(std::make_unique<TownMapEditorNL>(), doFade, true);
 						}
 					} else {
 						Msg::NotImplementedYet();
@@ -234,12 +237,12 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<PluginScreen>(), true, true);
+			Gui::setScreen(std::make_unique<PluginScreen>(), doFade, true);
 		}
 		
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
-			Gui::screenBack(true);
+			Gui::screenBack(doFade);
 		}
 	} else {
 		SaveInitialize(); // Display Browse.

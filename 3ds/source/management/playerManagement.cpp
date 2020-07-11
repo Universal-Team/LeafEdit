@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -175,7 +175,7 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, "Select the Hair you like.", 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, WHITE, Lang::get("SELECT_HAIR"), 400);
 	for (int i = 0; i < 16; i++) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 4; x++, i++) {
@@ -194,7 +194,7 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 		page = 0;
 	}
 
-	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, "Current Page: " + std::to_string(page+1) + " / 2", 400);
+	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page+1) + " | 2", 400);
 	int selectY = 0, selectX = 0;
 	if (selection > 3 && selection < 8)	selectX = selection - 4;	else if (selection > 7 && selection < 12)	selectX = selection - 8;
 	else if (selection > 11)	selectX = selection - 12;	else if (selection < 4)	selectX = selection;

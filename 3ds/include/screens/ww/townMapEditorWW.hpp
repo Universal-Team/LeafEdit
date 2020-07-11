@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ private:
 
 	std::vector<ButtonType> tempItemPos = {
 		{20, 45, 280, 50, ""}, // ID.
-		{20, 145, 280, 50, "Switch to Item Selection"}
+		{20, 145, 280, 50, "SWITCH_ITEM_SELECTION"}
 	};
 
 	// Display AC:WW Top Screen Map.
@@ -156,18 +156,18 @@ private:
 
 	// Display Button.
 	const std::vector<ButtonType> mainButtons = {
-		{220, 25, 90, 30, "Acres"},
-		{220, 55, 90, 30, "TempItem"},
-		{220, 85, 90, 30, "Clear Weeds"},
-		{220, 115, 90, 30, "Water Flowers"},
-		{220, 145, 90, 30, "Item Misc"}
+		{220, 25, 90, 30, "ACRES"},
+		{220, 55, 90, 30, "TEMP_ITEM"},
+		{220, 85, 90, 30, "CLEAR_WEEDS"},
+		{220, 115, 90, 30, "WATER_FLOWERS"},
+		{220, 145, 90, 30, "ITEM_MISC"}
 	};
 
 	// Display Operations.
 	const std::vector<ButtonType> operationBtn = {
-		{95, 34, 130, 48, "Remove items"},
-		{95, 97, 130, 48, "Fill Town"},
-		{95, 159, 130, 48, "Replace Items"}
+		{95, 34, 130, 48, "REMOVE_ITEMS"},
+		{95, 97, 130, 48, "FILL_TOWN"},
+		{95, 159, 130, 48, "REPLACE_ITEMS"}
 	};
 
 	const std::vector<Structs::ButtonPos> icons = {

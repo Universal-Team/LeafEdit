@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -58,9 +58,10 @@ static void loadToVector(std::string path, std::vector<std::string> &vec) {
 }
 
 std::string Lang::get(const std::string &key) {
-	if(!appJson.contains(key)) {
-		return "MISSING: " + key;
+	if (!appJson.contains(key)) {
+		return "";
 	}
+	
 	return appJson.at(key).get_ref<const std::string&>();
 }
 

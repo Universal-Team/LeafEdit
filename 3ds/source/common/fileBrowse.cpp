@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -59,15 +59,15 @@ off_t getFileSize(const char *fileName) {
 }
 
 bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList) {
-	if(name.substr(0, 2) == "._") return false;
+	if (name.substr(0, 2) == "._") return false;
 
-	if(name.size() == 0) return false;
+	if (name.size() == 0) return false;
 
-	if(extensionList.size() == 0) return true;
+	if (extensionList.size() == 0) return true;
 
 	for(int i = 0; i <(int)extensionList.size(); i++) {
 		const std::string ext = extensionList.at(i);
-		if(strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
+		if (strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
 	}
 
 	return false;
@@ -100,19 +100,20 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 			DirEntry dirEntry;
 
 			struct dirent* pent = readdir(pdir);
-			if(pent == NULL) break;
+			if (pent == NULL) break;
 
 			stat(pent->d_name, &st);
 			dirEntry.name = pent->d_name;
 			dirEntry.isDirectory = (st.st_mode & S_IFDIR) ? true : false;
 
-			if(dirEntry.name.compare(".") != 0 && (dirEntry.isDirectory || nameEndsWith(dirEntry.name, extensionList))) {
+			if (dirEntry.name.compare(".") != 0 && (dirEntry.isDirectory || nameEndsWith(dirEntry.name, extensionList))) {
 				dirContents.push_back(dirEntry);
 			}
 		}
 
 		closedir(pdir);
 	}
+
 	sort(dirContents.begin(), dirContents.end(), dirEntryPredicate);
 }
 
@@ -154,6 +155,7 @@ static void DrawBrowseTop(uint Selection, std::vector<DirEntry> dirContents, con
 	} else {
 		Gui::DrawString(5, 25, 0.85f, BLACK, dirs, 360, 0, font);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -182,6 +184,7 @@ void DrawFavSaves(uint Selection) {
 	} else {
 		Gui::DrawString(5, 25, 0.85f, BLACK, saves, 360, 0, font);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -354,8 +357,8 @@ std::string SaveBrowse::searchForSave(const std::vector<std::string> SaveType, c
 		if (hDown & KEY_Y) {
 			if (Mode == 0) {
 				if (!dirContents[selectedSave].isDirectory) {
-					if (Msg::promptMsg("Do you like to add this to a Favorite Save?")) {
-						std::string name = Input::getString("Enter the favorite savename.");
+					if (Msg::promptMsg(Lang::get("ADD_FAVORITE_SAVE"))) {
+						std::string name = Input::getString(Lang::get("ENTER_FAV_SAVE_NAME"));
 						char path[PATH_MAX];
 						getcwd(path, PATH_MAX);
 						std::string output = path + dirContents[selectedSave].name;
@@ -428,6 +431,7 @@ std::string searchForFile(char *path, char *Text) {
 			for(uint i=0;i<dirContentsTemp.size();i++) {
 				dirContents.push_back(dirContentsTemp[i]);
 			}
+
 			refreshed = false;
 		}
 
@@ -448,7 +452,7 @@ std::string searchForFile(char *path, char *Text) {
 				keyRepeatDelay = 6;
 			}
 		} else if (hDown & KEY_B) {
-			if (Msg::promptMsg("Cancel File Selection?\nThis returns ''.")) {
+			if (Msg::promptMsg(Lang::get("CANCEL_FILE_SELECTION"))) {
 				return "?";
 			}
 		} else if (hDown & KEY_START) {

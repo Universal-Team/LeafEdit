@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@
 #include <vector>
 
 const std::vector<ButtonType> promptBtn = {
-	{0, 85, 149, 52, "Yes"}, // Yes.
-	{162, 85, 149, 52, "No"}, // No.
-	{80, 90, 149, 52, "Ok"} // OK.
+	{0, 85, 149, 52, "YES"}, // Yes.
+	{162, 85, 149, 52, "NO"}, // No.
+	{80, 90, 149, 52, "OK"} // OK.
 };
 
 const std::vector<std::string> prompt = {"YES", "NO"};
@@ -74,7 +74,6 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		}
 
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70, font);
-		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
@@ -83,10 +82,7 @@ bool Msg::promptMsg2(std::string promptMsg) {
 			if (i == selection)	GFX::DrawGUI(gui_pointer_idx, promptBtn[i].x+100, promptBtn[i].y+30);
 		}
 
-		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		C3D_FrameEnd(0);
-
-		Gui::fadeEffects(16, 16, false);
 		// Selection part.
 		gspWaitForVBlank();
 		hidScanInput();
@@ -173,15 +169,13 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70, font);
 	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 207);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395, 0, font);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	GFX::DrawButton(promptBtn[2]);
 	GFX::DrawGUI(gui_pointer_idx, promptBtn[2].x+100, promptBtn[2].y+30);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	C3D_FrameEnd(0);
 
 	while(1) {
-		Gui::fadeEffects(16, 16, false);
 		hidScanInput();
 		hidTouchRead(&touch);
 		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))	break;
@@ -202,7 +196,6 @@ void Msg::DisplayWaitMsgInit(std::string waitMsg, ...) {
 	Gui::Draw_Rect(0, 80, 400, 88, C2D_Color32(14, 73, 32, 255));
 
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70, font);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 25, C2D_Color32(14, 73, 32, 255));

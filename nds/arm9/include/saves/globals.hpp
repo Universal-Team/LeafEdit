@@ -25,9 +25,9 @@
 
 #ifndef GLOBALS_HPP
 #define GLOBALS_HPP
-#include <nds.h>
 
 #include "auxspi.hpp"
+#include <nds.h>
 
 extern uint8 data[0x8000];
 

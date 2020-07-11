@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -141,6 +141,7 @@ int TownMapEditorNL::SelectionToAcre(int i) const {
 			return 33;
 			break;
 	}
+
 	return 8; // Should Never Happen.
 }
 
@@ -178,6 +179,7 @@ void TownMapEditorNL::convertToPosition() {
 	} else if (currentAcre > 14 && currentAcre < 20) {
 		acre = 3;
 	}
+
 	PositionY = (16 + acre * 16) + currentPosY;
 }
 
@@ -191,8 +193,8 @@ void TownMapEditorNL::DrawInformation() const {
 	for (int i = 0; i < 20; i++) {
 		SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(i)]->id(), townPos[i].x, townPos[i].y);
 	}
-	Gui::DrawString(210, 60, 0.7f, BLACK, "Current Position: " + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 0, font);
-	Gui::DrawString(210, 90, 0.6f, BLACK, "Current Item: " + MapItems[MapSelection]->name(), 190, 0, font);
+	Gui::DrawString(210, 60, 0.7f, BLACK, Lang::get("CURRENT_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 0, font);
+	Gui::DrawString(210, 90, 0.6f, BLACK, Lang::get("CURRENT_ITEM") + MapItems[MapSelection]->name(), 190, 0, font);
 	Gui::drawGrid(townPos[currentAcre].x, townPos[currentAcre].y, townPos[currentAcre].w, townPos[currentAcre].h, BLACK);
 }
 
@@ -204,11 +206,11 @@ void TownMapEditorNL::DrawCurrentPos(void) const {
 // Draw Town Map Editor screen.
 void TownMapEditorNL::DrawMapScreen(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Town Map Editor", 400, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_MAP_EDITOR"), 400, 0, font);
 	DrawInformation();
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	// Bottom Screen part. Grid & Acre.
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom(true); // We need the full screen.
 	SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(currentAcre)]->id(), 15, 20, 5, 5);
 	// Draw current Position + Grid.
@@ -248,8 +250,11 @@ void TownMapEditorNL::remove(u16 ID) {
 			removedAmount++;
 		}
 	}
+
 	if (removedAmount > 0)	changes = true;
-	Msg::DisplayWaitMsg("Removed " + std::to_string(removedAmount) + " Items.");
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("REMOVED_ITEMS").c_str(), removedAmount);
+	Msg::DisplayWaitMsg(message);
 }
 
 // Remove all Weeds.
@@ -261,8 +266,11 @@ void TownMapEditorNL::removeWeeds() {
 			removedAmount++;
 		}
 	}
+
 	if (removedAmount > 0)	changes = true;
-	Msg::DisplayWaitMsg("Removed " + std::to_string(removedAmount) + " Weeds.");
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("REMOVED_WEEDS").c_str(), removedAmount);
+	Msg::DisplayWaitMsg(message);
 }
 
 // Fill the Town with a specific Item.
@@ -271,8 +279,11 @@ void TownMapEditorNL::setAll(u16 ID) {
 		for (int i = 0; i < 5120; i++) {
 			MapItems[i]->id(ID);
 		}
+
 		changes = true;
-		Msg::DisplayWaitMsg("Filled Town with " + ItemUtils::getName(ID) + ".");
+		char message [100];
+		snprintf(message, sizeof(message), Lang::get("FILLED_TOWN").c_str(), ItemUtils::getName(ID));
+		Msg::DisplayWaitMsg(message);
 	}
 }
 
@@ -285,8 +296,11 @@ void TownMapEditorNL::waterFlowers() {
 			wateredAmount++;
 		}
 	}
+
 	if (wateredAmount > 0)	changes = true;
-	Msg::DisplayWaitMsg("Watered " + std::to_string(wateredAmount) + " Flowers.");
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("WATERED_FLOWERS").c_str(), wateredAmount);
+	Msg::DisplayWaitMsg(message);
 }
 
 // Replace all Items which start with the old ID to the new ID. Example: Replace all Empty slots with 99.000 Bells.
@@ -300,7 +314,11 @@ void TownMapEditorNL::replace(u16 oldID, u16 newID) {
 			}
 		}
 	}
+
 	if (replacedAmount > 0)	changes = true;
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("REPLACED_ITEMS").c_str(), replacedAmount);
+	Msg::DisplayWaitMsg(message);
 }
 
 // Update Position, Selection & Acre Image only by navigating.
@@ -311,7 +329,7 @@ void TownMapEditorNL::updateStuff() {
 
 void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if ((hDown & KEY_B) || (hDown & KEY_TOUCH && iconTouch(touch, icons[0]))) {
-		Gui::screenBack(true);
+		Gui::screenBack(doFade);
 	}
 
 	// Switch the select Mode from Town Map Selection to operation selection.
@@ -413,7 +431,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 void TownMapEditorNL::DrawTempItem(void) const {
 	std::string itemList;
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "Current Item: " + ItemUtils::getName(this->itemID), 390, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getName(this->itemID), 390, 0, font);
 
 	for (int i=(this->itemIndex<8) ? 0 : (int)this->itemIndex-8;i<(int)itemDB.size()&&i<(((int)this->itemIndex<8) ? 9 : (int)this->itemIndex+1);i++) {
 		itemList += itemDB[i].second + "\n";
@@ -440,6 +458,7 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	if (!this->isItemSelection) {
 		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -493,11 +512,11 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hDown & KEY_A) {
 			switch (selection) {
 				case 0:
-					this->itemID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, this->itemID);
+					this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
 					this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
 					break;
 				case 1:
-					this->itemFlag = Input::handleu16(2, "Enter the Flags.", 99, itemFlag);
+					this->itemFlag = Input::handleu16(2, Lang::get("ENTER_ITEM_FLAGS"), 99, itemFlag);
 					break;
 				case 2:
 					this->isItemSelection = true;
@@ -507,10 +526,10 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		if (hDown & KEY_TOUCH) {
 			if (touching(touch, tempItemPos[0])) {
-				this->itemID = Input::handleu16(5, "Enter the Decimal ID of the Item.", 32766, this->itemID);
+				this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
 				this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
 			} else if (touching(touch, tempItemPos[1])) {
-				this->itemFlag = Input::handleu16(2, "Enter the Flags.", 99, this->itemFlag);
+				this->itemFlag = Input::handleu16(2, Lang::get("ENTER_ITEM_FLAGS"), 99, this->itemFlag);
 			} else if (touching(touch, tempItemPos[2])) {
 				this->isItemSelection = true;
 			}
@@ -523,13 +542,11 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void TownMapEditorNL::DrawAcres(void) const {
 	DrawTopSelection();
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	if (GodMode) {
 		DrawFullMap();
 	} else {
 		DrawMap();
 	}
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw the Full TownMap. [Used by GodMode enabled.]
@@ -549,6 +566,7 @@ void TownMapEditorNL::DrawFullMap(void) const {
 	}
 
 	GFX::DrawGUI(gui_pointer_idx, acreMapPos[selection].x+20, acreMapPos[selection].y+20);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw smaller TownMap. (Only affects AC:NL.)
@@ -568,13 +586,14 @@ void TownMapEditorNL::DrawMap(void) const {
 	}
 
 	GFX::DrawGUI(gui_pointer_idx, acreTownPos[selection].x+20, acreTownPos[selection].y+20);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 // Draw the Acre Selection from the Top Screen.
 void TownMapEditorNL::DrawTopSelection(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - Acre Editor", 400, 0, font);
-	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, "Acre ID: " + std::to_string(selectedAcre), 400, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400, 0, font);
+	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, Lang::get("ACRE_ID") + std::to_string(selectedAcre), 400, 0, font);
 	if (selectedAcre == 0) {
 		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
@@ -600,6 +619,8 @@ void TownMapEditorNL::DrawTopSelection(void) const {
 		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
 		SpriteManagement::DrawAcres(selectedAcre+2, 350, 100, 1, 1);
 	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
@@ -668,6 +689,7 @@ void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				selectedAcre--;
 			}
 		}
+		
 		if (keysHeld() & KEY_R) {
 			if (selectedAcre < maxAcres) {
 				selectedAcre++;

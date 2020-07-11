@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@
 #include "structs.hpp"
 
 touchPosition touch;
+std::unique_ptr<Config> config;
 bool exiting = false;
 
 // If button Position pressed -> Do something.
@@ -59,7 +60,7 @@ int main(int argc, char **argv) {
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
 
 	// Init filesystem
-	if(!fatInitDefault()) {
+	if (!fatInitDefault()) {
 		// Prints error if fatInitDefault() fails
 		consoleDemoInit();
 		printf("fatInitDefault() failed...");
@@ -72,10 +73,10 @@ int main(int argc, char **argv) {
 	mkdir(sdFound() ? "sd:/_nds/LeafEdit/backups" : "fat:/_nds/LeafEdit/backups", 0777);
 
 	// Try to init NitroFS from argv provided to the game when it was launched
-	if(!nitroFSInit(argv[0])) {
+	if (!nitroFSInit(argv[0])) {
 		// If that fails, try to init NitroFS on 'LeafEdit.nds'
-		if(!nitroFSInit("LeafEdit.nds")) {
-			if(!nitroFSInit("/_nds/LeafEdit/LeafEdit.nds")) {
+		if (!nitroFSInit("LeafEdit.nds")) {
+			if (!nitroFSInit("/_nds/LeafEdit/LeafEdit.nds")) {
 				// Prints error if nitroFSInit() fails
 				consoleDemoInit();
 				printf("nitroFSInit() failed...\n\n");
@@ -91,12 +92,13 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	Config::load();
+	config = std::make_unique<Config>();
 	Colors::load();
 	ItemUtils::LoadDatabase(SaveType::WW);
 	loadFont();
-	Lang::load(1);
-	printTextCentered("Loading...", 0, 32, false, true);
+	Lang::load(config->language());
+	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
+	Log = std::make_unique<Logging>();
 
 	Sound::init();
 	Gui::initSprites();
@@ -117,5 +119,6 @@ int main(int argc, char **argv) {
 		touchRead(&touch);
 		Gui::mainLoop(hDown, touch);
 	}
+	
 	return 0;
 }

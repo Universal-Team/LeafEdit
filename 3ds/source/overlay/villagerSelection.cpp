@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,15 +34,15 @@ extern std::array<int, 333> nlVillagerIndex;
 extern const std::string getVillagerName(int index);
 
 void VillagerSelection::DrawOverlayTop(void) const {
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "Select your wanted Villager.", 395, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_VILLAGER"), 395, 0, font);
 	SpriteManagement::DrawVillager(this->selection, 165, 80);
 	if (this->save != SaveType::NL) {
-		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, "Villager Name: " + g_villagerDatabase[this->selection], 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->selection], 395, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, "Villager Name: " + getVillagerName(this->selection), 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + getVillagerName(this->selection), 395, 0, font);
 	}
 
-	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, "Villager ID: " + std::to_string(this->selection), 395, 0, font);
+	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(this->selection), 395, 0, font);
 	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(this->selection+1) + " | " + std::to_string(this->maxSelection+1), 400, 0, font);
 }
 

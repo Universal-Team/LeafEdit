@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,23 +29,17 @@
 #include "msg.hpp"
 #include "villagerEditor.hpp"
 #include "villagerViewer.hpp"
-#include "Sav.hpp"
 
 
-extern std::shared_ptr<Sav> save;
 extern std::vector<std::string> g_villagerDatabase;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-std::unique_ptr<Villager> villager;
-int currentVillager = 0;
 
-VillagerViewer::VillagerViewer() {
-	villager = save->villager(0);
-}
+VillagerViewer::VillagerViewer() { }
 
 void VillagerViewer::Draw(void) const {
-	if (villagerMode == 0) {
+	if (this->villagerMode == 0) {
 		DrawVillager();
-	} else if (villagerMode == 1) {
+	} else if (this->villagerMode == 1) {
 		DrawVillagerList();
 	}
 }
@@ -54,7 +48,7 @@ void VillagerViewer::DrawVillagerList(void) const {
 	Gui::DrawTop(true);
 	DrawBox();
 	GraphicManagement::DrawVillager(villagerViewerSprite, 100, 60);
-	printTextCentered("Villager ID: " + std::to_string(villagerViewerSprite), 0, 160, true, true);
+	printTextCentered(Lang::get("VILLAGER_ID") + ": " + std::to_string(villagerViewerSprite), 0, 160, true, true);
 	printTextCentered(g_villagerDatabase[villagerViewerSprite], 0, 130, true, true);
 	Gui::DrawBottom(true);
 }
@@ -64,37 +58,37 @@ void VillagerViewer::VillagerListLogic(u16 hDown, touchPosition touch) {
 
 	// Switch current Villager.
 	if (held & KEY_DOWN) {
-		villagerViewerSprite++;
-		if (villagerViewerSprite > 149)	villagerViewerSprite = 0;
+		this->villagerViewerSprite++;
+		if (this->villagerViewerSprite > 149)	this->villagerViewerSprite = 0;
 		Gui::DrawScreen();
 	} else if (held & KEY_UP) {
 		villagerViewerSprite--;
-		if (villagerViewerSprite < 0)	villagerViewerSprite = 149;
+		if (villagerViewerSprite < 0)	this->villagerViewerSprite = 149;
 		Gui::DrawScreen();
 
 	} else if (held & KEY_RIGHT) {
-		villagerViewerSprite += 10;
-		if (villagerViewerSprite > 139)	villagerViewerSprite = 0;
+		this->villagerViewerSprite += 10;
+		if (this->villagerViewerSprite > 139)	this->villagerViewerSprite = 0;
 		Gui::DrawScreen();
 
 	} else if (held & KEY_LEFT) {
-		villagerViewerSprite -= 10;
-		if (villagerViewerSprite < 0)	villagerViewerSprite = 149;
+		this->villagerViewerSprite -= 10;
+		if (this->villagerViewerSprite < 0)	this->villagerViewerSprite = 149;
 		Gui::DrawScreen();
 	}
 
 	// Go back to the Editor Screen.
 	if (hDown & KEY_B) {
-		villagerMode = 0;
+		this->villagerMode = 0;
 		Gui::DrawScreen();
 	}
 }
 
 
 void VillagerViewer::Logic(u16 hDown, touchPosition touch) {
-	if (villagerMode == 0) {
+	if (this->villagerMode == 0) {
 		VillagerLogic(hDown);
-	} else if (villagerMode == 1) {
+	} else if (this->villagerMode == 1) {
 		VillagerListLogic(hDown, touch);
 	}
 }
@@ -105,8 +99,8 @@ void VillagerViewer::VillagerLogic(u16 hDown) {
 	// Switch to the Villager Editor Screen.
 	if (hDown & KEY_A) {
 		// Only allow Villager Editor if Villager exist.
-		if (villager->exist()) {
-			Gui::setScreen(std::make_unique<VillagerEditor>());
+		if (save->villager(this->currentVillager)->exist()) {
+			Gui::setScreen(std::make_unique<VillagerEditor>(save->villager(this->currentVillager)));
 			Gui::DrawScreen();
 			Gui::showPointer();
 			selected = true;
@@ -115,15 +109,13 @@ void VillagerViewer::VillagerLogic(u16 hDown) {
 
 	// Switch current Villager.
 	if (held & KEY_R) {
-		if(currentVillager < 7) {
-			currentVillager++;
-			villager = save->villager(currentVillager);
+		if (this->currentVillager < 7) {
+			this->currentVillager++;
 			Gui::DrawScreen();
 		}
 	} else if (held & KEY_L) {
-		if(currentVillager > 0) {
-			currentVillager--;
-			villager = save->villager(currentVillager);
+		if (this->currentVillager > 0) {
+			this->currentVillager--;
 			Gui::DrawScreen();
 		}
 	}
@@ -131,7 +123,6 @@ void VillagerViewer::VillagerLogic(u16 hDown) {
 	// Go back to the Editor Screen.
 	if (hDown & KEY_B) {
 		Gui::screenBack();
-		villager = nullptr; // Reset to nullptr.
 		// Display Save icon.
 		setSpriteVisibility(Gui::saveID, false, true);
 		setSpritePosition(Gui::saveID, false, 225, 172);
@@ -143,7 +134,7 @@ void VillagerViewer::VillagerLogic(u16 hDown) {
 	}
 
 	if (hDown & KEY_X) {
-		villagerMode = 1;
+		this->villagerMode = 1;
 		Gui::DrawScreen();
 	}
 }
@@ -152,16 +143,16 @@ void VillagerViewer::DrawVillager(void) const {
 	Gui::DrawTop(true);
 	DrawBox();
 	DrawCurrentVillager();
-	GraphicManagement::DrawVillager(villager->id(), 100, 60);
-	printTextCentered(g_villagerDatabase[villager->id()], 0, 130, true, true);
-	printTextCentered("Villager ID: " + std::to_string(villager->id()), 0, 160, true, true);
+	GraphicManagement::DrawVillager(save->villager(this->currentVillager)->id(), 100, 60);
+	printTextCentered(g_villagerDatabase[save->villager(this->currentVillager)->id()], 0, 130, true, true);
+	printTextCentered(Lang::get("VILLAGER_ID") + ": " + std::to_string(save->villager(this->currentVillager)->id()), 0, 160, true, true);
 	Gui::DrawBottom(true);
 }
 
 // This will draw the current Villager and Title for the Villager Viewer Screen.
 void VillagerViewer::DrawCurrentVillager(void) const {
-	printTextCentered("LeafEdit - Villager Viewer", 0, 2, true, true);
-	printTextCentered("Current Villager: " + std::to_string(currentVillager+1), 0, 180, true, true);
+	printTextCentered("LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 0, 2, true, true);
+	printTextCentered(Lang::get("CURRENT_VILLAGER") + std::to_string(this->currentVillager + 1), 0, 180, true, true);
 }
 
 void VillagerViewer::DrawBox(void) const {
