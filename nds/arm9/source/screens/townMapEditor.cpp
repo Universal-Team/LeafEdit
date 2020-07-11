@@ -157,7 +157,7 @@ int TownMapEditor::SelectionToAcre() const {
 }
 
 void TownMapEditor::DrawPosition(void) const {
-	drawOutline(10 + (currentPosX*10), 15 + (currentPosY*10), 10, 10, DARKERER_GRAY, false, true);
+	drawOutline(10 + (currentPosX*10), 15 + (currentPosY*10), 10, 10, LIGHT_GRAY, false, true);
 }
 
 // Max Position: 63x63. Cause 16x4 -1 (cause of 0) -> 63.

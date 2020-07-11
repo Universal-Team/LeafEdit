@@ -79,18 +79,19 @@ bool Editor::loadSave() {
 		if (save) {
 			if (save->getType() == SaveType::WW) {
 				if (save->town()->exist() != true) {
+					Log->Write("Town does not exist!", false);
 					return false; // Town does not exist!
 				}
 			}
 		}
 
 	} else {
-		printf("Could not open SaveFile.\n");
+		Log->Write("Could not open SaveFile.", false);
 		return false;
 	}
 
 	if (!save) {
-		printf("SaveFile returned nullptr.\n");
+		Log->Write("SaveFile returned nullptr", false);
 		return false;
 	}
 	
@@ -106,6 +107,8 @@ bool Editor::loadSave() {
 		this->RegionLock.DerivedID = this->RegionLock.RawByte & 0xF;
 		this->RegionLock.RegionID = static_cast<CFG_Region>(this->RegionLock.RawByte >> 4);
 	}
+
+	CoreUtils::createBackup(); // Create backup there.
 	
 	return true;
 }
@@ -124,7 +127,6 @@ void Editor::SaveInitialize() {
 		if (Init::loadSheets() == 0) {
 			ItemUtils::LoadDatabase(savesType);
 			Lang::loadGameStrings(1, savesType);
-			CoreUtils::createBackup();
 			loadState = SaveState::Loaded;
 		} else {
 			Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
