@@ -38,9 +38,9 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	VillagerViewerWW();
 private:
-	int Selection = 0;
+	int Selection = 0, viewerIndex = 0;
 	u16 ID[8];
-	int viewerIndex = 0;
+	void update();
 
 	const std::vector<Structs::ButtonPos> villagers = {
 		{20, 50, 48, 48},

@@ -40,6 +40,10 @@ extern SaveType savesType;
 extern std::array<int, 333> nlVillagerIndex;
 
 VillagerViewerNL::VillagerViewerNL() {
+	this->update();
+}
+
+void VillagerViewerNL::update() {
 	// Get all Villager ID's for display.
 	for (int i = 0; i < 10; i++) {
 		this->ID[i] = save->villager(i)->id();
@@ -88,6 +92,8 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Selection--;
 		}
 	}
+
+	if (hDown & KEY_SELECT)	this->update();
 
 	if (hDown & KEY_R) {
 		if (savesType == SaveType::WA) {

@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "badgeEditor.hpp"
 #include "coreUtils.hpp"
 #include "itemUtils.hpp"
 #include "playerEditorNL.hpp"
@@ -66,7 +67,7 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 0, 0, font);
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string(this->player->wallet()), 0, 0, font);
-	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BAK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
+	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PLAYER_FACETYPE") + ": " + std::to_string(this->player->face()), 0, 0, font);
 
 	// Only display TPC if Player has TPC support and is not nullptr.
@@ -110,6 +111,8 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (this->Selection == 0) {
 			this->Mode = 1;
+		} else if (this->Selection == 1) {
+			Gui::setScreen(std::make_unique<BadgeEditor>(this->player), doFade, true);
 		}
 	}
 	

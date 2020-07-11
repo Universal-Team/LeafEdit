@@ -36,6 +36,10 @@ extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 
 VillagerViewerWW::VillagerViewerWW() {
+	this->update();
+}
+
+void VillagerViewerWW::update() {
 	// Get all Villager ID's for display.
 	for (int i = 0; i < 8; i++) {
 		this->ID[i] = save->villager(i)->id();
@@ -70,6 +74,8 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_SELECT)	this->update();
+	
 	if (hDown & KEY_R) {
 		if (this->viewerIndex < 150)	this->viewerIndex++;
 	}

@@ -39,6 +39,7 @@ public:
 	VillagerViewer();
 private:
 	int villagerViewerSprite = 0;
+	int currentVillager = 0;
 	int villagerMode = 0;
 
 	// Draw the current Villager Screen.

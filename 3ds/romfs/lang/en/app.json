@@ -8,6 +8,8 @@
 	"AUTHORED_BY": "Authored by: ",
 
 	"BACKUP_RESULT": "Backup created at:\n%s",
+	"BADGE_EDITOR": "Badge Editor",
+	"BRONZE": "Bronze",
 
 	"CANCEL_FILE_SELECTION": "Cancel File Selection?\nThis returns '?'.",
 	"CANCEL_SAVE_SELECTION": "Cancel the Save Selection?",
@@ -17,6 +19,7 @@
 	"CORE_STRUCTURE": "For helping me and basically the idea of the Core-Structure.",
 	"CREATING_BACKUP": "Creating backup... Please wait.",
 	"CREDITS": "Credits",
+	"CURRENT_BADGE": "Current Badge: ",
 	"CURRENT_ITEM": "Current Item: ",
 	"CURRENT_PAGE": "Current Page: ",
 	"CURRENT_POSITION": "Current Position: ",
@@ -47,6 +50,7 @@
 	"FONT_NOT_FOUND": "Font not found! Cannot load.\n\nMake sure you have 'font.bcfnt' inside 'sdmc:/3ds/LeafEdit/assets/'.",
 
 	"GENERAL_CREDITS": "General Credits",
+	"GOLD": "Gold",
 	"GRAPHIC_WORK": "For the amazing Graphic work!",
 
 	"HELPING_OUT_PROBLEMS": "For helping me out by problems.",
@@ -66,6 +70,7 @@
 	"MISC_EDITOR": "Misc Editor",
 
 	"NO": "No",
+	"NONE": "None",
 	"NOT_IMPLEMENTED": "This is not implemented yet!",
 
 	"OK": "OK",
@@ -101,7 +106,9 @@
 	"SELECT_HAIR": "Select the Hair you like.",
 	"SELECT_SAVEFILE": "Select your SaveFile.",
 	"SELECT_VILLAGER": "Select your wanted Villager.",
+	"SET_BADGES_TO": "Set all badges to...",
 	"SETTINGS": "Settings",
+	"SILVER": "Silver",
 	"SPRITESHEETS_NOT_FOUND": "SpriteSheets not found! Cannot load.\n\nMake sure you have the Spritesheets inside 'sdmc:/3ds/LeafEdit/assets/'.",
 	"STYLE_CHANGE": "Change Style",
 	"SWITCH_ITEM_SELECTION": "Switch to Item Selection",
