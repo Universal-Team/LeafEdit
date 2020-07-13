@@ -31,11 +31,11 @@
 #include <stdint.h>
 
 #ifdef _3DS
-#include <3ds.h>
+	#include <3ds.h>
 #endif
 
 #ifdef ARM9
-#include <nds.h>
+	#include <nds.h>
 #endif
 
 typedef uint8_t u8;

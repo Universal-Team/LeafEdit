@@ -31,10 +31,59 @@
 
 #include <string>
 
+struct ItemBin_s {
+	u16 ItemIcon;
+	u16 ItemPrice;
+	u16 Unknown0;
+	u16 RefurbishID;
+	u16 SoundID;
+	u8  Category;
+	s8  Unknown2;
+	s8  Unknown3;
+	s8  Unknown4;
+	s8  PriceMultiplier;
+	u8  Unknown5;
+	s8  ClothingGroup;
+	u8  CanRefurbish___;
+	u8  DinosaurGroup;
+	s8  ArtGroup;
+	u8  Unknown11;
+	u8  Unknown12;
+	u8  Unknown13;
+	u8  Unknown14;
+	u8  Unknown15;
+	u8  Unknown16;
+	u8  Unknown17;
+	u8  Unknown18;
+	u8  Unknown19;
+	u8  Unknown20;
+};
+
+struct ItemKind_s {
+	u8 Unknown1;
+	u8 Unknown2;
+	u8 Unknown3;
+};
+
 namespace ItemUtils {
 	// Read Database.
 	void LoadDatabase(SaveType save);
 	std::string getName(u16 ID); // Get an Item's name.
+
+	// Item Kind stuff, here.
+	void loadItemBins();
+	void closeItemBins();
+	FILE* GetItemBin(void);
+	FILE* GetItemKindBin(void);
+	s32 IsNormalItem(u16 itemID);
+	ItemBin_s* GetItemBinSlot(u16 ItemID);
+	ItemKind_s* GetItemKindSlot(u16 ItemID);
+	u16 GetAxeDamageValue(u16 ItemID, u16 Flags = 0);
+	u16 GetAxeDamageIcon(u16 ItemID, u16 Flags = 0);
+	bool IsInvWhitelisted(u16 ItemID);
+	u8 GetCategory(u16 ItemID);
+	u16 GetIconID(u16 ItemID, u16 Flags = 0);
+	s32 GetSpritesheetID(u16 ItemID, u16 Flags = 0);
 }
 
 #endif

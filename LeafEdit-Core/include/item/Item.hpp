@@ -78,7 +78,7 @@ protected:
 	u32 Offset;
 public:
 	virtual ~Item() {}
-	Item(std::shared_ptr<u8[]> dt, u32 offset) : data(dt), Offset(offset) {}
+	Item(std::shared_ptr<u8[]> dt, u32 offset) : data(dt), Offset(offset) { }
 	Item(const Item& item) = delete;
 	Item& operator=(const Item& item) = delete;
 

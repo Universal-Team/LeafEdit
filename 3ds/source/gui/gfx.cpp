@@ -26,10 +26,7 @@
 
 #include "common.hpp"
 #include "gfx.hpp"
-#include "overlay.hpp"
 #include "screenCommon.hpp"
-
-#include <stack>
 
 extern C2D_SpriteSheet GUI;
 extern C2D_Font font;
@@ -332,30 +329,4 @@ void GFX::drawGrid(float xPos, float yPos, float Width, float Height, u32 itemCo
 	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, gridColor); // left
 	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, gridColor); // right
 	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, gridColor); // bottom
-}
-
-// Main Logic.
-std::unique_ptr<Overlay> overlay;
-
-// Main Logic.
-void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Make sure it's not nullptr.
-	if (overlay != nullptr) {
-		// Make sure it's used.
-		if (overlay->isUsed) {
-			GFX::DrawTop();
-			Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
-			overlay->DrawOverlayTop();
-			GFX::DrawBottom();
-			Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
-			overlay->DrawOverlayBottom();
-			overlay->Logic(hDown, hHeld, touch);
-		} else {
-			Gui::DrawScreen(true);
-			Gui::ScreenLogic(hDown, hHeld, touch, doFade, true);
-		}
-	} else {
-		Gui::DrawScreen(true);
-		Gui::ScreenLogic(hDown, hHeld, touch, doFade, true);
-	}
 }

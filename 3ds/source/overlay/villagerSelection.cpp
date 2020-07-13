@@ -25,53 +25,79 @@
 */
 
 #include "common.hpp"
+#include "overlay.hpp"
 #include "spriteManagement.hpp"
-#include "villagerSelection.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern std::vector<std::string> g_villagerDatabase;
 extern std::array<int, 333> nlVillagerIndex;
 extern const std::string getVillagerName(int index);
 
-void VillagerSelection::DrawOverlayTop(void) const {
+static void Draw(const int selection, const SaveType st, const int maxSelection) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_VILLAGER"), 395, 0, font);
-	SpriteManagement::DrawVillager(this->selection, 165, 80);
-	if (this->save != SaveType::NL) {
-		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->selection], 395, 0, font);
+	SpriteManagement::DrawVillager(selection, 165, 80);
+
+	if (st != SaveType::NL) {
+		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + g_villagerDatabase[selection], 395, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + getVillagerName(this->selection), 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + getVillagerName(selection), 395, 0, font);
 	}
 
-	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(this->selection), 395, 0, font);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(this->selection+1) + " | " + std::to_string(this->maxSelection+1), 400, 0, font);
+	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(selection), 395, 0, font);
+	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(maxSelection + 1), 400, 0, font);
+	GFX::DrawBottom();
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
+	C3D_FrameEnd(0);
 }
 
 
-void VillagerSelection::DrawOverlayBottom(void) const { }
+u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
+	int selection = (int)oldID;
+	int maxSelection = 0;
 
-void VillagerSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_RIGHT) {
-		if (this->selection < this->maxSelection)	this->selection++;
+	// Get max amount, here.
+	if (st == SaveType::WA) {
+		maxSelection = 398;
+	} else if (st == SaveType::NL) {
+		maxSelection = 332;
+	} else if (st == SaveType::WW) {
+		maxSelection = 149;
 	}
 
-	if (hDown & KEY_LEFT) {
-		if (this->selection > 0)	this->selection--;
-	}
+	while(1) {
+		Draw(selection, st, maxSelection);
+		
+		// Logic, here.
+		hidScanInput();
 
-	if (hHeld & KEY_R) {
-		if (this->selection < this->maxSelection)	this->selection++;
-	}
+		if (hidKeysDown() & KEY_RIGHT) {
+			if (selection < maxSelection) selection++;
+		}
 
-	if (hHeld & KEY_L) {
-		if (this->selection > 0)	this->selection--;
-	}
+		if (hidKeysDown() & KEY_LEFT) {
+			if (selection > 0) selection--;
+		}
 
-	if (hDown & KEY_A) {
-		this->villager->id(this->selection);
-		this->isUsed = false;
-	}
+		if (hidKeysHeld() & KEY_R) {
+			if (selection < maxSelection) selection++;
+		}
 
-	if (hDown & KEY_B) {
-		this->isUsed = false;
+		if (hidKeysHeld() & KEY_L) {
+			if (selection > 0) selection--;
+		}
+
+		if (hidKeysDown() & KEY_A) {
+			return selection;
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return oldID;
+		}
 	}
 }

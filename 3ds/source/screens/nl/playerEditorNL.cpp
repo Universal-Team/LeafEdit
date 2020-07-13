@@ -26,6 +26,7 @@
 
 #include "badgeEditor.hpp"
 #include "coreUtils.hpp"
+#include "itemEditorNL.hpp"
 #include "itemUtils.hpp"
 #include "playerEditorNL.hpp"
 #include "playerManagement.hpp"
@@ -109,10 +110,16 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (this->Selection == 0) {
-			this->Mode = 1;
-		} else if (this->Selection == 1) {
-			Gui::setScreen(std::make_unique<BadgeEditor>(this->player), doFade, true);
+		switch(this->Selection) {
+			case 0:
+				this->Mode = 1;
+				break;
+			case 1:
+				Gui::setScreen(std::make_unique<BadgeEditor>(this->player), doFade, true);
+				break;
+			case 2:
+				Gui::setScreen(std::make_unique<ItemEditorNL>(this->player), doFade, true);
+				break;
 		}
 	}
 	

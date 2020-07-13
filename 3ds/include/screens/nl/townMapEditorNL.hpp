@@ -61,8 +61,6 @@ private:
 	// General Item stuff.
 	u16 itemID = 32766;
 	u16 itemFlag = 0;
-	u32 itemIndex = 0;
-	bool isItemSelection = false;
 	int keyRepeatDelay = 0;
 
 	// Utilities Draw.

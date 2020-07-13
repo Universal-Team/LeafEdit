@@ -27,7 +27,7 @@
 #include "itemManager.hpp"
 #include "itemUtils.hpp"
 #include "keyboard.hpp"
-#include "Sav.hpp"
+#include "overlay.hpp"
 #include "saveUtils.hpp"
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
@@ -35,8 +35,6 @@
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
-extern std::vector<std::pair<u16, std::string>> itemDB;
-extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
@@ -150,7 +148,7 @@ void TownMapEditorNL::DrawGrid(void) const {
 	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
-				GFX::drawGrid(15 + (x*12.5), 20 + (y*12.5), 12.5, 12.5, ItemManager::getColor(MapItems[i]->itemtype()));
+				GFX::drawGrid(15 + (x*12.5), 20 + (y*12.5), 12.5, 12.5, ItemManager::getColor(this->MapItems[i]->itemtype()));
 			}
 		}
 	}
@@ -160,47 +158,48 @@ void TownMapEditorNL::DrawGrid(void) const {
 void TownMapEditorNL::convertToPosition() {
 	int acre = 0;
 
-	if (currentAcre < 5) {
-		PositionX = (16 + (currentAcre * 16)) + currentPosX;
-	} else if (currentAcre > 4 && currentAcre < 10) {
-		PositionX = (16 + ((currentAcre - 5) * 16)) + currentPosX;
-	} else if (currentAcre > 9 && currentAcre < 15) {
-		PositionX = (16 + ((currentAcre - 10) * 16)) + currentPosX;
-	} else if (currentAcre > 14 && currentAcre < 20) {
-		PositionX = (16 + ((currentAcre - 15) * 16)) + currentPosX;
+	if (this->currentAcre < 5) {
+		this->PositionX = (16 + (this->currentAcre * 16)) + this->currentPosX;
+	} else if (this->currentAcre > 4 && this->currentAcre < 10) {
+		this->PositionX = (16 + ((this->currentAcre - 5) * 16)) + this->currentPosX;
+	} else if (currentAcre > 9 && this->currentAcre < 15) {
+		this->PositionX = (16 + ((this->currentAcre - 10) * 16)) + this->currentPosX;
+	} else if (currentAcre > 14 && this->currentAcre < 20) {
+		this->PositionX = (16 + ((this->currentAcre - 15) * 16)) + this->currentPosX;
 	}
 
-	if (currentAcre < 5) {
+	if (this->currentAcre < 5) {
 		acre = 0;
-	} else if (currentAcre > 4 && currentAcre < 10) {
+	} else if (this->currentAcre > 4 && this->currentAcre < 10) {
 		acre = 1;
-	} else if (currentAcre > 9 && currentAcre < 15) {
+	} else if (this->currentAcre > 9 && this->currentAcre < 15) {
 		acre = 2;
-	} else if (currentAcre > 14 && currentAcre < 20) {
+	} else if (this->currentAcre > 14 && this->currentAcre < 20) {
 		acre = 3;
 	}
 
-	PositionY = (16 + acre * 16) + currentPosY;
+	this->PositionY = (16 + acre * 16) + this->currentPosY;
 }
 
 // Convert to the Map Selection.
 void TownMapEditorNL::convertToSelection() {
-	MapSelection = (currentAcre * 256) + (currentPosY * 16) + currentPosX;
+	this->MapSelection = (this->currentAcre * 256) + (this->currentPosY * 16) + this->currentPosX;
 }
 
 // Display a few information on the Top Screen.
 void TownMapEditorNL::DrawInformation() const {
 	for (int i = 0; i < 20; i++) {
-		SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(i)]->id(), townPos[i].x, townPos[i].y);
+		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), townPos[i].x, townPos[i].y);
 	}
+
 	Gui::DrawString(210, 60, 0.7f, BLACK, Lang::get("CURRENT_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 0, font);
-	Gui::DrawString(210, 90, 0.6f, BLACK, Lang::get("CURRENT_ITEM") + MapItems[MapSelection]->name(), 190, 0, font);
-	Gui::drawGrid(townPos[currentAcre].x, townPos[currentAcre].y, townPos[currentAcre].w, townPos[currentAcre].h, BLACK);
+	Gui::DrawString(210, 90, 0.6f, BLACK, Lang::get("CURRENT_ITEM") + this->MapItems[this->MapSelection]->name(), 190, 0, font);
+	Gui::drawGrid(townPos[this->currentAcre].x, townPos[this->currentAcre].y, townPos[this->currentAcre].w, townPos[this->currentAcre].h, BLACK);
 }
 
 // Draw the current Position of the selection.
 void TownMapEditorNL::DrawCurrentPos(void) const {
-	Gui::drawGrid(15 + (currentPosX*12.5), 20 + (currentPosY*12.5), 12.5, 12.5, WHITE);
+	Gui::drawGrid(15 + (this->currentPosX * 12.5), 20 + (this->currentPosY * 12.5), 12.5, 12.5, WHITE);
 }
 
 // Draw Town Map Editor screen.
@@ -212,7 +211,7 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	// Bottom Screen part. Grid & Acre.
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom(true); // We need the full screen.
-	SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(currentAcre)]->id(), 15, 20, 5, 5);
+	SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(this->currentAcre)]->id(), 15, 20, 5, 5);
 	// Draw current Position + Grid.
 	DrawGrid();
 	DrawCurrentPos();
@@ -223,10 +222,11 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	}
 
 	GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
-	if (selectMode == 0) {
-		GFX::DrawGUIBlend(gui_pointer_idx, mainButtons[selection].x+40, mainButtons[selection].y+13);
+
+	if (this->selectMode == 0) {
+		GFX::DrawGUIBlend(gui_pointer_idx, mainButtons[this->selection].x+40, mainButtons[this->selection].y+13);
 	} else {
-		GFX::DrawGUI(gui_pointer_idx, mainButtons[selection].x+40, mainButtons[selection].y+13);
+		GFX::DrawGUI(gui_pointer_idx, mainButtons[this->selection].x+40, mainButtons[this->selection].y+13);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -234,9 +234,9 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 
 // Inject the current Temp Item to a slot.
 void TownMapEditorNL::injectTo(int MapSlot) {
-	if (ItemUtils::getName(itemID) != "???") {
-		MapItems[MapSlot]->id(itemID);
-		MapItems[MapSlot]->flags(itemFlag);
+	if (ItemUtils::getName(this->itemID) != "???") {
+		MapItems[MapSlot]->id(this->itemID);
+		MapItems[MapSlot]->flags(this->itemFlag);
 		changes = true;
 	}
 }
@@ -245,8 +245,8 @@ void TownMapEditorNL::injectTo(int MapSlot) {
 void TownMapEditorNL::remove(u16 ID) {
 	u32 removedAmount = 0;
 	for (int i = 0; i < 5120; i++) {
-		while (MapItems[i]->id() == ID) {
-			MapItems[i]->id(0x7FFE);
+		while (this->MapItems[i]->id() == ID) {
+			this->MapItems[i]->id(0x7FFE);
 			removedAmount++;
 		}
 	}
@@ -261,8 +261,8 @@ void TownMapEditorNL::remove(u16 ID) {
 void TownMapEditorNL::removeWeeds() {
 	u32 removedAmount = 0;
 	for (int i = 0; i < 5120; i++) {
-		while (MapItems[i]->id() == 0x007C || MapItems[i]->id() == 0x007D || MapItems[i]->id() == 0x007E || MapItems[i]->id() == 0x007F) {
-			MapItems[i]->id(0x7FFE);
+		while (this->MapItems[i]->id() == 0x007C || this->MapItems[i]->id() == 0x007D || this->MapItems[i]->id() == 0x007E || this->MapItems[i]->id() == 0x007F) {
+			this->MapItems[i]->id(0x7FFE);
 			removedAmount++;
 		}
 	}
@@ -277,7 +277,7 @@ void TownMapEditorNL::removeWeeds() {
 void TownMapEditorNL::setAll(u16 ID) {
 	if (ItemUtils::getName(ID) != "???") {
 		for (int i = 0; i < 5120; i++) {
-			MapItems[i]->id(ID);
+			this->MapItems[i]->id(ID);
 		}
 
 		changes = true;
@@ -291,8 +291,8 @@ void TownMapEditorNL::setAll(u16 ID) {
 void TownMapEditorNL::waterFlowers() {
 	int wateredAmount = 0;
 	for (int i = 0; i < 5120; i++) {
-		while (MapItems[i]->id() >= 0xCE && MapItems[i]->id() <= 0xF7) {
-			MapItems[i]->id(MapItems[i]->id() - 0x2F);
+		while (this->MapItems[i]->id() >= 0xCE && this->MapItems[i]->id() <= 0xF7) {
+			this->MapItems[i]->id(this->MapItems[i]->id() - 0x2F);
 			wateredAmount++;
 		}
 	}
@@ -308,8 +308,8 @@ void TownMapEditorNL::replace(u16 oldID, u16 newID) {
 	int replacedAmount = 0;
 	if (ItemUtils::getName(newID) != "???") {
 		for (int i = 0; i < 5120; i++) {
-			while (MapItems[i]->id() == oldID) {
-				MapItems[i]->id(newID);
+			while (this->MapItems[i]->id() == oldID) {
+				this->MapItems[i]->id(newID);
 				replacedAmount++;
 			}
 		}
@@ -334,119 +334,112 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 
 	// Switch the select Mode from Town Map Selection to operation selection.
 	if (hDown & KEY_X) {
-		if (selectMode == 0)	selectMode = 1;
-		else					selectMode = 0;
+		if (this->selectMode == 0) this->selectMode = 1;
+		else this->selectMode = 0;
 	}
 
 	// Inject Item and other operations.
 	if (hDown & KEY_A) {
-		if (selectMode == 0) {
-			injectTo(MapSelection);
+		if (this->selectMode == 0) {
+			injectTo(this->MapSelection);
 		} else {
-			if (selection == 0) {
-				Mode = 1; // Acres.
-			} else if (selection == 1) {
-				selection = 0;
-				this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
-				Mode = 2; // Temp Selection.
-			} else if (selection == 2) {
-				removeWeeds();
-			} else if (selection == 3) {
-				waterFlowers();
-			} else if (selection == 4) {
-//				Mode = 3; // Item Misc.
+			switch(this->selection) {
+				case 0:
+					this->Mode = 1; // Acres.
+					break;
+				case 1:
+					this->selection = 0;
+					this->Mode = 2; // Temp Selection.
+					break;
+				case 2:
+					removeWeeds();
+					break;
+				case 3:
+					waterFlowers();
+					break;
+				case 4:
+					// this->Mode = 3; // Item Misc.
+					break;
 			}
 		}
 	}
 
 	// Set current Item to selection.
 	if (hDown & KEY_Y) {
-		if (selectMode == 0) {
-			itemID = MapItems[MapSelection]->id();
-			itemFlag = MapItems[MapSelection]->flags();
+		if (this->selectMode == 0) {
+			this->itemID = this->MapItems[this->MapSelection]->id();
+			this->itemFlag = this->MapItems[this->MapSelection]->flags();
 		}
 	}
-	if (selectMode == 0) {
+
+	if (this->selectMode == 0) {
 		if (hDown & KEY_RIGHT) {
-			if (currentPosX == 15 && currentAcre < 19) {
+			if (this->currentPosX == 15 && this->currentAcre < 19) {
 				// Go one Acre next and reset X to 0.
-				currentAcre++;
-				currentPosX = 0;
+				this->currentAcre++;
+				this->currentPosX = 0;
 				updateStuff();
-			} else if (currentPosX < 15) {
-				currentPosX++;
+			} else if (this->currentPosX < 15) {
+				this->currentPosX++;
 				updateStuff();
 			}
 		}
 
 		if (hDown & KEY_LEFT) {
-			if (currentPosX == 0 && currentAcre > 0) {
+			if (this->currentPosX == 0 && this->currentAcre > 0) {
 				// Go one Acre before.
-				currentAcre--;
-				currentPosX = 15;
+				this->currentAcre--;
+				this->currentPosX = 15;
 				updateStuff();
-			} else if (currentPosX > 0) {
-				currentPosX--;
+			} else if (this->currentPosX > 0) {
+				this->currentPosX--;
 				updateStuff();
 			}
 		}
 
 		if (hDown & KEY_DOWN) {
-			if (currentPosY == 15 && currentAcre < 15) {
+			if (this->currentPosY == 15 && this->currentAcre < 15) {
 				// Go one Acre down & reset Y to 0.
-				currentAcre += 5;
-				currentPosY = 0;
+				this->currentAcre += 5;
+				this->currentPosY = 0;
 				updateStuff();
-			} else if (currentPosY < 15) {
-				currentPosY++;
+			} else if (this->currentPosY < 15) {
+				this->currentPosY++;
 				updateStuff();
 			}
 		}
 
 		if (hDown & KEY_UP) {
-			if (currentPosY == 0 && currentAcre > 4) {
+			if (this->currentPosY == 0 && this->currentAcre > 4) {
 				// Go one Acre up.
-				currentAcre -= 5;
-				currentPosY = 15;
+				this->currentAcre -= 5;
+				this->currentPosY = 15;
 				updateStuff();
-			} else if (currentPosY > 0) {
-				currentPosY--;
+			} else if (this->currentPosY > 0) {
+				this->currentPosY--;
 				updateStuff();
 			}
 		}
+
 	} else {
 		if (hDown & KEY_DOWN) {
-			if (selection < 4)	selection++;
+			if (this->selection < 4) this->selection++;
 		} else if (hDown & KEY_UP) {
-			if (selection > 0)	selection--;
+			if (this->selection > 0) this->selection--;
 		}
 	}
 
 	if (touching(touch, mainButtons[0])) {
-		selection = 0;
-		Mode = 1;
+		this->selection = 0;
+		this->Mode = 1;
 	}
 }
 
 void TownMapEditorNL::DrawTempItem(void) const {
-	std::string itemList;
-	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getName(this->itemID), 390, 0, font);
-
-	for (int i=(this->itemIndex<8) ? 0 : (int)this->itemIndex-8;i<(int)itemDB.size()&&i<(((int)this->itemIndex<8) ? 9 : (int)this->itemIndex+1);i++) {
-		itemList += itemDB[i].second + "\n";
-	}
-	for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
-		itemList += "\n";
-	}
-
-	// Selector Logic.
-	if (this->itemIndex < 9)	GFX::DrawSelector(true, 24 + ((int)this->itemIndex * 21));
-	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(this->itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
+	GFX::DrawTop();
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(tempItemPos[i], 0.8f);
 	}
@@ -454,85 +447,45 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	// We have no other choice.
 	Gui::DrawStringCentered(tempItemPos[0].x - 160 + (tempItemPos[0].xLength/2), tempItemPos[0].y + (tempItemPos[0].yLength/2) - 10, 0.9f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength-17, tempItemPos[0].yLength-5, font);
 	Gui::DrawStringCentered(tempItemPos[1].x - 160 + (tempItemPos[1].xLength/2), tempItemPos[1].y + (tempItemPos[1].yLength/2) - 10, 0.9f, BLACK, "Item Flags: " + std::to_string(this->itemFlag), tempItemPos[1].xLength-17, tempItemPos[1].yLength-5, font);
-	
-	if (!this->isItemSelection) {
-		GFX::DrawGUI(gui_pointer_idx, tempItemPos[selection].x+130, tempItemPos[selection].y+25);
-	}
-
+	GFX::DrawGUI(gui_pointer_idx, tempItemPos[this->selection].x+130, tempItemPos[this->selection].y+25);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
-		selection = 0;
-		Mode = 0;
+		this->selection = 0;
+		this->Mode = 0;
 	}
 
-	if (this->isItemSelection) {
-		if (this->keyRepeatDelay)	this->keyRepeatDelay--;
+	if (hDown & KEY_DOWN) {
+		if (this->selection < 2) this->selection++;
+	}
 
-		if (hHeld & KEY_DOWN && !this->keyRepeatDelay) {
-			if (this->itemIndex < itemDB.size()-1)	this->itemIndex++;
-			else	this->itemIndex = 0;
-			this->keyRepeatDelay = 6;
-		}
+	if (hDown & KEY_UP) {
+		if (this->selection > 0) this->selection--;
+	}
 
-		if (hHeld & KEY_UP && !this->keyRepeatDelay) {
-			if (this->itemIndex > 0)	this->itemIndex--;
-			else if (this->itemIndex == 0)	this->itemIndex = itemDB.size()-1;
-			this->keyRepeatDelay = 6;
-		}
-
-
-		if (hHeld & KEY_RIGHT && !this->keyRepeatDelay) {
-			if ((this->itemIndex + 9) > itemDB.size()-1) {
-				this->itemIndex = itemDB.size()-1;
-			} else {
-				this->itemIndex += 9;
-			}
-			this->keyRepeatDelay = 6;
-		}
-
-		if (hDown & KEY_A) {
-			this->itemID = itemDB[this->itemIndex].first;
-		}
-
-		if (hDown & KEY_X) {
-			this->isItemSelection = false;
-		}
-	} else {
-		if (hDown & KEY_DOWN) {
-			if (selection < 2)	selection++;
-		}
-
-		if (hDown & KEY_UP) {
-			if (selection > 0)	selection--;
-		}
-
-		if (hDown & KEY_A) {
-			switch (selection) {
-				case 0:
-					this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
-					this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
-					break;
-				case 1:
-					this->itemFlag = Input::handleu16(2, Lang::get("ENTER_ITEM_FLAGS"), 99, itemFlag);
-					break;
-				case 2:
-					this->isItemSelection = true;
-					break;
-			}
-		}
-
-		if (hDown & KEY_TOUCH) {
-			if (touching(touch, tempItemPos[0])) {
+	if (hDown & KEY_A) {
+		switch (this->selection) {
+			case 0:
 				this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
-				this->itemIndex = ItemManager::getIndex(this->itemID); // Here we get the Index.
-			} else if (touching(touch, tempItemPos[1])) {
-				this->itemFlag = Input::handleu16(2, Lang::get("ENTER_ITEM_FLAGS"), 99, this->itemFlag);
-			} else if (touching(touch, tempItemPos[2])) {
-				this->isItemSelection = true;
-			}
+				break;
+			case 1:
+				this->itemFlag = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 99, this->itemFlag);
+				break;
+			case 2:
+				this->itemID = Overlays::SelectItem(this->itemID, savesType);
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, tempItemPos[0])) {
+			this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
+		} else if (touching(touch, tempItemPos[1])) {
+			this->itemFlag = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 99, this->itemFlag);
+		} else if (touching(touch, tempItemPos[2])) {
+			this->itemID = Overlays::SelectItem(this->itemID, savesType);
 		}
 	}
 }
@@ -542,30 +495,26 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void TownMapEditorNL::DrawAcres(void) const {
 	DrawTopSelection();
-	if (GodMode) {
-		DrawFullMap();
-	} else {
-		DrawMap();
-	}
+	GodMode ? DrawFullMap() : DrawMap();
 }
 
 // Draw the Full TownMap. [Used by GodMode enabled.]
 void TownMapEditorNL::DrawFullMap(void) const {
 	GFX::DrawBottom(true);
 	for (int i = 0; i < 42; i++) {
-		SpriteManagement::DrawAcres(FullAcres[i]->id(), acreMapPos[i].x, acreMapPos[i].y);
+		SpriteManagement::DrawAcres(this->FullAcres[i]->id(), acreMapPos[i].x, acreMapPos[i].y);
 	}
 
 	// Draw Grid.
 	for (int i = 0; i < 42; i++) {
 		for (u32 y = 0; y < 6; y++) {
 			for (u32 x = 0; x < 7; x++, i++) {
-				Gui::drawGrid(20 + (x*40), 0 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
+				Gui::drawGrid(20 + (x * 40), 0 + (y * 40), 40, 40, C2D_Color32(40, 40, 40, 160));
 			}
 		}
 	}
 
-	GFX::DrawGUI(gui_pointer_idx, acreMapPos[selection].x+20, acreMapPos[selection].y+20);
+	GFX::DrawGUI(gui_pointer_idx, acreMapPos[this->selection].x+20, acreMapPos[this->selection].y+20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -573,7 +522,7 @@ void TownMapEditorNL::DrawFullMap(void) const {
 void TownMapEditorNL::DrawMap(void) const {
 	GFX::DrawBottom(true);
 	for (int i = 0; i < 20; i++) {
-		SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(i)]->id(), acreTownPos[i].x, acreTownPos[i].y);
+		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), acreTownPos[i].x, acreTownPos[i].y);
 	}
 
 	// Draw Grid.
@@ -585,7 +534,7 @@ void TownMapEditorNL::DrawMap(void) const {
 		}
 	}
 
-	GFX::DrawGUI(gui_pointer_idx, acreTownPos[selection].x+20, acreTownPos[selection].y+20);
+	GFX::DrawGUI(gui_pointer_idx, acreTownPos[this->selection].x+20, acreTownPos[this->selection].y+20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -594,30 +543,30 @@ void TownMapEditorNL::DrawTopSelection(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400, 0, font);
 	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, Lang::get("ACRE_ID") + std::to_string(selectedAcre), 400, 0, font);
-	if (selectedAcre == 0) {
-		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
-		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre+2, 350, 100, 1, 1);
-	} else if (selectedAcre == 1) {
-		SpriteManagement::DrawAcres(selectedAcre-1, 60, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
-		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre+2, 350, 100, 1, 1);
-	} else if (selectedAcre == maxAcres-1) {
-		SpriteManagement::DrawAcres(selectedAcre-2, 10, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre-1, 60, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
-		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
-	} else if (selectedAcre == maxAcres) {
-		SpriteManagement::DrawAcres(selectedAcre-2, 10, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre-1, 60, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+	if (this->selectedAcre == 0) {
+		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre+2, 350, 100, 1, 1);
+	} else if (this->selectedAcre == 1) {
+		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre+2, 350, 100, 1, 1);
+	} else if (this->selectedAcre == this->maxAcres-1) {
+		SpriteManagement::DrawAcres(this->selectedAcre-2, 10, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
+	} else if (this->selectedAcre == this->maxAcres) {
+		SpriteManagement::DrawAcres(this->selectedAcre-2, 10, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 	} else {
-		SpriteManagement::DrawAcres(selectedAcre-2, 10, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre-1, 60, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
-		SpriteManagement::DrawAcres(selectedAcre+1, 300, 100, 1, 1);
-		SpriteManagement::DrawAcres(selectedAcre+2, 350, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre-2, 10, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
+		SpriteManagement::DrawAcres(this->selectedAcre+2, 350, 100, 1, 1);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -627,18 +576,18 @@ void TownMapEditorNL::DrawTopSelection(void) const {
 void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Go back to the Town Map Editor.
 	if (hDown & KEY_B) {
-		selection = 0;
-		Mode = 0;
+		this->selection = 0;
+		this->Mode = 0;
 	}
 
 	// Set Top Acre to Selection.
 	if (hDown & KEY_A) {
-		if (selectedAcre < 182 || selectedAcre > 205) {
+		if (this->selectedAcre < 182 || this->selectedAcre > 205) {
 			if (GodMode) {
-				FullAcres[selection]->id(selectedAcre);
+				this->FullAcres[this->selection]->id(this->selectedAcre);
 				changes = true;
 			} else {
-				FullAcres[SelectionToAcre(selection)]->id(selectedAcre);
+				this->FullAcres[SelectionToAcre(this->selection)]->id(this->selectedAcre);
 				changes = true;
 			}
 		}
@@ -647,84 +596,85 @@ void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Display Selection on Top Acre.
 	if (hDown & KEY_Y) {
 		if (GodMode) {
-			selectedAcre = FullAcres[selection]->id();
+			this->selectedAcre = this->FullAcres[this->selection]->id();
 		} else {
-			selectedAcre = FullAcres[SelectionToAcre(selection)]->id();
+			this->selectedAcre = this->FullAcres[SelectionToAcre(this->selection)]->id();
 		}
 	}
 
 	if (hDown & KEY_DOWN) {
 		if (GodMode) {
-			if (selection < 35)	selection += 7;
+			if (this->selection < 35) this->selection += 7;
 		} else {
-			if (selection < 15)	selection += 5;
+			if (this->selection < 15) this->selection += 5;
 		}	
 	}
 
 	if (hDown & KEY_UP) {
 		if (GodMode) {
-			if (selection > 6)	selection -= 7;
+			if (this->selection > 6) this->selection -= 7;
 		} else {
-			if (selection > 4)	selection -= 5;
+			if (this->selection > 4) this->selection -= 5;
 		}
 	}
 
 	if (hDown & KEY_RIGHT) {
 		if (GodMode) {
-			if (selection < 41)	selection++;
+			if (this->selection < 41) this->selection++;
 		} else {
-			if (selection < 19)	selection++;
+			if (this->selection < 19) this->selection++;
 		}
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (selection > 0)	selection--;
+		if (this->selection > 0) this->selection--;
 	}
 
 	// Top Screen Acre Selection.
 	// Faster Scroll Mode.
-	if (FastMode) {
+	if (this->FastMode) {
 		if (keysHeld() & KEY_L) {
-			if (selectedAcre > 0) {
-				selectedAcre--;
+			if (this->selectedAcre > 0) {
+				this->selectedAcre--;
 			}
 		}
 		
 		if (keysHeld() & KEY_R) {
-			if (selectedAcre < maxAcres) {
-				selectedAcre++;
+			if (this->selectedAcre < this->maxAcres) {
+				this->selectedAcre++;
 			}
 		}
 		// Normal speed. (1 by 1.)
 	} else {
 		if (hDown & KEY_L) {
-			if (selectedAcre > 0) {
-				selectedAcre--;
+			if (this->selectedAcre > 0) {
+				this->selectedAcre--;
 			}
 		}
+
 		if (hDown & KEY_R) {
-			if (selectedAcre < maxAcres) {
-				selectedAcre++;
+			if (this->selectedAcre < this->maxAcres) {
+				this->selectedAcre++;
 			}
 		}
 	}
 
 	if (hDown & KEY_START) {
-		if (FastMode)	FastMode = false;
-		else	FastMode = true;
+		if (this->FastMode) this->FastMode = false;
+		else this->FastMode = true;
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (GodMode) {
 			for (int i = 0; i < 42; i++) {
 				if (iconTouch(touch, acreMapPos[i])) {
-					selection = i;
+					this->selection = i;
 				}
 			}
 		} else {
 			for (int i = 0; i < 20; i++) {
 				if (iconTouch(touch, acreTownPos[i])) {
-					selection = i;
+					this->selection = i;
 				}
 			}
 		}

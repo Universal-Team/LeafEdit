@@ -25,22 +25,16 @@
 */
 
 #include "itemManager.hpp"
-#include "itemUtils.hpp"
-#include "Sav.hpp"
-#include "screenCommon.hpp"
+#include "overlay.hpp"
 #include "spriteManagement.hpp"
 #include "villagerEditorWW.hpp"
-#include "villagerSelection.hpp"
 
-extern std::unique_ptr<Overlay> overlay;
 extern std::vector<std::string> g_villagerDatabase;
 extern std::vector<std::string> g_personality;
 extern bool touching(touchPosition touch, ButtonType button);
-extern std::vector<std::pair<u16, std::string>> itemDB;
-extern std::shared_ptr<Sav> save;
 
 void VillagerEditorWW::Draw(void) const {
-	if (villagerMode == 0) {
+	if (this->villagerMode == 0) {
 		DrawSubMenu();
 	} else {
 		DrawItems();
@@ -52,7 +46,7 @@ const std::string getPersonality(u8 personality) {
 }
 
 void VillagerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (villagerMode == 0) {
+	if (this->villagerMode == 0) {
 		subLogic(hDown, hHeld, touch);
 	} else {
 		ItemLogic(hDown, hHeld, touch);
@@ -69,6 +63,7 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
@@ -80,30 +75,30 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Selection.
 	if (hDown & KEY_UP) {
-		if (Selection > 0)	Selection--;
+		if (this->Selection > 0) this->Selection--;
 	}
 	
 	if (hDown & KEY_DOWN) {
-		if (Selection < 5)	Selection++;
+		if (this->Selection < 5) this->Selection++;
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if (Selection < 3) {
-			Selection += 3;
+		if (this->Selection < 3) {
+			this->Selection += 3;
 		}
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (Selection < 6 && Selection > 2) {
-			Selection -= 3;
+		if (this->Selection < 6 && this->Selection > 2) {
+			this->Selection -= 3;
 		}
 	}
 
 	if (hDown & KEY_A) {
 		u8 tempSelect = 0;
-		switch (Selection) {
+		switch (this->Selection) {
 			case 0:
-				overlay = std::make_unique<VillagerSelection>(this->villager, SaveType::WW);
+				this->villager->id((u8)Overlays::SelectVillager(this->villager->id(), SaveType::WW));
 				break;
 			case 1:
 				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
@@ -112,17 +107,17 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 2:
 				// Get Furniture Items.
 				for (int i = 0; i < 10; i++) {
-					this->villagerItems[i] = villager->furniture(i);
+					this->villagerItems[i] = this->villager->furniture(i);
 				}
 
 				// Get other stuff.
-				this->villagerItems[10] = villager->wallpaper();
-				this->villagerItems[11] = villager->carpet();
-				this->villagerItems[12] = villager->song();
-				this->villagerItems[13] = villager->shirt();
-				this->villagerItems[14] = villager->umbrella();
+				this->villagerItems[10] = this->villager->wallpaper();
+				this->villagerItems[11] = this->villager->carpet();
+				this->villagerItems[12] = this->villager->song();
+				this->villagerItems[13] = this->villager->shirt();
+				this->villagerItems[14] = this->villager->umbrella();
 
-				villagerMode = 1;
+				this->villagerMode = 1;
 				break;
 		}
 	}
@@ -134,26 +129,10 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void VillagerEditorWW::DrawItems(void) const {
-	std::string itemList;
-	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getName(this->villagerItems[itemSelection]->id()), 390, 0, font);
-
-	for (int i=(itemIndex<8) ? 0 : (int)itemIndex-8;i<(int)itemDB.size()&&i<(((int)itemIndex<8) ? 9 : (int)itemIndex+1);i++) {
-		itemList += itemDB[i].second + "\n";
-	}
-
-	for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
-		itemList += "\n";
-	}
-
-	// Selector Logic.
-	if (itemIndex < 9)	GFX::DrawSelector(true, 24 + ((int)itemIndex * 21));
-	else				GFX::DrawSelector(true, 24 + (8 * 21));
-	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(itemIndex + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
+	GFX::DrawTop();
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 15; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
@@ -163,66 +142,31 @@ void VillagerEditorWW::DrawItems(void) const {
 }
 
 void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (keyRepeatDelay)	keyRepeatDelay--;
+	if (this->keyRepeatDelay) this->keyRepeatDelay--;
 
-	if (hDown & KEY_SELECT) {
-		if (isList)	isList = false;
-		else		isList = true;
+	if (hDown & KEY_A) {
+		this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), SaveType::WW));
 	}
 
-	if (isList) {
-		if (hHeld & KEY_DOWN && !keyRepeatDelay) {
-			if (itemIndex < itemDB.size()-1)	itemIndex++;
-			else	itemIndex = 0;
-			keyRepeatDelay = 6;
+	if (hHeld & KEY_RIGHT && !this->keyRepeatDelay) {
+		if (this->itemSelection < 14) {
+			this->itemSelection++;
+			this->keyRepeatDelay = 6;
 		}
+	}
 
-		if (hHeld & KEY_UP && !keyRepeatDelay) {
-			if (itemIndex > 0)	itemIndex--;
-			else if (itemIndex == 0)	itemIndex = itemDB.size()-1;
-			keyRepeatDelay = 6;
+	if (hHeld & KEY_LEFT && !this->keyRepeatDelay) {
+		if (this->itemSelection > 0) {
+			this->itemSelection--;
+			this->keyRepeatDelay = 6;
 		}
+	}
 
-
-		if (hHeld & KEY_RIGHT && !keyRepeatDelay) {
-			if ((itemIndex + 9) > itemDB.size()-1) {
-				itemIndex = itemDB.size()-1;
-			} else {
-				itemIndex += 9;
-			}
-			
-			keyRepeatDelay = 6;
-		}
-
-		if (hDown & KEY_A) {
-			this->villagerItems[itemSelection]->id(itemDB[itemIndex].first);
-			changes = true;
-		}
-	} else {
-		if (hHeld & KEY_RIGHT && !keyRepeatDelay) {
-			if (itemSelection < 14) {
-				itemSelection++;
-				keyRepeatDelay = 6;
-			}
-		}
-
-		if (hHeld & KEY_LEFT && !keyRepeatDelay) {
-			if (itemSelection > 0) {
-				itemSelection--;
-				keyRepeatDelay = 6;
-			}
-		}
-
-		if (hDown & KEY_B) {
-			villagerMode = 0;
-			// Reset Items to nullptr.
-			for (int i = 0; i < 15; i++) {
-				this->villagerItems[i] = nullptr;
-			}
-		}
-
-		if (hDown & KEY_Y) {
-			itemIndex = ItemManager::getIndex(this->villagerItems[itemSelection]->id());
+	if (hDown & KEY_B) {
+		this->villagerMode = 0;
+		// Reset Items to nullptr.
+		for (int i = 0; i < 15; i++) {
+			this->villagerItems[i] = nullptr;
 		}
 	}
 }

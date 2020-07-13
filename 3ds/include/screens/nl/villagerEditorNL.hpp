@@ -41,7 +41,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	VillagerEditorNL(std::shared_ptr<Villager> v): villager(v) { }
 private:
-	std::unique_ptr<Item> villagerItems[20];
+	std::shared_ptr<Item> villagerItems[20];
 	std::shared_ptr<Villager> villager;
 	int villagerMode = 0;
 	int Selection = 0;

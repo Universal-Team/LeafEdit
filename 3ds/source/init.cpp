@@ -257,7 +257,8 @@ Result Init::MainLoop() {
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		Gui::clearTextBufs();
-		GFX::Main(hDown, hHeld, touch);
+		Gui::DrawScreen(true);
+		Gui::ScreenLogic(hDown, hHeld, touch, doFade, true);
 		C3D_FrameEnd(0);
 		
 		if (exiting || Is3dsxUpdated) {

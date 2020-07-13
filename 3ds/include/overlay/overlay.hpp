@@ -27,17 +27,12 @@
 #ifndef _LEAFEDIT_OVERLAY_HPP
 #define _LEAFEDIT_OVERLAY_HPP
 
-#include "screenCommon.hpp"
+#include "common.hpp"
+#include "coreUtils.hpp"
 
-#include <memory>
-
-class Overlay {
-public:
-	virtual ~Overlay() {}
-	virtual void DrawOverlayTop(void) const = 0;
-	virtual void DrawOverlayBottom(void) const = 0;
-	virtual void Logic(u32 hDown, u32 hHeld, touchPosition touch) = 0;
-	bool isUsed = false;
-};
+namespace Overlays {
+	u16 SelectVillager(u16 oldID, const SaveType st);
+	u16 SelectItem(u16 oldID, const SaveType st, const bool blockInv = false);
+}
 
 #endif

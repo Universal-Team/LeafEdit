@@ -41,16 +41,10 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	VillagerEditorWW(std::shared_ptr<Villager> v): villager(v) { }
 private:
-	std::unique_ptr<Item> villagerItems[15];
-	int villagerMode = 0;
-	int Selection = 0;
-	int itemSelection = 0;
-	u32 itemIndex = 0;
-	bool isList = false; // If scrolling the list.
-
-	int keyRepeatDelay = 0;
-	u16 itemID = 0;
 	std::shared_ptr<Villager> villager;
+	std::shared_ptr<Item> villagerItems[15];
+	int villagerMode = 0, Selection = 0, itemSelection = 0, keyRepeatDelay = 0;
+	
 	void DrawSubMenu(void) const;
 	void DrawItems(void) const;
 	void DrawBox(void) const;
