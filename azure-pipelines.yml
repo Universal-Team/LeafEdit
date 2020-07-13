@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, rework]
+    exclude: [translation, overlays]
   tags:
     include: ['*']
 
