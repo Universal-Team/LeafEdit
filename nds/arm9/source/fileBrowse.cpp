@@ -58,7 +58,7 @@ bool nameEndsWith(const std::string &name, const std::vector<std::string> &exten
 
 	if (extensionList.size() == 0) return true;
 
-	for(int i = 0; i <(int)extensionList.size(); i++) {
+	for(int i = 0; i < (int)extensionList.size(); i++) {
 		const std::string ext = extensionList.at(i);
 		if(strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
 	}
@@ -220,14 +220,14 @@ bool updateSlot1Text(int &cardWait, bool valid) {
 }
 
 void showTopMenu(std::vector<topMenuItem> topMenuContents) {
-	for(unsigned i=0;i<ENTRIES_PER_SCREEN;i++) {
+	for(unsigned i = 0; i < ENTRIES_PER_SCREEN; i++) {
 		// Clear row
 		drawRectangle(10, (i+1)*16, 246, 16, CLEAR, false, true);
 
-		if (i<topMenuContents.size()) {
-			if(topMenuContents[i+tmScreenOffset].name == "fat:")	drawFatText(i, topMenuContents[i+tmScreenOffset].valid);
-			else if(topMenuContents[i+tmScreenOffset].name == "sd:")	drawSdText(i, topMenuContents[i+tmScreenOffset].valid);
-			else if(topMenuContents[i+tmScreenOffset].name == Lang::get("CARD"))	drawSlot1Text(i, topMenuContents[i+tmScreenOffset].valid);
+		if (i < topMenuContents.size() ) {
+			if (topMenuContents[i+tmScreenOffset].name == "fat:") drawFatText(i, topMenuContents[i+tmScreenOffset].valid);
+			else if (topMenuContents[i+tmScreenOffset].name == "sd:") drawSdText(i, topMenuContents[i+tmScreenOffset].valid);
+			else if (topMenuContents[i+tmScreenOffset].name == Lang::get("CARD")) drawSlot1Text(i, topMenuContents[i+tmScreenOffset].valid);
 			else {
 				std::u16string name = StringUtils::UTF8toUTF16(topMenuContents[i+tmScreenOffset].name);
 				name = name.substr(name.find_last_of(StringUtils::UTF8toUTF16("/"))+1); // Remove path to the file
@@ -239,7 +239,7 @@ void showTopMenu(std::vector<topMenuItem> topMenuContents) {
 					addEllipsis = true;
 				}
 
-				if (addEllipsis)	name += StringUtils::UTF8toUTF16("...");
+				if (addEllipsis) name += StringUtils::UTF8toUTF16("...");
 
 				printTextTinted(name, topMenuContents[i+tmScreenOffset].valid ? TextColor::white : TextColor::red, 10, i*16+16, false, true);
 			}
@@ -248,7 +248,7 @@ void showTopMenu(std::vector<topMenuItem> topMenuContents) {
 }
 
 std::string topMenuSelect(void) {
-	int pressed, held;
+	int hDown, hHeld;
 	touchPosition touch;
 
 	// Clear text
@@ -280,7 +280,7 @@ std::string topMenuSelect(void) {
 	}
 
 	int cardWait = 0;
-	if (!flashcardFound())	topMenuContents[tmSlot1Offset].valid = updateSlot1Text(cardWait, topMenuContents[tmSlot1Offset].valid);
+	if (!flashcardFound()) topMenuContents[tmSlot1Offset].valid = updateSlot1Text(cardWait, topMenuContents[tmSlot1Offset].valid);
 
 	// Show topMenuContents.
 	showTopMenu(topMenuContents);
@@ -296,30 +296,30 @@ std::string topMenuSelect(void) {
 		do {
 			swiWaitForVBlank();
 			scanKeys();
-			pressed = keysDown();
-			held = keysDownRepeat();
+			hDown = keysDown();
+			hHeld = keysDownRepeat();
 
-			if(!flashcardFound()) {
+			if (!flashcardFound()) {
 				if(tmScreenOffset <= tmSlot1Offset) {
 					topMenuContents[tmSlot1Offset].valid = updateSlot1Text(cardWait, topMenuContents[tmSlot1Offset].valid);
 				}
 			}
 
-		} while(!held);
+		} while(!hHeld);
 
-		if (held & KEY_UP) {
-			if(tmCurPos > 0)	tmCurPos -= 1;
-			else	tmCurPos = topMenuContents.size()-1;
-		} else if (held & KEY_DOWN) {
+		if (hHeld & KEY_UP) {
+			if (tmCurPos > 0) tmCurPos -= 1;
+			else tmCurPos = topMenuContents.size()-1;
+		} else if (hHeld & KEY_DOWN) {
 			if (tmCurPos < (int)topMenuContents.size()-1)	tmCurPos += 1;
 			else	tmCurPos = 0;
-		} else if (held & KEY_LEFT) {
+		} else if (hHeld & KEY_LEFT) {
 			tmCurPos -= ENTRY_PAGE_LENGTH;
 			if (tmCurPos < 0)	tmCurPos = 0;
-		} else if (held & KEY_RIGHT) {
+		} else if (hHeld & KEY_RIGHT) {
 			tmCurPos += ENTRY_PAGE_LENGTH;
 			if (tmCurPos > (int)topMenuContents.size()-1)	tmCurPos = topMenuContents.size()-1;
-		} else if (pressed & KEY_A) {
+		} else if (hDown & KEY_A) {
 			selection:
 			if (topMenuContents[tmCurPos].name == "fat:") {
 				chdir("fat:/");
@@ -338,7 +338,7 @@ std::string topMenuSelect(void) {
 				showTopMenuOnExit = 1;
 				return topMenuContents[tmCurPos].name;
 			}
-		} else if (pressed & KEY_X) {
+		} else if (hDown & KEY_X) {
 			Sound::play(Sound::click);
 			if ((topMenuContents[tmCurPos].name != "fat:") && (topMenuContents[tmCurPos].name != "sd:") && (topMenuContents[tmCurPos].name != Lang::get("CARD"))) {
 				if (Input::getBool(Lang::get("REMOVE"), Lang::get("CANCEL"))) {
@@ -363,7 +363,7 @@ std::string topMenuSelect(void) {
 
 				showTopMenu(topMenuContents);
 			}
-		} else if (pressed & KEY_TOUCH) {
+		} else if (hDown & KEY_TOUCH) {
 			touchRead(&touch);
 			for(int i=0;i<std::min(ENTRIES_PER_SCREEN, (int)topMenuContents.size());i++) {
 				if (touch.py > (i+1)*16 && touch.py < (i+2)*16) {
@@ -382,7 +382,7 @@ std::string topMenuSelect(void) {
 			showTopMenu(topMenuContents);
 		}
 
-		if (held & KEY_UP || held & KEY_DOWN || held & KEY_LEFT || held & KEY_RIGHT || pressed & KEY_X) {
+		if (hHeld & KEY_UP || hHeld & KEY_DOWN || hHeld & KEY_LEFT || hHeld & KEY_RIGHT || hDown & KEY_X) {
 			// Clear the path area of the screen
 			drawRectangle(0, 0, 256, 16, CLEAR, false, true);
 
@@ -396,8 +396,8 @@ std::string topMenuSelect(void) {
 
 std::string browseForFile(const std::vector<std::string>& extensionList, bool accessSubdirectories, bool canChooseDirs) {
 	char startPath[PATH_MAX];
-	if(!accessSubdirectories)	getcwd(startPath, PATH_MAX);
-	int pressed, held, screenOffset = 0, fileOffset = 0;
+	if (!accessSubdirectories) getcwd(startPath, PATH_MAX);
+	int hDown, hHeld, screenOffset = 0, fileOffset = 0;
 	touchPosition touch;
 	std::vector<DirEntry> dirContents;
 
@@ -419,23 +419,23 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 		do {
 			swiWaitForVBlank();
 			scanKeys();
-			pressed = keysDown();
-			held = keysDownRepeat();
-		} while(!held);
+			hDown = keysDown();
+			hHeld = keysDownRepeat();
+		} while(!hHeld);
 
-		if (held & KEY_UP) {
-			if (fileOffset > 0)	fileOffset -= 1;
-			else	fileOffset = dirContents.size()-1;
-		} else if (held & KEY_DOWN) {
+		if (hHeld & KEY_UP) {
+			if (fileOffset > 0) fileOffset -= 1;
+			else fileOffset = dirContents.size()-1;
+		} else if (hHeld & KEY_DOWN) {
 			if (fileOffset < (int)dirContents.size()-1)	fileOffset += 1;
 			else	fileOffset = 0;
-		} else if (held & KEY_LEFT) {
+		} else if (hHeld & KEY_LEFT) {
 			fileOffset -= ENTRY_PAGE_LENGTH;
 			if (fileOffset < 0)	fileOffset = 0;
-		} else if (held & KEY_RIGHT) {
+		} else if (hHeld & KEY_RIGHT) {
 			fileOffset += ENTRY_PAGE_LENGTH;
 			if (fileOffset > (int)dirContents.size()-1)	fileOffset = dirContents.size()-1;
-		} else if (pressed & KEY_A) {
+		} else if (hDown & KEY_A) {
 			selection:
 			DirEntry* entry = &dirContents.at(fileOffset);
 			if (entry->isDirectory && !canChooseDirs) {
@@ -455,7 +455,7 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 				// Return the chosen file
 				return entry->name;
 			}
-		} else if (pressed & KEY_B) {
+		} else if (hDown & KEY_B) {
 			// Don't go up directory if in the start directory
 			char path[PATH_MAX];
 			getcwd(path, PATH_MAX);
@@ -476,7 +476,7 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 			screenOffset = 0;
 			fileOffset = 0;
 			showDirectoryContents(dirContents, screenOffset);
-		} else if (pressed & KEY_Y && !dirContents[fileOffset].isDirectory && accessSubdirectories) { // accessSubdirectory check is a hack to make it not trigger except in save selection.
+		} else if (hDown & KEY_Y && !dirContents[fileOffset].isDirectory && accessSubdirectories) { // accessSubdirectory check is a hack to make it not trigger except in save selection.
 			if (CoreUtils::loadSave(dirContents[fileOffset].name)) {
 				Sound::play(Sound::click);
 				char path[PATH_MAX];
@@ -489,9 +489,9 @@ std::string browseForFile(const std::vector<std::string>& extensionList, bool ac
 					fclose(favs);
 				}
 			}
-		} else if(pressed & KEY_TOUCH) {
+		} else if(hDown & KEY_TOUCH) {
 			touchRead(&touch);
-			for(int i=0;i<std::min(ENTRIES_PER_SCREEN, (int)dirContents.size());i++) {
+			for(int i = 0; i < std::min(ENTRIES_PER_SCREEN, (int)dirContents.size()); i++) {
 				if (touch.py > (i+1)*16 && touch.py < (i+2)*16) {
 					fileOffset = i;
 					goto selection;
@@ -514,7 +514,7 @@ std::string browseForSave(void) {
 	if(showTopMenuOnExit) {
 		showTopMenuOnExit = 0;
 		std::string str = topMenuSelect();
-		if (str != "")	return str;
+		if (str != "") return str;
 	}
 
 	// Clear text
@@ -527,7 +527,7 @@ std::string browseForSave(void) {
 	std::vector<std::string> extensionList;
 	extensionList.push_back("sav");
 	char sav[6];
-	for(int i=1;i<10;i++) {
+	for(int i = 1; i < 10; i++) {
 		snprintf(sav, sizeof(sav), "sav%i", i);
 		extensionList.push_back(sav);
 	}

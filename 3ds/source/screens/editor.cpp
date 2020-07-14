@@ -25,21 +25,17 @@
 */
 
 #include "editor.hpp"
-#include "fileBrowse.hpp"
 #include "init.hpp"
 #include "itemUtils.hpp"
 #include "lang.hpp"
-
+#include "overlay.hpp"
 #include "playerSelector.hpp"
-
 #include "pluginScreen.hpp"
 #include "saveUtils.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
-
 #include "townMapEditorNL.hpp"
 #include "townMapEditorWW.hpp"
-
 #include "villagerViewerNL.hpp"
 #include "villagerViewerWW.hpp"
 
@@ -114,7 +110,7 @@ bool Editor::loadSave() {
 }
 
 void Editor::SaveInitialize() {
-	saveName = SaveBrowse::searchForSave({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
+	saveName = Overlays::SelectFile({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
 	// If User canceled, go screen back.
 	if (saveName == "") {
 		Gui::screenBack(doFade);

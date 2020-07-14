@@ -24,16 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ITEMMANAGER_HPP
-#define ITEMMANAGER_HPP
+#ifndef _LEAFEDIT_OVERLAY_HPP
+#define _LEAFEDIT_OVERLAY_HPP
 
-#include "Item.hpp"
-
-#include <nds.h>
+#include "coreUtils.hpp"
 #include <string>
 
-namespace ItemManager {
-	u8 getColor(ItemType item);
+namespace Overlays {
+    u16 SelectItem(u16 oldID, bool showPointer = false);
+    std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, bool showPointer = false);
 }
 
 #endif

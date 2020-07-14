@@ -29,6 +29,7 @@
 #include "itemUtils.hpp"
 #include "gui.hpp"
 #include "input.hpp"
+#include "overlay.hpp"
 #include "townMapEditor.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -44,7 +45,7 @@ TownMapEditor::TownMapEditor() {
 	}
 
 	// Initialize Temp Item.
-	TempItem = 65521;
+	this->TempItem = 65521;
 }
 
 void TownMapEditor::DrawTempItem() const {
@@ -53,6 +54,7 @@ void TownMapEditor::DrawTempItem() const {
 	printTextCentered(Lang::get("ITEM_NAME") + ItemUtils::getName(this->TempItem), 0, 50, true, true);
 	printTextCentered(Lang::get("ITEM_ID") + std::to_string(this->TempItem), 0, 80, true, true);
 	Gui::DrawBottom(true);
+
 	for (int i = 0; i < 3; i++) {
 		drawRectangle(TempPos[i].x, TempPos[i].y, TempPos[i].w, TempPos[i].h, GRAY, false, true);
 	}
@@ -102,7 +104,7 @@ void TownMapEditor::DrawTownMapEditor() const {
 }
 
 int TownMapEditor::SelectionToAcre() const {
-	switch(currentAcre) {
+	switch(this->currentAcre) {
 		case 0:
 			return 7;
 			break;
@@ -157,7 +159,7 @@ int TownMapEditor::SelectionToAcre() const {
 }
 
 void TownMapEditor::DrawPosition(void) const {
-	drawOutline(10 + (currentPosX*10), 15 + (currentPosY*10), 10, 10, LIGHT_GRAY, false, true);
+	drawOutline(10 + (this->currentPosX * 10), 15 + (this->currentPosY * 10), 10, 10, LIGHT_GRAY, false, true);
 }
 
 // Max Position: 63x63. Cause 16x4 -1 (cause of 0) -> 63.
@@ -182,7 +184,7 @@ void TownMapEditor::DrawMain(void) const {
 }
 
 void TownMapEditor::Draw(void) const {
-	if (Mode == 0) {
+	if (this->Mode == 0) {
 		DrawMain();
 	} else {
 		DrawTempItem();
@@ -208,7 +210,7 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		injectTo(MapSelection);
+		injectTo(this->MapSelection);
 	}
 
 	if (hDown & KEY_Y) {
@@ -216,17 +218,17 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (held & KEY_RIGHT) {
-		if (currentPosX == 15 && currentAcre < 15) {
+		if (this->currentPosX == 15 && this->currentAcre < 15) {
 			// Go one Acre next and reset X to 0.
-			currentAcre++;
-			currentPosX = 0;
+			this->currentAcre++;
+			this->currentPosX = 0;
 			convertToSelection();
 			updateAcreImage();
 			convertToPosition();
 			updateBottomGrid();
 			updateTopGrid();
-		} else if (currentPosX < 15) {
-			currentPosX++;
+		} else if (this->currentPosX < 15) {
+			this->currentPosX++;
 			convertToSelection();
 			convertToPosition();
 			updateBottomGrid();
@@ -235,17 +237,17 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (held & KEY_LEFT) {
-		if (currentPosX == 0 && currentAcre > 0) {
+		if (this->currentPosX == 0 && this->currentAcre > 0) {
 			// Go one Acre before.
-			currentAcre--;
-			currentPosX = 15;
+			this->currentAcre--;
+			this->currentPosX = 15;
 			convertToSelection();
 			updateAcreImage();
 			convertToPosition();
 			updateBottomGrid();
 			updateTopGrid();
-		} else if (currentPosX > 0) {
-			currentPosX--;
+		} else if (this->currentPosX > 0) {
+			this->currentPosX--;
 			convertToSelection();
 			convertToPosition();
 			updateBottomGrid();
@@ -254,17 +256,17 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (held & KEY_DOWN) {
-		if (currentPosY == 15 && currentAcre < 12) {
+		if (this->currentPosY == 15 && this->currentAcre < 12) {
 			// Go one Acre down & reset Y to 0.
-			currentAcre += 4;
-			currentPosY = 0;
+			this->currentAcre += 4;
+			this->currentPosY = 0;
 			convertToSelection();
 			updateAcreImage();
 			convertToPosition();
 			updateBottomGrid();
 			updateTopGrid();
-		} else if (currentPosY < 15) {
-			currentPosY++;
+		} else if (this->currentPosY < 15) {
+			this->currentPosY++;
 			convertToSelection();
 			convertToPosition();
 			updateBottomGrid();
@@ -273,17 +275,17 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 	}
 
 	if (held & KEY_UP) {
-		if (currentPosY == 0 && currentAcre > 3) {
+		if (this->currentPosY == 0 && this->currentAcre > 3) {
 			// Go one Acre up.
-			currentAcre -= 4;
-			currentPosY = 15;
+			this->currentAcre -= 4;
+			this->currentPosY = 15;
 			convertToSelection();
 			updateAcreImage();
 			convertToPosition();
 			updateBottomGrid();
 			updateTopGrid();
-		} else if (currentPosY > 0) {
-			currentPosY--;
+		} else if (this->currentPosY > 0) {
+			this->currentPosY--;
 			convertToSelection();
 			convertToPosition();
 			updateBottomGrid();
@@ -293,10 +295,10 @@ void TownMapEditor::MainLogic(u16 hDown, touchPosition touch) {
 }
 
 void TownMapEditor::TempLogic(u16 hDown, touchPosition touch) {
-	Gui::updatePointer(TempPos[selection].x+60, TempPos[selection].y+12);
+	Gui::updatePointer(TempPos[this->selection].x+60, TempPos[this->selection].y+12);
 
 	if (hDown & KEY_B) {
-		Mode = 0;
+		this->Mode = 0;
 		Gui::DrawScreen();
 		Gui::hidePointer();
 	}
@@ -304,27 +306,27 @@ void TownMapEditor::TempLogic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (selection == 0) {
 			int ID = Input::getInt(Lang::get("ENTER_DECIMAL_ID"), 99999);
-			if(ID != -1) {
+			if (ID != -1) {
 				this->TempItem = ID;
 				Gui::DrawScreen();
 			}
-		} else if (selection == 1) {
+		} else if (this->selection == 1) {
 			Gui::clearScreen(true, true);
-			this->TempItem = ItemManager::selectItem(this->TempItem, Lang::get("SELECT_ITEM"));
+			this->TempItem = Overlays::SelectItem(this->TempItem);
 			Gui::DrawScreen();
 		}
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (selection < 2) {
-			selection++;
+		if (this->selection < 2) {
+			this->selection++;
 			selected = true;
 		}
 	}
 
 	if (hDown & KEY_UP) {
-		if (selection > 0) {
-			selection--;
+		if (this->selection > 0) {
+			this->selection--;
 			selected = true;
 		}
 	}
@@ -332,7 +334,7 @@ void TownMapEditor::TempLogic(u16 hDown, touchPosition touch) {
 
 void TownMapEditor::injectTo(int MapSlot) {
 	if (ItemUtils::getName(this->TempItem) != "???") {
-		this->MapItems[MapSelection]->id(this->TempItem);
+		this->MapItems[MapSlot]->id(this->TempItem);
 		updateBottomGrid();
 		Gui::DrawScreen();
 		changes = true;
@@ -341,15 +343,15 @@ void TownMapEditor::injectTo(int MapSlot) {
 
 void TownMapEditor::DrawInformation() const {
 	int x;
-	if (currentAcre < 4)	x = currentAcre;
-	else if (currentAcre > 3 && currentAcre < 8)	x = currentAcre - 4;
-	else if (currentAcre > 7 && currentAcre < 12)	x = currentAcre - 8;
-	else	x = currentAcre - 12;
-	drawOutline(10 + (x*32), 30 + (currentAcre/4*32), 32, 32, WHITE, true, true);
+	if (this->currentAcre < 4)	x = this->currentAcre;
+	else if (this->currentAcre > 3 && this->currentAcre < 8) x = this->currentAcre - 4;
+	else if (this->currentAcre > 7 && this->currentAcre < 12) x = this->currentAcre - 8;
+	else x = this->currentAcre - 12;
+	drawOutline(10 + (x*32), 30 + (this->currentAcre/4*32), 32, 32, WHITE, true, true);
 
 	// Display Informations.
-	printText(Lang::get("CURRENT_POSITION") + "\n" + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 40, true, true);
-	printText(Lang::get("CURRENT_ITEM") + "\n" + ItemUtils::getName(this->MapItems[MapSelection]->id()), 150, 70, true, true);
+	printText(Lang::get("CURRENT_POSITION") + "\n" + std::to_string(this->PositionX) + " | " + std::to_string(this->PositionY), 150, 40, true, true);
+	printText(Lang::get("CURRENT_ITEM") + "\n" + ItemUtils::getName(this->MapItems[this->MapSelection]->id()), 150, 70, true, true);
 }
 
 void TownMapEditor::updateTopGrid() {
@@ -358,34 +360,34 @@ void TownMapEditor::updateTopGrid() {
 }
 
 void TownMapEditor::convertToPosition() {
-	if (currentAcre < 4) {
-		PositionX = (currentAcre * 16) + currentPosX;
-	} else if (currentAcre > 3 && currentAcre < 8) {
-		PositionX = (((currentAcre - 4) * 16)) + currentPosX;
-	} else if (currentAcre > 7 && currentAcre < 12) {
-		PositionX = (((currentAcre - 8) * 16)) + currentPosX;
-	} else if (currentAcre > 11 && currentAcre < 16) {
-		PositionX = (((currentAcre - 12) * 16)) + currentPosX;
+	if (this->currentAcre < 4) {
+		this->PositionX = (this->currentAcre * 16) + this->currentPosX;
+	} else if (this->currentAcre > 3 && this->currentAcre < 8) {
+		this->PositionX = (((this->currentAcre - 4) * 16)) + this->currentPosX;
+	} else if (this->currentAcre > 7 && this->currentAcre < 12) {
+		this->PositionX = (((this->currentAcre - 8) * 16)) + this->currentPosX;
+	} else if (this->currentAcre > 11 && this->currentAcre < 16) {
+		this->PositionX = (((this->currentAcre - 12) * 16)) + this->currentPosX;
 	}
 
 	int acre = 0;
-	if (currentAcre < 4) {
+	if (this->currentAcre < 4) {
 		acre = 0;
-	} else if (currentAcre > 3 && currentAcre < 8) {
+	} else if (this->currentAcre > 3 && this->currentAcre < 8) {
 		acre = 1;
-	} else if (currentAcre > 7 && currentAcre < 12) {
+	} else if (this->currentAcre > 7 && this->currentAcre < 12) {
 		acre = 2;
-	} else if (currentAcre > 11 && currentAcre < 16) {
+	} else if (this->currentAcre > 11 && this->currentAcre < 16) {
 		acre = 3;
 	}
 
-	PositionY = (acre * 16) + currentPosY;
+	this->PositionY = (acre * 16) + this->currentPosY;
 }
 
 void TownMapEditor::updateBottomGrid() {
 	Gui::clearScreen(false, true); // Clear Bottom.
 	// Update Item Grid.
-	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
+	for (int i = 0 + (this->currentAcre * 256); i < 256 + (this->currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
 				drawRectangle(10 + (x*10), 15 + (y*10), 10, 10, ItemManager::getColor(this->MapItems[i]->itemtype()), false, true);
@@ -406,12 +408,12 @@ void TownMapEditor::updateAcreImage() {
 }
 
 void TownMapEditor::convertToSelection() {
-	MapSelection = (currentAcre * 256) + (currentPosY * 16) + currentPosX;
+	this->MapSelection = (this->currentAcre * 256) + (this->currentPosY * 16) + this->currentPosX;
 }
 
 // TODO.
 void TownMapEditor::Logic(u16 hDown, touchPosition touch) {
-	if (Mode == 0) {
+	if (this->Mode == 0) {
 		MainLogic(hDown, touch);
 	} else {
 		TempLogic(hDown, touch);

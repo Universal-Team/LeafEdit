@@ -16,6 +16,7 @@
 
 	"EDITOR": "Editor",
 	"ENTER_DECIMAL_ID": "Enter the Decimal Item ID.",
+	"ENTER_SEARCH": "Enter what you like to search.",
 	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible\nfor any mistakes you do.\nWould you like to continue?",
 
 	"FEMALE": "Female",
@@ -55,7 +56,8 @@
 	"SAVING_USELESS": "Saving is useless. No changes have been made.",
 	"SCRIPT_ERROR": "An error occured while executing script.",
 	"SD_CARD": "SD Card",
-	"SELECT_ITEM": "Select an Item.",
+	"SELECT_A_FILE": "Select a File.",
+	"SELECT_AN_ITEM": "Select an Item.",
 	"SELECT_PERSONALITY": "Select the wanted personality.",
 	"SELECT_VILLAGER": "Select your wanted Villager.",
 	"SETTINGS": "Settings",

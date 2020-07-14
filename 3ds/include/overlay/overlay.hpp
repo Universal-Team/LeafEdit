@@ -33,6 +33,7 @@
 namespace Overlays {
 	u16 SelectVillager(u16 oldID, const SaveType st);
 	u16 SelectItem(u16 oldID, const SaveType st, const bool blockInv = false);
+	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
 }
 
 #endif

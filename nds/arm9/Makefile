@@ -55,6 +55,7 @@ SOURCES		:=	$(SOURCECORE) \
 				source \
 				source/graphics \
 				source/management \
+				source/overlay \
 				source/saves \
 				source/screens \
 				source/utils
@@ -63,6 +64,7 @@ INCLUDES	:=	$(INCLUDECORE) \
 				include \
 				include/graphics \
 				include/management \
+				include/overlay \
 				include/saves \
 				include/screens \
 				include/utils

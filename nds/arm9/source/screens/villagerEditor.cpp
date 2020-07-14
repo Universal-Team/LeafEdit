@@ -29,6 +29,7 @@
 #include "itemManager.hpp"
 #include "itemUtils.hpp"
 #include "msg.hpp"
+#include "overlay.hpp"
 #include "villagerEditor.hpp"
 #include "Sav.hpp"
 
@@ -41,7 +42,7 @@ std::string VillagerEditor::returnPersonality() const {
 }
 
 void VillagerEditor::Draw(void) const {
-	if (villagerMode == 0) {
+	if (this->villagerMode == 0) {
 		DrawSubMenu();
 	} else {
 		DrawItems();
@@ -49,7 +50,7 @@ void VillagerEditor::Draw(void) const {
 }
 
 void VillagerEditor::Logic(u16 hDown, touchPosition touch) {
-	if (villagerMode == 0) {
+	if (this->villagerMode == 0) {
 		subLogic(hDown, touch);
 	} else {
 		ItemLogic(hDown, touch);
@@ -60,11 +61,12 @@ void VillagerEditor::DrawSubMenu(void) const {
 	Gui::DrawTop(true);
 	DrawBox();
 
-//	GraphicManagement::DrawVillager(villager->id(), 100, 40);
+	GraphicManagement::DrawVillager(villager->id(), 100, 40);
 	printTextCentered(Lang::get("VILLAGER_PERSONALITY") + ": " + this->returnPersonality(), 0, 170, true, true);
 	printTextCentered(g_villagerDatabase[this->villager->id()], 0, 150, true, true);
 	printTextCentered(Lang::get("VILLAGER_ID") + ": " + std::to_string(this->villager->id()), 0, 130, true, true);
 	Gui::DrawBottom(true);
+
 	for (int i = 0; i < 6; i++) {
 		drawRectangle(villagerButtons[i].x, villagerButtons[i].y, villagerButtons[i].w, villagerButtons[i].h, GRAY, false, true);
 	}
@@ -91,36 +93,36 @@ void VillagerEditor::DrawItems(void) const {
 }
 
 void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
-	Gui::updatePointer(villagerButtons[Selection].x+60, villagerButtons[Selection].y+12);
+	Gui::updatePointer(villagerButtons[this->Selection].x+60, villagerButtons[this->Selection].y+12);
 
 	// Selection.
 	if (hDown & KEY_UP) {
-		if (Selection > 0)	Selection--;
+		if (this->Selection > 0) this->Selection--;
 		selected = true;
 	}
 	
 	if (hDown & KEY_DOWN) {
-		if (Selection < 5)	Selection++;
+		if (this->Selection < 5) this->Selection++;
 		selected = true;
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if (Selection < 3) {
-			Selection += 3;
+		if (this->Selection < 3) {
+			this->Selection += 3;
 			selected = true;
 		}
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (Selection < 6 && Selection > 2) {
-			Selection -= 3;
+		if (this->Selection < 6 && this->Selection > 2) {
+			this->Selection -= 3;
 			selected = true;
 		}
 	}
 
 	if (hDown & KEY_A) {
 		u8 tempSelect = 0;
-		switch (Selection) {
+		switch (this->Selection) {
 			case 0:
 				Gui::clearScreen(true, true);
 				tempSelect = (u8)Gui::selectList(villager->id(), g_villagerDatabase, Lang::get("SELECT_VILLAGER"));
@@ -170,27 +172,27 @@ void VillagerEditor::subLogic(u16 hDown, touchPosition touch) {
 }
 
 void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch) {
-	Gui::updatePointer(items[itemSelection].x+15, items[itemSelection].y+15);
+	Gui::updatePointer(items[this->itemSelection].x+15, items[this->itemSelection].y+15);
 	u16 held = keysDownRepeat();
 
 	if (held & KEY_RIGHT) {
-		if (itemSelection < 13) {
-			itemSelection++;
+		if (this->itemSelection < 13) {
+			this->itemSelection++;
 			updateInfo();
 			selected = true;
 		}
 	}
 
 	if (held & KEY_LEFT) {
-		if (itemSelection > 0) {
-			itemSelection--;
+		if (this->itemSelection > 0) {
+			this->itemSelection--;
 			updateInfo();
 			selected = true;
 		}
 	}
 
 	if (hDown & KEY_B) {
-		villagerMode = 0;
+		this->villagerMode = 0;
 		Gui::DrawScreen();
 		// Reset Items to nullptr.
 		for (int i = 0; i < 15; i++) {
@@ -202,8 +204,7 @@ void VillagerEditor::ItemLogic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		Gui::clearScreen(true, true);
-		u16 TempItem = ItemManager::selectItem(this->villagerItems[itemSelection]->id(), Lang::get("SELECT_ITEM"));
-		this->villagerItems[itemSelection]->id(TempItem);
+		this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id()));
 		Gui::DrawScreen();
 		Gui::showPointer();
 		selected = true;

@@ -110,6 +110,7 @@ void Gui::clearScreen(bool top, bool layer) {
 
 // Sprites stuff
 int Gui::keyboardSpriteID, Gui::pointerID, Gui::saveID;
+Image Gui::searchImg;
 
 // Initialize Sprite.
 void Gui::initSprites(void) {
@@ -127,6 +128,7 @@ void Gui::initSprites(void) {
 
 // Load sprites.
 void Gui::loadSprites(void) {
+	searchImg = loadImage("/graphics/search.gfx");
 	Image pointerImg = loadImage("/graphics/pointer.gfx");
 	Image saveImg = loadImage("/graphics/save.gfx");
 	fillSpriteImage(pointerID, false, 32, 0, 0, pointerImg);
