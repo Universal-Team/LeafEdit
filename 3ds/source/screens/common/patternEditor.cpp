@@ -24,48 +24,25 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_EDITOR_HPP
-#define _LEAFEDIT_EDITOR_HPP
+#include "patternEditor.hpp"
+#include "screenCommon.hpp"
+#include "spriteManagement.hpp"
 
-#include "common.hpp"
-#include "coreUtils.hpp"
-#include "structs.hpp"
+extern bool touching(touchPosition touch, ButtonType button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
+// Bring that to other screens too.
+extern SaveType savesType;
 
-#include <vector>
+void PatternEditor::Draw(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_EDITOR"), 395, 0, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	GFX::DrawBottom();
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+}
 
-class Editor : public Screen {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	Editor() {}
-private:
-	enum class SaveState {
-		Loaded,
-		Unloaded
-	};
-
-	SaveState loadState = SaveState::Unloaded;
-	bool hasSaved = false;
-	int Selection = 0;
-	int saveT = -1; // No SaveType.
-	bool loadSave();
-	void SaveInitialize();
-	void Saving();
-	std::string saveName;
-
-	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "PLAYER"},
-		{95, 97, 130, 48, "VILLAGER"},
-		{95, 159, 130, 48, "MISC_EDITOR"}
-	};
-
-	std::vector<Structs::ButtonPos> icons = {
-		{286, 213, 27, 27},
-		{6, 219, 20, 20}
-	};
-
-	// 3DS specific struct.
-	Region_Lock RegionLock;
-};
-
-#endif
+void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Gui::screenBack(doFade);
+	}
+}

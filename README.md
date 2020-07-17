@@ -22,7 +22,17 @@ To use LeafEdit completely you need to get the assets from [here](https://github
 
 ## Compilation
 
-To build LeafEdit from source, you need devkitARM installed along with libctru, 3ds-curl and 3ds-libjpeg-turbo. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm` and lastly `pacman -S 3ds-libjpeg-turbo`. Now that you have everything installed, you just need to run clone the repository and run `make`.
+### 3DS
+To compile LeafEdit 3DS from source, you need devkitARM installed along with libctru, 3ds-curl and 3ds-libjpeg-turbo. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm` and lastly `pacman -S 3ds-libjpeg-turbo`. Now that you have everything installed, you just need to run clone the repository and run `make`.
+
+### NDS
+Compiling LeafEdit NDS requires [devkitPro](https://devkitpro.org)'s devkitARM and libnds.
+These can be installed by getting [devkitPro pacman](https://devkitpro.org/wiki/devkitPro_pacman), then running:
+`sudo dkp-pacman -S nds-dev`<br>
+<sup>(command may be slightly different depending on your OS)</sup>
+
+You will also need the [bmp2ds](https://github.com/Universal-Team/bmp2ds/releases/latest) graphics converter in your PATH named `bmp2ds`.
+
 
 ## Credits
 ### Main Developers

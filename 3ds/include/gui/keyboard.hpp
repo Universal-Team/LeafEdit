@@ -26,6 +26,8 @@ namespace Input {
 
 	std::u16string handleu16String(uint maxLength, std::string Text, std::u16string oldString);
 	std::string handleString(uint maxLength, std::string Text, std::string oldString);
+
+	std::string setkbdString(uint maxLength, std::string Text);
 }
 
 #endif

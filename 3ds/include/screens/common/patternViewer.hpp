@@ -24,48 +24,31 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_EDITOR_HPP
-#define _LEAFEDIT_EDITOR_HPP
+#ifndef _LEAFEDIT_PATTERN_VIEWER_HPP
+#define _LEAFEDIT_PATTERN_VIEWER_HPP
 
 #include "common.hpp"
-#include "coreUtils.hpp"
+#include "Player.hpp"
+#include "Pattern.hpp"
+#include "PatternImage.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class Editor : public Screen {
+class PatternViewer : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	Editor() {}
+	PatternViewer(std::shared_ptr<Player> plr) : player(plr) {
+		this->pattern = this->player->pattern(0);
+	}
 private:
-	enum class SaveState {
-		Loaded,
-		Unloaded
-	};
-
-	SaveState loadState = SaveState::Unloaded;
-	bool hasSaved = false;
-	int Selection = 0;
-	int saveT = -1; // No SaveType.
-	bool loadSave();
-	void SaveInitialize();
-	void Saving();
-	std::string saveName;
-
-	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "PLAYER"},
-		{95, 97, 130, 48, "VILLAGER"},
-		{95, 159, 130, 48, "MISC_EDITOR"}
-	};
-
-	std::vector<Structs::ButtonPos> icons = {
-		{286, 213, 27, 27},
-		{6, 219, 20, 20}
-	};
-
-	// 3DS specific struct.
-	Region_Lock RegionLock;
+	void DrawPattern(void) const;
+	void DisplayPatternInfo(void) const;
+	int selectedPattern = 0;
+	std::shared_ptr<Player> player;
+	std::shared_ptr<Pattern> pattern;
+	std::shared_ptr<PatternImage> image[4];
 };
 
 #endif

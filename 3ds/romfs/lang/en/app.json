@@ -81,6 +81,8 @@
 	"OLD_ITEM": "Old Item: ",
 	"ON_LATEST_VERSION": "You seem to be on the latest Version.\nDo you still want to update?",
 
+	"PATTERN": "Pattern",
+	"PATTERN_EDITOR": "Pattern Editor",
 	"PLAYER": "Player",
 	"PLAYER_BANK": "Bank",
 	"PLAYER_EYE_COLOR": "Eye color",

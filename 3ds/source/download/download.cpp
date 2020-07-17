@@ -139,7 +139,7 @@ static size_t file_handle_data(char *ptr, size_t size, size_t nmemb, void *userd
 		LightEvent_Clear(&waitCommit);
 		file_toCommit_size = file_buffer_pos + tofill;
 		file_buffer_pos = 0;
-		svcFlushProcessDataCache(CUR_PROCESS_HANDLE, g_buffers[g_index], file_toCommit_size);
+		svcFlushProcessDataCache(CUR_PROCESS_HANDLE, (u32)g_buffers[g_index], file_toCommit_size);
 		g_index = !g_index;
 		LightEvent_Signal(&readyToCommit);
 	}
@@ -207,7 +207,7 @@ Result downloadToFile(std::string url, std::string path) {
 	LightEvent_Clear(&waitCommit);
 
 	file_toCommit_size = file_buffer_pos;
-	svcFlushProcessDataCache(CUR_PROCESS_HANDLE, g_buffers[g_index], file_toCommit_size);
+	svcFlushProcessDataCache(CUR_PROCESS_HANDLE, (u32)g_buffers[g_index], file_toCommit_size);
 	g_index = !g_index;
 	if (!filecommit()) {
 		retcode = -3;
@@ -741,6 +741,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 				downloadFailed();
 				return -1;
 			}
+
 			showProgressBar = false;
 			if (version != "")	config->currentNightly(version);
 			config->save(); // Needed to do that here.
@@ -809,6 +810,7 @@ void Download::downloadAssets(void) {
 		downloadFailed();
 		return;
 	}
+
 	// Items & Badges.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 2, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/items.t3x") != 0) {
@@ -816,6 +818,7 @@ void Download::downloadAssets(void) {
 		downloadFailed();
 		return;
 	}
+
 	// Faces & Hair.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 3, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/players.t3x") != 0) {
@@ -823,6 +826,7 @@ void Download::downloadAssets(void) {
 		downloadFailed();
 		return;
 	}
+
 	// Font.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 4, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/3ds/LeafEdit/assets/font.bcfnt") != 0) {
@@ -830,6 +834,7 @@ void Download::downloadAssets(void) {
 		downloadFailed();
 		return;
 	}
+
 	// First Villager Sprite.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 5, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers.t3x") != 0) {
@@ -837,6 +842,7 @@ void Download::downloadAssets(void) {
 		downloadFailed();
 		return;
 	}
+
 	// Second Villager Sprite.
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 6, 6);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers2.t3x") != 0) {
@@ -857,6 +863,7 @@ void displayProgressBar() {
 		if (downloadTotal < 1.0f) {
 			downloadTotal = 1.0f;
 		}
+
 		if (downloadTotal < downloadNow) {
 			downloadTotal = downloadNow;
 		}
@@ -884,10 +891,10 @@ void displayProgressBar() {
 		Gui::DrawStringCentered(0, 80, 0.7f, WHITE, str, 400, 0, font);
 		Gui::Draw_Rect(30, 120, 340, 30, BLACK);
 
-			// Download.
+		// Download.
 		if (progressBarType == 0) {
 			Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, DARKER_COLOR);
-			// Install.
+		// Install.
 		} else {
 			Gui::Draw_Rect(31, 121, (int)(((float)installOffset/(float)installSize) * 338.0f), 28, DARKER_COLOR);
 		}

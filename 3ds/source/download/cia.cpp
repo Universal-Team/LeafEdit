@@ -1,19 +1,7 @@
 #include "cia.hpp"
 
 Result CIA_LaunchTitle(u64 titleId, FS_MediaType mediaType) {
-	Result ret = 0;
-	u8 param[0x300];
-	u8 hmac[0x20];
-
-	if (R_FAILED(ret = APT_PrepareToDoApplicationJump(0, titleId, mediaType))) {
-		printf("Error In:\nAPT_PrepareToDoApplicationJump");
-		return ret;
-	}
-	
-	if (R_FAILED(ret = APT_DoApplicationJump(param, sizeof(param), hmac))) {
-		printf("Error In:\nAPT_DoApplicationJump");
-		return ret;
-	}
+	aptSetChainloaderToSelf();
 
 	return 0;
 }

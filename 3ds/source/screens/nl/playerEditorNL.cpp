@@ -28,6 +28,7 @@
 #include "coreUtils.hpp"
 #include "itemEditorNL.hpp"
 #include "itemUtils.hpp"
+#include "patternViewer.hpp"
 #include "playerEditorNL.hpp"
 #include "playerManagement.hpp"
 #include "Sav.hpp"
@@ -119,6 +120,9 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 			case 2:
 				Gui::setScreen(std::make_unique<ItemEditorNL>(this->player), doFade, true);
+				break;
+			case 3:
+				Gui::setScreen(std::make_unique<PatternViewer>(this->player), doFade, true);
 				break;
 		}
 	}

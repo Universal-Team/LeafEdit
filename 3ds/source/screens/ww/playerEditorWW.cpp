@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "patternViewer.hpp"
 #include "playerEditorWW.hpp"
 #include "Sav.hpp"
 #include "stringUtils.hpp"
@@ -65,6 +66,8 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_UP) {
 		if(Selection > 0)	Selection--;
 	}
+
+	if (hDown & KEY_A) Gui::setScreen(std::make_unique<PatternViewer>(this->player), doFade, true);
 
 	if (hDown & KEY_DOWN) {
 		if(Selection < 5)	Selection++;

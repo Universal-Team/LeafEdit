@@ -28,11 +28,13 @@
 #define _LEAFEDIT_CORE_PATTERN_WW_HPP
 
 #include "Pattern.hpp"
+#include "PatternImage.hpp"
 #include "Player.hpp"
 
 #include <memory>
 #include <vector>
 
+class PatternImage;
 class PatternWW : public Pattern {
 protected:
 	u32 Offset;
@@ -62,7 +64,10 @@ public:
 	void dumpPattern(const std::string fileName) override;
 	void injectPattern(const std::string fileName) override;
 
-	std::vector<u8> patternData() override;
+	// Pattern Image.
+	u8* patternData(const int pattern) override;
+	std::array<u8, 16> customPalette() override;
+	std::shared_ptr<PatternImage> image(const int pattern) override;
 private:
 	u8* patternPointer() const {
 		return data.get() + Offset;

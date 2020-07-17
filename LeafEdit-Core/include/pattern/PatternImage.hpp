@@ -1,6 +1,6 @@
 /*
-*   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   This file is part of LeafEdit-Core
+*   Copyright (C) 2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,48 +24,32 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_EDITOR_HPP
-#define _LEAFEDIT_EDITOR_HPP
+#ifndef _LEAFEDIT_CORE_PATTERN_IMAGE_HPP
+#define _LEAFEDIT_CORE_PATTERN_IMAGE_HPP
 
-#include "common.hpp"
-#include "coreUtils.hpp"
-#include "structs.hpp"
+#include "types.hpp"
 
+#include <memory>
 #include <vector>
 
-class Editor : public Screen {
+class PatternImage {
 public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	Editor() {}
+	PatternImage(u8 *ptrn, SaveType st, int pltIndex, std::array<u8, 16> customPLT) : imageData(ptrn), savetype(st), paletteIndex(pltIndex) {
+		if (this->savetype == SaveType::NL || this->savetype == SaveType::WA) {
+			this->plt = customPLT;
+			this->setCustomPalette();
+		}
+	}
+
+	void setCustomPalette();
+	u32 getPixelColor(int pixelX, int pixelY);
+	void setPixelColor(int pixelX, int pixelY, int color);
 private:
-	enum class SaveState {
-		Loaded,
-		Unloaded
-	};
-
-	SaveState loadState = SaveState::Unloaded;
-	bool hasSaved = false;
-	int Selection = 0;
-	int saveT = -1; // No SaveType.
-	bool loadSave();
-	void SaveInitialize();
-	void Saving();
-	std::string saveName;
-
-	std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "PLAYER"},
-		{95, 97, 130, 48, "VILLAGER"},
-		{95, 159, 130, 48, "MISC_EDITOR"}
-	};
-
-	std::vector<Structs::ButtonPos> icons = {
-		{286, 213, 27, 27},
-		{6, 219, 20, 20}
-	};
-
-	// 3DS specific struct.
-	Region_Lock RegionLock;
+	std::array<u8, 16> plt; // On AC:NL | AC:WA only the first 15 colors are valid.
+	u8* imageData;
+	SaveType savetype;
+	int paletteIndex;
+	u32 customPalette[16]; // On AC:NL | AC:WA only the first 15 colors are valid.
 };
 
 #endif

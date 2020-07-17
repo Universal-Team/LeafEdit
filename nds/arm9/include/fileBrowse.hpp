@@ -21,6 +21,7 @@
 
 #ifndef FILE_BROWSE_HPP
 #define FILE_BROWSE_HPP
+
 #include <string>
 #include <vector>
 

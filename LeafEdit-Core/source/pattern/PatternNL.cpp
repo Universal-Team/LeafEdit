@@ -170,9 +170,32 @@ void PatternNL::injectPattern(const std::string fileName) {
 }
 
 // TODO.
-std::vector<u8> PatternNL::patternData() {
-	std::vector<u8> patternData(0x400);
+u8* PatternNL::patternData(const int pattern) {
+	if (pattern > 3) return nullptr;
+	
+	u8* patternData = new u8[0x400];
+
+	u8 *data = this->patternPointer() + this->Offset + 0x6C + (pattern * 0x200);
+
+	for(uint i = 0; i < 0x200; i++) {
+		patternData[i * 2] = (data[i] & 0x0F);
+		patternData[i * 2 + 1] = ((data[i] >> 4) & 0x0F);
+	}
+
 	return patternData;
+}
+
+std::array<u8, 16> PatternNL::customPalette() {
+	std::array<u8, 16> customPLT;
+	for (int i = 0; i < 16; i++) {
+		customPLT[i] = this->patternPointer()[this->Offset + 0x58 + i];
+	}
+
+	return customPLT;
+}
+
+std::shared_ptr<PatternImage> PatternNL::image(const int pattern) {
+	return std::make_shared<PatternImage>(patternData(pattern), SaveType::NL, 0, this->customPalette());
 }
 
 // Palette Data Array. offset: 0x6C ; count: 0x800

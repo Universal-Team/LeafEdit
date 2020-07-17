@@ -20,13 +20,10 @@ INPUTS		:= $(foreach dir,$(GRAPHICS),$(addprefix $(dir)/,$(notdir $(wildcard $(d
 
 TARGETS		:= $(INPUTS:.bmp=.gfx)
 
-.PHONY	:	bmp2ds clean all directories
+.PHONY	:	clean all directories
 
-all	:	bmp2ds $(TARGETS)
+all	:	$(TARGETS)
 	@echo graphics ...
-
-bmp2ds	:
-	@g++ -std=c++11 bmp2ds.cpp -o bmp2ds
 
 %.gfx	:	%.bmp %.txt
 	@mkdir -p $(OUT)/$(@D)
@@ -38,5 +35,4 @@ bmp2ds	:
 
 clean	:
 	@echo clean ...
-	@rm -f bmp2ds
 	@rm -rf $(addprefix $(OUT)/,$(TARGETS))

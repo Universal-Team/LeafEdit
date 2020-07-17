@@ -471,3 +471,21 @@ std::string Input::handleString(uint maxLength, std::string Text, std::string ol
 		return testString;
 	}
 }
+
+// 3DS Native keyboard.
+std::string Input::setkbdString(uint maxLength, std::string Text) {
+	C3D_FrameEnd(0);
+	SwkbdState state;
+	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
+	char temp[maxLength] = {0};
+	swkbdSetHintText(&state, Text.c_str());
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
+	SwkbdButton ret = swkbdInputText(&state, temp, sizeof(temp));
+	temp[maxLength-1] = '\0';
+
+	if (ret == SWKBD_BUTTON_CONFIRM) {
+		return temp;
+	}
+
+	return "";
+}
