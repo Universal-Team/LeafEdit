@@ -40,18 +40,10 @@ extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
-PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) {
-	this->TPC = CoreUtils::LoadPlayerTPC(this->player);
-}
+PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) { }
 
 // Destroy TPC.
-PlayerEditorNL::~PlayerEditorNL() {
-	if (this->TPC.tex != nullptr && this->TPC.subtex != nullptr) {
-		C2DUtils::C2D_ImageDelete(this->TPC);
-		this->TPC.tex = nullptr;
-		this->TPC.subtex = nullptr;
-	}
-}
+PlayerEditorNL::~PlayerEditorNL() { }
 
 void PlayerEditorNL::Draw(void) const {
 	if (this->Mode == 0)	this->DrawSubMenu();
@@ -71,12 +63,6 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string(this->player->wallet()), 0, 0, font);
 	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PLAYER_FACETYPE") + ": " + std::to_string(this->player->face()), 0, 0, font);
-
-	// Only display TPC if Player has TPC support and is not nullptr.
-	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
-	if (this->player->tpcImage() != nullptr && this->player->hasTPC() && this->TPC.tex != nullptr) {
-		C2D_DrawImageAt(this->TPC, 60, 80, 0.5);
-	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();

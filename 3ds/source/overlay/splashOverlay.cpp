@@ -24,27 +24,40 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "mainMenu.hpp"
-#include "splash.hpp"
+#include "overlay.hpp"
 
-extern bool touching(touchPosition touch, ButtonType button);
-
-void Splash::Draw(void) const {
+static void Draw(void) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
+	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 	Gui::ScreenDraw(Top);
 	GFX::DrawGUI(gui_dev_by_idx, 0, 0);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	Gui::DrawString(395-Gui::GetStringWidth(0.50, "2019-2020"), 218, 0.50, C2D_Color32(255, 255, 255, 255), "2019-2020");
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha)); // Fade in/out effect
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(23, 121, 53, 255));
 	GFX::DrawGUI(gui_banner_idx, 32, 56);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha)); // Fade in/out effect
+	C3D_FrameEnd(0);
 }
 
+void Overlays::SplashOverlay() {
+	fadein = true;
+	fadealpha = 255;
+	int delay = 200; // The delay for exiting the overlay.
+	bool doOut = false;
+	while(!doOut) {
+		Draw();
+		Gui::fadeEffects(16, 16, false);
+		hidScanInput();
 
-void Splash::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->delay > 0) {
-		this->delay--;
-		if (this->delay <= 0) {
-			Gui::setScreen(std::make_unique<MainMenu>(), doFade, true);
+		if (delay > 0) {
+			delay--;
+
+			if (delay == 0) doOut = true;
 		}
+
+		if (hidKeysDown()) doOut = true;
 	}
 }

@@ -32,7 +32,7 @@
 #include "itemManager.hpp"
 #include "lang.hpp"
 #include "mainMenu.hpp"
-#include "splash.hpp"
+#include "overlay.hpp"
 #include "screenCommon.hpp"
 
 #include <3ds.h>
@@ -238,8 +238,10 @@ Result Init::Initialize() {
 
 	Log = std::make_unique<Logging>();
 
-	// Set the Screen to the Splash.
-	Gui::setScreen(std::make_unique<Splash>(), false, true);
+	Overlays::SplashOverlay();
+	
+	// Set the Screen to the MainMenu.
+	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }
 

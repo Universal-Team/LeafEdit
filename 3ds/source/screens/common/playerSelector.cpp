@@ -41,48 +41,20 @@ extern SaveType savesType;
 PlayerSelector::PlayerSelector() {
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
-			// Only needed for New Leaf & Welcome Amiibo.
-			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				this->TPC[i] = CoreUtils::LoadPlayerTPC(save->player(i));
-			}
-
 			this->playerNames[i] = StringUtils::UTF16toUTF8(save->player(i)->name());
 		}
 	}
 }
 
 // Make sure to destroy the TPC Image.
-PlayerSelector::~PlayerSelector() {
-	// Only needed for New Leaf & Welcome Amiibo.
-	if (savesType == SaveType::NL || savesType == SaveType::WA) {
-		for (int i = 0; i < 4; i++) {
-			// Delete TPC Image if isn't nullptr.
-			if (save->player(i)->exist()) {
-				C2DUtils::C2D_ImageDelete(this->TPC[i]);
-				this->TPC[i].tex = nullptr;
-				this->TPC[i].subtex = nullptr;
-			}
-		}
-	}
-}
+PlayerSelector::~PlayerSelector() { }
 
 void PlayerSelector::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 395, 0, font);
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
-			// Only display TPC if New Leaf or Welcome Amiibo.
-			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				if (this->TPC[i].tex != nullptr) {
-					C2D_DrawImageAt(this->TPC[i], (float)(100 * i) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
-				} else {
-					GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f);
-				}
-			} else {
-				// Else draw NoTPC Image instead.
-				GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f);
-			}
-
+			GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f);
 			Gui::DrawString(18 + (i * 100), 150, 0.64f, BLACK, this->playerNames[i], 400, 0, font);
 		}
 	}

@@ -48,7 +48,15 @@ void PatternViewer::DisplayPatternInfo(void) const {
 	}
 }
 
-void PatternViewer::DrawPattern(void) const { }
+void PatternViewer::DrawPattern(void) const {
+	for (u32 i = 0; i < 1024; i++) {
+		for (u32 y = 0; y < 32; y++) {
+			for (u32 x = 0; x < 32; x++, i++) {
+				Gui::Draw_Rect(100 + x, 50 + y, 1, 1, this->image->getPixelColor(x, y));
+			}
+		}
+	}
+}
 
 void PatternViewer::Draw(void) const {
 	GFX::DrawTop();
@@ -70,17 +78,13 @@ void PatternViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (this->selectedPattern < 7) {
 				this->selectedPattern++;
 				this->pattern = this->player->pattern(this->selectedPattern);
-				for (int i = 0; i < 4; i++) {
-					this->image[i] = this->pattern->image(i);
-				}
+				this->image = this->pattern->image(0);
 			}
 		} else {
 			if (this->selectedPattern < 9) {
 				this->selectedPattern++;
 				this->pattern = this->player->pattern(this->selectedPattern);
-				for (int i = 0; i < 4; i++) {
-					this->image[i] = this->pattern->image(i);
-				}
+				this->image = this->pattern->image(0);
 			}
 		}
 	}
@@ -89,9 +93,7 @@ void PatternViewer::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selectedPattern > 0) {
 			this->selectedPattern--;
 			this->pattern = this->player->pattern(this->selectedPattern);
-			for (int i = 0; i < 4; i++) {
-				this->image[i] = this->pattern->image(i);
-			}
+			this->image = this->pattern->image(0);
 		}
 	}
 

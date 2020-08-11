@@ -41,14 +41,16 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	PatternViewer(std::shared_ptr<Player> plr) : player(plr) {
 		this->pattern = this->player->pattern(0);
+		this->image = this->pattern->image(0);
 	}
+
 private:
 	void DrawPattern(void) const;
 	void DisplayPatternInfo(void) const;
 	int selectedPattern = 0;
 	std::shared_ptr<Player> player;
 	std::shared_ptr<Pattern> pattern;
-	std::shared_ptr<PatternImage> image[4];
+	std::shared_ptr<PatternImage> image;
 };
 
 #endif

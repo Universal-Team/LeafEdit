@@ -24,55 +24,49 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_PATTERN_WW_HPP
-#define _LEAFEDIT_CORE_PATTERN_WW_HPP
+#ifndef _LEAFEDIT_CORE_PATTERN_IMAGE_NL_HPP
+#define _LEAFEDIT_CORE_PATTERN_IMAGE_NL_HPP
 
-#include "Pattern.hpp"
 #include "PatternImage.hpp"
-#include "PatternImageWW.hpp"
 #include "Player.hpp"
 
 #include <memory>
 #include <vector>
 
-class PatternImage;
-class PatternImageWW;
-class PatternWW : public Pattern {
+class PatternImageNL : public PatternImage {
 protected:
-	u32 Offset;
 	std::shared_ptr<u8[]> data;
-	WWRegion region;
+	u32 ptrnOffset;
+	u32 pltOffset;
 public:
-	virtual ~PatternWW() {}
-	PatternWW(std::shared_ptr<u8[]> patternData, u32 offset, WWRegion Region) : Pattern(patternData, offset), Offset(offset), data(patternData), region(Region) { }
+	virtual ~PatternImageNL() {}
+	PatternImageNL(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) : PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) {
+		this->refresh();
+	}
 
-	std::u16string name() override;
-	void name(std::u16string v) override;
-	u16 creatorid() override;
-	void creatorid(u16 v) override;
-	std::u16string creatorname() override;
-	void creatorname(std::u16string v) override;
-	u8 creatorGender() override;
-	void creatorGender(u8 v) override;
-	u16 origtownid() override;
-	void origtownid(u16 v) override;
-	std::u16string origtownname() override;
-	void origtownname(std::u16string v) override;
-	u8 designtype() override;
-	void designtype(u8 v) override;
+	void refresh() override;
+	u32 getPixelColor(int x, int y) override;
+	u32 getRawPixelColor(int index) override;
+	u8 getRawPixel(int indx) override { return this->patternRawBuffer[indx]; }
+	bool isValid() override { return this->valid; }
 
-	// Pattern Misc.
-	void ownPattern(std::unique_ptr<Player> player) override;
-	void dumpPattern(const std::string fileName) override;
-	void injectPattern(const std::string fileName) override;
-
-	// Pattern Image.
-	u8* patternData(const int pattern) override;
-	std::array<u8, 16> customPalette() override;
-	std::shared_ptr<PatternImage> image(const int pattern) override;
+	std::unique_ptr<u8[]> &returnData() override { return this->patternRawBuffer; }
+	int getPalette(int plt) override { return this->paletteData()[plt]; }
 private:
-	u8* patternPointer() const {
-		return data.get() + Offset;
+	bool valid = false;
+	std::array<u32, 16> paletteArray = {0};
+	std::unique_ptr<u8[]> patternRawBuffer = nullptr;
+
+	u8* rawData() const {
+		return this->patternRawBuffer.get();
+	}
+	
+	u8* patternData() const {
+		return this->data.get() + ptrnOffset;
+	}
+
+	u8* paletteData() const {
+		return this->data.get() + pltOffset;
 	}
 };
 

@@ -195,7 +195,7 @@ std::array<u8, 16> PatternNL::customPalette() {
 }
 
 std::shared_ptr<PatternImage> PatternNL::image(const int pattern) {
-	return std::make_shared<PatternImage>(patternData(pattern), SaveType::NL, 0, this->customPalette());
+	return std::make_shared<PatternImageNL>(this->data, (this->Offset + 0x6C + (pattern * 0x200)), this->Offset + 0x58);
 }
 
 // Palette Data Array. offset: 0x6C ; count: 0x800

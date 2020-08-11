@@ -24,25 +24,50 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_PATTERN_IMAGE_HPP
-#define _LEAFEDIT_CORE_PATTERN_IMAGE_HPP
+#ifndef _LEAFEDIT_CORE_PATTERN_IMAGE_WW_HPP
+#define _LEAFEDIT_CORE_PATTERN_IMAGE_WW_HPP
 
-#include "types.hpp"
+#include "PatternImage.hpp"
 
 #include <memory>
 #include <vector>
 
-class PatternImage {
+class PatternImageWW : public PatternImage {
+protected:
+	std::shared_ptr<u8[]> data;
+	u32 ptrnOffset;
+	u32 pltOffset;
 public:
-	virtual ~PatternImage() {}
-	PatternImage() { }
-	virtual void refresh() = 0; // Refresh buffer.
-	virtual u32 getPixelColor(int x, int y) = 0;
-	virtual u8 getRawPixel(int indx) = 0;
-	virtual bool isValid() = 0;
-	virtual std::unique_ptr<u8[]> &returnData() = 0;
-	virtual u32 getRawPixelColor(int index) = 0;
-	virtual int getPalette(int plt) = 0;
+	virtual ~PatternImageWW() {}
+	PatternImageWW(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) : PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) {
+		this->refresh();
+	}
+
+	void refresh() override;
+	u32 getPixelColor(int x, int y) override;
+	u32 getRawPixelColor(int index) override;
+	u8 getRawPixel(int indx) override { return this->patternRawBuffer[indx]; }
+	bool isValid() override { return this->valid; }
+	int getPalette(int plt) override { return this->paletteIndex; }
+
+	std::unique_ptr<u8[]> &returnData() override { return this->patternRawBuffer; }
+private:
+	std::array<u32, 16> colors;
+	bool valid = false;
+	u8 paletteIndex = 0;
+	std::unique_ptr<u8[]> patternRawBuffer = nullptr;
+
+	u8* rawData() const {
+		return this->patternRawBuffer.get();
+	}
+
+	u8* patternData() const {
+		return this->data.get() + ptrnOffset;
+	}
+
+	u8* paletteData() const {
+		return this->data.get() + pltOffset;
+	}
 };
 
 #endif

@@ -29,12 +29,14 @@
 
 #include "Pattern.hpp"
 #include "PatternImage.hpp"
+#include "PatternImageNL.hpp"
 #include "Player.hpp"
 
 #include <memory>
 #include <vector>
 
 class PatternImage;
+class PatternImageNL;
 class PatternNL : public Pattern {
 protected:
 	u32 Offset;

@@ -26,7 +26,7 @@
 
 #include "common.hpp" // For the common Headers.
 #include "coreUtils.hpp"
-#include "jpeg.h"
+#include "jpeg.hpp"
 #include "Sav.hpp"
 #include "saveUtils.hpp"
 #include "utils.hpp"
@@ -142,6 +142,7 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	}
 }
 
+/*
 C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 	if (player != nullptr || player->tpcImage() != nullptr) {
 		if (player->hasTPC()) {
@@ -153,7 +154,7 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 	} else {
 		return {nullptr};
 	}
-}
+}*/
 
 void CoreUtils::createBackup() {
 	// Make sure save is not nullpointer.
@@ -196,3 +197,5 @@ void CoreUtils::createBackup() {
 		}
 	}
 }
+
+/* C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image, SaveType ST) { } */

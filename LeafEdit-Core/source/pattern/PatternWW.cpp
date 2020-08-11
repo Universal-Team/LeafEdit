@@ -416,7 +416,25 @@ std::array<u8, 16> PatternWW::customPalette() {
 }
 
 std::shared_ptr<PatternImage> PatternWW::image(const int pattern) {
-	return std::make_shared<PatternImage>(patternData(pattern), SaveType::WW, (this->patternPointer()[this->Offset + 0x226] & 0xF0) >> 4, this->customPalette());
+	u32 patternOffset = this->Offset + 0;
+
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			patternOffset = this->Offset + 0;
+			break;
+		case WWRegion::KOR_REV1:
+			patternOffset = this->Offset + 1;
+			break;
+		case WWRegion::UNKNOWN:
+			return nullptr; // What else should be returned? :P
+			break;
+	}
+
+	return std::make_shared<PatternImageWW>(this->data, patternOffset, this->Offset + 0x226);
 }
 
 // Palette array seems to be 0x200, it begins at 0x1 at Korean.

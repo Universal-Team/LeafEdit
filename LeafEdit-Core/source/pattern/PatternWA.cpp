@@ -194,5 +194,5 @@ std::array<u8, 16> PatternWA::customPalette() {
 }
 
 std::shared_ptr<PatternImage> PatternWA::image(const int pattern) {
-	return std::make_shared<PatternImage>(patternData(pattern), SaveType::WA, 0, this->customPalette());
+	return std::make_shared<PatternImageNL>(this->data, (this->Offset + 0x6C + (pattern * 0x200)), this->Offset + 0x58);
 }
