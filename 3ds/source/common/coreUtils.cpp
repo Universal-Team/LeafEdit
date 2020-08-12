@@ -198,4 +198,21 @@ void CoreUtils::createBackup() {
 	}
 }
 
-/* C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image, SaveType ST) { } */
+C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image) {
+	u32 *buffer = (u32*)linearAlloc(sizeof(u32) * 32 * 32); // Allocate Buffer.
+
+	if (image) {
+		for (int i = 0; i < 0x200; i++) {
+			buffer[i * 2] = image->getPixel(i, false); // Left pixel.
+			buffer[i * 2 + 1] = image->getPixel(i, true); // Right pixel.
+		}
+
+		C2D_Image tmp = C2DUtils::ImageDataToC2DImage(buffer, 32, 32, GPU_RGBA8);
+		linearFree(buffer); // Free buffer cause unneeded.
+		return tmp;
+	}
+
+	linearFree(buffer); // Free buffer cause unneeded.
+	return {nullptr};
+
+}

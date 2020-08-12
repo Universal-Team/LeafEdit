@@ -39,18 +39,18 @@ class PatternViewer : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PatternViewer(std::shared_ptr<Player> plr) : player(plr) {
-		this->pattern = this->player->pattern(0);
-		this->image = this->pattern->image(0);
-	}
+	PatternViewer(std::shared_ptr<Player> plr, SaveType ST = SaveType::WW);
+	~PatternViewer();
 
 private:
+	SaveType SType;
 	void DrawPattern(void) const;
 	void DisplayPatternInfo(void) const;
 	int selectedPattern = 0;
 	std::shared_ptr<Player> player;
-	std::shared_ptr<Pattern> pattern;
-	std::shared_ptr<PatternImage> image;
+	std::shared_ptr<Pattern> pattern[10];
+	std::shared_ptr<PatternImage> images[10];
+	C2D_Image patternImage[10];
 };
 
 #endif

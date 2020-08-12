@@ -64,13 +64,13 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
-		if(Selection > 0)	Selection--;
+		if(Selection > 0) Selection--;
 	}
 
-	if (hDown & KEY_A) Gui::setScreen(std::make_unique<PatternViewer>(this->player), doFade, true);
+	if (hDown & KEY_A) Gui::setScreen(std::make_unique<PatternViewer>(this->player, SaveType::WW), doFade, true);
 
 	if (hDown & KEY_DOWN) {
-		if(Selection < 5)	Selection++;
+		if(Selection < 5) Selection++;
 	}
 
 	if (hDown & KEY_RIGHT) {

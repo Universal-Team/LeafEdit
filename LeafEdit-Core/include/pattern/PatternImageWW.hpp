@@ -44,22 +44,13 @@ public:
 	}
 
 	void refresh() override;
-	u32 getPixelColor(int x, int y) override;
-	u32 getRawPixelColor(int index) override;
-	u8 getRawPixel(int indx) override { return this->patternRawBuffer[indx]; }
 	bool isValid() override { return this->valid; }
-	int getPalette(int plt) override { return this->paletteIndex; }
-
-	std::unique_ptr<u8[]> &returnData() override { return this->patternRawBuffer; }
+	u32 getPaletteColor(int plt) override;
+	u32 getPixel(int pixel, bool right = false) override;
 private:
-	std::array<u32, 16> colors;
+	std::array<u32, 15> colors;
 	bool valid = false;
 	u8 paletteIndex = 0;
-	std::unique_ptr<u8[]> patternRawBuffer = nullptr;
-
-	u8* rawData() const {
-		return this->patternRawBuffer.get();
-	}
 
 	u8* patternData() const {
 		return this->data.get() + ptrnOffset;

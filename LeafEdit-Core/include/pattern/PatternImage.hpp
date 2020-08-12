@@ -36,13 +36,10 @@ class PatternImage {
 public:
 	virtual ~PatternImage() {}
 	PatternImage() { }
-	virtual void refresh() = 0; // Refresh buffer.
-	virtual u32 getPixelColor(int x, int y) = 0;
-	virtual u8 getRawPixel(int indx) = 0;
+	virtual void refresh() = 0;
 	virtual bool isValid() = 0;
-	virtual std::unique_ptr<u8[]> &returnData() = 0;
-	virtual u32 getRawPixelColor(int index) = 0;
-	virtual int getPalette(int plt) = 0;
+	virtual u32 getPaletteColor(int plt) = 0;
+	virtual u32 getPixel(int pixel, bool right) = 0;
 };
 
 #endif
