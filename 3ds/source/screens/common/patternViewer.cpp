@@ -44,7 +44,7 @@ PatternViewer::PatternViewer(std::shared_ptr<Player> plr, SaveType ST) : SType(S
 			for (int i = 0; i < 10; i++) {
 				this->pattern[i] = this->player->pattern(i);
 				this->images[i] = this->pattern[i]->image(0);
-				this->patternImage[i] = CoreUtils::patternImage(this->images[i]);
+				this->patternImage[i] = CoreUtils::patternImage(this->images[i], this->SType);
 			}
 
 			break;
@@ -52,7 +52,7 @@ PatternViewer::PatternViewer(std::shared_ptr<Player> plr, SaveType ST) : SType(S
 			for (int i = 0; i < 8; i++) {
 				this->pattern[i] = this->player->pattern(i);
 				this->images[i] = this->pattern[i]->image(0);
-				this->patternImage[i] = CoreUtils::patternImage(this->images[i]);
+				this->patternImage[i] = CoreUtils::patternImage(this->images[i], this->SType);
 			}
 				
 			break;

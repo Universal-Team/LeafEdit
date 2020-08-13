@@ -29,9 +29,6 @@
 
 #include "PatternImage.hpp"
 
-#include <memory>
-#include <vector>
-
 class PatternImageWW : public PatternImage {
 protected:
 	std::shared_ptr<u8[]> data;
@@ -39,18 +36,15 @@ protected:
 	u32 pltOffset;
 public:
 	virtual ~PatternImageWW() {}
-	PatternImageWW(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) : PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) {
-		this->refresh();
+	PatternImageWW(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) : PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) { 
+		this->valid = true; // TODO: Handle that differently?
 	}
 
-	void refresh() override;
 	bool isValid() override { return this->valid; }
-	u32 getPaletteColor(int plt) override;
-	u32 getPixel(int pixel, bool right = false) override;
+	u8 getPaletteColor(u8 plt) override;
+	u8 getPixel(int pixel, bool right = false) override;
 private:
-	std::array<u32, 15> colors;
 	bool valid = false;
-	u8 paletteIndex = 0;
 
 	u8* patternData() const {
 		return this->data.get() + ptrnOffset;

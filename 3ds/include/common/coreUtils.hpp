@@ -46,7 +46,7 @@ namespace CoreUtils {
 	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
 	// C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
 	void createBackup();
-	C2D_Image patternImage(std::shared_ptr<PatternImage> image);
+	C2D_Image patternImage(std::shared_ptr<PatternImage> image, SaveType ST = SaveType::UNUSED);
 }
 
 #endif

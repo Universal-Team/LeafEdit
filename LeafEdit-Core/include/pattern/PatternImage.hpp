@@ -30,16 +30,14 @@
 #include "types.hpp"
 
 #include <memory>
-#include <vector>
 
 class PatternImage {
 public:
 	virtual ~PatternImage() {}
 	PatternImage() { }
-	virtual void refresh() = 0;
 	virtual bool isValid() = 0;
-	virtual u32 getPaletteColor(int plt) = 0;
-	virtual u32 getPixel(int pixel, bool right) = 0;
+	virtual u8 getPaletteColor(u8 plt) = 0;
+	virtual u8 getPixel(int pixel, bool right) = 0;
 };
 
 #endif

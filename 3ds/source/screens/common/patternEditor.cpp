@@ -37,7 +37,7 @@ extern SaveType savesType;
 PatternEditor::PatternEditor(std::shared_ptr<Pattern> ptrn) : pattern(ptrn) {
 	C3D_FrameEnd(0);
 	this->image = this->pattern->image(0);
-	this->patternImage = CoreUtils::patternImage(this->image);
+	this->patternImage = CoreUtils::patternImage(this->image, savesType);
 }
 
 PatternEditor::~PatternEditor() {

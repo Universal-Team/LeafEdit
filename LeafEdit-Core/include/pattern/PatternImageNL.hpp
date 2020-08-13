@@ -28,10 +28,6 @@
 #define _LEAFEDIT_CORE_PATTERN_IMAGE_NL_HPP
 
 #include "PatternImage.hpp"
-#include "Player.hpp"
-
-#include <memory>
-#include <vector>
 
 class PatternImageNL : public PatternImage {
 protected:
@@ -41,17 +37,15 @@ protected:
 public:
 	virtual ~PatternImageNL() {}
 	PatternImageNL(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) : PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) {
-		this->refresh();
+		this->valid = true; // TODO: Handle that differently?
 	}
 
-	void refresh() override;
 	bool isValid() override { return this->valid; }
 
-	u32 getPaletteColor(int plt) override;
-	u32 getPixel(int pixel, bool right = false) override;
+	u8 getPaletteColor(u8 plt) override;
+	u8 getPixel(int pixel, bool right = false) override;
 private:
 	bool valid = false;
-	std::array<u32, 16> paletteArray = {0}; // Only the first 15 are valid tho.
 	
 	u8* patternData() const {
 		return this->data.get() + ptrnOffset;
