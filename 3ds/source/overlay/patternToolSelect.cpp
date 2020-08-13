@@ -24,29 +24,40 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_PATTERN_EDITOR_HPP
-#define _LEAFEDIT_PATTERN_EDITOR_HPP
-
 #include "common.hpp"
 #include "overlay.hpp"
-#include "Pattern.hpp"
-#include "PatternImage.hpp"
-#include "structs.hpp"
 
-#include <vector>
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-class PatternEditor : public Screen {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PatternEditor(std::shared_ptr<Pattern> ptrn);
-	~PatternEditor();
-	
-private:
-	PatternTools ptrnTool = PatternTools::Nothing;
-	std::shared_ptr<Pattern> pattern;
-	std::shared_ptr<PatternImage> image;
-	C2D_Image patternImage;
-};
+static void Draw(const int selection) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "Select the Pattern Tool you want to use.", 395, 0, font);
+	GFX::DrawBottom();
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
+	C3D_FrameEnd(0);
+}
 
-#endif
+// TODO.
+PatternTools Overlays::SelectPatternTool() {
+	int selection = 0;
+
+	while(1) {
+		Draw(selection);
+		
+		// Logic, here.
+		hidScanInput();
+
+		if (hidKeysDown() & KEY_A) {
+			return PatternTools::Pen;
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return PatternTools::Nothing;
+		}
+	}
+}

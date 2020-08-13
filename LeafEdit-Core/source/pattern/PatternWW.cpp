@@ -31,37 +31,18 @@
 #include <cstring>
 #include <unistd.h>
 
-// Is that right?
-static const u32 PaletteColors[] = {
-	0xFFFF0000, 0xFFFF7331, 0xFFFFAD00, 0xFFFFFF00, 0xFFADFF00, 0xFF52FF00, 0xFF00FF00, 0xFF00AD52, 0xFF0052AD, 0xFF0000FF, 0xFF5200FF, 0xFFAD00FF, 0xFFFF00FF, 0xFF000000, 0xFFFFFFFF,
-	0xFFFF7B7B, 0xFFFFB57B, 0xFFFFE77B, 0xFFFFFF7B, 0xFFDEFF7B, 0xFFADFF7B, 0xFF7BFF7B, 0xFF52AD84, 0xFF5284AD, 0xFF7B7BFF, 0xFFB57BFF, 0xFFE77BFF, 0xFFFF7BFF, 0xFF000000, 0xFFFFFFFF,
-	0xFFA50000, 0xFFA53100, 0xFFA57300, 0xFFA5A500, 0xFF73A500, 0xFF31A500, 0xFF00A500, 0xFF005221, 0xFF002152, 0xFF0000A5, 0xFF3100A5, 0xFF7300A5, 0xFFA500A5, 0xFF000000, 0xFFFFFFFF,
-	0xFF009C00, 0xFF5ACE6B, 0xFFB5FFDE, 0xFF009C6B, 0xFF52CEA5, 0xFFADFFD6, 0xFF0052AD, 0xFF2984D6, 0xFF5AADFF, 0xFF0000FF, 0xFF4A6BFF, 0xFF314ADE, 0xFF1821B5, 0xFF00008C, 0xFFFFFFFF,
-	0xFFAD7300, 0xFFD6AD42, 0xFFFFDE8C, 0xFFFF0839, 0xFFFF4A6B, 0xFFFF949C, 0xFFAD00FF, 0xFFD663FF, 0xFFFFCEFF, 0xFFFFBD9C, 0xFFDE9473, 0xFFBD634A, 0xFF9C3921, 0xFF7B1000, 0xFFFFFFFF,
-	0xFFFF0000, 0xFFFF5200, 0xFFFFB55A, 0xFFFFEFAD, 0xFF7B1000, 0xFFA54A31, 0xFFD6846B, 0xFFFFBD9C, 0xFF5AADFF, 0xFF84C6FF, 0xFFADE7FF, 0xFFD6FFFF, 0xFF6B6B6B, 0xFF000000, 0xFFFFFFFF,
-	0xFF00FF00, 0xFF42FF42, 0xFF8CFF8C, 0xFFD6FFD6, 0xFF0000FF, 0xFF4242FF, 0xFF8C8CFF, 0xFFD6D6FF, 0xFFFF0000, 0xFFFF4242, 0xFFFF8C8C, 0xFFFFD6D6, 0xFF6B6B6B, 0xFF000000, 0xFFFFFFFF,
-	0xFF003100, 0xFF426342, 0xFF849C84, 0xFFC6D6C6, 0xFF7B1000, 0xFFA54A29, 0xFFD68C5A, 0xFFFFC68C, 0xFFD6B500, 0xFFE7CE39, 0xFFF7DE7B, 0xFFFFF7BD, 0xFF6B6B6B, 0xFF000000, 0xFFFFFFFF,
-	0xFF0000FF, 0xFFFF0000, 0xFFFFFF00, 0xFF4242FF, 0xFFFF4242, 0xFFFFFF42, 0xFF8C8CFF, 0xFFFF8C8C, 0xFFFFFF8C, 0xFFD6D6FF, 0xFFFFD6D6, 0xFFFFFFD6, 0xFF6B6B6B, 0xFF000000, 0xFFFFFFFF,
-	0xFF00FF00, 0xFF0000FF, 0xFFFF00FF, 0xFF42FF42, 0xFF4242FF, 0xFFFF42FF, 0xFF8CFF8C, 0xFF8C8CFF, 0xFFFF8CFF, 0xFFD6FFD6, 0xFFD6D6FF, 0xFFFFD6FF, 0xFF6B6B6B, 0xFF000000, 0xFFFFFFFF,
-	0xFFFF0000, 0xFFFF7B00, 0xFFFFFF00, 0xFF84FF00, 0xFF00FF00, 0xFF00847B, 0xFF0000FF, 0xFF7B00FF, 0xFFFF94FF, 0xFFD6B500, 0xFFBD1000, 0xFF5A1000, 0xFF6B6B6B, 0xFF000000, 0xFFFFFFFF,
-	0xFF109463, 0xFF087B52, 0xFF108C39, 0xFF319C31, 0xFFCEA54A, 0xFFCE9439, 0xFFBD8C4A, 0xFFD68C31, 0xFFAD734A, 0xFF8C5A31, 0xFF6B4229, 0xFF84EFFF, 0xFF31CEEF, 0xFF00A5C6, 0xFFFFFFFF,
-	0xFFD6DEE7, 0xFFB5CEDE, 0xFFE7EFEF, 0xFFF7F7F7, 0xFF84737B, 0xFF948C6B, 0xFF847B63, 0xFF9C845A, 0xFF739CB5, 0xFFFF2929, 0xFFFFFF00, 0xFF9421FF, 0xFF009CBD, 0xFF000000, 0xFFFFFFFF,
-	0xFFFFFFFF, 0xFFF7EFEF, 0xFFE7DEDE, 0xFFD6CECE, 0xFFC6B5B5, 0xFFB5A5A5, 0xFFA59494, 0xFF9C8484, 0xFF8C6B6B, 0xFF7B5A5A, 0xFF6B4A4A, 0xFF5A3131, 0xFF4A2121, 0xFF421010, 0xFF310000,
-	0xFFFFFFFF, 0xFFEFEFEF, 0xFFDEDEDE, 0xFFCECECE, 0xFFB5B5B5, 0xFFA5A5A5, 0xFF949494, 0xFF848484, 0xFF6B6B6B, 0xFF5A5A5A, 0xFF4A4A4A, 0xFF313131, 0xFF212121, 0xFF101010, 0xFF000000,
-	0xFFFF8C7B, 0xFFFF0000, 0xFFFF7B00, 0xFFFFFF00, 0xFF008400, 0xFF00FF00, 0xFF0000FF, 0xFF009CFF, 0xFFD600FF, 0xFFFF6BFF, 0xFF9C0000, 0xFFFF9400, 0xFFFFBD94, 0xFF000000, 0xFFFFFFFF
-};
-
 // Pattern Name.
 std::u16string PatternWW::name() {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			return StringUtils::ReadWWString(patternPointer(), 0x216, 15, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x216, 15, this->region);
+			return StringUtils::ReadWWString(patternPointer(), 0x212, 9, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(patternPointer(), 0x21F, 10, u'\uFFFF');
+			return StringUtils::ReadNLString(patternPointer(), 0x21E, 10, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -73,12 +54,13 @@ void PatternWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			StringUtils::WriteWWString(patternPointer(), v, 0x216, 15, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x216, 15, this->region);
+			StringUtils::WriteWWString(patternPointer(), v, 0x212, 9, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(patternPointer(), v, 0x21F, 10); // No Region param etc cause uses NL's stuff.
+			StringUtils::WriteNLString(patternPointer(), v, 0x21E, 10); // No Region param etc cause uses NL's stuff.
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -91,11 +73,12 @@ u16 PatternWW::creatorid() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			//return SaveUtils::Read<u16>(patternPointer(), 0x21E);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return 0; // TODO.
+			return SaveUtils::Read<u16>(patternPointer(), 0x208);
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x20F);
+			return SaveUtils::Read<u16>(patternPointer(), 0x20E);
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -107,11 +90,14 @@ void PatternWW::creatorid(u16 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			//SaveUtils::Write<u16>(patternPointer(), 0x21E);
+			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
+			SaveUtils::Write<u16>(patternPointer(), 0x208, v);
 			break;
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Write<u16>(patternPointer(), 0x20F, v);
+			SaveUtils::Write<u16>(patternPointer(), 0x20E, v);
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -124,11 +110,12 @@ std::u16string PatternWW::creatorname() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			return StringUtils::ReadWWString(patternPointer(), 0x20C, 7, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x20C, 7, this->region);
+			return StringUtils::ReadWWString(patternPointer(), 0x20A, 6, this->region);
 		case WWRegion::KOR_REV1: // Could be changed cause -> UTF-16.
-			return StringUtils::ReadNLString(patternPointer(), 0x211, 6, u'\uFFFF');
+			return StringUtils::ReadNLString(patternPointer(), 0x210, 6, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -140,12 +127,14 @@ void PatternWW::creatorname(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-		case WWRegion::JPN_REV0:
-		case WWRegion::JPN_REV1:
 			StringUtils::WriteWWString(patternPointer(), v, 0x20C, 7, this->region);
 			break;
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			StringUtils::WriteWWString(patternPointer(), v, 0x20A, 6, this->region);
+			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(patternPointer(), v, 0x211, 6); // No Region param etc cause uses NL's stuff.
+			StringUtils::WriteNLString(patternPointer(), v, 0x210, 6); // No Region param etc cause uses NL's stuff.
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -188,11 +177,12 @@ u16 PatternWW::origtownid() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			return 0; // TODO.
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return 0; // TODO.
+			return SaveUtils::Read<u16>(patternPointer(), 0x200);
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x201);
+			return SaveUtils::Read<u16>(patternPointer(), 0x200);
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -204,11 +194,13 @@ void PatternWW::origtownid(u16 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
+			SaveUtils::Write<u16>(patternPointer(), 0x200, v);
 			break;
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Write<u16>(patternPointer(), 0x201, v);
+			SaveUtils::Write<u16>(patternPointer(), 0x200, v);
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -221,11 +213,12 @@ std::u16string PatternWW::origtownname() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			return StringUtils::ReadWWString(patternPointer(), 0x202, 7, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x202, 7, this->region);
+			return StringUtils::ReadWWString(patternPointer(), 0x202, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(patternPointer(), 0x203, 6, u'\uFFFF');
+			return StringUtils::ReadNLString(patternPointer(), 0x202, 6, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -237,12 +230,14 @@ void PatternWW::origtownname(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-		case WWRegion::JPN_REV0:
-		case WWRegion::JPN_REV1:
 			StringUtils::WriteWWString(patternPointer(), v, 0x202, 7, this->region);
 			break;
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			StringUtils::WriteWWString(patternPointer(), v, 0x202, 6, this->region);
+			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(patternPointer(), v, 0x203, 6); // No Region param etc cause uses NL's stuff.
+			StringUtils::WriteNLString(patternPointer(), v, 0x202, 6); // No Region param etc cause uses NL's stuff.
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -300,9 +295,11 @@ void PatternWW::dumpPattern(const std::string fileName) {
 			case WWRegion::USA_REV0:
 			case WWRegion::USA_REV1:
 			case WWRegion::EUR_REV1:
+				size = 0x228;
+				break;
 			case WWRegion::JPN_REV0:
 			case WWRegion::JPN_REV1:
-				size = 0x228;
+				size = 0x220;
 				break;
 			case WWRegion::KOR_REV1:
 				size = 0x234;
@@ -333,7 +330,7 @@ void PatternWW::dumpPattern(const std::string fileName) {
 void PatternWW::injectPattern(const std::string fileName) {
 	// If region == UNKNOWN -> Do NOTHING.
 	if (this->region != WWRegion::UNKNOWN) {
-		if ((access(fileName.c_str(), F_OK) != 0))	return; // File not found. Do NOTHING.
+		if ((access(fileName.c_str(), F_OK) != 0)) return; // File not found. Do NOTHING.
 		bool allowInject = false;
 		u32 size = 0;
 		// Open file and get size.
@@ -347,16 +344,14 @@ void PatternWW::injectPattern(const std::string fileName) {
 			case WWRegion::USA_REV0:
 			case WWRegion::USA_REV1:
 			case WWRegion::EUR_REV1:
+				if (size == 0x228) allowInject = true;
+				break;
 			case WWRegion::JPN_REV0:
 			case WWRegion::JPN_REV1:
-				if (size == 0x228) {
-					allowInject = true;
-				}
+				if (size == 0x220) allowInject = true;
 				break;
 			case WWRegion::KOR_REV1:
-				if (size == 0x234) {
-					allowInject = true;
-				}
+				if (size == 0x234) allowInject = true;
 				break;
 			case WWRegion::UNKNOWN:
 				break;
@@ -396,7 +391,7 @@ u8* PatternWW::patternData(const int pattern) {
 				data = this->patternPointer() + 0;
 				break;
 			case WWRegion::KOR_REV1:
-				data = this->patternPointer() + 1;
+				data = this->patternPointer() + 0;
 				break;
 			case WWRegion::UNKNOWN:
 				return nullptr; // What else should be returned? :P
@@ -417,25 +412,28 @@ std::array<u8, 16> PatternWW::customPalette() {
 
 std::shared_ptr<PatternImage> PatternWW::image(const int pattern) {
 	u32 patternOffset = this->Offset + 0;
+	u32 pltOffset = this->Offset + 0;
 
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
+			patternOffset = this->Offset + 0;
+			pltOffset = this->Offset + 0x226;
+			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			patternOffset = this->Offset + 0;
+			pltOffset = this->Offset + 0x21C;
 			break;
 		case WWRegion::KOR_REV1:
-			patternOffset = this->Offset + 1;
+			patternOffset = this->Offset + 0;
+			pltOffset = this->Offset + 0x232;
 			break;
 		case WWRegion::UNKNOWN:
 			return nullptr; // What else should be returned? :P
 			break;
 	}
 
-	return std::make_shared<PatternImageWW>(this->data, patternOffset, this->Offset + 0x226);
+	return std::make_shared<PatternImageWW>(this->data, patternOffset, pltOffset);
 }
-
-// Palette array seems to be 0x200, it begins at 0x1 at Korean.
-// Europe | USA | JPN - Research.

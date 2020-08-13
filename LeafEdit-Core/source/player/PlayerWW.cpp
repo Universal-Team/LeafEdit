@@ -494,9 +494,9 @@ std::unique_ptr<Pattern> PlayerWW::pattern(int slot) {
 			return std::make_unique<PatternWW>(data, offset + 0 + slot * 0x228, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<PatternWW>(data, offset + 0xA94 + slot * 0x228, this->region);
+			return std::make_unique<PatternWW>(data, offset + 0 + slot * 0x220, this->region);
 		case WWRegion::KOR_REV1:
-			return std::make_unique<PatternWW>(data, offset + 0x8CF + slot * 0x234, this->region);
+			return std::make_unique<PatternWW>(data, offset + 0 + slot * 0x234, this->region);
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}

@@ -27,17 +27,43 @@
 #include "patternEditor.hpp"
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
+#include "stringUtils.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 // Bring that to other screens too.
 extern SaveType savesType;
 
+PatternEditor::PatternEditor(std::shared_ptr<Pattern> ptrn) : pattern(ptrn) {
+	C3D_FrameEnd(0);
+	this->image = this->pattern->image(0);
+	this->patternImage = CoreUtils::patternImage(this->image);
+}
+
+PatternEditor::~PatternEditor() {
+	if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
+}
+
 void PatternEditor::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_EDITOR"), 395, 0, font);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Pattern Name: " + StringUtils::UTF16toUTF8(this->pattern->name()), 395, 0, font);
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Creator Name: " + StringUtils::UTF16toUTF8(this->pattern->creatorname()), 395, 0, font);
+	Gui::DrawStringCentered(0, 80, 0.7f, BLACK, "Creator ID: " + std::to_string(this->pattern->creatorid()), 395, 0, font);
+	Gui::DrawStringCentered(0, 100, 0.7f, BLACK, "Origin Town Name: " + StringUtils::UTF16toUTF8(this->pattern->origtownname()), 395, 0, font);
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "Origin Town ID: " + std::to_string(this->pattern->origtownid()), 395, 0, font);
+	if (this->pattern->creatorGender()) {
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, "Gender: Female", 395, 0, font);
+	} else {
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, "Gender: Male", 395, 0, font);
+	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
+	GFX::DrawBottom(true);
+
+	C2D_DrawImageAt(this->patternImage, 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
+	// TODO: Grid.
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
