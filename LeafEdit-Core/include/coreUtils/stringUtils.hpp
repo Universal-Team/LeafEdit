@@ -40,15 +40,16 @@ namespace StringUtils {
 	std::u16string& toFullWidth(std::u16string& in);
 	u16 strToU16(const std::string str);
 
-	// New Leaf | Welcome Amiibo.
-	std::u16string ReadNLString(const u8* data, int ofs, int len, char16_t term);
-	void WriteNLString(u8 *data, const std::u16string &str, u32 offset, u32 maxSize);
+	// New Leaf | Welcome Amiibo and Korean AC:WW.
+	std::u16string ReadUTF16String(const u8* data, int ofs, int len, char16_t term);
+	void WriteUTF16String(u8 *data, const std::u16string &str, u32 offset, u32 maxSize);
 
-	// Wild World.
+	
 	std::u16string wwToUnicode(const std::string &input, WWRegion region);
 	std::string unicodeToWW(const std::u16string &input, WWRegion region);
-	std::u16string ReadWWString(u8 *data, u32 offset, u32 maxSize, WWRegion region);
-	void WriteWWString(u8 *data, const std::u16string &str, u32 offset, u32 maxSize, WWRegion region);
+	// Wild World all regions besides Korean.
+	std::u16string ReadUTF8String(u8 *data, u32 offset, u32 maxSize, WWRegion region);
+	void WriteUTF8String(u8 *data, const std::u16string &str, u32 offset, u32 maxSize, WWRegion region);
 }
 
 #endif

@@ -199,12 +199,12 @@ std::string StringUtils::UTF16toUTF8(const std::u16string& src) {
 
 
 // Read a Wild World String.
-std::u16string StringUtils::ReadWWString(u8 *data, u32 offset, u32 maxSize, WWRegion region) {
+std::u16string StringUtils::ReadUTF8String(u8 *data, u32 offset, u32 maxSize, WWRegion region) {
 	std::string str(reinterpret_cast<char *>(data + offset), maxSize + 1);
 	return wwToUnicode(str, region);
 }
 
-void StringUtils::WriteWWString(u8 *data, const std::u16string &str, u32 offset, u32 maxSize, WWRegion region) {
+void StringUtils::WriteUTF8String(u8 *data, const std::u16string &str, u32 offset, u32 maxSize, WWRegion region) {
 	// Do not allow a string longer as max.
 	if (str.length() > maxSize + 1) return;
 
@@ -213,7 +213,7 @@ void StringUtils::WriteWWString(u8 *data, const std::u16string &str, u32 offset,
 }
 
 // Used to get the NL | WA Strings.
-std::u16string StringUtils::ReadNLString(const u8* data, int ofs, int len, char16_t term) {
+std::u16string StringUtils::ReadUTF16String(const u8* data, int ofs, int len, char16_t term) {
 	std::u16string ret;
 	ret.reserve(len);
 	const char16_t* buf = (char16_t*)(data + ofs);
@@ -225,7 +225,7 @@ std::u16string StringUtils::ReadNLString(const u8* data, int ofs, int len, char1
 	return ret;
 }
 
-void StringUtils::WriteNLString(u8 *data, const std::u16string &str, u32 offset, u32 maxSize) {
+void StringUtils::WriteUTF16String(u8 *data, const std::u16string &str, u32 offset, u32 maxSize) {
 	// Do not allow a string longer as max.
 	if (str.length() > maxSize + 1) return;
 

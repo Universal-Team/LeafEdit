@@ -26,7 +26,7 @@ steps:
     sudo apt install p7zip-full haveged qrencode
     sudo dpkg -i pacman.deb
     sudo dkp-pacman -Sy
-    sudo dkp-pacman -S 3ds-dev 3ds-curl 3ds-liblzma 3ds-mbedtls 3ds-bzip2 3ds-zlib 3ds-libjpeg-turbo nds-dev --noconfirm
+    sudo dkp-pacman -S 3ds-dev 3ds-curl 3ds-liblzma 3ds-mbedtls 3ds-bzip2 3ds-zlib 3ds-libjpeg-turbo --noconfirm
     curl -L https://github.com/Steveice10/bannertool/releases/download/1.1.0/bannertool.zip -o bannertool.zip
     sudo 7z e bannertool.zip linux-x86_64/bannertool
     sudo chmod +x bannertool
@@ -46,11 +46,8 @@ steps:
   displayName: 'Build LeafEdit'
 
 - script: |
-    tools-linux/make_cia --srl="nds/LeafEdit.nds"
     cp 3ds/LeafEdit.3dsx $(Build.ArtifactStagingDirectory)
     cp 3ds/LeafEdit.cia $(Build.ArtifactStagingDirectory)
-    cp nds/LeafEdit.nds $(Build.ArtifactStagingDirectory)
-    cp nds/LeafEdit.cia $(Build.ArtifactStagingDirectory)/LeafEdit.nds.cia
     echo '##vso[task.setvariable variable=COMMIT_TAG]'$(git log --format=%h -1)
     echo '##vso[task.setvariable variable=COMMIT_MESSAGE]'$(git log --pretty=format:"%an - %s" -1)
   displayName: 'Post-build steps'
@@ -65,10 +62,7 @@ steps:
     cd extras/builds/LeafEdit/
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.3dsx .
     cp $(Build.ArtifactStagingDirectory)/LeafEdit.cia .
-    cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds .
-    cp $(Build.ArtifactStagingDirectory)/LeafEdit.nds.cia .
     qrencode -o LeafEdit.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.cia
-    qrencode -o LeafEdit.nds.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/LeafEdit/LeafEdit.nds.cia
     git stage .
     git commit -m "LeafEdit | $(COMMIT_TAG)"
     git push origin master

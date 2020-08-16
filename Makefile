@@ -1,4 +1,4 @@
-SUBDIRS = 3ds nds
+SUBDIRS = 3ds
 
 all:
 	@for dir in $(SUBDIRS); do $(MAKE) -C $$dir; done
@@ -8,8 +8,5 @@ clean:
 
 3ds:
 	@$(MAKE) -C 3ds
-
-nds:
-	@$(MAKE) -C nds
 
 .PHONY: $(SUBDIRS) clean

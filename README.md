@@ -2,7 +2,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPLv3-informational.svg" alt="License: GPLv3">
   <a href="https://discord.gg/KDJCfGF">
-    <img src="https://img.shields.io/badge/Discord-%23leafedit-7289DA" alt="Discord Server: #leafedit">
+    <img src="https://img.shields.io/badge/Discord-%23leafedit-7289DA" alt="Discord Server: #leafedit-wildedit">
   </a>
   <a href="https://dev.azure.com/Universal-Team/Builds/_build?definitionId=8">
     <img src="https://dev.azure.com/Universal-Team/Builds/_apis/build/status/Universal-Team.LeafEdit?branchName=master" alt="Build status on Azure Pipelines">
@@ -12,26 +12,17 @@
   </a>
 </p>
 
-This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager & Editor for the Nintendo 3DS and Nintendo DS!
+This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager & Editor for the Nintendo 3DS!
 
 This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core).
 
 ## Citra User
 
-To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/LeafEdit/Assets/` and you should be fine.
+To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/3ds/LeafEdit/assets/` and you should be fine.
 
 ## Compilation
 
-### 3DS
 To compile LeafEdit 3DS from source, you need devkitARM installed along with libctru, 3ds-curl and 3ds-libjpeg-turbo. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm` and lastly `pacman -S 3ds-libjpeg-turbo`. Now that you have everything installed, you just need to run clone the repository and run `make`.
-
-### NDS
-Compiling LeafEdit NDS requires [devkitPro](https://devkitpro.org)'s devkitARM and libnds.
-These can be installed by getting [devkitPro pacman](https://devkitpro.org/wiki/devkitPro_pacman), then running:
-`sudo dkp-pacman -S nds-dev`<br>
-<sup>(command may be slightly different depending on your OS)</sup>
-
-You will also need the [bmp2ds](https://github.com/Universal-Team/bmp2ds/releases/latest) graphics converter in your PATH named `bmp2ds`.
 
 
 ## Credits

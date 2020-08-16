@@ -43,12 +43,14 @@
 	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?",
 
 	"FAILED_LOAD_SPRITESHEET": "Failed to load SpriteSheets...",
+	"FEMALE": "Female",
 	"FETCH_UPDATES": "Do you like to check for updates?",
 	"FETCHING_UPDATES": "Fetching latest updates...",
 	"FILL_TOWN": "Fill Town",
 	"FILLED_TOWN": "Filled town with %s.",
 	"FONT_NOT_FOUND": "Font not found! Cannot load.\n\nMake sure you have 'font.bcfnt' inside 'sdmc:/3ds/LeafEdit/assets/'.",
 
+	"GENDER": "Gender",
 	"GENERAL_CREDITS": "General Credits",
 	"GOLD": "Gold",
 	"GRAPHIC_WORK": "For the amazing Graphic work!",
@@ -71,6 +73,7 @@
 	"MAIN_DEV": "Main Developer: SuperSaiyajinStackZ",
 	"MAINPATH_CHANGE": "Mainpath got changed.\nPlease move your stuff to 'sdmc:/3ds/LeafEdit/'.",
 	"MAINMENU": "MainMenu",
+	"MALE": "Male",
 	"MISC_EDITOR": "Misc Editor",
 
 	"NO": "No",
@@ -82,7 +85,13 @@
 	"ON_LATEST_VERSION": "You seem to be on the latest Version.\nDo you still want to update?",
 
 	"PATTERN": "Pattern",
+	"PATTERN_CREATOR_ID": "Creator ID",
+	"PATTERN_CREATOR_NAME": "Creator Name",
 	"PATTERN_EDITOR": "Pattern Editor",
+	"PATTERN_NAME": "Pattern Name",
+	"PATTERN_ORIGIN_ID": "Origin Town ID",
+	"PATTERN_ORIGIN_NAME": "Origin Town Name",
+	"PATTERN_VIEWER": "Pattern Viewer",
 	"PLAYER": "Player",
 	"PLAYER_BANK": "Bank",
 	"PLAYER_EYE_COLOR": "Eye color",

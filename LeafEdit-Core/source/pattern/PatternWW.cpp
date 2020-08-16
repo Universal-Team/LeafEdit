@@ -37,12 +37,12 @@ std::u16string PatternWW::name() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x216, 15, this->region);
+			return StringUtils::ReadUTF8String(patternPointer(), 0x216, 15, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x212, 9, this->region);
+			return StringUtils::ReadUTF8String(patternPointer(), 0x212, 9, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(patternPointer(), 0x21E, 10, u'\uFFFF');
+			return StringUtils::ReadUTF16String(patternPointer(), 0x21E, 10, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -54,13 +54,13 @@ void PatternWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x216, 15, this->region);
+			StringUtils::WriteUTF8String(patternPointer(), v, 0x216, 15, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x212, 9, this->region);
+			StringUtils::WriteUTF8String(patternPointer(), v, 0x212, 9, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(patternPointer(), v, 0x21E, 10); // No Region param etc cause uses NL's stuff.
+			StringUtils::WriteUTF16String(patternPointer(), v, 0x21E, 10); // No Region param etc cause uses NL's stuff.
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -110,12 +110,12 @@ std::u16string PatternWW::creatorname() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x20C, 7, this->region);
+			return StringUtils::ReadUTF8String(patternPointer(), 0x20C, 7, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x20A, 6, this->region);
+			return StringUtils::ReadUTF8String(patternPointer(), 0x20A, 6, this->region);
 		case WWRegion::KOR_REV1: // Could be changed cause -> UTF-16.
-			return StringUtils::ReadNLString(patternPointer(), 0x210, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(patternPointer(), 0x210, 6, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -127,14 +127,14 @@ void PatternWW::creatorname(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x20C, 7, this->region);
+			StringUtils::WriteUTF8String(patternPointer(), v, 0x20C, 7, this->region);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x20A, 6, this->region);
+			StringUtils::WriteUTF8String(patternPointer(), v, 0x20A, 6, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(patternPointer(), v, 0x210, 6); // No Region param etc cause uses NL's stuff.
+			StringUtils::WriteUTF16String(patternPointer(), v, 0x210, 6); // No Region param etc cause uses NL's stuff.
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -213,12 +213,12 @@ std::u16string PatternWW::origtownname() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x202, 7, this->region);
+			return StringUtils::ReadUTF8String(patternPointer(), 0x202, 7, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(patternPointer(), 0x202, 6, this->region);
+			return StringUtils::ReadUTF8String(patternPointer(), 0x202, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(patternPointer(), 0x202, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(patternPointer(), 0x202, 6, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -230,14 +230,14 @@ void PatternWW::origtownname(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x202, 7, this->region);
+			StringUtils::WriteUTF8String(patternPointer(), v, 0x202, 7, this->region);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(patternPointer(), v, 0x202, 6, this->region);
+			StringUtils::WriteUTF8String(patternPointer(), v, 0x202, 6, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(patternPointer(), v, 0x202, 6); // No Region param etc cause uses NL's stuff.
+			StringUtils::WriteUTF16String(patternPointer(), v, 0x202, 6); // No Region param etc cause uses NL's stuff.
 			break;
 		case WWRegion::UNKNOWN:
 			break;

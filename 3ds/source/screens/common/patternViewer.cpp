@@ -84,15 +84,15 @@ PatternViewer::~PatternViewer() {
 
 
 void PatternViewer::DisplayPatternInfo(void) const {
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, "Pattern Name: " + StringUtils::UTF16toUTF8(this->pattern[this->selectedPattern]->name()), 395, 0, font);
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, "Creator Name: " + StringUtils::UTF16toUTF8(this->pattern[this->selectedPattern]->creatorname()), 395, 0, font);
-	Gui::DrawStringCentered(0, 80, 0.7f, BLACK, "Creator ID: " + std::to_string(pattern[this->selectedPattern]->creatorid()), 395, 0, font);
-	Gui::DrawStringCentered(0, 100, 0.7f, BLACK, "Origin Town Name: " + StringUtils::UTF16toUTF8(this->pattern[this->selectedPattern]->origtownname()), 395, 0, font);
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, "Origin Town ID: " + std::to_string(this->pattern[this->selectedPattern]->origtownid()), 395, 0, font);
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PATTERN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern[this->selectedPattern]->name()), 395, 0, font);
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_NAME") + ": " +  StringUtils::UTF16toUTF8(this->pattern[this->selectedPattern]->creatorname()), 395, 0, font);
+	Gui::DrawStringCentered(0, 80, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_ID") + ": " + std::to_string(pattern[this->selectedPattern]->creatorid()), 395, 0, font);
+	Gui::DrawStringCentered(0, 100, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern[this->selectedPattern]->origtownname()), 395, 0, font);
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_ID") + ": " + std::to_string(this->pattern[this->selectedPattern]->origtownid()), 395, 0, font);
 	if (this->pattern[this->selectedPattern]->creatorGender()) {
-		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, "Gender: Female", 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, "Gender: Male", 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
 	}
 }
 

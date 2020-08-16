@@ -98,17 +98,17 @@ void showString() {
 			case WWRegion::EUR_REV1:
 			case WWRegion::JPN_REV0:
 			case WWRegion::JPN_REV1:
-				output = StringUtils::ReadWWString(save->savePointer(), offset, length, save->getRegion());
+				output = StringUtils::ReadUTF8String(save->savePointer(), offset, length, save->getRegion());
 				break;
 			case WWRegion::KOR_REV1:
-				output = StringUtils::ReadNLString(save->savePointer(), offset, length, u'\uFFFF');
+				output = StringUtils::ReadUTF16String(save->savePointer(), offset, length, u'\uFFFF');
 				break;
 			case WWRegion::UNKNOWN:
 				output = StringUtils::UTF8toUTF16("?");
 				break;
 		}
 	} else if (save->getType() == SaveType::NL || save->getType() == SaveType::WA) {
-		output = StringUtils::ReadNLString(save->savePointer(), offset, length, u'\uFFFF');
+		output = StringUtils::ReadUTF16String(save->savePointer(), offset, length, u'\uFFFF');
 	}
 
 	char message [100];

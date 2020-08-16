@@ -327,12 +327,12 @@ std::u16string PlayerWW::name() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadWWString(playerPointer(), 0x2282, 7, this->region);
+			return StringUtils::ReadUTF8String(playerPointer(), 0x2282, 7, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(playerPointer(), 0x1D06, 6, this->region);
+			return StringUtils::ReadUTF8String(playerPointer(), 0x1D06, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(playerPointer(), 0x248E, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(playerPointer(), 0x248E, 6, u'\uFFFF');
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -344,14 +344,14 @@ void PlayerWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteWWString(playerPointer(), v, 0x2282, 7, this->region);
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x2282, 7, this->region);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(playerPointer(), v, 0x1D06, 6, this->region);
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x1D06, 6, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(playerPointer(), v, 0x248E, 6);
+			StringUtils::WriteUTF16String(playerPointer(), v, 0x248E, 6);
 			break;
 		case WWRegion::UNKNOWN:
 			break;

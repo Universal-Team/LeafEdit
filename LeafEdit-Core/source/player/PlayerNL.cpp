@@ -115,10 +115,10 @@ bool PlayerNL::exist() {
 
 // Player Name.
 std::u16string PlayerNL::name() {
-	return StringUtils::ReadNLString(playerPointer(), 0x55A8, 8, u'\uFFFF');
+	return StringUtils::ReadUTF16String(playerPointer(), 0x55A8, 8, u'\uFFFF');
 }
 void PlayerNL::name(std::u16string v) {
-	StringUtils::WriteNLString(playerPointer(), v, 0x55A8, 8);
+	StringUtils::WriteUTF16String(playerPointer(), v, 0x55A8, 8);
 }
 
 // Wallet Amount.

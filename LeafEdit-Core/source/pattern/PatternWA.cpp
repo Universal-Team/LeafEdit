@@ -33,10 +33,10 @@
 
 // Pattern Name.
 std::u16string PatternWA::name() {
-	return StringUtils::ReadNLString(patternPointer(), 0, 20, u'\uFFFF');
+	return StringUtils::ReadUTF16String(patternPointer(), 0, 20, u'\uFFFF');
 }
 void PatternWA::name(std::u16string v) {
-	StringUtils::WriteNLString(patternPointer(), v, 0, 20);
+	StringUtils::WriteUTF16String(patternPointer(), v, 0, 20);
 }
 
 // Creator ID.
@@ -49,10 +49,10 @@ void PatternWA::creatorid(u16 v) {
 
 // Creator Name.
 std::u16string PatternWA::creatorname() {
-	return StringUtils::ReadNLString(patternPointer(), 0x2C, 8, u'\uFFFF');
+	return StringUtils::ReadUTF16String(patternPointer(), 0x2C, 8, u'\uFFFF');
 }
 void PatternWA::creatorname(std::u16string v) {
-	StringUtils::WriteNLString(patternPointer(), v, 0x2C, 8);
+	StringUtils::WriteUTF16String(patternPointer(), v, 0x2C, 8);
 }
 
 // Creator Gender.
@@ -73,10 +73,10 @@ void PatternWA::origtownid(u16 v) {
 
 // Town Name.
 std::u16string PatternWA::origtownname() {
-	return StringUtils::ReadNLString(patternPointer(), 0x42, 9, u'\uFFFF');
+	return StringUtils::ReadUTF16String(patternPointer(), 0x42, 9, u'\uFFFF');
 }
 void PatternWA::origtownname(std::u16string v) {
-	StringUtils::WriteNLString(patternPointer(), v, 0x42, 9);
+	StringUtils::WriteUTF16String(patternPointer(), v, 0x42, 9);
 }
 
 // Own a Pattern.
