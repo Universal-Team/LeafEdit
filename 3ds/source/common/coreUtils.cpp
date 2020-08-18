@@ -273,3 +273,46 @@ C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image, SaveType 
 		return {nullptr};
 	}
 }
+
+/* Generate an empty pattern using the empty pattern files of the romfs. */
+void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_ptr<u8[]> &data) {
+	data = nullptr; // Reset here.
+	std::string path;
+
+	switch(ST) {
+		case SaveType::WW:
+			/* Switch Region. */
+			switch(region) {
+				case WWRegion::JPN_REV0:
+				case WWRegion::JPN_REV1:
+					path = "romfs:/pattern/empty/ww_jpn.acww";
+					break;
+				case WWRegion::USA_REV0:
+				case WWRegion::USA_REV1:
+				case WWRegion::EUR_REV1:
+					path = "romfs:/pattern/empty/ww_eur.acww";
+					break;
+				case WWRegion::KOR_REV1:
+					path = "romfs:/pattern/empty/ww_kor.acww";
+					break;
+				case WWRegion::UNKNOWN:
+					return; // Because invalid.
+			}
+			break;
+
+		case SaveType::NL:
+		case SaveType::WA:
+			path = "romfs:/pattern/empty/nl.acnl";
+			break;
+		case SaveType::UNUSED:
+			return; // Because invalid.
+	}
+
+	FILE *file = fopen(path.c_str(), "rb");
+	fseek(file, 0, SEEK_END);
+	u32 size = ftell(file);
+	fseek(file, 0, SEEK_SET);
+	data = std::shared_ptr<u8[]>(new u8[size]);
+	fread(data.get(), 1, size, file);
+	fclose(file);
+}

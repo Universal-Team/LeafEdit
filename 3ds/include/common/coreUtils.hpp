@@ -27,6 +27,7 @@
 #ifndef COREUTILS_HPP
 #define COREUTILS_HPP
 
+#include "itemUtils.hpp"
 #include "PatternImage.hpp"
 #include "Player.hpp"
 #include <3ds.h>
@@ -47,6 +48,7 @@ namespace CoreUtils {
 	// C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
 	void createBackup();
 	C2D_Image patternImage(std::shared_ptr<PatternImage> image, SaveType ST = SaveType::UNUSED);
+	void generateEmptyPattern(SaveType ST, WWRegion region, std::shared_ptr<u8[]> &data);
 }
 
 #endif

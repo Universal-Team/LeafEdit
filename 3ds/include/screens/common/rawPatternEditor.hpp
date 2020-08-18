@@ -24,30 +24,44 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_MAINMENU_HPP
-#define _LEAFEDIT_MAINMENU_HPP
+#ifndef _LEAFEDIT_RAW_PATTERN_EDITOR_HPP
+#define _LEAFEDIT_RAW_PATTERN_EDITOR_HPP
 
 #include "common.hpp"
+#include "overlay.hpp"
+#include "Pattern.hpp"
+#include "PatternNL.hpp"
+#include "PatternWA.hpp"
+#include "PatternWW.hpp"
+#include "PatternImage.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class MainMenu : public Screen {
+class RawPatternEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
+	RawPatternEditor();
+	~RawPatternEditor();
 private:
-	int Selection = 0;
+	/* Functions. */
+	void load(const std::string ptrnFile, bool fromFile);
+	void getPattern(const std::string ptrnFile);
+	const std::string getSaveName() const;
+	const std::string getRegionName() const;
 
-	std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "EDITOR"},
-		{175, 34, 130, 48, "PATTERN_EDITOR"},
-		{15, 97, 130, 48, "SETTINGS"},
-		{175, 97, 130, 48, "CREDITS"},
-		{15, 159, 130, 48, "UPDATE_CENTER"},
-		{175, 159, 130, 48, ""}
-	};
+	/* Save / Region Related stuff. */
+	bool isValid = false;
+	SaveType savetype = SaveType::UNUSED;
+	WWRegion saveregion = WWRegion::UNKNOWN;
+
+	/* Data. */
+	std::shared_ptr<u8[]> data;
+	u32 patternSize = 0;
+	std::shared_ptr<Pattern> pattern;
+	std::shared_ptr<PatternImage> image;
+	C2D_Image patternImage;
 };
 
 #endif

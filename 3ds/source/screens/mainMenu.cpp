@@ -27,6 +27,7 @@
 #include "credits.hpp"
 #include "editor.hpp"
 #include "mainMenu.hpp"
+#include "rawPatternEditor.hpp"
 #include "Sav.hpp"
 #include "saveUtils.hpp"
 #include "screenCommon.hpp"
@@ -39,7 +40,8 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
 extern std::shared_ptr<Sav> save;
 
-#define TESTPATH	"sdmc:/nogba/Battery/EUR.sav"
+#define TESTPATH "sdmc:/nogba/Battery/EUR.sav"
+
 void doStuff() {
 	// Here we open the file and get the SaveType.
 	save = nullptr;
@@ -117,8 +119,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 			}
 		} else if (Selection == 1) {
-			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
+			Gui::setScreen(std::make_unique<RawPatternEditor>(), doFade, true);
 		} else if (Selection == 2) {
+			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
+		} else if (Selection == 3) {
 			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
 		} else if (Selection == 3) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
@@ -131,10 +135,12 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 			}
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
+			Gui::setScreen(std::make_unique<RawPatternEditor>(), doFade, true);
 		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 		} else if (touching(touch, mainButtons[3])) {
+			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+		} else if (touching(touch, mainButtons[4])) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}
 	}

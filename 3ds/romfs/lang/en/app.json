@@ -59,6 +59,7 @@
 
 	"INSTALLING_CIA": "Installing CIA...",
 	"INVALID_BUILDINGS": "Invalid building(s) have been found in your save.\nThey may cause your game to crash.\nWould you like to fix it?",
+	"INVALID_PATTERN": "Invalid Pattern",
 	"INVALID_SAVEFILE": "Invalid SaveFile!",
 	"ITEM_DRESSER": "Dresser",
 	"ITEM_ISLAND": "Islandbox",
@@ -88,6 +89,7 @@
 	"PATTERN_CREATOR_ID": "Creator ID",
 	"PATTERN_CREATOR_NAME": "Creator Name",
 	"PATTERN_EDITOR": "Pattern Editor",
+	"PATTERN_EDITOR_RAW": "Raw Pattern Editor",
 	"PATTERN_NAME": "Pattern Name",
 	"PATTERN_ORIGIN_ID": "Origin Town ID",
 	"PATTERN_ORIGIN_NAME": "Origin Town Name",
@@ -108,6 +110,7 @@
 	"PUBLISHED_AT": "Published at: ",
 
 	"REFRESH": "Press Start to Refresh the FileBrowse.",
+	"REGION": "Region",
 	"REGION_NOT_MATCH": "The region does not match the one from your console.\nWould you like to fix it?",
 	"RELEASE_NOTES": "Release Notes",
 	"REMOVE_ITEMS": "Remove Items",
@@ -117,6 +120,7 @@
 	"REPLACED_ITEMS": "Replaced %i Items.",
 
 	"SAVE_PROMPT": "Do you like to save?",
+	"SAVETYPE": "Savetype",
 	"SAVING_USELESS": "Saving is useless. No changes have been made.",
 	"SELECT_HAIR": "Select the Hair you like.",
 	"SELECT_ITEM": "Select an item.",

@@ -137,7 +137,7 @@ void Editor::Draw(void) const {
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
 		if (saveT != -1) {
-			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, "SaveType: " + titleNames[saveT+1], 400, 0, font); // +1 for PAL names.
+			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, Lang::get("SAVETYPE") + ": " + titleNames[saveT + 1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
 			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
@@ -192,6 +192,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->Saving();
 			}
 		}
+
 		// Navigation.
 		if (hDown & KEY_UP) {
 			if (Selection > 0)	Selection --;
