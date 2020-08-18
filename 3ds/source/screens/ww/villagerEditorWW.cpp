@@ -112,11 +112,11 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 				// Get other item stuff.
 				this->villagerItems[10] = this->villager->shirt();
-				this->villagerItems[11] = this->villager->umbrella();
 
 				this->miscItems[0] = this->villager->songWW();
 				this->miscItems[1] = this->villager->wallpaperWW();
 				this->miscItems[2] = this->villager->carpetWW();
+				this->miscItems[3] = this->villager->umbrellaWW();
 
 				this->villagerMode = 1;
 				break;
@@ -139,10 +139,10 @@ void VillagerEditorWW::DrawItems(void) const {
 	}
 
 	GFX::drawGrid(items[10].x, items[10].y, items[10].w, items[10].h, ItemManager::getColor(ItemType::Clothes), C2D_Color32(0, 0, 0, 255)); // Shirt.
-	GFX::drawGrid(items[11].x, items[11].y, items[11].w, items[11].h, ItemManager::getColor(ItemType::Clothes), C2D_Color32(0, 0, 0, 255)); // Umbrella.
-	GFX::drawGrid(items[12].x, items[12].y, items[12].w, items[12].h, ItemManager::getColor(ItemType::Song), C2D_Color32(0, 0, 0, 255)); // Song.
-	GFX::drawGrid(items[13].x, items[13].y, items[13].w, items[13].h, ItemManager::getColor(ItemType::WallpaperCarpet), C2D_Color32(0, 0, 0, 255)); // Wallpaper.
-	GFX::drawGrid(items[14].x, items[14].y, items[14].w, items[14].h, ItemManager::getColor(ItemType::WallpaperCarpet), C2D_Color32(0, 0, 0, 255)); // Carpet.
+	GFX::drawGrid(items[11].x, items[11].y, items[11].w, items[11].h, ItemManager::getColor(ItemType::Song), C2D_Color32(0, 0, 0, 255)); // Song.
+	GFX::drawGrid(items[12].x, items[12].y, items[12].w, items[12].h, ItemManager::getColor(ItemType::WallpaperCarpet), C2D_Color32(0, 0, 0, 255)); // Wallpaper.
+	GFX::drawGrid(items[13].x, items[13].y, items[13].w, items[13].h, ItemManager::getColor(ItemType::WallpaperCarpet), C2D_Color32(0, 0, 0, 255)); // Carpet.
+	GFX::drawGrid(items[14].x, items[14].y, items[14].w, items[14].h, ItemManager::getColor(ItemType::Clothes), C2D_Color32(0, 0, 0, 255)); // Umbrella.
 
 	GFX::DrawGUI(gui_pointer_idx, items[itemSelection].x+15, items[itemSelection].y+15);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -155,7 +155,7 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->itemSelection < 11) {
 			this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), SaveType::WW));
 		} else {
-			// TODO: Handle of the indexes and also checking if Umbrella is an item, or u8.
+			// TODO: Handle of the indexes.
 		}
 	}
 
@@ -176,11 +176,11 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		this->villagerMode = 0;
 		// Reset Items to nullptr.
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 11; i++) {
 			this->villagerItems[i] = nullptr;
 		}
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			this->miscItems[i] = 0;
 		}
 	}

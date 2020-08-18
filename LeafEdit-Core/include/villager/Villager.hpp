@@ -65,6 +65,8 @@ public:
 	virtual void wallpaperWW(u8 wlp) = 0;
 	virtual u8 carpetWW() = 0;
 	virtual void carpetWW(u8 crp) = 0;
+	virtual u8 umbrellaWW() = 0;
+	virtual void umbrellaWW(u8 umbr) = 0;
 
 
 	virtual std::unique_ptr<Item> furniture(int slot) = 0;

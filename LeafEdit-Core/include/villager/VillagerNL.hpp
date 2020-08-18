@@ -66,7 +66,9 @@ public:
 	void wallpaperWW(u8 wlp) override { };
 	u8 carpetWW() override { return 0; };
 	void carpetWW(u8 crp) override { };
-
+	u8 umbrellaWW() override { return 0; };
+	void umbrellaWW(u8 umbr) override { };
+	
 	std::unique_ptr<Item> furniture(int slot) override;
 private:
 	u8* villagerPointer() const {

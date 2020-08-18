@@ -42,8 +42,8 @@ public:
 	VillagerEditorWW(std::shared_ptr<Villager> v): villager(v) { }
 private:
 	std::shared_ptr<Villager> villager;
-	u8 miscItems[3];
-	std::shared_ptr<Item> villagerItems[12];
+	u8 miscItems[4];
+	std::shared_ptr<Item> villagerItems[11];
 	int villagerMode = 0, Selection = 0, itemSelection = 0, keyRepeatDelay = 0;
 	
 	void DrawSubMenu(void) const;

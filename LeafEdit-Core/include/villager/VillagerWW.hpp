@@ -69,12 +69,12 @@ public:
 	void personality(u8 v) override;
 	
 	// Items.
-	/* NOTE: Carpet, Wallpaper & Song is an uint8_t index. [u8] */
+	/* NOTE: Carpet, Wallpaper, Umbrella & Song is an uint8_t index. [u8] */
 	std::unique_ptr<Item> song() override { return nullptr; };
 	std::unique_ptr<Item> shirt() override;
 	std::unique_ptr<Item> wallpaper() override { return nullptr; };
 	std::unique_ptr<Item> carpet() override { return nullptr; };
-	std::unique_ptr<Item> umbrella() override;
+	std::unique_ptr<Item> umbrella() override { return nullptr; };
 
 	u8 songWW() override;
 	void songWW(u8 sng) override;
@@ -82,6 +82,8 @@ public:
 	void wallpaperWW(u8 wlp) override;
 	u8 carpetWW() override;
 	void carpetWW(u8 crp) override;
+	u8 umbrellaWW() override;
+	void umbrellaWW(u8 umbr) override;
 
 	std::unique_ptr<Item> furniture(int slot) override;
 private:
