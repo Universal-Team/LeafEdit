@@ -248,14 +248,14 @@ C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image, SaveType 
 			case SaveType::NL:
 			case SaveType::WA:
 				for (int i = 0; i < 0x200; i++) {
-					buffer[i * 2] = NLPaletteColors[image->getPaletteColor(image->getPixel(i, false))]; // Left pixel.
-					buffer[i * 2 + 1] = NLPaletteColors[image->getPaletteColor(image->getPixel(i, true))]; // Right pixel.
+					buffer[i * 2] = NLPaletteColors[image->getPaletteColor(image->getPixel(i).left)]; // Left pixel.
+					buffer[i * 2 + 1] = NLPaletteColors[image->getPaletteColor(image->getPixel(i).right)]; // Right pixel.
 				}
 				break;
 			case SaveType::WW:
 				for (int i = 0; i < 0x200; i++) {
-					buffer[i * 2] = WWPaletteColors[std::max<u8>(0, image->getPaletteColor(image->getPixel(i, false)) - 1)]; // Left pixel.
-					buffer[i * 2 + 1] = WWPaletteColors[std::max<u8>(0, image->getPaletteColor(image->getPixel(i, true)) - 1)]; // Right pixel.
+					buffer[i * 2] = WWPaletteColors[std::max<u8>(0, image->getPaletteColor(image->getPixel(i).left) - 1)]; // Left pixel.
+					buffer[i * 2 + 1] = WWPaletteColors[std::max<u8>(0, image->getPaletteColor(image->getPixel(i).right) - 1)]; // Right pixel.
 				}
 				break;
 			case SaveType::UNUSED:

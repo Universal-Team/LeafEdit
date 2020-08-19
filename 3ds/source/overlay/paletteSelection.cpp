@@ -24,16 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "patternEditor.hpp"
-#include "screenCommon.hpp"
-#include "spriteManagement.hpp"
-#include "stringUtils.hpp"
+#include "coreUtils.hpp"
+#include "overlay.hpp"
 
-extern bool touching(touchPosition touch, ButtonType button);
-extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
-extern SaveType savesType;
-
-/* Needed to display Palettes. */
+/* It needs to be ARGB to draw them as Rectangles. */
 static const u32 WWPaletteColors[] = {
 	0xFF0000FF, 0xFF3173FF, 0xFF00ADFF, 0xFF00FFFF, 0xFF00FFAD, 0xFF00FF52, 0xFF00FF00, 0xFF52AD00, 0xFFAD5200, 0xFFFF0000, 0xFFFF0052, 0xFFFF00AD, 0xFFFF00FF, 0xFF000000, 0xFFFFFFFF,
 	0xFF7B7BFF, 0xFF7BB5FF, 0xFF7BE7FF, 0xFF7BFFFF, 0xFF7BFFDE, 0xFF7BFFAD, 0xFF7BFF7B, 0xFF84AD52, 0xFFAD8452, 0xFFFF7B7B, 0xFFFF7BB5, 0xFFFF7BE7, 0xFFFF7BFF, 0xFF000000, 0xFFFFFFFF,
@@ -53,91 +47,53 @@ static const u32 WWPaletteColors[] = {
 	0xFF7B8CFF, 0xFF0000FF, 0xFF007BFF, 0xFF00FFFF, 0xFF008400, 0xFF00FF00, 0xFFFF0000, 0xFFFF9C00, 0xFFFF00D6, 0xFFFF6BFF, 0xFF00009C, 0xFF0094FF, 0xFF94BDFF, 0xFF000000, 0xFFFFFFFF
 };
 
-PatternEditor::PatternEditor(std::shared_ptr<Pattern> ptrn) : pattern(ptrn) {
-	C3D_FrameEnd(0);
-	this->image = this->pattern->image(0);
-	this->patternImage = CoreUtils::patternImage(this->image, savesType);
-}
+static void Draw(std::shared_ptr<PatternImage> &pImg, C2D_Image &img) {
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
+	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 
-PatternEditor::~PatternEditor() {
-	if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
-}
-
-void PatternEditor::Draw(void) const {
-	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_EDITOR"), 395, 0, font);
-	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PATTERN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern->name()), 395, 0, font);
-	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_NAME") + ": " +  StringUtils::UTF16toUTF8(this->pattern->creatorname()), 395, 0, font);
-	Gui::DrawStringCentered(0, 80, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_ID") + ": " + std::to_string(pattern->creatorid()), 395, 0, font);
-	Gui::DrawStringCentered(0, 100, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern->origtownname()), 395, 0, font);
-	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_ID") + ": " + std::to_string(this->pattern->origtownid()), 395, 0, font);
-	
-	if (this->pattern->creatorGender()) {
-		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
-	} else {
-		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
-	}
-
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom(true);
-
-	C2D_DrawImageAt(this->patternImage, 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
-	// TODO: Grid.
+	GFX::DrawTop(true);
+	if (img.subtex != nullptr) C2D_DrawImageAt(img, 125, 45, 0.5f, nullptr, 5, 5); // 160x160. 160/32 -> 5.
+	GFX::DrawBottom(false);
 
 	/* Drawing Palette. */
-	if (savesType == SaveType::WW) {
-		for (int i = 0; i < 15; i++) {
-			if (i == this->color) {
-				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, WWPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(160, 0, 0, 255));
-			} else {
-				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, WWPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
-			}
-		}
+	for (int i = 0; i < 15; i++) {
+		GFX::drawGrid(10 + i * 20, 120, 20, 20, WWPaletteColors[pImg->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
 	}
 
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	Gui::DrawStringCentered(0, 80, 0.9f, C2D_Color32(255, 255, 255, 255), "Palette Index: " + std::to_string(pImg->getWWPaletteIndex() + 1), 310, 20, font);
+	C3D_FrameEnd(0);
 }
 
-void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_B) {
-		Gui::screenBack(doFade);
-	}
+void Overlays::PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img) {
+	bool exitOverlay = false;
+	while(!exitOverlay) {
+		
+		Draw(pImg, img);
+		hidScanInput();
 
-	/* Open the Pattern Palette Selection. */
-	if (hDown & KEY_Y) {
-		if (savesType == SaveType::WW) {
-			Overlays::PaletteTool(this->image, this->patternImage);
+		/* Only allow actions, if alright. */
+		if (pImg && img.subtex) {
+			if (hidKeysDown() & KEY_RIGHT) {
+				if (pImg->getWWPaletteIndex() < 14) {
+					pImg->setPaletteColor(pImg->getWWPaletteIndex() + 1, 0);
+					C3D_FrameEnd(0);
+					img = CoreUtils::patternImage(pImg, SaveType::WW);
+				}
+			}
+
+			if (hidKeysDown() & KEY_LEFT) {
+				if (pImg->getWWPaletteIndex() > 0) {
+					pImg->setPaletteColor(pImg->getWWPaletteIndex() - 1, 0);
+					C3D_FrameEnd(0);
+					img = CoreUtils::patternImage(pImg, SaveType::WW);
+				}
+			}
 		}
-	}
 
-	/* Pattern drawing part. */
-	if (savesType == SaveType::WW) {
-		if (hHeld & KEY_TOUCH) {
-			bool didTouch = false;
-			for (int x = 0; x < 32; x++) {
-				for (int y = 0; y < 32; y++) {
-					if (touch.px <= (8 + 7 + x * 7) && touch.px >= (8 + x * 7) && touch.py <= (8 + 7 + y * 7) && touch.py >= (8 + y * 7)) {
-						if (savesType == SaveType::WW) this->image->setPixel(x, y, this->color + 1);
-						didTouch = true;
-						break;
-					}
-				}
-			}
-
-			/* If we didn't touched the Pattern. */
-			if (!didTouch) {
-				for (int i = 0; i < 15; i++) {
-					if (iconTouch(touch, palettePos[i])) {
-						this->color = i;
-					}
-				}
-			}
-
-			if (didTouch) {
-				C3D_FrameEnd(0);
-				if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
-				this->patternImage = CoreUtils::patternImage(this->image, savesType);
-			}
+		if (hidKeysDown() & KEY_A) {
+			exitOverlay = true;
 		}
 	}
 }

@@ -45,6 +45,7 @@ namespace Overlays {
 	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
 	void SplashOverlay();
 	PatternTools SelectPatternTool();
+	void PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
 }
 
 #endif

@@ -62,6 +62,28 @@ private:
 	std::shared_ptr<Pattern> pattern;
 	std::shared_ptr<PatternImage> image;
 	C2D_Image patternImage;
+
+	/* Palette Stuff. */
+	int color = 0;
+
+	const std::vector<Structs::ButtonPos> palettePos = {
+		{260, 7, 22, 22},
+		{290, 7, 22, 22},
+		{260, 35, 22, 22},
+		{290, 35, 22, 22},
+		{260, 63, 22, 22},
+		{290, 63, 22, 22},
+		{260, 91, 22, 22},
+		{290, 91, 22, 22},
+		{260, 119, 22, 22},
+		{290, 119, 22, 22},
+		{260, 147, 22, 22},
+		{290, 147, 22, 22},
+		{260, 175, 22, 22},
+		{290, 175, 22, 22},
+		{260, 203, 22, 22},
+		{290, 203, 22, 22}
+	};
 };
 
 #endif

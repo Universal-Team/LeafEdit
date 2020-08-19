@@ -25,19 +25,42 @@
 */
 
 #include "PatternImageNL.hpp"
+#include "saveUtils.hpp"
 
 u8 PatternImageNL::getPaletteColor(u8 plt) {
 	if (plt > 14) return 0;
 	return (u8)this->paletteData()[plt];
 }
 
-u8 PatternImageNL::getPixel(int index, bool right) {
+/* There is no "index" on NL. */
+int PatternImageNL::getWWPaletteIndex() { return 0; }
+
+void PatternImageNL::setPaletteColor(int index, u8 color) {
+	if (index > 15) return;
+	SaveUtils::Write<u8>(this->paletteData(), index, color);
+}
+
+pixel PatternImageNL::getPixel(int index) {
 	if (this->valid) {
 		if (this->patternData() != nullptr) {
-			if (right) return (u8)((this->patternData()[index] >> 4) & 0x0F);
-			else return (u8)(this->patternData()[index] & 0x0F);
+			return this->pixelPointer()[index];
 		} 
 	}
 
-	return 0;
+	return {0, 0};
+}
+
+void PatternImageNL::setPixel(int index, int color) {
+	if (color > 14 || index > 0x3FF) return; // Out of scope.
+	
+	if (this->valid) {
+		if (this->patternData() != nullptr) {
+			if (index % 2 == 0) this->pixelPointer()[index / 2].left = color;
+			else this->pixelPointer()[index / 2].right = color;
+		}
+	}
+}
+
+void PatternImageNL::setPixel(int x, int y, int color) {
+	this->setPixel((x + (y * 32)), color);
 }

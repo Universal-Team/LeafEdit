@@ -31,13 +31,23 @@
 
 #include <memory>
 
+// Pixel struct.
+struct pixel {
+	u8 left: 4; // 0000
+	u8 right: 4; // 1111
+};
+
 class PatternImage {
 public:
 	virtual ~PatternImage() {}
 	PatternImage() { }
 	virtual bool isValid() = 0;
 	virtual u8 getPaletteColor(u8 plt) = 0;
-	virtual u8 getPixel(int pixel, bool right) = 0;
+	virtual int getWWPaletteIndex() = 0;
+	virtual void setPaletteColor(int index, u8 color) = 0;
+	virtual pixel getPixel(int pixel) = 0;
+	virtual void setPixel(int index, int color) = 0;
+	virtual void setPixel(int x, int y, int color) = 0;
 };
 
 #endif
