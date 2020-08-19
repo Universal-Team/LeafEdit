@@ -44,8 +44,12 @@ namespace Overlays {
 	u16 SelectItem(u16 oldID, const SaveType st, const bool blockInv = false);
 	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
 	void SplashOverlay();
+	
 	PatternTools SelectPatternTool();
-	void PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteToolWW(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteToolNL(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST);
+
 }
 
 #endif

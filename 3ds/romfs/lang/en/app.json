@@ -13,6 +13,7 @@
 
 	"CANCEL_FILE_SELECTION": "Cancel File Selection?",
 	"CLEAR_WEEDS": "Clear Weeds",
+	"COLOR_GROUP": "Color Group",
 	"COMMITTED_BY": "Committed by: ",
 	"CONNECT_WIFI": "Please connect to Wi-Fi.",
 	"CORE_STRUCTURE": "For helping me and basically the idea of the Core-Structure.",
@@ -85,6 +86,8 @@
 	"OLD_ITEM": "Old Item: ",
 	"ON_LATEST_VERSION": "You seem to be on the latest Version.\nDo you still want to update?",
 
+	"PALETTE_EDITOR": "Palette Editor",
+	"PALETTE_INDEX": "Palette Index",
 	"PATTERN": "Pattern",
 	"PATTERN_CREATOR_ID": "Creator ID",
 	"PATTERN_CREATOR_NAME": "Creator Name",
