@@ -24,7 +24,6 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "credits.hpp"
 #include "editor.hpp"
 #include "mainMenu.hpp"
 #include "Sav.hpp"
@@ -115,7 +114,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 		} else if (Selection == 2) {
-			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+			Overlays::showCredits();
 		} else if (Selection == 3) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}
@@ -129,7 +128,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+			Overlays::showCredits();
 		} else if (touching(touch, mainButtons[3])) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}

@@ -55,6 +55,7 @@ void PatternWW::name(std::u16string v) {
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
 			StringUtils::WriteUTF8String(patternPointer(), v, 0x216, 15, this->region);
+			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			StringUtils::WriteUTF8String(patternPointer(), v, 0x212, 9, this->region);

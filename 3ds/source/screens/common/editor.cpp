@@ -195,7 +195,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		// Navigation.
 		if (hDown & KEY_UP) {
-			if (Selection > 0)	Selection --;
+			if (Selection > 0)	Selection--;
 		} else if (hDown & KEY_DOWN) {
 			if (Selection < 2)	Selection++;
 		}
