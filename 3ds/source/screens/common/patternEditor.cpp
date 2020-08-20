@@ -24,7 +24,9 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "keyboard.hpp"
 #include "patternEditor.hpp"
+#include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
 #include "stringUtils.hpp"
@@ -32,6 +34,7 @@
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern SaveType savesType;
+extern std::shared_ptr<Sav> save;
 
 /* Needed to display Palettes. */
 static const u32 WWPaletteColors[] = {
@@ -92,9 +95,9 @@ void PatternEditor::Draw(void) const {
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_ID") + ": " + std::to_string(this->pattern->origtownid()), 395, 0, font);
 	
 	if (this->pattern->creatorGender()) {
-		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("PATTER_GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("PATTER_GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -111,6 +114,7 @@ void PatternEditor::Draw(void) const {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, WWPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
 			}
 		}
+
 	} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
 		for (int i = 0; i < 15; i++) {
 			if (i == this->color) {
@@ -125,42 +129,90 @@ void PatternEditor::Draw(void) const {
 }
 
 void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_B) {
+	if (this->ptrnTool == PatternMode::Exit) {
 		Gui::screenBack(doFade);
 	}
 
-	/* Open the Pattern Palette Selection. */
-	if (hDown & KEY_Y) {
+	/* Set Personal stuff to pattern. */
+	if (this->ptrnTool == PatternMode::Own) {
+		this->pattern->ownPattern(save->player(0));
+		this->ptrnTool = PatternMode::Draw;
+	}
+
+	/* Open the Pattern Tool Menu. */
+	if (hDown & KEY_START) {
+		this->ptrnTool = Overlays::SelectPatternTool();
+	}
+
+	if (this->ptrnTool == PatternMode::Palette) {
 		Overlays::PaletteTool(this->image, this->patternImage, savesType);
+		this->ptrnTool = PatternMode::Draw;
+	}
+
+	/* Import mode. */
+	if (this->ptrnTool == PatternMode::Import) {
+		std::string extension;
+		if (savesType == SaveType::WW) {
+			extension = "acww";
+		} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+			extension = "acnl";
+		}
+
+		const std::string file = Overlays::RomfsSDOverlay({extension}, "sdmc:/3ds/LeafEdit/Pattern/", "romfs:/pattern/", Lang::get("SELECT_PATTERN"));
+
+		if (file != "") {
+			this->pattern->injectPattern(file); // inject.
+			this->image = this->pattern->image(0);
+			C3D_FrameEnd(0);
+			this->patternImage = CoreUtils::patternImage(this->image, savesType);
+		}
+
+		this->ptrnTool = PatternMode::Draw;
+	}
+
+	/* Export mode. */
+	if (this->ptrnTool == PatternMode::Export) {
+		/* Here we select the destination. */
+		std::string destination = Overlays::SelectDestination(Lang::get("SELECT_DESTINATION"), "sdmc:/3ds/LeafEdit/Pattern/", "sdmc:/3ds/LeafEdit/Pattern/");
+
+		/* Enter the name of the pattern. */
+		destination += Input::setkbdString(20, Lang::get("ENTER_PATTERN_NAME"));
+
+		this->pattern->dumpPattern(destination);
+		Msg::DisplayWaitMsg(Lang::get("SAVED_TO_FILE") + "\n\n" + destination + ".");
+
+		this->ptrnTool = PatternMode::Draw;
 	}
 
 	/* Pattern drawing part. */
-	if (hHeld & KEY_TOUCH) {
-		bool didTouch = false;
-		for (int x = 0; x < 32; x++) {
-			for (int y = 0; y < 32; y++) {
-				if (touch.px <= (8 + 7 + x * 7) && touch.px >= (8 + x * 7) && touch.py <= (8 + 7 + y * 7) && touch.py >= (8 + y * 7)) {
-					if (savesType == SaveType::WW) this->image->setPixel(x, y, this->color + 1);
-					else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(x, y, this->color);
-					didTouch = true;
-					break;
+	if (this->ptrnTool == PatternMode::Draw) {
+		if (hHeld & KEY_TOUCH) {
+			bool didTouch = false;
+			for (int x = 0; x < 32; x++) {
+				for (int y = 0; y < 32; y++) {
+					if (touch.px <= (8 + 7 + x * 7) && touch.px >= (8 + x * 7) && touch.py <= (8 + 7 + y * 7) && touch.py >= (8 + y * 7)) {
+						if (savesType == SaveType::WW) this->image->setPixel(x, y, this->color + 1);
+						else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(x, y, this->color);
+						didTouch = true;
+						break;
+					}
 				}
 			}
-		}
 
-		/* If we didn't touched the Pattern. */
-		if (!didTouch) {
-			for (int i = 0; i < 15; i++) {
-				if (iconTouch(touch, palettePos[i])) {
-					this->color = i;
+			/* If we didn't touched the Pattern. */
+			if (!didTouch) {
+				for (int i = 0; i < 15; i++) {
+					if (iconTouch(touch, palettePos[i])) {
+						this->color = i;
+					}
 				}
 			}
-		}
 
-		if (didTouch) {
-			C3D_FrameEnd(0);
-			if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
-			this->patternImage = CoreUtils::patternImage(this->image, savesType);
+			if (didTouch) {
+				C3D_FrameEnd(0);
+				if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
+				this->patternImage = CoreUtils::patternImage(this->image, savesType);
+			}
 		}
 	}
 }

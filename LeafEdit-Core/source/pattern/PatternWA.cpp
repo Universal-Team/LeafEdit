@@ -84,14 +84,12 @@ void PatternWA::ownPattern(std::unique_ptr<Player> player) {
 	// Only set if player is not nullptr!
 	if (player != nullptr) {
 		this->creatorid(player->playerid());
-		this->creatorname(player->name());
+		//this->creatorname(player->name());
 		this->origtownid(player->townid());
-		this->origtownname(player->townname());
+		//this->origtownname(player->townname());
 		this->creatorGender(player->gender());
 	}
 }
-
-// Palette Array. Offset: 0x58, count: 16
 
 // Design Type.
 u8 PatternWA::designtype() {
@@ -150,28 +148,6 @@ void PatternWA::injectPattern(const std::string fileName) {
 	fclose(ptrn);
 	// Free Buffer.
 	delete(patternData);
-}
-
-u8* PatternWA::patternData(const int pattern) {
-	u8* patternData = new u8[0x400];
-
-	u8 *data = this->patternPointer() + this->Offset + 0x6C + (pattern * 0x200);
-
-	for(int i = 0; i < 0x200; i++) {
-		patternData[i * 2] = (data[i] & 0x0F);
-		patternData[i * 2 + 1] = ((data[i] >> 4) & 0x0F);
-	}
-
-	return patternData;
-}
-
-std::array<u8, 16> PatternWA::customPalette() {
-	std::array<u8, 16> customPLT;
-	for (int i = 0; i < 16; i++) {
-		customPLT[i] = this->patternPointer()[this->Offset + 0x58 + i];
-	}
-
-	return customPLT;
 }
 
 std::shared_ptr<PatternImage> PatternWA::image(const int pattern) {

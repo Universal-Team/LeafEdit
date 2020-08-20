@@ -43,7 +43,7 @@ public:
 	~PatternEditor();
 	
 private:
-	PatternTools ptrnTool = PatternTools::Nothing;
+	PatternMode ptrnTool = PatternMode::Draw;
 	std::shared_ptr<Pattern> pattern;
 	std::shared_ptr<PatternImage> image;
 	C2D_Image patternImage;

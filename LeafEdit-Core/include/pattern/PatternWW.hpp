@@ -33,7 +33,6 @@
 #include "Player.hpp"
 
 #include <memory>
-#include <vector>
 
 class PatternImage;
 class PatternImageWW;
@@ -67,8 +66,6 @@ public:
 	void injectPattern(const std::string fileName) override;
 
 	// Pattern Image.
-	u8* patternData(const int pattern) override;
-	std::array<u8, 16> customPalette() override;
 	std::shared_ptr<PatternImage> image(const int pattern) override;
 private:
 	u8* patternPointer() const {

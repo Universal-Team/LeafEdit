@@ -27,7 +27,6 @@
 #include "credits.hpp"
 #include "editor.hpp"
 #include "mainMenu.hpp"
-#include "rawPatternEditor.hpp"
 #include "Sav.hpp"
 #include "saveUtils.hpp"
 #include "screenCommon.hpp"
@@ -62,11 +61,6 @@ void doStuff() {
 		exiting = true;
 		return;
 	}
-
-	// Save Modification Test.
-//	for (int i = 0x747C; i < 0x747D; i++) {
-//		save->savePointer()[i] = 0x01;
-//	}
 
 	// And now we update the checksum at the end and write to file.
 	save->Finish();
@@ -119,10 +113,8 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 			}
 		} else if (Selection == 1) {
-			Gui::setScreen(std::make_unique<RawPatternEditor>(), doFade, true);
-		} else if (Selection == 2) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
-		} else if (Selection == 3) {
+		} else if (Selection == 2) {
 			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
 		} else if (Selection == 3) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
@@ -135,12 +127,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 			}
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<RawPatternEditor>(), doFade, true);
-		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
-		} else if (touching(touch, mainButtons[3])) {
+		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
-		} else if (touching(touch, mainButtons[4])) {
+		} else if (touching(touch, mainButtons[3])) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}
 	}

@@ -31,9 +31,7 @@
 #include "Player.hpp"
 #include "types.hpp"
 
-#include <array>
 #include <memory>
-#include <vector>
 
 class PatternImage;
 class Player;
@@ -68,8 +66,6 @@ public:
 	virtual void injectPattern(const std::string fileName) = 0;
 
 	// Pattern Image.
-	virtual u8* patternData(const int pattern) = 0;
-	virtual std::array<u8, 16> customPalette() = 0;
 	virtual std::shared_ptr<PatternImage> image(const int pattern) = 0;
 };
 

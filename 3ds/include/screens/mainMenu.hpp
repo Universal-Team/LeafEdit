@@ -42,10 +42,10 @@ private:
 
 	std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "EDITOR"},
-		{175, 34, 130, 48, "PATTERN_EDITOR"},
-		{15, 97, 130, 48, "SETTINGS"},
-		{175, 97, 130, 48, "CREDITS"},
-		{15, 159, 130, 48, "UPDATE_CENTER"},
+		{175, 34, 130, 48, "SETTINGS"},
+		{15, 97, 130, 48, "CREDITS"},
+		{175, 97, 130, 48, "UPDATE_CENTER"},
+		{15, 159, 130, 48, ""},
 		{175, 159, 130, 48, ""}
 	};
 };
