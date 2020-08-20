@@ -48,7 +48,7 @@ endif
 ifneq ($(shell echo $(shell git tag -l --points-at HEAD) | head -c 1),)
 GIT_VER := "Release $(shell git tag -l --points-at HEAD)"
 else
-GIT_VER := "Nightly $(shell git tag -l)-$(shell git rev-parse --short HEAD)"
+GIT_VER := "Nightly $(shell git describe --abbrev=0 --tags)-$(shell git rev-parse --short HEAD)"
 endif
 
 #---------------------------------------------------------------------------------
