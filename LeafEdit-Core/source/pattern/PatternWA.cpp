@@ -96,7 +96,7 @@ u8 PatternWA::designtype() {
 	return (patternPointer()[0x69] & 9);
 }
 void PatternWA::designtype(u8 v) {
-	SaveUtils::Write<u8>(this->patternPointer(), 0x69 & 9, v); // Right?
+	SaveUtils::Write<u8>(this->patternPointer(), 0x69, (patternPointer()[0x69] & 0xF0) | (v & 0x9));
 }
 
 // Dump a Pattern to file.
