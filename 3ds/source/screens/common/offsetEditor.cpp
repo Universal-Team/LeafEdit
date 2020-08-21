@@ -101,14 +101,14 @@ void showString() {
 				output = StringUtils::ReadUTF8String(save->savePointer(), offset, length, save->getRegion());
 				break;
 			case WWRegion::KOR_REV1:
-				output = StringUtils::ReadUTF16String(save->savePointer(), offset, length, u'\uFFFF');
+				output = StringUtils::ReadUTF16String(save->savePointer(), offset, length);
 				break;
 			case WWRegion::UNKNOWN:
 				output = StringUtils::UTF8toUTF16("?");
 				break;
 		}
 	} else if (save->getType() == SaveType::NL || save->getType() == SaveType::WA) {
-		output = StringUtils::ReadUTF16String(save->savePointer(), offset, length, u'\uFFFF');
+		output = StringUtils::ReadUTF16String(save->savePointer(), offset, length);
 	}
 
 	char message [100];

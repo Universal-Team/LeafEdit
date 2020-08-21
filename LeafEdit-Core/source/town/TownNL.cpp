@@ -38,7 +38,7 @@ void TownNL::grasstype(u8 v) {
 
 // Town Name.
 std::u16string TownNL::name() {
-	return StringUtils::ReadUTF16String(townPointer(), 0x80+0x05c73a, 8, u'\uFFFF');
+	return StringUtils::ReadUTF16String(townPointer(), 0x80+0x05c73a, 8);
 }
 void TownNL::name(std::u16string v) {
 	StringUtils::WriteUTF16String(townPointer(), v, 0x80+0x05c73a, 8);

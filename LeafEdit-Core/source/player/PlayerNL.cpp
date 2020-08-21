@@ -115,7 +115,7 @@ bool PlayerNL::exist() {
 
 // Player Name.
 std::u16string PlayerNL::name() {
-	return StringUtils::ReadUTF16String(playerPointer(), 0x55A8, 8, u'\uFFFF');
+	return StringUtils::ReadUTF16String(playerPointer(), 0x55A8, 8);
 }
 void PlayerNL::name(std::u16string v) {
 	StringUtils::WriteUTF16String(playerPointer(), v, 0x55A8, 8);

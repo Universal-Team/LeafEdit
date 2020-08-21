@@ -33,7 +33,7 @@
 
 // Pattern Name.
 std::u16string PatternWA::name() {
-	return StringUtils::ReadUTF16String(patternPointer(), 0, 20, u'\uFFFF');
+	return StringUtils::ReadUTF16String(patternPointer(), 0, 20);
 }
 void PatternWA::name(std::u16string v) {
 	StringUtils::WriteUTF16String(patternPointer(), v, 0, 20);
@@ -49,7 +49,7 @@ void PatternWA::creatorid(u16 v) {
 
 // Creator Name.
 std::u16string PatternWA::creatorname() {
-	return StringUtils::ReadUTF16String(patternPointer(), 0x2C, 8, u'\uFFFF');
+	return StringUtils::ReadUTF16String(patternPointer(), 0x2C, 8);
 }
 void PatternWA::creatorname(std::u16string v) {
 	StringUtils::WriteUTF16String(patternPointer(), v, 0x2C, 8);
@@ -73,7 +73,7 @@ void PatternWA::origtownid(u16 v) {
 
 // Town Name.
 std::u16string PatternWA::origtownname() {
-	return StringUtils::ReadUTF16String(patternPointer(), 0x42, 9, u'\uFFFF');
+	return StringUtils::ReadUTF16String(patternPointer(), 0x42, 9);
 }
 void PatternWA::origtownname(std::u16string v) {
 	StringUtils::WriteUTF16String(patternPointer(), v, 0x42, 9);
@@ -84,9 +84,9 @@ void PatternWA::ownPattern(std::unique_ptr<Player> player) {
 	// Only set if player is not nullptr!
 	if (player != nullptr) {
 		this->creatorid(player->playerid());
-		//this->creatorname(player->name());
+		this->creatorname(player->name());
 		this->origtownid(player->townid());
-		//this->origtownname(player->townname());
+		this->origtownname(player->townname());
 		this->creatorGender(player->gender());
 	}
 }

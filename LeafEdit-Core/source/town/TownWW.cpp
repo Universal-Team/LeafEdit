@@ -70,7 +70,7 @@ std::u16string TownWW::name() {
 		case WWRegion::JPN_REV1:
 			return StringUtils::ReadUTF8String(townPointer(), 0x0004, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(townPointer(), 0x0004, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(townPointer(), 0x0004, 6);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}

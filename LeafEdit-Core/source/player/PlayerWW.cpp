@@ -332,7 +332,7 @@ std::u16string PlayerWW::name() {
 		case WWRegion::JPN_REV1:
 			return StringUtils::ReadUTF8String(playerPointer(), 0x1D06, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(playerPointer(), 0x248E, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(playerPointer(), 0x248E, 6);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}

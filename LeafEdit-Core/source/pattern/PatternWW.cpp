@@ -42,7 +42,7 @@ std::u16string PatternWW::name() {
 		case WWRegion::JPN_REV1:
 			return StringUtils::ReadUTF8String(patternPointer(), 0x212, 9, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(patternPointer(), 0x21E, 10, u'\uFFFF');
+			return StringUtils::ReadUTF16String(patternPointer(), 0x21E, 10);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -116,7 +116,7 @@ std::u16string PatternWW::creatorname() {
 		case WWRegion::JPN_REV1:
 			return StringUtils::ReadUTF8String(patternPointer(), 0x20A, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(patternPointer(), 0x210, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(patternPointer(), 0x210, 6);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -188,7 +188,7 @@ u16 PatternWW::origtownid() {
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x200); // 0xE
+			return SaveUtils::Read<u16>(patternPointer(), 0x200);
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -221,7 +221,7 @@ std::u16string PatternWW::origtownname() {
 		case WWRegion::JPN_REV1:
 			return StringUtils::ReadUTF8String(patternPointer(), 0x202, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(patternPointer(), 0x202, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(patternPointer(), 0x202, 6);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -251,13 +251,11 @@ void PatternWW::origtownname(std::u16string v) {
 void PatternWW::ownPattern(std::unique_ptr<Player> player) {
 	// Only set if player is not nullptr!
 	if (player != nullptr) {
-		/*
 		this->creatorGender(player->gender());
 		this->creatorid(player->playerid());
 		this->creatorname(player->name());
 		this->origtownid(player->townid());
 		this->origtownname(player->townname());
-		*/
 	}
 }
 
