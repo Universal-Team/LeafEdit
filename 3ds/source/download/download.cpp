@@ -638,7 +638,7 @@ void setMessageText(const std::string &text) {
 		}
 	}
 
-	if(temp.size())	_topText.push_back(temp);
+	if (temp.size()) _topText.push_back(temp);
 }
 
 void drawMessageText(int position) {
@@ -650,8 +650,9 @@ void drawMessageText(int position) {
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("RELEASE_NOTES"), 395, 0, font);
 	Gui::DrawString(0, 25, 0.7, BLACK, jsonName.c_str(), 395, 0, font);
 	for (int i = 0; i < (int)_topText.size() && i < (10); i++) {
-		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i+position].c_str(), 395, 0, font);
+		Gui::DrawString(0, ((i * 16) + 40), 0.7f, BLACK, _topText[i + position].c_str(), 395, 0, font);
 	}
+
 	C3D_FrameEnd(0);
 }
 
@@ -661,7 +662,7 @@ bool Download::showReleaseInfo(ReleaseFetch RF) {
 	bool redrawText = true;
 
 	while(1) {
-		if(redrawText) {
+		if (redrawText) {
 			drawMessageText(textPosition);
 			redrawText = false;
 		}
@@ -671,22 +672,22 @@ bool Download::showReleaseInfo(ReleaseFetch RF) {
 		const u32 hDown = hidKeysDown();
 		const u32 hHeld = hidKeysHeld();
 
-		if(hHeld & KEY_UP || hHeld & KEY_DOWN) {
-			for(int i=0;i<10;i++)
+		if (hHeld & KEY_UP || hHeld & KEY_DOWN) {
+			for(int i = 0; i < 10; i++)
 				gspWaitForVBlank();
 		}
 
 		if(hDown & KEY_A) {
 			return true;
-		} else if(hDown & KEY_B || hDown & KEY_Y || hDown & KEY_TOUCH) {
+		} else if (hDown & KEY_B || hDown & KEY_Y || hDown & KEY_TOUCH) {
 			return false;
-		} else if(hHeld & KEY_UP) {
-			if(textPosition > 0) {
+		} else if (hHeld & KEY_UP) {
+			if (textPosition > 0) {
 				textPosition--;
 				redrawText = true;
 			}
-		} else if(hHeld & KEY_DOWN) {
-			if(textPosition < (int)(_topText.size() - 10)) {
+		} else if (hHeld & KEY_DOWN) {
+			if (textPosition < (int)(_topText.size() - 10)) {
 				textPosition++;
 				redrawText = true;
 			}
@@ -788,6 +789,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 	}
 	
 	doneMsg();
+
 	if (version != "")
 	if (success) {
 		if (is3dsx) {
@@ -910,12 +912,13 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
 	std::vector<ExtraEntry> emptyVector;
-	if(!socubuf) {
+
+	if (!socubuf) {
 		return emptyVector;
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
-	if(R_FAILED(ret)) {
+	if (R_FAILED(ret)) {
 		free(socubuf);
 		return emptyVector;
 	}
@@ -926,7 +929,7 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 
 	CURL *hnd = curl_easy_init();
 	ret = setupContext(hnd, apiurl.c_str());
-	if(ret != 0) {
+	if (ret != 0) {
 		socExit();
 		free(result_buf);
 		free(socubuf);
@@ -955,14 +958,17 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 
 	std::vector<ExtraEntry> jsonItems;
 	json parsedAPI = json::parse(result_buf);
-	for(uint i=0;i<parsedAPI.size();i++) {
+	for(uint i = 0; i < parsedAPI.size(); i++) {
 		ExtraEntry extraEntry;
-		if(parsedAPI[i]["name"].is_string()) {
+
+		if (parsedAPI[i]["name"].is_string()) {
 			extraEntry.name = parsedAPI[i]["name"];
 		}
-		if(parsedAPI[i]["download_url"].is_string()) {
+
+		if (parsedAPI[i]["download_url"].is_string()) {
 			extraEntry.downloadUrl = parsedAPI[i]["download_url"];
 		}
+
 		jsonItems.push_back(extraEntry);
 	}
 

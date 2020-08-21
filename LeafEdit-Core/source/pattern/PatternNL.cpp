@@ -73,10 +73,10 @@ void PatternNL::origtownid(u16 v) {
 
 // Town Name.
 std::u16string PatternNL::origtownname() {
-	return StringUtils::ReadUTF16String(patternPointer(), 0x42, 9);
+	return StringUtils::ReadUTF16String(patternPointer(), 0x42, 8);
 }
 void PatternNL::origtownname(std::u16string v) {
-	StringUtils::WriteUTF16String(patternPointer(), v, 0x42, 9);
+	StringUtils::WriteUTF16String(patternPointer(), v, 0x42, 8);
 }
 
 // Own a Pattern.

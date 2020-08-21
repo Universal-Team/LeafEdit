@@ -39,6 +39,7 @@ enum class PatternMode {
 	Palette,
 	Own,
 	Exit,
+	ExportInformation,
 
 	/* Pattern changing stuff. TODO. */
 	Name,

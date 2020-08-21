@@ -34,6 +34,7 @@
 #include <algorithm> // For std::max.
 #include <ctime> // For the time string.
 #include <dirent.h> // For mkdir.
+#include <unistd.h>
 
 extern std::shared_ptr<Sav> save;
 extern std::unique_ptr<Config> config;
@@ -315,4 +316,141 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 	data = std::shared_ptr<u8[]>(new u8[size]);
 	fread(data.get(), 1, size, file);
 	fclose(file);
+}
+
+/* Dump Pattern Information for the Pattern Editor Tool. */
+void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::shared_ptr<Pattern> &ptrn) {
+	bool UTF8Read = true; /* If UTF-8 or UTF-16 Read. */
+	u8 patternLength = 0, creatorLength = 0, townLength = 0; /* Name Reading Length. */
+	u32 creatorNameStart = 0, townNameStart = 0, creatorIDStart = 0, townIDStart = 0, creatorGenderStart = 0;
+	std::string file = "";
+	u32 pSize = 0;
+
+	switch(ST) {
+		case SaveType::WW:
+			/* Switch Region. */
+			switch(region) {
+				case WWRegion::JPN_REV0:
+				case WWRegion::JPN_REV1:
+					patternLength = 9;
+					creatorNameStart = 0x9;
+					creatorLength = 6;
+					townNameStart = 0xF;
+					townLength = 6;
+					creatorIDStart = 0x15;
+					townIDStart = 0x17;
+					creatorGenderStart = 0x19;
+					file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/wwJPNDefault.pt";
+					pSize = 0x1A;
+					break;
+
+				case WWRegion::USA_REV0:
+					patternLength = 15;
+					creatorNameStart = 0xF;
+					creatorLength = 7;
+					townNameStart = 0x16;
+					townLength = 7;
+					creatorIDStart = 0x1D;
+					townIDStart = 0x1F;
+					creatorGenderStart = 0x21;
+					file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/wwUSADefault.pt";
+					pSize = 0x22;
+					break;
+
+				case WWRegion::USA_REV1:
+				case WWRegion::EUR_REV1:
+					patternLength = 15;
+					creatorNameStart = 0xF;
+					creatorLength = 7;
+					townNameStart = 0x16;
+					townLength = 7;
+					creatorIDStart = 0x1D;
+					townIDStart = 0x1F;
+					creatorGenderStart = 0x21;
+					file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/wwEURDefault.pt";
+					pSize = 0x22;
+					break;
+
+				case WWRegion::KOR_REV1:
+					patternLength = 10;
+					creatorNameStart = 0x14;
+					creatorLength = 6;
+					townNameStart = 0x20;
+					townLength = 6;
+					creatorIDStart = 0x2C;
+					townIDStart = 0x2E;
+					creatorGenderStart = 0x30;
+					file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/wwKORDefault.pt";
+					pSize = 0x31;
+					UTF8Read = false;
+					break;
+
+				case WWRegion::UNKNOWN:
+					return;
+			}
+
+			break;
+
+		case SaveType::NL:
+			patternLength = 20;
+			creatorNameStart = 0x28;
+			creatorLength = 8;
+			townNameStart = 0x38;
+			townLength = 8;
+			creatorIDStart = 0x48;
+			townIDStart = 0x4A;
+			creatorGenderStart = 0x4C;
+			file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/nlDefault.pt";
+			pSize = 0x4D;
+			UTF8Read = false;
+			break;
+
+		case SaveType::WA:
+			patternLength = 20;
+			creatorNameStart = 0x28;
+			creatorLength = 8;
+			townNameStart = 0x38;
+			townLength = 8;
+			creatorIDStart = 0x48;
+			townIDStart = 0x4A;
+			creatorGenderStart = 0x4C;
+			file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/waDefault.pt";
+			pSize = 0x4D;
+			UTF8Read = false;
+			break;
+
+		case SaveType::UNUSED:
+			return;
+	}
+
+	if (access("sdmc:/3ds/LeafEdit/Pattern-Editor/defaults", F_OK) != 0) {
+		mkdir("sdmc:/3ds/LeafEdit/Pattern-Editor/defaults", 0x777); // Create dir.
+	}
+
+	FILE *dmp = fopen(file.c_str(), "w");
+	if (dmp) {
+		std::shared_ptr<u8[]> data = std::shared_ptr<u8[]>(new u8[pSize]);
+
+		/* Write. */
+		if (data) {
+			/* String write. */
+			if (UTF8Read) {
+				StringUtils::WriteUTF8String(data.get(), ptrn->name(), 0, patternLength, region);
+				StringUtils::WriteUTF8String(data.get(), ptrn->creatorname(), creatorNameStart, creatorLength, region);
+				StringUtils::WriteUTF8String(data.get(), ptrn->origtownname(), townNameStart, townLength, region);
+			} else {
+				StringUtils::WriteUTF16String(data.get(), ptrn->name(), 0, patternLength);
+				StringUtils::WriteUTF16String(data.get(), ptrn->creatorname(), creatorNameStart, creatorLength);
+				StringUtils::WriteUTF16String(data.get(), ptrn->origtownname(), townNameStart, townLength);
+			}
+
+			/* ID write. */
+			SaveUtils::Write<u16>(data.get(), creatorIDStart, ptrn->creatorid());
+			SaveUtils::Write<u16>(data.get(), townIDStart, ptrn->origtownid());
+			data.get()[creatorGenderStart] = ptrn->creatorGender();
+
+			fwrite(data.get(), 1, pSize, dmp);
+			fclose(dmp);
+		}
+	}
 }

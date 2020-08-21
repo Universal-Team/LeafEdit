@@ -134,6 +134,12 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Gui::screenBack(doFade);
 	}
 
+	/* Export information for the Pattern Editor Tool. */
+	if (this->ptrnTool == PatternMode::ExportInformation) {
+		CoreUtils::dumpPatternInformation(savesType, save->getRegion(), this->pattern);
+		this->ptrnTool = PatternMode::Draw;
+	}
+	
 	/* Set Personal stuff to pattern. */
 	if (this->ptrnTool == PatternMode::Own) {
 		this->pattern->ownPattern(save->player(0));

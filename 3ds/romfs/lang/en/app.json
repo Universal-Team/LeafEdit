@@ -50,6 +50,7 @@
 	"EXPERIMENTAL_EDITOR": "The Editor is experimental.\nWe are not responsible for any mistakes you do.\nWould you like to continue?",
 	"EXIT": "Exit",
 	"EXPORT": "Export",
+	"EXPORT_INFORMATION": "Export information",
 	"EXPORT_PATTERN": "Export Pattern",
 
 	"FAILED_LOAD_SPRITESHEET": "Failed to load SpriteSheets...",
