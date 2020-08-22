@@ -24,7 +24,7 @@ jobs:
       - name: "Install tools"
         run: |
           sudo apt-get update
-          sudo apt-get install p7zip-full -y
+          sudo apt-get install p7zip-full qrencode -y
 
           curl -L https://github.com/Steveice10/bannertool/releases/download/1.2.0/bannertool.zip -o bannertool.zip
           sudo 7z e bannertool.zip linux-x86_64/bannertool
