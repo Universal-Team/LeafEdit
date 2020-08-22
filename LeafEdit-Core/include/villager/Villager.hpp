@@ -57,6 +57,18 @@ public:
 	virtual std::unique_ptr<Item> wallpaper() = 0;
 	virtual std::unique_ptr<Item> carpet() = 0;
 	virtual std::unique_ptr<Item> umbrella() = 0;
+
+	/* AC:WW Indexes. */
+	virtual u8 songWW() = 0;
+	virtual void songWW(u8 sng) = 0;
+	virtual u8 wallpaperWW() = 0;
+	virtual void wallpaperWW(u8 wlp) = 0;
+	virtual u8 carpetWW() = 0;
+	virtual void carpetWW(u8 crp) = 0;
+	virtual u8 umbrellaWW() = 0;
+	virtual void umbrellaWW(u8 umbr) = 0;
+
+
 	virtual std::unique_ptr<Item> furniture(int slot) = 0;
 };
 

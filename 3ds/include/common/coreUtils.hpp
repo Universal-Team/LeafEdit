@@ -27,6 +27,8 @@
 #ifndef COREUTILS_HPP
 #define COREUTILS_HPP
 
+#include "itemUtils.hpp"
+#include "PatternImage.hpp"
 #include "Player.hpp"
 #include <3ds.h>
 #include <citro2d.h>
@@ -43,8 +45,13 @@ namespace CoreUtils {
 	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
 	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
 	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
-	C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
+	// C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
 	void createBackup();
+
+	/* Pattern stuff. */
+	C2D_Image patternImage(std::shared_ptr<PatternImage> image, SaveType ST = SaveType::UNUSED);
+	void generateEmptyPattern(SaveType ST, WWRegion region, std::shared_ptr<u8[]> &data);
+	void dumpPatternInformation(SaveType ST, WWRegion region, std::shared_ptr<Pattern> &ptrn);
 }
 
 #endif

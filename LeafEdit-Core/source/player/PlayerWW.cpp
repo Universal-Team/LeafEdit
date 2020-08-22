@@ -298,9 +298,41 @@ void PlayerWW::townid(u16 v) {
 
 // Town Name.
 std::u16string PlayerWW::townname() {
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			return StringUtils::ReadUTF8String(playerPointer(), 0x2278, 8, this->region);
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			return StringUtils::ReadUTF8String(playerPointer(), 0x1CFE, 6, this->region); // Correct?
+		case WWRegion::KOR_REV1:
+			return StringUtils::ReadUTF16String(playerPointer(), 0x2480, 6); // Correct?
+		case WWRegion::UNKNOWN:
+			return StringUtils::UTF8toUTF16("?");
+	}
+
 	return StringUtils::UTF8toUTF16("?");
 }
-void PlayerWW::townname(std::u16string v) { }
+
+void PlayerWW::townname(std::u16string v) {
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x2278, 8, this->region);
+			break;
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x1CFE, 6, this->region); // Correct?
+			break;
+		case WWRegion::KOR_REV1:
+			StringUtils::WriteUTF16String(playerPointer(), v, 0x2480, 6); // Correct?
+			break;
+		case WWRegion::UNKNOWN:
+			break;
+	}
+}
 
 // Player Exist.
 bool PlayerWW::exist() {
@@ -327,12 +359,12 @@ std::u16string PlayerWW::name() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadWWString(playerPointer(), 0x2282, 7, this->region);
+			return StringUtils::ReadUTF8String(playerPointer(), 0x2282, 7, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(playerPointer(), 0x1D06, 6, this->region);
+			return StringUtils::ReadUTF8String(playerPointer(), 0x1D06, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(playerPointer(), 0x248E, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(playerPointer(), 0x248E, 6);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -344,14 +376,14 @@ void PlayerWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteWWString(playerPointer(), v, 0x2282, 7, this->region);
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x2282, 7, this->region);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(playerPointer(), v, 0x1D06, 6, this->region);
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x1D06, 6, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(playerPointer(), v, 0x248E, 6);
+			StringUtils::WriteUTF16String(playerPointer(), v, 0x248E, 6);
 			break;
 		case WWRegion::UNKNOWN:
 			break;
@@ -494,9 +526,9 @@ std::unique_ptr<Pattern> PlayerWW::pattern(int slot) {
 			return std::make_unique<PatternWW>(data, offset + 0 + slot * 0x228, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<PatternWW>(data, offset + 0xA94 + slot * 0x228, this->region);
+			return std::make_unique<PatternWW>(data, offset + 0 + slot * 0x220, this->region);
 		case WWRegion::KOR_REV1:
-			return std::make_unique<PatternWW>(data, offset + 0x8CF + slot * 0x234, this->region);
+			return std::make_unique<PatternWW>(data, offset + 0 + slot * 0x234, this->region);
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}

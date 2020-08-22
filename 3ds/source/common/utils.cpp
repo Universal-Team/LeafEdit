@@ -33,8 +33,7 @@ bool Utils::matchPattern(std::string pattern, std::string tested) {
 }
 
 static inline u32 Pow2(u32 x) {
-	if (x <= 64)
-		return 64;
+	if (x <= 64) return 64;
 
 	return 1u << (32 - __builtin_clz(x - 1));
 }

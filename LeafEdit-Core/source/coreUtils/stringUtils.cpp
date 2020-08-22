@@ -76,29 +76,28 @@ constexpr std::array<char16_t, 256> wwCharacterDictionaryJapanese = {
 // Korean is different and uses the NL Strings.
 std::u16string StringUtils::wwToUnicode(const std::string &input, WWRegion region) {
 	std::u16string output;
-	std::array<char16_t, 256> characters;
+	const std::array<char16_t, 256> *characters;
 	switch(region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			characters = wwCharacterDictionary;
+			characters = &wwCharacterDictionary;
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			characters = wwCharacterDictionaryJapanese;
+			characters = &wwCharacterDictionaryJapanese;
 			break;
 		case WWRegion::KOR_REV1:
 		case WWRegion::UNKNOWN:
-			break;
+			return output;
 		default:
-			characters = wwCharacterDictionary;
-			break;
+			return output;
 	}
 
-	for (char character : input) {
-		if (characters[character] == '\0')	break;
-		if (character < characters.size()) {
-			output += characters[character];
+	for (char16_t character : input) {
+		if ((*characters)[character] == '\0') break;
+		if (character < characters->size()) {
+			output += (*characters)[character];
 		}
 	}
 
@@ -109,29 +108,28 @@ std::u16string StringUtils::wwToUnicode(const std::string &input, WWRegion regio
 std::string StringUtils::unicodeToWW(const std::u16string &input, WWRegion region) {
 	std::string output;
 
-	std::array<char16_t, 256> characters;
+	const std::array<char16_t, 256> *characters;
 	switch(region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			characters = wwCharacterDictionary;
+			characters = &wwCharacterDictionary;
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			characters = wwCharacterDictionaryJapanese;
+			characters = &wwCharacterDictionaryJapanese;
 			break;
 		case WWRegion::KOR_REV1:
 		case WWRegion::UNKNOWN:
-			break;
+			return "";
 		default:
-			characters = wwCharacterDictionary;
-			break;
+			return "";
 	}
 
-	for(char character : input) {
-		auto it = std::find(characters.begin(), characters.end(), character);
-		if (it != characters.end()) {
-			output += std::distance(characters.begin(), it);
+	for(char16_t character : input) {
+		auto it = std::find(characters->begin(), characters->end(), character);
+		if (it != characters->end()) {
+			output += std::distance(characters->begin(), it);
 		}
 	}
 
@@ -199,38 +197,29 @@ std::string StringUtils::UTF16toUTF8(const std::u16string& src) {
 
 
 // Read a Wild World String.
-std::u16string StringUtils::ReadWWString(u8 *data, u32 offset, u32 maxSize, WWRegion region) {
+std::u16string StringUtils::ReadUTF8String(u8 *data, u32 offset, u32 maxSize, WWRegion region) {
 	std::string str(reinterpret_cast<char *>(data + offset), maxSize + 1);
 	return wwToUnicode(str, region);
 }
 
-void StringUtils::WriteWWString(u8 *data, const std::u16string &str, u32 offset, u32 maxSize, WWRegion region) {
+void StringUtils::WriteUTF8String(u8 *data, const std::u16string &str, u32 offset, u32 maxSize, WWRegion region) {
 	// Do not allow a string longer as max.
 	if (str.length() > maxSize + 1) return;
 
 	const std::string dataString(unicodeToWW(str, region));
-	memcpy(data + offset, (u8 *)dataString.data(), maxSize * 2);
+	memcpy(data + offset, (u8 *)dataString.data(), maxSize);
 }
 
 // Used to get the NL | WA Strings.
-std::u16string StringUtils::ReadNLString(const u8* data, int ofs, int len, char16_t term) {
-	std::u16string ret;
-	ret.reserve(len);
-	const char16_t* buf = (char16_t*)(data + ofs);
-	for (int i = 0; i < len; i++) {
-		if (buf[i] == term)	return ret;
-		ret.push_back(buf[i]);
-	}
-
-	return ret;
+std::u16string StringUtils::ReadUTF16String(u8* data, int ofs, int len) {
+	return std::u16string(reinterpret_cast<char16_t *>(data + ofs), len + 1);
 }
 
-void StringUtils::WriteNLString(u8 *data, const std::u16string &str, u32 offset, u32 maxSize) {
+void StringUtils::WriteUTF16String(u8 *data, const std::u16string &str, u32 offset, u32 maxSize) {
 	// Do not allow a string longer as max.
 	if (str.length() > maxSize + 1) return;
 
-	const std::string dataString(StringUtils::UTF16toUTF8(str));
-	memcpy(data + offset, (u8 *)dataString.data(), maxSize * 2);
+	memcpy(data + offset, (u8 *)str.data(), maxSize * 2);
 }
 
 // Converts a single latin character from half-width to full-width

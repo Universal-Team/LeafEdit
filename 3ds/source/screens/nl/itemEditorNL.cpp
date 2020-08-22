@@ -35,9 +35,9 @@
 extern std::unique_ptr<Config> config;
 extern SaveType savesType;
 
-#define maxDresser 17 // 17, because it starts with 0, so it would be basically 18.
-#define maxIsland	3
-#define maxStorage 35 // Is that correct with 36 Boxes? (360)?
+#define MAX_DRESSER 17 // 17, because it starts with 0, so it would be basically 18.
+#define MAX_ISLAND	3
+#define MAX_STORAGE 35 // Is that correct with 36 Boxes? (360)?
 
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
@@ -254,7 +254,7 @@ void ItemEditorNL::DrawIslandBox(void) const {
 
 void ItemEditorNL::IslandBoxLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_R) {
-		if (this->currentBox < maxIsland) this->currentBox++;
+		if (this->currentBox < MAX_ISLAND) this->currentBox++;
 	}
 
 	if (hDown & KEY_L) {
@@ -320,7 +320,7 @@ void ItemEditorNL::DrawDresser(void) const {
 
 void ItemEditorNL::DresserLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_R) {
-		if (this->currentBox < maxDresser) this->currentBox++;
+		if (this->currentBox < MAX_DRESSER) this->currentBox++;
 	}
 
 	if (hDown & KEY_L) {
@@ -386,7 +386,7 @@ void ItemEditorNL::DrawStorage(void) const {
 
 void ItemEditorNL::StorageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_R) {
-		if (this->currentBox < maxStorage) this->currentBox++;
+		if (this->currentBox < MAX_STORAGE) this->currentBox++;
 	}
 
 	if (hDown & KEY_L) {

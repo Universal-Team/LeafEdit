@@ -37,15 +37,9 @@
 std::map<u16, std::string> ItemDatabase;
 std::vector<std::pair<u16, std::string>> itemDB;
 
-#ifdef _3DS
-	#define WW_ITEM_PATH "romfs:/lang/en/wwItems.txt"
-	#define NL_ITEM_PATH "romfs:/lang/en/itemsNL.txt"
-	#define WA_ITEM_PATH "romfs:/lang/en/items.txt"
-#elif ARM9
-	#define WW_ITEM_PATH "nitro:/lang/en/items.txt"
-	#define NL_ITEM_PATH ""
-	#define WA_ITEM_PATH ""
-#endif
+#define WW_ITEM_PATH "romfs:/lang/en/wwItems.txt"
+#define NL_ITEM_PATH "romfs:/lang/en/itemsNL.txt"
+#define WA_ITEM_PATH "romfs:/lang/en/items.txt"
 
 // Load the Item Database.
 void ItemUtils::LoadDatabase(SaveType save) {

@@ -30,9 +30,41 @@
 #include "common.hpp"
 #include "coreUtils.hpp"
 
+enum class PatternMode {
+	/* Main modes. */
+	Draw, // Always the default mode.
+	Clear,
+	Import,
+	Export,
+	Palette,
+	Own,
+	Exit,
+	ExportInformation,
+
+	/* Pattern changing stuff. TODO. */
+	Name,
+	CreatorName,
+	CreatorID,
+	TownName,
+	TownID,
+	CreatorGender
+};
+
 namespace Overlays {
 	u16 SelectVillager(u16 oldID, const SaveType st);
 	u16 SelectItem(u16 oldID, const SaveType st, const bool blockInv = false);
+	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
+	void SplashOverlay();
+	void showCredits();
+	
+	PatternMode SelectPatternTool();
+	void PaletteToolWW(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteToolNL(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST);
+
+	std::string SelectDestination(std::string Text, std::string initialPath, std::string defaultDest);
+	std::string RomfsSDOverlay(std::vector<std::string> extensions, std::string SDPath, std::string romfsPath, std::string Text);
+
 }
 
 #endif

@@ -50,7 +50,7 @@ std::unique_ptr<Player> SavWW::player(int player, int index) {
 
 // Get Villager data.
 std::unique_ptr<Villager> SavWW::villager(int villager) {
-	if (villager > 7)	return nullptr; // Villager goes out of scope.
+	if (villager > 7) return nullptr; // Villager goes out of scope.
 	switch (this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:

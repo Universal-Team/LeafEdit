@@ -24,42 +24,22 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FILEBROWSE_HPP
-#define FILEBROWSE_HPP
+#ifndef _LEAFEDIT_FILEBROWSE_HPP
+#define _LEAFEDIT_FILEBROWSE_HPP
 
 #include <3ds.h>
-#include <cstring>
-#include <dirent.h>
 #include <string>
-#include <sys/stat.h>
 #include <vector>
 
 struct DirEntry {
 	std::string name;
 	std::string path;
 	bool isDirectory;
-	off_t size;
 };
-
-struct FavSave {
-	std::string Name;
-	std::string Path;
-};
-
-namespace FavSaves {
-	void Parse();
-	void add(std::string name, std::string path);
-}
 
 bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList);
 void getDirectoryContents(std::vector<DirEntry>& dirContents);
 void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<std::string> extensionList);
 std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList);
-
-std::string searchForFile(char *path, char *Text);
-
-namespace SaveBrowse {
-	std::string searchForSave(const std::vector<std::string> SaveType, const std::string initialPath, const std::string Text);
-}
 
 #endif

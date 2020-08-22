@@ -42,7 +42,8 @@ public:
 	VillagerEditorWW(std::shared_ptr<Villager> v): villager(v) { }
 private:
 	std::shared_ptr<Villager> villager;
-	std::shared_ptr<Item> villagerItems[15];
+	u8 miscItems[4];
+	std::shared_ptr<Item> villagerItems[11];
 	int villagerMode = 0, Selection = 0, itemSelection = 0, keyRepeatDelay = 0;
 	
 	void DrawSubMenu(void) const;
@@ -73,10 +74,10 @@ private:
 		{145, 80, 30, 30}, // Furniture 8.
 		{185, 80, 30, 30}, // Furniture 9.
 		{25, 140, 30, 30}, // Shirt.
-		{65, 140, 30, 30}, // Song.
-		{105, 140, 30, 30}, // Wallpaper.
-		{145, 140, 30, 30}, // Carpet.
-		{185, 140, 30, 30} // Umbrella.
+		{65, 140, 30, 30}, // Umbrella.
+		{105, 140, 30, 30}, // Song.
+		{145, 140, 30, 30}, // Wallpaper.
+		{185, 140, 30, 30} // Carpet.
 	};
 };
 

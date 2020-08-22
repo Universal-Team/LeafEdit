@@ -65,12 +65,12 @@ std::u16string TownWW::name() {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadWWString(townPointer(), 0x0004, 8, this->region);
+			return StringUtils::ReadUTF8String(townPointer(), 0x0004, 8, this->region);
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadWWString(townPointer(), 0x0004, 6, this->region);
+			return StringUtils::ReadUTF8String(townPointer(), 0x0004, 6, this->region);
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadNLString(townPointer(), 0x0004, 6, u'\uFFFF');
+			return StringUtils::ReadUTF16String(townPointer(), 0x0004, 6);
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -82,14 +82,14 @@ void TownWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteWWString(townPointer(), v, 0x0004, 8, this->region);
+			StringUtils::WriteUTF8String(townPointer(), v, 0x0004, 8, this->region);
 			break;
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteWWString(townPointer(), v, 0x0004, 6, this->region);
+			StringUtils::WriteUTF8String(townPointer(), v, 0x0004, 6, this->region);
 			break;
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteNLString(townPointer(), v, 0x0004, 6);
+			StringUtils::WriteUTF16String(townPointer(), v, 0x0004, 6);
 			break;
 		case WWRegion::UNKNOWN:
 			break;

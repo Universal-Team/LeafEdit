@@ -1,5 +1,4 @@
-#include "gfx.hpp"
-#include "gui.hpp"
+#include "common.hpp"
 #include "keyboard.hpp"
 #include "screenCommon.hpp"
 #include "structs.hpp"
@@ -139,7 +138,7 @@ void Input::DrawHex() {
 }
 
 void Input::DrawNumpad() {
-	for(uint i=0;i<(sizeof(NumpadStruct)/sizeof(NumpadStruct[0]));i++) {
+	for(uint i = 0; i < (sizeof(NumpadStruct)/sizeof(NumpadStruct[0])); i++) {
 		Gui::Draw_Rect(NumpadStruct[i].x, NumpadStruct[i].y, 60, 50, DARKER_COLOR);
 		char c[2] = {NumpadStruct[i].character[0]};
 		Gui::DrawString(NumpadStruct[i].x+25, NumpadStruct[i].y+15, 0.72f, WHITE, c, 50, 0, font);
@@ -147,7 +146,7 @@ void Input::DrawNumpad() {
 }
 
 void Input::drawKeyboard() {
-	for(uint i=0;i<(sizeof(keysQWERTY)/sizeof(keysQWERTY[0]));i++) {
+	for(uint i = 0; i < (sizeof(keysQWERTY)/sizeof(keysQWERTY[0])); i++) {
 		C2D_DrawRectSolid(keysQWERTY[i].x, keysQWERTY[i].y+103, 0.5f, 20, 20, DARKER_COLOR & C2D_Color32(255, 255, 255, 200));
 		if (shift) {
 			char c[2] = {caps ? (char)toupper(keysQWERTYShift[i].character[0]) : keysQWERTYShift[i].character[0]};
@@ -158,7 +157,7 @@ void Input::drawKeyboard() {
 		}
 	}
 
-	for(uint i=0;i<(sizeof(modifierKeys)/sizeof(modifierKeys[0]));i++) {
+	for(uint i = 0; i < (sizeof(modifierKeys)/sizeof(modifierKeys[0])); i++) {
 		std::string enter = modifierKeys[2].character;
 		std::string arrowUp = modifierKeys[3].character;
 		std::string backSpace = modifierKeys[0].character;
@@ -189,7 +188,7 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 			Gui::clearTextBufs();
 			C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 			GFX::DrawTop();
-			Gui::DrawString((400-Gui::GetStringWidth(0.8f, Text))/2, 2, 0.8f, WHITE, Text, 400, 0, font);
+			Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text, 395, 0, font);
 			GFX::DrawBottom();
 			drawKeyboard();
 			C2D_DrawRectSolid(0, 81, 0.5f, 320, 20, DARKER_COLOR & C2D_Color32(200, 200, 200, 200));
@@ -203,15 +202,14 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 				keyDownDelay--;
 			}
 		} while(!hDown);
-		if (keyDownDelay > 0) {
-		}
+		if (keyDownDelay > 0) { }
 		keyDownDelay = 10;
 
 		if (hDown & KEY_TOUCH) {
 			touchRead(&touch);
 			if (string.length() < maxLength) {
 				// Check if a regular key was pressed
-				for(uint i=0;i<(sizeof(keysQWERTY)/sizeof(keysQWERTY[0]));i++) {
+				for(uint i = 0; i < (sizeof(keysQWERTY)/sizeof(keysQWERTY[0])); i++) {
 					if ((touch.px > keysQWERTY[i].x-2 && touch.px < keysQWERTY[i].x+18) && (touch.py > keysQWERTY[i].y+(103)-2 && touch.py < keysQWERTY[i].y+18+(103))) {
 						char c = (shift ? keysQWERTYShift[i] : keysQWERTY[i]).character[0];
 						string += (shift || caps ? toupper(c) : c);
@@ -222,7 +220,7 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 			}
 
 			// Check if a modifier key was pressed
-			for(uint i=0;i<(sizeof(modifierKeys)/sizeof(modifierKeys[0]));i++) {
+			for(uint i = 0; i < (sizeof(modifierKeys)/sizeof(modifierKeys[0])); i++) {
 				if ((touch.px > modifierKeys[i].x-2 && touch.px < modifierKeys[i].x+modifierKeys[i].w+2) && (touch.py > modifierKeys[i].y+(103)-2 && touch.py < modifierKeys[i].y+18+(103))) {
 					if (modifierKeys[i].character == "\uE071") {
 						string = string.substr(0, string.length()-1);
@@ -283,7 +281,7 @@ std::string Input::Numpad(uint maxLength, std::string Text) {
 			C2D_TargetClear(Top, BLACK);
 			C2D_TargetClear(Bottom, BLACK);
 			GFX::DrawTop();
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Text, 400, 0, font);
+			Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text, 395, 0, font);
 			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380, 0, font);
 			if (cursorBlink < -20)	cursorBlink = 20;
 			GFX::DrawBottom();
@@ -296,8 +294,7 @@ std::string Input::Numpad(uint maxLength, std::string Text) {
 				keyDownDelay--;
 			}
 		} while(!hDown);
-		if (keyDownDelay > 0) {
-		}
+		if (keyDownDelay > 0) { }
 		keyDownDelay = 10;
 
 		if (hDown & KEY_TOUCH) {
@@ -355,7 +352,7 @@ std::string Input::getHex(int max, std::string Text) {
 			C2D_TargetClear(Top, BLACK);
 			C2D_TargetClear(Bottom, BLACK);
 			GFX::DrawTop();
-			Gui::DrawStringCentered(0, 2, 0.9f, WHITE, Text, 400, 0, font);
+			Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text, 400, 0, font);
 			Gui::DrawString(180, 217, 0.9, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380, 0, font);
 			if (cursorBlink < -20)	cursorBlink = 20;
 			Gui::ScreenDraw(Bottom);
@@ -369,8 +366,7 @@ std::string Input::getHex(int max, std::string Text) {
 				keyDownDelay--;
 			}
 		} while(!hDown);
-		if (keyDownDelay > 0) {
-		}
+		if (keyDownDelay > 0) { }
 		keyDownDelay = 10;
 
 		if (hDown & KEY_TOUCH) {
@@ -474,4 +470,22 @@ std::string Input::handleString(uint maxLength, std::string Text, std::string ol
 	} else {
 		return testString;
 	}
+}
+
+// 3DS Native keyboard.
+std::string Input::setkbdString(uint maxLength, std::string Text) {
+	C3D_FrameEnd(0);
+	SwkbdState state;
+	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
+	char temp[maxLength] = {0};
+	swkbdSetHintText(&state, Text.c_str());
+	swkbdSetValidation(&state, SWKBD_NOTBLANK_NOTEMPTY, SWKBD_FILTER_PROFANITY, 0);
+	SwkbdButton ret = swkbdInputText(&state, temp, sizeof(temp));
+	temp[maxLength-1] = '\0';
+
+	if (ret == SWKBD_BUTTON_CONFIRM) {
+		return temp;
+	}
+
+	return "";
 }

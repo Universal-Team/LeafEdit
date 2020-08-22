@@ -27,12 +27,13 @@
 #ifndef _LEAFEDIT_CORE_PATTERN_HPP
 #define _LEAFEDIT_CORE_PATTERN_HPP
 
+#include "PatternImage.hpp"
 #include "Player.hpp"
 #include "types.hpp"
 
 #include <memory>
-#include <vector>
 
+class PatternImage;
 class Player;
 class Pattern {
 protected:
@@ -64,7 +65,8 @@ public:
 	virtual void dumpPattern(const std::string fileName) = 0;
 	virtual void injectPattern(const std::string fileName) = 0;
 
-	virtual std::vector<u8> patternData() = 0;
+	// Pattern Image.
+	virtual std::shared_ptr<PatternImage> image(const int pattern) = 0;
 };
 
 #endif

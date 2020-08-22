@@ -28,6 +28,7 @@
 #include "coreUtils.hpp"
 #include "itemEditorNL.hpp"
 #include "itemUtils.hpp"
+#include "patternViewer.hpp"
 #include "playerEditorNL.hpp"
 #include "playerManagement.hpp"
 #include "Sav.hpp"
@@ -39,27 +40,19 @@ extern std::shared_ptr<Sav> save;
 // Bring that to other screens too.
 extern SaveType savesType;
 
-PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) {
-	this->TPC = CoreUtils::LoadPlayerTPC(this->player);
-}
+PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) { }
 
 // Destroy TPC.
-PlayerEditorNL::~PlayerEditorNL() {
-	if (this->TPC.tex != nullptr && this->TPC.subtex != nullptr) {
-		C2DUtils::C2D_ImageDelete(this->TPC);
-		this->TPC.tex = nullptr;
-		this->TPC.subtex = nullptr;
-	}
-}
+PlayerEditorNL::~PlayerEditorNL() { }
 
 void PlayerEditorNL::Draw(void) const {
-	if (this->Mode == 0)	this->DrawSubMenu();
-	else if (this->Mode == 1)	this->DrawAppearance();
+	if (this->Mode == 0) this->DrawSubMenu();
+	else if (this->Mode == 1) this->DrawAppearance();
 }
 
 void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->Mode == 0)	this->SubMenuLogic(hDown, hHeld, touch);
-	else if (this->Mode == 1)	this->AppearanceLogic(hDown, hHeld, touch);
+	if (this->Mode == 0) this->SubMenuLogic(hDown, hHeld, touch);
+	else if (this->Mode == 1) this->AppearanceLogic(hDown, hHeld, touch);
 }
 
 /*	Sub Menu.	*/
@@ -71,17 +64,11 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PLAYER_FACETYPE") + ": " + std::to_string(this->player->face()), 0, 0, font);
 
-	// Only display TPC if Player has TPC support and is not nullptr.
-	// NOTE: Citra don't seems to like to display TPC Images. I'm not sure why.
-	if (this->player->tpcImage() != nullptr && this->player->hasTPC() && this->TPC.tex != nullptr) {
-		C2D_DrawImageAt(this->TPC, 60, 80, 0.5);
-	}
-
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
-		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -90,11 +77,11 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
-		if (this->Selection > 0)	this->Selection--;
+		if (this->Selection > 0) this->Selection--;
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (this->Selection < 5)	this->Selection++;
+		if (this->Selection < 5) this->Selection++;
 	}
 
 	if (hDown & KEY_RIGHT) {
@@ -119,6 +106,9 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 			case 2:
 				Gui::setScreen(std::make_unique<ItemEditorNL>(this->player), doFade, true);
+				break;
+			case 3:
+				Gui::setScreen(std::make_unique<PatternViewer>(this->player, savesType), doFade, true);
 				break;
 		}
 	}
@@ -151,7 +141,7 @@ void PlayerEditorNL::DrawAppearance(void) const {
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->appearanceBtn[i]);
-		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -160,11 +150,11 @@ void PlayerEditorNL::DrawAppearance(void) const {
 void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Navigation.
 	if (hDown & KEY_UP) {
-		if (this->Selection > 0)	this->Selection--;
+		if (this->Selection > 0) this->Selection--;
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (this->Selection < 5)	this->Selection++;
+		if (this->Selection < 5) this->Selection++;
 	}
 
 	if (hDown & KEY_RIGHT) {

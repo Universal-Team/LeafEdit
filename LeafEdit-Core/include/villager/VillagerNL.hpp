@@ -58,6 +58,17 @@ public:
 	std::unique_ptr<Item> wallpaper() override;
 	std::unique_ptr<Item> carpet() override;
 	std::unique_ptr<Item> umbrella() override;
+
+	/* Only for AC:WW. */
+	u8 songWW() override { return 0; };
+	void songWW(u8 sng) override { };
+	u8 wallpaperWW() override { return 0; };
+	void wallpaperWW(u8 wlp) override { };
+	u8 carpetWW() override { return 0; };
+	void carpetWW(u8 crp) override { };
+	u8 umbrellaWW() override { return 0; };
+	void umbrellaWW(u8 umbr) override { };
+	
 	std::unique_ptr<Item> furniture(int slot) override;
 private:
 	u8* villagerPointer() const {

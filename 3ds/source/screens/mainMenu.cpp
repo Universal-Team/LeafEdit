@@ -24,7 +24,6 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "credits.hpp"
 #include "editor.hpp"
 #include "mainMenu.hpp"
 #include "Sav.hpp"
@@ -39,7 +38,8 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
 extern std::shared_ptr<Sav> save;
 
-#define TESTPATH	"sdmc:/nogba/Battery/EUR.sav"
+#define TESTPATH "sdmc:/nogba/Battery/EUR.sav"
+
 void doStuff() {
 	// Here we open the file and get the SaveType.
 	save = nullptr;
@@ -60,11 +60,6 @@ void doStuff() {
 		exiting = true;
 		return;
 	}
-
-	// Save Modification Test.
-//	for (int i = 0x747C; i < 0x747D; i++) {
-//		save->savePointer()[i] = 0x01;
-//	}
 
 	// And now we update the checksum at the end and write to file.
 	save->Finish();
@@ -119,7 +114,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 		} else if (Selection == 2) {
-			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+			Overlays::showCredits();
 		} else if (Selection == 3) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}
@@ -133,7 +128,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Credits>(), doFade, true);
+			Overlays::showCredits();
 		} else if (touching(touch, mainButtons[3])) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}

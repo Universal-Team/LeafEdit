@@ -178,7 +178,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	while(1) {
 		hidScanInput();
 		hidTouchRead(&touch);
-		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))	break;
+		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2]))) break;
 	}
 }
 

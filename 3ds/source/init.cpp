@@ -32,7 +32,7 @@
 #include "itemManager.hpp"
 #include "lang.hpp"
 #include "mainMenu.hpp"
-#include "splash.hpp"
+#include "overlay.hpp"
 #include "screenCommon.hpp"
 
 #include <3ds.h>
@@ -41,7 +41,7 @@
 
 int barOffset; // The additional offset for the text on the clean style.
 std::unique_ptr<Config> config;
-// If true -> Exit LeafEdit.
+/* If true -> Exit LeafEdit. */
 bool exiting = false;
 bool doFade = true;
 
@@ -49,16 +49,16 @@ touchPosition touch;
 
 u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // Color Types.
 
-// Include all spritesheet's.
+/* Include all spritesheet's. */
 C2D_SpriteSheet Acres, GUI, Items, Players, Villager, Villager2;
 C2D_Font font;
 
-// Is loaded state.
+/* Is loaded state. */
 bool sheetsLoaded		= false;
 bool FontHasLoaded		= false;
 bool changesMade		= false;
 
-// GodMode and whatnot.
+/* GodMode and whatnot. */
 bool Debug = true;
 bool GodMode = true;
 
@@ -66,7 +66,7 @@ bool is3dsx;
 bool Is3dsxUpdated = false;
 std::string path3dsx;
 
-// Return if current use is CIA or 3DSX.
+/* Return if current use is CIA or 3DSX. */
 void getCurrentUsage(){
 	u64 id;
 	APT_GetProgramID(&id);
@@ -79,19 +79,19 @@ void getCurrentUsage(){
 	is3dsx = true;
 }
 
-// If button Position pressed -> Do something.
+/* If button Position pressed -> Do something. */
 bool touching(touchPosition touch, ButtonType button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength))	return true;
-	else	return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength)) return true;
+	else return false;
 }
 
-// Icons are handled through Structs::ButtonPos.
+/* Icons are handled through Structs::ButtonPos. */
 bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
-	else	return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h)) return true;
+	else return false;
 }
 
-// Check if Sheets are found.
+/* Check if Sheets are found. */
 Result Init::CheckSheets() {
 	if ((access("sdmc:/3ds/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/3ds/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
@@ -104,7 +104,7 @@ Result Init::CheckSheets() {
 	}
 }
 
-// Loading the Sheets.
+/* Loading the Sheets. */
 Result Init::loadSheets() {
 	if (sheetsLoaded == false) {
 		if (CheckSheets() != 0) {
@@ -123,7 +123,7 @@ Result Init::loadSheets() {
 	return 0;
 }
 
-// Unload all Sheets.
+/* Unload all Sheets. */
 Result Init::unloadSheets() {
 	if (sheetsLoaded == true) {
 		C2D_SpriteSheetFree(Acres);
@@ -139,7 +139,7 @@ Result Init::unloadSheets() {
 
 Result Init::loadFont() {
 	if (FontHasLoaded == false) {
-		if(access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
+		if (access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
 			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
 		} else {
@@ -167,25 +167,27 @@ Result Init::Init() {
 	acInit();
 	amInit();
 
-	// make folders if they don't exist
-	mkdir("sdmc:/3ds", 0777);	// For DSP dump
+	/* Create directories, if not existent. */
+	mkdir("sdmc:/3ds", 0777); // For DSP dump
 	mkdir("sdmc:/3ds/LeafEdit", 0777); // main Path.
 	mkdir("sdmc:/3ds/LeafEdit/assets", 0777); // Assets path.
-	// Towns.
+	/* Towns. */
 	mkdir("sdmc:/3ds/LeafEdit/Towns", 0777); // Town Management Path.
 	mkdir("sdmc:/3ds/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
 	mkdir("sdmc:/3ds/LeafEdit/Towns/Welcome-Amiibo", 0777); // Welcome Amiibo Path.
 	mkdir("sdmc:/3ds/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/3ds/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/3ds/LeafEdit/Backups", 0777); // Backup path.
-	// Pattern.
-	mkdir("sdmc:/3ds/LeafEdit/Pattern", 0777); // Pattern path.
+	/* Pattern. */
+	mkdir("sdmc:/3ds/LeafEdit/Pattern", 0777);
+	/* Pattern Editor. */
+	mkdir("sdmc:/3ds/LeafEdit/Pattern-Editor", 0777);
 
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
 
-	// Check for location changes.
-	if (access("sdmc:/LeafEdit/Settings.json", F_OK) == 0  && access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0) {
+	/* Check for location changes. */
+	if (access("sdmc:/LeafEdit/Settings.json", F_OK) == 0 && access("sdmc:/3ds/LeafEdit/Settings.json", F_OK) != 0) {
 		Msg::DisplayWaitMsgInit(Lang::get("MAINPATH_CHANGE"));
 	}
 
@@ -208,10 +210,10 @@ Result Init::Init() {
 	SELECTED_COLOR = SELECTED_GREEN;
 	UNSELECTED_COLOR = UNSELECTED_GREEN;
 
-	// If sheets not found -> Download it.
+	/* If sheets not found -> Download it. */
 	if (CheckSheets() != 0) { Download::downloadAssets(); }
 
-	// Only Load Font if found, else load System font.
+	/* Only Load Font if found, else load System font. */
 	loadFont();
 
 	getCurrentUsage();
@@ -228,7 +230,7 @@ Result Init::Init() {
 	return 0;
 }
 
-// Screen set & Init part.
+/* Screen set & Init part. */
 Result Init::Initialize() {
 	Init(); // Init base stuff.
 	if (doFade) {
@@ -238,16 +240,18 @@ Result Init::Initialize() {
 
 	Log = std::make_unique<Logging>();
 
-	// Set the Screen to the Splash.
-	Gui::setScreen(std::make_unique<Splash>(), false, true);
+	Overlays::SplashOverlay();
+	
+	/* Set the Screen to the MainMenu. */
+	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }
 
 Result Init::MainLoop() {
-	// Initialize everything.
+	/* Initialize everything. */
 	Initialize();
 
-	// Loop as long as the status is not exiting.
+	/* Loop as long as the status is not exiting. */
 	while (aptMainLoop()) {
 		hidScanInput();
 		u32 hHeld = hidKeysHeld();
@@ -267,14 +271,15 @@ Result Init::MainLoop() {
 
 		Gui::fadeEffects(16, 16, true);
 	}
-	// Exit all services and exit the app.
+
+	/* Exit all services and exit the app. */
 	Exit();
 	return 0;
 }
 
 Result Init::Exit() {
-	// Exit every process.
-	// Unload all sheets, because you don't know, if people exit properly like they should.
+	/* Exit every process. */
+	/* Unload all sheets, because you don't know, if people exit properly like they should. */
 	unloadSheets();
 	acExit();
 	amExit();

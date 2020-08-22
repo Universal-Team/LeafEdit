@@ -115,10 +115,10 @@ bool PlayerWA::exist() {
 
 // Player Name.
 std::u16string PlayerWA::name() {
-	return StringUtils::ReadNLString(playerPointer(), 0x55A8, 8, u'\uFFFF');
+	return StringUtils::ReadUTF16String(playerPointer(), 0x55A8, 8);
 }
 void PlayerWA::name(std::u16string v) {
-	StringUtils::WriteNLString(playerPointer(), v, 0x55A8, 8);
+	StringUtils::WriteUTF16String(playerPointer(), v, 0x55A8, 8);
 }
 
 // Wallet Amount.
@@ -199,7 +199,7 @@ std::unique_ptr<Item> PlayerWA::storage(int slot) {
 
 // Player Pattern.
 std::unique_ptr<Pattern> PlayerWA::pattern(int slot) {
-	if (slot > 9)	return nullptr;
+	if (slot > 9) return nullptr;
 	return std::make_unique<PatternWA>(data, offset + 0x2C + slot * 0x870);
 }
 
