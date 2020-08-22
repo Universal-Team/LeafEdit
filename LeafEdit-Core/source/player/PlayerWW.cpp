@@ -298,9 +298,41 @@ void PlayerWW::townid(u16 v) {
 
 // Town Name.
 std::u16string PlayerWW::townname() {
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			return StringUtils::ReadUTF8String(playerPointer(), 0x2278, 8, this->region);
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			return StringUtils::ReadUTF8String(playerPointer(), 0x1CFE, 6, this->region); // Correct?
+		case WWRegion::KOR_REV1:
+			return StringUtils::ReadUTF16String(playerPointer(), 0x2480, 6); // Correct?
+		case WWRegion::UNKNOWN:
+			return StringUtils::UTF8toUTF16("?");
+	}
+
 	return StringUtils::UTF8toUTF16("?");
 }
-void PlayerWW::townname(std::u16string v) { }
+
+void PlayerWW::townname(std::u16string v) {
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x2278, 8, this->region);
+			break;
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			StringUtils::WriteUTF8String(playerPointer(), v, 0x1CFE, 6, this->region); // Correct?
+			break;
+		case WWRegion::KOR_REV1:
+			StringUtils::WriteUTF16String(playerPointer(), v, 0x2480, 6); // Correct?
+			break;
+		case WWRegion::UNKNOWN:
+			break;
+	}
+}
 
 // Player Exist.
 bool PlayerWW::exist() {
