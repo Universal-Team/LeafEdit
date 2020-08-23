@@ -147,3 +147,21 @@ u32 TownWW::turnipPrices(bool isAM, int day) {
 	return 0;
 }
 void TownWW::turnipPrices(bool isAM, int day, u32 v) { }
+
+std::unique_ptr<Pattern> TownWW::townflag() {
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			return std::make_unique<PatternWW>(this->data, 0x15930, this->region);
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			return std::make_unique<PatternWW>(this->data, 0x11C5C, this->region);
+		case WWRegion::KOR_REV1:
+			return std::make_unique<PatternWW>(this->data, 0x16D0C, this->region);
+		case WWRegion::UNKNOWN:
+			return nullptr;
+	}
+
+	return nullptr;
+}

@@ -24,49 +24,25 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_TOWN_HPP
-#define _LEAFEDIT_CORE_TOWN_HPP
+#ifndef _LEAFEDIT_CORE_SHOP_HPP
+#define _LEAFEDIT_CORE_SHOP_HPP
 
-#include "Acre.hpp"
-#include "Item.hpp"
-#include "Pattern.hpp"
 #include "types.hpp"
 
 #include <memory>
 #include <vector>
 
-// TODO: Make a use of this? Keep it? Remove it?
-enum class TurnipDays {
-	Monday,
-	Tuesday,
-	Wednessday,
-	Thursday,
-	Friday,
-	Saturday
-};
-
-class Acre;
-class Item;
-class Pattern;
-class Town {
+class Shop {
 protected:
 	std::shared_ptr<u8[]> data;
+	u32 Offset;
 public:
-	virtual ~Town() {}
-	Town(std::shared_ptr<u8[]> townData) : data(townData) {}
-	Town(const Town& town) = delete;
-	Town& operator=(const Town& town) = delete;
+	virtual ~Shop() {}
+	Shop(std::shared_ptr<u8[]> dt, u32 offset) : data(dt), Offset(offset) {}
+	Shop(const Shop& shop) = delete;
+	Shop& operator=(const Shop& shop) = delete;
 
-	virtual u8 grasstype() = 0;
-	virtual void grasstype(u8 v) = 0;
-	virtual std::u16string name() = 0;
-	virtual void name(std::u16string v) = 0;
-	virtual std::unique_ptr<Acre> acre(int Acre) = 0;
-	virtual std::unique_ptr<Item> item(u32 index) = 0;
-	virtual bool exist() = 0;
-	virtual u32 turnipPrices(bool isAM, int day) = 0;
-	virtual void turnipPrices(bool isAM, int day, u32 v) = 0;
-	virtual std::unique_ptr<Pattern> townflag() = 0;
+	virtual std::unique_ptr<Pattern> ableSisterPattern(int pattern) = 0;
 };
 
 #endif

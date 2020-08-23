@@ -49,6 +49,10 @@ std::unique_ptr<Island> SavNL::island() {
 	return std::make_unique<IslandNL>(dataPointer);
 }
 
+std::unique_ptr<Shop> SavNL::shop() {
+	return std::make_unique<ShopNL>(dataPointer, 0);
+}
+
 // Last call before writing to file. Update Checksum.
 void SavNL::Finish(void) {
 	Checksum::FixNLCRC32s(this->savePointer());

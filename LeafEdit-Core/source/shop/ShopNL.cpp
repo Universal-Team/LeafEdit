@@ -1,6 +1,6 @@
 /*
-*   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   This file is part of LeafEdit-Core
+*   Copyright (C) 2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,33 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_PATTERN_VIEWER_HPP
-#define _LEAFEDIT_PATTERN_VIEWER_HPP
+#include "saveUtils.hpp"
+#include "ShopNL.hpp"
 
-#include "common.hpp"
-#include "Player.hpp"
-#include "Pattern.hpp"
-#include "PatternImage.hpp"
-#include "structs.hpp"
-
-#include <vector>
-
-class PatternViewer : public Screen {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PatternViewer(std::shared_ptr<Player> plr, SaveType ST = SaveType::WW);
-	~PatternViewer();
-
-private:
-	SaveType SType;
-	void DrawPattern(void) const;
-	void DisplayPatternInfo(void) const;
-	int selectedPattern = 0;
-	std::shared_ptr<Player> player;
-	std::shared_ptr<Pattern> pattern[10];
-	std::shared_ptr<PatternImage> images[10];
-	C2D_Image patternImage[10];
-};
-
-#endif
+std::unique_ptr<Pattern> ShopNL::ableSisterPattern(int pattern) {
+	if (pattern > 7) return nullptr;
+	return std::make_unique<PatternNL>(this->data, 0x5C934 + pattern * 0x870);
+}

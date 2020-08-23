@@ -32,6 +32,8 @@
 #include "Player.hpp"
 #include "PlayerWA.hpp"
 #include "Sav.hpp"
+#include "Shop.hpp"
+#include "ShopWA.hpp"
 #include "Town.hpp"
 #include "TownWA.hpp"
 #include "types.hpp"
@@ -44,6 +46,8 @@ class Island;
 class IslandWA;
 class Player;
 class PlayerWA;
+class Shop;
+class ShopWA;
 class Town;
 class TownWA;
 class Villager;
@@ -56,10 +60,12 @@ public:
 	SavWA(std::shared_ptr<u8[]> dt, u32 ssize) : Sav(dt, ssize), dataPointer(dt), saveSize(ssize) { }
 	virtual ~SavWA() {}
 	void Finish(void) override;
+
 	std::unique_ptr<Player> player(int player, int index = 0) override;
 	std::unique_ptr<Villager> villager(int villager) override;
 	std::unique_ptr<Town> town() override;
 	std::unique_ptr<Island> island() override;
+	std::unique_ptr<Shop> shop() override;
 
 	SaveType getType() override { return SaveType::WA; }
 	WWRegion getRegion() override { return WWRegion::UNKNOWN; } // No need for here.

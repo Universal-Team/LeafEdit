@@ -29,6 +29,7 @@
 
 #include "Island.hpp"
 #include "Player.hpp"
+#include "Shop.hpp"
 #include "stringUtils.hpp"
 #include "Town.hpp"
 #include "types.hpp"
@@ -40,6 +41,7 @@
 
 class Island;
 class Player;
+class Shop;
 class Town;
 class Villager;
 class Sav {
@@ -62,6 +64,7 @@ public:
 	virtual std::unique_ptr<Villager> villager(int villager) = 0;
 	virtual std::unique_ptr<Town> town() = 0;
 	virtual std::unique_ptr<Island> island() = 0;
+	virtual std::unique_ptr<Shop> shop() = 0;
 	
 	// Call this when finished editing.
 	virtual void Finish(void) = 0;

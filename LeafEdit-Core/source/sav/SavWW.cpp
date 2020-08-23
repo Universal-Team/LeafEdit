@@ -77,6 +77,10 @@ std::unique_ptr<Island> SavWW::island() {
 	return nullptr;
 }
 
+std::unique_ptr<Shop> SavWW::shop() {
+	return std::make_unique<ShopWW>(dataPointer, 0, this->region);
+}
+
 // Last call before writing to file. Update Checksum.
 void SavWW::Finish(void) {
 	switch (this->region) {

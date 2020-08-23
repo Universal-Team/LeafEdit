@@ -49,6 +49,10 @@ std::unique_ptr<Island> SavWA::island() {
 	return std::make_unique<IslandWA>(dataPointer);
 }
 
+std::unique_ptr<Shop> SavWA::shop() {
+	return std::make_unique<ShopWA>(dataPointer, 0);
+}
+
 // Last call before writing to file. Update Checksum.
 void SavWA::Finish(void) {
 	Checksum::FixCRC32s(this->savePointer());

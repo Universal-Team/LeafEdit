@@ -32,6 +32,8 @@
 #include "encryptedInt32.hpp"
 #include "Item.hpp"
 #include "ItemNL.hpp"
+#include "Pattern.hpp"
+#include "PatternNL.hpp"
 #include "Town.hpp"
 #include "types.hpp"
 
@@ -42,6 +44,8 @@ class Acre;
 class AcreNL;
 class Item;
 class ItemNL;
+class Pattern;
+class PatternNL;
 class TownNL : public Town {
 protected:
 	std::shared_ptr<u8[]> data;
@@ -58,6 +62,7 @@ public:
 	bool exist() override;
 	u32 turnipPrices(bool isAM, int day) override;
 	void turnipPrices(bool isAM, int day, u32 v) override;
+	std::unique_ptr<Pattern> townflag() override;
 private:
 	u8* townPointer() const {
 		return data.get();

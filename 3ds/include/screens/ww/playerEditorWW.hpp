@@ -45,8 +45,8 @@ private:
 
 	std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "APPEARANCE"},
-		{15, 97, 130, 48, ""},
-		{15, 159, 130, 48, ""},
+		{15, 97, 130, 48, "ITEMS"},
+		{15, 159, 130, 48, "PATTERN"},
 		{175, 34, 130, 48, ""},
 		{175, 97, 130, 48, ""},
 		{175, 159, 130, 48, ""}
@@ -56,7 +56,16 @@ private:
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	/*	Appearance.	*/
+
+	/* Pattern. */
+	void DisplayPattern(void) const;
+	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	
 	/*	Player.	*/
+
+	std::shared_ptr<Pattern> pattern[8] = {nullptr};
+	std::shared_ptr<PatternImage> images[8] = {nullptr};
+	C2D_Image patternImage[8] = {nullptr};
 };
 
 #endif

@@ -24,49 +24,26 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_TOWN_HPP
-#define _LEAFEDIT_CORE_TOWN_HPP
+#include "saveUtils.hpp"
+#include "ShopWW.hpp"
 
-#include "Acre.hpp"
-#include "Item.hpp"
-#include "Pattern.hpp"
-#include "types.hpp"
+/* Return Able Sister Pattern. */
+std::unique_ptr<Pattern> ShopWW::ableSisterPattern(int pattern) {
+	if (pattern > 7) return nullptr;
 
-#include <memory>
-#include <vector>
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			return std::make_unique<PatternWW>(this->data, this->Offset + 0xFAFC + pattern * 0x228, this->region);
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			return std::make_unique<PatternWW>(this->data, this->Offset + 0xDAF8 + pattern * 0x220, this->region);
+		case WWRegion::KOR_REV1:
+			return std::make_unique<PatternWW>(this->data, this->Offset + 0x10AD0 + pattern * 0x234, this->region);
+		case WWRegion::UNKNOWN:
+			return nullptr;
+	}
 
-// TODO: Make a use of this? Keep it? Remove it?
-enum class TurnipDays {
-	Monday,
-	Tuesday,
-	Wednessday,
-	Thursday,
-	Friday,
-	Saturday
-};
-
-class Acre;
-class Item;
-class Pattern;
-class Town {
-protected:
-	std::shared_ptr<u8[]> data;
-public:
-	virtual ~Town() {}
-	Town(std::shared_ptr<u8[]> townData) : data(townData) {}
-	Town(const Town& town) = delete;
-	Town& operator=(const Town& town) = delete;
-
-	virtual u8 grasstype() = 0;
-	virtual void grasstype(u8 v) = 0;
-	virtual std::u16string name() = 0;
-	virtual void name(std::u16string v) = 0;
-	virtual std::unique_ptr<Acre> acre(int Acre) = 0;
-	virtual std::unique_ptr<Item> item(u32 index) = 0;
-	virtual bool exist() = 0;
-	virtual u32 turnipPrices(bool isAM, int day) = 0;
-	virtual void turnipPrices(bool isAM, int day, u32 v) = 0;
-	virtual std::unique_ptr<Pattern> townflag() = 0;
-};
-
-#endif
+	return nullptr;
+}

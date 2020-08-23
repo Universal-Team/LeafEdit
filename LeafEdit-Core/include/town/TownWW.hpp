@@ -31,6 +31,8 @@
 #include "AcreWW.hpp"
 #include "Item.hpp"
 #include "ItemWW.hpp"
+#include "Pattern.hpp"
+#include "PatternWW.hpp"
 #include "Town.hpp"
 #include "types.hpp"
 
@@ -41,6 +43,8 @@ class Acre;
 class AcreWW;
 class Item;
 class ItemWW;
+class Pattern;
+class PatternWW;
 class TownWW : public Town {
 protected:
 	WWRegion region;
@@ -58,6 +62,7 @@ public:
 	bool exist() override;
 	u32 turnipPrices(bool isAM, int day) override;
 	void turnipPrices(bool isAM, int day, u32 v) override;
+	std::unique_ptr<Pattern> townflag() override;
 private:
 	u8* townPointer() const {
 		return data.get();

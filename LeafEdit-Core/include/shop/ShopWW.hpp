@@ -24,49 +24,31 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_TOWN_HPP
-#define _LEAFEDIT_CORE_TOWN_HPP
+#ifndef _LEAFEDIT_CORE_SHOP_WW_HPP
+#define _LEAFEDIT_CORE_SHOP_WW_HPP
 
-#include "Acre.hpp"
-#include "Item.hpp"
 #include "Pattern.hpp"
-#include "types.hpp"
+#include "PatternWW.hpp"
+#include "Shop.hpp"
 
 #include <memory>
 #include <vector>
 
-// TODO: Make a use of this? Keep it? Remove it?
-enum class TurnipDays {
-	Monday,
-	Tuesday,
-	Wednessday,
-	Thursday,
-	Friday,
-	Saturday
-};
-
-class Acre;
-class Item;
 class Pattern;
-class Town {
+class PatternWW;
+class ShopWW : public Shop {
 protected:
+	u32 Offset;
 	std::shared_ptr<u8[]> data;
+	WWRegion region;
 public:
-	virtual ~Town() {}
-	Town(std::shared_ptr<u8[]> townData) : data(townData) {}
-	Town(const Town& town) = delete;
-	Town& operator=(const Town& town) = delete;
-
-	virtual u8 grasstype() = 0;
-	virtual void grasstype(u8 v) = 0;
-	virtual std::u16string name() = 0;
-	virtual void name(std::u16string v) = 0;
-	virtual std::unique_ptr<Acre> acre(int Acre) = 0;
-	virtual std::unique_ptr<Item> item(u32 index) = 0;
-	virtual bool exist() = 0;
-	virtual u32 turnipPrices(bool isAM, int day) = 0;
-	virtual void turnipPrices(bool isAM, int day, u32 v) = 0;
-	virtual std::unique_ptr<Pattern> townflag() = 0;
+	virtual ~ShopWW() {}
+	ShopWW(std::shared_ptr<u8[]> shopData, u32 offset, WWRegion rg) : Shop(shopData, offset), Offset(offset), data(shopData), region(rg) { }
+	std::unique_ptr<Pattern> ableSisterPattern(int pattern) override;
+private:
+	u8* shopPointer() const {
+		return data.get() + Offset;
+	}
 };
 
 #endif

@@ -69,7 +69,16 @@ private:
 	/*	Appearance.	*/
 	void DrawAppearance(void) const;
 	void AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	/* Pattern. */
+	void DisplayPattern(void) const;
+	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
 	/*	Player.	*/
+
+	std::shared_ptr<Pattern> pattern[10] = {nullptr};
+	std::shared_ptr<PatternImage> images[10] = {nullptr};
+	C2D_Image patternImage[10] = {nullptr};
 };
 
 #endif

@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "patternViewer.hpp"
+#include "patternEditor.hpp"
 #include "playerEditorWW.hpp"
 #include "Sav.hpp"
 #include "stringUtils.hpp"
@@ -35,11 +35,15 @@ extern std::shared_ptr<Sav> save;
 PlayerEditorWW::PlayerEditorWW(std::shared_ptr<Player> p): player(p) { }
 
 void PlayerEditorWW::Draw(void) const {
-	if (Mode == 0)	DrawSubMenu();
+	if (Mode == 0) this->DrawSubMenu();
+	else if (this->Mode == 1) return; /* Appearance. */ 
+	else if (this->Mode == 2) this->DisplayPattern();
 }
 
 void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (Mode == 0)	SubMenuLogic(hDown, hHeld, touch);
+	if (this->Mode == 0) this->SubMenuLogic(hDown, hHeld, touch);
+	else if (this->Mode == 1) return; /* Appearance. */
+	else if (this->Mode == 2) this->PatternLogic(hDown, hHeld, touch);
 }
 
 /*	Sub Menu.	*/
@@ -67,7 +71,30 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if(Selection > 0) Selection--;
 	}
 
-	if (hDown & KEY_A) Gui::setScreen(std::make_unique<PatternViewer>(this->player, SaveType::WW), doFade, true);
+	if (hDown & KEY_A) {
+		switch(this->Selection) {
+			case 0:
+				//this->Mode = 1;
+				break;
+			case 1:
+				// No idea.
+				break;
+			case 2:
+				/* Load Pattern. */
+				C3D_FrameEnd(0);
+				for (int i = 0; i < 8; i++) {
+					this->pattern[i] = this->player->pattern(i);
+					this->images[i] = this->pattern[i]->image(0);
+					this->patternImage[i] = CoreUtils::patternImage(this->images[i], SaveType::WW);
+				}
+
+				this->Selection = 0;
+				this->Mode = 2;
+				break;
+			case 3:
+				break;
+		}
+	}
 
 	if (hDown & KEY_DOWN) {
 		if(Selection < 5) Selection++;
@@ -87,5 +114,69 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
+	}
+}
+
+void PlayerEditorWW::DisplayPattern(void) const {
+	int selectX = 0, selectY = 0;
+
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_VIEWER"), 395, 0, font);
+
+	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PATTERN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern[this->Selection]->name()), 395, 0, font);
+	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_NAME") + ": " +  StringUtils::UTF16toUTF8(this->pattern[this->Selection]->creatorname()), 395, 0, font);
+	Gui::DrawStringCentered(0, 80, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_ID") + ": " + std::to_string(pattern[this->Selection]->creatorid()), 395, 0, font);
+	Gui::DrawStringCentered(0, 100, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern[this->Selection]->origtownname()), 395, 0, font);
+	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PATTERN_ORIGIN_ID") + ": " + std::to_string(this->pattern[this->Selection]->origtownid()), 395, 0, font);
+
+	if (this->pattern[this->Selection]->creatorGender()) {
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
+	} else {
+		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
+	}
+
+	GFX::DrawBottom();
+
+	for (int i = 0; i < 8; i++) {
+		for (u32 y = 0; y < 2; y++) {
+			for (u32 x = 0; x < 4; x++, i++) {
+				C2D_DrawImageAt(this->patternImage[i], 40 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
+			}
+		}
+	}
+
+	if (this->Selection < 4)	selectY = 0;	else	selectY = 1;
+	if (this->Selection > 3)	selectX = this->Selection - 4;	else selectX = this->Selection;
+
+	GFX::DrawGUI(gui_pointer_idx, 45 + (selectX * 60), 67 + (selectY * 80));
+}
+
+void PlayerEditorWW::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_RIGHT) {
+		if (this->Selection < 7) {
+			this->Selection++;
+		}
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (this->Selection > 0) {
+			this->Selection--;
+		}
+	}
+
+	if (hDown & KEY_B) {
+		/* Free. */
+		C3D_FrameEnd(0);
+		for (int i = 0; i < 8; i++) {
+			if (this->patternImage[i].subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
+		}
+
+		this->Selection = 0;
+		this->Mode = 0;
+	}
+
+	/* Open Pattern Editor. */
+	if (hDown & KEY_A) {
+		Gui::setScreen(std::make_unique<PatternEditor>(this->pattern[this->Selection]), doFade, true);
 	}
 }

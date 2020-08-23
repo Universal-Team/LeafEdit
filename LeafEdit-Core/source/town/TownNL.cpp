@@ -75,3 +75,7 @@ void TownNL::turnipPrices(bool isAM, int day, u32 v) {
 	SaveUtils::Write<u32>(townPointer(), isAM ? (0x80 + 0x06535c) + day * 16 : (0x80 + 0x06535c) + day * 16 + 8, encryptedInt);
 	SaveUtils::Write<u32>(townPointer(), isAM ? (0x80 + 0x06535c) + day * 16 + 0x4 : (0x80 + 0x06535c) + day * 16 + 8 + 0x4, encryptionData);
 }
+
+std::unique_ptr<Pattern> TownNL::townflag() {
+	return std::make_unique<PatternNL>(this->data, 0x6B4EC);
+}
