@@ -41,12 +41,12 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~Island() {}
-	Island(std::shared_ptr<u8[]> islandData) : data(islandData) {}
+	Island(std::shared_ptr<u8[]> islandData) : data(islandData) { }
 	Island(const Island& island) = delete;
 	Island& operator=(const Island& island) = delete;
 
-	virtual std::unique_ptr<Acre> acre(int Acre) = 0;
-	virtual std::unique_ptr<Item> item(u32 index) = 0;
+	virtual std::unique_ptr<Acre> acre(int Acre) const = 0;
+	virtual std::unique_ptr<Item> item(u32 index) const = 0;
 };
 
 #endif

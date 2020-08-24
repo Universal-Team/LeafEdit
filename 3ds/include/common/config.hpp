@@ -39,26 +39,26 @@ public:
 	void initialize();
 	void addMissingThings();
 
-	// Using new Style.
+	/* Using new Style. */
 	bool newStyle() { return this->v_newStyle; }
 	void newStyle(bool v) { this->v_newStyle = v; if (!this->changesMade)	this->changesMade = true; }
-	// Current Release.
+	/* Current Release. */
 	std::string currentRelease() { return this->v_currentRelease; }
 	void currentRelease(std::string v) { this->v_currentRelease = v; if (!this->changesMade)	this->changesMade = true; }
-	// Current Nightly.
+	/* Current Nightly. */
 	std::string currentNightly() { return this->v_currentNightly; }
 	void currentNightly(std::string v) { this->v_currentNightly = v; if (!this->changesMade)	this->changesMade = true; }
-	// Language.
+	/* Language. */
 	int language() { return this->v_language; }
 	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
-	// Do Backups.
+	/* Do Backups. */
 	bool createBackups() { return this->v_createBackups; }
 	void createBackups(bool v) { this->v_createBackups = v; if (!this->changesMade)	this->changesMade = true; }
-	// Version.
+	/* Version. */
 	int version() { return this->v_version; }
 	void version(int v) { this->v_version = v; if (!this->changesMade)	this->changesMade = true; }
 
-	// Mainly helper.
+	/* Mainly helper. */
 	bool getBool(const std::string &key);
 	void setBool(const std::string &key, bool v);
 	int getInt(const std::string &key);
@@ -69,7 +69,7 @@ private:
 	nlohmann::json json; // Our private JSON file.
 	bool changesMade = false;
 
-	// variables for the config.
+	/* variables for the config. */
 	bool v_newStyle, v_createBackups;
 	std::string v_currentRelease, v_currentNightly;
 	int v_language, v_version;

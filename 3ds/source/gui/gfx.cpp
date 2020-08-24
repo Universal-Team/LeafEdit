@@ -45,7 +45,7 @@ void GFX::DrawGUIBlend(int img, int x, int y, float ScaleX, float ScaleY, u32 co
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(GUI, img), x, y, 0.5f,  &tint, ScaleX, ScaleY);
 }
 
-// Code from PKSM. https://github.com/FlagBrew/PKSM/blob/master/3ds/source/gui/gui.cpp#L73
+/* Code from PKSM. https://github.com/FlagBrew/PKSM/blob/master/3ds/source/gui/gui.cpp#L73 */
 Tex3DS_SubTexture _select_box(const C2D_Image& image, int x, int y, int endX, int endY) {
 	Tex3DS_SubTexture tex = *image.subtex;
 	if (x != endX) {
@@ -72,22 +72,22 @@ void GFX::DrawSelector(bool top, int y) {
 	Tex3DS_SubTexture tex = _select_box(sprite, 8, 0, 9, 21); // Get Height.
 
 	if (top) {
-		// Draw Sides.
+		/* Draw Sides. */
 		DrawGUI(gui_selector_side_idx, 0, y);
 		DrawGUI(gui_selector_side_idx, 391, y, -1.0, 1.0);
-		// Stretch the middle!
+		/* Stretch the middle. */
 		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 382.0, 1);
 	} else {
-		// Draw Sides.
+		/* Draw Sides. */
 		DrawGUI(gui_selector_side_idx, 0, y);
 		DrawGUI(gui_selector_side_idx, 311, y, -1.0, 1.0);
-		// Stretch the middle!
+		/* Stretch the middle. */
 		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 302.0, 1);
 	}
 }
 
 void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
-	// Tint for the old style.
+	/* Tint for the old style. */
 	C2D_ImageTint tint;
 	if (!config->newStyle()) {
 		C2D_SetImageTint(&tint, C2D_TopLeft, C2D_Color32(38, 130, 40, 255), 0.5);
@@ -99,7 +99,7 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 	C2D_Image sprite = C2D_SpriteSheetGetImage(GUI, gui_button_corner_idx);
 	Tex3DS_SubTexture tex;
 	
-	// Corners.
+	/* Corners. */
 	if (!config->newStyle()) {
 		DrawGUIBlend(gui_button_corner_idx, x, y, 1, 1, C2D_Color32(23, 121, 53, 255));
 		DrawGUIBlend(gui_button_corner_idx, x + xLength - 14, y, -1.0, 1.0, C2D_Color32(23, 121, 53, 255));
@@ -112,7 +112,7 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 		DrawGUI(gui_button_corner_idx, x + xLength - 14, y + yLength - 14, -1.0, -1.0);
 	}
 
-	// Height draw.
+	/* Height draw. */
 	tex = _select_box(sprite, 0, 11, 14, 12); // Get Height.
 	if (!config->newStyle()) {
 		C2D_DrawImageAt({sprite.tex, &tex}, x, y + 14, 0.5f, &tint, 1, yLength - 28);
@@ -122,7 +122,7 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 		C2D_DrawImageAt({sprite.tex, &tex}, x + xLength - 14, y + 14, 0.5f, nullptr, -1, yLength - 28);
 	}
 
-	// Width draw.
+	/* Width draw. */
 	tex = _select_box(sprite, 11, 0, 12, 14); // Get Width.
 	if (!config->newStyle()) {
 		C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y, 0.5f, &tint, xLength - 28, 1);
@@ -132,7 +132,7 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 		C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + yLength - 14, 0.5f, nullptr, xLength - 28, -1);	
 	}
 
-	// And now the middle!
+	/* And now the middle. */
 	tex = _select_box(sprite, 11, 11, 12, 12); // Get Corner pixel.
 	if (!config->newStyle()) {
 		C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + 14, 0.5f, &tint, xLength - 28, yLength - 28);
@@ -153,21 +153,21 @@ void GFX::DrawTop(bool useBars, bool fullscreen) {
 		}
 	} else {
 		if (!fullscreen) {
-			// Draw Tiled BG.
+			/* Draw Tiled BG. */
 			DrawGUI(gui_tileBG_idx, 0, 0);
 			DrawGUI(gui_tileBG_idx, 135, 0);
 			DrawGUI(gui_tileBG_idx, 270, 0);
 			DrawGUI(gui_tileBG_idx, 0, 132);
 			DrawGUI(gui_tileBG_idx, 135, 132);
 			DrawGUI(gui_tileBG_idx, 270, 132);
-			// Draw grass bar on bottom.
+			/* Draw grass bar on bottom. */
 			DrawGUI(gui_bar_idx, 0, 215);
 			if (useBars) {
-				// Draw Text bar, so Text is readable.
+				/* Draw Text bar, so Text is readable. */
 				DrawGUI(gui_top_bar_idx, 0, 0);
 			}
 		} else {
-			// Just solid.
+			/* Just solid. */
 			Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(215, 178, 111, 255)); // Draw BG based on Tile's color.
 		}
 	}
@@ -229,27 +229,27 @@ void GFX::DrawFileBrowseBG(bool isTop) {
 	} else {
 		if (isTop) {
 			Gui::ScreenDraw(Top);
-			// Draw Bakground.
+			/* Draw Bakground. */
 			Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
-			// Draw FileBrowse Bars.
+			/* Draw FileBrowse Bars. */
 			Gui::Draw_Rect(0, 45, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 87, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 129, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 171, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
-			// Draw Textbox bars.
+			/* Draw Textbox bars. */
 			DrawGUI(gui_top_bar_idx, 0, 0);
 			DrawGUI(gui_bottom_bar_idx, 0, 208);
 		} else {
 			Gui::ScreenDraw(Bottom);
-			// Draw Background.
+			/* Draw Background. */
 			Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
-			// Draw FileBrowse Bars.
+			/* Draw FileBrowse Bars. */
 			Gui::Draw_Rect(0, 24, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 67, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 109, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 152, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 			Gui::Draw_Rect(0, 194, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
-			// Draw grass Bars.
+			/* Draw grass Bars. */
 			DrawGUI(gui_bar_idx, 0, 0, 1, -1);
 			DrawGUI(gui_bar_idx, 0, 215);
 		}
@@ -273,9 +273,10 @@ void DrawList(int selection, const std::vector<std::string> List, const std::str
 		lists += "\n";
 	}
 
-	// Selector Logic.
+	/* Selector Logic. */
 	if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
 	else				GFX::DrawSelector(true, 24 + (8 * 21));
+
 	Gui::DrawString(5, 25, 0.85f, BLACK, lists, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(List.size()), 395, 0, font);
 	GFX::DrawFileBrowseBG(false);
@@ -286,7 +287,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> list, const s
 	s32 selection = current;
 	int keyRepeatDelay = 0;
 	while (1) {
-		// Draw List.
+		/* Draw List. */
 		DrawList(selection, list, Msg);
 		hidScanInput();
 		if (keyRepeatDelay)	keyRepeatDelay--;
@@ -312,21 +313,21 @@ int GFX::ListSelection(int current, const std::vector<std::string> list, const s
 	}
 }
 
-// Draw a Button and draw Text on it.
+/* Draw a Button and draw Text on it. */
 void GFX::DrawButton(const ButtonType button, float TextSize) {
 	DrawBtn(button.x, button.y, button.xLength, button.yLength);
-	// Draw String.
+	/* Draw String. */
 	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, TextSize, BLACK, Lang::get(button.Text), button.xLength-17, button.yLength-5, font);
 }
 
-// Special Grid for Items. I need to do this here instead of using the Universal-Core one.
+/* Special Grid for Items. I need to do this here instead of using the Universal-Core one. */
 void GFX::drawGrid(float xPos, float yPos, float Width, float Height, u32 itemColor, u32 gridColor) {
 	static constexpr int w	= 1;
 	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, Height, itemColor);
 
-	// Grid part.
-	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, gridColor); // top
-	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, gridColor); // left
-	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, gridColor); // right
-	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, gridColor); // bottom
+	/* Grid part. */
+	C2D_DrawRectSolid(xPos, yPos, 0.5, Width, w, gridColor); // top.
+	C2D_DrawRectSolid(xPos, yPos + w, 0.5, w, Height - 2 * w, gridColor); // left.
+	C2D_DrawRectSolid(xPos + Width - w, yPos + w, 0.5, w, Height - 2 * w, gridColor); // right.
+	C2D_DrawRectSolid(xPos, yPos + Height - w, 0.5, Width, w, gridColor); // bottom.
 }

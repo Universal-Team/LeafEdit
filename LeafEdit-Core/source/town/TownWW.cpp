@@ -28,8 +28,8 @@
 #include "stringUtils.hpp"
 #include "TownWW.hpp"
 
-// Grasstype.
-u8 TownWW::grasstype() {
+/* Grasstype. */
+u8 TownWW::grasstype() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -59,8 +59,8 @@ void TownWW::grasstype(u8 v) {
 	}
 }
 
-// Town Name.
-std::u16string TownWW::name() {
+/* Town Name. */
+std::u16string TownWW::name() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -96,9 +96,9 @@ void TownWW::name(std::u16string v) {
 	}
 }
 
-// Town Acre.
-std::unique_ptr<Acre> TownWW::acre(int Acre) {
-	if (Acre > 35)	return nullptr; // Acre Index goes out of scope.
+/* Town Acre. */
+std::unique_ptr<Acre> TownWW::acre(int Acre) const {
+	if (Acre > 35) return nullptr; // Acre Index goes out of scope.
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -116,9 +116,9 @@ std::unique_ptr<Acre> TownWW::acre(int Acre) {
 	return nullptr;
 }
 
-// Town Item.
-std::unique_ptr<Item> TownWW::item(u32 index) {
-	if (index > 4095)	return nullptr; // Item Index goes out of scope.
+/* Town Item. */
+std::unique_ptr<Item> TownWW::item(u32 index) const {
+	if (index > 4095) return nullptr; // Item Index goes out of scope.
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -136,19 +136,20 @@ std::unique_ptr<Item> TownWW::item(u32 index) {
 	return nullptr;
 }
 
-// Return if Town exist.
-bool TownWW::exist() {
+/* Return if Town exist. */
+bool TownWW::exist() const {
 	if (SaveUtils::Read<u16>(townPointer(), 0x2) == 0x0 || SaveUtils::Read<u16>(townPointer(), 0x2) == 0xFFFF)	return false;
 	return true;
 }
 
-// Turnip prices. TODO? I'm not sure where they exist yet.
-u32 TownWW::turnipPrices(bool isAM, int day) {
+/* Turnip prices. TODO? I'm not sure where they exist yet. */
+u32 TownWW::turnipPrices(bool isAM, int day) const {
 	return 0;
 }
 void TownWW::turnipPrices(bool isAM, int day, u32 v) { }
 
-std::unique_ptr<Pattern> TownWW::townflag() {
+/* Town flag. */
+std::unique_ptr<Pattern> TownWW::townflag() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:

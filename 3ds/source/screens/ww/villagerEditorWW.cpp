@@ -73,7 +73,7 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 }
 
 void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Selection.
+	/* Selection. */
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -105,12 +105,12 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->villager->personality(tempSelect);
 				break;
 			case 2:
-				// Get Furniture Items.
+				/* Get Furniture Items. */
 				for (int i = 0; i < 10; i++) {
 					this->villagerItems[i] = this->villager->furniture(i);
 				}
 
-				// Get other item stuff.
+				/* Get other item stuff. */
 				this->villagerItems[10] = this->villager->shirt();
 
 				this->miscItems[0] = this->villager->songWW();
@@ -144,7 +144,7 @@ void VillagerEditorWW::DrawItems(void) const {
 	GFX::drawGrid(items[13].x, items[13].y, items[13].w, items[13].h, ItemManager::getColor(ItemType::WallpaperCarpet), C2D_Color32(0, 0, 0, 255)); // Carpet.
 	GFX::drawGrid(items[14].x, items[14].y, items[14].w, items[14].h, ItemManager::getColor(ItemType::Clothes), C2D_Color32(0, 0, 0, 255)); // Umbrella.
 
-	GFX::DrawGUI(gui_pointer_idx, items[itemSelection].x+15, items[itemSelection].y+15);
+	GFX::DrawGUI(gui_pointer_idx, items[itemSelection].x + 15, items[itemSelection].y + 15);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -155,7 +155,7 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->itemSelection < 11) {
 			this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), SaveType::WW));
 		} else {
-			// TODO: Handle of the indexes.
+			/* TODO: Handle of the indexes. */
 		}
 	}
 
@@ -175,7 +175,7 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_B) {
 		this->villagerMode = 0;
-		// Reset Items to nullptr.
+		/* Reset Items to nullptr. */
 		for (int i = 0; i < 11; i++) {
 			this->villagerItems[i] = nullptr;
 		}

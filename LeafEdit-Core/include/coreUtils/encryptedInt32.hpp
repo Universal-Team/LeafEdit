@@ -60,13 +60,13 @@ public:
 	EncryptedInt32(u32 intLow, u32 intHigh);
 	EncryptedInt32(u64 encryptedInt);
 
-	u32 value;
+	mutable u32 value;
 	void encrypt(u32 &encryptedIntOut, u32 &encryptionDataOut);
-	u32 decrypt(u32 intLow, u32 intHigh);
-	u32 decrypt(u64 encryptedInt);
+	u32 decrypt(u32 intLow, u32 intHigh) const;
+	u32 decrypt(u64 encryptedInt) const;
 
 private:
-	u8 calculateChecksum(u32 intHigh);
+	u8 calculateChecksum(u32 intHigh) const;
 };
 
 #endif

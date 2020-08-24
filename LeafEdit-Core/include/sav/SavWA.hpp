@@ -54,23 +54,23 @@ class Villager;
 class VillagerWA;
 class SavWA : public Sav {
 protected:
-	std::shared_ptr<u8[]> dataPointer; // Is that right?
+	std::shared_ptr<u8[]> dataPointer;
 	u32 saveSize;
 public:
 	SavWA(std::shared_ptr<u8[]> dt, u32 ssize) : Sav(dt, ssize), dataPointer(dt), saveSize(ssize) { }
 	virtual ~SavWA() {}
 	void Finish(void) override;
 
-	std::unique_ptr<Player> player(int player, int index = 0) override;
-	std::unique_ptr<Villager> villager(int villager) override;
-	std::unique_ptr<Town> town() override;
-	std::unique_ptr<Island> island() override;
-	std::unique_ptr<Shop> shop() override;
+	std::unique_ptr<Player> player(int player, int index = 0) const override;
+	std::unique_ptr<Villager> villager(int villager) const override;
+	std::unique_ptr<Town> town() const override;
+	std::unique_ptr<Island> island() const override;
+	std::unique_ptr<Shop> shop() const override;
 
-	SaveType getType() override { return SaveType::WA; }
-	WWRegion getRegion() override { return WWRegion::UNKNOWN; } // No need for here.
+	SaveType getType() const override { return SaveType::WA; }
+	WWRegion getRegion() const override { return WWRegion::UNKNOWN; }
 	
-	int maxVillager() override { return 9; }
+	int maxVillager() const override { return 9; }
 private:
 	u8 *savePointer() const {
 		return dataPointer.get();

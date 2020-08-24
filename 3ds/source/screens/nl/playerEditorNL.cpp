@@ -37,7 +37,7 @@
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
-// Bring that to other screens too.
+/* Bring that to other screens too. */
 extern SaveType savesType;
 
 PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) { }
@@ -56,7 +56,7 @@ void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	else if (this->Mode == 2) this->PatternLogic(hDown, hHeld, touch);
 }
 
-/*	Sub Menu.	*/
+/* Sub Menu. */
 void PlayerEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
@@ -76,7 +76,7 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 }
 
 void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -132,19 +132,19 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void PlayerEditorNL::DrawAppearance(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
-	// Playername & TAN.
+	/* Playername & TAN. */
 	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
 	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
 	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
 	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("PLAYER_TAN_VALUE") + ": " + std::to_string((this->player->tan())), 380, 0, font);
 
-	// Player Hair & Face sprites.
+	/* Player Hair & Face sprites. */
 	SpriteManagement::DrawHair(this->player->hairstyle(), 118, 106);
 	SpriteManagement::DrawFace(this->player->gender(), this->player->face(), 115, 166);
 
-	// Hair Color.
+	/* Hair Color. */
 	Gui::Draw_Rect(200, 105, 90, 40, PlayerManagement::getHairColor(this->player->haircolor(), savesType));
-	// Eye Color.
+	/* Eye Color. */
 	Gui::Draw_Rect(200, 155, 90, 40, PlayerManagement::getEyeColor(this->player->eyecolor()));
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -158,7 +158,7 @@ void PlayerEditorNL::DrawAppearance(void) const {
 }
 
 void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}

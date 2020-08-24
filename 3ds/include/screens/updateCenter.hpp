@@ -49,7 +49,7 @@ private:
 	ReleaseFetch latestRelease = {""};
 	NightlyFetch latestNightly = {""};
 
-	std::vector<ButtonType> mainButtons = {
+	const std::vector<ButtonType> mainButtons = {
 		{95, 34, 130, 48, "DOWNLOAD_RELEASE"},
 		{95, 97, 130, 48, "DOWNLOAD_NIGHTLY"},
 		{95, 159, 130, 48, "DOWNLOAD_ASSETS"}

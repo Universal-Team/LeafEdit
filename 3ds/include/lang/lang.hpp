@@ -1,5 +1,5 @@
-#ifndef LANG_HPP
-#define LANG_HPP
+#ifndef _LEAFEDIT_LANG_HPP
+#define _LEAFEDIT_LANG_HPP
 
 #include "json.hpp"
 #include "types.hpp"
@@ -7,7 +7,7 @@
 
 namespace Lang {
 	std::string get(const std::string &key);
-	// Load in game strings.
+	/* Load in game strings. */
 	void loadGameStrings(int lang, SaveType save);
 	void load(int lang);
 }

@@ -34,7 +34,7 @@ extern std::vector<std::string> g_villagerDatabase;
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
-// Bring that to other screens too.
+/* Bring that to other screens too. */
 extern SaveType savesType;
 
 extern std::array<int, 333> nlVillagerIndex;
@@ -44,7 +44,7 @@ VillagerViewerNL::VillagerViewerNL() {
 }
 
 void VillagerViewerNL::update() {
-	// Get all Villager ID's for display.
+	/* Get all Villager ID's for display. */
 	for (int i = 0; i < 10; i++) {
 		this->ID[i] = save->villager(i)->id();
 	}
@@ -63,7 +63,8 @@ void VillagerViewerNL::Draw(void) const {
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
 
 	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
-	// Special handle for AC:NL & AC:WA.
+
+	/* Special handle for AC:NL & AC:WA. */
 	if (savesType == SaveType::WA) {
 		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->viewerIndex], 395, 0, font);
 	} else {
@@ -82,12 +83,14 @@ void VillagerViewerNL::Draw(void) const {
 }
 
 void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_RIGHT) {
 		if(Selection < save->maxVillager()) {
 			Selection++;
 		}
-	} else if (hDown & KEY_LEFT) {
+	}
+	
+	if (hDown & KEY_LEFT) {
 		if (Selection > 0) {
 			Selection--;
 		}
@@ -97,9 +100,9 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_R) {
 		if (savesType == SaveType::WA) {
-			if (this->viewerIndex < 398)	this->viewerIndex++;
+			if (this->viewerIndex < 398) this->viewerIndex++;
 		} else {
-			if (this->viewerIndex < 332)	this->viewerIndex++;
+			if (this->viewerIndex < 332) this->viewerIndex++;
 		}
 	}
 

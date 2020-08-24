@@ -53,7 +53,7 @@ private:
 	void subLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void ItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	std::vector<ButtonType> mainButtons = {
+	const std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "VILLAGER_REPLACE"}, // Replace.
 		{15, 97, 130, 48, "VILLAGER_PERSONALITY"}, // Personality.
 		{15, 159, 130, 48, "ITEMS"}, // Items.
@@ -62,7 +62,7 @@ private:
 		{175, 159, 130, 48, ""} // ?.
 	};
 
-	std::vector<Structs::ButtonPos> items = {
+	const std::vector<Structs::ButtonPos> items = {
 		{25, 40, 30, 30}, // Furniture 0.
 		{65, 40, 30, 30}, // Furniture 1.
 		{105, 40, 30, 30}, // Furniture 2.

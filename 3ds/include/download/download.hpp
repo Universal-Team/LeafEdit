@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef DOWNLOAD_HPP
-#define DOWNLOAD_HPP
+#ifndef _LEAFEDIT_DOWNLOAD_HPP
+#define _LEAFEDIT_DOWNLOAD_HPP
 
 #include "common.hpp"
 
@@ -64,10 +64,10 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 
 void displayProgressBar();
 
-/**
- * Check Wi-Fi status.
- * @return True if Wi-Fi is connected; false if not.
- */
+/*
+	Check Wi-Fi status.
+	return True if Wi-Fi is connected; false if not.
+*/
 bool checkWifiStatus(void);
 
 
@@ -75,7 +75,7 @@ ReleaseFetch getLatestRelease();
 
 NightlyFetch getLatestCommit();
 
-// LeafEdit's namespace for Downloads.
+/* LeafEdit's namespace for Downloads. */
 namespace Download {
 	void downloadAssets(void);
 	Result updateApp(bool nightly, const std::string &version);

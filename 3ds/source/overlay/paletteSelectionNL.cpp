@@ -123,6 +123,7 @@ static void DrawPaletteSelection(int colorGroup, int selection) {
 				GFX::drawGrid(colorGrid[i].x, colorGrid[i].y, colorGrid[i].w, colorGrid[i].h, NLPaletteColors[(i + (colorGroup * 16))], C2D_Color32(0, 0, 0, 255));
 			}
 		}
+
 	} else {
 		for (int i = 0; i < 15; i++) {
 			if (i == selection) {
@@ -173,6 +174,7 @@ void Overlays::PaletteToolNL(std::shared_ptr<PatternImage> &pImg, C2D_Image &img
 								break;
 							}
 						}
+
 					} else {
 						for (int i = 0; i < 15; i++) {
 							if (iconTouch(touch, paletteGrid[i])) {
@@ -200,6 +202,7 @@ void Overlays::PaletteToolNL(std::shared_ptr<PatternImage> &pImg, C2D_Image &img
 						if (groupSelection < 2 || groupSelection < 5 || groupSelection < 8) {
 							groupSelection++;
 						}
+
 					} else {
 						if (groupSelection < 14) groupSelection++;
 					}
@@ -210,6 +213,7 @@ void Overlays::PaletteToolNL(std::shared_ptr<PatternImage> &pImg, C2D_Image &img
 						if (groupSelection > 0 || groupSelection > 3 || groupSelection > 6) {
 							groupSelection--;
 						}
+						
 					} else {
 						if (groupSelection > 0) groupSelection--;
 					}

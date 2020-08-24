@@ -60,16 +60,16 @@ public:
 	virtual ~SavWW() {}
 	void Finish(void) override;
 	
-	std::unique_ptr<Player> player(int player, int index = 0) override;
-	std::unique_ptr<Villager> villager(int villager) override;
-	std::unique_ptr<Town> town() override;
-	std::unique_ptr<Island> island() override;
-	std::unique_ptr<Shop> shop() override;
+	std::unique_ptr<Player> player(int player, int index = 0) const override;
+	std::unique_ptr<Villager> villager(int villager) const override;
+	std::unique_ptr<Town> town() const override;
+	std::unique_ptr<Island> island() const override;
+	std::unique_ptr<Shop> shop() const override;
 
-	SaveType getType() override { return SaveType::WW; }
-	WWRegion getRegion() override { return region; }
+	SaveType getType() const override { return SaveType::WW; }
+	WWRegion getRegion() const override { return region; }
 
-	int maxVillager() override { return 7; }
+	int maxVillager() const override { return 7; }
 private:
 	u8 *savePointer() const {
 		return dataPointer.get();

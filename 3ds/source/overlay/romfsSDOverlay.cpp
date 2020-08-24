@@ -32,7 +32,7 @@
 
 extern std::unique_ptr<Config> config;
 
-// Draw the Top (File) browse.
+/* Draw the Top (File) browse. */
 static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, bool romfs, const std::string Text) {
 	std::string files;
 
@@ -54,6 +54,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, bool romf
 
 	if (Selection < 9) GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else GFX::DrawSelector(true, 24 + (8 * 21));
+	
 	config->newStyle() ? Gui::DrawString(5, 25, 0.85f, BLACK, files, 360, 0, font) : Gui::DrawString(5, 23, 0.85f, BLACK, files, 360, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }

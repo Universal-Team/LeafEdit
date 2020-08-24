@@ -40,10 +40,10 @@ UpdateCenter::UpdateCenter() {
 }
 
 void UpdateCenter::checkUpdate() {
-	// Get Latest Release & Nightly.
+	/* Get Latest Release & Nightly. */
 	latestRelease = Download::getLatestRelease2();
 	latestNightly = Download::getLatestNightly();
-	// Check if Nightly & Release matches.
+	/* Check if Nightly & Release matches. */
 	if (config->currentRelease() != latestRelease.Version) ReleaseAvailable = true;
 	if (config->currentNightly() != latestNightly.Target) NightlyAvailable = true;
 	hasCheckedForUpdate = true;
@@ -54,7 +54,8 @@ void UpdateCenter::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400, 0, font);
 	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
-	// Display some Informations. :)
+	/* Display some Informations. */
+
 	if (Selection == 0) {
 		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, Lang::get("LATEST_VERSION") + latestRelease.Version, 395, 0, font);
 		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, Lang::get("PUBLISHED_AT") + latestRelease.Published, 395, 90, font);
@@ -70,13 +71,14 @@ void UpdateCenter::Draw(void) const {
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
-	if (this->ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x+124, mainButtons[0].y-4);
-	if (this->NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x+124, mainButtons[1].y-4);
+	if (this->ReleaseAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[0].x + 124, mainButtons[0].y - 4);
+	if (this->NightlyAvailable)	GFX::DrawGUI(gui_update_idx, mainButtons[1].x + 124, mainButtons[1].y - 4);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 

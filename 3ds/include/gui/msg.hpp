@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MSG_HPP
-#define MSG_HPP
+#ifndef _LEAFEDIT_MSG_HPP
+#define _LEAFEDIT_MSG_HPP
 
 #include <string>
 

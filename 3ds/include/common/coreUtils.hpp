@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COREUTILS_HPP
-#define COREUTILS_HPP
+#ifndef _LEAFEDIT_COREUTILS_HPP
+#define _LEAFEDIT_COREUTILS_HPP
 
 #include "itemUtils.hpp"
 #include "PatternImage.hpp"
@@ -33,7 +33,7 @@
 #include <3ds.h>
 #include <citro2d.h>
 
-// AC:NL | AC:WA Region Lock.
+/* AC:NL | AC:WA Region Lock. */
 struct Region_Lock {
 	u8 DerivedID;
 	CFG_Region RegionID;
@@ -45,7 +45,7 @@ namespace CoreUtils {
 	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
 	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
 	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
-	// C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player);
+	/* C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player); */
 	void createBackup();
 
 	/* Pattern stuff. */

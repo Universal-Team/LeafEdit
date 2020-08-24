@@ -31,13 +31,13 @@
 
 class Plugin {
 public:
-	// Constructor, Destructor and stuff.
+	/* Constructor, Destructor and stuff. */
 	virtual ~Plugin() {}
 	Plugin() { }
 	Plugin(const Plugin& plugin) = delete;
 	Plugin& operator=(const Plugin& plugin) = delete;
 
-	// Main Plugin function which get's called.
+	/* Main Plugin function which get's called. */
 	virtual int scriptMain() = 0;
 };
 

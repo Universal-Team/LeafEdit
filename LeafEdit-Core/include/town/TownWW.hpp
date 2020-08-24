@@ -51,18 +51,19 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~TownWW() {}
-	TownWW(std::shared_ptr<u8[]> townData, WWRegion Region) : Town(townData), region(Region), data(townData) {}
+	TownWW(std::shared_ptr<u8[]> townData, WWRegion Region) :
+		Town(townData), region(Region), data(townData) { }
 
-	u8 grasstype() override;
+	u8 grasstype() const override;
 	void grasstype(u8 v) override;
-	std::u16string name() override;
+	std::u16string name() const override;
 	void name(std::u16string v) override;
-	std::unique_ptr<Acre> acre(int Acre) override;
-	std::unique_ptr<Item> item(u32 index) override;
-	bool exist() override;
-	u32 turnipPrices(bool isAM, int day) override;
+	std::unique_ptr<Acre> acre(int Acre) const override;
+	std::unique_ptr<Item> item(u32 index) const override;
+	bool exist() const override;
+	u32 turnipPrices(bool isAM, int day) const override;
 	void turnipPrices(bool isAM, int day, u32 v) override;
-	std::unique_ptr<Pattern> townflag() override;
+	std::unique_ptr<Pattern> townflag() const override;
 private:
 	u8* townPointer() const {
 		return data.get();

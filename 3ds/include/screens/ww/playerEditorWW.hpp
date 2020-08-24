@@ -43,7 +43,7 @@ private:
 	int Mode = 0;
 	std::shared_ptr<Player> player;
 
-	std::vector<ButtonType> mainButtons = {
+	const std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "APPEARANCE"},
 		{15, 97, 130, 48, "ITEMS"},
 		{15, 159, 130, 48, "PATTERN"},

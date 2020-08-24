@@ -61,19 +61,25 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 	int selection = (int)oldID;
 	int maxSelection = 0;
 
-	// Get max amount, here.
-	if (st == SaveType::WA) {
-		maxSelection = 398;
-	} else if (st == SaveType::NL) {
-		maxSelection = 332;
-	} else if (st == SaveType::WW) {
-		maxSelection = 149;
+	/* Get max amount, here. */
+	switch(st) {
+		case SaveType::WA:
+			maxSelection = 398;
+			break;
+		case SaveType::NL:
+			maxSelection = 332;
+			break;
+		case SaveType::WW:
+			maxSelection = 149;
+			break;
+		case SaveType::UNUSED:
+			return oldID;
 	}
 
 	while(1) {
 		Draw(selection, st, maxSelection);
 		
-		// Logic, here.
+		/* Logic, here. */
 		hidScanInput();
 
 		if (hidKeysDown() & KEY_RIGHT) {

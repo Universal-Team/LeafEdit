@@ -39,9 +39,9 @@
 extern std::shared_ptr<Sav> save;
 extern std::unique_ptr<Config> config;
 
-// Fix Invalid Buildings and replace them with "Empty".
+/* Fix Invalid Buildings and replace them with "Empty". */
 void CoreUtils::FixInvalidBuildings(void) {
-	if (save != nullptr) { // Make sure save is not nullpointer.
+	if (save != nullptr) { // Make sure save is not a nullpointer.
 		u32 offset = 0;
 		bool ask = false;
 		if (save->getType() == SaveType::WA || save->getType() == SaveType::NL) {
@@ -68,48 +68,48 @@ void CoreUtils::FixInvalidBuildings(void) {
 	}
 }
 
-//https://3dbrew.org/wiki/Title_list/DLC#Region_IDs
+/* https://3dbrew.org/wiki/Title_list/DLC#Region_IDs */
 u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
-	if (RegionID == CFG_REGION_JPN) { // If region is JPN
+	if (RegionID == CFG_REGION_JPN) { // If region is JPN.
 		return 0;
 
-	} else if (RegionID == CFG_REGION_USA) { // If region is USA
+	} else if (RegionID == CFG_REGION_USA) { // If region is USA.
 		switch (LanguageID) {
-			case CFG_LANGUAGE_FR: // If lang is French
+			case CFG_LANGUAGE_FR: // If lang is French.
 				return 3;
-			case CFG_LANGUAGE_ES: // If lang is Spanish
+			case CFG_LANGUAGE_ES: // If lang is Spanish.
 				return 2;
-			default: // If lang is English & other langs
+			default: // If lang is English & other langs.
 				return 1;
 		}
 
-	} else if (RegionID == CFG_REGION_EUR) { // If region is EUR
+	} else if (RegionID == CFG_REGION_EUR) { // If region is EUR.
 		switch (LanguageID) {
-			case CFG_LANGUAGE_FR: // If lang is French
+			case CFG_LANGUAGE_FR: // If lang is French.
 				return 6;
-			case CFG_LANGUAGE_DE: // If lang is German
+			case CFG_LANGUAGE_DE: // If lang is German.
 				return 8;
-			case CFG_LANGUAGE_IT: // If lang is Italian
+			case CFG_LANGUAGE_IT: // If lang is Italian.
 				return 7;
-			case CFG_LANGUAGE_ES: // If lang is Spanish
+			case CFG_LANGUAGE_ES: // If lang is Spanish.
 				return 5;
 			default:
 				return 4;
 		}
 
-	} else if (RegionID == CFG_REGION_KOR) { // If region is KOR
+	} else if (RegionID == CFG_REGION_KOR) { // If region is KOR.
 		return 9;
 	}
 
 	return 0;
 }
 
-// Update the Save Region.
+/* Update the Save Region. */
 bool CoreUtils::UpdateSaveRegion(Region_Lock &regionLock) {
 	static constexpr u8 ACNLRegionIDs[11] = {0x00, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x03, 0xFF};
 
-	u8 SystemLanguage = 0xC; // 0xC is ACNL default value || max+1
-	u8 SystemRegion = 7; // 7 is ACNL default value || max+1
+	u8 SystemLanguage = 0xC; // 0xC is ACNL default value || max + 1
+	u8 SystemRegion = 7; // 7 is ACNL default value || max + 1
 	u8 RegionByte = 0;
 	bool ret = false;
 	CFGU_SecureInfoGetRegion(&SystemRegion);
@@ -131,7 +131,7 @@ bool CoreUtils::UpdateSaveRegion(Region_Lock &regionLock) {
 	return ret;
 }
 
-// Fix the Save Region.
+/* Fix the Save Region. */
 void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	if (save != nullptr) {
 		if (save->getType() == SaveType::WA) {
@@ -159,7 +159,7 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 }*/
 
 void CoreUtils::createBackup() {
-	// Make sure save is not nullpointer.
+	/* Make sure save is not a nullpointer. */
 	if (save != nullptr) {
 		if (config->createBackups()) {
 			std::string fileName;
@@ -200,8 +200,10 @@ void CoreUtils::createBackup() {
 	}
 }
 
-// All Palettes.
-/* Color format seems to be: RGBA. */
+/*
+	All Palettes.
+	Color format seems to be: RGBA.
+*/
 static const u32 NLPaletteColors[] = {
 	0xFFEEFFFF, 0xFF99AAFF, 0xEE5599FF, 0xFF66AAFF, 0xFF0066FF, 0xBB4477FF, 0xCC0055FF, 0x990033FF, 0x552233FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
 	0xFFBBCCFF, 0xFF7777FF, 0xDD3311FF, 0xFF5544FF, 0xFF0000FF, 0xCC6666FF, 0xBB4444FF, 0xBB0000FF, 0x882222FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xEEEEEEFF,
@@ -269,7 +271,6 @@ C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image, SaveType 
 		linearFree(buffer); // Free buffer cause unneeded.
 		return tmp;
 	} else {
-
 		linearFree(buffer); // Free buffer cause unneeded.
 		return {nullptr};
 	}
@@ -320,8 +321,8 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 
 /* Dump Pattern Information for the Pattern Editor Tool. */
 void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::shared_ptr<Pattern> &ptrn) {
-	bool UTF8Read = true; /* If UTF-8 or UTF-16 Read. */
-	u8 patternLength = 0, creatorLength = 0, townLength = 0; /* Name Reading Length. */
+	bool UTF8Read = true; // If UTF-8 or UTF-16 Read.
+	u8 patternLength = 0, creatorLength = 0, townLength = 0; // Name Reading Length.
 	u32 creatorNameStart = 0, townNameStart = 0, creatorIDStart = 0, townIDStart = 0, creatorGenderStart = 0;
 	std::string file = "";
 	u32 pSize = 0;

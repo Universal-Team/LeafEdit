@@ -34,7 +34,7 @@
 extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
 
-// Read.
+/* Read. */
 template <typename t>
 t Read() {
 	u32 offset;
@@ -48,7 +48,7 @@ t Read() {
 	return SaveUtils::Read<t>(save->savePointer(), offset);
 }
 
-// Write.
+/* Write. */
 template <typename t>
 void Write() {
 	u32 offset;
@@ -70,7 +70,7 @@ void Write() {
 	SaveUtils::Write<t>(save->savePointer(), offset, value);
 }
 
-// Show value.
+/* Show value. */
 template <typename t>
 void show(const t value) {
 	char message [100];
@@ -78,7 +78,7 @@ void show(const t value) {
 	Msg::DisplayWaitMsg(message);
 }
 
-// Show String.
+/* Show String. */
 void showString() {
 	u32 offset;
 	std::u16string output;
@@ -88,7 +88,8 @@ void showString() {
 	} else {
 		offset = 0x0; // Offset was not entered properly.
 	}
-	// String length.
+
+	/* String length. */
 	int length = Input::getUint(35, "Enter String Length.");
 
 	if (save->getType() == SaveType::WW) {
@@ -107,6 +108,7 @@ void showString() {
 				output = StringUtils::UTF8toUTF16("?");
 				break;
 		}
+
 	} else if (save->getType() == SaveType::NL || save->getType() == SaveType::WA) {
 		output = StringUtils::ReadUTF16String(save->savePointer(), offset, length);
 	}
@@ -142,7 +144,7 @@ void EditEncryptedInt32() {
 	}
 
 	EncryptedInt32 EI32 = EncryptedInt32(SaveUtils::Read<u64>(save->savePointer(), offset));
-	// New Value.
+	/* New Value. */
 	std::string input2 = Input::getHex(20, "Enter Data.");
 	if (input2 != "" || input2 != "0" || input2 != "0x") {
 		value = std::stoi(input2, 0, 16);
@@ -151,7 +153,7 @@ void EditEncryptedInt32() {
 	}
 
 	EI32.value = value;
-	// Writing.
+	/* Writing. */
 	EI32.encrypt(encryptedInt, encryptionData);
 	SaveUtils::Write<u32>(save->savePointer(), offset, encryptedInt);
 	SaveUtils::Write<u32>(save->savePointer(), offset + 0x04, encryptionData);
@@ -161,18 +163,19 @@ void OffsetEditor::Draw(void) const {
 	std::string title = "LeafEdit - Offset Editor - ";
 	if (Mode == 0)	title += "Read Mode";
 	else			title += "Write Mode";
+
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, title, 390, 0, font);
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 }
 
 
 void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_UP) {
 		if (Selection > 0)	Selection--;
 	}
@@ -194,7 +197,7 @@ void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		// Read.
+		/* Read. */
 		if (Mode == 0) {
 			if (Selection == 0) {
 				u32 offset;
@@ -206,20 +209,24 @@ void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 				u8 test = save->savePointer()[offset];
 				show(test);
+
 			} else if (Selection == 1) {
 				u16 value = Read<u16>();
 				show(value);
+
 			} else if (Selection == 2) {
 				u32 value = Read<u32>();
 				show(value);
+
 			} else if (Selection == 3) {
 				u64 value = Read<u64>();
 				show(value);
+
 			} else if (Selection == 4) {
 				showString();
 			}
 		} else {
-			// Write.
+			/* Write. */
 			if (Selection == 0) {
 				u32 offset;
 				u8 value;
@@ -236,10 +243,13 @@ void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					return;
 				}
 				save->savePointer()[offset] = value;
+				
 			} else if (Selection == 1) {
 				Write<u16>();
+				
 			} else if (Selection == 2) {
 				Write<u32>();
+				
 			} else if (Selection == 3) {
 				Write<u64>();
 			}

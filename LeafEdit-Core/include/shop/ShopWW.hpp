@@ -43,8 +43,10 @@ protected:
 	WWRegion region;
 public:
 	virtual ~ShopWW() {}
-	ShopWW(std::shared_ptr<u8[]> shopData, u32 offset, WWRegion rg) : Shop(shopData, offset), Offset(offset), data(shopData), region(rg) { }
-	std::unique_ptr<Pattern> ableSisterPattern(int pattern) override;
+	ShopWW(std::shared_ptr<u8[]> shopData, u32 offset, WWRegion rg) :
+		Shop(shopData, offset), Offset(offset), data(shopData), region(rg) { }
+
+	std::unique_ptr<Pattern> ableSisterPattern(int pattern) const override;
 private:
 	u8* shopPointer() const {
 		return data.get() + Offset;

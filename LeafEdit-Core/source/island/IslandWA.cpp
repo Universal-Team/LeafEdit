@@ -26,14 +26,14 @@
 
 #include "IslandWA.hpp"
 
-// Island Acre.
-std::unique_ptr<Acre> IslandWA::acre(int Acre) {
+/* Island Acre. */
+std::unique_ptr<Acre> IslandWA::acre(int Acre) const {
 	if (Acre > 15) return nullptr;
 	return std::make_unique<AcreWA>(data, 0x06FEB8 + Acre * 2);
 }
 
-// Island Item.
-std::unique_ptr<Item> IslandWA::item(u32 index) {
+/* Island Item. */
+std::unique_ptr<Item> IslandWA::item(u32 index) const {
 	if (index > 1023) return nullptr;
 	return std::make_unique<ItemWA>(data, 0x06FED8 + index * 4);
 }

@@ -30,20 +30,20 @@
 
 nlohmann::json appJson;
 
-// New Leaf Vectors.
+/* New Leaf Vectors. */
 std::vector<std::string> g_badges;
 
-// Vectors for Both versions.
+/* Vectors for Both versions. */
 std::vector<std::string> g_groups;
 std::vector<std::string> g_villagerDatabase;
 std::vector<std::string> g_personality;
 
-// Wild World Vectors.
+/* Wild World Vectors. */
 std::vector<std::string> g_wwFaceType;
 std::vector<std::string> g_wwHairColor;
 std::vector<std::string> g_wwHairStyle;
 
-// Load a Text file or such to a Vector.
+/* Load a Text file or such to a Vector. */
 static void loadToVector(std::string path, std::vector<std::string> &vec) {
 	char* line = NULL;
 	size_t len = 0;
@@ -51,23 +51,22 @@ static void loadToVector(std::string path, std::vector<std::string> &vec) {
 
 	FILE* in = fopen(path.c_str(), "r");
 	while(__getline(&line, &len, in) != -1) {
-		if(line[strlen(line)-1] == '\n')	line[strlen(line)-1] = '\0';
+		if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = '\0';
 		vec.push_back(line);
 	}
+
 	fclose(in);
 }
 
 std::string Lang::get(const std::string &key) {
-	if (!appJson.contains(key)) {
-		return "";
-	}
+	if (!appJson.contains(key)) return "";
 	
 	return appJson.at(key).get_ref<const std::string&>();
 }
 
 std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
-// TODO. Add switch case and load the neccessary files.
+/* TODO. Add switch case and load the neccessary files. */
 void Lang::loadGameStrings(int lang, SaveType save) {
 	switch (save) {
 		case SaveType::WW:
@@ -90,7 +89,7 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 
 void Lang::load(int lang) {
 	FILE* values;
-	values = fopen(("romfs:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
+	values = fopen(("romfs:/lang/" + langs[lang] + "/app.json").c_str(), "rt");
 	if(values)	appJson = nlohmann::json::parse(values, nullptr, false);
 	fclose(values);
 }

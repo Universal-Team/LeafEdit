@@ -46,7 +46,7 @@ public:
 	Acre& operator=(const Acre& acre) = delete;
 
 	virtual u32 maxAcre() const = 0;
-	virtual u8 id() = 0;
+	virtual u8 id() const = 0;
 	virtual void id(u8 v) = 0;
 };
 

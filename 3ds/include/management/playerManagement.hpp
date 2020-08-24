@@ -24,16 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYERMANAGEMENT_HPP
-#define PLAYERMANAGEMENT_HPP
+#ifndef _LEAFEDIT_PLAYER_MANAGEMENT_HPP
+#define _LEAFEDIT_PLAYER_MANAGEMENT_HPP
 
 #include <3ds.h>
 #include <string>
 
 namespace PlayerManagement {
-	// Get the Hair Color RGB.
+	/* Get the Hair Color RGB. */
 	u32 getHairColor(u8 hairColor, SaveType save);
-	// Get the Eye Color RGB. (NL / WA only.)
+	/* Get the Eye Color RGB. (NL / WA only.) */
 	u32 getEyeColor(u8 eyeColor);
 
 	u8 SelectHair(u8 currentHair);

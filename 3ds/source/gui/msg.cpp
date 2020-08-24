@@ -47,7 +47,7 @@ extern C2D_SpriteSheet GUI;
 extern std::unique_ptr<Config> config;
 
 static void DrawBox(int y, u8 rows) {
-	// Draw Top & Bottom.
+	/* Draw Top & Bottom. */
 	GFX::DrawGUI(gui_box_top_idx, 0, y);
 	GFX::DrawGUI(gui_box_bot_idx, 0, y + 24 + (40 * rows));
 
@@ -57,7 +57,7 @@ static void DrawBox(int y, u8 rows) {
 	}
 }
 
-// Display a Message, which needs to be confirmed with A/B.
+/* Display a Message, which needs to be confirmed with A/B. */
 bool Msg::promptMsg2(std::string promptMsg) {
 	s32 selection = 1;
 	while(1) {
@@ -76,14 +76,14 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70, font);
 
 		GFX::DrawBottom();
-		// Draw Bottom Screen part.
+		/* Draw Bottom Screen part. */
 		for (int i = 0; i < (int)prompt.size(); i++) {
 			GFX::DrawButton(promptBtn[i]);
 			if (i == selection)	GFX::DrawGUI(gui_pointer_idx, promptBtn[i].x+100, promptBtn[i].y+30);
 		}
 
 		C3D_FrameEnd(0);
-		// Selection part.
+		/* Selection part. */
 		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
@@ -106,7 +106,7 @@ bool Msg::promptMsg(std::string msg) {
 	return Msg::promptMsg2(msg);
 }
 
-// Displays a Warn Message.
+/* Displays a Warn Message. */
 void Msg::DisplayWarnMsg(std::string Text) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -129,7 +129,7 @@ void Msg::DisplayWarnMsg(std::string Text) {
 	}
 }
 
-// Displays a Warn Message. This is mostly be used for things with more text.
+/* Displays a Warn Message. This is mostly be used for things with more text. */
 void Msg::DisplayWarnMsg2(std::string Text) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -152,7 +152,7 @@ void Msg::DisplayWarnMsg2(std::string Text) {
 	}
 }
 
-// Display a Message, which can be skipped with A.
+/* Display a Message, which can be skipped with A. */
 void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -182,7 +182,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	}
 }
 
-// Display a Message, which can be skipped with A.
+/* Display a Message, which can be skipped with A. */
 void Msg::DisplayWaitMsgInit(std::string waitMsg, ...) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -210,7 +210,7 @@ void Msg::DisplayWaitMsgInit(std::string waitMsg, ...) {
 	}
 }
 
-// TODO.
+/* TODO. */
 void Msg::HelperBox(std::string Msg) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -220,7 +220,7 @@ void Msg::HelperBox(std::string Msg) {
 
 	Gui::Draw_Rect(40, 211 - textBoxHeight, 320, textBoxHeight, DARKER_COLOR);
 	Gui::Draw_Rect(44, 215 - textBoxHeight, 312, textBoxHeight - 8, LIGHT_COLOR);
-	Gui::DrawStringCentered(0, 215 - textBoxHeight, 0.7, WHITE, Msg, 305, Gui::GetStringHeight(0.7f, Msg), font);
+	Gui::DrawStringCentered(0, 215 - textBoxHeight, 0.7, WHITE, Msg, 305, Gui::GetStringHeight(0.7f, Msg, font), font);
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, DIM);
 	C3D_FrameEnd(0);

@@ -39,7 +39,7 @@ class Pattern;
 class Player {
 protected:
 	std::shared_ptr<u8[]> data;
-	u32 offset; // Offset to the Player.
+	u32 offset;
 public:
 	virtual ~Player() {}
 	Player(std::shared_ptr<u8[]> playerData, u32 playerOffset, int index) : data(playerData), offset(playerOffset) {}
@@ -47,46 +47,46 @@ public:
 	Player& operator=(const Player& player) = delete;
 	virtual u32 getPlayerSize() const = 0;
 
-	virtual u8 face() = 0;
+	virtual u8 face() const = 0;
 	virtual void face(u8 v) = 0;
-	virtual u8 gender() = 0;
+	virtual u8 gender() const = 0;
 	virtual void gender(u8 v) = 0;
-	virtual u16 tan() = 0;
+	virtual u16 tan() const = 0;
 	virtual void tan(u16 v) = 0;
-	virtual u8 hairstyle() = 0;
+	virtual u8 hairstyle() const = 0;
 	virtual void hairstyle(u8 v) = 0;
-	virtual u8 haircolor() = 0;
+	virtual u8 haircolor() const = 0;
 	virtual void haircolor(u8 v) = 0;
-	virtual u8 eyecolor() = 0;
+	virtual u8 eyecolor() const = 0;
 	virtual void eyecolor(u8 v) = 0;
-	virtual u8 badge(int badge) = 0;
+	virtual u8 badge(int badge) const = 0;
 	virtual void badge(int badge, u8 v) = 0;
-	virtual u16 playerid() = 0;
+	virtual u16 playerid() const = 0;
 	virtual void playerid(u16 v) = 0;
-	virtual u16 townid() = 0;
+	virtual u16 townid() const = 0;
 	virtual void townid(u16 v) = 0;
-	virtual std::u16string townname() = 0;
+	virtual std::u16string townname() const = 0;
 	virtual void townname(std::u16string v) = 0;
-	virtual bool exist() = 0;
-	virtual std::u16string name() = 0;
+	virtual bool exist() const = 0;
+	virtual std::u16string name() const = 0;
 	virtual void name(std::u16string v) = 0;
-	virtual u32 wallet() = 0;
+	virtual u32 wallet() const = 0;
 	virtual void wallet(u32 v) = 0;
-	virtual u32 bank() = 0;
+	virtual u32 bank() const = 0;
 	virtual void bank(u32 v) = 0;
-	virtual u32 islandmedals() = 0;
+	virtual u32 islandmedals() const = 0;
 	virtual void islandmedals(u32 v) = 0;
-	virtual u32 coupons() = 0;
+	virtual u32 coupons() const = 0;
 	virtual void coupons(u32 v) = 0;
 
-	virtual std::unique_ptr<Item> pocket(int slot) = 0;
-	virtual std::unique_ptr<Item> dresser(int slot) = 0;
-	virtual std::unique_ptr<Item> islandbox(int slot) = 0;
-	virtual std::unique_ptr<Item> storage(int slot) = 0;
-	virtual std::unique_ptr<Pattern> pattern(int slot) = 0;
+	virtual std::unique_ptr<Item> pocket(int slot) const = 0;
+	virtual std::unique_ptr<Item> dresser(int slot) const = 0;
+	virtual std::unique_ptr<Item> islandbox(int slot) const = 0;
+	virtual std::unique_ptr<Item> storage(int slot) const = 0;
+	virtual std::unique_ptr<Pattern> pattern(int slot) const = 0;
 
-	virtual u8 *tpcImage() = 0;
-	virtual bool hasTPC() = 0;
+	virtual u8 *tpcImage() const = 0;
+	virtual bool hasTPC() const = 0;
 };
 
 #endif

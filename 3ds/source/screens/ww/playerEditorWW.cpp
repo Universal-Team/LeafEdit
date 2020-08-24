@@ -46,7 +46,7 @@ void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	else if (this->Mode == 2) this->PatternLogic(hDown, hHeld, touch);
 }
 
-/*	Sub Menu.	*/
+/* Sub Menu. */
 void PlayerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
@@ -59,14 +59,14 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_UP) {
 		if(Selection > 0) Selection--;
 	}
@@ -74,10 +74,10 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
-				//this->Mode = 1;
+				/* this->Mode = 1; */
 				break;
 			case 1:
-				// No idea.
+				/* No idea. */
 				break;
 			case 2:
 				/* Load Pattern. */

@@ -41,36 +41,35 @@ extern SaveType savesType;
 
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
-// Only load item stuff, when accessing this screen and also unload by exit of that screen.
+/* Only load item stuff, when accessing this screen and also unload by exit of that screen. */
 ItemEditorNL::ItemEditorNL(std::shared_ptr<Player> player) {
 	this->player = player;
 	ItemUtils::loadItemBins();
 
-	// Loading items here.
-	// Loading Pocket here.
+	/* Loading Pocket here. */
 	for (int i = 0; i < 16; i++) {
 		this->pockets[i] = this->player->pocket(i);
 	}
 
-	// Loading Dresser here.
+	/* Loading Dresser here. */
 	for (int i = 0; i < 180; i++) {
 		this->dresser[i] = this->player->dresser(i);
 	}
 
-	// Loading Island Box here.
+	/* Loading Island Box here. */
 	for (int i = 0; i < 40; i++) {
 		this->islandBox[i] = this->player->islandbox(i);
 	}
 
-	// Loading Storage here.
-	for (int i = 0; i < 360; i++) {
-		this->storage[i] = this->player->storage(i);
+	/* Loading Storage here. WA only. */
+	if (savesType == SaveType::WA) {
+		for (int i = 0; i < 360; i++) {
+			this->storage[i] = this->player->storage(i);
+		}
 	}
 }
 
-ItemEditorNL::~ItemEditorNL() {
-	ItemUtils::closeItemBins();
-}
+ItemEditorNL::~ItemEditorNL() { ItemUtils::closeItemBins(); }
 
 void ItemEditorNL::Draw(void) const {
 	switch(this->Mode) {
@@ -112,7 +111,7 @@ void ItemEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-// Selection of the Item for IslandBox, Dresser & Storage.
+/* Selection of the Item for IslandBox, Dresser & Storage. */
 void ItemEditorNL::DrawSlotSelection(void) const {
 	if (this->Mode != 1) {
 		GFX::DrawGUIBlend(gui_itemHole_idx, this->iconSlots[this->selectedItem].x, this->iconSlots[this->selectedItem].y, 1, 1, DARKER_COLOR);
@@ -130,14 +129,14 @@ void ItemEditorNL::DrawSubMenu(void) const {
 
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
-		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
+		if (i == this->Selection)	GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x + 100, this->mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -176,7 +175,9 @@ void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->Mode = 3;
 				break;
 			case 3:
-				this->Mode = 4;
+				if (savesType == SaveType::WA) {
+					this->Mode = 4;
+				}
 				break;
 		}
 	}
@@ -194,7 +195,7 @@ void ItemEditorNL::DrawPocket(void) const {
 	for (int i = 0; i < 16; i++) {
 		GFX::DrawGUI(gui_itemHole_idx, this->pocketSlots[i].x, this->pocketSlots[i].y); // Draw Item Slots.
 		if (ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()) > -1) {
-			SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()), this->pocketSlots[i].x+16, this->pocketSlots[i].y+16, 1, 1);
+			SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()), this->pocketSlots[i].x + 16, this->pocketSlots[i].y + 16, 1, 1);
 		}
 	}
 

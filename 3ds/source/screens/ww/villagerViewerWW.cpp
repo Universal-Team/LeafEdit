@@ -40,7 +40,7 @@ VillagerViewerWW::VillagerViewerWW() {
 }
 
 void VillagerViewerWW::update() {
-	// Get all Villager ID's for display.
+	/* Get all Villager ID's for display. */
 	for (int i = 0; i < 8; i++) {
 		this->ID[i] = save->villager(i)->id();
 	}
@@ -54,27 +54,28 @@ void VillagerViewerWW::Draw(void) const {
 	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, Lang::get("VILLAGER_ID") + std::to_string(this->viewerIndex), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 8; i++) {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
 	}
 	
-	GFX::DrawGUI(gui_pointer_idx, villagers[Selection].x+18, villagers[Selection].y+20);
+	GFX::DrawGUI(gui_pointer_idx, villagers[this->Selection].x + 18, villagers[this->Selection].y + 20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_RIGHT) {
-		if (Selection < save->maxVillager()) {
-			Selection++;
+		if (this->Selection < save->maxVillager()) {
+			this->Selection++;
 		}
 	} else if (hDown & KEY_LEFT) {
-		if (Selection > 0) {
-			Selection--;
+		if (this->Selection > 0) {
+			this->Selection--;
 		}
 	}
 
-	if (hDown & KEY_SELECT)	this->update();
+	if (hDown & KEY_SELECT) this->update();
 	
 	if (hDown & KEY_R) {
 		if (this->viewerIndex < 150)	this->viewerIndex++;
@@ -85,8 +86,8 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (save->villager(Selection)->exist()) {
-			Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(Selection)), false, true);
+		if (save->villager(this->Selection)->exist()) {
+			Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(this->Selection)), false, true);
 		}
 	}
 

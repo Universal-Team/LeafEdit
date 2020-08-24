@@ -45,7 +45,7 @@ private:
 	int Mode = 0;
 	std::shared_ptr<Player> player;
 
-	std::vector<ButtonType> mainButtons = {
+	const std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "APPEARANCE"},
 		{15, 97, 130, 48, "BADGE_EDITOR"},
 		{15, 159, 130, 48, "ITEMS"},
@@ -54,7 +54,7 @@ private:
 		{175, 159, 130, 48, ""}
 	};
 
-	std::vector<ButtonType> appearanceBtn = {
+	const std::vector<ButtonType> appearanceBtn = {
 		{15, 34, 130, 48, "PLAYER_NAME"},
 		{15, 97, 130, 48, "PLAYER_HAIR_STYLE"},
 		{15, 159, 130, 48, "PLAYER_FACETYPE"},

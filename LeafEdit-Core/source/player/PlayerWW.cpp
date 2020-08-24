@@ -28,8 +28,8 @@
 #include "saveUtils.hpp"
 #include "stringUtils.hpp"
 
-// Face.
-u8 PlayerWW::face() {
+/* Face. */
+u8 PlayerWW::face() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -65,8 +65,8 @@ void PlayerWW::face(u8 v) {
 	}
 }
 
-// Tan.
-u16 PlayerWW::tan() {
+/* Tan. */
+u16 PlayerWW::tan() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -102,8 +102,8 @@ void PlayerWW::tan(u16 v) {
 	}
 }
 
-// Gender.
-u8 PlayerWW::gender() {
+/* Gender. */
+u8 PlayerWW::gender() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -138,8 +138,8 @@ void PlayerWW::gender(u8 v) {
 	}
 }
 
-// HairStyle.
-u8 PlayerWW::hairstyle() {
+/* HairStyle. */
+u8 PlayerWW::hairstyle() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -174,8 +174,8 @@ void PlayerWW::hairstyle(u8 v) {
 	}
 }
 
-// HairColor.
-u8 PlayerWW::haircolor() {
+/* HairColor. */
+u8 PlayerWW::haircolor() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -210,20 +210,20 @@ void PlayerWW::haircolor(u8 v) {
 	}
 }
 
-// Eye Color. Does not exist.
-u8 PlayerWW::eyecolor() {
+/* Eye Color. Does not exist. */
+u8 PlayerWW::eyecolor() const {
 	return 0;
 }
 void PlayerWW::eyecolor(u8 v) { }
 
-// Badges. Does not exist.
-u8 PlayerWW::badge(int badge) {
+/* Badges. Does not exist. */
+u8 PlayerWW::badge(int badge) const {
 	return 0;
 }
 void PlayerWW::badge(int badge, u8 v) { }
 
-// Player ID. Is that right? Check that!
-u16 PlayerWW::playerid() {
+/* Player ID. Is that right? Check that! */
+u16 PlayerWW::playerid() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -259,8 +259,8 @@ void PlayerWW::playerid(u16 v) {
 	}
 }
 
-// Town ID. Is that right? Check that!
-u16 PlayerWW::townid() {
+/* Town ID. Is that right? Check that! */
+u16 PlayerWW::townid() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -296,8 +296,8 @@ void PlayerWW::townid(u16 v) {
 	}
 }
 
-// Town Name.
-std::u16string PlayerWW::townname() {
+/* Town Name. */
+std::u16string PlayerWW::townname() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -334,8 +334,8 @@ void PlayerWW::townname(std::u16string v) {
 	}
 }
 
-// Player Exist.
-bool PlayerWW::exist() {
+/* Player Exist. */
+bool PlayerWW::exist() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -353,8 +353,8 @@ bool PlayerWW::exist() {
 	return false;
 }
 
-// Player Name.
-std::u16string PlayerWW::name() {
+/* Player Name. */
+std::u16string PlayerWW::name() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -390,8 +390,8 @@ void PlayerWW::name(std::u16string v) {
 	}
 }
 
-// Wallet Amount.
-u32 PlayerWW::wallet() {
+/* Wallet Amount. */
+u32 PlayerWW::wallet() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -401,7 +401,7 @@ u32 PlayerWW::wallet() {
 		case WWRegion::JPN_REV1:
 			return SaveUtils::Read<u32>(playerPointer(), 0x16C4);
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Read<u32>(playerPointer(), 0x1C10); // Right.
+			return SaveUtils::Read<u32>(playerPointer(), 0x1C10);
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -427,8 +427,8 @@ void PlayerWW::wallet(u32 v) {
 	}
 }
 
-// Bank Amount.
-u32 PlayerWW::bank() {
+/* Bank Amount. */
+u32 PlayerWW::bank() const {
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -464,21 +464,21 @@ void PlayerWW::bank(u32 v) {
 	}
 }
 
-// Island Medals. Does not exist.
-u32 PlayerWW::islandmedals() {
+/* Island Medals. Does not exist. */
+u32 PlayerWW::islandmedals() const {
 	return 0;
 }
 void PlayerWW::islandmedals(u32 v) { }
 
-// Coupons. Does not exist.
-u32 PlayerWW::coupons() {
+/* Coupons. Does not exist. */
+u32 PlayerWW::coupons() const {
 	return 0;
 }
 void PlayerWW::coupons(u32 v) { }
 
-// Player Pocket.
-std::unique_ptr<Item> PlayerWW::pocket(int slot) {
-	if (slot > 14)	return nullptr;
+/* Player Pocket. */
+std::unique_ptr<Item> PlayerWW::pocket(int slot) const {
+	if (slot > 14) return nullptr;
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -496,9 +496,9 @@ std::unique_ptr<Item> PlayerWW::pocket(int slot) {
 	return nullptr;
 }
 
-// Player Dresser.
-std::unique_ptr<Item> PlayerWW::dresser(int slot) {
-	if (slot > 89)	return nullptr;
+/* Player Dresser. */
+std::unique_ptr<Item> PlayerWW::dresser(int slot) const {
+	if (slot > 89) return nullptr;
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -516,9 +516,9 @@ std::unique_ptr<Item> PlayerWW::dresser(int slot) {
 	return nullptr;
 }
 
-// Player Pattern.
-std::unique_ptr<Pattern> PlayerWW::pattern(int slot) {
-	if (slot > 9)	return nullptr;
+/* Player Pattern. */
+std::unique_ptr<Pattern> PlayerWW::pattern(int slot) const {
+	if (slot > 9) return nullptr;
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -537,8 +537,8 @@ std::unique_ptr<Pattern> PlayerWW::pattern(int slot) {
 	
 }
 
-// TPC Image. Does not exist.
-u8* PlayerWW::tpcImage() {
+/* TPC Image. Does not exist. */
+u8* PlayerWW::tpcImage() const {
 	return nullptr;
 }
 

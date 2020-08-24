@@ -35,16 +35,16 @@
 
 class WWPlugin : public Plugin {
 public:
-	// Constructor and Destructor. DO NOT CHANGE THIS!
+	/* Constructor and Destructor. DO NOT CHANGE THIS! */
 	WWPlugin() : Plugin() { }
 	virtual ~WWPlugin() { }
-	// Main Plugin function which get's called.
+	/* Main Plugin function which get's called. */
 	int scriptMain() override;
 private:
-	// All Script Entries are listed at this vector.
+	/* All Script Entries are listed at this vector. */
 	const std::vector<std::string> scriptEntries = {""};
 	
-	// All Functions are here. All Functions *must* have an integer as a return value.
+	/* All Functions are here. All Functions *must* have an integer as a return value. */
 };
 
 #endif

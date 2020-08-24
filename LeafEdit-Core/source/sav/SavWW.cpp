@@ -29,9 +29,9 @@
 
 #include <cstring>
 
-// Get Player data.
-std::unique_ptr<Player> SavWW::player(int player, int index) {
-	if (player > 3 || index > 3)	return nullptr; // Player goes out of scope.
+/* Get Player data. */
+std::unique_ptr<Player> SavWW::player(int player, int index) const {
+	if (player > 3 || index > 3) return nullptr; // Player goes out of scope.
 	switch (this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
@@ -45,11 +45,12 @@ std::unique_ptr<Player> SavWW::player(int player, int index) {
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
+
 	return nullptr; // Unknwon region.
 }
 
-// Get Villager data.
-std::unique_ptr<Villager> SavWW::villager(int villager) {
+/* Get Villager data. */
+std::unique_ptr<Villager> SavWW::villager(int villager) const {
 	if (villager > 7) return nullptr; // Villager goes out of scope.
 	switch (this->region) {
 		case WWRegion::USA_REV0:
@@ -62,26 +63,27 @@ std::unique_ptr<Villager> SavWW::villager(int villager) {
 		case WWRegion::KOR_REV1:
 			return std::make_unique<VillagerWW>(dataPointer, 0x928C + (villager * 0x7EC), this->region);
 		case WWRegion::UNKNOWN:
-			return nullptr; // TODO: Research.
+			return nullptr;
 	}
+
 	return nullptr; // Unknown region.
 }
 
-// Get Town data.
-std::unique_ptr<Town> SavWW::town() {
+/* Get Town data. */
+std::unique_ptr<Town> SavWW::town() const {
 	return std::make_unique<TownWW>(dataPointer, this->region);
 }
 
-// Get Island data. (Does not exist.)
-std::unique_ptr<Island> SavWW::island() {
+/* Get Island data. (Does not exist.) */
+std::unique_ptr<Island> SavWW::island() const {
 	return nullptr;
 }
 
-std::unique_ptr<Shop> SavWW::shop() {
+std::unique_ptr<Shop> SavWW::shop() const {
 	return std::make_unique<ShopWW>(dataPointer, 0, this->region);
 }
 
-// Last call before writing to file. Update Checksum.
+/* Last call before writing to file. Update Checksum. */
 void SavWW::Finish(void) {
 	switch (this->region) {
 		case WWRegion::USA_REV0:

@@ -45,11 +45,11 @@ extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 std::shared_ptr<Sav> save;
 std::unique_ptr<Town> town;
 static std::string SaveFile;
-// Bring that to other screens too.
+/* Bring that to other screens too. */
 SaveType savesType = SaveType::UNUSED;
 bool changes = false;
 
-// Japanese | PAL.
+/* Japanese | PAL. */
 const std::vector<std::string> titleNames = {
 	"おいでよ どうぶつの森",
 	"Wild World",
@@ -71,7 +71,7 @@ bool Editor::loadSave() {
 		fclose(in);
 		save = Sav::getSave(saveData, size);
 
-		// Check if town exist on AC:WW.
+		/* Check if town exist on AC:WW. */
 		if (save) {
 			if (save->getType() == SaveType::WW) {
 				if (save->town()->exist() != true) {
@@ -97,7 +97,7 @@ bool Editor::loadSave() {
 
 	savesType = save->getType();
 
-	// Now handle the region struct thing.
+	/* Now handle the region struct thing. */
 	if (savesType == SaveType::WA) {
 		this->RegionLock.RawByte = save->savePointer()[0x621CE];
 		this->RegionLock.DerivedID = this->RegionLock.RawByte & 0xF;
@@ -111,19 +111,21 @@ bool Editor::loadSave() {
 
 void Editor::SaveInitialize() {
 	saveName = Overlays::SelectFile({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
-	// If User canceled, go screen back.
+	/* If User canceled, go screen back. */
 	if (saveName == "") {
 		Gui::screenBack(doFade);
 	}
 
 	if (!loadSave()) {
 		Msg::DisplayWarnMsg(Lang::get("INVALID_SAVEFILE"));
+
 	} else {
 		Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
 		if (Init::loadSheets() == 0) {
 			ItemUtils::LoadDatabase(savesType);
 			Lang::loadGameStrings(1, savesType);
 			loadState = SaveState::Loaded;
+
 		} else {
 			Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
 			Gui::screenBack(doFade);
@@ -136,6 +138,7 @@ void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
+
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, Lang::get("SAVETYPE") + ": " + titleNames[saveT + 1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
@@ -144,10 +147,12 @@ void Editor::Draw(void) const {
 
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		GFX::DrawBottom();
+
 		for (int i = 0; i < 3; i++) {
 			GFX::DrawButton(mainButtons[i]);
-			if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+			if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 		}
+
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 		GFX::DrawGUI(gui_save_idx, icons[1].x, icons[1].y);
 	}
@@ -161,7 +166,7 @@ void Editor::Saving() {
 		return;
 	}
 
-	// Handle AC:WA stuff here.
+	/* Handle AC:WA stuff here. */
 	if (savesType == SaveType::WA) {
 		CoreUtils::FixInvalidBuildings();
 	}
@@ -177,6 +182,10 @@ void Editor::Saving() {
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (loadState == SaveState::Loaded) {
+		if (hDown & KEY_X) {
+			save->player(0)->gender(1);
+		}
+		
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
 				if (save->changesMade() && !this->hasSaved) {
@@ -184,34 +193,39 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						savesType = SaveType::UNUSED;
 						Gui::screenBack(doFade);
 					}
+
 				} else if ((save->changesMade() && this->hasSaved) || (!save->changesMade())) {
 					savesType = SaveType::UNUSED;
 					Gui::screenBack(doFade);
 				}
+
 			} else if (iconTouch(touch, icons[1])) {
 				this->Saving();
 			}
 		}
 
-		// Navigation.
+		/* Navigation. */
 		if (hDown & KEY_UP) {
 			if (Selection > 0)	Selection--;
-		} else if (hDown & KEY_DOWN) {
+		}
+		
+		if (hDown & KEY_DOWN) {
 			if (Selection < 2)	Selection++;
 		}
 
 		if (hDown & KEY_A) {
 			if (savesType != SaveType::UNUSED) {
-				// Player Editor.
+				/* Player Editor. */
 				if (Selection == 0) {
-					if (save->player(0) != nullptr) {
+					if (save->player(0)) {
 						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
 					} else {
 						Msg::NotImplementedYet();
 					}
-					// Villager Viewer.
+
+					/* Villager Viewer. */
 				} else if (Selection == 1) {
-					if (save->villager(0) != nullptr) {
+					if (save->villager(0)) {
 						if (savesType == SaveType::WW) {
 							Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
@@ -220,9 +234,10 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					} else {
 						Msg::NotImplementedYet();
 					}
-					// Town Map Editor.
+
+					/* Town Map Editor. */
 				} else if (Selection == 2) {
-					if (save->town()->acre(0) != nullptr && save->town()->item(0) != nullptr) {
+					if (save->town()->acre(0) && save->town()->item(0)) {
 						if (savesType == SaveType::WW) {
 							Gui::setScreen(std::make_unique<TownMapEditorWW>(), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
@@ -243,6 +258,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			savesType = SaveType::UNUSED;
 			Gui::screenBack(doFade);
 		}
+		
 	} else {
 		SaveInitialize(); // Display Browse.
 	}

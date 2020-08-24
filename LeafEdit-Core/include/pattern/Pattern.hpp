@@ -45,28 +45,28 @@ public:
 	Pattern(const Pattern& pattern) = delete;
 	Pattern& operator=(const Pattern& pattern) = delete;
 
-	virtual std::u16string name() = 0;
+	virtual std::u16string name() const = 0;
 	virtual void name(std::u16string v) = 0;
-	virtual u16 creatorid() = 0;
+	virtual u16 creatorid() const = 0;
 	virtual void creatorid(u16 v) = 0;
-	virtual std::u16string creatorname() = 0;
+	virtual std::u16string creatorname() const = 0;
 	virtual void creatorname(std::u16string v) = 0;
-	virtual u8 creatorGender() = 0;
+	virtual u8 creatorGender() const = 0;
 	virtual void creatorGender(u8 v) = 0;
-	virtual u16 origtownid() = 0;
+	virtual u16 origtownid() const = 0;
 	virtual void origtownid(u16 v) = 0;
-	virtual std::u16string origtownname() = 0;
+	virtual std::u16string origtownname() const = 0;
 	virtual void origtownname(std::u16string v) = 0;
-	virtual u8 designtype() = 0;
+	virtual u8 designtype() const = 0;
 	virtual void designtype(u8 v) = 0;
 
-	// Pattern Misc.
+	/* Pattern Misc. */
 	virtual void ownPattern(std::unique_ptr<Player> player) = 0;
 	virtual void dumpPattern(const std::string fileName) = 0;
 	virtual void injectPattern(const std::string fileName) = 0;
 
-	// Pattern Image.
-	virtual std::shared_ptr<PatternImage> image(const int pattern) = 0;
+	/* Pattern Image. */
+	virtual std::shared_ptr<PatternImage> image(const int pattern) const = 0;
 };
 
 #endif

@@ -32,26 +32,22 @@
 
 std::unique_ptr<Logging> Log;
 
-#ifdef _3DS
-	#define LOGGING_FILE "sdmc:/3ds/LeafEdit/LeafEdit.log"
-#else
-	#define LOGGING_FILE "sd:/_nds/LeafEdit/LeafEdit.log"
-#endif
+#define LOGGING_FILE "sdmc:/3ds/LeafEdit/LeafEdit.log"
 
 #define DO_LOG false // Do this to true, if Logging should be used.
 
-// If do Logging, open.
+/* If do Logging, open. */
 Logging::Logging() {
 	if (DO_LOG) this->Open();
 }
 
-// Create the log file.
+/* Create the log file. */
 void Logging::Create(void) {
 	FILE* logFile = fopen((LOGGING_FILE), "w");
 	fclose(logFile);
 }
 
-// Open the log file.
+/* Open the log file. */
 void Logging::Open() {
 	if ((access(LOGGING_FILE, F_OK) != 0)) {
 		this->Create();
@@ -60,21 +56,21 @@ void Logging::Open() {
 	this->logFile.open((LOGGING_FILE), std::ofstream::app);
 }
 
-// Close the log file.
+/* Close the log file. */
 void Logging::Close() {
 	if (DO_LOG) this->logFile.close();
 }
 
-// Write a debug Message to the log.
+/* Write a debug Message to the log. */
 void Logging::Write(const std::string debugText, const bool coreLog) {
 	if (DO_LOG) {
-		// Format: [CORE / APP] [<Date And Time>] DebugMessage
+		/* Format: [CORE / APP] [<Date And Time>] DebugMessage. */
 		const std::string logWrite = coreLog ? "[CORE] [" + logDate() + "]: " + debugText : "[APP] [" + logDate() + "]: " + debugText;
 		this->logFile << logWrite << std::endl;
 	}
 }
 
-// For formatting the Date and Time.
+/* For formatting the Date and Time. */
 const std::string Logging::format(const std::string& fmt_str, ...) {
 	va_list ap;
 	char* fp = NULL;
@@ -85,7 +81,7 @@ const std::string Logging::format(const std::string& fmt_str, ...) {
 	return std::string(formatted.get());
 }
 
-// Log current Time and Date.
+/* Log current Time and Date. */
 const std::string Logging::logDate(void) {
 	time_t unixTime;
 	struct tm timeStruct;

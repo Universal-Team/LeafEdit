@@ -36,7 +36,7 @@ extern std::unique_ptr<Config> config;
 extern touchPosition touch;
 
 void BadgeEditor::DrawBadges(void) const {
-	// Draw all badges.
+	/* Draw all badges. */
 	for (int i = 0; i < 24; i++) {
 		SpriteManagement::DrawBadge(i, player->badge(i), this->badgeTouch[i].x, this->badgeTouch[i].y);
 	}
@@ -61,31 +61,31 @@ void BadgeEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if (selectedBadge < 23)	selectedBadge++;
+		if (selectedBadge < 23) selectedBadge++;
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (selectedBadge > 0)	selectedBadge--;
+		if (selectedBadge > 0) selectedBadge--;
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (selectedBadge < 18)	selectedBadge += 6;
+		if (selectedBadge < 18) selectedBadge += 6;
 	}
 
 	if (hDown & KEY_UP) {
-		if (selectedBadge > 5)	selectedBadge -= 6;
+		if (selectedBadge > 5) selectedBadge -= 6;
 	}
 
 	if (hDown & KEY_A) {
-		if (player->badge(this->selectedBadge) < 3)	player->badge(this->selectedBadge, (player->badge(this->selectedBadge) + 1));
-		else	player->badge(this->selectedBadge, 0);
+		if (player->badge(this->selectedBadge) < 3) player->badge(this->selectedBadge, (player->badge(this->selectedBadge) + 1));
+		else player->badge(this->selectedBadge, 0);
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 24; i++) {
 			if (iconTouch(touch, badgeTouch[i])) {
-				if (player->badge(i) < 3)	player->badge(i, (player->badge(i) + 1));
-				else	player->badge(i, 0);
+				if (player->badge(i) < 3) player->badge(i, (player->badge(i) + 1));
+				else player->badge(i, 0);
 			}
 		}
 	}
@@ -114,7 +114,7 @@ u8 BadgeEditor::setAll() {
 			GFX::DrawButton(this->setPos[i]);
 		}
 
-		GFX::DrawGUI(gui_pointer_idx, setPos[selection].x+100, setPos[selection].y+15);
+		GFX::DrawGUI(gui_pointer_idx, setPos[selection].x + 100, setPos[selection].y + 15);
 		C3D_FrameEnd(0);
 
 		hidScanInput();

@@ -30,12 +30,12 @@
 
 #include <3ds.h>
 
-// Include all SpriteSheets which are used for the editor.
+/* Include all SpriteSheets which are used for the editor. */
 extern C2D_SpriteSheet Acres, Items, Players, Villager, Villager2;
 
 extern std::shared_ptr<Sav> save;
 
-// Draws the Hair sprite from a Player.
+/* Draws the Hair sprite from a Player. */
 void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float ScaleY) {
 	if (save != nullptr) {
 		switch(save->getType()) {
@@ -52,7 +52,7 @@ void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float Scale
 	}
 }
 
-// Draws the Face sprite from a Player.
+/* Draws the Face sprite from a Player. */
 void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX, float ScaleY) {
 	if (save != nullptr) {
 		switch(save->getType()) {
@@ -61,7 +61,7 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 				break;
 			case SaveType::NL:
 			case SaveType::WA:
-				// Face starts at 32.
+				/* Face starts at 32. */
 				if (Gender == 1) {
 					Gui::DrawSprite(Players, 32 + face +12, x, y, ScaleX, ScaleY);
 				} else {
@@ -74,7 +74,7 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 	}
 }
 
-// Draws the Item Sprite.
+/* Draws the Item Sprite. */
 void SpriteManagement::DrawItem(u8 itemCategory, int x, int y, float ScaleX, float ScaleY) {
 	if (save != nullptr) {
 		switch(save->getType()) {
@@ -90,15 +90,15 @@ void SpriteManagement::DrawItem(u8 itemCategory, int x, int y, float ScaleX, flo
 	}
 }
 
-// Draws the Acre Sprite.
+/* Draws the Acre Sprite. */
 void SpriteManagement::DrawAcres(u8 acreID, int x, int y, float ScaleX, float ScaleY) {
-	if (save != nullptr) {
+	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:
 				Gui::DrawSprite(Acres, 219 + acreID, x, y, ScaleX, ScaleY); // Acre starts at 219 here.
 				break;
 			case SaveType::NL:
-				// AC:NL has a bit different exception there.
+				/* AC:NL has a bit different exception there. */
 				if (acreID < 155)	Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY); // Normal handling.
 				else if (acreID > 154 && acreID < 165)	Gui::DrawSprite(Acres, acreID + 1, x, y, ScaleX, ScaleY); // +1 cause one skipped Acre.
 				else if (acreID > 164)	Gui::DrawSprite(Acres, acreID + 2, x, y, ScaleX, ScaleY); // +2 cause two skipped Acre.
@@ -112,7 +112,7 @@ void SpriteManagement::DrawAcres(u8 acreID, int x, int y, float ScaleX, float Sc
 	}
 }
 
-// AC:WW Villager Index, which point to the correct SpriteSheet ID.
+/* AC:WW Villager Index, which point to the correct SpriteSheet ID. */
 const std::array<int, 150> wwVillagerIndex = {
 	0, 1, 2, 3, 7, 8, 9, 10, 21, 22, 23, 24, 25,
 	35, 36, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
@@ -121,7 +121,7 @@ const std::array<int, 150> wwVillagerIndex = {
 	130, 131, 132, 133, 134, 135, 136, 144, 145, 146, 147, 148,
 	155, 156, 157, 158, 159, 160, 161, 162, 173, 174, 180, 181, 182,
 	199,
-	// Second SpriteSheet -- 78
+	/* Second SpriteSheet -- 78 */
 	6, 7, 8, 9, 10, 22, 23, 24, 31, 32, 39, 40, 54, 55, 56, 57, 58, 59,
 	69, 70, 73, 74, 83, 84, 85, 92, 93, 94, 95, 96, 97, 105, 106, 107, 108, 109,
 	121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 142, 143, 148, 149,
@@ -144,7 +144,7 @@ std::array<int, 333> nlVillagerIndex = {
 	164, 166, 167, 169, 170, 171, 172, 173, 174, 176, 177,
 	178, 179, 180, 181, 182, 185, 186, 187, 188, 190, 191,
 	192, 193, 194, 195, 196, 197, 199,
-	// Second SpriteSheet -- 168
+	/* Second SpriteSheet -- 168 */
 	0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18,
 	19, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37,
 	38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
@@ -161,10 +161,10 @@ std::array<int, 333> nlVillagerIndex = {
 };
 
 void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, float ScaleY) {
-	if (save != nullptr) {
+	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:
-				// Display empty Villager.
+				/* Display empty Villager. */
 				if (villagerID > 150) {
 					Gui::DrawSprite(Villager2, 199, x, y, ScaleX, ScaleY); // Display empty Villager.
 					break;
@@ -177,7 +177,6 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 				}
 
 				break;
-			// Pretty sure AC:NL needs a special handling for the Villagers, cause the SpriteSheet has AC:WA special ones(?) TODO!
 			case SaveType::NL:
 				if (villagerID > 333) {
 					Gui::DrawSprite(Villager2, 199, x, y, ScaleX, ScaleY);
@@ -192,7 +191,7 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 
 				break;
 			case SaveType::WA:
-				 // Display empty Villager.
+				/* Display empty Villager. */
 				if (villagerID > 399) {
 					Gui::DrawSprite(Villager2, 199, x, y, ScaleX, ScaleY);
 					break;
@@ -211,9 +210,9 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 	}
 }
 
-// Draws the Badge Sprite.
+/* Draws the Badge Sprite. */
 void SpriteManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX, float ScaleY) {
-	if (save != nullptr) {
+	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:
 				break; // Don't exist here.

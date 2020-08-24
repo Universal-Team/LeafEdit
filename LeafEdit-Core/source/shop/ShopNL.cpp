@@ -27,7 +27,8 @@
 #include "saveUtils.hpp"
 #include "ShopNL.hpp"
 
-std::unique_ptr<Pattern> ShopNL::ableSisterPattern(int pattern) {
+/* Get able sister pattern. */
+std::unique_ptr<Pattern> ShopNL::ableSisterPattern(int pattern) const {
 	if (pattern > 7) return nullptr;
 	return std::make_unique<PatternNL>(this->data, 0x5C934 + pattern * 0x870);
 }

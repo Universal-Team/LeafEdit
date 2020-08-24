@@ -40,7 +40,7 @@ public:
 private:
 	int Selection = 0;
 
-	std::vector<ButtonType> mainButtons = {
+	const std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "EDITOR"},
 		{175, 34, 130, 48, "SETTINGS"},
 		{15, 97, 130, 48, "CREDITS"},

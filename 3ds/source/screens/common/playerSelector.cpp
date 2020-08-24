@@ -34,10 +34,10 @@
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
-// Bring that to other screens too.
+/* Bring that to other screens too. */
 extern SaveType savesType;
 
-// Init Player stuff.
+/* Init Player stuff. */
 PlayerSelector::PlayerSelector() {
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
@@ -46,7 +46,7 @@ PlayerSelector::PlayerSelector() {
 	}
 }
 
-// Make sure to destroy the TPC Image.
+/* Make sure to destroy the TPC Image. */
 PlayerSelector::~PlayerSelector() { }
 
 void PlayerSelector::Draw(void) const {
@@ -69,7 +69,7 @@ void PlayerSelector::Draw(void) const {
 }
 
 void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
 	if (hDown & KEY_RIGHT) {
 		if (selectedPlayer < 3)	selectedPlayer++;
 	}
@@ -79,12 +79,12 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		// Check if player exist.
+		/* Check if player exist. */
 		if (save->player(selectedPlayer)->exist()) {
-			// New Leaf & Welcome Amiibo.
+			/* New Leaf & Welcome Amiibo. */
 			if (savesType == SaveType::NL || savesType == SaveType::WA) {
 				Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(selectedPlayer)), doFade, true);
-				// Wild World.
+				/* Wild World. */
 			} else if (savesType == SaveType::WW) {
 				Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(selectedPlayer)), doFade, true);
 			}

@@ -38,7 +38,8 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~RoomWA() {}
-	RoomWA(std::shared_ptr<u8[]> roomData, u32 offset) : Room(roomData, offset), Offset(offset), data(roomData) { }
+	RoomWA(std::shared_ptr<u8[]> roomData, u32 offset) :
+		Room(roomData, offset), Offset(offset), data(roomData) { }
 private:
 	u8* roomPointer() const {
 		return data.get() + Offset;
@@ -51,9 +52,10 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~HouseWA() {}
-	HouseWA(std::shared_ptr<u8[]> houseData, u32 offset) : House(houseData, offset), Offset(offset), data(houseData) { }
+	HouseWA(std::shared_ptr<u8[]> houseData, u32 offset) :
+		House(houseData, offset), Offset(offset), data(houseData) { }
 
-	std::unique_ptr<Room> room(int room) override;
+	std::unique_ptr<Room> room(int room) const override;
 private:
 	u8* housePointer() const {
 		return data.get() + Offset;

@@ -28,23 +28,23 @@
 #include "ItemWA.hpp"
 #include "saveUtils.hpp"
 
-// Item ID.
-u16 ItemWA::id() { return SaveUtils::Read<u16>(itemPointer(), 0); }
+/* Item ID. */
+u16 ItemWA::id() const { return SaveUtils::Read<u16>(itemPointer(), 0); }
 void ItemWA::id(u16 v) { SaveUtils::Write<u16>(itemPointer(), 0, v); }
 
-// Item Flags.
-u16 ItemWA::flags() { return SaveUtils::Read<u16>(itemPointer(), 2); }
+/* Item Flags. */
+u16 ItemWA::flags() const { return SaveUtils::Read<u16>(itemPointer(), 2); }
 void ItemWA::flags(u16 v) { SaveUtils::Write<u16>(itemPointer(), 2, v); }
 
-// Item Rotation. (Furniture / House)
-int ItemWA::rotation() { return 0; }
+/* Item Rotation. (Furniture / House) */
+int ItemWA::rotation() const { return 0; }
 void ItemWA::rotation(int Direction) { } // TODO.
 
-// Item Name.
-std::string ItemWA::name() { return ItemUtils::getName(this->id()); }
+/* Item Name. */
+std::string ItemWA::name() const { return ItemUtils::getName(this->id()); }
 
-// Item Type / Category.
-ItemType ItemWA::itemtype() {
+/* Item Type / Category. */
+ItemType ItemWA::itemtype() const {
 	u16 ID = this->id(); // Only 1 time needed.
 
 	if (ID == 0x7FFE) {

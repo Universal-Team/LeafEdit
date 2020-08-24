@@ -38,7 +38,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	TownMapEditorWW();
 private:
-	// Specific stuff.
+	/* Specific stuff. */
 	u32 maxAcres;
 	std::unique_ptr<Item> MapItems[4096]; // Complete Town Map Items.
 	std::unique_ptr<Acre> FullAcres[36]; // Complete Acres.
@@ -47,32 +47,32 @@ private:
 	void DrawMapScreen(void) const;
 	void MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Town Map Editor Selection & Positions.
+	/* Town Map Editor Selection & Positions. */
 	int currentPosX = 0;
 	int currentPosY = 0;
 	int currentAcre = 0;
 	int MapSelection = 0;
 	int PositionX = 16;
 	int PositionY = 16;
-	// Modes. Acre Editor & Town Map Editor.
+	/* Modes. Acre Editor & Town Map Editor. */
 	int Mode = 1;
 	int selectMode = 0; // No sub Selection.
 
-	// General Item stuff.
+	/* General Item stuff. */
 	u16 itemID = 65521;
 	int keyRepeatDelay = 0;
 
-	// Utilities Draw.
+	/* Utilities Draw. */
 	void DrawGrid(void) const;
 	void DrawTownMap() const;
 	void DrawInformation() const;
 	void DrawCurrentPos(void) const;
-	// Converter's.
+	/* Converter's. */
 	void convertToSelection();
 	void convertToPosition();
 	int SelectionToAcre(int selection) const;
 
-	// Operations.
+	/* Operations. */
 	void injectTo(int MapSlot);
 	void remove(u16 ID);
 	void setAll(u16 ID);
@@ -93,12 +93,12 @@ private:
 	bool FastMode = false; // Scrolling speed.
 	int selection = 0;
 
-	std::vector<ButtonType> tempItemPos = {
+	const std::vector<ButtonType> tempItemPos = {
 		{20, 45, 280, 50, ""}, // ID.
 		{20, 145, 280, 50, "SWITCH_ITEM_SELECTION"}
 	};
 
-	// Display AC:WW Top Screen Map.
+	/* Display AC:WW Top Screen Map. */
 	const std::vector<Structs::ButtonPos> WWMapPos = {
 		{5, 40, 32, 32} ,{37, 40, 32, 32}, {69, 40, 32, 32}, {101, 40, 32, 32},
 		{5, 72, 32, 32}, {37, 72, 32, 32}, {69, 72, 32, 32}, {101, 72, 32, 32},
@@ -106,44 +106,44 @@ private:
 		{5, 136, 32, 32}, {37, 136, 32, 32}, {69, 136, 32, 32}, {101, 136, 32, 32}
 	};
 
-	// Display AC:WW's full Town Map.
+	/* Display AC:WW's full Town Map. */
 	const std::vector<Structs::ButtonPos> wwPos = {
-		// First Line.
+		/* First Line. */
 		{64, 16, 32, 32},
 		{96, 16, 32, 32},
 		{128, 16, 32, 32},
 		{160, 16, 32, 32},
 		{192, 16, 32, 32},
 		{224, 16, 32, 32},
-		// Second Line.
+		/* Second Line. */
 		{64, 48, 32, 32},
 		{96, 48, 32, 32},
 		{128, 48, 32, 32},
 		{160, 48, 32, 32},
 		{192, 48, 32, 32},
 		{224, 48, 32, 32},
-		// Third Line.
+		/* Third Line. */
 		{64, 80, 32, 32},
 		{96, 80, 32, 32},
 		{128, 80, 32, 32},
 		{160, 80, 32, 32},
 		{192, 80, 32, 32},
 		{224, 80, 32, 32},
-		// Fourth Line.
+		/* Fourth Line. */
 		{64, 112, 32, 32},
 		{96, 112, 32, 32},
 		{128, 112, 32, 32},
 		{160, 112, 32, 32},
 		{192, 112, 32, 32},
 		{224, 112, 32, 32},
-		// Fifth Line.
+		/* Fifth Line. */
 		{64, 144, 32, 32},
 		{96, 144, 32, 32},
 		{128, 144, 32, 32},
 		{160, 144, 32, 32},
 		{192, 144, 32, 32},
 		{224, 144, 32, 32},
-		// Sixth Line.
+		/* Sixth Line. */
 		{64, 176, 32, 32},
 		{96, 176, 32, 32},
 		{128, 176, 32, 32},
@@ -152,7 +152,7 @@ private:
 		{224, 176, 32, 32}
 	};
 
-	// Display Button.
+	/* Display Button. */
 	const std::vector<ButtonType> mainButtons = {
 		{220, 25, 90, 30, "ACRES"},
 		{220, 55, 90, 30, "TEMP_ITEM"},
@@ -161,7 +161,7 @@ private:
 		{220, 145, 90, 30, "ITEM_MISC"}
 	};
 
-	// Display Operations.
+	/* Display Operations. */
 	const std::vector<ButtonType> operationBtn = {
 		{95, 34, 130, 48, "REMOVE_ITEMS"},
 		{95, 97, 130, 48, "FILL_TOWN"},

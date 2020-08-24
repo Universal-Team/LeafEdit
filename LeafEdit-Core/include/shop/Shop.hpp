@@ -42,7 +42,7 @@ public:
 	Shop(const Shop& shop) = delete;
 	Shop& operator=(const Shop& shop) = delete;
 
-	virtual std::unique_ptr<Pattern> ableSisterPattern(int pattern) = 0;
+	virtual std::unique_ptr<Pattern> ableSisterPattern(int pattern) const = 0;
 };
 
 #endif

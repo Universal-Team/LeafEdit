@@ -137,6 +137,7 @@ Result Init::unloadSheets() {
 	return 0;
 }
 
+/* Load the font, if found. */
 Result Init::loadFont() {
 	if (FontHasLoaded == false) {
 		if (access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
@@ -151,8 +152,9 @@ Result Init::loadFont() {
 	return 0;
 }
 
+/* Unload font, if loaded. */
 Result Init::unloadFont() {
-	if (FontHasLoaded == true) {
+	if (FontHasLoaded) {
 		Gui::unloadFont(font);
 	}
 
@@ -278,8 +280,11 @@ Result Init::MainLoop() {
 }
 
 Result Init::Exit() {
-	/* Exit every process. */
-	/* Unload all sheets, because you don't know, if people exit properly like they should. */
+	/*
+		Exit every process.
+		Unload all sheets, because you don't know, if people exit properly like they should.
+	*/
+
 	unloadSheets();
 	acExit();
 	amExit();

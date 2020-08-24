@@ -27,13 +27,13 @@
 #include "PatternImageWW.hpp"
 #include "saveUtils.hpp"
 
-u8 PatternImageWW::getPaletteColor(u8 plt) {
+u8 PatternImageWW::getPaletteColor(u8 plt) const {
 	if (plt > 15) return 0;
 	u8 paletteIndex = (u8)(((this->paletteData()[0]) & 0xF0) >> 4);
 	return (u8)((paletteIndex * 15) + plt);
 }
 
-int PatternImageWW::getWWPaletteIndex() {
+int PatternImageWW::getWWPaletteIndex() const {
 	return (u8)(((this->paletteData()[0]) & 0xF0) >> 4);
 }
 
@@ -42,9 +42,9 @@ void PatternImageWW::setPaletteColor(int index, u8 color) {
 	this->paletteData()[0] = (u8)(((index) << 4) & 0xF0);
 }
 
-pixel PatternImageWW::getPixel(int index) {
+pixel PatternImageWW::getPixel(int index) const {
 	if (this->valid) {
-		if (this->patternData() != nullptr) {
+		if (this->pixelPointer()) {
 			return this->pixelPointer()[index];
 		} 
 	}
@@ -56,7 +56,7 @@ void PatternImageWW::setPixel(int index, int color) {
 	if (color > 15 || index > 0x3FF) return; // Out of scope.
 	
 	if (this->valid) {
-		if (this->patternData() != nullptr) {
+		if (this->pixelPointer()) {
 			if (index % 2 == 0) this->pixelPointer()[index / 2].left = color;
 			else this->pixelPointer()[index / 2].right = color;
 		}

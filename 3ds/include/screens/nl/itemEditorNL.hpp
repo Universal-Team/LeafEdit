@@ -43,23 +43,23 @@ public:
 private:
 	void DrawSlotSelection(void) const;
 
-	// Sub Menu.
+	/* Sub Menu. */
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Pocket.
+	/* Pocket. */
 	void DrawPocket(void) const;
 	void PocketLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Island box.
+	/* Island box. */
 	void DrawIslandBox(void) const;
 	void IslandBoxLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Dresser.
+	/* Dresser. */
 	void DrawDresser(void) const;
 	void DresserLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	// Storage.
+	/* Storage. */
 	void DrawStorage(void) const;
 	void StorageLogic(u32 hDown, u32 hHeld, touchPosition touch);
 

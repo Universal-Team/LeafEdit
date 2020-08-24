@@ -27,8 +27,8 @@
 #include "saveUtils.hpp"
 #include "ShopWW.hpp"
 
-/* Return Able Sister Pattern. */
-std::unique_ptr<Pattern> ShopWW::ableSisterPattern(int pattern) {
+/* Get able sister pattern. */
+std::unique_ptr<Pattern> ShopWW::ableSisterPattern(int pattern) const {
 	if (pattern > 7) return nullptr;
 
 	switch(this->region) {

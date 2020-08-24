@@ -35,7 +35,7 @@
 
 extern std::map<u16, std::string> ItemDatabase;
 
-// Type of the Item.
+/* Type of the Item. */
 enum class ItemType {
 	Empty,
 	Furniture,
@@ -82,14 +82,14 @@ public:
 	Item(const Item& item) = delete;
 	Item& operator=(const Item& item) = delete;
 
-	virtual u32 maxItems() const = 0; // Get Item Amount.
-	virtual u16 id() = 0; // Return ID.
+	virtual u32 maxItems() const = 0;
+	virtual u16 id() const = 0;
 	virtual void id(u16 v) = 0;
-	virtual u16 flags() = 0; // Return Flags.
+	virtual u16 flags() const = 0;
 	virtual void flags(u16 v) = 0;
-	virtual std::string name() = 0;
-	virtual ItemType itemtype() = 0;
-	virtual int rotation() = 0;
+	virtual std::string name() const = 0;
+	virtual ItemType itemtype() const = 0;
+	virtual int rotation() const = 0;
 	virtual void rotation(int Direction) = 0;
 };
 

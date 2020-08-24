@@ -35,7 +35,7 @@ extern std::vector<std::string> g_personality;
 extern const std::string getPersonality(u8 personality);
 extern bool touching(touchPosition touch, ButtonType button);
 
-// Bring that to other screens too.
+/* Bring that to other screens too. */
 extern SaveType savesType;
 extern const std::string getVillagerName(int index);
 
@@ -60,7 +60,7 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
 
-	// Villager names have specific handle.
+	/* Villager names have specific handle. */
 	if (savesType == SaveType::WA) {
 		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->villager->id()], 395, 0, font);
 	} else {
@@ -75,14 +75,14 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Selection.
+	/* Selection. */
 	if (hDown & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -114,11 +114,12 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->villager->personality((u8)tempSelect);
 				break;
 			case 2:
-				// Get Furniture Items.
+				/* Get Furniture Items. */
 				for (int i = 0; i < 15; i++) {
 					this->villagerItems[i] = this->villager->furniture(i);
 				}
-				// Get other stuff.
+
+				/* Get other stuff. */
 				this->villagerItems[15] = this->villager->wallpaper();
 				this->villagerItems[16] = this->villager->carpet();
 				this->villagerItems[17] = this->villager->song();
@@ -145,7 +146,7 @@ void VillagerEditorNL::DrawItems(void) const {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
 
-	GFX::DrawGUI(gui_pointer_idx, items[this->itemSelection].x+15, items[this->itemSelection].y+15);
+	GFX::DrawGUI(gui_pointer_idx, items[this->itemSelection].x + 15, items[this->itemSelection].y + 15);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -172,7 +173,7 @@ void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_B) {
 		this->villagerMode = 0;
-		// Reset Items to nullptr.
+		/* Reset Items to nullptr. */
 		for (int i = 0; i < 20; i++) {
 			this->villagerItems[i] = nullptr;
 		}

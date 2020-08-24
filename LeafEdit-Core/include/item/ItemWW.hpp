@@ -38,16 +38,17 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~ItemWW() {}
-	ItemWW(std::shared_ptr<u8[]> itemData, u32 offset) : Item(itemData, offset), Offset(offset), data(itemData) { }
+	ItemWW(std::shared_ptr<u8[]> itemData, u32 offset) :
+		Item(itemData, offset), Offset(offset), data(itemData) { }
 
 	u32 maxItems() const override { return 0; };
-	u16 id() override;
+	u16 id() const override;
 	void id(u16 v) override;
-	u16 flags() override;
+	u16 flags() const override;
 	void flags(u16 v) override;
-	std::string name() override;
-	ItemType itemtype() override;
-	int rotation() override;
+	std::string name() const override;
+	ItemType itemtype() const override;
+	int rotation() const override;
 	void rotation(int Direction) override;
 private:
 	u8* itemPointer() const {

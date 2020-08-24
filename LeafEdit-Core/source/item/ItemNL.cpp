@@ -28,23 +28,23 @@
 #include "itemUtils.hpp"
 #include "saveUtils.hpp"
 
-// Item ID.
-u16 ItemNL::id() { return SaveUtils::Read<u16>(itemPointer(), 0); }
+/* Item ID. */
+u16 ItemNL::id() const { return SaveUtils::Read<u16>(itemPointer(), 0); }
 void ItemNL::id(u16 v) { SaveUtils::Write<u16>(itemPointer(), 0, v); }
 
-// Item Flags.
-u16 ItemNL::flags() { return SaveUtils::Read<u16>(itemPointer(), 2); }
+/* Item Flags. */
+u16 ItemNL::flags() const { return SaveUtils::Read<u16>(itemPointer(), 2); }
 void ItemNL::flags(u16 v) { SaveUtils::Write<u16>(itemPointer(), 2, v); }
 
-// Item Rotation. (Furniture / House)
-int ItemNL::rotation() { return 0; }
+/* Item Rotation. (Furniture / House) */
+int ItemNL::rotation() const { return 0; }
 void ItemNL::rotation(int Direction) { } // TODO.
 
-// Item Name.
-std::string ItemNL::name() { return ItemUtils::getName(this->id()); }
+/* Item Name. */
+std::string ItemNL::name() const { return ItemUtils::getName(this->id()); }
 
-// Item Type / Category
-ItemType ItemNL::itemtype() {
+/* Item Type / Category. */
+ItemType ItemNL::itemtype() const {
 	u16 ID = this->id(); // Only 1 time needed.
 
 	if (ID == 0x7FFE) {
@@ -52,7 +52,7 @@ ItemType ItemNL::itemtype() {
 	} else if (ID == 0x009D) {
 		return ItemType::Pattern;
 	} else if (ID >= 0x009F && ID <= 0x00C8) {
-		return ItemType::Flower;  // C9 & CA = weed flowers
+		return ItemType::Flower;  // C9 & CA = weed flowers.
 	} else if (ID >= 0x00CE && ID <= 0x00F7) {
 		return ItemType::WiltedFlower;
 	} else if ((ID >= 0x0005 && ID <= 0x007B) || (ID >= 0x0080 && ID <= 0x0097)) {
@@ -88,7 +88,7 @@ ItemType ItemNL::itemtype() {
 	} else if (ID == 0x7FFC) {
 		return ItemType::Occupied;
 	} else {
-		// TODO: Find out offsets of Furniture's.
+		/* TODO: Find out offsets of Furniture's. */
 		return ItemType::Furniture;
 	}
 }

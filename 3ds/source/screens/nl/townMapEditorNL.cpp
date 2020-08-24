@@ -35,7 +35,7 @@
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
-// Bring that to other screens too.
+/* Bring that to other screens too. */
 extern SaveType savesType;
 
 void TownMapEditorNL::Draw(void) const {
@@ -61,11 +61,12 @@ void TownMapEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 // Initialize Screen.
 TownMapEditorNL::TownMapEditorNL() {
 	ItemUtils::LoadDatabase(savesType); // TODO: Handle this at Editor loading instead?
-	// Get Town Map Items.
+	/* Get Town Map Items. */
 	for (int i = 0; i < 5120; i++) {
 		this->MapItems[i] = save->town()->item(i);
 	}
-	// Get Full Acres.
+
+	/* Get Full Acres. */
 	for (int i = 0; i < 42; i++) {
 		this->FullAcres[i] = save->town()->acre(i);
 	}
@@ -148,7 +149,7 @@ void TownMapEditorNL::DrawGrid(void) const {
 	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
-				GFX::drawGrid(15 + (x*12.5), 20 + (y*12.5), 12.5, 12.5, ItemManager::getColor(this->MapItems[i]->itemtype()));
+				GFX::drawGrid(15 + (x * 12.5), 20 + (y * 12.5), 12.5, 12.5, ItemManager::getColor(this->MapItems[i]->itemtype()));
 			}
 		}
 	}
@@ -181,12 +182,12 @@ void TownMapEditorNL::convertToPosition() {
 	this->PositionY = (16 + acre * 16) + this->currentPosY;
 }
 
-// Convert to the Map Selection.
+/* Convert to the Map Selection. */
 void TownMapEditorNL::convertToSelection() {
 	this->MapSelection = (this->currentAcre * 256) + (this->currentPosY * 16) + this->currentPosX;
 }
 
-// Display a few information on the Top Screen.
+/* Display a few information on the Top Screen. */
 void TownMapEditorNL::DrawInformation() const {
 	for (int i = 0; i < 20; i++) {
 		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), townPos[i].x, townPos[i].y);
@@ -197,26 +198,26 @@ void TownMapEditorNL::DrawInformation() const {
 	Gui::drawGrid(townPos[this->currentAcre].x, townPos[this->currentAcre].y, townPos[this->currentAcre].w, townPos[this->currentAcre].h, BLACK);
 }
 
-// Draw the current Position of the selection.
+/* Draw the current Position of the selection. */
 void TownMapEditorNL::DrawCurrentPos(void) const {
 	Gui::drawGrid(15 + (this->currentPosX * 12.5), 20 + (this->currentPosY * 12.5), 12.5, 12.5, WHITE);
 }
 
-// Draw Town Map Editor screen.
+/* Draw Town Map Editor screen. */
 void TownMapEditorNL::DrawMapScreen(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_MAP_EDITOR"), 400, 0, font);
 	DrawInformation();
 
-	// Bottom Screen part. Grid & Acre.
+	/* Bottom Screen part. Grid & Acre. */
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom(true); // We need the full screen.
 	SpriteManagement::DrawAcres(FullAcres[SelectionToAcre(this->currentAcre)]->id(), 15, 20, 5, 5);
-	// Draw current Position + Grid.
+	/* Draw current Position + Grid. */
 	DrawGrid();
 	DrawCurrentPos();
 
-	// Draw the Operation Buttons.
+	/* Draw the Operation Buttons. */
 	for (int i = 0; i < 5; i++) {
 		GFX::DrawButton(mainButtons[i], 0.8f);
 	}
@@ -224,15 +225,15 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 	GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
 
 	if (this->selectMode == 0) {
-		GFX::DrawGUIBlend(gui_pointer_idx, mainButtons[this->selection].x+40, mainButtons[this->selection].y+13);
+		GFX::DrawGUIBlend(gui_pointer_idx, mainButtons[this->selection].x + 40, mainButtons[this->selection].y + 13);
 	} else {
-		GFX::DrawGUI(gui_pointer_idx, mainButtons[this->selection].x+40, mainButtons[this->selection].y+13);
+		GFX::DrawGUI(gui_pointer_idx, mainButtons[this->selection].x + 40, mainButtons[this->selection].y + 13);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
-// Inject the current Temp Item to a slot.
+/* Inject the current Temp Item to a slot. */
 void TownMapEditorNL::injectTo(int MapSlot) {
 	if (ItemUtils::getName(this->itemID) != "???") {
 		MapItems[MapSlot]->id(this->itemID);
@@ -241,7 +242,7 @@ void TownMapEditorNL::injectTo(int MapSlot) {
 	}
 }
 
-// Replace all Items which have the specified ID with Empty.
+/* Replace all Items which have the specified ID with Empty. */
 void TownMapEditorNL::remove(u16 ID) {
 	u32 removedAmount = 0;
 	for (int i = 0; i < 5120; i++) {
@@ -251,13 +252,13 @@ void TownMapEditorNL::remove(u16 ID) {
 		}
 	}
 
-	if (removedAmount > 0)	changes = true;
+	if (removedAmount > 0) changes = true;
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("REMOVED_ITEMS").c_str(), removedAmount);
 	Msg::DisplayWaitMsg(message);
 }
 
-// Remove all Weeds.
+/* Remove all Weeds. */
 void TownMapEditorNL::removeWeeds() {
 	u32 removedAmount = 0;
 	for (int i = 0; i < 5120; i++) {
@@ -267,13 +268,13 @@ void TownMapEditorNL::removeWeeds() {
 		}
 	}
 
-	if (removedAmount > 0)	changes = true;
+	if (removedAmount > 0) changes = true;
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("REMOVED_WEEDS").c_str(), removedAmount);
 	Msg::DisplayWaitMsg(message);
 }
 
-// Fill the Town with a specific Item.
+/* Fill the Town with a specific Item. */
 void TownMapEditorNL::setAll(u16 ID) {
 	if (ItemUtils::getName(ID) != "???") {
 		for (int i = 0; i < 5120; i++) {
@@ -287,7 +288,7 @@ void TownMapEditorNL::setAll(u16 ID) {
 	}
 }
 
-// Water all Flowers.
+/* Water all Flowers. */
 void TownMapEditorNL::waterFlowers() {
 	int wateredAmount = 0;
 	for (int i = 0; i < 5120; i++) {
@@ -297,13 +298,13 @@ void TownMapEditorNL::waterFlowers() {
 		}
 	}
 
-	if (wateredAmount > 0)	changes = true;
+	if (wateredAmount > 0) changes = true;
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("WATERED_FLOWERS").c_str(), wateredAmount);
 	Msg::DisplayWaitMsg(message);
 }
 
-// Replace all Items which start with the old ID to the new ID. Example: Replace all Empty slots with 99.000 Bells.
+/* Replace all Items which start with the old ID to the new ID. Example: Replace all Empty slots with 99.000 Bells. */
 void TownMapEditorNL::replace(u16 oldID, u16 newID) {
 	int replacedAmount = 0;
 	if (ItemUtils::getName(newID) != "???") {
@@ -315,13 +316,13 @@ void TownMapEditorNL::replace(u16 oldID, u16 newID) {
 		}
 	}
 
-	if (replacedAmount > 0)	changes = true;
+	if (replacedAmount > 0) changes = true;
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("REPLACED_ITEMS").c_str(), replacedAmount);
 	Msg::DisplayWaitMsg(message);
 }
 
-// Update Position, Selection & Acre Image only by navigating.
+/* Update Position, Selection & Acre Image only by navigating. */
 void TownMapEditorNL::updateStuff() {
 	convertToSelection();
 	convertToPosition();
@@ -332,13 +333,13 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		Gui::screenBack(doFade);
 	}
 
-	// Switch the select Mode from Town Map Selection to operation selection.
+	/* Switch the select Mode from Town Map Selection to operation selection. */
 	if (hDown & KEY_X) {
 		if (this->selectMode == 0) this->selectMode = 1;
 		else this->selectMode = 0;
 	}
 
-	// Inject Item and other operations.
+	/* Inject Item and other operations. */
 	if (hDown & KEY_A) {
 		if (this->selectMode == 0) {
 			injectTo(this->MapSelection);
@@ -364,7 +365,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		}
 	}
 
-	// Set current Item to selection.
+	/* Set current Item to selection. */
 	if (hDown & KEY_Y) {
 		if (this->selectMode == 0) {
 			this->itemID = this->MapItems[this->MapSelection]->id();
@@ -375,7 +376,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (this->selectMode == 0) {
 		if (hDown & KEY_RIGHT) {
 			if (this->currentPosX == 15 && this->currentAcre < 19) {
-				// Go one Acre next and reset X to 0.
+				/* Go one Acre next and reset X to 0. */
 				this->currentAcre++;
 				this->currentPosX = 0;
 				updateStuff();
@@ -387,7 +388,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 
 		if (hDown & KEY_LEFT) {
 			if (this->currentPosX == 0 && this->currentAcre > 0) {
-				// Go one Acre before.
+				/* Go one Acre before. */
 				this->currentAcre--;
 				this->currentPosX = 15;
 				updateStuff();
@@ -399,7 +400,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 
 		if (hDown & KEY_DOWN) {
 			if (this->currentPosY == 15 && this->currentAcre < 15) {
-				// Go one Acre down & reset Y to 0.
+				/* Go one Acre down & reset Y to 0. */
 				this->currentAcre += 5;
 				this->currentPosY = 0;
 				updateStuff();
@@ -411,7 +412,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 
 		if (hDown & KEY_UP) {
 			if (this->currentPosY == 0 && this->currentAcre > 4) {
-				// Go one Acre up.
+				/* Go one Acre up. */
 				this->currentAcre -= 5;
 				this->currentPosY = 15;
 				updateStuff();
@@ -444,7 +445,7 @@ void TownMapEditorNL::DrawTempItem(void) const {
 		GFX::DrawButton(tempItemPos[i], 0.8f);
 	}
 
-	// We have no other choice.
+	/* We have no other choice. */
 	Gui::DrawStringCentered(tempItemPos[0].x - 160 + (tempItemPos[0].xLength/2), tempItemPos[0].y + (tempItemPos[0].yLength/2) - 10, 0.9f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength-17, tempItemPos[0].yLength-5, font);
 	Gui::DrawStringCentered(tempItemPos[1].x - 160 + (tempItemPos[1].xLength/2), tempItemPos[1].y + (tempItemPos[1].yLength/2) - 10, 0.9f, BLACK, "Item Flags: " + std::to_string(this->itemFlag), tempItemPos[1].xLength-17, tempItemPos[1].yLength-5, font);
 	GFX::DrawGUI(gui_pointer_idx, tempItemPos[this->selection].x+130, tempItemPos[this->selection].y+25);
@@ -492,20 +493,19 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 /* Acre Editor Stuff. */
-
 void TownMapEditorNL::DrawAcres(void) const {
 	DrawTopSelection();
 	GodMode ? DrawFullMap() : DrawMap();
 }
 
-// Draw the Full TownMap. [Used by GodMode enabled.]
+/* Draw the Full TownMap. [Used by GodMode enabled.] */
 void TownMapEditorNL::DrawFullMap(void) const {
 	GFX::DrawBottom(true);
 	for (int i = 0; i < 42; i++) {
 		SpriteManagement::DrawAcres(this->FullAcres[i]->id(), acreMapPos[i].x, acreMapPos[i].y);
 	}
 
-	// Draw Grid.
+	/* Draw Grid. */
 	for (int i = 0; i < 42; i++) {
 		for (u32 y = 0; y < 6; y++) {
 			for (u32 x = 0; x < 7; x++, i++) {
@@ -518,27 +518,27 @@ void TownMapEditorNL::DrawFullMap(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
-// Draw smaller TownMap. (Only affects AC:NL.)
+/* Draw smaller TownMap. (Only affects AC:NL.) */
 void TownMapEditorNL::DrawMap(void) const {
 	GFX::DrawBottom(true);
 	for (int i = 0; i < 20; i++) {
 		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), acreTownPos[i].x, acreTownPos[i].y);
 	}
 
-	// Draw Grid.
+	/* Draw Grid. */
 	for (int i = 0; i < 20; i++) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::drawGrid(60 + (x*40), 40 + (y*40), 40, 40, C2D_Color32(40, 40, 40, 160));
+				Gui::drawGrid(60 + (x * 40), 40 + (y * 40), 40, 40, C2D_Color32(40, 40, 40, 160));
 			}
 		}
 	}
 
-	GFX::DrawGUI(gui_pointer_idx, acreTownPos[this->selection].x+20, acreTownPos[this->selection].y+20);
+	GFX::DrawGUI(gui_pointer_idx, acreTownPos[this->selection].x + 20, acreTownPos[this->selection].y + 20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
-// Draw the Acre Selection from the Top Screen.
+/* Draw the Acre Selection from the Top Screen. */
 void TownMapEditorNL::DrawTopSelection(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400, 0, font);
@@ -547,20 +547,24 @@ void TownMapEditorNL::DrawTopSelection(void) const {
 		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre+2, 350, 100, 1, 1);
+
 	} else if (this->selectedAcre == 1) {
 		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre+2, 350, 100, 1, 1);
+
 	} else if (this->selectedAcre == this->maxAcres-1) {
 		SpriteManagement::DrawAcres(this->selectedAcre-2, 10, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
+
 	} else if (this->selectedAcre == this->maxAcres) {
 		SpriteManagement::DrawAcres(this->selectedAcre-2, 10, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
+
 	} else {
 		SpriteManagement::DrawAcres(this->selectedAcre-2, 10, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre-1, 60, 100, 1, 1);
@@ -574,13 +578,13 @@ void TownMapEditorNL::DrawTopSelection(void) const {
 
 
 void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Go back to the Town Map Editor.
+	/* Go back to the Town Map Editor. */
 	if (hDown & KEY_B) {
 		this->selection = 0;
 		this->Mode = 0;
 	}
 
-	// Set Top Acre to Selection.
+	/* Set Top Acre to Selection. */
 	if (hDown & KEY_A) {
 		if (this->selectedAcre < 182 || this->selectedAcre > 205) {
 			if (GodMode) {
@@ -593,7 +597,7 @@ void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	// Display Selection on Top Acre.
+	/* Display Selection on Top Acre. */
 	if (hDown & KEY_Y) {
 		if (GodMode) {
 			this->selectedAcre = this->FullAcres[this->selection]->id();
@@ -630,8 +634,10 @@ void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selection > 0) this->selection--;
 	}
 
-	// Top Screen Acre Selection.
-	// Faster Scroll Mode.
+	/*
+		Top Screen Acre Selection.
+		Faster Scroll Mode.
+	*/
 	if (this->FastMode) {
 		if (keysHeld() & KEY_L) {
 			if (this->selectedAcre > 0) {
@@ -644,7 +650,7 @@ void TownMapEditorNL::AcresLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->selectedAcre++;
 			}
 		}
-		// Normal speed. (1 by 1.)
+		/* Normal speed. (1 by 1.) */
 	} else {
 		if (hDown & KEY_L) {
 			if (this->selectedAcre > 0) {

@@ -32,14 +32,14 @@
 #include <string>
 #include <unistd.h>
 
-// Used to add missing stuff for the JSON.
+/* Used to add missing stuff for the JSON. */
 void Config::addMissingThings() { }
 
-// In case it doesn't exist.
+/*  In case it doesn't exist. */
 void Config::initialize() {
-	// Create through fopen "Write".
+	/*  Create through fopen "Write". */
 	FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
-	// Set default values.
+	/*  Set default values. */
 	this->setBool("NewStyle", true);
 	this->setString("CurrentRelease", "");
 	this->setString("CurrentNightly", "");
@@ -47,7 +47,7 @@ void Config::initialize() {
 	this->setBool("Create_Backups", true);
 	this->setInt("Version", this->configVersion);
 
-	// Write to file.
+	/* Write to file. */
 	const std::string dump = this->json.dump(1, '\t');
 	fwrite(dump.c_str(), 1, this->json.dump(1, '\t').size(), file);
 	fclose(file); // Now we have the file and can properly access it.
@@ -63,11 +63,11 @@ Config::Config() {
 	fclose(file);
 
 	if (!this->json.contains("Version")) {
-		// Let us create a new one.
+		/* Let us create a new one. */
 		this->initialize();
 	}
 
-	// Here we add the missing things.
+	/* Here we add the missing things. */
 	if (this->json["Version"] < this->configVersion) {
 		this->addMissingThings();
 	}
@@ -112,18 +112,18 @@ Config::Config() {
 }
 
 
-// Write to config if changesMade.
+/* Write to config if changesMade. */
 void Config::save() {
 	if (this->changesMade) {
 		FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
-		// Set values.
+		/* Set values. */
 		this->setBool("NewStyle", this->newStyle());
 		this->setString("CurrentRelease", this->currentRelease());
 		this->setString("CurrentNightly", this->currentNightly());
 		this->setInt("Language", this->language());
 		this->setBool("Create_Backups", this->createBackups());
 		this->setInt("Version", this->version());
-		// Write changes to file.
+		/* Write changes to file. */
 		const std::string dump = this->json.dump(1, '\t');
 		fwrite(dump.c_str(), 1, this->json.dump(1, '\t').size(), file);
 		fclose(file);

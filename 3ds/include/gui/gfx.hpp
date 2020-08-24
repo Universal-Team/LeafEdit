@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef GFX_HPP
-#define GFX_HPP
+#ifndef _LEAFEDIT_GFX_HPP
+#define _LEAFEDIT_GFX_HPP
 
 #include "gui.hpp"
 #include "spriteIDs.h"
@@ -36,13 +36,13 @@
 #include <string>
 #include <vector>
 
-// Default colors i guess.
+/* Default colors i guess. */
 #define DIM C2D_Color32(0, 0, 0, 190)
 #define WHITE C2D_Color32(255, 255, 255, 255)
 #define BLACK C2D_Color32(0, 0, 0, 255)
 #define TRANSPARENT C2D_Color32(0, 0, 0, 0)
 
-// Green tones.
+/* Green tones. */
 #define DARKER_GREEN				C2D_Color32(14, 73, 32, 255)
 #define LIGHT_GREEN					C2D_Color32(23, 121, 53, 255)
 #define LIGHTER_GREEN				C2D_Color32(23, 145, 53, 255)
@@ -51,7 +51,7 @@
 
 extern u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR;
 
-// Button Type.
+/* Button Type. */
 struct ButtonType {
 	int x;
 	int y;
@@ -61,17 +61,17 @@ struct ButtonType {
 };
 
 namespace GFX {
-	// Draw Sprites.
+	/* Draw Sprites. */
 	void DrawGUI(int img, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawGUIBlend(int img, int x, int y, float ScaleX = 1, float ScaleY = 1, u32 color = C2D_Color32(0, 0, 0, 180));
 	void DrawSelector(bool top, int y);
 	void DrawBtn(int x, int y, int xLength, int yLength);
-	// Draw basic GUI.
+	/* Draw basic GUI. */
 	void DrawTop(bool useBars = true, bool fullscreen = false);
 	void DrawBottom(bool fullscreen = false);
 	void DrawFileBrowseBG(bool isTop = true);
 
-	// Selection from list.
+	/* Selection from list. */
 	int ListSelection(int current, const std::vector<std::string> list, const std::string Msg);
 
 	void DrawButton(const ButtonType button, float TextSize = 0.9f);

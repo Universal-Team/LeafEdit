@@ -28,54 +28,57 @@
 #include "stringUtils.hpp"
 #include "TownNL.hpp"
 
-// Grasstype.
-u8 TownNL::grasstype() {
-	return townPointer()[0x80+0x04da01];
+/* Grasstype. */
+u8 TownNL::grasstype() const {
+	return townPointer()[0x80 + 0x04DA01];
 }
 void TownNL::grasstype(u8 v) {
-	SaveUtils::Write<u8>(this->townPointer(), 0x80+0x04da01, v);
+	SaveUtils::Write<u8>(this->townPointer(), 0x80 + 0x04DA01, v);
 }
 
-// Town Name.
-std::u16string TownNL::name() {
-	return StringUtils::ReadUTF16String(townPointer(), 0x80+0x05c73a, 8);
+/* Town Name. */
+std::u16string TownNL::name() const {
+	return StringUtils::ReadUTF16String(townPointer(), 0x80 + 0x05C73A, 8);
 }
 void TownNL::name(std::u16string v) {
-	StringUtils::WriteUTF16String(townPointer(), v, 0x80+0x05c73a, 8);
+	StringUtils::WriteUTF16String(townPointer(), v, 0x80 + 0x05C73A, 8);
 }
 
-// Town Acre.
-std::unique_ptr<Acre> TownNL::acre(int Acre) {
-	if (Acre > 41)	return nullptr; // Acre Index goes out of scope.
-	return std::make_unique<AcreNL>(data, 0x80+0x04da04 + Acre *2);
+/* Town Acre. */
+std::unique_ptr<Acre> TownNL::acre(int Acre) const {
+	if (Acre > 41) return nullptr; // Acre Index goes out of scope.
+	return std::make_unique<AcreNL>(data, 0x80 + 0x04DA04 + Acre * 2);
 }
 
-// Town Item.
-std::unique_ptr<Item> TownNL::item(u32 index) {
-	if (index > 5119)	return nullptr; // Item Index goes out of scope.
-	return std::make_unique<ItemNL>(data, 0x80+0x04da58 + index * 4);
+/* Town Item. */
+std::unique_ptr<Item> TownNL::item(u32 index) const {
+	if (index > 5119) return nullptr; // Item Index goes out of scope.
+	return std::make_unique<ItemNL>(data, 0x80 + 0x04DA58 + index * 4);
 }
 
-// Return if Town exist.
-bool TownNL::exist() {
+/* Return if Town exist. */
+bool TownNL::exist() const {
 	return true; // TODO?
 }
 
-// Turnip prices.
-u32 TownNL::turnipPrices(bool isAM, int day) {
+/* Turnip prices. */
+u32 TownNL::turnipPrices(bool isAM, int day) const {
 	if (day > 5) return 0; // Out of scope.
-	this->v_turnipPrices[isAM ? day : 6 + day] = EncryptedInt32(SaveUtils::Read<u64>(townPointer(), isAM ? (0x80 + 0x06535c) + day * 16 : (0x80 + 0x06535c) + day * 16 + 8));
+
+	this->v_turnipPrices[isAM ? day : 6 + day] = EncryptedInt32(SaveUtils::Read<u64>(townPointer(), isAM ? (0x80 + 0x06535C) + day * 16 : (0x80 + 0x06535C) + day * 16 + 8));
 	return this->v_turnipPrices[isAM ? day : 6 + day].value;
 }
 void TownNL::turnipPrices(bool isAM, int day, u32 v) {
 	if (day > 5) return; // Out of scope.
+
 	this->v_turnipPrices[isAM ? day : 6 + day].value = v; // Set Value.
 	u32 encryptedInt = 0, encryptionData = 0;
 	this->v_turnipPrices[isAM ? day : 6 + day].encrypt(encryptedInt, encryptionData);
-	SaveUtils::Write<u32>(townPointer(), isAM ? (0x80 + 0x06535c) + day * 16 : (0x80 + 0x06535c) + day * 16 + 8, encryptedInt);
-	SaveUtils::Write<u32>(townPointer(), isAM ? (0x80 + 0x06535c) + day * 16 + 0x4 : (0x80 + 0x06535c) + day * 16 + 8 + 0x4, encryptionData);
+	SaveUtils::Write<u32>(townPointer(), isAM ? (0x80 + 0x06535C) + day * 16 : (0x80 + 0x06535C) + day * 16 + 8, encryptedInt);
+	SaveUtils::Write<u32>(townPointer(), isAM ? (0x80 + 0x06535C) + day * 16 + 0x4 : (0x80 + 0x06535C) + day * 16 + 8 + 0x4, encryptionData);
 }
 
-std::unique_ptr<Pattern> TownNL::townflag() {
+/* Town flag. */
+std::unique_ptr<Pattern> TownNL::townflag() const {
 	return std::make_unique<PatternNL>(this->data, 0x6B4EC);
 }

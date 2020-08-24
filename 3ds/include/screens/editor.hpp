@@ -53,18 +53,18 @@ private:
 	void Saving();
 	std::string saveName;
 
-	std::vector<ButtonType> mainButtons = {
+	const std::vector<ButtonType> mainButtons = {
 		{95, 34, 130, 48, "PLAYER"},
 		{95, 97, 130, 48, "VILLAGER"},
 		{95, 159, 130, 48, "MISC_EDITOR"}
 	};
 
-	std::vector<Structs::ButtonPos> icons = {
+	const std::vector<Structs::ButtonPos> icons = {
 		{286, 213, 27, 27},
 		{6, 219, 20, 20}
 	};
 
-	// 3DS specific struct.
+	/* 3DS specific struct. */
 	Region_Lock RegionLock;
 };
 

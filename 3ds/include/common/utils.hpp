@@ -24,13 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef _LEAFEDIT_UTILS_HPP
+#define _LEAFEDIT_UTILS_HPP
 
 #include "common.hpp"
 #include <citro2d.h>
 
-// Download stuff.
+/* Download stuff. */
 namespace Utils {
 	bool matchPattern(std::string pattern, std::string tested);
 }
@@ -40,9 +40,8 @@ namespace Utils {
 	GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGBA8) | \
 	GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
 
-// Citro2D Utils for C2D_Image.
-namespace C2DUtils
-{
+/* Citro2D Utils for C2D_Image. */
+namespace C2DUtils {
 	C2D_Image ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat);
 	void C2D_ImageDelete(C2D_Image image);
 }

@@ -44,7 +44,7 @@ extern "C" {
 #ifdef __cplusplus
 }
 
-// This is the new "screenCommon.hpp", lol.
+/* This is the new "screenCommon.hpp", lol. */
 #include "config.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
@@ -58,7 +58,7 @@ extern "C" {
 #include <memory>
 #endif
 
-// Title IDs.
+/* Title IDs. */
 #define OldJPN				0x0004000000086200
 #define OldUSA				0x0004000000086300
 #define OldEUR				0x0004000000086400
@@ -71,7 +71,7 @@ extern "C" {
 
 #define WelcomeLuxury		0x00040000004C5700
 
-// GodMode and whatnot.
+/* GodMode and whatnot. */
 extern bool changes, doFade, Debug, GodMode;
 extern int barOffset;
 extern C2D_Font font;

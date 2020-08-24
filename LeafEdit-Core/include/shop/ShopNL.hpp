@@ -42,8 +42,10 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~ShopNL() {}
-	ShopNL(std::shared_ptr<u8[]> shopData, u32 offset) : Shop(shopData, offset), Offset(offset), data(shopData) { }
-	std::unique_ptr<Pattern> ableSisterPattern(int pattern) override;
+	ShopNL(std::shared_ptr<u8[]> shopData, u32 offset) :
+		Shop(shopData, offset), Offset(offset), data(shopData) { }
+
+	std::unique_ptr<Pattern> ableSisterPattern(int pattern) const override;
 private:
 	u8* shopPointer() const {
 		return data.get() + Offset;

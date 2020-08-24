@@ -64,7 +64,6 @@ namespace Overlays {
 
 	std::string SelectDestination(std::string Text, std::string initialPath, std::string defaultDest);
 	std::string RomfsSDOverlay(std::vector<std::string> extensions, std::string SDPath, std::string romfsPath, std::string Text);
-
 }
 
 #endif

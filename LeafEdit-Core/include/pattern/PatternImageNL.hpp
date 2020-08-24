@@ -36,24 +36,18 @@ protected:
 	u32 pltOffset;
 public:
 	virtual ~PatternImageNL() {}
-	PatternImageNL(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) : PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) {
-		this->valid = true; // TODO: Handle that differently?
-	}
+	PatternImageNL(std::shared_ptr<u8[]> dt, u32 patternOffset, u32 paletteOffset) :
+		PatternImage(), data(dt), ptrnOffset(patternOffset), pltOffset(paletteOffset) { }
 
-	bool isValid() override { return this->valid; }
-
-	u8 getPaletteColor(u8 plt) override;
-	int getWWPaletteIndex() override;
+	bool isValid() const override { return this->valid; }
+	u8 getPaletteColor(u8 plt) const override;
+	int getWWPaletteIndex() const override;
 	void setPaletteColor(int index, u8 color) override;
-	pixel getPixel(int pixel) override;
+	pixel getPixel(int pixel) const override;
 	void setPixel(int index, int color) override;
 	void setPixel(int x, int y, int color) override;
 private:
-	bool valid = false;
-	
-	u8* patternData() const {
-		return this->data.get() + ptrnOffset;
-	}
+	bool valid = true;
 
 	pixel *pixelPointer() const {
 		return (pixel *)(data.get() + ptrnOffset);

@@ -26,7 +26,7 @@
 
 #include "formatting.hpp"
 
-// adapted from GM9i's byte parsing.
+/* adapted from GM9i's byte parsing. */
 std::string formatBytes(int bytes) {
 	char out[32];
 	if (bytes == 1)

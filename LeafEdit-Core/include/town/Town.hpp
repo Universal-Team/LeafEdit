@@ -35,7 +35,7 @@
 #include <memory>
 #include <vector>
 
-// TODO: Make a use of this? Keep it? Remove it?
+/* TODO: Make a use of this? Keep it? Remove it? */
 enum class TurnipDays {
 	Monday,
 	Tuesday,
@@ -57,16 +57,16 @@ public:
 	Town(const Town& town) = delete;
 	Town& operator=(const Town& town) = delete;
 
-	virtual u8 grasstype() = 0;
+	virtual u8 grasstype() const = 0;
 	virtual void grasstype(u8 v) = 0;
-	virtual std::u16string name() = 0;
+	virtual std::u16string name() const = 0;
 	virtual void name(std::u16string v) = 0;
-	virtual std::unique_ptr<Acre> acre(int Acre) = 0;
-	virtual std::unique_ptr<Item> item(u32 index) = 0;
-	virtual bool exist() = 0;
-	virtual u32 turnipPrices(bool isAM, int day) = 0;
+	virtual std::unique_ptr<Acre> acre(int Acre) const = 0;
+	virtual std::unique_ptr<Item> item(u32 index) const = 0;
+	virtual bool exist() const = 0;
+	virtual u32 turnipPrices(bool isAM, int day) const = 0;
 	virtual void turnipPrices(bool isAM, int day, u32 v) = 0;
-	virtual std::unique_ptr<Pattern> townflag() = 0;
+	virtual std::unique_ptr<Pattern> townflag() const = 0;
 };
 
 #endif

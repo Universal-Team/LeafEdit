@@ -27,10 +27,12 @@
 #include "AcreNL.hpp"
 #include "saveUtils.hpp"
 
-// 155 & 165 are part of Welcome Amiibo.
+/*
+	155 & 165 are part of Welcome Amiibo.
+	Acre ID.
+*/
 
-// Acre ID.
-u8 AcreNL::id() {
+u8 AcreNL::id() const {
 	return acrePointer()[0];
 }
 void AcreNL::id(u8 v) {

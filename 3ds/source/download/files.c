@@ -8,14 +8,14 @@ FS_Path getPathInfo(const char * path, FS_ArchiveID * archive) {
 	if (!strncmp(path, "sdmc:/", 6)) {
 		prefixlen = 5;
 	} else if (*path != '/') {
-		//if the path is local (doesnt start with a slash), it needs to be appended to the working dir to be valid
+		/* if the path is local (doesnt start with a slash), it needs to be appended to the working dir to be valid. */
 		char * actualPath = NULL;
 		asprintf(&actualPath, "%s%s", WORKING_DIR, path);
 		filePath = fsMakePath(PATH_ASCII, actualPath);
 		free(actualPath);
 	}
 
-	//if the filePath wasnt set above, set it
+	/* if the filePath wasnt set above, set it. */
 	if (filePath.size == 0) filePath = fsMakePath(PATH_ASCII, path+prefixlen);
 
 	return filePath;
@@ -29,7 +29,7 @@ Result makeDirs(const char * path) {
 
 	ret = FSUSER_OpenArchive(&archive, archiveID, fsMakePath(PATH_EMPTY, ""));
 
-	for (char * slashpos = strchr(path+1, '/'); slashpos != NULL; slashpos = strchr(slashpos+1, '/')) {
+	for (char * slashpos = strchr(path + 1, '/'); slashpos != NULL; slashpos = strchr(slashpos + 1, '/')) {
 		char bak = *(slashpos);
 		*(slashpos) = '\0';
 		Handle dirHandle;

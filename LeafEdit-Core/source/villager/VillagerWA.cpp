@@ -27,55 +27,55 @@
 #include "saveUtils.hpp"
 #include "VillagerWA.hpp"
 
-// Villager ID.
-u16 VillagerWA::id() {
+/* Villager ID. */
+u16 VillagerWA::id() const {
 	return SaveUtils::Read<u16>(villagerPointer(), 0x0);
 }
 void VillagerWA::id(u16 v) {
 	SaveUtils::Write<u16>(villagerPointer(), 0x0, v);
 }
 
-// Check if the Villager exist.
-bool VillagerWA::exist() {
-	if (this->id() == 0xFFFF)	return false;
+/* Check if the Villager exist. */
+bool VillagerWA::exist() const {
+	if (this->id() == 0xFFFF) return false;
 	return true;
 }
 
-// Villager Personality.
-u8 VillagerWA::personality() {
+/* Villager Personality. */
+u8 VillagerWA::personality() const {
 	return villagerPointer()[0x2];
 }
 void VillagerWA::personality(u8 v) {
 	SaveUtils::Write<u8>(this->villagerPointer(), 0x2, v);
 }
 
-// Villager Song.
-std::unique_ptr<Item> VillagerWA::song() {
+/* Villager Song. */
+std::unique_ptr<Item> VillagerWA::song() const {
 	return std::make_unique<ItemWA>(data, offset + 0x2472);
 }
 
-// Villager Shirt.
-std::unique_ptr<Item> VillagerWA::shirt() {
+/* Villager Shirt. */
+std::unique_ptr<Item> VillagerWA::shirt() const {
 	return std::make_unique<ItemWA>(data, offset + 0x246E);
 }
 
-// Villager Wallpaper.
-std::unique_ptr<Item> VillagerWA::wallpaper() {
+/* Villager Wallpaper. */
+std::unique_ptr<Item> VillagerWA::wallpaper() const {
 	return std::make_unique<ItemWA>(data, offset + 0x2476);
 }
 
-// Villager Carpet.
-std::unique_ptr<Item> VillagerWA::carpet() {
+/* Villager Carpet. */
+std::unique_ptr<Item> VillagerWA::carpet() const {
 	return std::make_unique<ItemWA>(data, offset + 0x247A);
 }
 
-// Villager Umbrella.
-std::unique_ptr<Item> VillagerWA::umbrella() {
+/* Villager Umbrella. */
+std::unique_ptr<Item> VillagerWA::umbrella() const {
 	return std::make_unique<ItemWA>(data, offset + 0x247E);
 }
 
-// Villager Furniture.
-std::unique_ptr<Item> VillagerWA::furniture(int slot) {
-	if (slot > 15)	return nullptr;
+/* Villager Furniture. */
+std::unique_ptr<Item> VillagerWA::furniture(int slot) const {
+	if (slot > 15) return nullptr;
 	return std::make_unique<ItemWA>(data, offset + 0x2482 + slot * 4);
 }

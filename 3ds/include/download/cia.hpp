@@ -1,5 +1,5 @@
-#ifndef CIA_HPP
-#define CIA_HPP
+#ifndef _LEAFEDIT_CIA_HPP
+#define _LEAFEDIT_CIA_HPP
 
 #include "common.hpp"
 

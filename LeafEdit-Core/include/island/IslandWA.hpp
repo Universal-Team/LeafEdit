@@ -46,10 +46,11 @@ protected:
 	std::shared_ptr<u8[]> data;
 public:
 	virtual ~IslandWA() {}
-	IslandWA(std::shared_ptr<u8[]> islandData) : Island(islandData), data(islandData) {}
+	IslandWA(std::shared_ptr<u8[]> islandData) :
+		Island(islandData), data(islandData) {}
 
-	std::unique_ptr<Acre> acre(int Acre) override;
-	std::unique_ptr<Item> item(u32 index) override;
+	std::unique_ptr<Acre> acre(int Acre) const override;
+	std::unique_ptr<Item> item(u32 index) const override;
 private:
 	u8* islandPointer() const {
 		return data.get();

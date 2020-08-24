@@ -43,7 +43,7 @@ private:
 	u16 viewerIndex = 0;
 	void update();
 
-	std::vector<Structs::ButtonPos> villagers = {
+	const std::vector<Structs::ButtonPos> villagers = {
 		{15, 50, 48, 48},
 		{73, 50, 48, 48},
 		{131, 50, 48, 48},

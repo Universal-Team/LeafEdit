@@ -41,7 +41,7 @@ extern std::shared_ptr<Sav> save;
 #define TESTPATH "sdmc:/nogba/Battery/EUR.sav"
 
 void doStuff() {
-	// Here we open the file and get the SaveType.
+	/* Here we open the file and get the SaveType. */
 	save = nullptr;
 	FILE* in = fopen(TESTPATH, "rb");
 	if (in) {
@@ -54,23 +54,23 @@ void doStuff() {
 		save = Sav::getSave(saveData, size);
 	}
 
-	// Could not open file or savetype invalid, exit.
+	/* Could not open file or savetype invalid, exit. */
 	if (!save) {
 		Msg::DisplayWarnMsg("Save is !save.");
 		exiting = true;
 		return;
 	}
 
-	// And now we update the checksum at the end and write to file.
+	/* And now we update the checksum at the end and write to file. */
 	save->Finish();
 	FILE* out = fopen(TESTPATH, "rb+");
 	fwrite(save->rawData().get(), 1, save->getLength(), out);
 	fclose(out);
-	// Exit.
+	/* Exit. */
 	exiting = true;
 }
 
-// Whole Testing stuff.
+/* Whole Testing stuff. */
 MainMenu::MainMenu() {
 	//doStuff();
 }
@@ -83,7 +83,7 @@ void MainMenu::Draw(void) const {
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x+100, mainButtons[i].y+30);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -91,14 +91,21 @@ void MainMenu::Draw(void) const {
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	// Navigation.
+	/* Navigation. */
+
 	if (hDown & KEY_UP) {
 		if (Selection > 1)	Selection -= 2;
-	} else if (hDown & KEY_DOWN) {
+	}
+	
+	if (hDown & KEY_DOWN) {
 		if (Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
-	} else if (hDown & KEY_LEFT) {
+	}
+	
+	if (hDown & KEY_LEFT) {
 		if (Selection%2) Selection--;
-	} else if (hDown & KEY_RIGHT) {
+	}
+	
+	if (hDown & KEY_RIGHT) {
 		if (!(Selection%2)) Selection++;
 	}
 

@@ -24,24 +24,24 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SPRITEMANAGEMENT_HPP
-#define SPRITEMANAGEMENT_HPP
+#ifndef _LEAFEDIT_SPRITE_MANAGEMENT_HPP
+#define _LEAFEDIT_SPRITE_MANAGEMENT_HPP
 
 #include <3ds.h>
 #include <string>
 
 namespace SpriteManagement {
-	// Draw Hairs.
+	/* Draw Hairs. */
 	void DrawHair(u8 hair, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Faces.
+	/* Draw Faces. */
 	void DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Items.
+	/* Draw Items. */
 	void DrawItem(u8 itemCategory, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Acres.
+	/* Draw Acres. */
 	void DrawAcres(u8 acreID, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Villagers.
+	/* Draw Villagers. */
 	void DrawVillager(u16 villagerID, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	// Draw Badges.
+	/* Draw Badges. */
 	void DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float ScaleX = 1, float ScaleY = 1);
 }
 

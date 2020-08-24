@@ -44,13 +44,14 @@ class PatternWW;
 class PlayerWW : public Player {
 protected:
 	std::shared_ptr<u8[]> data;
-	u32 offset; // Offset to the Player.
+	u32 offset;
 	WWRegion region;
 	int Index;
 public:
-	// Constructor, Destructor and stuff.
 	virtual ~PlayerWW() {}
-	PlayerWW(std::shared_ptr<u8[]> playerData, u32 playerOffset, WWRegion Region, int index) : Player(playerData, playerOffset, index), data(playerData), offset(playerOffset), region(Region), Index(index) { }
+	PlayerWW(std::shared_ptr<u8[]> playerData, u32 playerOffset, WWRegion Region, int index) :
+			Player(playerData, playerOffset, index), data(playerData), offset(playerOffset), region(Region), Index(index) { }
+			
 	u32 getPlayerSize() const override {
 		switch(this->region) {
 			case WWRegion::USA_REV0:
@@ -69,46 +70,46 @@ public:
 	}
 
 
-	u8 face() override;
+	u8 face() const override;
 	void face(u8 v) override;
-	u8 gender() override;
+	u8 gender() const override;
 	void gender(u8 v) override;
-	u16 tan() override;
+	u16 tan() const override;
 	void tan(u16 v) override;
-	u8 hairstyle() override;
+	u8 hairstyle() const override;
 	void hairstyle(u8 v) override;
-	u8 haircolor() override;
+	u8 haircolor() const override;
 	void haircolor(u8 v) override;
-	u8 eyecolor() override;
+	u8 eyecolor() const override;
 	void eyecolor(u8 v) override;
-	u8 badge(int badge) override;
+	u8 badge(int badge) const override;
 	void badge(int badge, u8 v) override;
-	u16 playerid() override;
+	u16 playerid() const override;
 	void playerid(u16 v) override;
-	u16 townid() override;
+	u16 townid() const override;
 	void townid(u16 v) override;
-	std::u16string townname() override;
+	std::u16string townname() const override;
 	void townname(std::u16string v) override;
-	bool exist() override;
-	std::u16string name() override;
+	bool exist() const override;
+	std::u16string name() const override;
 	void name(std::u16string v) override;
-	u32 wallet() override;
+	u32 wallet() const override;
 	void wallet(u32 v) override;
-	u32 bank() override;
+	u32 bank() const override;
 	void bank(u32 v) override;
-	u32 islandmedals() override;
+	u32 islandmedals() const override;
 	void islandmedals(u32 v) override;
-	u32 coupons() override;
+	u32 coupons() const override;
 	void coupons(u32 v) override;
 	
-	std::unique_ptr<Item> pocket(int slot) override;
-	std::unique_ptr<Item> dresser(int slot) override;
-	std::unique_ptr<Item> islandbox(int slot) override { return nullptr; };
-	std::unique_ptr<Item> storage(int slot) override { return nullptr; };
-	std::unique_ptr<Pattern> pattern(int slot) override;
+	std::unique_ptr<Item> pocket(int slot) const override;
+	std::unique_ptr<Item> dresser(int slot) const override;
+	std::unique_ptr<Item> islandbox(int slot) const override { return nullptr; };
+	std::unique_ptr<Item> storage(int slot) const override { return nullptr; };
+	std::unique_ptr<Pattern> pattern(int slot) const override;
 
-	u8 *tpcImage() override;
-	bool hasTPC() override { return false; }
+	u8 *tpcImage() const override;
+	bool hasTPC() const override { return false; }
 private:
 	u8* playerPointer() const {
 		return data.get() + offset;

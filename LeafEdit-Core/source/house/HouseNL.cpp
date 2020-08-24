@@ -27,7 +27,7 @@
 #include "HouseNL.hpp"
 #include "saveUtils.hpp"
 
-// Get a room.
-std::unique_ptr<Room> HouseNL::room(int room) {
+/* Get a room. */
+std::unique_ptr<Room> HouseNL::room(int room) const {
 	return nullptr;
 }

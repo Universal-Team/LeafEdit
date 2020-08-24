@@ -66,11 +66,11 @@ struct ItemKind_s {
 };
 
 namespace ItemUtils {
-	// Read Database.
+	/* Read Database. */
 	void LoadDatabase(SaveType save);
 	std::string getName(u16 ID); // Get an Item's name.
 
-	// Item Kind stuff, here.
+	/* Item Kind stuff for AC:NL | AC:WA here. */
 	void loadItemBins();
 	void closeItemBins();
 	FILE* GetItemBin(void);

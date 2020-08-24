@@ -42,7 +42,7 @@ public:
 	Room(const Room& room) = delete;
 	Room& operator=(const Room& room) = delete;
 
-	virtual u32 debts() = 0;
+	virtual u32 debts() const = 0;
 	virtual void debts(u32 v) = 0;
 };
 
@@ -56,7 +56,7 @@ public:
 	House(const House& house) = delete;
 	House& operator=(const House& house) = delete;
 
-	virtual std::unique_ptr<Room> room(int room) = 0;
+	virtual std::unique_ptr<Room> room(int room) const = 0;
 };
 
 #endif

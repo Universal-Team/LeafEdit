@@ -66,15 +66,15 @@ EncryptedInt32::EncryptedInt32(u32 intLow, u32 intHigh) {
 EncryptedInt32::EncryptedInt32(u64 encryptedInt)
 	: EncryptedInt32(static_cast<u32>(encryptedInt & 0xFFFFFFFF), static_cast<u32>((encryptedInt >> 32) & 0xFFFFFFFF)) { }
 
-u8 EncryptedInt32::calculateChecksum(u32 intLow) {
+u8 EncryptedInt32::calculateChecksum(u32 intLow) const {
 	return static_cast<u8>(((intLow & 0xFF) + ((intLow >> 8) & 0xFF) + ((intLow >> 16) & 0xFF) + ((intLow >> 24) & 0xFF) + 0xBA) & 0xFF);
 }
 
-u32 EncryptedInt32::decrypt(u64 encryptedInt) {
+u32 EncryptedInt32::decrypt(u64 encryptedInt) const {
 	return EncryptedInt32::decrypt(static_cast<u32>(encryptedInt & 0xFFFFFFFF), static_cast<u32>((encryptedInt >> 32) & 0xFFFFFFFF));
 }
 
-u32 EncryptedInt32::decrypt(u32 intLow, u32 intHigh) {
+u32 EncryptedInt32::decrypt(u32 intLow, u32 intHigh) const {
 	u16 adjustValue = static_cast<u16>(intHigh & 0xFFFF);
 	u8 shiftValue = static_cast<u8>((intHigh >> 16) & 0xFF);
 	u8 checksum = static_cast<u8>((intHigh >> 24) & 0xFF);

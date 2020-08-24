@@ -24,13 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#ifndef _LEAFEDIT_INIT_HPP
+#define _LEAFEDIT_INIT_HPP
 
 #include <3ds.h>
 
 namespace Init {
-	// Load & Unload Sheets & Font.
+	/* Load & Unload Sheets & Font. */
 	Result loadSheets();
 	Result loadFont();
 	Result unloadSheets();
@@ -38,7 +38,7 @@ namespace Init {
 	
 	Result CheckSheets();
 
-	// Init, Mainloop & Exit.
+	/* Init, Mainloop & Exit. */
 	Result Init();
 	Result Initialize();
 	Result MainLoop();

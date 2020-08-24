@@ -38,18 +38,18 @@ static inline u32 Pow2(u32 x) {
 	return 1u << (32 - __builtin_clz(x - 1));
 }
 
-// Convert RAW Data to C2D_Image.
+/* Convert RAW Data to C2D_Image. */
 C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, GPU_TEXCOLOR colorFormat) {
 
 	u32		widthPow2 = Pow2(width);
 	u32		heightPow2 = Pow2(height);
 	u32*	buffer = (u32 *)linearAlloc(sizeof(u32) * widthPow2 * heightPow2);
 
-	// Clear buffer.
+	/* Clear buffer. */
 	C3D_SyncMemoryFill(buffer, 0, (u32 *)((u8 *)buffer + (sizeof(u32) * widthPow2 * heightPow2)), BIT(0) | GX_FILL_32BIT_DEPTH, nullptr, 0, nullptr, 0);
 	GSPGPU_FlushDataCache(buffer, widthPow2 * heightPow2 * sizeof(u32));
 
-	// Copy Data.
+	/* Copy Data. */
 	u32 *dst = buffer;
 	u32 *src = imageData;
 
@@ -92,7 +92,7 @@ C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, G
 	return image;
 }
 
-// Delete | free's a C2D_Image.
+/* Delete | free's a C2D_Image. */
 void C2DUtils::C2D_ImageDelete(C2D_Image image) {
 	if (image.tex != nullptr && image.subtex != nullptr) {
 		C3D_TexDelete(image.tex);

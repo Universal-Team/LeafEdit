@@ -66,9 +66,10 @@ static void Draw(int itemIndex, std::vector<std::pair<u16, std::string>> itmList
 		itemList += "\n";
 	}
 
-	// Selector Logic.
+	/* Selector Logic. */
 	if (itemIndex < 9) GFX::DrawSelector(true, 24 + (itemIndex * 21));
 	else GFX::DrawSelector(true, 24 + (8 * 21));
+
 	Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(itemIndex + 1) + " | " + std::to_string(itmList.size()), 395, 0, font);
 
@@ -80,7 +81,7 @@ static void Draw(int itemIndex, std::vector<std::pair<u16, std::string>> itmList
 
 Structs::ButtonPos searchBtn = {295, 3, 20, 20};
 
-// Select an Item.
+/* Select an Item. */
 u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv) {
 	std::vector<std::pair<u16, std::string>> itemList = itemDB;
 	int itemIndex = ItemManager::getIndex(oldID); int keyRepeatDelay = 0;

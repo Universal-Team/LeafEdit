@@ -34,8 +34,9 @@
 
 extern std::shared_ptr<Sav> save;
 
-// Hair RGB Colors [NL / WA].
 /*
+	Hair RGB Colors [NL / WA].
+
 	Dark Brown -> 89, 58, 56.
 	Light Brown -> 147, 89, 41.
 	Orange -> 239, 87, 46.
@@ -54,8 +55,9 @@ extern std::shared_ptr<Sav> save;
 	Ash Brown -> 122, 121, 90.
 */
 
-// Hair RGB Colors [WW].
 /*
+	Hair RGB Colors [WW].
+
 	Dark Brown -> 128, 70, 27
 	Light Brown -> 210, 105, 30
 	Orange -> 255, 69, 0
@@ -66,7 +68,7 @@ extern std::shared_ptr<Sav> save;
 	White -> 220, 220, 220
 */
 
-// Get Hair & Eye color.
+/* Get Hair & Eye color. */
 u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 	switch(save) {
 		case SaveType::WW:
@@ -90,6 +92,7 @@ u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 				default:
 					return C2D_Color32(0, 0, 0, 0);
 			}
+
 		case SaveType::NL:
 		case SaveType::WA:
 			switch(hairColor) {
@@ -126,14 +129,17 @@ u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 				default:
 					return C2D_Color32(0, 0, 0, 0);
 			}
+
 		case SaveType::UNUSED:
 			return C2D_Color32(0, 0, 0, 0);
 	}
+
 	return C2D_Color32(0, 0, 0, 0);
 }
 
-// Eye RGB Colors [NL / WA].
 /*
+	Eye RGB Colors [NL / WA].
+
 	0 -> 50, 54, 39.
 	1 -> 205, 114, 70.
 	2 -> 91, 151, 115.
@@ -142,32 +148,27 @@ u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 	5 -> 63, 136, 189.
 */
 
-// Only available in New Leaf / Welcome Amiibo.
+/* Only available in New Leaf / Welcome Amiibo. */
 u32 PlayerManagement::getEyeColor(u8 eyeColor) {
-	if (eyeColor == 0) {
-		return C2D_Color32(50, 54, 39, 255);
+	switch(eyeColor) {
+		case 0:
+			return C2D_Color32(50, 54, 39, 255);
+		case 1:
+			return C2D_Color32(205, 114, 70, 255);
+		case 2:
+			return C2D_Color32(91, 151, 115, 255);
+		case 3:
+			return C2D_Color32(109, 134, 128, 255);
+		case 4:
+			return C2D_Color32(96, 128, 196, 255);
+		case 5:
+			return C2D_Color32(63, 136, 189, 255);
 	}
-	 else if (eyeColor == 1) {
-		return C2D_Color32(205, 114, 70, 255);
-	}
-	 else if (eyeColor == 2) {
-		return C2D_Color32(91, 151, 115, 255);
-	}
-	 else if (eyeColor == 3) {
-		return C2D_Color32(109, 134, 128, 255);
-	}
-	 else if (eyeColor == 4) {
-		return C2D_Color32(96, 128, 196, 255);
-	}
-	 else if (eyeColor == 5) {
-		return C2D_Color32(63, 136, 189, 255);
-	}
-	 else {
-		 return C2D_Color32(63, 136, 189, 255); // Actually no real color. [6/7]
-	}
+
+	return C2D_Color32(63, 136, 189, 255); // Actually no real color. [6/7]
 }
 
-// Hair Selection. Only NL / WA.
+/* Hair Selection. Only NL / WA. */
 void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 	Gui::clearTextBufs();
 	int page;
@@ -180,14 +181,13 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 		for (u32 y = 0; y < 4; y++) {
 			for (u32 x = 0; x < 4; x++, i++) {
 				Gui::Draw_Rect(5 + x * 100, 32.5 + y * 45, 90, 40, C2D_Color32(0, 0, 130, 255));
-				if (isFemale == true) {
-					SpriteManagement::DrawHair(17+i, 33 + x * 100, 33 + y * 45, 1, 1);
-				} else {
-					SpriteManagement::DrawHair(i, 33 + x * 100, 33 + y * 45, 1, 1);
-				}
+
+				if (isFemale) SpriteManagement::DrawHair(17 + i, 33 + x * 100, 33 + y * 45, 1, 1);
+				else SpriteManagement::DrawHair(i, 33 + x * 100, 33 + y * 45, 1, 1);
 			}
 		}
 	}
+
 	if (isFemale == true) {
 		page = 1;
 	} else {
@@ -196,6 +196,7 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 
 	Gui::DrawStringCentered(0, 212, 0.9f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page+1) + " | 2", 400);
 	int selectY = 0, selectX = 0;
+
 	if (selection > 3 && selection < 8)	selectX = selection - 4;	else if (selection > 7 && selection < 12)	selectX = selection - 8;
 	else if (selection > 11)	selectX = selection - 12;	else if (selection < 4)	selectX = selection;
 
@@ -211,20 +212,17 @@ void PlayerManagement::DrawHairSelection(int selection, bool isFemale) {
 u8 PlayerManagement::SelectHair(u8 currentHair) {
 	s32 selection = 0;
 	int hairPage = 0;
-	while(1)
-	{
+	while(1) {
 		u8 hairImage;
 		for (hairImage = 0; hairImage < 16; hairImage++) {
 			if (selection == hairImage) {
-				if (hairPage == 0) {
-					DrawHairSelection(selection);
-				} else {
-					DrawHairSelection(selection, true);
-				}
+				if (hairPage == 0) DrawHairSelection(selection);
+				else DrawHairSelection(selection, true);
 			}
 		}
+
 		hidScanInput();
-		// Switch hair pages.
+		/* Switch hair pages. */
 		if (hidKeysDown() & KEY_R) {
 			if (hairPage < 1)	hairPage++;
 		}
@@ -240,12 +238,15 @@ u8 PlayerManagement::SelectHair(u8 currentHair) {
 		if (hidKeysDown() & KEY_UP) {
 			if (selection > 3)	selection -= 4;
 		}
+
 		if (hidKeysDown() & KEY_RIGHT) {
 			if (selection < 15)	selection++;
 		}
+
 		if (hidKeysDown() & KEY_LEFT) {
 			if (selection > 0)	selection--;
 		}
+
 		if (hidKeysDown() & KEY_A) {
 			if (hairPage == 0) {
 				return selection;
@@ -253,6 +254,7 @@ u8 PlayerManagement::SelectHair(u8 currentHair) {
 				return selection+17; // 17 -> Female 1.
 			}
 		}
+		
 		if (hidKeysDown() & KEY_B) {
 			return currentHair;
 		}

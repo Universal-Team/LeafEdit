@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef FORMATTING_HPP
-#define FORMATTING_HPP
+#ifndef _LEAFEDIT_FORMATTING_HPP
+#define _LEAFEDIT_FORMATTING_HPP
 
 #include <string>
 

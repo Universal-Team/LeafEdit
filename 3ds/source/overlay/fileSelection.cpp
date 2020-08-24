@@ -120,12 +120,16 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 				selectedFile--;
 				keyRepeatDelay = 6;
 			}
-		} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+		}
+		
+		if (hHeld & KEY_DOWN && !keyRepeatDelay) {
 			if ((uint)selectedFile < dirContents.size()-1) {
 				selectedFile++;
 				keyRepeatDelay = 6;
 			}
-		} else if (hDown & KEY_B) {
+		}
+		
+		if (hDown & KEY_B) {
 			char path[PATH_MAX];
 			getcwd(path, PATH_MAX);
 			if (strcmp(path, "sdmc:/") == 0 || strcmp(path, "/") == 0) {
@@ -137,7 +141,9 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 				selectedFile = 0;
 				dirChanged = true;
 			}
-		} else if (hDown & KEY_START) {
+		}
+		
+		if (hDown & KEY_START) {
 			dirChanged = true;
 		}
 	}

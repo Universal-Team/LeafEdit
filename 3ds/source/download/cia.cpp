@@ -46,11 +46,11 @@ FS_MediaType getTitleDestination(u64 titleId) {
 	u16 category = (u16) ((titleId >> 32) & 0xFFFF);
 	u8 variation = (u8) (titleId & 0xFF);
 
-	//     DSiWare                3DS                    DSiWare, System, DLP         Application           System Title
+	/*     DSiWare                3DS                    DSiWare, System, DLP         Application           System Title */
 	return platform == 0x0003 || (platform == 0x0004 && ((category & 0x8011) != 0 || (category == 0x0000 && variation == 0x02))) ? MEDIATYPE_NAND : MEDIATYPE_SD;
 }
 
-// Variables.
+/* Variables. */
 u64 installSize = 0, installOffset = 0;
 
 Result installCia(const char * ciaPath, bool updatingSelf) {
@@ -77,8 +77,7 @@ Result installCia(const char * ciaPath, bool updatingSelf) {
 
 	if (!updatingSelf) {
 		ret = deletePrevious(info.titleID, media);
-		if (R_FAILED(ret))
-			return ret;
+		if (R_FAILED(ret)) return ret;
 	}
 
 	ret = FSFILE_GetSize(fileHandle, &size);
@@ -105,6 +104,7 @@ Result installCia(const char * ciaPath, bool updatingSelf) {
 		FSFILE_Write(ciaHandle, &bytes_written, installOffset, buf, toRead, FS_WRITE_FLUSH);
 		installOffset += bytes_read;
 	} while(installOffset < installSize);
+
 	delete[] buf;
 
 	ret = AM_FinishCiaInstall(ciaHandle);
@@ -120,8 +120,7 @@ Result installCia(const char * ciaPath, bool updatingSelf) {
 	}
 
 	if (updatingSelf) {
-		if (R_FAILED(ret = CIA_LaunchTitle(info.titleID, MEDIATYPE_SD)))
-			return ret;
+		if (R_FAILED(ret = CIA_LaunchTitle(info.titleID, MEDIATYPE_SD))) return ret;
 	}
 
 	return 0;

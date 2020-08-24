@@ -28,12 +28,12 @@ Structs::Key keysQWERTYShift[] = {
 	{"Z", 35, 67}, {"X", 60, 67}, {"C", 85, 67}, {"V", 110, 67}, {"B", 135, 67}, {"N", 160, 67}, {"M", 185, 67}, {"<,", 210, 67}, {">", 235, 67}, {"?", 260, 67}, {"\\", 210, 90},
 };
 Structs::Key modifierKeys[] = {
-	{"\uE071", 300, 0, 20},	// Backspace
-	{"\uE01D",   0, 45, 20},	// Caps Lock
-	{"\uE056", 300, 45, 20},	// Enter
-	{"\uE01B",   0, 67, 30},	// Left Shift
-	{"\uE01B", 285, 67, 35},	// Right Shift
-	{" ",     85, 90, 120},	// Space
+	{"\uE071", 300, 0, 20},	// Backspace.
+	{"\uE01D",   0, 45, 20},	// Caps Lock.
+	{"\uE056", 300, 45, 20},	// Enter.
+	{"\uE01B",   0, 67, 30},	// Left Shift.
+	{"\uE01B", 285, 67, 35},	// Right Shift.
+	{" ",     85, 90, 120},	// Space.
 };
 Structs::Key NumpadStruct[] = {
 	{"1", 10, 25},
@@ -55,9 +55,9 @@ Structs::Key NumpadStruct[] = {
 	{"B", 250, 25},
 };
 Structs::ButtonPos Numbers [] = {
-	{10, 25, 60, 50}, // 1
-	{90, 25, 60, 50}, // 2
-	{170, 25, 60, 50}, // 3
+	{10, 25, 60, 50}, // 1.
+	{90, 25, 60, 50}, // 2.
+	{170, 25, 60, 50}, // 3.
 
 	{10, 95, 60, 50},
 	{90, 95, 60, 50},
@@ -76,27 +76,25 @@ Structs::ButtonPos Numbers [] = {
 
 
 Structs::Key HexStruct[] = {
-	// Num struct.
+	/* Num struct. */
 	{"1", 70, 50},
 	{"2", 110, 50},
 	{"3", 150, 50},
 	{"4", 190, 50},
 	{"5", 230, 50},
-
 	{"6", 70, 90},
 	{"7", 110, 90},
 	{"8", 150, 90},
 	{"9", 190, 90},
 	{"0", 230, 90},
-
-	// Letter.
+	/* Letter. */
 	{"A", 10, 10},
 	{"B", 10, 50},
 	{"C", 10, 90},
 	{"D", 10, 130},
 	{"E", 10, 170},
 	{"F", 10, 210},
-	// Special cases.
+	/* Special cases. */
 	{"x", 110, 150},
 	{"B", 150, 150},
 	{"E", 190, 150},
@@ -130,45 +128,45 @@ Structs::ButtonPos Hex [] = {
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 void Input::DrawHex() {
-	for(uint i=0;i<(sizeof(HexStruct)/sizeof(HexStruct[0]));i++) {
+	for(uint i = 0; i < (sizeof(HexStruct) / sizeof(HexStruct[0])); i++) {
 		Gui::Draw_Rect(HexStruct[i].x, HexStruct[i].y, 30, 20, DARKER_COLOR);
 		char c[2] = {HexStruct[i].character[0]};
-		Gui::DrawString(HexStruct[i].x+12, HexStruct[i].y+4, 0.5f, WHITE, c, 50, 0, font);
+		Gui::DrawString(HexStruct[i].x + 12, HexStruct[i].y + 4, 0.5f, WHITE, c, 50, 0, font);
 	}
 }
 
 void Input::DrawNumpad() {
-	for(uint i = 0; i < (sizeof(NumpadStruct)/sizeof(NumpadStruct[0])); i++) {
+	for(uint i = 0; i < (sizeof(NumpadStruct) / sizeof(NumpadStruct[0])); i++) {
 		Gui::Draw_Rect(NumpadStruct[i].x, NumpadStruct[i].y, 60, 50, DARKER_COLOR);
 		char c[2] = {NumpadStruct[i].character[0]};
-		Gui::DrawString(NumpadStruct[i].x+25, NumpadStruct[i].y+15, 0.72f, WHITE, c, 50, 0, font);
+		Gui::DrawString(NumpadStruct[i].x + 25, NumpadStruct[i].y + 15, 0.72f, WHITE, c, 50, 0, font);
 	}
 }
 
 void Input::drawKeyboard() {
-	for(uint i = 0; i < (sizeof(keysQWERTY)/sizeof(keysQWERTY[0])); i++) {
+	for(uint i = 0; i < (sizeof(keysQWERTY) / sizeof(keysQWERTY[0])); i++) {
 		C2D_DrawRectSolid(keysQWERTY[i].x, keysQWERTY[i].y+103, 0.5f, 20, 20, DARKER_COLOR & C2D_Color32(255, 255, 255, 200));
 		if (shift) {
 			char c[2] = {caps ? (char)toupper(keysQWERTYShift[i].character[0]) : keysQWERTYShift[i].character[0]};
-			Gui::DrawString(keysQWERTYShift[i].x+(10-(Gui::GetStringWidth(0.50, c)/2)), keysQWERTYShift[i].y+103+(10-(Gui::GetStringHeight(0.50, c)/2)), 0.50, WHITE, c, 0, 0, font);
+			Gui::DrawString(keysQWERTYShift[i].x + (10 - (Gui::GetStringWidth(0.50, c) / 2)), keysQWERTYShift[i].y + 103 + (10 - (Gui::GetStringHeight(0.50, c) / 2)), 0.50, WHITE, c, 0, 0, font);
 		} else {
 			char c[2] = {caps ? (char)toupper(keysQWERTY[i].character[0]) : keysQWERTY[i].character[0]};
-			Gui::DrawString(keysQWERTY[i].x+(10-(Gui::GetStringWidth(0.50, c)/2)), keysQWERTY[i].y+103+(10-(Gui::GetStringHeight(0.50, c)/2)), 0.50, WHITE, c, 0, 0, font);
+			Gui::DrawString(keysQWERTY[i].x + (10 - (Gui::GetStringWidth(0.50, c) / 2)), keysQWERTY[i].y + 103 + (10 - (Gui::GetStringHeight(0.50, c) / 2)), 0.50, WHITE, c, 0, 0, font);
 		}
 	}
 
-	for(uint i = 0; i < (sizeof(modifierKeys)/sizeof(modifierKeys[0])); i++) {
+	for(uint i = 0; i < (sizeof(modifierKeys) / sizeof(modifierKeys[0])); i++) {
 		std::string enter = modifierKeys[2].character;
 		std::string arrowUp = modifierKeys[3].character;
 		std::string backSpace = modifierKeys[0].character;
 		std::string caps = modifierKeys[1].character;
 
-		C2D_DrawRectSolid(modifierKeys[i].x, modifierKeys[i].y+103, 0.5f, modifierKeys[i].w, 20, DARKER_COLOR & C2D_Color32(255, 255, 255, 200));
-		Gui::DrawString(modifierKeys[2].x+5, modifierKeys[2].y+105, 0.50, WHITE, enter, 0, 0, font);
-		Gui::DrawString(modifierKeys[3].x+7, modifierKeys[3].y+105, 0.45, WHITE, arrowUp, 0, 0, font);
-		Gui::DrawString(modifierKeys[4].x+10, modifierKeys[4].y+105, 0.45, WHITE, arrowUp, 0, 0, font);
-		Gui::DrawString(modifierKeys[0].x+5, modifierKeys[0].y+105, 0.45, WHITE, backSpace, 0, 0, font);
-		Gui::DrawString(modifierKeys[1].x+5, modifierKeys[1].y+105, 0.45, WHITE, caps, 0, 0, font);
+		C2D_DrawRectSolid(modifierKeys[i].x, modifierKeys[i].y + 103, 0.5f, modifierKeys[i].w, 20, DARKER_COLOR & C2D_Color32(255, 255, 255, 200));
+		Gui::DrawString(modifierKeys[2].x + 5, modifierKeys[2].y + 105, 0.50, WHITE, enter, 0, 0, font);
+		Gui::DrawString(modifierKeys[3].x + 7, modifierKeys[3].y + 105, 0.45, WHITE, arrowUp, 0, 0, font);
+		Gui::DrawString(modifierKeys[4].x + 10, modifierKeys[4].y + 105, 0.45, WHITE, arrowUp, 0, 0, font);
+		Gui::DrawString(modifierKeys[0].x + 5, modifierKeys[0].y + 105, 0.45, WHITE, backSpace, 0, 0, font);
+		Gui::DrawString(modifierKeys[1].x + 5, modifierKeys[1].y + 105, 0.45, WHITE, caps, 0, 0, font);
 	}
 }
 
@@ -208,8 +206,8 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 		if (hDown & KEY_TOUCH) {
 			touchRead(&touch);
 			if (string.length() < maxLength) {
-				// Check if a regular key was pressed
-				for(uint i = 0; i < (sizeof(keysQWERTY)/sizeof(keysQWERTY[0])); i++) {
+				/* Check if a regular key was pressed. */
+				for(uint i = 0; i < (sizeof(keysQWERTY) / sizeof(keysQWERTY[0])); i++) {
 					if ((touch.px > keysQWERTY[i].x-2 && touch.px < keysQWERTY[i].x+18) && (touch.py > keysQWERTY[i].y+(103)-2 && touch.py < keysQWERTY[i].y+18+(103))) {
 						char c = (shift ? keysQWERTYShift[i] : keysQWERTY[i]).character[0];
 						string += (shift || caps ? toupper(c) : c);
@@ -219,9 +217,9 @@ std::string Input::getString(uint maxLength, std::string Text, float inputTextSi
 				}
 			}
 
-			// Check if a modifier key was pressed
-			for(uint i = 0; i < (sizeof(modifierKeys)/sizeof(modifierKeys[0])); i++) {
-				if ((touch.px > modifierKeys[i].x-2 && touch.px < modifierKeys[i].x+modifierKeys[i].w+2) && (touch.py > modifierKeys[i].y+(103)-2 && touch.py < modifierKeys[i].y+18+(103))) {
+			/* Check if a modifier key was pressed. */
+			for(uint i = 0; i < (sizeof(modifierKeys) / sizeof(modifierKeys[0])); i++) {
+				if ((touch.px > modifierKeys[i].x - 2 && touch.px < modifierKeys[i].x + modifierKeys[i].w + 2) && (touch.py > modifierKeys[i].y+(103)-2 && touch.py < modifierKeys[i].y+18+(103))) {
 					if (modifierKeys[i].character == "\uE071") {
 						string = string.substr(0, string.length()-1);
 					} else if (modifierKeys[i].character == "\uE01D") {
@@ -472,7 +470,7 @@ std::string Input::handleString(uint maxLength, std::string Text, std::string ol
 	}
 }
 
-// 3DS Native keyboard.
+/* 3DS Native keyboard. */
 std::string Input::setkbdString(uint maxLength, std::string Text) {
 	C3D_FrameEnd(0);
 	SwkbdState state;

@@ -32,7 +32,7 @@
 
 extern std::vector<std::pair<u16, std::string>> itemDB;
 
-	// All Colors.
+	/* All Colors. */
 	u32 ItemManager::Pattern, ItemManager::Building, ItemManager::MoneyRock, ItemManager::Furniture, ItemManager::Gyroid, ItemManager::Clothes,
 	ItemManager::Song, ItemManager::Paper, ItemManager::Trash, ItemManager::Shell,
 	ItemManager::Fruit, ItemManager::Turnip, ItemManager::Catchable, ItemManager::Item, ItemManager::WallpaperCarpet, ItemManager::Fossil,
@@ -139,10 +139,11 @@ u32 ItemManager::getColor(ItemType item) {
 		case ItemType::Invalid:
 			return Invalid;
 	}
+
 	return C2D_Color32(0, 0, 0, 0); // Should not happen.
 }
 
-// Get the index of the current Item for the selection.
+/* Get the index of the current Item for the selection. */
 int ItemManager::getIndex(const u16 &v) {
 	if (v == itemDB[0].first || v >= 0xFFF1) {
 		return 0;
@@ -166,7 +167,7 @@ int ItemManager::getIndex(const u16 &v) {
 	return index >= 0 ? index : 0;
 }
 
-// Get the index of the current Item for the selection.
+/* Get the index of the current Item for the selection. */
 int ItemManager::getIndexString(const int &current, const std::string &v) {
 	if (v == "") {
 		return current;
@@ -212,9 +213,10 @@ u16 ItemManager::selectItem(u16 currentID) {
 			itemList += "\n";
 		}
 
-		// Selector Logic.
+		/* Selector Logic. */
 		if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
 		else				GFX::DrawSelector(true, 24 + (8 * 21));
+		
 		Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360);
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(itemDB.size()), 395);
 		GFX::DrawBottom();
