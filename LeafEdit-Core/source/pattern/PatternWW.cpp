@@ -321,19 +321,12 @@ void PatternWW::dumpPattern(const std::string fileName) {
 	
 		// Open File.
 		FILE* ptrn = fopen(fileName.c_str(), "wb");
-		// Set Buffer.
-		u8 *patternData = new u8[size];
-		
-		// Write Pattern data to Buffer.
-		for(int i = 0; i < (int)size; i++) {
-			SaveUtils::Write<u8>(patternData, i, this->patternPointer()[i], false);
-		}
 
-		// Write to file and close.
-		fwrite(patternData, 1, size, ptrn);
-		fclose(ptrn);
-		// Free Buffer.
-		delete(patternData);
+		if (ptrn) {
+			// Write to file and close.
+			fwrite(this->patternPointer(), 1, size, ptrn);
+			fclose(ptrn);
+		}
 	}
 }
 
@@ -342,47 +335,51 @@ void PatternWW::injectPattern(const std::string fileName) {
 	// If region == UNKNOWN -> Do NOTHING.
 	if (this->region != WWRegion::UNKNOWN) {
 		if ((access(fileName.c_str(), F_OK) != 0)) return; // File not found. Do NOTHING.
+
 		bool allowInject = false;
-		u32 size = 0;
+		
 		// Open file and get size.
 		FILE* ptrn = fopen(fileName.c_str(), "rb");
-		fseek(ptrn, 0, SEEK_END);
-		size = ftell(ptrn);
-		fseek(ptrn, 0, SEEK_SET);
+		if (ptrn) {
+			fseek(ptrn, 0, SEEK_END);
+			u32 size = ftell(ptrn);
+			fseek(ptrn, 0, SEEK_SET);
 
-		// Get size.
-		switch(this->region) {
-			case WWRegion::USA_REV0:
-			case WWRegion::USA_REV1:
-			case WWRegion::EUR_REV1:
-				if (size == 0x228) allowInject = true;
-				break;
-			case WWRegion::JPN_REV0:
-			case WWRegion::JPN_REV1:
-				if (size == 0x220) allowInject = true;
-				break;
-			case WWRegion::KOR_REV1:
-				if (size == 0x234) allowInject = true;
-				break;
-			case WWRegion::UNKNOWN:
-				break;
-		}
-
-		if (allowInject) {
-			u8 *patternData = new u8[size];
-			fread(patternData, 1, size, ptrn);
-
-			// Set Buffer data to save.
-			for(int i = 0; i < (int)size; i++) {
-				SaveUtils::Write<u8>(this->patternPointer(), i, patternData[i]);
+			// Get size.
+			switch(this->region) {
+				case WWRegion::USA_REV0:
+				case WWRegion::USA_REV1:
+				case WWRegion::EUR_REV1:
+					if (size == 0x228) allowInject = true;
+					break;
+				case WWRegion::JPN_REV0:
+				case WWRegion::JPN_REV1:
+					if (size == 0x220) allowInject = true;
+					break;
+				case WWRegion::KOR_REV1:
+					if (size == 0x234) allowInject = true;
+					break;
+				case WWRegion::UNKNOWN:
+					break;
 			}
 
-			// Free Buffer.
-			delete(patternData);
-		}
+			if (allowInject) {
+				u8 *patternData = new u8[size];
+				fread(patternData, 1, size, ptrn);
 
-		// Close File, cause we don't need it.
-		fclose(ptrn);
+				// Set Buffer data to save.
+				for(int i = 0; i < (int)size; i++) {
+					SaveUtils::Write<u8>(this->patternPointer(), i, patternData[i]);
+				}
+
+				// Free Buffer.
+				delete(patternData);
+
+			}
+
+			// Close File, cause we don't need it.
+			fclose(ptrn);
+		}
 	}
 }
 
