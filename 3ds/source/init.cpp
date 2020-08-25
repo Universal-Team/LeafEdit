@@ -185,6 +185,7 @@ Result Init::Init() {
 	/* Pattern Editor. */
 	mkdir("sdmc:/3ds/LeafEdit/Pattern-Editor", 0777);
 
+	mkdir("sdmc:/3ds/LeafEdit/scripts", 0777);
 	Gui::loadSheet("romfs:/gfx/gui.t3x", GUI);
 	cfguInit();
 

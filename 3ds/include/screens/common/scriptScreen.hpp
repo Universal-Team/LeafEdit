@@ -24,27 +24,26 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef LEAFEDIT_NL_PLUGIN_HPP
-#define LEAFEDIT_NL_PLUGIN_HPP
+#ifndef _LEAFEDIT_SCRIPT_SCREEN_HPP
+#define _LEAFEDIT_SCRIPT_SCREEN_HPP
 
-#include "Plugin.hpp"
-#include "types.hpp"
+#include "common.hpp"
+#include "script.hpp"
+#include "structs.hpp"
 
-#include <string>
+#include <memory>
 #include <vector>
 
-class NLPlugin : public Plugin {
+class ScriptScreen : public Screen {
 public:
-	/* Constructor and Destructor. DO NOT CHANGE THIS! */
-	NLPlugin() : Plugin() { }
-	virtual ~NLPlugin() { }
-	/* Main Plugin function which get's called. */
-	int scriptMain() override;
+	ScriptScreen();
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 private:
-	/* All Script Entries are listed at this vector. */
-	const std::vector<std::string> scriptEntries = {""};
-	
-	/* All Functions are here. All Functions *must* have an integer as a return value. */
+	std::unique_ptr<Script> script = nullptr;
+	void load();
+	bool loadMode = true;
+	int selection = 0;
 };
 
 #endif

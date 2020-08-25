@@ -30,10 +30,10 @@
 #include "lang.hpp"
 #include "overlay.hpp"
 #include "playerSelector.hpp"
-#include "pluginScreen.hpp"
 #include "saveUtils.hpp"
 #include "Sav.hpp"
 #include "screenCommon.hpp"
+#include "scriptScreen.hpp"
 #include "townMapEditorNL.hpp"
 #include "townMapEditorWW.hpp"
 #include "villagerViewerNL.hpp"
@@ -43,7 +43,6 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 std::shared_ptr<Sav> save;
-std::unique_ptr<Town> town;
 static std::string SaveFile;
 /* Bring that to other screens too. */
 SaveType savesType = SaveType::UNUSED;
@@ -61,7 +60,7 @@ const std::vector<std::string> titleNames = {
 
 bool Editor::loadSave() {
 	save = nullptr;
-	FILE* in = fopen(saveName.c_str(), "rb");
+	FILE* in = fopen(this->saveName.c_str(), "rb");
 	if (in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
@@ -110,26 +109,26 @@ bool Editor::loadSave() {
 }
 
 void Editor::SaveInitialize() {
-	saveName = Overlays::SelectFile({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
-	/* If User canceled, go screen back. */
-	if (saveName == "") {
-		Gui::screenBack(doFade);
-	}
+	this->saveName = Overlays::SelectFile({"sav", "dat"}, "sdmc:/3ds/LeafEdit/Towns/", Lang::get("SELECT_SAVEFILE"));
 
-	if (!loadSave()) {
-		Msg::DisplayWarnMsg(Lang::get("INVALID_SAVEFILE"));
-
-	} else {
-		Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
-		if (Init::loadSheets() == 0) {
-			ItemUtils::LoadDatabase(savesType);
-			Lang::loadGameStrings(1, savesType);
-			loadState = SaveState::Loaded;
+	if (this->saveName != "") {
+		if (!loadSave()) {
+			Msg::DisplayWarnMsg(Lang::get("INVALID_SAVEFILE"));
 
 		} else {
-			Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
-			Gui::screenBack(doFade);
+			Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
+			if (Init::loadSheets() == 0) {
+				ItemUtils::LoadDatabase(savesType);
+				Lang::loadGameStrings(1, savesType);
+				loadState = SaveState::Loaded;
+
+			} else {
+				Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
+				Gui::screenBack(doFade);
+			}
 		}
+	} else {
+		Gui::screenBack(doFade);
 	}
 }
 
@@ -173,7 +172,7 @@ void Editor::Saving() {
 
 	if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
 		save->Finish();
-		FILE* out = fopen(saveName.c_str(), "rb+");
+		FILE* out = fopen(this->saveName.c_str(), "rb+");
 		fwrite(save->rawData().get(), 1, save->getLength(), out);
 		fclose(out);
 		hasSaved = true;
@@ -251,7 +250,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<PluginScreen>(), doFade, true);
+			Gui::setScreen(std::make_unique<ScriptScreen>(), doFade, true);
 		}
 		
 		if (hDown & KEY_B) {
