@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "EncryptedInt32.hpp"
+#include "encryptedInt32.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
 #include "Sav.hpp"
