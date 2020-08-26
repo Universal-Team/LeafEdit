@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_ITEMMANAGER_HPP
-#define _LEAFEDIT_ITEMMANAGER_HPP
+#ifndef _LEAFEDIT_ITEM_MANAGER_HPP
+#define _LEAFEDIT_ITEM_MANAGER_HPP
 
 #include "common.hpp"
 #include "Item.hpp"

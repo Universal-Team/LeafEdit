@@ -24,83 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_TOWN_MAP_EDITOR_WW_HPP
-#define _LEAFEDIT_TOWN_MAP_EDITOR_WW_HPP
+#ifndef _LEAFEDIT_ACRES_EDITOR_WW_HPP
+#define _LEAFEDIT_ACRES_EDITOR_WW_HPP
 
 #include "Acre.hpp"
 #include "common.hpp"
-#include "Item.hpp"
 #include "structs.hpp"
+#include "Town.hpp"
 
-class TownMapEditorWW : public Screen {
+class AcresEditorWW : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	TownMapEditorWW(std::unique_ptr<Town> &refTown);
+	AcresEditorWW(std::unique_ptr<Town> &refTown);
 private:
-	/* Specific stuff. */
-	int selection = 0;
 	std::unique_ptr<Town> &town;
-	std::unique_ptr<Item> MapItems[4096]; // Complete Town Map Items.
-	bool ItemBuried[4096] = {false};
+	
+	/* Specific stuff. */
+	u32 maxAcres;
 	std::unique_ptr<Acre> FullAcres[36]; // Complete Acres.
-
-	/* Main Screen. */
-	void DrawMapScreen(void) const;
-	void MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/* Town Map Editor Selection & Positions. */
-	int currentPosX = 0;
-	int currentPosY = 0;
-	int currentAcre = 0;
-	int MapSelection = 0;
-	int PositionX = 16;
-	int PositionY = 16;
-	/* Modes. Town Map Editor. */
-	int Mode = 0;
-	int selectMode = 0; // No sub Selection.
-
-	/* General Item stuff. */
-	u16 itemID = 65521;
-	int keyRepeatDelay = 0;
-
-	/* Utilities Draw. */
-	void DrawGrid(void) const;
-	void DrawTownMap() const;
-	void DrawInformation() const;
-	void DrawCurrentPos(void) const;
-	/* Converter's. */
-	void convertToSelection();
-	void convertToPosition();
-	int SelectionToAcre(int selection) const;
-
-	/* Operations. */
-	void injectTo(int MapSlot);
-	void remove(u16 ID);
-	void setAll(u16 ID);
-	void replace(u16 oldID, u16 newID);
-	void removeWeeds();
-	void waterFlowers();
-	void updateStuff();
-
-	void DrawTempItem(void) const;
-	void TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	const std::vector<ButtonType> tempItemPos = {
-		{20, 45, 280, 50, ""}, // ID.
-		{20, 145, 280, 50, "SWITCH_ITEM_SELECTION"}
-	};
-
-	/* Display AC:WW Top Screen Map. */
-	const std::vector<Structs::ButtonPos> WWMapPos = {
-		{5, 40, 32, 32} ,{37, 40, 32, 32}, {69, 40, 32, 32}, {101, 40, 32, 32},
-		{5, 72, 32, 32}, {37, 72, 32, 32}, {69, 72, 32, 32}, {101, 72, 32, 32},
-		{5, 104, 32, 32}, {37, 104, 32, 32}, {69, 104, 32, 32}, {101, 104, 32, 32},
-		{5, 136, 32, 32}, {37, 136, 32, 32}, {69, 136, 32, 32}, {101, 136, 32, 32}
-	};
+	
+	void DrawMap(void) const;
+	void DrawTopSelection(void) const;
+	u8 selectedAcre = 0;
+	bool FastMode = false; // Scrolling speed.
+	int selection = 0;
 
 	/* Display AC:WW's full Town Map. */
-	const std::vector<Structs::ButtonPos> wwPos = {
+	const std::vector<Structs::ButtonPos> acrePos = {
 		/* First Line. */
 		{64, 16, 32, 32},
 		{96, 16, 32, 32},
@@ -143,25 +94,6 @@ private:
 		{160, 176, 32, 32},
 		{192, 176, 32, 32},
 		{224, 176, 32, 32}
-	};
-
-	/* Display Button. */
-	const std::vector<ButtonType> mainButtons = {
-		{220, 25, 90, 30, "TEMP_ITEM"},
-		{220, 55, 90, 30, "CLEAR_WEEDS"},
-		{220, 85, 90, 30, "WATER_FLOWERS"},
-		{220, 115, 90, 30, "ITEM_MISC"}
-	};
-
-	/* Display Operations. */
-	const std::vector<ButtonType> operationBtn = {
-		{95, 34, 130, 48, "REMOVE_ITEMS"},
-		{95, 97, 130, 48, "FILL_TOWN"},
-		{95, 159, 130, 48, "REPLACE_ITEMS"}
-	};
-
-	const std::vector<Structs::ButtonPos> icons = {
-		{286, 213, 27, 27} // Back Icon.
 	};
 };
 

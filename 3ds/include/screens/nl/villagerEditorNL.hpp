@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_VILLAGEREDITOR_NL_HPP
-#define _LEAFEDIT_VILLAGEREDITOR_NL_HPP
+#ifndef _LEAFEDIT_VILLAGER_EDITOR_NL_HPP
+#define _LEAFEDIT_VILLAGER_EDITOR_NL_HPP
 
 #include "common.hpp"
 #include "Item.hpp"
@@ -39,18 +39,13 @@ class VillagerEditorNL : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	VillagerEditorNL(std::shared_ptr<Villager> v): villager(v) { }
+	VillagerEditorNL(std::unique_ptr<Villager> &refVillager): villager(refVillager) { }
 private:
-	std::shared_ptr<Item> villagerItems[20];
-	std::shared_ptr<Villager> villager;
+	std::unique_ptr<Item> villagerItems[20];
+	std::unique_ptr<Villager> &villager;
 	int villagerMode = 0;
 	int Selection = 0;
 	int itemSelection = 0;
-	u32 itemIndex = 0;
-	bool isList = false; // If scrolling the list.
-
-	int keyRepeatDelay = 0;
-	u16 itemID = 0;
 
 	void DrawSubMenu(void) const;
 	void DrawItems(void) const;

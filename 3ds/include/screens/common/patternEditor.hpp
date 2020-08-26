@@ -39,13 +39,13 @@ class PatternEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PatternEditor(std::shared_ptr<Pattern> ptrn);
+	PatternEditor(std::unique_ptr<Pattern> &ptrn);
 	~PatternEditor();
 	
 private:
 	PatternMode ptrnTool = PatternMode::Draw;
-	std::shared_ptr<Pattern> pattern;
-	std::shared_ptr<PatternImage> image;
+	std::unique_ptr<Pattern> &pattern;
+	std::unique_ptr<PatternImage> image;
 	C2D_Image patternImage;
 
 	/* Palette Stuff. */

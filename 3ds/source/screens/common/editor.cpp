@@ -34,8 +34,8 @@
 #include "Sav.hpp"
 #include "screenCommon.hpp"
 #include "scriptScreen.hpp"
-#include "townMapEditorNL.hpp"
-#include "townMapEditorWW.hpp"
+#include "townEditorNL.hpp"
+#include "townEditorWW.hpp"
 #include "villagerViewerNL.hpp"
 #include "villagerViewerWW.hpp"
 
@@ -234,9 +234,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				} else if (this->Selection == 2) {
 					if (save->town()->acre(0) && save->town()->item(0)) {
 						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<TownMapEditorWW>(), doFade, true);
+							Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<TownMapEditorNL>(), doFade, true);
+							Gui::setScreen(std::make_unique<TownEditorNL>(save->town()), doFade, true);
 						}
 					} else {
 						Msg::NotImplementedYet();

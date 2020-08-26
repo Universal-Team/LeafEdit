@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_UPDATECENTER_HPP
-#define _LEAFEDIT_UPDATECENTER_HPP
+#ifndef _LEAFEDIT_UPDATE_CENTER_HPP
+#define _LEAFEDIT_UPDATE_CENTER_HPP
 
 #include "common.hpp"
 #include "download.hpp"

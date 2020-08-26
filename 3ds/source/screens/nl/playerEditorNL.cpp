@@ -40,7 +40,7 @@ extern std::shared_ptr<Sav> save;
 /* Bring that to other screens too. */
 extern SaveType savesType;
 
-PlayerEditorNL::PlayerEditorNL(std::shared_ptr<Player> p): player(p) { }
+PlayerEditorNL::PlayerEditorNL(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) { }
 
 PlayerEditorNL::~PlayerEditorNL() { }
 
@@ -229,6 +229,21 @@ void PlayerEditorNL::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_LEFT) {
 		if (this->Selection > 0) {
 			this->Selection--;
+		}
+	}
+
+	/* Refresh Pattern Images. */
+	if (hDown & KEY_SELECT) {
+		/* Free. */
+		C3D_FrameEnd(0);
+		for (int i = 0; i < 10; i++) {
+			if (this->patternImage[i].subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			this->pattern[i] = this->player->pattern(i);
+			this->images[i] = this->pattern[i]->image(0);
+			this->patternImage[i] = CoreUtils::patternImage(this->images[i], savesType);
 		}
 	}
 

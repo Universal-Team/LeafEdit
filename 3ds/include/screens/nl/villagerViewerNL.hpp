@@ -24,11 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_VILLAGERVIEWER_NL_HPP
-#define _LEAFEDIT_VILLAGERVIEWER_NL_HPP
+#ifndef _LEAFEDIT_VILLAGER_VIEWER_NL_HPP
+#define _LEAFEDIT_VILLAGER_VIEWER_NL_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
+#include "Villager.hpp"
 
 #include <vector>
 
@@ -38,6 +39,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	VillagerViewerNL();
 private:
+	std::unique_ptr<Villager> villager;
 	int Selection = 0;
 	u16 ID[10];
 	u16 viewerIndex = 0;

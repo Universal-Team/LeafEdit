@@ -27,7 +27,7 @@
 #include "coreUtils.hpp"
 #include "overlay.hpp"
 
-void Overlays::PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST) {
+void Overlays::PaletteTool(std::unique_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST) {
 	if (ST == SaveType::NL || ST == SaveType::WA) Overlays::PaletteToolNL(pImg, img);
 	else if (ST == SaveType::WW) Overlays::PaletteToolWW(pImg, img);
 }

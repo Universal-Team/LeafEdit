@@ -38,7 +38,7 @@ class ItemEditorNL : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	ItemEditorNL(std::shared_ptr<Player> player);
+	ItemEditorNL(std::unique_ptr<Player> &refPlayer);
 	~ItemEditorNL(void);
 private:
 	void DrawSlotSelection(void) const;
@@ -64,7 +64,7 @@ private:
 	void StorageLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 
-	std::shared_ptr<Player> player;
+	std::unique_ptr<Player> &player;
 	std::unique_ptr<Item> pockets[16];
 	std::unique_ptr<Item> dresser[180];
 	std::unique_ptr<Item> islandBox[40];

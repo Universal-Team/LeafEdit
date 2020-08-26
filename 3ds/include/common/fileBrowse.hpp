@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_FILEBROWSE_HPP
-#define _LEAFEDIT_FILEBROWSE_HPP
+#ifndef _LEAFEDIT_FILE_BROWSE_HPP
+#define _LEAFEDIT_FILE_BROWSE_HPP
 
 #include <3ds.h>
 #include <string>

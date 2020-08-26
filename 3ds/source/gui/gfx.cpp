@@ -298,8 +298,8 @@ int GFX::ListSelection(int current, const std::vector<std::string> list, const s
 		}
 
 		if (hidKeysHeld() & KEY_UP && !keyRepeatDelay) {
-			if (selection > 0)	selection--;
-			else if (selection == 0)	selection = (int)list.size()-1;
+			if (selection > 0) selection--;
+			else if (selection == 0) selection = (int)list.size()-1;
 			keyRepeatDelay = 6;
 		}
 
@@ -308,7 +308,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> list, const s
 		}
 
 		if (hidKeysDown() & KEY_B) {
-			return -1;
+			return current;
 		}
 	}
 }

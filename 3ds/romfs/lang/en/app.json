@@ -93,6 +93,7 @@
 	"MAINPATH_CHANGE": "Mainpath got changed.\nPlease move your stuff to 'sdmc:/3ds/LeafEdit/'.",
 	"MAINMENU": "MainMenu",
 	"MALE": "Male",
+	"MAP_EDITOR": "Map Editor",
 	"MISC_EDITOR": "Misc Editor",
 
 	"NO": "No",
@@ -171,6 +172,9 @@
 	"TEMP_ITEM": "Temp Item",
 	"TOGGLE_BACKUP": "Toggle Backups",
 	"TOGGLE_BACKUPS": "Would you like to toggle Backups?",
+	"TOWN": "Town",
+	"TOWN_EDITOR": "Town Editor",
+	"TOWNFLAG": "Townflag",
 	"TOWN_MAP_EDITOR": "Town Map Editor",
 	"TRANSLATORS": "Translators",
 

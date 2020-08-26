@@ -71,11 +71,11 @@ void PlayerSelector::Draw(void) const {
 void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Navigation. */
 	if (hDown & KEY_RIGHT) {
-		if (selectedPlayer < 3)	selectedPlayer++;
+		if (selectedPlayer < 3) selectedPlayer++;
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (selectedPlayer > 0)	selectedPlayer--;
+		if (selectedPlayer > 0) selectedPlayer--;
 	}
 
 	if (hDown & KEY_A) {

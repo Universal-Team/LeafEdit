@@ -24,36 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_VILLAGER_VIEWER_WW_HPP
-#define _LEAFEDIT_VILLAGER_VIEWER_WW_HPP
+#ifndef _LEAFEDIT_TOWN_EDITOR_WW_HPP
+#define _LEAFEDIT_TOWN_EDITOR_WW_HPP
 
 #include "common.hpp"
+#include "Pattern.hpp"
+#include "Town.hpp"
 #include "structs.hpp"
-#include "Villager.hpp"
 
 #include <vector>
 
-class VillagerViewerWW : public Screen {
+class TownEditorWW : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	VillagerViewerWW();
+	TownEditorWW(std::unique_ptr<Town> refTown);
 private:
-	std::unique_ptr<Villager> villager;
-	int Selection = 0, viewerIndex = 0;
-	u16 ID[8];
-	void update();
+	int Selection = 0;
+	int Mode = 0;
+	std::unique_ptr<Town> town;
+	std::unique_ptr<Pattern> pattern;
 
-	const std::vector<Structs::ButtonPos> villagers = {
-		{20, 50, 48, 48},
-		{90, 50, 48, 48},
-		{160, 50, 48, 48},
-		{230, 50, 48, 48},
-
-		{20, 120, 48, 48},
-		{90, 120, 48, 48},
-		{160, 120, 48, 48},
-		{230, 120, 48, 48}
+	const std::vector<ButtonType> mainButtons = {
+		{15, 34, 130, 48, "MAP_EDITOR"},
+		{15, 97, 130, 48, "ACRE_EDITOR"},
+		{15, 159, 130, 48, "TOWNFLAG"},
+		{175, 34, 130, 48, ""},
+		{175, 97, 130, 48, ""},
+		{175, 159, 130, 48, ""}
 	};
 };
 

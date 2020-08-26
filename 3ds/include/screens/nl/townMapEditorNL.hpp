@@ -24,22 +24,23 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_TOWNMAPEDITOR_NL_HPP
-#define _LEAFEDIT_TOWNMAPEDITOR_NL_HPP
+#ifndef _LEAFEDIT_TOWN_MAP_EDITOR_NL_HPP
+#define _LEAFEDIT_TOWN_MAP_EDITOR_NL_HPP
 
 #include "Acre.hpp"
 #include "common.hpp"
 #include "Item.hpp"
 #include "structs.hpp"
+#include "Town.hpp"
 
 class TownMapEditorNL : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	TownMapEditorNL();
+	TownMapEditorNL(std::unique_ptr<Town> &refTown);
 private:
 	/* Specific stuff. */
-	u32 maxAcres;
+	std::unique_ptr<Town> &town;
 	std::unique_ptr<Item> MapItems[5120]; // Complete Town Map Items.
 	bool ItemBuried[5120] = {false};
 	std::unique_ptr<Acre> FullAcres[42]; // Complete Acres.
@@ -55,9 +56,10 @@ private:
 	int MapSelection = 0;
 	int PositionX = 16;
 	int PositionY = 16;
-	/* Modes. Acre Editor & Town Map Editor. */
-	int Mode = 1;
+	/* Modes. Town Map Editor. */
+	int Mode = 0;
 	int selectMode = 0; // No sub Selection.
+	int selection = 0;
 
 	/* General Item stuff. */
 	u16 itemID = 32766;
@@ -85,16 +87,6 @@ private:
 
 	void DrawTempItem(void) const;
 	void TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	
-	/* Acres Screen. */
-	void DrawAcres(void) const;
-	void AcresLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void DrawMap(void) const;
-	void DrawFullMap(void) const;
-	void DrawTopSelection(void) const;
-	u8 selectedAcre = 0;
-	bool FastMode = false; // Scrolling speed.
-	int selection = 0;
 
 	const std::vector<ButtonType> tempItemPos = {
 		{20, 28, 280, 50, ""}, // ID.
@@ -155,11 +147,10 @@ private:
 
 	/* Display Button. */
 	const std::vector<ButtonType> mainButtons = {
-		{220, 25, 90, 30, "ACRES"},
-		{220, 55, 90, 30, "TEMP_ITEM"},
-		{220, 85, 90, 30, "CLEAR_WEEDS"},
-		{220, 115, 90, 30, "WATER_FLOWERS"},
-		{220, 145, 90, 30, "ITEM_MISC"}
+		{220, 25, 90, 30, "TEMP_ITEM"},
+		{220, 55, 90, 30, "CLEAR_WEEDS"},
+		{220, 85, 90, 30, "WATER_FLOWERS"},
+		{220, 115, 90, 30, "ITEM_MISC"}
 	};
 
 	/* Display Operations. */

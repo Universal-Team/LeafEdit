@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_PLAYEREDITOR_WW_HPP
-#define _LEAFEDIT_PLAYEREDITOR_WW_HPP
+#ifndef _LEAFEDIT_PLAYER_EDITOR_WW_HPP
+#define _LEAFEDIT_PLAYER_EDITOR_WW_HPP
 
 #include "common.hpp"
 #include "Player.hpp"
@@ -37,11 +37,11 @@ class PlayerEditorWW : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PlayerEditorWW(std::shared_ptr<Player> p);
+	PlayerEditorWW(std::unique_ptr<Player> refPlayer);
 private:
 	int Selection = 0;
 	int Mode = 0;
-	std::shared_ptr<Player> player;
+	std::unique_ptr<Player> player;
 
 	const std::vector<ButtonType> mainButtons = {
 		{15, 34, 130, 48, "APPEARANCE"},
@@ -63,8 +63,8 @@ private:
 	
 	/*	Player.	*/
 
-	std::shared_ptr<Pattern> pattern[8] = {nullptr};
-	std::shared_ptr<PatternImage> images[8] = {nullptr};
+	std::unique_ptr<Pattern> pattern[8] = {nullptr};
+	std::unique_ptr<PatternImage> images[8] = {nullptr};
 	C2D_Image patternImage[8] = {nullptr};
 };
 

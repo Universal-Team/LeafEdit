@@ -243,7 +243,7 @@ static const u32 WWPaletteColors[] = {
 	0xFF8C7BFF, 0xFF0000FF, 0xFF7B00FF, 0xFFFF00FF, 0x008400FF, 0x00FF00FF, 0x0000FFFF, 0x009CFFFF, 0xD600FFFF, 0xFF6BFFFF, 0x9C0000FF, 0xFF9400FF, 0xFFBD94FF, 0x000000FF, 0xFFFFFFFF
 };
 
-C2D_Image CoreUtils::patternImage(std::shared_ptr<PatternImage> image, SaveType ST) {
+C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType ST) {
 	u32 *buffer = (u32*)linearAlloc(sizeof(u32) * 32 * 32); // Allocate Buffer.
 
 	if (image) {
@@ -320,7 +320,7 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 }
 
 /* Dump Pattern Information for the Pattern Editor Tool. */
-void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::shared_ptr<Pattern> &ptrn) {
+void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique_ptr<Pattern> &ptrn) {
 	bool UTF8Read = true; // If UTF-8 or UTF-16 Read.
 	u8 patternLength = 0, creatorLength = 0, townLength = 0; // Name Reading Length.
 	u32 creatorNameStart = 0, townNameStart = 0, creatorIDStart = 0, townIDStart = 0, creatorGenderStart = 0;

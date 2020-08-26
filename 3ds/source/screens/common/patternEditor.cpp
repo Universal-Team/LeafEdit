@@ -75,7 +75,7 @@ static const u32 NLPaletteColors[] = {
 	0xFFAAFFAA, 0xFF77FF77, 0xFF44DD66, 0xFF00FF00, 0xFF22DD22, 0xFF55BB55, 0xFF00BB00, 0xFF008800, 0xFF224422, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
 };
 
-PatternEditor::PatternEditor(std::shared_ptr<Pattern> ptrn) : pattern(ptrn) {
+PatternEditor::PatternEditor(std::unique_ptr<Pattern> &ptrn) : pattern(ptrn) {
 	C3D_FrameEnd(0);
 	this->image = this->pattern->image(0);
 	this->patternImage = CoreUtils::patternImage(this->image, savesType);

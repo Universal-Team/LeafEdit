@@ -56,7 +56,7 @@ private:
 	const std::vector<ButtonType> mainButtons = {
 		{95, 34, 130, 48, "PLAYER"},
 		{95, 97, 130, 48, "VILLAGER"},
-		{95, 159, 130, 48, "MISC_EDITOR"}
+		{95, 159, 130, 48, "TOWN"}
 	};
 
 	const std::vector<Structs::ButtonPos> icons = {

@@ -38,7 +38,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
 extern std::shared_ptr<Sav> save;
 
-#define TESTPATH "sdmc:/nogba/Battery/EUR.sav"
+#define TESTPATH "sdmc:/nogba/Battery/korea.sav"
 
 void doStuff() {
 	/* Here we open the file and get the SaveType. */
@@ -60,6 +60,12 @@ void doStuff() {
 		exiting = true;
 		return;
 	}
+
+	save->player(0)->pocket(0)->id(0x136A); // Golden shovel.
+	save->player(0)->pocket(1)->id(0x156C); // 99,000 Bells.
+	save->player(0)->pocket(2)->id(0x156C); // 99,000 Bells.
+	save->player(0)->pocket(3)->id(0x156C); // 99,000 Bells.
+	save->player(0)->pocket(4)->id(0x156C); // 99,000 Bells.
 
 	/* And now we update the checksum at the end and write to file. */
 	save->Finish();

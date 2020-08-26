@@ -66,7 +66,7 @@ public:
 	virtual void injectPattern(const std::string fileName) = 0;
 
 	/* Pattern Image. */
-	virtual std::shared_ptr<PatternImage> image(const int pattern) const = 0;
+	virtual std::unique_ptr<PatternImage> image(const int pattern) const = 0;
 };
 
 #endif

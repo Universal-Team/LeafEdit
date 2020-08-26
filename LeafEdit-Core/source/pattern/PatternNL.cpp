@@ -150,6 +150,6 @@ void PatternNL::injectPattern(const std::string fileName) {
 	}
 }
 
-std::shared_ptr<PatternImage> PatternNL::image(const int pattern) const {
-	return std::make_shared<PatternImageNL>(this->data, (this->Offset + 0x6C + (pattern * 0x200)), this->Offset + 0x58);
+std::unique_ptr<PatternImage> PatternNL::image(const int pattern) const {
+	return std::make_unique<PatternImageNL>(this->data, (this->Offset + 0x6C + (pattern * 0x200)), this->Offset + 0x58);
 }

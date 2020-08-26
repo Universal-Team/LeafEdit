@@ -47,7 +47,7 @@ static const u32 WWPaletteColors[] = {
 	0xFF7B8CFF, 0xFF0000FF, 0xFF007BFF, 0xFF00FFFF, 0xFF008400, 0xFF00FF00, 0xFFFF0000, 0xFFFF9C00, 0xFFFF00D6, 0xFFFF6BFF, 0xFF00009C, 0xFF0094FF, 0xFF94BDFF, 0xFF000000, 0xFFFFFFFF
 };
 
-static void Draw(std::shared_ptr<PatternImage> &pImg, C2D_Image &img) {
+static void Draw(std::unique_ptr<PatternImage> &pImg, C2D_Image &img) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
@@ -67,7 +67,7 @@ static void Draw(std::shared_ptr<PatternImage> &pImg, C2D_Image &img) {
 	C3D_FrameEnd(0);
 }
 
-void Overlays::PaletteToolWW(std::shared_ptr<PatternImage> &pImg, C2D_Image &img) {
+void Overlays::PaletteToolWW(std::unique_ptr<PatternImage> &pImg, C2D_Image &img) {
 	bool exitOverlay = false;
 	while(!exitOverlay) {
 		

@@ -203,7 +203,7 @@ std::string StringUtils::UTF16toUTF8(const std::u16string& src) {
 
 /* Read a Wild World String. */
 std::u16string StringUtils::ReadUTF8String(u8 *data, u32 offset, u32 maxSize, WWRegion region) {
-	std::string str(reinterpret_cast<char *>(data + offset), maxSize);
+	std::string str(reinterpret_cast<char *>(data + offset), maxSize + 1);
 	return wwToUnicode(str, region);
 }
 

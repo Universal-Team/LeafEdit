@@ -37,9 +37,9 @@ class BadgeEditor : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	BadgeEditor(std::shared_ptr<Player> p) : player(p) { }
+	BadgeEditor(std::unique_ptr<Player> &refPlayer) : player(refPlayer) { }
 private:
-	std::shared_ptr<Player> player;
+	std::unique_ptr<Player> &player;
 
 	int selectedBadge = 0;
 	u8 setAll();

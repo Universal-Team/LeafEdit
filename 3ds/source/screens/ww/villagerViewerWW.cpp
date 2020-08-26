@@ -69,7 +69,9 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->Selection < save->maxVillager()) {
 			this->Selection++;
 		}
-	} else if (hDown & KEY_LEFT) {
+	}
+	
+	if (hDown & KEY_LEFT) {
 		if (this->Selection > 0) {
 			this->Selection--;
 		}
@@ -78,16 +80,17 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_SELECT) this->update();
 	
 	if (hDown & KEY_R) {
-		if (this->viewerIndex < 150)	this->viewerIndex++;
+		if (this->viewerIndex < 150) this->viewerIndex++;
 	}
 
 	if (hDown & KEY_L) {
-		if (this->viewerIndex > 0)	this->viewerIndex--;
+		if (this->viewerIndex > 0) this->viewerIndex--;
 	}
 
 	if (hDown & KEY_A) {
 		if (save->villager(this->Selection)->exist()) {
-			Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(this->Selection)), false, true);
+			this->villager = save->villager(this->Selection);
+			Gui::setScreen(std::make_unique<VillagerEditorWW>(this->villager), doFade, true);
 		}
 	}
 
@@ -99,7 +102,8 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		for (int i = 0; i < 8; i++) {
 			if (iconTouch(touch, villagers[i])) {
 				if (save->villager(i)->exist()) {
-					Gui::setScreen(std::make_unique<VillagerEditorWW>(save->villager(i)), doFade, true);
+					this->villager = save->villager(i);
+					Gui::setScreen(std::make_unique<VillagerEditorWW>(this->villager), doFade, true);
 				}
 			}
 		}

@@ -51,7 +51,7 @@ static void loadToVector(std::string path, std::vector<std::string> &vec) {
 
 	FILE* in = fopen(path.c_str(), "r");
 	while(__getline(&line, &len, in) != -1) {
-		if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = '\0';
+		if (line[strlen(line) - 1] == '\n') line[strlen(line)-1] = '\0';
 		vec.push_back(line);
 	}
 

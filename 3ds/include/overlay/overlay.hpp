@@ -58,9 +58,9 @@ namespace Overlays {
 	void showCredits();
 	
 	PatternMode SelectPatternTool();
-	void PaletteToolWW(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
-	void PaletteToolNL(std::shared_ptr<PatternImage> &pImg, C2D_Image &img);
-	void PaletteTool(std::shared_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST);
+	void PaletteToolWW(std::unique_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteToolNL(std::unique_ptr<PatternImage> &pImg, C2D_Image &img);
+	void PaletteTool(std::unique_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST);
 
 	std::string SelectDestination(std::string Text, std::string initialPath, std::string defaultDest);
 	std::string RomfsSDOverlay(std::vector<std::string> extensions, std::string SDPath, std::string romfsPath, std::string Text);

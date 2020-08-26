@@ -35,15 +35,14 @@
 extern std::unique_ptr<Config> config;
 extern SaveType savesType;
 
-#define MAX_DRESSER 17 // 17, because it starts with 0, so it would be basically 18.
+#define MAX_DRESSER 17
 #define MAX_ISLAND	3
 #define MAX_STORAGE 35 // Is that correct with 36 Boxes? (360)?
 
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 /* Only load item stuff, when accessing this screen and also unload by exit of that screen. */
-ItemEditorNL::ItemEditorNL(std::shared_ptr<Player> player) {
-	this->player = player;
+ItemEditorNL::ItemEditorNL(std::unique_ptr<Player> &refPlayer) : player(refPlayer) {
 	ItemUtils::loadItemBins();
 
 	/* Loading Pocket here. */
@@ -175,9 +174,7 @@ void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->Mode = 3;
 				break;
 			case 3:
-				if (savesType == SaveType::WA) {
-					this->Mode = 4;
-				}
+				if (savesType == SaveType::WA) this->Mode = 4;
 				break;
 		}
 	}

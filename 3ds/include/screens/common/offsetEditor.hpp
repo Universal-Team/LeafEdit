@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_OFFSETEDITOR_HPP
-#define _LEAFEDIT_OFFSETEDITOR_HPP
+#ifndef _LEAFEDIT_OFFSET_EDITOR_HPP
+#define _LEAFEDIT_OFFSET_EDITOR_HPP
 
 #include "common.hpp"
 #include "structs.hpp"

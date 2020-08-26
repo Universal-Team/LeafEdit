@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_PLAYERSELECTOR_HPP
-#define _LEAFEDIT_PLAYERSELECTOR_HPP
+#ifndef _LEAFEDIT_PLAYER_SELECTOR_HPP
+#define _LEAFEDIT_PLAYER_SELECTOR_HPP
 
 #include "common.hpp"
 #include "structs.hpp"

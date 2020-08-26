@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_COREUTILS_HPP
-#define _LEAFEDIT_COREUTILS_HPP
+#ifndef _LEAFEDIT_CORE_UTILS_HPP
+#define _LEAFEDIT_CORE_UTILS_HPP
 
 #include "itemUtils.hpp"
 #include "PatternImage.hpp"
@@ -49,9 +49,9 @@ namespace CoreUtils {
 	void createBackup();
 
 	/* Pattern stuff. */
-	C2D_Image patternImage(std::shared_ptr<PatternImage> image, SaveType ST = SaveType::UNUSED);
+	C2D_Image patternImage(std::unique_ptr<PatternImage> &image, SaveType ST = SaveType::UNUSED);
 	void generateEmptyPattern(SaveType ST, WWRegion region, std::shared_ptr<u8[]> &data);
-	void dumpPatternInformation(SaveType ST, WWRegion region, std::shared_ptr<Pattern> &ptrn);
+	void dumpPatternInformation(SaveType ST, WWRegion region, std::unique_ptr<Pattern> &ptrn);
 }
 
 #endif

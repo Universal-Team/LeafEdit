@@ -85,7 +85,7 @@ void VillagerViewerNL::Draw(void) const {
 void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Navigation. */
 	if (hDown & KEY_RIGHT) {
-		if(Selection < save->maxVillager()) {
+		if (Selection < save->maxVillager()) {
 			Selection++;
 		}
 	}
@@ -112,7 +112,8 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (save->villager(Selection)->exist()) {
-			Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(Selection)), doFade, true);
+			this->villager = save->villager(Selection);
+			Gui::setScreen(std::make_unique<VillagerEditorNL>(this->villager), doFade, true);
 		}
 	}
 
@@ -124,7 +125,8 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		for (int i = 0; i < 10; i++) {
 			if (iconTouch(touch, villagers[i])) {
 				if (save->villager(i)->exist()) {
-					Gui::setScreen(std::make_unique<VillagerEditorNL>(save->villager(i)), doFade, true);
+					this->villager = save->villager(i);
+					Gui::setScreen(std::make_unique<VillagerEditorNL>(this->villager), doFade, true);
 				}
 			}
 		}

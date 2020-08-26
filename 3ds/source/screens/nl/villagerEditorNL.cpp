@@ -151,23 +151,19 @@ void VillagerEditorNL::DrawItems(void) const {
 }
 
 void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->keyRepeatDelay) this->keyRepeatDelay--;
-
 	if (hDown & KEY_A) {
 		this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), savesType));
 	}
 		
-	if (hHeld & KEY_RIGHT && !this->keyRepeatDelay) {
+	if (hDown & KEY_RIGHT) {
 		if (this->itemSelection < 19) {
 			this->itemSelection++;
-			this->keyRepeatDelay = 6;
 		}
 	}
 
-	if (hHeld & KEY_LEFT && !this->keyRepeatDelay) {
+	if (hDown & KEY_LEFT) {
 		if (this->itemSelection > 0) {
 			this->itemSelection--;
-			this->keyRepeatDelay = 6;
 		}
 	}
 

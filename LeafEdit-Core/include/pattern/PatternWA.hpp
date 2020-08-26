@@ -66,7 +66,7 @@ public:
 	void injectPattern(const std::string fileName) override;
 
 	/* Pattern Image. */
-	std::shared_ptr<PatternImage> image(const int pattern) const override;
+	std::unique_ptr<PatternImage> image(const int pattern) const override;
 private:
 	u8* patternPointer() const {
 		return data.get() + Offset;

@@ -383,7 +383,7 @@ void PatternWW::injectPattern(const std::string fileName) {
 	}
 }
 
-std::shared_ptr<PatternImage> PatternWW::image(const int pattern) const {
+std::unique_ptr<PatternImage> PatternWW::image(const int pattern) const {
 	u32 patternOffset = this->Offset + 0;
 	u32 pltOffset = this->Offset + 0;
 
@@ -408,5 +408,5 @@ std::shared_ptr<PatternImage> PatternWW::image(const int pattern) const {
 			break;
 	}
 
-	return std::make_shared<PatternImageWW>(this->data, patternOffset, pltOffset);
+	return std::make_unique<PatternImageWW>(this->data, patternOffset, pltOffset);
 }
