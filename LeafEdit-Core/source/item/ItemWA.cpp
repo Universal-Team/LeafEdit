@@ -36,9 +36,15 @@ void ItemWA::id(u16 v) { SaveUtils::Write<u16>(itemPointer(), 0, v); }
 u16 ItemWA::flags() const { return SaveUtils::Read<u16>(itemPointer(), 2); }
 void ItemWA::flags(u16 v) { SaveUtils::Write<u16>(itemPointer(), 2, v); }
 
+u8 ItemWA::flag1() const { return SaveUtils::Read<u8>(itemPointer(), 2); }
+void ItemWA::flag1(u8 v) { SaveUtils::Write<u8>(itemPointer(), 2, v); }
+
+u8 ItemWA::flag2() const { return SaveUtils::Read<u8>(itemPointer(), 3); }
+void ItemWA::flag2(u8 v) { SaveUtils::Write<u8>(itemPointer(), 3, v); }
+
 /* Item Rotation. (Furniture / House) */
 int ItemWA::rotation() const { return 0; }
-void ItemWA::rotation(int Direction) { } // TODO.
+void ItemWA::rotation(int Direction) { }
 
 /* Item Name. */
 std::string ItemWA::name() const { return ItemUtils::getName(this->id()); }

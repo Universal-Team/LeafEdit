@@ -41,6 +41,7 @@ private:
 	/* Specific stuff. */
 	u32 maxAcres;
 	std::unique_ptr<Item> MapItems[4096]; // Complete Town Map Items.
+	bool ItemBuried[4096] = {false};
 	std::unique_ptr<Acre> FullAcres[36]; // Complete Acres.
 
 	/* Main Screen. */

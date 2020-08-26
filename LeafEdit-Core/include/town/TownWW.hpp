@@ -64,6 +64,8 @@ public:
 	u32 turnipPrices(bool isAM, int day) const override;
 	void turnipPrices(bool isAM, int day, u32 v) override;
 	std::unique_ptr<Pattern> townflag() const override;
+	bool itemBuried(int index) const override;
+	void itemBuried(int index, bool buried) override;
 private:
 	u8* townPointer() const {
 		return data.get();

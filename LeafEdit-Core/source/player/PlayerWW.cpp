@@ -149,7 +149,7 @@ u8 PlayerWW::hairstyle() const {
 		case WWRegion::JPN_REV1:
 			return playerPointer()[0x1CC6] >> 4;
 		case WWRegion::KOR_REV1:
-			return playerPointer()[0x243C] >> 4;;
+			return playerPointer()[0x243C] >> 4;
 		case WWRegion::UNKNOWN:
 			return 0;
 	}

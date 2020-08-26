@@ -61,6 +61,7 @@ TownMapEditorWW::TownMapEditorWW() {
 	/* Get Town Map Items. */
 	for (int i = 0; i < 4096; i++) {
 		this->MapItems[i] = save->town()->item(i);
+		this->ItemBuried[i] = save->town()->itemBuried(i);
 	}
 
 	/* Get Full Acres. */
@@ -134,7 +135,8 @@ void TownMapEditorWW::DrawGrid(void) const {
 	for (int i = 0 + (this->currentAcre * 256); i < 256 + (this->currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
-				GFX::drawGrid(10 + (x*10), 40 + (y*10), 10, 10, ItemManager::getColor(this->MapItems[i]->itemtype()));
+				GFX::drawGrid(10 + (x * 10), 40 + (y * 10), 10, 10, ItemManager::getColor(this->MapItems[i]->itemtype()));
+				if (this->ItemBuried[i]) GFX::DrawGUI(gui_cross_idx, 11 + (x * 10), 41 + (y * 10));
 			}
 		}
 	}
@@ -182,6 +184,7 @@ void TownMapEditorWW::DrawInformation() const {
 	else if (this->currentAcre > 3 && this->currentAcre < 8)	x = this->currentAcre - 4;
 	else if (this->currentAcre > 7 && this->currentAcre < 12)	x = this->currentAcre - 8;
 	else	x = this->currentAcre - 12;
+
 	/* Display Informations. */
 	Gui::DrawString(190, 40, 0.8f, BLACK, Lang::get("CURRENT_POSITION") + "\n" + std::to_string(this->PositionX) + " | " + std::to_string(this->PositionY), 0, 0, font);
 	Gui::DrawString(190, 90, 0.8f, BLACK, Lang::get("CURRENT_ITEM") + "\n" + this->MapItems[MapSelection]->name(), 0, 0, font);
@@ -294,7 +297,7 @@ void TownMapEditorWW::waterFlowers() {
 		}
 	}
 
-	if (wateredAmount > 0)	changes = true;
+	if (wateredAmount > 0) changes = true;
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("WATERED_FLOWERS").c_str(), wateredAmount);
 	Msg::DisplayWaitMsg(message);

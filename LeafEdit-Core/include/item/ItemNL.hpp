@@ -46,6 +46,10 @@ public:
 	void id(u16 v) override;
 	u16 flags() const override;
 	void flags(u16 v) override;
+	u8 flag1() const override;
+	void flag1(u8 v) override;
+	u8 flag2() const override;
+	void flag2(u8 v) override;
 	std::string name() const override;
 	ItemType itemtype() const override;
 	int rotation() const override;

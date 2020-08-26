@@ -58,12 +58,14 @@ void TownMapEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-// Initialize Screen.
+/* Initialize Screen. */
 TownMapEditorNL::TownMapEditorNL() {
 	ItemUtils::LoadDatabase(savesType); // TODO: Handle this at Editor loading instead?
+
 	/* Get Town Map Items. */
 	for (int i = 0; i < 5120; i++) {
 		this->MapItems[i] = save->town()->item(i);
+		this->ItemBuried[i] = save->town()->itemBuried(i);
 	}
 
 	/* Get Full Acres. */
@@ -78,7 +80,7 @@ TownMapEditorNL::TownMapEditorNL() {
 	}
 }
 
-// Convert the Selection to the current Acre.
+/* Convert the Selection to the current Acre. */
 int TownMapEditorNL::SelectionToAcre(int i) const {
 	switch(i) {
 		case 0:
@@ -144,18 +146,19 @@ int TownMapEditorNL::SelectionToAcre(int i) const {
 	return 8; // Should Never Happen.
 }
 
-// Draw the Item Grid.
+/* Draw the Item Grid. */
 void TownMapEditorNL::DrawGrid(void) const {
 	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
 				GFX::drawGrid(15 + (x * 12.5), 20 + (y * 12.5), 12.5, 12.5, ItemManager::getColor(this->MapItems[i]->itemtype()));
+				if (this->ItemBuried[i]) GFX::DrawGUI(gui_cross_idx, 16.5 + (x * 12.5), 21.5 + (y * 12.5));
 			}
 		}
 	}
 }
 
-// Convert to Position.
+/* Convert to Position. */
 void TownMapEditorNL::convertToPosition() {
 	int acre = 0;
 

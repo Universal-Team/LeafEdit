@@ -35,6 +35,14 @@
 
 extern std::map<u16, std::string> ItemDatabase;
 
+enum class FurnitureDirection {
+	None,
+	Up,
+	Right,
+	Down,
+	Left
+};
+
 /* Type of the Item. */
 enum class ItemType {
 	Empty,
@@ -87,6 +95,10 @@ public:
 	virtual void id(u16 v) = 0;
 	virtual u16 flags() const = 0;
 	virtual void flags(u16 v) = 0;
+	virtual u8 flag1() const = 0;
+	virtual void flag1(u8 v) = 0;
+	virtual u8 flag2() const = 0;
+	virtual void flag2(u8 v) = 0;
 	virtual std::string name() const = 0;
 	virtual ItemType itemtype() const = 0;
 	virtual int rotation() const = 0;

@@ -36,6 +36,12 @@ void ItemWW::id(u16 v) { SaveUtils::Write<u16>(itemPointer(), 0, v); }
 u16 ItemWW::flags() const { return 0; }
 void ItemWW::flags(u16 v) { }
 
+u8 ItemWW::flag1() const { return 0; }
+void ItemWW::flag1(u8 v) { }
+
+u8 ItemWW::flag2() const { return 0; }
+void ItemWW::flag2(u8 v) { }
+
 /* Item Rotation. (Furniture / House) */
 int ItemWW::rotation() const { return 0; }
 void ItemWW::rotation(int Direction) { } // TODO.

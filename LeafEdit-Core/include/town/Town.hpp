@@ -67,6 +67,8 @@ public:
 	virtual u32 turnipPrices(bool isAM, int day) const = 0;
 	virtual void turnipPrices(bool isAM, int day, u32 v) = 0;
 	virtual std::unique_ptr<Pattern> townflag() const = 0;
+	virtual bool itemBuried(int index) const = 0;
+	virtual void itemBuried(int index, bool buried) = 0;
 };
 
 #endif

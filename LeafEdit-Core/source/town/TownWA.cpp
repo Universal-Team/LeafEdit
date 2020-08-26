@@ -82,3 +82,24 @@ void TownWA::turnipPrices(bool isAM, int day, u32 v) {
 std::unique_ptr<Pattern> TownWA::townflag() const {
 	return std::make_unique<PatternWA>(this->data, 0x70F1C);
 }
+
+/* Item buried. */
+bool TownWA::itemBuried(int index) const {
+	if (index > 5119) return false;
+
+	return (this->townPointer()[(0x0534D8 + index * 4) + 3]) == 0x80; // That is basically Item Flag 2.. but I don't want to init the item class there.
+}
+
+void TownWA::itemBuried(int index, bool buried) {
+	if (index > 5119) return;
+
+	/* Check, if already buried or not. */
+	if (this->itemBuried(index) == buried) return; // No need to set again.
+
+	std::unique_ptr<Item> item = this->item(index);
+
+	if (item->itemtype() == ItemType::Empty) return; // Do not allow buried on empty spots.
+
+	/* Write buried state. */
+	item->flag2(buried ? 0x80 : 0x0);
+}

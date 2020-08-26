@@ -78,6 +78,15 @@
 	"data": "0x00000000"
 */
 
+/*
+	Write a bit.
+
+	"type": "WriteBit",
+	"offset": "0x220",
+	"bitIndex": 1,
+	"data": 1
+*/
+
 Script::Script(std::string fileName) {
 	if (access(fileName.c_str(), F_OK) != 0) {
 		this->valid = false;
@@ -389,6 +398,37 @@ ScriptError Script::execute(int entry) {
 				data = (u32)std::stoi(dataString, 0, 16);
 
 				Script::DoEI32(offset, data);
+
+			} else if (type == "WriteBit") {
+				u32 offset = 0; u8 data = 0, bitIndex = 0; std::string offsetString = "";
+
+				/* Get offset from json. */
+				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
+					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+				} else {
+					ret = ScriptError::Syntax;
+					break;
+				}
+				
+				offset = (u32)std::stoi(offsetString, 0, 16);
+
+				/* Get data from json. */
+				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_number()) {
+					data = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+				} else {
+					ret = ScriptError::Syntax;
+					break;
+				}
+
+				/* Get bit index from json. */
+				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("bitIndex") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("bitIndex").is_number()) {
+					bitIndex = this->scriptJson["scriptContent"][entry]["script"][i]["bitIndex"];
+				} else {
+					ret = ScriptError::Syntax;
+					break;
+				}
+
+				if (save) SaveUtils::SetBit(save->savePointer(), offset, bitIndex, data);
 			}
 		}
 	}

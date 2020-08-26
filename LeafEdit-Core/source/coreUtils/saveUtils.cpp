@@ -24,40 +24,17 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_ITEM_WA_HPP
-#define _LEAFEDIT_CORE_ITEM_WA_HPP
+#include "saveUtils.hpp"
 
-#include "Item.hpp"
+/* Credits: PKSM-Core: https://github.com/FlagBrew/PKSM-Core/blob/master/source/utils/flagUtil.cpp. */
+bool SaveUtils::GetBit(const u8 *data, int offset, u8 bitIndex) {
+	bitIndex &= 7; // ensure bit access is 0-7.
+	return (data[offset] >> bitIndex & 1) != 0;
+}
 
-#include <memory>
-#include <vector>
-
-class ItemWA : public Item {
-protected:
-	u32 Offset;
-	std::shared_ptr<u8[]> data;
-public:
-	virtual ~ItemWA() {}
-	ItemWA(std::shared_ptr<u8[]> itemData, u32 offset) :
-		Item(itemData, offset), Offset(offset), data(itemData) { }
-
-	u32 maxItems() const override { return 0; };
-	u16 id() const override;
-	void id(u16 v) override;
-	u16 flags() const override;
-	void flags(u16 v) override;
-	u8 flag1() const override;
-	void flag1(u8 v) override;
-	u8 flag2() const override;
-	void flag2(u8 v) override;
-	std::string name() const override;
-	ItemType itemtype() const override;
-	int rotation() const override;
-	void rotation(int Direction) override;
-private:
-	u8* itemPointer() const {
-		return data.get() + Offset;
-	}
-};
-
-#endif
+void SaveUtils::SetBit(u8 *data, int offset, u8 bitIndex, bool bit) {
+	bitIndex &= 7; // ensure bit access is 0-7.
+	data[offset] &= ~(1 << bitIndex);
+	data[offset] |= (bit ? 1 : 0) << bitIndex;
+	if (save) save->changesMade();
+}

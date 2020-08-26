@@ -149,7 +149,7 @@ void Editor::Draw(void) const {
 
 		for (int i = 0; i < 3; i++) {
 			GFX::DrawButton(mainButtons[i]);
-			if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
+			if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 		}
 
 		GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
@@ -181,10 +181,6 @@ void Editor::Saving() {
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (loadState == SaveState::Loaded) {
-		if (hDown & KEY_X) {
-			save->player(0)->gender(1);
-		}
-		
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
 				if (save->changesMade() && !this->hasSaved) {
@@ -205,17 +201,17 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		/* Navigation. */
 		if (hDown & KEY_UP) {
-			if (Selection > 0)	Selection--;
+			if (this->Selection > 0) this->Selection--;
 		}
 		
 		if (hDown & KEY_DOWN) {
-			if (Selection < 2)	Selection++;
+			if (this->Selection < 2) this->Selection++;
 		}
 
 		if (hDown & KEY_A) {
 			if (savesType != SaveType::UNUSED) {
 				/* Player Editor. */
-				if (Selection == 0) {
+				if (this->Selection == 0) {
 					if (save->player(0)) {
 						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
 					} else {
@@ -223,7 +219,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 
 					/* Villager Viewer. */
-				} else if (Selection == 1) {
+				} else if (this->Selection == 1) {
 					if (save->villager(0)) {
 						if (savesType == SaveType::WW) {
 							Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
@@ -235,7 +231,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 
 					/* Town Map Editor. */
-				} else if (Selection == 2) {
+				} else if (this->Selection == 2) {
 					if (save->town()->acre(0) && save->town()->item(0)) {
 						if (savesType == SaveType::WW) {
 							Gui::setScreen(std::make_unique<TownMapEditorWW>(), doFade, true);
