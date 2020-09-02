@@ -119,6 +119,22 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 			return path;
 		}
 
+		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+			if ((selectedDir - 9) < 0) {
+				selectedDir = 0;
+			} else {
+				selectedDir -= 9;
+			}
+		}
+
+		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+			if ((selectedDir + 9) > (int)dirContents.size()-1) {
+				selectedDir = (int)dirContents.size()-1;
+			} else {
+				selectedDir += 9;
+			}
+		}
+
 		if (hRepeat & KEY_UP) {
 			if (selectedDir > 0) {
 				selectedDir--;

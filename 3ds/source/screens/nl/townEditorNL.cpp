@@ -54,25 +54,23 @@ void TownEditorNL::Draw(void) const {
 }
 
 void TownEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 3) {
-			this->Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
 	}
 	
-	if (hDown & KEY_LEFT) {
-		if (this->Selection < 6 && this->Selection > 2) {
-			this->Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 
 	if (hDown & KEY_A) {

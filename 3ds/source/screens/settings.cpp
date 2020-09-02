@@ -47,13 +47,14 @@ void Settings::Draw(void) const {
 
 
 void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	/* Navigation. */
-	if (hDown & KEY_DOWN) {
-		if (Selection < 2)	Selection++;
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_DOWN) {
+		if (Selection < 2) Selection++;
 	}
 
-	if (hDown & KEY_UP) {
-		if (Selection > 0)	Selection--;
+	if (hRepeat & KEY_UP) {
+		if (Selection > 0) Selection--;
 	}
 
 	if (hDown & KEY_B) {

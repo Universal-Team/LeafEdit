@@ -177,6 +177,8 @@ void Editor::Saving() {
 }
 
 void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
 			if (iconTouch(touch, icons[0])) {
@@ -197,11 +199,11 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		/* Navigation. */
-		if (hDown & KEY_UP) {
+		if (hRepeat & KEY_UP) {
 			if (this->Selection > 0) this->Selection--;
 		}
 		
-		if (hDown & KEY_DOWN) {
+		if (hRepeat & KEY_DOWN) {
 			if (this->Selection < 2) this->Selection++;
 		}
 

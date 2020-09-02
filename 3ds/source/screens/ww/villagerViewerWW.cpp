@@ -35,9 +35,7 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 
-VillagerViewerWW::VillagerViewerWW() {
-	this->update();
-}
+VillagerViewerWW::VillagerViewerWW() { this->update(); }
 
 void VillagerViewerWW::update() {
 	/* Get all Villager ID's for display. */
@@ -64,26 +62,24 @@ void VillagerViewerWW::Draw(void) const {
 }
 
 void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < save->maxVillager()) {
-			this->Selection++;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < save->maxVillager()) this->Selection++;
 	}
 	
-	if (hDown & KEY_LEFT) {
-		if (this->Selection > 0) {
-			this->Selection--;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection > 0) this->Selection--;
 	}
 
 	if (hDown & KEY_SELECT) this->update();
 	
-	if (hDown & KEY_R) {
+	if (hRepeat & KEY_R) {
 		if (this->viewerIndex < 150) this->viewerIndex++;
 	}
 
-	if (hDown & KEY_L) {
+	if (hRepeat & KEY_L) {
 		if (this->viewerIndex > 0) this->viewerIndex--;
 	}
 

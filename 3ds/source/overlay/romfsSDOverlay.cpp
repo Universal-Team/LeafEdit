@@ -104,6 +104,22 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 			dirChanged = false;
 		}
 
+		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+			if ((selectedFile - 9) < 0) {
+				selectedFile = 0;
+			} else {
+				selectedFile -= 9;
+			}
+		}
+
+		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+			if ((selectedFile + 9) > (int)dirContents.size()-1) {
+				selectedFile = (int)dirContents.size()-1;
+			} else {
+				selectedFile += 9;
+			}
+		}
+		
 		if (hRepeat & KEY_UP) {
 			if (selectedFile > 0) {
 				selectedFile--;

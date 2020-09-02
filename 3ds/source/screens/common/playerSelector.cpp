@@ -101,16 +101,15 @@ void PlayerSelector::Draw(void) const {
 }
 
 void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	/* Navigation. */
-	if (hDown & KEY_RIGHT) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_RIGHT) {
 		if (this->selectedPlayer < 3) {
-			if (save->player(this->selectedPlayer + 1)->exist()) {
-				this->selectedPlayer++;
-			}
+			if (save->player(this->selectedPlayer + 1)->exist()) this->selectedPlayer++;
 		}
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->selectedPlayer > 0) this->selectedPlayer--;
 	}
 

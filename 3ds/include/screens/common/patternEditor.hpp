@@ -49,7 +49,7 @@ private:
 	C2D_Image patternImage;
 
 	/* Palette Stuff. */
-	int color = 0;
+	int color = 0, xPos = 0, yPos = 0;
 
 	const std::vector<Structs::ButtonPos> palettePos = {
 		{260, 7, 22, 22},

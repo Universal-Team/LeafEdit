@@ -126,10 +126,30 @@ void PatternEditor::Draw(void) const {
 		}
 	}
 
+	GFX::drawGrid(8 + this->xPos * 7, 8 + this->yPos * 7, 7, 7, C2D_Color32(0, 0, 0, 0), C2D_Color32(0, 0, 0, 255));
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_DOWN) {
+		if (this->yPos < 31) this->yPos++;
+	}
+
+	if (hRepeat & KEY_UP) {
+		if (this->yPos > 0) this->yPos--;
+	}
+
+	if (hRepeat & KEY_RIGHT) {
+		if (this->xPos < 31) this->xPos++;
+	}
+
+	if (hRepeat & KEY_LEFT) {
+		if (this->xPos > 0) this->xPos--;
+	}
+
 	if (this->ptrnTool == PatternMode::Exit) {
 		Gui::screenBack(doFade);
 	}
@@ -220,6 +240,15 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
 				this->patternImage = CoreUtils::patternImage(this->image, savesType);
 			}
+		}
+
+		if (hHeld & KEY_A) {
+			if (savesType == SaveType::WW) this->image->setPixel(this->xPos, this->yPos, this->color + 1);
+			else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(this->xPos, this->yPos, this->color);
+
+			C3D_FrameEnd(0);
+			if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
+			this->patternImage = CoreUtils::patternImage(this->image, savesType);
 		}
 	}
 }

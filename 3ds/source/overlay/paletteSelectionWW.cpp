@@ -72,11 +72,12 @@ void Overlays::PaletteToolWW(std::unique_ptr<PatternImage> &pImg, C2D_Image &img
 	while(!exitOverlay) {
 		
 		Draw(pImg, img);
+		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
 
 		/* Only allow actions, if alright. */
 		if (pImg && img.subtex) {
-			if (hidKeysDown() & KEY_RIGHT) {
+			if (hRepeat & KEY_RIGHT) {
 				if (pImg->getWWPaletteIndex() < 14) {
 					pImg->setPaletteColor(pImg->getWWPaletteIndex() + 1, 0);
 					C3D_FrameEnd(0);
@@ -84,7 +85,7 @@ void Overlays::PaletteToolWW(std::unique_ptr<PatternImage> &pImg, C2D_Image &img
 				}
 			}
 
-			if (hidKeysDown() & KEY_LEFT) {
+			if (hRepeat & KEY_LEFT) {
 				if (pImg->getWWPaletteIndex() > 0) {
 					pImg->setPaletteColor(pImg->getWWPaletteIndex() - 1, 0);
 					C3D_FrameEnd(0);

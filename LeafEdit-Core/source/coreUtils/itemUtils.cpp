@@ -93,7 +93,7 @@ ItemBin_s* ItemUtils::GetItemBinSlot(u16 ItemID) {
 	}
 
 	/* chk <= maxID. */
-	else if (g_ItemBin != nullptr) {
+	else if (g_ItemBin) {
 		fseek(g_ItemBin, sizeof(ItemBin_s)*chk, SEEK_SET);
 		if ((fread(reinterpret_cast<void*>(ItemSlot), 1, sizeof(ItemBin_s), g_ItemBin)) >= 0) return ItemSlot;
 	}
@@ -106,7 +106,7 @@ ItemKind_s* ItemUtils::GetItemKindSlot(u16 ItemID) {
 	ItemKind_s *KindSlot = new ItemKind_s;
 	ItemBin_s *ItemSlot = GetItemBinSlot(ItemID);
 
-	if (ItemSlot == nullptr) {
+	if (!ItemSlot) {
 		delete KindSlot;
 		return nullptr;
 	}
@@ -117,7 +117,8 @@ ItemKind_s* ItemUtils::GetItemKindSlot(u16 ItemID) {
 	if (ItemCategory >= 0x9B) {
 		delete KindSlot;
 		return nullptr;
-	} else if (g_ItemKindBin != nullptr) {
+
+	} else if (g_ItemKindBin) {
 		fseek(g_ItemKindBin, sizeof(ItemBin_s)* ItemCategory, SEEK_SET);
 		if ((fread(reinterpret_cast<void *>(KindSlot), 1, sizeof(ItemKind_s), g_ItemKindBin)) >= 0) return KindSlot;
 	}
@@ -142,13 +143,15 @@ u16 ItemUtils::GetAxeDamageIcon(u16 ItemID, u16 Flags) {
 }
 
 bool ItemUtils::IsInvWhitelisted(u16 ItemID) {
-	ItemID &= 0x6000;
-	if (ItemID == 0x4000) return true; // If item is wrapping paper / Any item ID between 0x4000 <-> 0x5FFF.
+	u16 ID = ItemID;
+	ID &= 0x6000;
+	if (ID == 0x4000) return true; // If item is wrapping paper / Any item ID between 0x4000 <-> 0x5FFF.
 
-	ItemKind_s *KindSlot = GetItemKindSlot(ItemID);
-	if (KindSlot == nullptr) return false;
+	ItemKind_s *KindSlot = GetItemKindSlot(ID);
 
-	u32 Unk = !(KindSlot->Unknown2&0x10);
+	if (!KindSlot) return false;
+
+	u32 Unk = !(KindSlot->Unknown2 & 0x10);
 	if (Unk == static_cast<u32>(-1)) return true;
 
 	return false;
@@ -156,7 +159,7 @@ bool ItemUtils::IsInvWhitelisted(u16 ItemID) {
 
 u8 ItemUtils::GetCategory(u16 ItemID) {
 	ItemBin_s* ItemSlot = GetItemBinSlot(ItemID);
-	if (ItemSlot == nullptr) return 0x9B;
+	if (!ItemSlot) return 0x9B;
 
 	u8 category = ItemSlot->Category;
 	delete ItemSlot;
@@ -168,7 +171,7 @@ u8 ItemUtils::GetCategory(u16 ItemID) {
 u16 ItemUtils::GetIconID(u16 ItemID, u16 Flags) {
 
 	ItemBin_s* ItemSlot = GetItemBinSlot(ItemID);
-	if (ItemSlot == nullptr) return 0;
+	if (!ItemSlot) return 0;
 
 	u16 IconID = ItemSlot->ItemIcon;
 	delete ItemSlot;
@@ -187,7 +190,7 @@ s32 ItemUtils::GetSpritesheetID(u16 ItemID, u16 Flags) {
 	if (ItemID == 0x7FFE) return -1;
 
 	u16 iconID = 0;
-	if (g_ItemBin != nullptr) iconID = GetIconID(ItemID, Flags);
+	if (g_ItemBin) iconID = GetIconID(ItemID, Flags);
 
 	return SpritesheetIDTable[iconID];
 }

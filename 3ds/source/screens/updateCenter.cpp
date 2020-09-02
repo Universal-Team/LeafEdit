@@ -84,6 +84,8 @@ void UpdateCenter::Draw(void) const {
 
 
 void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
@@ -106,10 +108,12 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	// Navigation.
-	if (hDown & KEY_UP) {
-		if (Selection > 0)	Selection --;
-	} else if (hDown & KEY_DOWN) {
-		if (Selection < 2)	Selection++;
+	if (hRepeat & KEY_UP) {
+		if (Selection > 0) Selection --;
+	}
+	
+	if (hRepeat & KEY_DOWN) {
+		if (Selection < 2) Selection++;
 	}
 
 	if (hDown & KEY_A) {

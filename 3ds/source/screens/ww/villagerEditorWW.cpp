@@ -73,25 +73,23 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 }
 
 void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Selection. */
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
 	
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 3) {
-			this->Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
 	}
 
-	if (hDown & KEY_LEFT) {
-		if (this->Selection < 6 && this->Selection > 2) {
-			this->Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 
 	if (hDown & KEY_A) {
@@ -149,7 +147,7 @@ void VillagerEditorWW::DrawItems(void) const {
 }
 
 void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->keyRepeatDelay) this->keyRepeatDelay--;
+	u32 hRepeat = hidKeysDownRepeat();
 
 	if (hDown & KEY_A) {
 		if (this->itemSelection < 10) {
@@ -177,18 +175,12 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hHeld & KEY_RIGHT && !this->keyRepeatDelay) {
-		if (this->itemSelection < 14) {
-			this->itemSelection++;
-			this->keyRepeatDelay = 6;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->itemSelection < 14) this->itemSelection++;
 	}
 
-	if (hHeld & KEY_LEFT && !this->keyRepeatDelay) {
-		if (this->itemSelection > 0) {
-			this->itemSelection--;
-			this->keyRepeatDelay = 6;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->itemSelection > 0) this->itemSelection--;
 	}
 
 	if (hDown & KEY_B) {

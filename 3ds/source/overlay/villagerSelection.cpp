@@ -74,21 +74,22 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 		Draw(selection, st, maxSelection);
 		
 		/* Logic, here. */
+		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
 
-		if (hidKeysDown() & KEY_RIGHT) {
+		if (hRepeat & KEY_RIGHT) {
 			if (selection < maxSelection) selection++;
 		}
 
-		if (hidKeysDown() & KEY_LEFT) {
+		if (hRepeat & KEY_LEFT) {
 			if (selection > 0) selection--;
 		}
 
-		if (hidKeysHeld() & KEY_R) {
+		if (hRepeat & KEY_R) {
 			if (selection < maxSelection) selection++;
 		}
 
-		if (hidKeysHeld() & KEY_L) {
+		if (hRepeat & KEY_L) {
 			if (selection > 0) selection--;
 		}
 

@@ -112,9 +112,11 @@ u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv, std:
 			}
 
 			if (hidKeysDown() & KEY_A) {
-				if (blockInv && (st == SaveType::NL || st == SaveType::WA)) {
-					if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
-						return std::get<0>(itemList[itemIndex]);
+				if (blockInv) {
+					if (st == SaveType::NL || st == SaveType::WA) {
+						if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
+							return std::get<0>(itemList[itemIndex]);
+						}
 					}
 				} else {
 					return std::get<0>(itemList[itemIndex]);
@@ -189,9 +191,11 @@ u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockI
 			}
 
 			if (hidKeysDown() & KEY_A) {
-				if (blockInv && (st == SaveType::NL || st == SaveType::WA)) {
-					if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
-						return std::get<0>(itemList[itemIndex]);
+				if (blockInv) {
+					if (st == SaveType::NL || st == SaveType::WA) {
+						if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
+							return std::get<0>(itemList[itemIndex]);
+						}
 					}
 				} else {
 					return std::get<0>(itemList[itemIndex]);

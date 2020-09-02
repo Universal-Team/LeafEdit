@@ -175,25 +175,22 @@ void OffsetEditor::Draw(void) const {
 
 
 void OffsetEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	/* Navigation. */
-	if (hDown & KEY_UP) {
-		if (Selection > 0)	Selection--;
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_UP) {
+		if (Selection > 0) Selection--;
 	}
 
-	if (hDown & KEY_DOWN) {
-		if (Selection < 5)	Selection++;
+	if (hRepeat & KEY_DOWN) {
+		if (Selection < 5) Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (Selection < 3) {
-			Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (Selection < 3) Selection += 3;
 	}
 	
-	if (hDown & KEY_LEFT) {
-		if (Selection < 6 && Selection > 2) {
-			Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (Selection < 6 && Selection > 2) Selection -= 3;
 	}
 
 	if (hDown & KEY_A) {

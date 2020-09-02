@@ -101,17 +101,19 @@ void ScriptScreen::Draw(void) const {
 
 
 void ScriptScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if (!this->loadMode) {
 		if (hDown & KEY_B) {
 			Gui::screenBack(doFade);
 		}
 
 		if (this->script) {
-			if (hDown & KEY_DOWN) {
+			if (hRepeat & KEY_DOWN) {
 				if (this->selection < this->script->getEntrySize()-1) this->selection++;
 			}
 
-			if (hDown & KEY_UP) {
+			if (hRepeat & KEY_UP) {
 				if (this->selection > 0) this->selection--;
 			}
 

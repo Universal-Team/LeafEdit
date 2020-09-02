@@ -93,25 +93,23 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 }
 
 void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 3) {
-			this->Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
 	}
 
-	if (hDown & KEY_LEFT) {
-		if (this->Selection < 6 && this->Selection > 2) {
-			this->Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 
 	if (hDown & KEY_A) {
@@ -178,25 +176,23 @@ void PlayerEditorNL::DrawAppearance(void) const {
 }
 
 void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 3) {
-			this->Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
 	}
 	
-	if (hDown & KEY_LEFT) {
-		if (this->Selection < 6 && this->Selection > 2) {
-			this->Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 	
 	if (hDown & KEY_B) {
@@ -240,16 +236,14 @@ void PlayerEditorNL::DisplayPattern(void) const {
 }
 
 void PlayerEditorNL::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 9) {
-			this->Selection++;
-		}
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 9) this->Selection++;
 	}
 
-	if (hDown & KEY_LEFT) {
-		if (this->Selection > 0) {
-			this->Selection--;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection > 0) this->Selection--;
 	}
 
 	/* Refresh Pattern Images. */
@@ -300,16 +294,18 @@ void PlayerEditorNL::DrawLetter(void) const {
 }
 
 void PlayerEditorNL::LetterLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if (hDown & KEY_B) {
 		this->Selection = 0;
 		this->Mode = 0;
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < 9) this->Selection++;
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->Selection > 0) this->Selection--;
 	}
 }

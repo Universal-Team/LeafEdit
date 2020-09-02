@@ -56,23 +56,25 @@ void BadgeEditor::Draw(void) const {
 }
 
 void BadgeEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (selectedBadge < 23) selectedBadge++;
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (selectedBadge > 0) selectedBadge--;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (selectedBadge < 18) selectedBadge += 6;
 	}
 
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (selectedBadge > 5) selectedBadge -= 6;
 	}
 
@@ -118,6 +120,7 @@ u8 BadgeEditor::setAll() {
 		C3D_FrameEnd(0);
 
 		hidScanInput();
+		u32 hRepeat = hidKeysDownRepeat();
 		hidTouchRead(&touch);
 
 		if (hidKeysDown() & KEY_TOUCH) {
@@ -128,12 +131,12 @@ u8 BadgeEditor::setAll() {
 			}
 		}
 
-		if (hidKeysDown() & KEY_DOWN) {
-			if (selection < 3)	selection++;
+		if (hRepeat & KEY_DOWN) {
+			if (selection < 3) selection++;
 		}
 
-		if (hidKeysDown() & KEY_UP) {
-			if (selection > 0)	selection--;
+		if (hRepeat & KEY_UP) {
+			if (selection > 0) selection--;
 		}
 
 		if (hidKeysDown() & KEY_A) {

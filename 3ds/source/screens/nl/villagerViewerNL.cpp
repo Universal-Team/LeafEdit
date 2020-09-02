@@ -37,9 +37,7 @@ extern std::shared_ptr<Sav> save;
 /* Bring that to other screens too. */
 extern SaveType savesType;
 
-VillagerViewerNL::VillagerViewerNL() {
-	this->update();
-}
+VillagerViewerNL::VillagerViewerNL() { this->update(); }
 
 void VillagerViewerNL::update() {
 	/* Get all Villager ID's for display. */
@@ -69,14 +67,16 @@ void VillagerViewerNL::Draw(void) const {
 }
 
 void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (Selection < save->maxVillager()) {
 			Selection++;
 		}
 	}
 	
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (Selection > 0) {
 			Selection--;
 		}
@@ -84,7 +84,7 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_SELECT)	this->update();
 
-	if (hDown & KEY_R) {
+	if (hRepeat & KEY_R) {
 		if (savesType == SaveType::WA) {
 			if (this->viewerIndex < 398) this->viewerIndex++;
 		} else {
@@ -92,7 +92,7 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_L) {
+	if (hRepeat & KEY_L) {
 		if (this->viewerIndex > 0)	this->viewerIndex--;
 	}
 

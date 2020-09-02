@@ -322,6 +322,8 @@ void TownMapEditorWW::updateStuff() {
 }
 
 void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if ((hDown & KEY_B) || (hDown & KEY_TOUCH && iconTouch(touch, icons[0]))) {
 		Gui::screenBack(doFade);
 	}
@@ -363,7 +365,7 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	}
 
 	if (this->selectMode == 0) {
-		if (hDown & KEY_RIGHT) {
+		if (hRepeat & KEY_RIGHT) {
 			if (this->currentPosX == 15 && this->currentAcre < 15) {
 				/* Go one Acre next and reset X to 0. */
 				this->currentAcre++;
@@ -375,7 +377,7 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			}
 		}
 
-		if (hDown & KEY_LEFT) {
+		if (hRepeat & KEY_LEFT) {
 			if (this->currentPosX == 0 && this->currentAcre > 0) {
 				/* Go one Acre before. */
 				this->currentAcre--;
@@ -387,7 +389,7 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			}
 		}
 
-		if (hDown & KEY_DOWN) {
+		if (hRepeat & KEY_DOWN) {
 			if (this->currentPosY == 15 && this->currentAcre < 12) {
 				/* Go one Acre down & reset Y to 0. */
 				this->currentAcre += 4;
@@ -399,7 +401,7 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			}
 		}
 
-		if (hDown & KEY_UP) {
+		if (hRepeat & KEY_UP) {
 			if (this->currentPosY == 0 && this->currentAcre > 3) {
 				/* Go one Acre up. */
 				this->currentAcre -= 4;
@@ -411,9 +413,9 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			}
 		}
 	} else {
-		if (hDown & KEY_DOWN) {
+		if (hRepeat & KEY_DOWN) {
 			if (this->selection < 3) this->selection++;
-		} else if (hDown & KEY_UP) {
+		} else if (hRepeat & KEY_UP) {
 			if (this->selection > 0) this->selection--;
 		}
 	}
@@ -441,16 +443,18 @@ void TownMapEditorWW::DrawTempItem(void) const {
 }
 
 void TownMapEditorWW::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+	
 	if (hDown & KEY_B) {
 		this->selection = 0;
 		this->Mode = 0;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->selection < 1) this->selection++;
 	}
 
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->selection > 0) this->selection--;
 	}
 

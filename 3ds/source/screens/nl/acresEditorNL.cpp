@@ -132,6 +132,8 @@ void AcresEditorNL::Draw(void) const {
 }
 
 void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Go back to the Town Map Editor. */
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
@@ -159,7 +161,7 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (GodMode) {
 			if (this->selection < 35) this->selection += 7;
 		} else {
@@ -167,7 +169,7 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}	
 	}
 
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (GodMode) {
 			if (this->selection > 6) this->selection -= 7;
 		} else {
@@ -175,7 +177,7 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (GodMode) {
 			if (this->selection < 41) this->selection++;
 		} else {
@@ -183,7 +185,7 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->selection > 0) this->selection--;
 	}
 
@@ -193,29 +195,21 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	*/
 	if (this->FastMode) {
 		if (keysHeld() & KEY_L) {
-			if (this->selectedAcre > 0) {
-				this->selectedAcre--;
-			}
+			if (this->selectedAcre > 0) this->selectedAcre--;
 		}
 		
 		if (keysHeld() & KEY_R) {
-			if (this->selectedAcre < this->maxAcres) {
-				this->selectedAcre++;
-			}
+			if (this->selectedAcre < this->maxAcres) this->selectedAcre++;
 		}
 
 		/* Normal speed. (1 by 1.) */
 	} else {
-		if (hDown & KEY_L) {
-			if (this->selectedAcre > 0) {
-				this->selectedAcre--;
-			}
+		if (hRepeat & KEY_L) {
+			if (this->selectedAcre > 0) this->selectedAcre--;
 		}
 
-		if (hDown & KEY_R) {
-			if (this->selectedAcre < this->maxAcres) {
-				this->selectedAcre++;
-			}
+		if (hRepeat & KEY_R) {
+			if (this->selectedAcre < this->maxAcres) this->selectedAcre++;
 		}
 	}
 

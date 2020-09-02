@@ -72,18 +72,19 @@ PatternMode Overlays::SelectPatternTool() {
 	while(1) {
 		Draw(selection, page);
 		u32 hDown = hidKeysDown();
+		u32 hRepeat = hidKeysDownRepeat();
 		touchPosition touch;
 		hidScanInput();
 		hidTouchRead(&touch);
 
-		if (hDown & KEY_R) {
+		if (hRepeat & KEY_R) {
 			if (page < 1) {
 				selection = 0;
 				page++;
 			}
 		}
 
-		if (hDown & KEY_L) {
+		if (hRepeat & KEY_L) {
 			if (page > 0) {
 				selection = 0;
 				page--;
@@ -113,21 +114,21 @@ PatternMode Overlays::SelectPatternTool() {
 		}
 
 		if (page == 0) {
-			if (hDown & KEY_UP) {
+			if (hRepeat & KEY_UP) {
 				if (selection > 0) selection--;
 			}
 
-			if (hDown & KEY_DOWN) {
+			if (hRepeat & KEY_DOWN) {
 				if (selection < 5) selection++;
 			}
 
-			if (hDown & KEY_RIGHT) {
+			if (hRepeat & KEY_RIGHT) {
 				if (selection < 3) {
 					selection += 3;
 				}
 			}
 
-			if (hDown & KEY_LEFT) {
+			if (hRepeat & KEY_LEFT) {
 				if (selection < 6 && selection > 2) {
 					selection -= 3;
 				}

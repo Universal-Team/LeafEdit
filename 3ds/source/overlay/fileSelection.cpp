@@ -66,7 +66,6 @@ static void DrawBottom() {
 
 std::string Overlays::SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text) {
 	s32 selectedFile = 0;
-	int keyRepeatDelay = 4;
 	bool dirChanged = false;
 	std::vector<DirEntry> dirContents;
 
@@ -87,8 +86,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 		// The input part.
 		hidScanInput();
 		u32 hDown = hidKeysDown();
-		u32 hHeld = hidKeysHeld();
-		if (keyRepeatDelay)	keyRepeatDelay--;
+		u32 hRepeat = hidKeysDownRepeat();
 
 		// if directory changed -> Refresh it.
 		if (dirChanged) {
@@ -115,17 +113,31 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 			}
 		}
 
-		if (hHeld & KEY_UP) {
-			if (selectedFile > 0 && !keyRepeatDelay) {
+		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+			if ((selectedFile - 9) < 0) {
+				selectedFile = 0;
+			} else {
+				selectedFile -= 9;
+			}
+		}
+
+		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+			if ((selectedFile + 9) > (int)dirContents.size()-1) {
+				selectedFile = (int)dirContents.size()-1;
+			} else {
+				selectedFile += 9;
+			}
+		}
+
+		if (hRepeat & KEY_UP) {
+			if (selectedFile > 0) {
 				selectedFile--;
-				keyRepeatDelay = 6;
 			}
 		}
 		
-		if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+		if (hRepeat & KEY_DOWN) {
 			if ((uint)selectedFile < dirContents.size()-1) {
 				selectedFile++;
-				keyRepeatDelay = 6;
 			}
 		}
 		

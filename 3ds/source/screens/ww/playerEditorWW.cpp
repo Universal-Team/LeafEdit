@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "itemEditorWW.hpp"
 #include "patternEditor.hpp"
 #include "playerEditorWW.hpp"
 #include "Sav.hpp"
@@ -66,9 +67,11 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 }
 
 void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
 	if (hDown & KEY_UP) {
-		if(Selection > 0) Selection--;
+		if (hRepeat > 0) Selection--;
 	}
 
 	if (hDown & KEY_A) {
@@ -77,7 +80,7 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				/* this->Mode = 1; */
 				break;
 			case 1:
-				/* No idea. */
+				Gui::setScreen(std::make_unique<ItemEditorWW>(this->player), doFade, true);
 				break;
 			case 2:
 				/* Load Pattern. */
@@ -96,20 +99,16 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_DOWN) {
-		if(Selection < 5) Selection++;
+	if (hRepeat & KEY_DOWN) {
+		if (Selection < 5) Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (Selection < 3) {
-			Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (Selection < 3) Selection += 3;
 	}
 	
-	if (hDown & KEY_LEFT) {
-		if (Selection < 6 && Selection > 2) {
-			Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (Selection < 6 && Selection > 2) Selection -= 3;
 	}
 	
 	if (hDown & KEY_B) {
@@ -152,16 +151,14 @@ void PlayerEditorWW::DisplayPattern(void) const {
 }
 
 void PlayerEditorWW::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 7) {
-			this->Selection++;
-		}
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 7) this->Selection++;
 	}
 
-	if (hDown & KEY_LEFT) {
-		if (this->Selection > 0) {
-			this->Selection--;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection > 0) this->Selection--;
 	}
 
 	/* Refresh Pattern Images. */

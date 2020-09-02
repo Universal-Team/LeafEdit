@@ -135,25 +135,23 @@ void ItemEditorNL::DrawSubMenu(void) const {
 }
 
 void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	/* Navigation. */
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
 
-	if (hDown & KEY_RIGHT) {
-		if (this->Selection < 3) {
-			this->Selection += 3;
-		}
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
 	}
 
-	if (hDown & KEY_LEFT) {
-		if (this->Selection < 6 && this->Selection > 2) {
-			this->Selection -= 3;
-		}
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 
 	if (hDown & KEY_B) {
@@ -201,11 +199,13 @@ void ItemEditorNL::DrawPocket(void) const {
 }
 
 void ItemEditorNL::PocketLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_RIGHT) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_RIGHT) {
 		if (this->selectedItem < 15) this->selectedItem++;
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->selectedItem > 0) this->selectedItem--;
 	}
 
@@ -215,14 +215,15 @@ void ItemEditorNL::PocketLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->Mode = 0;
 	}
 
+
 	if (hDown & KEY_A) {
-		this->pockets[this->selectedItem]->id(Overlays::SelectItem(this->pockets[this->selectedItem]->id(), savesType));	
+		this->pockets[this->selectedItem]->id(Overlays::SelectItem(this->pockets[this->selectedItem]->id(), savesType, false));
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 16; i++) {
 			if (iconTouch(touch, this->pocketSlots[i])) {
-				this->pockets[i]->id(Overlays::SelectItem(this->pockets[i]->id(), savesType));
+				this->pockets[i]->id(Overlays::SelectItem(this->pockets[i]->id(), savesType, false));
 			}
 		}
 	}
@@ -251,27 +252,29 @@ void ItemEditorNL::DrawIslandBox(void) const {
 }
 
 void ItemEditorNL::IslandBoxLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_R) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_R) {
 		if (this->currentBox < MAX_ISLAND) this->currentBox++;
 	}
 
-	if (hDown & KEY_L) {
+	if (hRepeat & KEY_L) {
 		if (this->currentBox > 0) this->currentBox--;
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (this->selectedItem < 9) this->selectedItem++;
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->selectedItem > 0) this->selectedItem--;
 	}
 
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->selectedItem > 4) this->selectedItem -= 5;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->selectedItem < 5) this->selectedItem += 5;
 	}
 
@@ -317,27 +320,29 @@ void ItemEditorNL::DrawDresser(void) const {
 }
 
 void ItemEditorNL::DresserLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_R) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_R) {
 		if (this->currentBox < MAX_DRESSER) this->currentBox++;
 	}
 
-	if (hDown & KEY_L) {
+	if (hRepeat & KEY_L) {
 		if (this->currentBox > 0) this->currentBox--;
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (this->selectedItem < 9) this->selectedItem++;
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->selectedItem > 0) this->selectedItem--;
 	}
 
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->selectedItem > 4) this->selectedItem -= 5;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->selectedItem < 5) this->selectedItem += 5;
 	}
 
@@ -383,15 +388,17 @@ void ItemEditorNL::DrawStorage(void) const {
 }
 
 void ItemEditorNL::StorageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_R) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_R) {
 		if (this->currentBox < MAX_STORAGE) this->currentBox++;
 	}
 
-	if (hDown & KEY_L) {
+	if (hRepeat & KEY_L) {
 		if (this->currentBox > 0) this->currentBox--;
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (this->selectedItem < 9) this->selectedItem++;
 	}
 
@@ -399,11 +406,11 @@ void ItemEditorNL::StorageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selectedItem > 0) this->selectedItem--;
 	}
 
-	if (hDown & KEY_UP) {
+	if (hRepeat & KEY_UP) {
 		if (this->selectedItem > 4) this->selectedItem -= 5;
 	}
 
-	if (hDown & KEY_DOWN) {
+	if (hRepeat & KEY_DOWN) {
 		if (this->selectedItem < 5) this->selectedItem += 5;
 	}
 
