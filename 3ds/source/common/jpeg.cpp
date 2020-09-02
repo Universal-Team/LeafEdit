@@ -56,7 +56,7 @@
 #include <3ds.h>
 #include <citro2d.h>
 #include <string>
-//#include <turbojpeg.h>
+#include <turbojpeg.h>
 
 #define TPC_SIZE		0x1400
 #define TPC_MAX_WIDTH	64
@@ -66,7 +66,7 @@
 extern C2D_SpriteSheet GUI;
 
 // This code is bugged for whatever reason. I might rework it when I have the time for it.
-/*
+
 static inline u32 Pow2(u32 x) {
 	if (x <= 2)	return x;
 
@@ -112,4 +112,3 @@ C2D_Image LoadPlayerPicture(const void *tpcData) {
 	linearFree(jpeg.image);
 	return image;
 }
-*/

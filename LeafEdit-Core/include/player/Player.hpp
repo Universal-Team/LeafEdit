@@ -28,6 +28,7 @@
 #define _LEAFEDIT_CORE_PLAYER_HPP
 
 #include "Item.hpp"
+#include "Letter.hpp"
 #include "Pattern.hpp"
 #include "types.hpp"
 
@@ -35,6 +36,7 @@
 #include <vector>
 
 class Item;
+class Letter;
 class Pattern;
 class Player {
 protected:
@@ -78,6 +80,7 @@ public:
 	virtual void islandmedals(u32 v) = 0;
 	virtual u32 coupons() const = 0;
 	virtual void coupons(u32 v) = 0;
+	virtual std::unique_ptr<Letter> letter(int slot) const = 0;
 
 	virtual std::unique_ptr<Item> pocket(int slot) const = 0;
 	virtual std::unique_ptr<Item> dresser(int slot) const = 0;

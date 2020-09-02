@@ -36,6 +36,7 @@
 	"DOWNLOAD_FAILED": "Download Failed! (Maybe check your WiFi Connection.)",
 	"DOWNLOAD_NIGHTLY": "Download Nightly",
 	"DOWNLOAD_RELEASE": "Download Release",
+	"DOWNLOADING": "Downloading %s...",
 	"DOWNLOADING_ASSETS": "Downloading Assets... %i | %i ",
 	"DOWNLOADING_LATEST_NIGHTLY": "Downloading LeafEdit's Latest Nightly...",
 	"DOWNLOADING_LATEST_RELEASE": "Downloading LeafEdit's Latest Release...",
@@ -87,6 +88,7 @@
 	"ITEMS": "Items",
 
 	"LATEST_VERSION": "Latest Version: ",
+	"LETTER": "Letter",
 	"LOADING_EDITOR": "Loading Editor... Please wait.",
 
 	"MAIN_DEV": "Main Developer: SuperSaiyajinStackZ",
@@ -156,6 +158,7 @@
 	"SELECT_DESTINATION": "Select the destination.",
 	"SELECT_HAIR": "Select the Hair you like.",
 	"SELECT_ITEM": "Select an item.",
+	"SELECT_ITEM_CATEGORY": "Select the item category.",
 	"SELECT_PATTERN": "Select a Pattern.",
 	"SELECT_SAVEFILE": "Select your SaveFile.",
 	"SELECT_SCRIPT": "Select a script.",

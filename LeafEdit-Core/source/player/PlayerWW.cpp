@@ -476,6 +476,26 @@ u32 PlayerWW::coupons() const {
 }
 void PlayerWW::coupons(u32 v) { }
 
+/* Player Letters. */
+std::unique_ptr<Letter> PlayerWW::letter(int slot) const {
+	if (slot > 9) return nullptr;
+	switch(this->region) {
+		case WWRegion::USA_REV0:
+		case WWRegion::USA_REV1:
+		case WWRegion::EUR_REV1:
+			return std::make_unique<LetterWW>(data, offset + 0x114C + slot * 0xF4, this->region);
+		case WWRegion::JPN_REV0:
+		case WWRegion::JPN_REV1:
+			return std::make_unique<LetterWW>(data, offset + 0x1108 + slot * 0x8C, this->region);
+		case WWRegion::KOR_REV1:
+			return std::make_unique<LetterWW>(data, offset + 0x116C + slot * 0x140, this->region);
+		case WWRegion::UNKNOWN:
+			return nullptr;
+	}
+
+	return nullptr;
+}
+
 /* Player Pocket. */
 std::unique_ptr<Item> PlayerWW::pocket(int slot) const {
 	if (slot > 14) return nullptr;

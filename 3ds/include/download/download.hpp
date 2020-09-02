@@ -86,6 +86,8 @@ namespace Download {
 	bool showReleaseInfo(ReleaseFetch RF);
 
 	std::vector<ExtraEntry> getExtraList(std::string category);
+
+	void getPatternEditor(bool cia);
 }
 
 #endif

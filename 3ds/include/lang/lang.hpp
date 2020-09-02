@@ -30,12 +30,15 @@
 #include "json.hpp"
 #include "types.hpp"
 #include <string>
+#include <vector>
 
 namespace Lang {
 	std::string get(const std::string &key);
 	/* Load in game strings. */
 	void loadGameStrings(int lang, SaveType save);
 	void load(int lang);
+
+	void loadToVector(std::string path, std::vector<std::string> &vec);
 }
 
 #endif

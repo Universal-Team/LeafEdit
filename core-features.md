@@ -12,7 +12,14 @@ Here you can see all core features of LeafEdit-Core, which are already implement
 - [x] Item Flags
 - [ ] Rotation for furniture // TODO.
 - [x] Item Name
-- [x] Item Type // TODO: Sort out non existing AC:WW ones.
+- [x] Item Type
+
+## Letter
+### Note: All of that needs a research too. At least all Wild World Regions.
+- [x] Intro
+- [x] Body
+- [x] End
+- [x] Letter Attachment / Item
 
 ## Pattern
 - [x] Pattern Name

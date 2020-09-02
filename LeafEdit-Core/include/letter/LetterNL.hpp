@@ -24,38 +24,46 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_ITEM_WA_HPP
-#define _LEAFEDIT_CORE_ITEM_WA_HPP
+#ifndef _LEAFEDIT_CORE_LETTER_NL_HPP
+#define _LEAFEDIT_CORE_LETTER_NL_HPP
 
 #include "Item.hpp"
+#include "ItemNL.hpp"
+#include "Letter.hpp"
 
 #include <memory>
 #include <vector>
 
-class ItemWA : public Item {
+class Item;
+class ItemNL;
+class LetterNL : public Letter {
 protected:
 	u32 Offset;
 	std::shared_ptr<u8[]> data;
 public:
-	virtual ~ItemWA() {}
-	ItemWA(std::shared_ptr<u8[]> itemData, u32 offset) :
-		Item(itemData, offset), Offset(offset), data(itemData) { }
+	virtual ~LetterNL() {}
+	LetterNL(std::shared_ptr<u8[]> letterData, u32 offset) :
+		Letter(letterData, offset), Offset(offset), data(letterData) { }
 
-	u32 maxItems() const override { return 0; };
-	u16 id() const override;
-	void id(u16 v) override;
-	u16 flags() const override;
-	void flags(u16 v) override;
-	u8 flag1() const override;
-	void flag1(u8 v) override;
-	u8 flag2() const override;
-	void flag2(u8 v) override;
-	std::string name() const override;
-	ItemType itemtype() const override;
-	FurnitureDirection rotation() const override;
-	void rotation(FurnitureDirection Direction) override;
+	u16 playerid() const override;
+	std::u16string playername() const override;
+	u16 townid() const override;
+	std::u16string townname() const override;
+	u8 playerindex() const override;
+
+	std::u16string intro() const override;
+	std::u16string body() const override;
+	std::u16string end() const override;
+
+	u8 nameindex() const override;
+	u8 paperid() const override;
+	u8 flag() const override;
+	u8 senderid() const override;
+	u8 lettertype() const override;
+
+	std::unique_ptr<Item> item() const override;
 private:
-	u8* itemPointer() const {
+	u8* letterPointer() const {
 		return data.get() + Offset;
 	}
 };

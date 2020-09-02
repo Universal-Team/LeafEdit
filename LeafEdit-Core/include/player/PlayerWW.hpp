@@ -29,6 +29,8 @@
 
 #include "Item.hpp"
 #include "ItemWW.hpp"
+#include "Letter.hpp"
+#include "LetterWW.hpp"
 #include "Pattern.hpp"
 #include "PatternWW.hpp"
 #include "Player.hpp"
@@ -39,6 +41,8 @@
 
 class Item;
 class ItemWW;
+class Letter;
+class LetterWW;
 class Pattern;
 class PatternWW;
 class PlayerWW : public Player {
@@ -101,6 +105,7 @@ public:
 	void islandmedals(u32 v) override;
 	u32 coupons() const override;
 	void coupons(u32 v) override;
+	std::unique_ptr<Letter> letter(int slot) const override;
 	
 	std::unique_ptr<Item> pocket(int slot) const override;
 	std::unique_ptr<Item> dresser(int slot) const override;

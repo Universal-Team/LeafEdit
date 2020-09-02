@@ -24,40 +24,43 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_CORE_ITEM_WA_HPP
-#define _LEAFEDIT_CORE_ITEM_WA_HPP
+#ifndef _LEAFEDIT_CORE_LETTER_HPP
+#define _LEAFEDIT_CORE_LETTER_HPP
 
-#include "Item.hpp"
+#include "item.hpp"
+#include "types.hpp"
 
 #include <memory>
 #include <vector>
 
-class ItemWA : public Item {
+class Item;
+class Letter {
 protected:
-	u32 Offset;
 	std::shared_ptr<u8[]> data;
+	u32 Offset;
 public:
-	virtual ~ItemWA() {}
-	ItemWA(std::shared_ptr<u8[]> itemData, u32 offset) :
-		Item(itemData, offset), Offset(offset), data(itemData) { }
+	virtual ~Letter() {}
+	Letter(std::shared_ptr<u8[]> dt, u32 offset) : data(dt), Offset(offset) { }
+	Letter(const Letter& letter) = delete;
+	Letter& operator=(const Letter& letter) = delete;
 
-	u32 maxItems() const override { return 0; };
-	u16 id() const override;
-	void id(u16 v) override;
-	u16 flags() const override;
-	void flags(u16 v) override;
-	u8 flag1() const override;
-	void flag1(u8 v) override;
-	u8 flag2() const override;
-	void flag2(u8 v) override;
-	std::string name() const override;
-	ItemType itemtype() const override;
-	FurnitureDirection rotation() const override;
-	void rotation(FurnitureDirection Direction) override;
-private:
-	u8* itemPointer() const {
-		return data.get() + Offset;
-	}
+	virtual u16 playerid() const = 0;
+	virtual std::u16string playername() const = 0;
+	virtual u16 townid() const = 0;
+	virtual std::u16string townname() const = 0;
+	virtual u8 playerindex() const = 0;
+
+	virtual std::u16string intro() const = 0;
+	virtual std::u16string body() const = 0;
+	virtual std::u16string end() const = 0;
+
+	virtual u8 nameindex() const = 0;
+	virtual u8 paperid() const = 0;
+	virtual u8 flag() const = 0;
+	virtual u8 senderid() const = 0;
+	virtual u8 lettertype() const = 0;
+
+	virtual std::unique_ptr<Item> item() const = 0;
 };
 
 #endif

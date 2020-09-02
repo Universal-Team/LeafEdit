@@ -144,11 +144,12 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	}
 }
 
-/*
-C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
-	if (player != nullptr || player->tpcImage() != nullptr) {
+
+C2D_Image CoreUtils::LoadPlayerTPC(std::unique_ptr<Player> &player, bool &loaded) {
+	if (player && player->tpcImage()) {
 		if (player->hasTPC()) {
-			// Load.
+			/* Load. */
+			loaded = true;
 			return LoadPlayerPicture(player->tpcImage());
 		} else {
 			return {nullptr};
@@ -156,7 +157,7 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::shared_ptr<Player> player) {
 	} else {
 		return {nullptr};
 	}
-}*/
+}
 
 void CoreUtils::createBackup() {
 	/* Make sure save is not a nullpointer. */

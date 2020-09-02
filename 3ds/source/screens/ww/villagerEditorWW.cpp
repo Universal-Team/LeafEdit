@@ -29,7 +29,7 @@
 #include "spriteManagement.hpp"
 #include "villagerEditorWW.hpp"
 
-extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
 extern std::vector<std::string> g_personality;
 extern bool touching(touchPosition touch, ButtonType button);
 
@@ -57,7 +57,7 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
-	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->villager->id()], 395, 0, font);
+	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[this->villager->id()]), 395, 0, font);
 	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, Lang::get("VILLAGER_PERSONALITY") + ": " + getPersonality(this->villager->personality()), 395, 0, font);
 	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, Lang::get("VILLAGER_CATCHPHRASE") + ": ", 395, 0, font);
 
@@ -154,8 +154,6 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (this->itemSelection < 11) {
 			this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), SaveType::WW));
-		} else {
-			/* TODO: Handle of the indexes. */
 		}
 	}
 

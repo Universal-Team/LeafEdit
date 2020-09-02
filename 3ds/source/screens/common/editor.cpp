@@ -26,7 +26,6 @@
 
 #include "editor.hpp"
 #include "init.hpp"
-#include "itemUtils.hpp"
 #include "lang.hpp"
 #include "overlay.hpp"
 #include "playerSelector.hpp"
@@ -118,7 +117,6 @@ void Editor::SaveInitialize() {
 		} else {
 			Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
 			if (Init::loadSheets() == 0) {
-				ItemUtils::LoadDatabase(savesType);
 				Lang::loadGameStrings(1, savesType);
 				loadState = SaveState::Loaded;
 
@@ -141,7 +139,6 @@ void Editor::Draw(void) const {
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, Lang::get("SAVETYPE") + ": " + titleNames[saveT + 1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
-			Gui::DrawStringCentered(0, 100, 0.9f, WHITE, length, 400, 0, font);
 		}
 
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));

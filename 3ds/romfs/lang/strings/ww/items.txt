@@ -1,4 +1,6 @@
-﻿//Flowers
+//Nothing
+0xFFF1, Empty
+//Flowers
 0x0000, Red Tulips
 0x0001, White Tulips
 0x0002, Yellow Tulips
@@ -219,7 +221,7 @@
 0x00D1, Medium Palm Stump
 0x00D2, Large Palm Stump
 0x00D3, Fully Grown Palm Stump
-// Buried Turnips
+//Buried Turnips
 0x00D4, Red Turnip (Buried) #1
 0x00D5, Red Turnip (Buried) #2
 0x00D6, Red Turnip (Buried) #3
@@ -1674,7 +1676,7 @@
 0x156A, Four Leaf Clover (Unused)
 0x156B, Present
 0x156C, Timer
-// 0x156D - 0x1FFF = Pitfall Seed (Garbage) (Item placeholder?)
+0x156D - 0x1FFF = Pitfall Seed (Garbage) (Item placeholder?)
 //Furniture
 0x3000, Exotic Bed
 0x3004, Exotic Bureau
@@ -3306,5 +3308,3 @@
 0xB003, Snowman #3
 //Occupied Space
 0xF030, Occupied/Reserved Space
-//Empty
-0xFFF1, Empty

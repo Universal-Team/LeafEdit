@@ -83,6 +83,7 @@ SOURCECORE	:= ../LeafEdit-Core/source \
 			   ../LeafEdit-Core/source/house \
 			   ../LeafEdit-Core/source/island \
 			   ../LeafEdit-Core/source/item \
+			   ../LeafEdit-Core/source/letter \
 			   ../LeafEdit-Core/source/pattern \
 			   ../LeafEdit-Core/source/player \
 			   ../LeafEdit-Core/source/sav \
@@ -96,6 +97,7 @@ INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/house \
 			   ../LeafEdit-Core/include/island \
 			   ../LeafEdit-Core/include/item \
+			   ../LeafEdit-Core/include/letter \
 			   ../LeafEdit-Core/include/pattern \
 			   ../LeafEdit-Core/include/player \
 			   ../LeafEdit-Core/include/sav \

@@ -72,7 +72,7 @@ namespace GFX {
 	void DrawFileBrowseBG(bool isTop = true);
 
 	/* Selection from list. */
-	int ListSelection(int current, const std::vector<std::string> list, const std::string Msg);
+	int ListSelection(int current, const std::vector<std::string> &list, const std::string Msg);
 
 	void DrawButton(const ButtonType button, float TextSize = 0.9f);
 

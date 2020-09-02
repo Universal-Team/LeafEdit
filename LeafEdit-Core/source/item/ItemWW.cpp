@@ -43,8 +43,8 @@ u8 ItemWW::flag2() const { return 0; }
 void ItemWW::flag2(u8 v) { }
 
 /* Item Rotation. (Furniture / House) */
-int ItemWW::rotation() const { return 0; }
-void ItemWW::rotation(int Direction) { } // TODO.
+FurnitureDirection ItemWW::rotation() const { return FurnitureDirection::None; }
+void ItemWW::rotation(FurnitureDirection Direction) { } // TODO.
 
 /* Item Name. */
 std::string ItemWW::name() const { return ItemUtils::getName(this->id()); }

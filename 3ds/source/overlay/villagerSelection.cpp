@@ -29,8 +29,7 @@
 #include "spriteManagement.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
-extern std::vector<std::string> g_villagerDatabase;
-extern std::array<int, 333> nlVillagerIndex;
+extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
 extern const std::string getVillagerName(int index);
 
 static void Draw(const int selection, const SaveType st, const int maxSelection) {
@@ -43,11 +42,7 @@ static void Draw(const int selection, const SaveType st, const int maxSelection)
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_VILLAGER"), 395, 0, font);
 	SpriteManagement::DrawVillager(selection, 165, 80);
 
-	if (st != SaveType::NL) {
-		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + g_villagerDatabase[selection], 395, 0, font);
-	} else {
-		Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + getVillagerName(selection), 395, 0, font);
-	}
+	Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[selection]), 395, 0, font);
 
 	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(selection), 395, 0, font);
 	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(maxSelection + 1), 400, 0, font);

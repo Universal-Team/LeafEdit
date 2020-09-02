@@ -1,7 +1,7 @@
-// Nothing
+//Nothing
 0x7FFE, Empty
 //Enviromental Items
-//Normal Trees:
+//Normal Trees
 0x0001, Wilted Bush
 0x0002, Wilted Tree
 0x0003, Wilted Cedar Tree
@@ -59,7 +59,7 @@
 0x0037, Bamboo (Growing 2)
 0x0038, Bamboo (Growing 3)
 0x0039, Bamboo
-//Fruit Trees:
+//Fruit Trees
 0x003A, Apple Tree (Growing 1)
 0x003B, Apple Tree (Growing 2)
 0x003C, Apple Tree (Growing 3)
@@ -126,12 +126,12 @@
 0x0079, Cedar (Money 2)
 0x007A, Cedar (Egg)
 0x007B, Cedar (Xmas)
-//Weeds:
+//Weeds
 0x007C, Weed (A)
 0x007D, Weed (B)
 0x007E, Weed (C)
 0x007F, Weed (D)
-//Bushes:
+//Bushes
 0x0080, Holly Bush (Growing 1)
 0x0081, Holly Bush (Growing 2)
 0x0082, Holly Bush
@@ -156,16 +156,16 @@
 0x0095, Sweet Olive Bush (Growing 1)
 0x0096, Sweet Olive Bush (Growing 2)
 0x0097, Sweet Olive Bush
-//Rocks:
+//Rocks
 0x0098, Rock (A)
 0x0099, Rock (B)
 0x009A, Rock (C)
 0x009B, Rock (D)
 0x009C, Rock (E)
-//Misc:
+//Misc
 0x009D, Pattern
 0x009E, Hole
-//Outside Flowers:
+//Outside Flowers
 0x009F, Red Tulips
 0x00A0, White Tulips
 0x00A1, Yellow Tulips
@@ -213,7 +213,7 @@
 0x00CB, Dandelion Puffs
 0x00CC, Clovers (Weed)
 0x00CD, Rafflesia
-//Outside Flowers (Wilted):
+//Outside Flowers (Wilted)
 0x00CE, Red Tulips (Wilted)
 0x00CF, White Tulips (Wilted)
 0x00D0, Yellow Tulips (Wilted)
@@ -363,7 +363,7 @@
 0x205E, Blue-Violet Bag
 0x205F, White-Violet Bag
 0x2060, Yellow-Violet Bag
-//NPC Building's Items:
+//NPC Building's Items
 0x2061, Uni-Directional Chair (Invisible)
 0x2062, Café Dining Chair (Invisible)
 0x2063, Town Hall Chair (Invisible)

@@ -994,3 +994,27 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 
 	return jsonItems;
 }
+
+void Download::getPatternEditor(bool cia) {
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING").c_str(), "LeafEdit-Pattern-Editor");
+	showProgressBar = true;
+	progressBarType = 0;
+	Threads::create((ThreadFunc)displayProgressBar);
+
+	if (downloadFromRelease("https://github.com/SuperSaiyajinStackZ/LeafEdit-Pattern-Editor", cia ? "LeafEdit-Pattern-Editor.cia" : "LeafEdit-Pattern-Editor.3dsx", cia ? "sdmc:/3ds/LeafEdit/temp.cia" : "sdmc:/3ds/LeafEdit-Pattern-Editor.3dsx", false) != 0) {
+		showProgressBar = false;
+		downloadFailed();
+		return;
+	}
+
+	if (cia) {
+		/* Install and delete. */
+		snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
+		progressBarType = 1;
+		installCia("sdmc:/3ds/LeafEdit/temp.cia", true);
+		showProgressBar = false;
+		deleteFile("sdmc:/3ds/LeafEdit/temp.cia");
+	}
+
+	doneMsg();
+}

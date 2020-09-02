@@ -30,26 +30,18 @@
 #include "keyboard.hpp"
 #include "overlay.hpp"
 #include "spriteManagement.hpp"
+#include "stringDB.hpp"
 
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
-extern std::vector<std::pair<u16, std::string>> itemDB;
+extern std::vector<std::tuple<u16, std::string, std::string>> itemDB;
+extern std::vector<std::string> itemCategories;
 extern touchPosition touch;
 
-static std::vector<std::pair<u16, std::string>> search() {
-	const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
-
-	std::vector<std::pair<u16, std::string>> temp;
-
-	for (int i = 0; i < (int)itemDB.size(); i++) {
-		if (itemDB[i].second.find(searchResult) != std::string::npos) {
-			temp.push_back({itemDB[i]});
-		}
-	}
-
-	return temp;
+static std::vector<std::tuple<u16, std::string, std::string>> search(std::string searchCategory = "", std::string searchResult = "") {
+	return StringDB::searchTuple(searchResult, searchCategory, itemDB);
 }
 
-static void Draw(int itemIndex, std::vector<std::pair<u16, std::string>> itmList) {
+static void Draw(int itemIndex, std::vector<std::tuple<u16, std::string, std::string>> itmList, bool showCat = true) {
 	std::string itemList;
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -59,7 +51,7 @@ static void Draw(int itemIndex, std::vector<std::pair<u16, std::string>> itmList
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_ITEM"), 395, 0, font);
 
 	for (int i = (itemIndex < 8) ? 0 : itemIndex - 8; i < (int)itmList.size() && i < ((itemIndex < 8) ? 9 : itemIndex + 1); i++) {
-		itemList += itmList[i].second + "\n";
+		showCat ? itemList += std::get<1>(itmList[i]) + " - " + std::get<2>(itmList[i]) + "\n" : itemList += std::get<1>(itmList[i]) + "\n";
 	}
 
 	for (uint i = 0; i < ((itmList.size() < 9) ? 9 - itmList.size() : 0); i++) {
@@ -83,66 +75,129 @@ Structs::ButtonPos searchBtn = {295, 3, 20, 20};
 
 /* Select an Item. */
 u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv) {
-	std::vector<std::pair<u16, std::string>> itemList = itemDB;
-	int itemIndex = ItemManager::getIndex(oldID); int keyRepeatDelay = 0;
+	std::vector<std::tuple<u16, std::string, std::string>> itemList = itemDB;
+	int itemIndex = ItemManager::getIndex(oldID);
 
 	while(1) {
 		Draw(itemIndex, itemList);
+		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
 		hidTouchRead(&touch);
-		if (keyRepeatDelay) keyRepeatDelay--;
 
 		if (itemList.size() > 0) {
-			if (hidKeysHeld() & KEY_DOWN && !keyRepeatDelay) {
+			if (hRepeat & KEY_DOWN) {
 				if (itemIndex < (int)itemList.size()-1) itemIndex++;
 				else itemIndex = 0;
-				keyRepeatDelay = 6;
 			}
 
-			if (hidKeysHeld() & KEY_UP && !keyRepeatDelay) {
+			if (hRepeat & KEY_UP) {
 				if (itemIndex > 0) itemIndex--;
 				else if (itemIndex == 0) itemIndex = (int)itemList.size()-1;
-				keyRepeatDelay = 6;
 			}
 
-			if ((hidKeysHeld() & KEY_LEFT && !keyRepeatDelay) || (hidKeysHeld() & KEY_L && !keyRepeatDelay)) {
+			if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
 				if ((itemIndex - 9) < 0) {
 					itemIndex = 0;
 				} else {
 					itemIndex -= 9;
 				}
-			
-				keyRepeatDelay = 6;
 			}
 
-			if ((hidKeysHeld() & KEY_RIGHT && !keyRepeatDelay) || (hidKeysHeld() & KEY_R && !keyRepeatDelay)) {
+			if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 				if ((itemIndex + 9) > (int)itemList.size()-1) {
 					itemIndex = (int)itemList.size()-1;
 				} else {
 					itemIndex += 9;
 				}
-			
-				keyRepeatDelay = 6;
 			}
 
 			if (hidKeysDown() & KEY_A) {
 				if (blockInv && (st == SaveType::NL || st == SaveType::WA)) {
-					if (ItemUtils::IsInvWhitelisted(itemList[itemIndex].first)) {
-						return itemList[itemIndex].first;
+					if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
+						return std::get<0>(itemList[itemIndex]);
 					}
 				} else {
-					return itemList[itemIndex].first;
+					return std::get<0>(itemList[itemIndex]);
 				}
 			}
 		}
 
 		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
 			itemIndex = 0;
-			itemList = search();
+			itemList.clear();
+			int category = GFX::ListSelection(0, itemCategories, Lang::get("SELECT_ITEM_CATEGORY"));
+			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			itemList = search(itemCategories[category], searchResult);
 		}
 
 		if (hidKeysDown() & KEY_Y) {
 			itemList = itemDB;
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return oldID;
+		}
+	}
+}
+
+/* Select an Item from a category. */
+u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockInv, int category) {
+	std::vector<std::tuple<u16, std::string, std::string>> itemList = search(itemCategories[category], "");
+	int itemIndex = 0;
+
+	while(1) {
+		Draw(itemIndex, itemList, false);
+		u32 hRepeat = hidKeysDownRepeat();
+		hidScanInput();
+		hidTouchRead(&touch);
+
+		if (itemList.size() > 0) {
+			if (hRepeat & KEY_DOWN) {
+				if (itemIndex < (int)itemList.size()-1) itemIndex++;
+				else itemIndex = 0;
+			}
+
+			if (hRepeat & KEY_UP) {
+				if (itemIndex > 0) itemIndex--;
+				else if (itemIndex == 0) itemIndex = (int)itemList.size()-1;
+			}
+
+			if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+				if ((itemIndex - 9) < 0) {
+					itemIndex = 0;
+				} else {
+					itemIndex -= 9;
+				}
+			}
+
+			if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+				if ((itemIndex + 9) > (int)itemList.size()-1) {
+					itemIndex = (int)itemList.size()-1;
+				} else {
+					itemIndex += 9;
+				}
+			}
+
+			if (hidKeysDown() & KEY_A) {
+				if (blockInv && (st == SaveType::NL || st == SaveType::WA)) {
+					if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
+						return std::get<0>(itemList[itemIndex]);
+					}
+				} else {
+					return std::get<0>(itemList[itemIndex]);
+				}
+			}
+		}
+
+		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
+			itemIndex = 0;
+			itemList.clear();
+			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			itemList = search(itemCategories[category], searchResult);
+		}
+
+		if (hidKeysDown() & KEY_Y) {
+			itemList = search(itemCategories[category], "");
 		}
 
 		if (hidKeysDown() & KEY_B) {

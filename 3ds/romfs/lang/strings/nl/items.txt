@@ -1,8 +1,8 @@
-﻿// Nothing
+//Nothing
 0x7FFE, Empty
-// Pattern
+//Pattern
 0x009D, Pattern
-// Outside Flowers, Trees, Bushes, Fruit	
+//Outside Flowers, Trees, Bushes, Fruit
 0x009F, Red Tulips
 0x00A0, White Tulips
 0x00A1, Yellow Tulips
@@ -264,7 +264,7 @@
 0x2027, Perfect Pear Basket
 0x2028, Perfect Peach Basket
 0x2029, Perfect Cherry Basket
-// Bells, Turnips, Fortunes	
+//Bells, Turnips, Fortunes
 0x20A7, 100 Bells
 0x20A8, 200 Bells
 0x20A9, 300 Bells
@@ -435,7 +435,7 @@
 0x30DE, Fortune #48
 0x30DF, Fortune #49
 0x30E0, Fortune #50
-// Weeds, Rocks, Gyroids
+//Weeds, Rocks, Gyroids
 0x007C, Weed 1
 0x007D, Weed 2
 0x007E, Weed 3
@@ -581,7 +581,7 @@
 0x2932, Mini Brewstoid
 0x2933, Tall Brewstoid
 0x2934, Brewstoid
-// Uncategorized
+//Uncategorized
 0x202A, Fossil
 0x202B, Fertilizer
 0x202C, Sapling
@@ -745,7 +745,7 @@
 0x30FA, Expired Bingo Card
 0x30FB, Time Capsule
 0x30FC, Scavenger-hunt List
-// Songs
+//Songs
 0x2126, K.K. Chorale
 0x2127, K.K. March
 0x2128, K.K. Waltz
@@ -1019,7 +1019,7 @@
 0x2237, K.K. Synth (2)
 0x2238, K.K. Disco (2)
 0x2239, K.K. Birthday (2)
-// Paper/ V. Pics
+//Paper/ V. Pics
 0x223A, Butterfly Paper
 0x223B, Airmail Paper
 0x223C, New Year's Cards
@@ -1425,7 +1425,7 @@
 0x3038, Pic Of Don Resetti
 0x3039, Pic Of Katie
 0x303A, Pic Of K.K.
-// Museum
+//Museum
 0x2286, Common Butterfly
 0x2287, Yellow Butterfly
 0x2288, Tiger Butterfly
@@ -1647,67 +1647,68 @@
 0x2E50, Mystic Statue
 0x2E51, Ancient Statue
 0x2E52, Motherly Statue
-// 2e53	2e32	fake
-// 2e54	2e33	fake
-// 2e55	2e34	fake
-// 2e56	2e35	fake
-// 2e57	2e36	fake
-// 2e58	2e38	fake
-// 2e59	2e3a	fake
-// 2e5a	2e3e	fake
-// 2e5b	2e40	fake
-// 2e5c	2e42	fake
-// 2e5d	2e46	fake
-// 2e5e	2e47	fake
-// 2e5f	2e49	fake
-// 2e60	2e4a	fake
-// 2e61	2e4b	fake
-// 2e62	2e4c	fake
-// 2e63	2e4d	fake
-// 2e64	2e4e	fake
-// 2e65	2e4f	fake
-// 2e66	2e50	fake
-// 2e67	2e51	fake
-// 2e68	2e52	fake
-// 2e69	2e32	???1
-// 2e6a	2e33	???1
-// 2e6b	2e34	???1
-// 2e6c	2e35	???1
-// 2e6d	2e36	???1
-// 2e6e	2e37	???1
-// 2e6f	2e38	???1
-// 2e70	2e39	???1
-// 2e71	2e3a	???1
-// 2e72	2e3b	???1
-// 2e73	2e3c	???1
-// 2e74	2e3d	???1
-// 2e75	2e3e	???1
-// 2e76	2e3f	???1
-// 2e77	2e40	???1
-// 2e78	2e41	???1
-// 2e79	2e42	???1
-// 2e7a	2e43	???1
-// 2e7b	2e44	???1
-// 2e7c	2e45	???1
-// 2e7d	2e46	???1
-// 2e7e	2e47	???1
-// 2e7f	2e48	???1
-// 2e80	2e49	???1
-// 2e81	2e4a	???1
-// 2e82	2e32	fake ???1
-// 2e83	2e33	fake ???1
-// 2e84	2e34	fake ???1
-// 2e85	2e35	fake ???1
-// 2e86	2e36	fake ???1
-// 2e87	2e38	fake ???1
-// 2e88	2e3a	fake ???1
-// 2e89	2e3e	fake ???1
-// 2e8a	2e40	fake ???1
-// 2e8b	2e42	fake ???1
-// 2e8c	2e46	fake ???1
-// 2e8d	2e47	fake ???1
-// 2e8e	2e49	fake ???1
-// 2e8f	2e4a	fake ???1
+//2e53	2e32	fake
+//2e54	2e33	fake
+//2e55	2e34	fake
+//2e56	2e35	fake
+//2e57	2e36	fake
+//2e58	2e38	fake
+//2e59	2e3a	fake
+//2e5a	2e3e	fake
+//2e5b	2e40	fake
+//2e5c	2e42	fake
+//2e5d	2e46	fake
+//2e5e	2e47	fake
+//2e5f	2e49	fake
+//2e60	2e4a	fake
+//2e61	2e4b	fake
+//2e62	2e4c	fake
+//2e63	2e4d	fake
+//2e64	2e4e	fake
+//2e65	2e4f	fake
+//2e66	2e50	fake
+//2e67	2e51	fake
+//2e68	2e52	fake
+//2e69	2e32	???1
+//2e6a	2e33	???1
+//2e6b	2e34	???1
+//2e6c	2e35	???1
+//2e6d	2e36	???1
+//2e6e	2e37	???1
+//2e6f	2e38	???1
+//2e70	2e39	???1
+//2e71	2e3a	???1
+//2e72	2e3b	???1
+//2e73	2e3c	???1
+//2e74	2e3d	???1
+//2e75	2e3e	???1
+//2e76	2e3f	???1
+//2e77	2e40	???1
+//2e78	2e41	???1
+//2e79	2e42	???1
+//2e7a	2e43	???1
+//2e7b	2e44	???1
+//2e7c	2e45	???1
+//2e7d	2e46	???1
+//2e7e	2e47	???1
+//2e7f	2e48	???1
+//2e80	2e49	???1
+//2e81	2e4a	???1
+//2e82	2e32	fake ???1
+//2e83	2e33	fake ???1
+//2e84	2e34	fake ???1
+//2e85	2e35	fake ???1
+//2e86	2e36	fake ???1
+//2e87	2e38	fake ???1
+//2e88	2e3a	fake ???1
+//2e89	2e3e	fake ???1
+//2e8a	2e40	fake ???1
+//2e8b	2e42	fake ???1
+//2e8c	2e46	fake ???1
+//2e8d	2e47	fake ???1
+//2e8e	2e49	fake ???1
+//2e8f	2e4a	fake ???1
+//Museum
 0x2E90, Amber
 0x2E91, Ammonite
 0x2E92, Coprolite
@@ -1795,7 +1796,7 @@
 0x2EE4, Spino Model
 0x2EE5, Megacero Model
 0x2EE6, Archelon Model
-// Wallpapers
+//Wallpapers
 0x2342, Exotic Wall
 0x2343, Lovely Wall
 0x2344, Classic Wall
@@ -1929,7 +1930,7 @@
 0x23C4, Gracie Wall (1)
 0x23C5, Gracie Wall (2)
 0x23C6, Gracie Wall (3)
-// Carpets
+//Carpets
 0x23C7, Exotic Rug
 0x23C8, Lovely Carpet
 0x23C9, Classic Carpet
@@ -2056,7 +2057,7 @@
 0x2443, Gracie Floor (1)
 0x2444, Gracie Floor (2)
 0x2445, Gracie Floor (3)
-// Shirts
+//Shirts
 0x2448, One-ball Tee
 0x2449, Two-ball Tee
 0x244A, Three-ball Tee
@@ -2509,7 +2510,7 @@
 0x2609, Cow Tank
 0x260A, Genie Vest
 0x260B, Cyan Argyle Tank
-// Dresses/Wet Suits
+//Dresses/Wet Suits
 0x260C, Festive Dress
 0x260D, Muumuu
 0x260E, Blue Dotted Dress
@@ -2617,7 +2618,7 @@
 0x2674, Red Wet Suit
 0x2675, White Wet Suit
 0x2676, Blue Wet Suit
-// Pants/Skirts
+//Pants/Skirts
 0x2679, Jungle-camo Shorts
 0x267A, Jungle-camo Pants
 0x267B, Cargo Pants
@@ -2740,7 +2741,7 @@
 0x26F0, Black Formal Skirt
 0x26F1, Gray Formal Skirt
 0x26F2, Navy Formal Skirt
-// Socks/Shoes
+//Socks/Shoes
 0x26F3, Crocheted Tights
 0x26F4, Brown-stripe Socks
 0x26F5, Black Stockings
@@ -2839,7 +2840,7 @@
 0x2752, Brown Pumps
 0x2753, Yellow Sneakers
 0x2754, Orange Shoes
-// Handhelds
+//Handhelds
 0x2755, Gelato Umbrella
 0x2756, Bat Umbrella
 0x2757, Lacy Umbrella
@@ -2940,7 +2941,7 @@
 0x3078, Blue Pinwheel
 0x3079, Indigo Pinwheel
 0x307A, Pink Pinwheel
-// Hats
+//Hats
 0x2779, Red Cap
 0x277A, Yellow Cap
 0x277B, Light-blue Cap
@@ -3150,7 +3151,7 @@
 0x2847, Yellow-pumpkin Head
 0x2848, Green-pumpkin Head
 0x2849, Red-pumpkin Head
-// Accessories
+//Accessories
 0x284A, Birthday Shades
 0x284B, Blue Frames
 0x284C, Red Glasses
@@ -3255,7 +3256,7 @@
 0x28AF, Lucky Clovers
 0x28B0, Dandelions
 0x28B1, Dandelion Puffs
-// Furniture
+//Furniture
 0x2935, Exotic Bed
 0x2936, Exotic Bureau
 0x2937, Exotic Wardrobe
@@ -4458,7 +4459,7 @@
 0x2DE4, Balloon Bed
 0x2DE5, Balloon Chair
 0x2DE6, Balloon Dresser
-0x2DE7, Dog Lamp	
+0x2DE7, Dog Lamp
 0x2DE8, Balloon Closet
 0x2DE9, Balloon Vanity
 0x2DEA, Lily Record Player
@@ -4527,7 +4528,7 @@
 0x2E29, Pencil Screen
 0x2E2A, Sticker Tape Liner
 0x2E2B, Set Square Table
-// Nook Inventory
+//Nook Inventory
 0x30FE, Red Flowers
 0x30FF, White Flowers
 0x3100, Yellow Flowers

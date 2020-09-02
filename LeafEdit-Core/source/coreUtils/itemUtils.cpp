@@ -29,80 +29,18 @@
 #include "types.hpp"
 
 #include <fstream>
-#include <map>
 #include <string>
 #include <unistd.h>
 #include <vector>
 
-std::map<u16, std::string> ItemDatabase;
-std::vector<std::pair<u16, std::string>> itemDB;
-
-#define WW_ITEM_PATH "romfs:/lang/en/wwItems.txt"
-#define NL_ITEM_PATH "romfs:/lang/en/itemsNL.txt"
-#define WA_ITEM_PATH "romfs:/lang/en/items.txt"
-
-/* Load the Item Database. */
-void ItemUtils::LoadDatabase(SaveType save) {
-	ItemDatabase.clear();
-	itemDB.clear();
-
-	std::string path; // Path.
-	switch(save) {
-		case SaveType::WW:
-			path = WW_ITEM_PATH;
-			break;
-		case SaveType::NL:
-			path = NL_ITEM_PATH;
-			break;
-		case SaveType::WA:
-			path = WA_ITEM_PATH;
-			break;
-		case SaveType::UNUSED:
-			return;
-			break;
-	}
-
-	std::string currentLine;
-	std::ifstream itemDatabase(path.c_str(), std::ifstream::in);
-
-	std::string itemIdStr;
-	std::string itemName;
-
-	/* Check if File even exist! */
-	if ((access(path.c_str(), F_OK) != 0)) {
-		return;
-		/* Item File is found, load! */
-	} else {
-		std::string currentLine;
-		std::ifstream itemDatabase(path.c_str(), std::ifstream::in);
-
-		std::string itemIdStr;
-		std::string itemName;
-
-		while (std::getline(itemDatabase, currentLine)) {
-			if (currentLine.size() > 8 && currentLine.find("//") == std::string::npos) { // confirm we don't have any comments.
-				itemIdStr = currentLine.substr(2, 4); // skip the 0x hex specifier.
-				itemName = currentLine.substr(8, currentLine.size());
-
-				/* Convert itemIdStr to a u16. */
-				u16 itemId = StringUtils::strToU16(itemIdStr);
-
-				/* Add item to the database. */
-				ItemDatabase.insert(std::make_pair(itemId, itemName));
-				itemDB.push_back(std::make_pair(itemId, itemName));
-			}
-		}
-
-		itemDatabase.close();
-	}
-}
+extern std::vector<std::tuple<u16, std::string, std::string>> itemDB;
 
 // Get an Item's name.
 std::string ItemUtils::getName(u16 ID) {
-	if (ItemDatabase.empty()) return "???"; // Database empty.
-	for (auto const& entry : ItemDatabase) {
-		if (entry.first == ID) {
-			return entry.second;
+	if (itemDB.empty()) return "???"; // Database empty.
+	for (auto const& entry : itemDB) {
+		if (std::get<0>(entry) == ID) {
+			return std::get<1>(entry);
 		}
 	}
 

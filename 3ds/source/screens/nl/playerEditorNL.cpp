@@ -40,20 +40,33 @@ extern std::shared_ptr<Sav> save;
 /* Bring that to other screens too. */
 extern SaveType savesType;
 
-PlayerEditorNL::PlayerEditorNL(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) { }
+PlayerEditorNL::PlayerEditorNL(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) {
+	C3D_FrameEnd(0);
+	this->TPC = CoreUtils::LoadPlayerTPC(this->player, loaded);
+}
 
-PlayerEditorNL::~PlayerEditorNL() { }
+PlayerEditorNL::~PlayerEditorNL() {
+	C3D_FrameEnd(0);
+
+	if (this->TPC.tex && this->loaded) {
+		C2DUtils::C2D_ImageDelete(this->TPC);
+		this->TPC.tex = nullptr;
+		this->TPC.subtex = nullptr;
+	}
+}
 
 void PlayerEditorNL::Draw(void) const {
 	if (this->Mode == 0) this->DrawSubMenu();
 	else if (this->Mode == 1) this->DrawAppearance();
 	else if (this->Mode == 2) this->DisplayPattern();
+	else if (this->Mode == 3) this->DrawLetter();
 }
 
 void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (this->Mode == 0) this->SubMenuLogic(hDown, hHeld, touch);
 	else if (this->Mode == 1) this->AppearanceLogic(hDown, hHeld, touch);
 	else if (this->Mode == 2) this->PatternLogic(hDown, hHeld, touch);
+	else if (this->Mode == 3) this->LetterLogic(hDown, hHeld, touch);
 }
 
 /* Sub Menu. */
@@ -64,6 +77,10 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string(this->player->wallet()), 0, 0, font);
 	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PLAYER_FACETYPE") + ": " + std::to_string(this->player->face()), 0, 0, font);
+
+	if (this->player->hasTPC() && this->TPC.tex && this->loaded) {
+		C2D_DrawImageAt(this->TPC, 60, 80, 0.5);
+	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
@@ -102,12 +119,15 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				this->Mode = 1;
 				break;
+				
 			case 1:
 				Gui::setScreen(std::make_unique<BadgeEditor>(this->player), doFade, true);
 				break;
+
 			case 2:
 				Gui::setScreen(std::make_unique<ItemEditorNL>(this->player), doFade, true);
 				break;
+
 			case 3:
 				/* Load Pattern. */
 				C3D_FrameEnd(0);
@@ -261,5 +281,35 @@ void PlayerEditorNL::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Open Pattern Editor. */
 	if (hDown & KEY_A) {
 		Gui::setScreen(std::make_unique<PatternEditor>(this->pattern[this->Selection]), doFade, true);
+	}
+}
+
+/* Letters. */
+void PlayerEditorNL::DrawLetter(void) const {
+	GFX::DrawTop();
+
+	if (this->player->letter(this->Selection)->playerid() != 0) { // Player ID 0 --> No letter.
+		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->intro()), 400, 0, font);
+		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->body()), 400, 0, font);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->end()), 400, 0, font);
+	} else {
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "Letter not available.", 395, 0, font);
+	}
+
+	GFX::DrawBottom();
+}
+
+void PlayerEditorNL::LetterLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		this->Selection = 0;
+		this->Mode = 0;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (this->Selection < 9) this->Selection++;
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (this->Selection > 0) this->Selection--;
 	}
 }

@@ -45,7 +45,7 @@ namespace CoreUtils {
 	u8 DeriveRegionLockID(u8 RegionID, u8 LanguageID);
 	bool UpdateSaveRegion(Region_Lock &regionLock); // Update the save's region.
 	void FixSaveRegion(Region_Lock &regionLock); // If save region does not match the console - fix it.
-	/* C2D_Image LoadPlayerTPC(std::shared_ptr<Player> player); */
+	C2D_Image LoadPlayerTPC(std::unique_ptr<Player> &player, bool &loaded);
 	void createBackup();
 
 	/* Pattern stuff. */

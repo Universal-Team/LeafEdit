@@ -30,7 +30,7 @@
 #include "spriteManagement.hpp"
 #include "villagerEditorNL.hpp"
 
-extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
 extern std::vector<std::string> g_personality;
 extern const std::string getPersonality(u8 personality);
 extern bool touching(touchPosition touch, ButtonType button);
@@ -60,12 +60,7 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
 
-	/* Villager names have specific handle. */
-	if (savesType == SaveType::WA) {
-		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->villager->id()], 395, 0, font);
-	} else {
-		Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + getVillagerName(this->villager->id()), 395, 0, font);
-	}
+	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[this->villager->id()]), 395, 0, font);
 
 	Gui::DrawStringCentered(0, 130, 0.9f, BLACK, Lang::get("VILLAGER_PERSONALITY") + ": " + getPersonality(this->villager->personality()), 395, 0, font);
 	Gui::DrawStringCentered(0, 160, 0.9f, BLACK, Lang::get("VILLAGER_CATCHPHRASE") + ": ", 395, 0, font);
@@ -75,7 +70,7 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
+		if (i == Selection) GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));

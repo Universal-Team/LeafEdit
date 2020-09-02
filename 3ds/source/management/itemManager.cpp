@@ -30,7 +30,7 @@
 #include "itemUtils.hpp"
 #include <vector>
 
-extern std::vector<std::pair<u16, std::string>> itemDB;
+extern std::vector<std::tuple<u16, std::string, std::string>> itemDB;
 
 	/* All Colors. */
 	u32 ItemManager::Pattern, ItemManager::Building, ItemManager::MoneyRock, ItemManager::Furniture, ItemManager::Gyroid, ItemManager::Clothes,
@@ -38,6 +38,7 @@ extern std::vector<std::pair<u16, std::string>> itemDB;
 	ItemManager::Fruit, ItemManager::Turnip, ItemManager::Catchable, ItemManager::Item, ItemManager::WallpaperCarpet, ItemManager::Fossil,
 	ItemManager::Tool, ItemManager::Tree, ItemManager::Weed, ItemManager::Flower, ItemManager::Rock,
 	ItemManager::Money, ItemManager::ParchedFlower, ItemManager::WateredFlower, ItemManager::WiltedFlower, ItemManager::Occupied, ItemManager::Invalid;
+
 
 void ItemManager::loadColors() {
 	Furniture		= C2D_Color32(99, 226, 90, 255);
@@ -145,19 +146,17 @@ u32 ItemManager::getColor(ItemType item) {
 
 /* Get the index of the current Item for the selection. */
 int ItemManager::getIndex(const u16 &v) {
-	if (v == itemDB[0].first || v >= 0xFFF1) {
-		return 0;
-	}
+	if (v == std::get<0>(itemDB[0]) || v >= 0xFFF1) return 0;
 
 	int index = -1, min = 0, mid = 0, max = itemDB.size();
 	while (min <= max) {
 		mid = min + (max - min) / 2;
-		if (itemDB[mid].first == v) {
+		if (std::get<0>(itemDB[mid]) == v) {
 			index = mid;
 			break;
 		}
 
-		if (itemDB[mid].first < v) {
+		if (std::get<0>(itemDB[mid]) < v) {
 			min = mid + 1;
 		} else {
 			max = mid - 1;
@@ -169,21 +168,19 @@ int ItemManager::getIndex(const u16 &v) {
 
 /* Get the index of the current Item for the selection. */
 int ItemManager::getIndexString(const int &current, const std::string &v) {
-	if (v == "") {
-		return current;
-	}
+	if (v == "") return current;
 
-	if (v == itemDB[0].second) {
-		return 0;
-	}
+	if (v == std::get<1>(itemDB[0])) return 0;
 
 	int index = -1, min = 0, mid = 0, max = itemDB.size();
 	while (min <= max) {
 		mid = min + (max - min) / 2;
-		if (itemDB[mid].second == v) {
+		if (std::get<1>(itemDB[mid]) == v) {
 			index = mid;
 			break;
-		} if (itemDB[mid].second < v) {
+		}
+		
+		if (std::get<1>(itemDB[mid]) < v) {
 			min = mid + 1;
 		} else {
 			max = mid - 1;
@@ -194,19 +191,21 @@ int ItemManager::getIndexString(const int &current, const std::string &v) {
 }
 
 u16 ItemManager::selectItem(u16 currentID) {
-	std::string itemList;
 	int selection = getIndex(currentID);
 	int keyRepeatDelay = 0;
+
 	while (1) {
+		std::string itemList;
+
 		Gui::clearTextBufs();
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawFileBrowseBG(true);
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("OLD_ITEM") + ItemUtils::getName(currentID), 390);
+		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("OLD_ITEM") + ItemUtils::getName(currentID), 390, 0, font);
 
 		for (int i=(selection<8) ? 0 : (int)selection-8;i<(int)itemDB.size()&&i<(((int)selection<8) ? 9 : (int)selection+1);i++) {
-			itemList += itemDB[i].second + "\n";
+			itemList += std::get<1>(itemDB[i]) + "\n";
 		}
 		
 		for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
@@ -214,30 +213,30 @@ u16 ItemManager::selectItem(u16 currentID) {
 		}
 
 		/* Selector Logic. */
-		if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
-		else				GFX::DrawSelector(true, 24 + (8 * 21));
+		if (selection < 9) GFX::DrawSelector(true, 24 + ((int)selection * 21));
+		else GFX::DrawSelector(true, 24 + (8 * 21));
 		
-		Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360);
-		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(itemDB.size()), 395);
+		Gui::DrawString(5, 25, 0.85f, BLACK, itemList, 360, 0, font);
+		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(itemDB.size()), 395, 0, font);
 		GFX::DrawBottom();
 		C3D_FrameEnd(0);
 
 		hidScanInput();
 		if (keyRepeatDelay)	keyRepeatDelay--;
 		if (hidKeysHeld() & KEY_DOWN && !keyRepeatDelay) {
-			if (selection < (int)itemDB.size()-1)	selection++;
-			else	selection = 0;
+			if (selection < (int)itemDB.size()-1) selection++;
+			else selection = 0;
 			keyRepeatDelay = 4;
 		}
 
 		if (hidKeysHeld() & KEY_UP && !keyRepeatDelay) {
-			if (selection > 0)	selection--;
-			else if (selection == 0)	selection = (int)itemDB.size()-1;
+			if (selection > 0) selection--;
+			else if (selection == 0) selection = (int)itemDB.size()-1;
 			keyRepeatDelay = 4;
 		}
 
 		if (hidKeysDown() & KEY_A) {
-			return itemDB[selection].first;
+			return std::get<0>(itemDB[selection]);
 		}
 
 		if (hidKeysDown() & KEY_B) {

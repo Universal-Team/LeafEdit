@@ -30,14 +30,12 @@
 #include "villagerEditorNL.hpp"
 #include "villagerViewerNL.hpp"
 
-extern std::vector<std::string> g_villagerDatabase;
+extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 /* Bring that to other screens too. */
 extern SaveType savesType;
-
-extern std::array<int, 333> nlVillagerIndex;
 
 VillagerViewerNL::VillagerViewerNL() {
 	this->update();
@@ -50,29 +48,17 @@ void VillagerViewerNL::update() {
 	}
 }
 
-const std::string getVillagerName(int index) {
-	if (index < 168) {
-		return g_villagerDatabase[nlVillagerIndex[index]];
-	} else {
-		return g_villagerDatabase[200 + nlVillagerIndex[index]];
-	}
-}
-
 void VillagerViewerNL::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
 
 	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
 
-	/* Special handle for AC:NL & AC:WA. */
-	if (savesType == SaveType::WA) {
-		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + g_villagerDatabase[this->viewerIndex], 395, 0, font);
-	} else {
-		Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + getVillagerName(this->viewerIndex), 395, 0, font);
-	}
+	Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[this->viewerIndex]), 395, 0, font);
 
 	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, Lang::get("VILLAGER_ID") + std::to_string(this->viewerIndex), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 10; i++) {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);

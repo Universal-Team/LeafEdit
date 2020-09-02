@@ -265,17 +265,17 @@ void DrawList(int selection, const std::vector<std::string> List, const std::str
 	GFX::DrawFileBrowseBG(true);
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Msg, 400, 0, font);
 
-	for (int i=(selection<8) ? 0 : (uint)selection-8;i<(int)List.size()&&i<((selection<8) ? 9 : selection+1);i++) {
+	for (int i = (selection < 8) ? 0 : (uint)selection - 8; i < (int)List.size() && i < ((selection < 8) ? 9 : selection + 1); i++) {
 		lists += List[i] + "\n";
 	}
 
-	for (uint i=0;i<((List.size()<9) ? 9-List.size() : 0);i++) {
+	for (uint i = 0; i < ((List.size() < 9) ? 9 - List.size() : 0); i++) {
 		lists += "\n";
 	}
 
 	/* Selector Logic. */
-	if (selection < 9)	GFX::DrawSelector(true, 24 + ((int)selection * 21));
-	else				GFX::DrawSelector(true, 24 + (8 * 21));
+	if (selection < 9) GFX::DrawSelector(true, 24 + ((int)selection * 21));
+	else GFX::DrawSelector(true, 24 + (8 * 21));
 
 	Gui::DrawString(5, 25, 0.85f, BLACK, lists, 360, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(List.size()), 395, 0, font);
@@ -283,24 +283,39 @@ void DrawList(int selection, const std::vector<std::string> List, const std::str
 	C3D_FrameEnd(0);
 }
 
-int GFX::ListSelection(int current, const std::vector<std::string> list, const std::string Msg) {
-	s32 selection = current;
-	int keyRepeatDelay = 0;
+int GFX::ListSelection(int current, const std::vector<std::string> &list, const std::string Msg) {
+	int selection = current;
+
 	while (1) {
 		/* Draw List. */
 		DrawList(selection, list, Msg);
+		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
-		if (keyRepeatDelay)	keyRepeatDelay--;
-		if (hidKeysHeld() & KEY_DOWN && !keyRepeatDelay) {
-			if (selection < (int)list.size()-1)	selection++;
-			else	selection = 0;
-			keyRepeatDelay = 6;
+
+		if (hRepeat & KEY_DOWN) {
+			if (selection < (int)list.size()-1) selection++;
+			else selection = 0;
 		}
 
-		if (hidKeysHeld() & KEY_UP && !keyRepeatDelay) {
+		if (hRepeat & KEY_UP) {
 			if (selection > 0) selection--;
 			else if (selection == 0) selection = (int)list.size()-1;
-			keyRepeatDelay = 6;
+		}
+
+		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+			if ((selection - 9) < 0) {
+				selection = 0;
+			} else {
+				selection -= 9;
+			}
+		}
+
+		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+			if ((selection + 9) > (int)list.size()-1) {
+				selection = (int)list.size()-1;
+			} else {
+				selection += 9;
+			}
 		}
 
 		if (hidKeysDown() & KEY_A) {

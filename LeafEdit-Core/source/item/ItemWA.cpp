@@ -43,8 +43,8 @@ u8 ItemWA::flag2() const { return SaveUtils::Read<u8>(itemPointer(), 3); }
 void ItemWA::flag2(u8 v) { SaveUtils::Write<u8>(itemPointer(), 3, v); }
 
 /* Item Rotation. (Furniture / House) */
-int ItemWA::rotation() const { return 0; }
-void ItemWA::rotation(int Direction) { }
+FurnitureDirection ItemWA::rotation() const { return FurnitureDirection::None; }
+void ItemWA::rotation(FurnitureDirection Direction) { }
 
 /* Item Name. */
 std::string ItemWA::name() const { return ItemUtils::getName(this->id()); }

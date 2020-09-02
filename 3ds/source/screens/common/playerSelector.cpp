@@ -39,28 +39,60 @@ extern SaveType savesType;
 
 /* Init Player stuff. */
 PlayerSelector::PlayerSelector() {
+	C3D_FrameEnd(0);
+
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
 			this->playerNames[i] = StringUtils::UTF16toUTF8(save->player(i)->name());
+
+			if (savesType == SaveType::NL || savesType == SaveType::WA) {
+				std::unique_ptr<Player> tmpP = save->player(i);
+				this->TPC[i] = CoreUtils::LoadPlayerTPC(tmpP, this->imageLoaded[i]);
+			}
 		}
 	}
 }
 
 /* Make sure to destroy the TPC Image. */
-PlayerSelector::~PlayerSelector() { }
+PlayerSelector::~PlayerSelector() {
+	C3D_FrameEnd(0);
+
+	if (savesType == SaveType::NL || savesType == SaveType::WA) {
+		for (int i = 0; i < 4; i++) {
+			if (this->imageLoaded[i]) {
+				if (this->TPC[i].tex) {
+					C2DUtils::C2D_ImageDelete(this->TPC[i]);
+					this->TPC[i].tex = nullptr;
+					this->TPC[i].subtex = nullptr;
+				}
+			}
+		}
+	}
+}
 
 void PlayerSelector::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SELECTION"), 395, 0, font);
+
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
-			GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f);
-			Gui::DrawString(18 + (i * 100), 150, 0.64f, BLACK, this->playerNames[i], 400, 0, font);
+			if (savesType == SaveType::NL || savesType == SaveType::WA) {
+				if (this->TPC[i].tex && this->imageLoaded[i]) {
+					C2D_DrawImageAt(this->TPC[i], (float)(100 * i) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
+				} else {
+					GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f);
+				}
+			} else {
+				GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f); // So WW doesn't look too empty as well.
+			}
 		}
+
+		Gui::DrawString(18 + (i * 100), 150, 0.64f, BLACK, this->playerNames[i], 400, 0, font);
 	}
 
-	if (save->player(selectedPlayer)->exist()) {
-		Gui::drawAnimatedSelector((100 * selectedPlayer) + 18, 45, 64, 104, .030, C2D_Color32(0, 0, 180, 255), C2D_Color32(0, 0, 0, 0));
+
+	if (save->player(this->selectedPlayer)->exist()) {
+		Gui::drawAnimatedSelector((100 * this->selectedPlayer) + 18, 45, 64, 104, .030, C2D_Color32(0, 0, 180, 255), C2D_Color32(0, 0, 0, 0));
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -71,22 +103,27 @@ void PlayerSelector::Draw(void) const {
 void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Navigation. */
 	if (hDown & KEY_RIGHT) {
-		if (selectedPlayer < 3) selectedPlayer++;
+		if (this->selectedPlayer < 3) {
+			if (save->player(this->selectedPlayer + 1)->exist()) {
+				this->selectedPlayer++;
+			}
+		}
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (selectedPlayer > 0) selectedPlayer--;
+		if (this->selectedPlayer > 0) this->selectedPlayer--;
 	}
 
 	if (hDown & KEY_A) {
 		/* Check if player exist. */
-		if (save->player(selectedPlayer)->exist()) {
+		if (save->player(this->selectedPlayer)->exist()) {
 			/* New Leaf & Welcome Amiibo. */
 			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(selectedPlayer)), doFade, true);
+				Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(this->selectedPlayer)), doFade, true);
+
 				/* Wild World. */
 			} else if (savesType == SaveType::WW) {
-				Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(selectedPlayer)), doFade, true);
+				Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(this->selectedPlayer)), doFade, true);
 			}
 		}
 	}

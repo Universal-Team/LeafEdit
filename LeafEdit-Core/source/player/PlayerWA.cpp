@@ -173,6 +173,12 @@ void PlayerWA::coupons(u32 v) {
 	SaveUtils::Write<u32>(playerPointer(), 0x8D20, encryptionData);
 }
 
+/* Player Letters. */
+std::unique_ptr<Letter> PlayerWA::letter(int slot) const {
+	if (slot > 9) return nullptr;
+	return std::make_unique<LetterWA>(data, offset + 0x7008 + (0x280 * slot));
+}
+
 /* Player Pocket. */
 std::unique_ptr<Item> PlayerWA::pocket(int slot) const {
 	if (slot > 15) return nullptr;

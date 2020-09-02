@@ -56,8 +56,6 @@ void TownMapEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 /* Initialize Screen. */
 TownMapEditorNL::TownMapEditorNL(std::unique_ptr<Town> &refTown) : town(refTown) {
-	ItemUtils::LoadDatabase(savesType); // TODO: Handle this at Editor loading instead?
-
 	/* Get Town Map Items. */
 	for (int i = 0; i < 5120; i++) {
 		this->MapItems[i] = save->town()->item(i);

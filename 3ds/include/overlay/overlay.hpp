@@ -51,8 +51,11 @@ enum class PatternMode {
 };
 
 namespace Overlays {
+	/* Select game stuff. */
 	u16 SelectVillager(u16 oldID, const SaveType st);
 	u16 SelectItem(u16 oldID, const SaveType st, const bool blockInv = false);
+	u16 SelectItemCategory(u16 oldID, const SaveType st, const bool blockInv = false, int category = 0);
+
 	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
 	void SplashOverlay();
 	void showCredits();

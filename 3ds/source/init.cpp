@@ -242,6 +242,7 @@ Result Init::Initialize() {
 	}
 
 	Log = std::make_unique<Logging>();
+	hidSetRepeatParameters(10, 10);
 
 	Overlays::SplashOverlay();
 	

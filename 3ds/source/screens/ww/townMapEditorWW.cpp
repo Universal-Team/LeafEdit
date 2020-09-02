@@ -54,7 +54,6 @@ void TownMapEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 /* Initialize Screen. */
 TownMapEditorWW::TownMapEditorWW(std::unique_ptr<Town> &refTown): town(refTown) {
-
 	/* Get Town Map Items. */
 	for (int i = 0; i < 4096; i++) {
 		this->MapItems[i] = this->town->item(i);

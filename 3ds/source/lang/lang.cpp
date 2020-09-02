@@ -25,6 +25,7 @@
 */
 
 #include "lang.hpp"
+#include "stringDB.hpp"
 
 #include <stdio.h>
 
@@ -35,7 +36,6 @@ std::vector<std::string> g_badges;
 
 /* Vectors for Both versions. */
 std::vector<std::string> g_groups;
-std::vector<std::string> g_villagerDatabase;
 std::vector<std::string> g_personality;
 
 /* Wild World Vectors. */
@@ -44,7 +44,7 @@ std::vector<std::string> g_wwHairColor;
 std::vector<std::string> g_wwHairStyle;
 
 /* Load a Text file or such to a Vector. */
-static void loadToVector(std::string path, std::vector<std::string> &vec) {
+void Lang::loadToVector(std::string path, std::vector<std::string> &vec) {
 	char* line = NULL;
 	size_t len = 0;
 	vec.clear();
@@ -70,21 +70,25 @@ std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 void Lang::loadGameStrings(int lang, SaveType save) {
 	switch (save) {
 		case SaveType::WW:
-			loadToVector("romfs:/lang/strings/wwFaceType.txt", g_wwFaceType);
-			loadToVector("romfs:/lang/strings/wwHairColor.txt", g_wwHairColor);
-			loadToVector("romfs:/lang/strings/wwHairStyle.txt", g_wwHairStyle);
-			loadToVector("romfs:/lang/strings/villagerWW.txt", g_villagerDatabase);
-			loadToVector("romfs:/lang/strings/personalitiesWW.txt", g_personality);
+			loadToVector("romfs:/lang/strings/ww/facetype.txt", g_wwFaceType);
+			loadToVector("romfs:/lang/strings/ww/haircolor.txt", g_wwHairColor);
+			loadToVector("romfs:/lang/strings/ww/hairstyle.txt", g_wwHairStyle);
+			loadToVector("romfs:/lang/strings/ww/personalities.txt", g_personality);
 			break;
 		case SaveType::NL:
+			loadToVector("romfs:/lang/strings/nl/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/nl/personalities.txt", g_personality);
+			break;
 		case SaveType::WA:
-			loadToVector("romfs:/lang/strings/badges.txt", g_badges);
-			loadToVector("romfs:/lang/strings/personalitiesNL.txt", g_personality);
-			loadToVector("romfs:/lang/strings/villagerWA.txt", g_villagerDatabase);
+			loadToVector("romfs:/lang/strings/wa/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/wa/personalities.txt", g_personality);
 			break;
 		case SaveType::UNUSED:
 			break;
 	}
+
+	StringDB::LoadItemDatabase(save);
+	StringDB::LoadVillagerDatabase(save);
 }
 
 void Lang::load(int lang) {

@@ -101,8 +101,8 @@ public:
 	virtual void flag2(u8 v) = 0;
 	virtual std::string name() const = 0;
 	virtual ItemType itemtype() const = 0;
-	virtual int rotation() const = 0;
-	virtual void rotation(int Direction) = 0;
+	virtual FurnitureDirection rotation() const = 0;
+	virtual void rotation(FurnitureDirection Direction) = 0;
 };
 
 #endif

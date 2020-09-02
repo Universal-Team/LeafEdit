@@ -37,7 +37,7 @@ extern std::shared_ptr<Sav> save;
 
 /* Draws the Hair sprite from a Player. */
 void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float ScaleY) {
-	if (save != nullptr) {
+	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:
 				Gui::DrawSprite(Players, 56 + hair, x, y, ScaleX, ScaleY); // Hair & Face are the same on AC:WW.
@@ -54,7 +54,7 @@ void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float Scale
 
 /* Draws the Face sprite from a Player. */
 void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX, float ScaleY) {
-	if (save != nullptr) {
+	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:
 				Gui::DrawSprite(Players, 56 + face, x, y, ScaleX, ScaleY); // Hair & Face are the same on AC:WW.
@@ -76,7 +76,7 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 
 /* Draws the Item Sprite. */
 void SpriteManagement::DrawItem(u8 itemCategory, int x, int y, float ScaleX, float ScaleY) {
-	if (save != nullptr) {
+	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:
 				break; // No Sprites for AC:WW implemented.
@@ -121,6 +121,7 @@ const std::array<int, 150> wwVillagerIndex = {
 	130, 131, 132, 133, 134, 135, 136, 144, 145, 146, 147, 148,
 	155, 156, 157, 158, 159, 160, 161, 162, 173, 174, 180, 181, 182,
 	199,
+
 	/* Second SpriteSheet -- 78 */
 	6, 7, 8, 9, 10, 22, 23, 24, 31, 32, 39, 40, 54, 55, 56, 57, 58, 59,
 	69, 70, 73, 74, 83, 84, 85, 92, 93, 94, 95, 96, 97, 105, 106, 107, 108, 109,
@@ -129,7 +130,7 @@ const std::array<int, 150> wwVillagerIndex = {
 	200, 46, 47, 48, 49, 50
 };
 
-std::array<int, 333> nlVillagerIndex = {
+const std::array<int, 333> nlVillagerIndex = {
 	0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16,
 	18, 19, 20, 21, 22, 23, 24, 25, 28, 30, 31, 32, 33, 35,
 	36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
@@ -144,6 +145,7 @@ std::array<int, 333> nlVillagerIndex = {
 	164, 166, 167, 169, 170, 171, 172, 173, 174, 176, 177,
 	178, 179, 180, 181, 182, 185, 186, 187, 188, 190, 191,
 	192, 193, 194, 195, 196, 197, 199,
+
 	/* Second SpriteSheet -- 168 */
 	0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18,
 	19, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37,
@@ -177,6 +179,7 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 				}
 
 				break;
+				
 			case SaveType::NL:
 				if (villagerID > 333) {
 					Gui::DrawSprite(Villager2, 199, x, y, ScaleX, ScaleY);
@@ -190,6 +193,7 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 				}
 
 				break;
+
 			case SaveType::WA:
 				/* Display empty Villager. */
 				if (villagerID > 399) {

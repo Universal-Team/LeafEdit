@@ -41,6 +41,7 @@ public:
 	~PlayerEditorNL();
 private:
 	C2D_Image TPC;
+	bool loaded = false;
 	int Selection = 0;
 	int Mode = 0;
 	std::unique_ptr<Player> player;
@@ -50,7 +51,7 @@ private:
 		{15, 97, 130, 48, "BADGE_EDITOR"},
 		{15, 159, 130, 48, "ITEMS"},
 		{175, 34, 130, 48, "PATTERN"},
-		{175, 97, 130, 48, ""},
+		{175, 97, 130, 48, "LETTER"},
 		{175, 159, 130, 48, ""}
 	};
 
@@ -74,7 +75,9 @@ private:
 	void DisplayPattern(void) const;
 	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	/*	Player.	*/
+	/*	Letter.	*/
+	void DrawLetter(void) const;
+	void LetterLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::unique_ptr<Pattern> pattern[10] = {nullptr};
 	std::unique_ptr<PatternImage> images[10] = {nullptr};

@@ -30,6 +30,7 @@
 #include "types.hpp"
 
 #include <string>
+#include <vector>
 
 struct ItemBin_s {
 	u16 ItemIcon;

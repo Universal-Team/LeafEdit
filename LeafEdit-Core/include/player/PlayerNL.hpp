@@ -30,6 +30,8 @@
 #include "encryptedInt32.hpp"
 #include "Item.hpp"
 #include "ItemNL.hpp"
+#include "Letter.hpp"
+#include "LetterNL.hpp"
 #include "Pattern.hpp"
 #include "PatternNL.hpp"
 #include "Player.hpp"
@@ -40,6 +42,8 @@
 
 class Item;
 class ItemNL;
+class Letter;
+class LetterNL;
 class Pattern;
 class PatternNL;
 class PlayerNL : public Player {
@@ -85,6 +89,7 @@ public:
 	void islandmedals(u32 v) override;
 	u32 coupons() const override;
 	void coupons(u32 v) override;
+	std::unique_ptr<Letter> letter(int slot) const override;
 
 	std::unique_ptr<Item> pocket(int slot) const override;
 	std::unique_ptr<Item> dresser(int slot) const override;
