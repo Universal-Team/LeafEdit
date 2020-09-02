@@ -152,8 +152,28 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (this->keyRepeatDelay) this->keyRepeatDelay--;
 
 	if (hDown & KEY_A) {
-		if (this->itemSelection < 11) {
-			this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), SaveType::WW));
+		if (this->itemSelection < 10) {
+			/* Villager furniture. */
+			this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), SaveType::WW, false, {46}, "Select a Furniture."));
+
+		} else if (this->itemSelection == 10) {
+			/* Villager shirt. */
+			this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, "Select a Shirt."));
+
+		} else if (this->itemSelection == 11) {
+			/* Song: TODO. */
+			Msg::DisplayWaitMsg("Song hasn't been researched yet.");
+		} else if (this->itemSelection == 12) {
+			/* Villager Wallpaper. */
+			this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, "Select a Wallpaper.");
+
+		} else if (this->itemSelection == 13) {
+			/* Villager Carpet. */
+			this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, "Select a Carpet.");
+
+		} else if (this->itemSelection == 14) {
+			/* Villager Umbrella. */
+			this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, "Select a Umbrella.");
 		}
 	}
 

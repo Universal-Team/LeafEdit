@@ -141,19 +141,33 @@ void StringDB::LoadVillagerDatabase(SaveType save) {
 }
 
 /* Searching. */
-std::vector<std::tuple<u16, std::string, std::string>> StringDB::searchTuple(std::string searchResult, std::string searchCategory, std::vector<std::tuple<u16, std::string, std::string>> &searchType) {
+std::vector<std::tuple<u16, std::string, std::string>> StringDB::searchTuple(std::string searchResult, std::vector<std::string> searchCategory, std::vector<std::tuple<u16, std::string, std::string>> &searchType, bool compare) {
 	std::vector<std::tuple<u16, std::string, std::string>> temp, tempEnd;
 
-	/* Push categories first. */
-	if (searchCategory != "") {
-		for (int i = 0; i < (int)searchType.size(); i++) {
-			if (std::get<2>(searchType[i]).find(searchCategory) != std::string::npos) {
-				temp.push_back({searchType[i]});
+	bool search = false;
+
+	if (searchCategory.size() > 0) search = true;
+	else temp = searchType;
+
+	if (search) {
+
+		for (int i = 0; i < (int)searchCategory.size(); i++) {
+			/* Push categories first. */
+			if (searchCategory[i] != "") {
+				for (int i2 = 0; i2 < (int)searchType.size(); i2++) {
+					if (std::get<2>(searchType[i2]).find(searchCategory[i]) != std::string::npos) {
+						if (compare) {
+							if (std::get<2>(searchType[i2]) == searchCategory[i]) {
+								temp.push_back({searchType[i2]});
+							}
+
+						} else {
+							temp.push_back({searchType[i2]});
+						}
+					}
+				}
 			}
 		}
-
-	} else {
-		temp = searchType;
 	}
 
 

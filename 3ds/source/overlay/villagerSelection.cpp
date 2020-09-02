@@ -30,7 +30,6 @@
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
-extern const std::string getVillagerName(int index);
 
 static void Draw(const int selection, const SaveType st, const int maxSelection) {
 	Gui::clearTextBufs();

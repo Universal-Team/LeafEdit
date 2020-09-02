@@ -37,18 +37,18 @@ extern std::vector<std::tuple<u16, std::string, std::string>> itemDB;
 extern std::vector<std::string> itemCategories;
 extern touchPosition touch;
 
-static std::vector<std::tuple<u16, std::string, std::string>> search(std::string searchCategory = "", std::string searchResult = "") {
-	return StringDB::searchTuple(searchResult, searchCategory, itemDB);
+static std::vector<std::tuple<u16, std::string, std::string>> search(std::vector<std::string> searchCategory = {""}, std::string searchResult = "", bool compare = false) {
+	return StringDB::searchTuple(searchResult, searchCategory, itemDB, compare);
 }
 
-static void Draw(int itemIndex, std::vector<std::tuple<u16, std::string, std::string>> itmList, bool showCat = true) {
+static void Draw(int itemIndex, std::vector<std::tuple<u16, std::string, std::string>> itmList, bool showCat = true, std::string msg = "") {
 	std::string itemList;
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_ITEM"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, msg, 395, 0, font);
 
 	for (int i = (itemIndex < 8) ? 0 : itemIndex - 8; i < (int)itmList.size() && i < ((itemIndex < 8) ? 9 : itemIndex + 1); i++) {
 		showCat ? itemList += std::get<1>(itmList[i]) + " - " + std::get<2>(itmList[i]) + "\n" : itemList += std::get<1>(itmList[i]) + "\n";
@@ -74,12 +74,12 @@ static void Draw(int itemIndex, std::vector<std::tuple<u16, std::string, std::st
 Structs::ButtonPos searchBtn = {295, 3, 20, 20};
 
 /* Select an Item. */
-u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv) {
+u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv, std::string msg) {
 	std::vector<std::tuple<u16, std::string, std::string>> itemList = itemDB;
 	int itemIndex = ItemManager::getIndex(oldID);
 
 	while(1) {
-		Draw(itemIndex, itemList);
+		Draw(itemIndex, itemList, true, msg);
 		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
 		hidTouchRead(&touch);
@@ -126,8 +126,12 @@ u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv) {
 			itemIndex = 0;
 			itemList.clear();
 			int category = GFX::ListSelection(0, itemCategories, Lang::get("SELECT_ITEM_CATEGORY"));
+
+			std::vector<std::string> categoryNames;
+			categoryNames.push_back({itemCategories[category]});
+
 			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
-			itemList = search(itemCategories[category], searchResult);
+			itemList = search(categoryNames, searchResult);
 		}
 
 		if (hidKeysDown() & KEY_Y) {
@@ -141,12 +145,18 @@ u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv) {
 }
 
 /* Select an Item from a category. */
-u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockInv, int category) {
-	std::vector<std::tuple<u16, std::string, std::string>> itemList = search(itemCategories[category], "");
+u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockInv, std::vector<int> category, std::string msg) {
+	std::vector<std::string> categoryNames;
+
+	for (int i = 0; i < (int)category.size(); i++) {
+		categoryNames.push_back({itemCategories[category[i]]});
+	}
+
+	std::vector<std::tuple<u16, std::string, std::string>> itemList = search(categoryNames, "", true);
 	int itemIndex = 0;
 
 	while(1) {
-		Draw(itemIndex, itemList, false);
+		Draw(itemIndex, itemList, false, msg);
 		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
 		hidTouchRead(&touch);
@@ -193,15 +203,82 @@ u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockI
 			itemIndex = 0;
 			itemList.clear();
 			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
-			itemList = search(itemCategories[category], searchResult);
+			itemList = search(categoryNames, searchResult, true);
 		}
 
 		if (hidKeysDown() & KEY_Y) {
-			itemList = search(itemCategories[category], "");
+			itemList = search(categoryNames, "", true);
 		}
 
 		if (hidKeysDown() & KEY_B) {
 			return oldID;
+		}
+	}
+}
+
+/* Select an Item from a category with index for Wild World. */
+u8 Overlays::SelectWWCategory(u8 oldIndex, std::vector<int> category, std::string msg) {
+	std::vector<std::string> categoryNames;
+
+	for (int i = 0; i < (int)category.size(); i++) {
+		categoryNames.push_back({itemCategories[category[i]]});
+	}
+
+	std::vector<std::tuple<u16, std::string, std::string>> itemList = search(categoryNames, "", true);
+
+	int itemIndex = 0;
+
+	while(1) {
+		Draw(itemIndex, itemList, false, msg);
+		u32 hRepeat = hidKeysDownRepeat();
+		hidScanInput();
+		hidTouchRead(&touch);
+
+		if (itemList.size() > 0) {
+			if (hRepeat & KEY_DOWN) {
+				if (itemIndex < (int)itemList.size() - 1) itemIndex++;
+				else itemIndex = 0;
+			}
+
+			if (hRepeat & KEY_UP) {
+				if (itemIndex > 0) itemIndex--;
+				else if (itemIndex == 0) itemIndex = (int)itemList.size()-1;
+			}
+
+			if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+				if ((itemIndex - 9) < 0) {
+					itemIndex = 0;
+				} else {
+					itemIndex -= 9;
+				}
+			}
+
+			if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+				if ((itemIndex + 9) > (int)itemList.size()-1) {
+					itemIndex = (int)itemList.size()-1;
+				} else {
+					itemIndex += 9;
+				}
+			}
+
+			if (hidKeysDown() & KEY_A) {
+				return itemIndex;
+			}
+		}
+
+		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
+			itemIndex = 0;
+			itemList.clear();
+			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			itemList = search(categoryNames, searchResult, true);
+		}
+
+		if (hidKeysDown() & KEY_Y) {
+			itemList = search(categoryNames, "", true);
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return oldIndex;
 		}
 	}
 }

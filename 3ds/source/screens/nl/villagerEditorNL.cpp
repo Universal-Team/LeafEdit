@@ -147,7 +147,25 @@ void VillagerEditorNL::DrawItems(void) const {
 
 void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
-		this->villagerItems[this->itemSelection]->id(Overlays::SelectItem(this->villagerItems[this->itemSelection]->id(), savesType));
+		if (this->itemSelection < 15) {
+			/* Villager Furniture. */
+			this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), savesType, false, {37}, "Select a Furniture."));
+		} else if (this->itemSelection == 15) {
+			/* Villager Wallpaper. */
+			this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, "Select a Wallpaper."));
+		} else if (this->itemSelection == 16) {
+			/* Villager Carpet. */
+			this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, "Select a Carpet."));
+		} else if (this->itemSelection == 17) {
+			/* Villager Song. */
+			this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, "Select a Song."));
+		} else if (this->itemSelection == 18) {
+			/* Villager Shirt. */
+			this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, "Select a Shirt."));
+		} else if (this->itemSelection == 19) {
+			/* Villager Umbrella. */
+			this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, "Select a Umbrella."));
+		}
 	}
 		
 	if (hDown & KEY_RIGHT) {
