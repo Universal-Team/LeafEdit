@@ -33,15 +33,14 @@ nlohmann::json appJson;
 
 /* New Leaf Vectors. */
 std::vector<std::string> g_badges;
+std::vector<std::string> g_EyeColor;
 
 /* Vectors for Both versions. */
-std::vector<std::string> g_groups;
+std::vector<std::string> g_FaceType;
+std::vector<std::string> g_HairColor;
+std::vector<std::string> g_HairStyle;
 std::vector<std::string> g_personality;
 
-/* Wild World Vectors. */
-std::vector<std::string> g_wwFaceType;
-std::vector<std::string> g_wwHairColor;
-std::vector<std::string> g_wwHairStyle;
 
 /* Load a Text file or such to a Vector. */
 void Lang::loadToVector(std::string path, std::vector<std::string> &vec) {
@@ -70,17 +69,23 @@ std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 void Lang::loadGameStrings(int lang, SaveType save) {
 	switch (save) {
 		case SaveType::WW:
-			loadToVector("romfs:/lang/strings/ww/facetype.txt", g_wwFaceType);
-			loadToVector("romfs:/lang/strings/ww/haircolor.txt", g_wwHairColor);
-			loadToVector("romfs:/lang/strings/ww/hairstyle.txt", g_wwHairStyle);
+			loadToVector("romfs:/lang/strings/ww/facetype.txt", g_FaceType);
+			loadToVector("romfs:/lang/strings/ww/haircolor.txt", g_HairColor);
+			loadToVector("romfs:/lang/strings/ww/hairstyle.txt", g_HairStyle);
 			loadToVector("romfs:/lang/strings/ww/personalities.txt", g_personality);
 			break;
 		case SaveType::NL:
 			loadToVector("romfs:/lang/strings/nl/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/nl/facetype.txt", g_FaceType);
+			loadToVector("romfs:/lang/strings/nl/haircolor.txt", g_HairColor);
+			loadToVector("romfs:/lang/strings/nl/hairstyle.txt", g_HairStyle);
 			loadToVector("romfs:/lang/strings/nl/personalities.txt", g_personality);
 			break;
 		case SaveType::WA:
 			loadToVector("romfs:/lang/strings/wa/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/wa/facetype.txt", g_FaceType);
+			loadToVector("romfs:/lang/strings/wa/haircolor.txt", g_HairColor);
+			loadToVector("romfs:/lang/strings/wa/hairstyle.txt", g_HairStyle);
 			loadToVector("romfs:/lang/strings/wa/personalities.txt", g_personality);
 			break;
 		case SaveType::UNUSED:

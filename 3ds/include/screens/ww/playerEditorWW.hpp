@@ -52,10 +52,20 @@ private:
 		{175, 159, 130, 48, ""}
 	};
 
+	const std::vector<ButtonType> appearanceBtn = {
+		{15, 34, 130, 48, "PLAYER_NAME"},
+		{15, 97, 130, 48, "PLAYER_HAIR_STYLE"},
+		{15, 159, 130, 48, "PLAYER_FACETYPE"},
+		{175, 34, 130, 48, "PLAYER_TAN_VALUE"},
+		{175, 97, 130, 48, "PLAYER_HAIR_COLOR"}
+	};
+
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	/*	Appearance.	*/
+	/* Appearance. */
+	void DrawAppearance(void) const;
+	void AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	/* Pattern. */
 	void DisplayPattern(void) const;

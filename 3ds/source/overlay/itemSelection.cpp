@@ -71,7 +71,7 @@ static void Draw(int itemIndex, std::vector<std::tuple<u16, std::string, std::st
 	C3D_FrameEnd(0);
 }
 
-Structs::ButtonPos searchBtn = {295, 3, 20, 20};
+static Structs::ButtonPos searchBtn = {295, 3, 20, 20};
 
 /* Select an Item. */
 u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv, std::string msg) {

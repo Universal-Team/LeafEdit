@@ -25,76 +25,101 @@
 */
 
 #include "common.hpp"
+#include "keyboard.hpp"
 #include "overlay.hpp"
 #include "spriteManagement.hpp"
+#include "stringDB.hpp"
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
+extern touchPosition touch;
 
-static void Draw(const int selection, const SaveType st, const int maxSelection) {
+static std::vector<std::tuple<u16, std::string, std::string>> search(std::vector<std::string> searchCategory = {""}, std::string searchResult = "", bool compare = false) {
+	return StringDB::searchTuple(searchResult, searchCategory, villagerDB, compare);
+}
+
+static Structs::ButtonPos searchBtn = {295, 3, 20, 20};
+
+static void Draw(const int selection, const SaveType st, std::vector<std::tuple<u16, std::string, std::string>> vlList) {
+	std::string villagerList;
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
-	GFX::DrawTop();
-	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
+	GFX::DrawFileBrowseBG(true);
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_VILLAGER"), 395, 0, font);
-	SpriteManagement::DrawVillager(selection, 165, 80);
 
-	Gui::DrawStringCentered(0, 140, 0.9f, WHITE, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[selection]), 395, 0, font);
+	for (int i = (selection < 8) ? 0 : selection - 8; i < (int)vlList.size() && i < ((selection < 8) ? 9 : selection + 1); i++) {
+		villagerList += std::get<1>(vlList[i]) + " - " + std::get<2>(vlList[i]) + "\n";
+	}
 
-	Gui::DrawStringCentered(0, 160, 0.9f, WHITE, Lang::get("VILLAGER_ID") + std::to_string(selection), 395, 0, font);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, std::to_string(selection + 1) + " | " + std::to_string(maxSelection + 1), 400, 0, font);
+	for (uint i = 0; i < ((vlList.size() < 9) ? 9 - vlList.size() : 0); i++) {
+		villagerList += "\n";
+	}
+
+	/* Selector Logic. */
+	if (selection < 9) GFX::DrawSelector(true, 24 + (selection * 21));
+	else GFX::DrawSelector(true, 24 + (8 * 21));
+
+	Gui::DrawString(5, 25, 0.85f, BLACK, villagerList, 360, 0, font);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, std::to_string(selection) + " | " + std::to_string(vlList.size()-1), 395, 0, font);
+
 	GFX::DrawBottom();
-	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
+	GFX::DrawGUI(gui_search_idx, 295, 3);
 	C3D_FrameEnd(0);
 }
 
 
 u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
+	std::vector<std::tuple<u16, std::string, std::string>> villagerList = villagerDB;
 	int selection = (int)oldID;
-	int maxSelection = 0;
-
-	/* Get max amount, here. */
-	switch(st) {
-		case SaveType::WA:
-			maxSelection = 398;
-			break;
-		case SaveType::NL:
-			maxSelection = 332;
-			break;
-		case SaveType::WW:
-			maxSelection = 149;
-			break;
-		case SaveType::UNUSED:
-			return oldID;
-	}
 
 	while(1) {
-		Draw(selection, st, maxSelection);
+		Draw(selection, st, villagerList);
 		
 		/* Logic, here. */
 		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
+		hidTouchRead(&touch);
 
-		if (hRepeat & KEY_RIGHT) {
-			if (selection < maxSelection) selection++;
+		if (hRepeat & KEY_DOWN) {
+			if (selection < (int)villagerList.size()-1) selection++;
 		}
 
-		if (hRepeat & KEY_LEFT) {
+		if (hRepeat & KEY_UP) {
 			if (selection > 0) selection--;
 		}
 
-		if (hRepeat & KEY_R) {
-			if (selection < maxSelection) selection++;
+		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
+			if ((selection - 9) < 0) {
+				selection = 0;
+			} else {
+				selection -= 9;
+			}
 		}
 
-		if (hRepeat & KEY_L) {
-			if (selection > 0) selection--;
+		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
+			if ((selection + 9) > (int)villagerList.size()-1) {
+				selection = (int)villagerList.size()-1;
+			} else {
+				selection += 9;
+			}
+		}
+
+		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
+			selection = 0;
+			villagerList.clear();
+
+			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			villagerList = search({}, searchResult);
+		}
+
+		if (hidKeysDown() & KEY_Y) {
+			villagerList = villagerDB;
 		}
 
 		if (hidKeysDown() & KEY_A) {
-			return selection;
+			return std::get<0>(villagerList[selection]);
 		}
 
 		if (hidKeysDown() & KEY_B) {

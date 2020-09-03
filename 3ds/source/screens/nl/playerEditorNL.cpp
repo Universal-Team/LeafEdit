@@ -28,6 +28,7 @@
 #include "coreUtils.hpp"
 #include "itemEditorNL.hpp"
 #include "itemUtils.hpp"
+#include "keyboard.hpp"
 #include "patternEditor.hpp"
 #include "playerEditorNL.hpp"
 #include "playerManagement.hpp"
@@ -39,6 +40,15 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
 /* Bring that to other screens too. */
 extern SaveType savesType;
+
+const std::vector<std::string> g_TanValues = {
+	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"
+};
+
+extern std::vector<std::string> g_EyeColor;
+extern std::vector<std::string> g_FaceType;
+extern std::vector<std::string> g_HairColor;
+extern std::vector<std::string> g_HairStyle;
 
 PlayerEditorNL::PlayerEditorNL(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) {
 	C3D_FrameEnd(0);
@@ -198,6 +208,50 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hDown & KEY_B) {
 		this->Selection = 0;
 		this->Mode = 0;
+	}
+
+	if (hDown & KEY_A) {
+		u8 gender = this->player->gender();
+		u8 temp = 0;
+		switch(this->Selection) {
+			case 0:
+				this->player->name(StringUtils::UTF8toUTF16(Input::getString(8, "Enter Playername.", 0.5)));
+				break;
+
+			case 1:
+				temp = (u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle.");
+				if (gender == 0) {
+					if (temp < 17) this->player->hairstyle(temp);
+					else Msg::DisplayWaitMsg("Not a valid hair for gender male!");
+				} else if (gender == 1) {
+					if (temp > 16) this->player->hairstyle(temp);
+					else Msg::DisplayWaitMsg("Not a valid hair for gender female!");
+				}
+				break;
+
+			case 2:
+				temp = (u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype.");
+				if (gender == 0) {
+					if (temp < 12) this->player->face(temp);
+					else Msg::DisplayWaitMsg("Not a valid facetype for gender male!");
+				} else if (gender == 1) {
+					if (temp > 11) this->player->face(temp);
+					else Msg::DisplayWaitMsg("Not a valid facetype for gender female!");
+				}
+				break;
+
+			case 3:
+				this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+				break;
+
+			case 4:
+				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+				break;
+
+			case 5:
+				this->player->eyecolor((u8)GFX::ListSelection(this->player->eyecolor(), g_EyeColor, "Select a Eye Color."));
+				break;
+		}
 	}
 }
 

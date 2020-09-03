@@ -25,25 +25,36 @@
 */
 
 #include "itemEditorWW.hpp"
+#include "keyboard.hpp"
 #include "patternEditor.hpp"
 #include "playerEditorWW.hpp"
+#include "playerManagement.hpp"
 #include "Sav.hpp"
+#include "spriteManagement.hpp"
 #include "stringUtils.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
 extern std::shared_ptr<Sav> save;
 
+const std::vector<std::string> g_TanValues = {
+	"0", "1", "2", "3"
+};
+
+extern std::vector<std::string> g_FaceType;
+extern std::vector<std::string> g_HairColor;
+extern std::vector<std::string> g_HairStyle;
+
 PlayerEditorWW::PlayerEditorWW(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) { }
 
 void PlayerEditorWW::Draw(void) const {
 	if (Mode == 0) this->DrawSubMenu();
-	else if (this->Mode == 1) return; /* Appearance. */ 
+	else if (this->Mode == 1) this->DrawAppearance();
 	else if (this->Mode == 2) this->DisplayPattern();
 }
 
 void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (this->Mode == 0) this->SubMenuLogic(hDown, hHeld, touch);
-	else if (this->Mode == 1) return; /* Appearance. */
+	else if (this->Mode == 1) this->AppearanceLogic(hDown, hHeld, touch);
 	else if (this->Mode == 2) this->PatternLogic(hDown, hHeld, touch);
 }
 
@@ -77,7 +88,8 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
-				/* this->Mode = 1; */
+				this->Selection = 0;
+				this->Mode = 1;
 				break;
 			case 1:
 				Gui::setScreen(std::make_unique<ItemEditorWW>(this->player), doFade, true);
@@ -113,6 +125,98 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
+	}
+}
+
+/*	Appearance.	*/
+void PlayerEditorWW::DrawAppearance(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
+	/* Playername & TAN. */
+	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
+	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
+	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("PLAYER_TAN_VALUE") + ": " + std::to_string((this->player->tan())), 380, 0, font);
+
+	/* Face sprites. */
+	SpriteManagement::DrawFace(this->player->gender(), this->player->face(), 118, 106);
+
+	/* Hair Color. */
+	Gui::Draw_Rect(200, 105, 90, 40, PlayerManagement::getHairColor(this->player->haircolor(), SaveType::WW));
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	GFX::DrawBottom();
+	for (int i = 0; i < 5; i++) {
+		GFX::DrawButton(this->appearanceBtn[i]);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
+	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+}
+
+void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	/* Navigation. */
+	if (hRepeat & KEY_UP) {
+		if (this->Selection > 0) this->Selection--;
+	}
+
+	if (hRepeat & KEY_DOWN) {
+		if (this->Selection < 5) this->Selection++;
+	}
+
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
+	}
+	
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
+	}
+	
+	if (hDown & KEY_B) {
+		this->Selection = 0;
+		this->Mode = 0;
+	}
+
+	if (hDown & KEY_A) {
+		u8 length = 0;
+		switch(this->Selection) {
+			case 0:
+				switch(save->getRegion()) {
+					case WWRegion::USA_REV0:
+					case WWRegion::USA_REV1:
+					case WWRegion::EUR_REV1:
+						length = 7;
+						break;
+					case WWRegion::JPN_REV0:
+					case WWRegion::JPN_REV1:
+					case WWRegion::KOR_REV1:
+						length = 6;
+						break;
+					case WWRegion::UNKNOWN:
+						return;
+				}
+
+				this->player->name(StringUtils::UTF8toUTF16(Input::getString(length, "Enter Playername.", 0.5)));
+				break;
+
+			case 1:
+				this->player->hairstyle((u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle."));
+				break;
+
+			case 2:
+				this->player->face((u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype."));
+				break;
+
+			case 3:
+				this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+				break;
+
+			case 4:
+				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+				break;
+		}
 	}
 }
 

@@ -35,9 +35,6 @@ namespace PlayerManagement {
 	u32 getHairColor(u8 hairColor, SaveType save);
 	/* Get the Eye Color RGB. (NL / WA only.) */
 	u32 getEyeColor(u8 eyeColor);
-
-	u8 SelectHair(u8 currentHair);
-	void DrawHairSelection(int selection, bool isFemale = false);
 }
 
 #endif

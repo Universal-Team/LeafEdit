@@ -44,7 +44,10 @@ void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float Scale
 				break;
 			case SaveType::NL:
 			case SaveType::WA:
-				Gui::DrawSprite(Players, hair, x, y, ScaleX, ScaleY); // Hair starts at 0.
+				if (hair == 16 || hair == 33) break;
+				if (hair < 17) Gui::DrawSprite(Players, hair, x, y, ScaleX, ScaleY); // Hair starts at 0.
+				else Gui::DrawSprite(Players, hair - 1, x, y, ScaleX, ScaleY);
+
 				break;
 			case SaveType::UNUSED:
 				break;
