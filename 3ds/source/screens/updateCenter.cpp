@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of LeafEdit
 *   Copyright (C) 2019-2020 Universal-Team
 *
@@ -49,8 +49,17 @@ void UpdateCenter::checkUpdate() {
 	hasCheckedForUpdate = true;
 }
 
-
 void UpdateCenter::Draw(void) const {
+	if (this->Mode == 0) this->DrawMain();
+	else if (this->Mode == 1) this->DrawExtras();
+}
+
+void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (this->Mode == 0) this->MainLogic(hDown, hHeld, touch);
+	else if (this->Mode == 1) this->ExtrasLogic(hDown, hHeld, touch);
+}
+
+void UpdateCenter::DrawMain(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400, 0, font);
 	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
@@ -83,7 +92,7 @@ void UpdateCenter::Draw(void) const {
 }
 
 
-void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
 	if (hDown & KEY_B) {
@@ -216,5 +225,47 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Download::downloadAssets();
 			}
 		}
+	}
+
+	/* Go to Extras section. */
+	if (hDown & KEY_SELECT) {
+		this->Selection = 0;
+		this->Mode = 1;
+	}
+}
+
+void UpdateCenter::DrawExtras(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER") + " Extras", 400, 0, font);
+	GFX::DrawGUI(gui_pattern_editor_idx, 25 + 1, 35 + 1);
+	GFX::DrawBottom();
+
+	Gui::DrawStringCentered(0, 35, 0.7f, BLACK, Lang::get("APP") + this->extraNames[this->selectedExtra], 310, 0, font);
+	Gui::DrawStringCentered(0, 50, 0.7f, BLACK, Lang::get("AUTHOR") + this->extraAuthorNames[this->selectedExtra], 310, 0, font);
+
+	for (int i = 0; i < 2; i++) {
+		GFX::DrawButton(extrasBtns[i]);
+		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, extrasBtns[i].x + 100, extrasBtns[i].y + 30);
+	}
+}
+
+void UpdateCenter::ExtrasLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_DOWN) {
+		if (this->Selection < 1) this->Selection++;
+	}
+
+	if (hRepeat & KEY_UP) {
+		if (this->Selection > 0) this->Selection--;
+	}
+
+	if (hDown & KEY_B) {
+		this->Selection = 0;
+		this->Mode = 0;
+	}
+
+	if (hDown & KEY_A) {
+		Download::getPatternEditor((bool)this->Selection);
 	}
 }

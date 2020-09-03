@@ -39,7 +39,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	UpdateCenter();
 private:
-	int Selection = 0;
+	int Selection = 0, Mode = 0, selectedExtra = 0;
 	void checkUpdate();
 	bool NightlyAvailable = false;
 	bool ReleaseAvailable = false;
@@ -49,11 +49,26 @@ private:
 	ReleaseFetch latestRelease = {""};
 	NightlyFetch latestNightly = {""};
 
+	void DrawMain(void) const;
+	void MainLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	void DrawExtras(void) const;
+	void ExtrasLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
 	const std::vector<ButtonType> mainButtons = {
 		{95, 34, 130, 48, "DOWNLOAD_RELEASE"},
 		{95, 97, 130, 48, "DOWNLOAD_NIGHTLY"},
 		{95, 159, 130, 48, "DOWNLOAD_ASSETS"}
 	};
+
+	const std::vector<ButtonType> extrasBtns = {
+		{95, 97, 130, 48, "DOWNLOAD_3DSX"},
+		{95, 159, 130, 48, "DOWNLOAD_CIA"}
+	};
+
+	/* For the extras. */
+	const std::vector<std::string> extraNames = {"LeafEdit-Pattern-Editor"};
+	const std::vector<std::string> extraAuthorNames = {"SuperSaiyajinStackZ"};
 };
 
 #endif

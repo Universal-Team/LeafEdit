@@ -48,14 +48,16 @@ PlayerEditorWW::PlayerEditorWW(std::unique_ptr<Player> refPlayer): player(std::m
 
 void PlayerEditorWW::Draw(void) const {
 	if (Mode == 0) this->DrawSubMenu();
-	else if (this->Mode == 1) this->DrawAppearance();
-	else if (this->Mode == 2) this->DisplayPattern();
+	else if (this->Mode == 1) this->DrawPlayer();
+	else if (this->Mode == 2) this->DrawAppearance();
+	else if (this->Mode == 3) this->DisplayPattern();
 }
 
 void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (this->Mode == 0) this->SubMenuLogic(hDown, hHeld, touch);
-	else if (this->Mode == 1) this->AppearanceLogic(hDown, hHeld, touch);
-	else if (this->Mode == 2) this->PatternLogic(hDown, hHeld, touch);
+	else if (this->Mode == 1) this->PlayerLogic(hDown, hHeld, touch);
+	else if (this->Mode == 2) this->AppearanceLogic(hDown, hHeld, touch);
+	else if (this->Mode == 3) this->PatternLogic(hDown, hHeld, touch);
 }
 
 /* Sub Menu. */
@@ -92,9 +94,13 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				this->Mode = 1;
 				break;
 			case 1:
-				Gui::setScreen(std::make_unique<ItemEditorWW>(this->player), doFade, true);
+				this->Selection = 0;
+				this->Mode = 2;
 				break;
 			case 2:
+				Gui::setScreen(std::make_unique<ItemEditorWW>(this->player), doFade, true);
+				break;
+			case 3:
 				/* Load Pattern. */
 				C3D_FrameEnd(0);
 				for (int i = 0; i < 8; i++) {
@@ -104,9 +110,7 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 
 				this->Selection = 0;
-				this->Mode = 2;
-				break;
-			case 3:
+				this->Mode = 3;
 				break;
 		}
 	}
@@ -215,6 +219,55 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 
 			case 4:
 				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+				break;
+		}
+	}
+}
+
+/* Player. */
+void PlayerEditorWW::DrawPlayer(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER"), 400, 0, font);
+
+	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 65, 320, 22, DARKER_COLOR);
+	
+	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, "Wallet Amount: " + std::to_string((this->player->wallet())), 380, 0, font);
+	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, "Bank Amount: " + std::to_string((this->player->bank())), 380, 0, font);
+
+	GFX::DrawBottom();
+	for (int i = 0; i < 2; i++) {
+		GFX::DrawButton(this->playerButtons[i]);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->playerButtons[i].x+100, this->playerButtons[i].y+30);
+	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+}
+
+void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hRepeat & KEY_DOWN) {
+		if (this->Selection < 1) this->Selection++;
+	}
+	
+	if (hRepeat & KEY_UP) {
+		if (this->Selection > 0) this->Selection--;
+	}
+	
+	if (hDown & KEY_B) {
+		this->Selection = 0;
+		this->Mode = 0;
+	}
+
+	if (hDown & KEY_A) {
+		switch(this->Selection) {
+			case 0:
+				this->player->wallet(Input::handleu32(5, "Enter wallet amount.", 99999, this->player->wallet()));
+				break;
+
+			case 1:
+				this->player->bank(Input::handleu32(9, "Enter bank amount.", 999999999, this->player->bank()));
 				break;
 		}
 	}

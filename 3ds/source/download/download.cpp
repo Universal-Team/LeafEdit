@@ -1012,9 +1012,10 @@ void Download::getPatternEditor(bool cia) {
 		snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 		progressBarType = 1;
 		installCia("sdmc:/3ds/LeafEdit/temp.cia", true);
-		showProgressBar = false;
 		deleteFile("sdmc:/3ds/LeafEdit/temp.cia");
 	}
+
+	showProgressBar = false;
 
 	doneMsg();
 }

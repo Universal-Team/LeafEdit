@@ -47,11 +47,11 @@ private:
 	std::unique_ptr<Player> player;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "APPEARANCE"},
-		{15, 97, 130, 48, "BADGE_EDITOR"},
-		{15, 159, 130, 48, "ITEMS"},
-		{175, 34, 130, 48, "PATTERN"},
-		{175, 97, 130, 48, "LETTER"},
+		{15, 34, 130, 48, "PLAYER"},
+		{15, 97, 130, 48, "APPEARANCE"},
+		{15, 159, 130, 48, "BADGE_EDITOR"},
+		{175, 34, 130, 48, "ITEMS"},
+		{175, 97, 130, 48, "PATTERN"},
 		{175, 159, 130, 48, ""}
 	};
 
@@ -63,6 +63,14 @@ private:
 		{175, 97, 130, 48, "PLAYER_HAIR_COLOR"},
 		{175, 159, 130, 48, "PLAYER_EYE_COLOR"}
 	};
+
+	const std::vector<ButtonType> playerButtons = {
+		{15, 34, 130, 48, "PLAYER_WALLET"},
+		{15, 97, 130, 48, "PLAYER_BANK"},
+		{15, 159, 130, 48, "PLAYER_MEDALS"},
+		{175, 34, 130, 48, "PLAYER_COUPONS"}
+	};
+
 
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
@@ -78,6 +86,10 @@ private:
 	/*	Letter.	*/
 	void DrawLetter(void) const;
 	void LetterLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	/*	Player.	*/
+	void DrawPlayer(void) const;
+	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::unique_ptr<Pattern> pattern[10] = {nullptr};
 	std::unique_ptr<PatternImage> images[10] = {nullptr};

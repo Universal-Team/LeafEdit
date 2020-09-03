@@ -44,10 +44,10 @@ private:
 	std::unique_ptr<Player> player;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "APPEARANCE"},
-		{15, 97, 130, 48, "ITEMS"},
-		{15, 159, 130, 48, "PATTERN"},
-		{175, 34, 130, 48, ""},
+		{15, 34, 130, 48, "PLAYER"},
+		{15, 97, 130, 48, "APPEARANCE"},
+		{15, 159, 130, 48, "ITEMS"},
+		{175, 34, 130, 48, "PATTERN"},
 		{175, 97, 130, 48, ""},
 		{175, 159, 130, 48, ""}
 	};
@@ -58,6 +58,11 @@ private:
 		{15, 159, 130, 48, "PLAYER_FACETYPE"},
 		{175, 34, 130, 48, "PLAYER_TAN_VALUE"},
 		{175, 97, 130, 48, "PLAYER_HAIR_COLOR"}
+	};
+
+	const std::vector<ButtonType> playerButtons = {
+		{15, 34, 130, 48, "PLAYER_WALLET"},
+		{15, 97, 130, 48, "PLAYER_BANK"}
 	};
 
 	void DrawSubMenu(void) const;
@@ -71,7 +76,9 @@ private:
 	void DisplayPattern(void) const;
 	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	
-	/*	Player.	*/
+	/* Player. */
+	void DrawPlayer(void) const;
+	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::unique_ptr<Pattern> pattern[8] = {nullptr};
 	std::unique_ptr<PatternImage> images[8] = {nullptr};

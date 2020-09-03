@@ -142,7 +142,7 @@ u32 PlayerWA::bank() const {
 void PlayerWA::bank(u32 v) {
 	this->bankValue.value = v; // Set Value.
 	u32 encryptedInt = 0, encryptionData = 0;
-	this->walletValue.encrypt(encryptedInt, encryptionData);
+	this->bankValue.encrypt(encryptedInt, encryptionData);
 	SaveUtils::Write<u32>(playerPointer(), 0x6B8C, encryptedInt);
 	SaveUtils::Write<u32>(playerPointer(), 0x6B90, encryptionData);
 }
