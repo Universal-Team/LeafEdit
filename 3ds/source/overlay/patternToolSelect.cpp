@@ -47,9 +47,9 @@ static void Draw(int select, int page) {
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("PATTERN_TOOL_MENU"), 395, 0, font);
-	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	Gui::DrawStringCentered(0, config->newStyle() ? 218 : 217, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 2", 310, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("PATTERN_TOOL_MENU"), 395, 0, font);
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 2", 310, 0, font);
 	GFX::DrawBottom();
 
 	if (page == 0) {

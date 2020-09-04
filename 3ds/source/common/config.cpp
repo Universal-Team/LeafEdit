@@ -40,11 +40,11 @@ void Config::initialize() {
 	/*  Create through fopen "Write". */
 	FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
 	/*  Set default values. */
-	this->setBool("NewStyle", true);
 	this->setString("CurrentRelease", "");
 	this->setString("CurrentNightly", "");
 	this->setInt("Language", 1);
 	this->setBool("Create_Backups", true);
+	this->setBool("Show_Wiki", true);
 	this->setInt("Version", this->configVersion);
 
 	/* Write to file. */
@@ -72,12 +72,6 @@ Config::Config() {
 		this->addMissingThings();
 	}
 
-	if (!this->json.contains("NewStyle")) {
-		this->newStyle(true);
-	} else {
-		this->newStyle(this->getBool("NewStyle"));
-	}
-
 	if (!this->json.contains("CurrentRelease")) {
 		this->currentRelease("");
 	} else {
@@ -102,6 +96,12 @@ Config::Config() {
 		this->createBackups(this->getBool("Create_Backups"));
 	}
 
+	if (!this->json.contains("Show_Wiki")) {
+		this->showWiki(true);
+	} else {
+		this->showWiki(this->getBool("Show_Wiki"));
+	}
+
 	if (!this->json.contains("Version")) {
 		this->version(this->configVersion);
 	} else {
@@ -117,11 +117,11 @@ void Config::save() {
 	if (this->changesMade) {
 		FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
 		/* Set values. */
-		this->setBool("NewStyle", this->newStyle());
 		this->setString("CurrentRelease", this->currentRelease());
 		this->setString("CurrentNightly", this->currentNightly());
 		this->setInt("Language", this->language());
 		this->setBool("Create_Backups", this->createBackups());
+		this->setBool("Show_Wiki", this->showWiki());
 		this->setInt("Version", this->version());
 		/* Write changes to file. */
 		const std::string dump = this->json.dump(1, '\t');

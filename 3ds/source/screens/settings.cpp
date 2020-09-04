@@ -34,10 +34,11 @@ extern bool touching(touchPosition touch, ButtonType button);
 
 void Settings::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 390, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
-	for (int i = 0; i < 3; i++) {
+
+	for (int i = 0; i < 1; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
@@ -49,50 +50,26 @@ void Settings::Draw(void) const {
 void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	if (hRepeat & KEY_DOWN) {
-		if (Selection < 2) Selection++;
-	}
-
-	if (hRepeat & KEY_UP) {
-		if (Selection > 0) Selection--;
-	}
-
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
 	
 	if (hDown & KEY_A) {
-		if (Selection == 0) {
-			if (config->newStyle()) {
-				config->newStyle(false);
-				barOffset = 2;
-			} else {
-				config->newStyle(true);
-				barOffset = 0;
-			}
-			
-			changesMade = true;
-		} else if (Selection == 1) {
-			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
-				config->createBackups(config->createBackups() ? false : true);
-			}
+		switch(this->Selection) {
+			case 0:
+				if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
+					config->createBackups(config->createBackups() ? false : true);
+					Msg::DisplayWaitMsg(config->createBackups() ? "Backups enabled." : "Backups disabled.");
+				}
+				break;
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			if (config->newStyle()) {
-				config->newStyle(false);
-				barOffset = 2;
-			} else {
-				config->newStyle(true);
-				barOffset = 0;
-			}
-
-			changesMade = true;
-		} else if (touching(touch, mainButtons[1])) {
 			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
 				config->createBackups(config->createBackups() ? false : true);
+				Msg::DisplayWaitMsg(config->createBackups() ? "Backups enabled." : "Backups disabled.");
 			}
 		}
 	}

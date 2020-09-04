@@ -46,7 +46,7 @@ AcresEditorWW::AcresEditorWW(std::unique_ptr<Town> &refTown) : town(refTown) {
 /* Draw the Acre Selection from the Top Screen. */
 void AcresEditorWW::DrawTopSelection(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 400, 0, font);
 	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, Lang::get("ACRE_ID") + std::to_string(this->selectedAcre), 400, 0, font);
 
 	if (this->selectedAcre == 0) {
@@ -158,7 +158,7 @@ void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_START) {
-		if (this->FastMode) FastMode = false;
+		if (this->FastMode) this->FastMode = false;
 		else this->FastMode = true;
 	}
 

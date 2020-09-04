@@ -71,7 +71,7 @@ void getCurrentUsage(){
 	u64 id;
 	APT_GetProgramID(&id);
 
-	if (id == 0x0004000004392100){
+	if (id == 0x0004000004392100) {
 		is3dsx = false;
 		return;
 	}
@@ -106,7 +106,7 @@ Result Init::CheckSheets() {
 
 /* Loading the Sheets. */
 Result Init::loadSheets() {
-	if (sheetsLoaded == false) {
+	if (!sheetsLoaded) {
 		if (CheckSheets() != 0) {
 			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
 			return -1;
@@ -125,7 +125,7 @@ Result Init::loadSheets() {
 
 /* Unload all Sheets. */
 Result Init::unloadSheets() {
-	if (sheetsLoaded == true) {
+	if (sheetsLoaded) {
 		C2D_SpriteSheetFree(Acres);
 		C2D_SpriteSheetFree(Items);
 		C2D_SpriteSheetFree(Players);
@@ -139,7 +139,7 @@ Result Init::unloadSheets() {
 
 /* Load the font, if found. */
 Result Init::loadFont() {
-	if (FontHasLoaded == false) {
+	if (!FontHasLoaded) {
 		if (access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
 			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
@@ -154,9 +154,7 @@ Result Init::loadFont() {
 
 /* Unload font, if loaded. */
 Result Init::unloadFont() {
-	if (FontHasLoaded) {
-		Gui::unloadFont(font);
-	}
+	if (FontHasLoaded) Gui::unloadFont(font);
 
 	FontHasLoaded = false;
 	return 0;
@@ -196,28 +194,21 @@ Result Init::Init() {
 
 
 	config = std::make_unique<Config>();
-
-	if (config->newStyle()) {
-		barOffset = 0;
-	} else {
-		barOffset = 2;
-	}
 	
 	ItemManager::loadColors();
-	Lang::load(config->language());
+	Lang::load(1);
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
-
-	DARKER_COLOR = DARKER_GREEN;
-	LIGHT_COLOR = LIGHT_GREEN;
-	LIGHTER_COLOR = LIGHTER_GREEN;
-	SELECTED_COLOR = SELECTED_GREEN;
-	UNSELECTED_COLOR = UNSELECTED_GREEN;
 
 	/* If sheets not found -> Download it. */
 	if (CheckSheets() != 0) { Download::downloadAssets(); }
 
 	/* Only Load Font if found, else load System font. */
 	loadFont();
+
+	if (config->showWiki()) {
+		Msg::DisplayWaitMsg("Please read the wiki before starting with LeafEdit.\nhttps://github.com/Universal-Team/LeafEdit/wiki");
+		config->showWiki(false);
+	}
 
 	getCurrentUsage();
 	char path[PATH_MAX];
@@ -270,7 +261,7 @@ Result Init::MainLoop() {
 		C3D_FrameEnd(0);
 		
 		if (exiting || Is3dsxUpdated) {
-			if (!fadeout)	break;
+			if (!fadeout) break;
 		}
 
 		Gui::fadeEffects(16, 16, true);

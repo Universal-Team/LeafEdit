@@ -73,7 +73,6 @@ extern "C" {
 
 /* GodMode and whatnot. */
 extern bool changes, doFade, Debug, GodMode;
-extern int barOffset;
 extern C2D_Font font;
 
 #endif

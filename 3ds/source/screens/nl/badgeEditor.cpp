@@ -45,8 +45,8 @@ void BadgeEditor::DrawBadges(void) const {
 
 void BadgeEditor::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("BADGE_EDITOR"), 395, 0, font);
-	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("BADGE_EDITOR"), 395, 0, font);
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("CURRENT_BADGE") + g_badges[selectedBadge], 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
@@ -63,31 +63,31 @@ void BadgeEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hRepeat & KEY_RIGHT) {
-		if (selectedBadge < 23) selectedBadge++;
+		if (this->selectedBadge < 23) this->selectedBadge++;
 	}
 
 	if (hRepeat & KEY_LEFT) {
-		if (selectedBadge > 0) selectedBadge--;
+		if (this->selectedBadge > 0) this->selectedBadge--;
 	}
 
 	if (hRepeat & KEY_DOWN) {
-		if (selectedBadge < 18) selectedBadge += 6;
+		if (this->selectedBadge < 18) this->selectedBadge += 6;
 	}
 
 	if (hRepeat & KEY_UP) {
-		if (selectedBadge > 5) selectedBadge -= 6;
+		if (this->selectedBadge > 5) this->selectedBadge -= 6;
 	}
 
 	if (hDown & KEY_A) {
-		if (player->badge(this->selectedBadge) < 3) player->badge(this->selectedBadge, (player->badge(this->selectedBadge) + 1));
-		else player->badge(this->selectedBadge, 0);
+		if (this->player->badge(this->selectedBadge) < 3) this->player->badge(this->selectedBadge, (this->player->badge(this->selectedBadge) + 1));
+		else this->player->badge(this->selectedBadge, 0);
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 24; i++) {
 			if (iconTouch(touch, badgeTouch[i])) {
-				if (player->badge(i) < 3) player->badge(i, (player->badge(i) + 1));
-				else player->badge(i, 0);
+				if (this->player->badge(i) < 3) this->player->badge(i, (this->player->badge(i) + 1));
+				else this->player->badge(i, 0);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ void BadgeEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_Y) {
 		u8 value = this->setAll();
 		for (int i = 0; i < 24; i++) {
-			player->badge(i, value);
+			this->player->badge(i, value);
 		}
 	}
 }
@@ -109,7 +109,7 @@ u8 BadgeEditor::setAll() {
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SET_BADGES_TO"), 395, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("SET_BADGES_TO"), 395, 0, font);
 		GFX::DrawBottom();
 
 		for (int i = 0; i < 4; i++) {

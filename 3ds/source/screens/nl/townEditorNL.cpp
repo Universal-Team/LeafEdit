@@ -36,12 +36,12 @@ extern std::shared_ptr<Sav> save;
 
 TownEditorNL::TownEditorNL(std::unique_ptr<Town> refTown) {
 	this->town = std::move(refTown);
-	this->pattern = this->town->townflag();
+	if (this->town->townflag()) this->pattern = this->town->townflag();
 }
 
 void TownEditorNL::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_EDITOR"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_EDITOR"), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();

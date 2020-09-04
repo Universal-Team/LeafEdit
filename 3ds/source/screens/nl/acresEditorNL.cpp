@@ -41,16 +41,16 @@ AcresEditorNL::AcresEditorNL(std::unique_ptr<Town> &refTown): town(refTown) {
 	}
 
 	if (savesType == SaveType::NL) {
-		maxAcres = 203;
+		this->maxAcres = 203;
 	} else if (savesType == SaveType::WA) {
-		maxAcres = 205;
+		this->maxAcres = 205;
 	}
 }
 
 /* Draw the Acre Selection from the Top Screen. */
 void AcresEditorNL::DrawTopSelection(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 390, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 390, 0, font);
 	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, Lang::get("ACRE_ID") + std::to_string(this->selectedAcre), 390, 0, font);
 	
 	if (this->selectedAcre == 0) {

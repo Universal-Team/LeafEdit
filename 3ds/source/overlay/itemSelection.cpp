@@ -48,7 +48,7 @@ static void Draw(int itemIndex, std::vector<std::tuple<u16, std::string, std::st
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, msg, 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, msg, 395, 0, font);
 
 	for (int i = (itemIndex < 8) ? 0 : itemIndex - 8; i < (int)itmList.size() && i < ((itemIndex < 8) ? 9 : itemIndex + 1); i++) {
 		showCat ? itemList += std::get<1>(itmList[i]) + " - " + std::get<2>(itmList[i]) + "\n" : itemList += std::get<1>(itmList[i]) + "\n";
@@ -132,7 +132,7 @@ u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv, std:
 			std::vector<std::string> categoryNames;
 			categoryNames.push_back({itemCategories[category]});
 
-			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
 			itemList = search(categoryNames, searchResult);
 		}
 
@@ -206,7 +206,7 @@ u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockI
 		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
 			itemIndex = 0;
 			itemList.clear();
-			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
 			itemList = search(categoryNames, searchResult, true);
 		}
 
@@ -273,7 +273,7 @@ u8 Overlays::SelectWWCategory(u8 oldIndex, std::vector<int> category, std::strin
 		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
 			itemIndex = 0;
 			itemList.clear();
-			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
 			itemList = search(categoryNames, searchResult, true);
 		}
 

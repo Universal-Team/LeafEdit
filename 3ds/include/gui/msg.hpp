@@ -37,7 +37,6 @@ namespace Msg {
 	void DisplayWaitMsg(std::string waitMsg, ...); // Will Display a Message, which needs a confirmation with A.
 	void NotImplementedYet(void); // Display a not Implemented Message.
 	void DisplayMsg(std::string Message); // Display just a Message.
-	void HelperBox(std::string Msg); // Helper Box.
 	void DisplayWaitMsgInit(std::string waitMsg, ...); // This is mainly for initialize stuff with no config initialized.
 }
 

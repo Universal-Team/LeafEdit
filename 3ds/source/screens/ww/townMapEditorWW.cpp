@@ -181,7 +181,7 @@ void TownMapEditorWW::DrawInformation() const {
 
 	/* Display Informations. */
 	Gui::DrawString(190, 40, 0.8f, BLACK, Lang::get("CURRENT_POSITION") + "\n" + std::to_string(this->PositionX) + " | " + std::to_string(this->PositionY), 0, 0, font);
-	Gui::DrawString(190, 90, 0.8f, BLACK, Lang::get("CURRENT_ITEM") + "\n" + this->MapItems[MapSelection]->name(), 0, 0, font);
+	Gui::DrawString(190, 90, 0.8f, BLACK, Lang::get("CURRENT_ITEM") + "\n" + this->MapItems[this->MapSelection]->name(), 0, 0, font);
 	Gui::drawGrid(5 + (x*32), 40 + (this->currentAcre/4*32), 32, 32, BLACK);
 }
 
@@ -193,12 +193,12 @@ void TownMapEditorWW::DrawCurrentPos(void) const {
 /* Draw Town Map Editor screen. */
 void TownMapEditorWW::DrawMapScreen(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_MAP_EDITOR"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_MAP_EDITOR"), 400, 0, font);
 	DrawInformation();
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	/* Bottom Screen part. Grid & Acre. */
 	GFX::DrawBottom(true); // We need the full screen.
-	SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(currentAcre)]->id(), 10, 40, 5, 5);
+	SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(this->currentAcre)]->id(), 10, 40, 5, 5);
 	/* Draw current Position + Grid. */
 	DrawGrid();
 	DrawCurrentPos();
@@ -461,7 +461,7 @@ void TownMapEditorWW::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch (this->selection) {
 			case 0:
-				this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
+				this->itemID = (u16)Input::setInt(32766, Lang::get("ENTER_DECIMAL_ID"), 5, this->itemID);
 				break;
 			case 1:
 				this->itemID = Overlays::SelectItem(this->itemID, SaveType::WW);
@@ -471,7 +471,7 @@ void TownMapEditorWW::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, tempItemPos[0])) {
-			this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
+			this->itemID = (u16)Input::setInt(32766, Lang::get("ENTER_DECIMAL_ID"), 5, this->itemID);
 		} else if (touching(touch, tempItemPos[1])) {
 			this->itemID = Overlays::SelectItem(this->itemID, SaveType::WW);
 		}

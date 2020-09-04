@@ -47,7 +47,7 @@ extern std::vector<std::string> g_HairStyle;
 PlayerEditorWW::PlayerEditorWW(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) { }
 
 void PlayerEditorWW::Draw(void) const {
-	if (Mode == 0) this->DrawSubMenu();
+	if (this->Mode == 0) this->DrawSubMenu();
 	else if (this->Mode == 1) this->DrawPlayer();
 	else if (this->Mode == 2) this->DrawAppearance();
 	else if (this->Mode == 3) this->DisplayPattern();
@@ -63,7 +63,7 @@ void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 /* Sub Menu. */
 void PlayerEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(player->name()), 0, 0, font);
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string(player->wallet()), 0, 0, font);
 	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string(player->bank()), 0, 0, font);
@@ -71,6 +71,7 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
@@ -116,15 +117,15 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hRepeat & KEY_DOWN) {
-		if (Selection < 5) Selection++;
+		if (this->Selection < 5) this->Selection++;
 	}
 
 	if (hRepeat & KEY_RIGHT) {
-		if (Selection < 3) Selection += 3;
+		if (this->Selection < 3) this->Selection += 3;
 	}
 	
 	if (hRepeat & KEY_LEFT) {
-		if (Selection < 6 && Selection > 2) Selection -= 3;
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 	
 	if (hDown & KEY_B) {
@@ -135,10 +136,10 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 /*	Appearance.	*/
 void PlayerEditorWW::DrawAppearance(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
 	/* Playername & TAN. */
-	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 37, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+	Gui::Draw_Rect(40, 72, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
 	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("PLAYER_TAN_VALUE") + ": " + std::to_string((this->player->tan())), 380, 0, font);
 
@@ -202,7 +203,7 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 						return;
 				}
 
-				this->player->name(StringUtils::UTF8toUTF16(Input::getString(length, "Enter Playername.", 0.5)));
+				this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, "Enter Playername.")));
 				break;
 
 			case 1:
@@ -227,15 +228,16 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 /* Player. */
 void PlayerEditorWW::DrawPlayer(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER"), 400, 0, font);
 
-	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 65, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 37, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+	Gui::Draw_Rect(40, 65, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	
 	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, "Wallet Amount: " + std::to_string((this->player->wallet())), 380, 0, font);
 	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, "Bank Amount: " + std::to_string((this->player->bank())), 380, 0, font);
 
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(this->playerButtons[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->playerButtons[i].x+100, this->playerButtons[i].y+30);
@@ -263,11 +265,11 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
-				this->player->wallet(Input::handleu32(5, "Enter wallet amount.", 99999, this->player->wallet()));
+				this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
 				break;
 
 			case 1:
-				this->player->bank(Input::handleu32(9, "Enter bank amount.", 999999999, this->player->bank()));
+				this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
 				break;
 		}
 	}
@@ -277,7 +279,7 @@ void PlayerEditorWW::DisplayPattern(void) const {
 	int selectX = 0, selectY = 0;
 
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_VIEWER"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_VIEWER"), 395, 0, font);
 
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PATTERN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern[this->Selection]->name()), 395, 0, font);
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_NAME") + ": " +  StringUtils::UTF16toUTF8(this->pattern[this->Selection]->creatorname()), 395, 0, font);
@@ -323,7 +325,7 @@ void PlayerEditorWW::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		/* Free. */
 		C3D_FrameEnd(0);
 		for (int i = 0; i < 8; i++) {
-			if (this->patternImage[i].subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
+			if (this->patternImage[i].tex) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
 		}
 
 		for (int i = 0; i < 8; i++) {
@@ -337,7 +339,7 @@ void PlayerEditorWW::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		/* Free. */
 		C3D_FrameEnd(0);
 		for (int i = 0; i < 8; i++) {
-			if (this->patternImage[i].subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
+			if (this->patternImage[i].tex) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
 		}
 
 		this->Selection = 0;

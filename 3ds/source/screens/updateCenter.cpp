@@ -61,21 +61,21 @@ void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void UpdateCenter::DrawMain(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400, 0, font);
-	if (config->newStyle())	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209); // We draw the bottom bar on this screen, cause `Current Version: `.
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400, 0, font);
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	/* Display some Informations. */
 
-	if (Selection == 0) {
+	if (this->Selection == 0) {
 		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, Lang::get("LATEST_VERSION") + latestRelease.Version, 395, 0, font);
 		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, Lang::get("PUBLISHED_AT") + latestRelease.Published, 395, 90, font);
 		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestRelease.ReleaseName, 395, 0, font);
-		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("CURRENT_VERSION") + config->currentRelease(), 395, 0, font);
-	} else if (Selection == 1) {
+		Gui::DrawStringCentered(0, 218, 0.9f, WHITE, Lang::get("CURRENT_VERSION") + config->currentRelease(), 395, 0, font);
+	} else if (this->Selection == 1) {
 		Gui::DrawStringCentered(0, 40, 0.8f, BLACK, Lang::get("LATEST_VERSION") + latestNightly.Target, 395, 0, font);
 		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, Lang::get("COMMITTED_BY") + latestNightly.Committer, 395, 90, font);
 		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, Lang::get("AUTHORED_BY") + latestNightly.Author, 395, 90, font);
 		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestNightly.Message, 395, 90, font);
-		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("CURRENT_VERSION") + config->currentNightly(), 395, 0, font);
+		Gui::DrawStringCentered(0, 218, 0.9f, WHITE, Lang::get("CURRENT_VERSION") + config->currentNightly(), 395, 0, font);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -109,7 +109,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_Y) {
-		if (Selection == 0) {
+		if (this->Selection == 0) {
 			if (checkWifiStatus()) {
 				changelogShown = Download::showReleaseInfo(latestRelease);
 			}
@@ -118,15 +118,15 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	// Navigation.
 	if (hRepeat & KEY_UP) {
-		if (Selection > 0) Selection --;
+		if (this->Selection > 0) this->Selection --;
 	}
 	
 	if (hRepeat & KEY_DOWN) {
-		if (Selection < 2) Selection++;
+		if (this->Selection < 2) this->Selection++;
 	}
 
 	if (hDown & KEY_A) {
-		switch(Selection) {
+		switch(this->Selection) {
 			case 0:
 				if (checkWifiStatus()) {
 					if (hasCheckedForUpdate) {
@@ -147,6 +147,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				}
 				break;
+
 			case 1:
 				if (checkWifiStatus()) {
 					if (hasCheckedForUpdate) {
@@ -169,10 +170,9 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				}
 				break;
+
 			case 2:
-				if (checkWifiStatus()) {
-					Download::downloadAssets();
-				}
+				if (checkWifiStatus()) Download::downloadAssets();
 				break;
 		}
 	}
@@ -199,6 +199,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				}
 			}
+
 		} else if (touching(touch, mainButtons[1])) {
 			if (checkWifiStatus()) {
 				if (hasCheckedForUpdate) {
@@ -221,9 +222,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		} else if (touching(touch, mainButtons[2])) {
-			if (checkWifiStatus()) {
-				Download::downloadAssets();
-			}
+			if (checkWifiStatus()) Download::downloadAssets();
 		}
 	}
 
@@ -236,7 +235,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void UpdateCenter::DrawExtras(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER") + " Extras", 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER") + " Extras", 400, 0, font);
 	GFX::DrawGUI(gui_pattern_editor_idx, 25 + 1, 35 + 1);
 	GFX::DrawBottom();
 

@@ -134,7 +134,7 @@ void Editor::SaveInitialize() {
 void Editor::Draw(void) const {
 	if (loadState == SaveState::Loaded) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
 
 		if (saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, Lang::get("SAVETYPE") + ": " + titleNames[saveT + 1], 400, 0, font); // +1 for PAL names.
@@ -229,9 +229,9 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Msg::NotImplementedYet();
 					}
 
-					/* Town Map Editor. */
+					/* Town Editor. */
 				} else if (this->Selection == 2) {
-					if (save->town()->acre(0) && save->town()->item(0)) {
+					if (save->town()) {
 						if (savesType == SaveType::WW) {
 							Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
 						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {

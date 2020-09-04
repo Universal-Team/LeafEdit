@@ -82,7 +82,7 @@ void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 /* Sub Menu. */
 void PlayerEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER_SUBMENU"), 395, 0, font);
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 0, 0, font);
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string(this->player->wallet()), 0, 0, font);
 	Gui::DrawStringCentered(0, 90, 0.7f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string(this->player->bank()), 0, 0, font);
@@ -163,10 +163,10 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 /*	Appearance.	*/
 void PlayerEditorNL::DrawAppearance(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("APPEARANCE"), 400, 0, font);
 	/* Playername & TAN. */
-	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 72, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 37, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+	Gui::Draw_Rect(40, 72, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	Gui::DrawStringCentered(0, 35, 0.9f, WHITE, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 380, 0, font);
 	Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("PLAYER_TAN_VALUE") + ": " + std::to_string((this->player->tan())), 380, 0, font);
 
@@ -219,7 +219,7 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		u8 temp = 0;
 		switch(this->Selection) {
 			case 0:
-				this->player->name(StringUtils::UTF8toUTF16(Input::getString(8, "Enter Playername.", 0.5)));
+				this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, "Enter Playername.")));
 				break;
 
 			case 1:
@@ -262,18 +262,18 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 /* Player. */
 void PlayerEditorNL::DrawPlayer(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PLAYER"), 400, 0, font);
 
-	Gui::Draw_Rect(40, 37, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 65, 320, 22, DARKER_COLOR);
-	Gui::Draw_Rect(40, 93, 320, 22, DARKER_COLOR);
+	Gui::Draw_Rect(40, 37, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+	Gui::Draw_Rect(40, 65, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+	Gui::Draw_Rect(40, 93, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	
 	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, "Wallet Amount: " + std::to_string((this->player->wallet())), 380, 0, font);
 	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, "Bank Amount: " + std::to_string((this->player->bank())), 380, 0, font);
 	Gui::DrawStringCentered(0, 91, 0.9f, BLACK, "Medal Amount: " + std::to_string((this->player->islandmedals())), 380, 0, font);
 
 	if (savesType == SaveType::WA) {
-		Gui::Draw_Rect(40, 121, 320, 22, DARKER_COLOR);
+		Gui::Draw_Rect(40, 121, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 		Gui::DrawStringCentered(0, 119, 0.9f, BLACK, "Coupon Amount: " + std::to_string((this->player->coupons())), 380, 0, font);
 	}
 
@@ -314,20 +314,20 @@ void PlayerEditorNL::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
-				this->player->wallet(Input::handleu32(5, "Enter wallet amount.", 99999, this->player->wallet()));
+				this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
 				break;
 
 			case 1:
-				this->player->bank(Input::handleu32(9, "Enter bank amount.", 999999999, this->player->bank()));
+				this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
 				break;
 
 			case 2:
-				this->player->islandmedals(Input::handleu32(4, "Enter medal amount.", 9999, this->player->islandmedals()));
+				this->player->islandmedals((u32)Input::setInt(9999, "Enter medal amount.", 4, this->player->islandmedals()));
 				break;
 
 			case 3:
 				if (savesType == SaveType::WA) {
-					this->player->coupons(Input::handleu32(4, "Enter coupon amount.", 9999, this->player->coupons()));
+					this->player->coupons((u32)Input::setInt(9999, "Enter coupon amount.", 4, this->player->coupons()));
 				}
 
 				break;
@@ -339,7 +339,7 @@ void PlayerEditorNL::DisplayPattern(void) const {
 	int selectX = 0, selectY = 0;
 
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_VIEWER"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_VIEWER"), 395, 0, font);
 
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PATTERN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern[this->Selection]->name()), 395, 0, font);
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_NAME") + ": " +  StringUtils::UTF16toUTF8(this->pattern[this->Selection]->creatorname()), 395, 0, font);
@@ -385,7 +385,7 @@ void PlayerEditorNL::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		/* Free. */
 		C3D_FrameEnd(0);
 		for (int i = 0; i < 10; i++) {
-			if (this->patternImage[i].subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
+			if (this->patternImage[i].tex) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
 		}
 
 		for (int i = 0; i < 10; i++) {
@@ -399,7 +399,7 @@ void PlayerEditorNL::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		/* Free. */
 		C3D_FrameEnd(0);
 		for (int i = 0; i < 10; i++) {
-			if (this->patternImage[i].subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
+			if (this->patternImage[i].tex) C2DUtils::C2D_ImageDelete(this->patternImage[i]);
 		}
 
 		this->Selection = 0;
@@ -417,11 +417,11 @@ void PlayerEditorNL::DrawLetter(void) const {
 	GFX::DrawTop();
 
 	if (this->player->letter(this->Selection)->playerid() != 0) { // Player ID 0 --> No letter.
-		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->intro()), 400, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->intro()), 400, 0, font);
 		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->body()), 400, 0, font);
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->end()), 400, 0, font);
 	} else {
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "Letter not available.", 395, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "Letter not available.", 395, 0, font);
 	}
 
 	GFX::DrawBottom();

@@ -40,24 +40,18 @@ extern SaveType savesType;
 extern const std::string getVillagerName(int index);
 
 void VillagerEditorNL::Draw(void) const {
-	if (this->villagerMode == 0) {
-		DrawSubMenu();
-	} else {
-		DrawItems();
-	}
+	if (this->villagerMode == 0) this->DrawSubMenu();
+	else if (this->villagerMode == 1) this->DrawItems();
 }
 
 void VillagerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->villagerMode == 0) {
-		subLogic(hDown, hHeld, touch);
-	} else {
-		ItemLogic(hDown, hHeld, touch);
-	}
+	if (this->villagerMode == 0) this->subLogic(hDown, hHeld, touch);
+	else if (this->villagerMode == 1) this->ItemLogic(hDown, hHeld, touch);
 }
 
 void VillagerEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("VILLAGER_EDITOR"), 390, 0, font);
 	SpriteManagement::DrawVillager(this->villager->id(), 165, 35);
 
 	Gui::DrawStringCentered(0, 100, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[this->villager->id()]), 395, 0, font);
@@ -70,7 +64,7 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection) GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));

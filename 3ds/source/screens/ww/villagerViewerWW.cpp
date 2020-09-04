@@ -46,7 +46,7 @@ void VillagerViewerWW::update() {
 
 void VillagerViewerWW::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
 	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
 	Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[this->viewerIndex]), 395, 0, font);
 	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, Lang::get("VILLAGER_ID") + std::to_string(this->viewerIndex), 395, 0, font);

@@ -82,12 +82,12 @@ PatternEditor::PatternEditor(std::unique_ptr<Pattern> &ptrn) : pattern(ptrn) {
 }
 
 PatternEditor::~PatternEditor() {
-	if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
+	if (this->patternImage.tex) C2DUtils::C2D_ImageDelete(this->patternImage);
 }
 
 void PatternEditor::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_EDITOR"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_EDITOR"), 395, 0, font);
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PATTERN_NAME") + ": " + StringUtils::UTF16toUTF8(this->pattern->name()), 395, 0, font);
 	Gui::DrawStringCentered(0, 60, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_NAME") + ": " +  StringUtils::UTF16toUTF8(this->pattern->creatorname()), 395, 0, font);
 	Gui::DrawStringCentered(0, 80, 0.7f, BLACK, Lang::get("PATTERN_CREATOR_ID") + ": " + std::to_string(pattern->creatorid()), 395, 0, font);
@@ -203,7 +203,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		std::string destination = Overlays::SelectDestination(Lang::get("SELECT_DESTINATION"), "sdmc:/3ds/LeafEdit/Pattern/", "sdmc:/3ds/LeafEdit/Pattern/");
 
 		/* Enter the name of the pattern. */
-		destination += Input::setkbdString(20, Lang::get("ENTER_PATTERN_NAME"));
+		destination += Input::setString(20, Lang::get("ENTER_PATTERN_NAME"));
 
 		this->pattern->dumpPattern(destination);
 		Msg::DisplayWaitMsg(Lang::get("SAVED_TO_FILE") + "\n\n" + destination + ".");

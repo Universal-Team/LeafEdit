@@ -136,7 +136,7 @@ int TownMapEditorNL::SelectionToAcre(int i) const {
 
 /* Draw the Item Grid. */
 void TownMapEditorNL::DrawGrid(void) const {
-	for (int i = 0 + (currentAcre * 256); i < 256 + (currentAcre * 256); i++) {
+	for (int i = 0 + (this->currentAcre * 256); i < 256 + (this->currentAcre * 256); i++) {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
 				GFX::drawGrid(15 + (x * 12.5), 20 + (y * 12.5), 12.5, 12.5, ItemManager::getColor(this->MapItems[i]->itemtype()));
@@ -154,9 +154,9 @@ void TownMapEditorNL::convertToPosition() {
 		this->PositionX = (16 + (this->currentAcre * 16)) + this->currentPosX;
 	} else if (this->currentAcre > 4 && this->currentAcre < 10) {
 		this->PositionX = (16 + ((this->currentAcre - 5) * 16)) + this->currentPosX;
-	} else if (currentAcre > 9 && this->currentAcre < 15) {
+	} else if (this->currentAcre > 9 && this->currentAcre < 15) {
 		this->PositionX = (16 + ((this->currentAcre - 10) * 16)) + this->currentPosX;
-	} else if (currentAcre > 14 && this->currentAcre < 20) {
+	} else if (this->currentAcre > 14 && this->currentAcre < 20) {
 		this->PositionX = (16 + ((this->currentAcre - 15) * 16)) + this->currentPosX;
 	}
 
@@ -184,7 +184,7 @@ void TownMapEditorNL::DrawInformation() const {
 		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), townPos[i].x, townPos[i].y);
 	}
 
-	Gui::DrawString(210, 60, 0.7f, BLACK, Lang::get("CURRENT_POSITION") + std::to_string(PositionX) + " | " + std::to_string(PositionY), 150, 0, font);
+	Gui::DrawString(210, 60, 0.7f, BLACK, Lang::get("CURRENT_POSITION") + std::to_string(this->PositionX) + " | " + std::to_string(this->PositionY), 150, 0, font);
 	Gui::DrawString(210, 90, 0.6f, BLACK, Lang::get("CURRENT_ITEM") + this->MapItems[this->MapSelection]->name(), 190, 0, font);
 	Gui::drawGrid(townPos[this->currentAcre].x, townPos[this->currentAcre].y, townPos[this->currentAcre].w, townPos[this->currentAcre].h, BLACK);
 }
@@ -197,7 +197,7 @@ void TownMapEditorNL::DrawCurrentPos(void) const {
 /* Draw Town Map Editor screen. */
 void TownMapEditorNL::DrawMapScreen(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_MAP_EDITOR"), 400, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("TOWN_MAP_EDITOR"), 400, 0, font);
 	DrawInformation();
 
 	/* Bottom Screen part. Grid & Acre. */
@@ -461,10 +461,10 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch (this->selection) {
 			case 0:
-				this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
+				this->itemID = (u16)Input::setInt(32766, Lang::get("ENTER_DECIMAL_ID"), 5, this->itemID);
 				break;
 			case 1:
-				this->itemFlag = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 99, this->itemFlag);
+				this->itemFlag = (u16)Input::setInt(99, Lang::get("ENTER_DECIMAL_ID"), 2, this->itemFlag);
 				break;
 			case 2:
 				this->itemID = Overlays::SelectItem(this->itemID, savesType);
@@ -474,9 +474,9 @@ void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, tempItemPos[0])) {
-			this->itemID = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 32766, this->itemID);
+			this->itemID = (u16)Input::setInt(32766, Lang::get("ENTER_DECIMAL_ID"), 5, this->itemID);
 		} else if (touching(touch, tempItemPos[1])) {
-			this->itemFlag = Input::handleu16(5, Lang::get("ENTER_DECIMAL_ID"), 99, this->itemFlag);
+			this->itemFlag = (u16)Input::setInt(99, Lang::get("ENTER_DECIMAL_ID"), 2, this->itemFlag);
 		} else if (touching(touch, tempItemPos[2])) {
 			this->itemID = Overlays::SelectItem(this->itemID, savesType);
 		}

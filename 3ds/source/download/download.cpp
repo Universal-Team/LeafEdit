@@ -652,7 +652,7 @@ void drawMessageText(int position) {
 	C2D_TargetClear(Top, TRANSPARENT);
 	Gui::ScreenDraw(Top);
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "LeafEdit - " + Lang::get("RELEASE_NOTES"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("RELEASE_NOTES"), 395, 0, font);
 	Gui::DrawString(0, 25, 0.7, BLACK, jsonName.c_str(), 395, 0, font);
 
 	for (int i = 0; i < (int)_topText.size() && i < (10); i++) {
@@ -729,7 +729,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
-			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "sdmc:/LeafEdit/LeafEdit.cia") != 0) {
+			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "sdmc:/3ds/LeafEdit/LeafEdit.cia") != 0) {
 				showProgressBar = false;
 				downloadFailed();
 				return -1;
@@ -740,9 +740,9 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			progressBarType = 1;
 			if (version != "")	config->currentNightly(version);
 			config->save(); // Needed to do that here.
-			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
+			installCia("sdmc:/3ds/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
-			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
+			deleteFile("sdmc:/3ds/LeafEdit/LeafEdit.cia");
 		} else if (is3dsx) {
 			/* Download 3DSX Nightly. */
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (3DSX)").c_str());
@@ -767,7 +767,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
-			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "sdmc:/LeafEdit/LeafEdit.cia", false) != 0) {
+			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "sdmc:/3ds/LeafEdit/LeafEdit.cia", false) != 0) {
 				showProgressBar = false;
 				downloadFailed();
 				return -1;
@@ -778,9 +778,9 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			progressBarType = 1;
 			if (version != "")	config->currentRelease(version);
 			config->save(); // Needed to do that here.
-			installCia("sdmc:/LeafEdit/LeafEdit.cia", true);
+			installCia("sdmc:/3ds/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
-			deleteFile("sdmc:/LeafEdit/LeafEdit.cia");
+			deleteFile("sdmc:/3ds/LeafEdit/LeafEdit.cia");
 		} else if (is3dsx) {
 			/* Download 3DSX Release. */
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (3DSX)").c_str());
@@ -818,6 +818,7 @@ void Download::downloadAssets(void) {
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 1, 6);
 	showProgressBar = true;
 	progressBarType = 0;
+	
 	Threads::create((ThreadFunc)displayProgressBar);
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/acres.t3x") != 0) {
 		showProgressBar = false;
@@ -908,10 +909,10 @@ void displayProgressBar() {
 
 		/* Download. */
 		if (progressBarType == 0) {
-			Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, DARKER_COLOR);
+			Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 		/* Install. */
 		} else {
-			Gui::Draw_Rect(31, 121, (int)(((float)installOffset/(float)installSize) * 338.0f), 28, DARKER_COLOR);
+			Gui::Draw_Rect(31, 121, (int)(((float)installOffset/(float)installSize) * 338.0f), 28, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 		}
 
 		GFX::DrawBottom();

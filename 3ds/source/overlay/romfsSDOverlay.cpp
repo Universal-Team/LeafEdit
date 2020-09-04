@@ -42,7 +42,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, bool romf
 	C2D_TargetClear(Bottom, BLACK);
 
 	GFX::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Text + " " + std::string(romfs ? "[RomFS]" : "[" + Lang::get("SD_CARD") + "]"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Text + " " + std::string(romfs ? "[RomFS]" : "[" + Lang::get("SD_CARD") + "]"), 395, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395, 0, font);
 	for (uint i = (Selection < 8) ? 0 : Selection - 8; i < dirContents.size() && i < ((Selection < 8) ? 9 : Selection + 1); i++) {
 		files += dirContents[i].name + "\n";
@@ -55,14 +55,14 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, bool romf
 	if (Selection < 9) GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else GFX::DrawSelector(true, 24 + (8 * 21));
 	
-	config->newStyle() ? Gui::DrawString(5, 25, 0.85f, BLACK, files, 360, 0, font) : Gui::DrawString(5, 23, 0.85f, BLACK, files, 360, 0, font);
+	Gui::DrawString(5, 25, 0.85f, BLACK, files, 360, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 static void DrawBottom() {
 	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Lang::get("CHANGE_LOCATION"), 310, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("CHANGE_LOCATION"), 310, 0, font);
 	C3D_FrameEnd(0);
 }
 

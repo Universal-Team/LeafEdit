@@ -202,13 +202,13 @@ u16 ItemManager::selectItem(u16 currentID) {
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawFileBrowseBG(true);
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("OLD_ITEM") + ItemUtils::getName(currentID), 390, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9, WHITE, Lang::get("OLD_ITEM") + ItemUtils::getName(currentID), 390, 0, font);
 
-		for (int i=(selection<8) ? 0 : (int)selection-8;i<(int)itemDB.size()&&i<(((int)selection<8) ? 9 : (int)selection+1);i++) {
+		for (int i = (selection < 8) ? 0 : (int)selection - 8; i < (int)itemDB.size() && i < (((int)selection < 8) ? 9 : (int)selection + 1); i++) {
 			itemList += std::get<1>(itemDB[i]) + "\n";
 		}
 		
-		for (uint i=0;i<((itemDB.size()<9) ? 9-itemDB.size() : 0);i++) {
+		for (uint i = 0; i < ((itemDB.size() < 9) ? 9 - itemDB.size() : 0); i++) {
 			itemList += "\n";
 		}
 

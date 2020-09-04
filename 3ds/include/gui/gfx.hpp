@@ -42,15 +42,6 @@
 #define BLACK C2D_Color32(0, 0, 0, 255)
 #define TRANSPARENT C2D_Color32(0, 0, 0, 0)
 
-/* Green tones. */
-#define DARKER_GREEN				C2D_Color32(14, 73, 32, 255)
-#define LIGHT_GREEN					C2D_Color32(23, 121, 53, 255)
-#define LIGHTER_GREEN				C2D_Color32(23, 145, 53, 255)
-#define SELECTED_GREEN				C2D_Color32(38, 130, 40, 255)
-#define UNSELECTED_GREEN			C2D_Color32(38, 70, 40, 180)
-
-extern u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR;
-
 /* Button Type. */
 struct ButtonType {
 	int x;
@@ -66,6 +57,7 @@ namespace GFX {
 	void DrawGUIBlend(int img, int x, int y, float ScaleX = 1, float ScaleY = 1, u32 color = C2D_Color32(0, 0, 0, 180));
 	void DrawSelector(bool top, int y);
 	void DrawBtn(int x, int y, int xLength, int yLength);
+	void DrawBox(int y, int ySize);
 	/* Draw basic GUI. */
 	void DrawTop(bool useBars = true, bool fullscreen = false);
 	void DrawBottom(bool fullscreen = false);

@@ -47,7 +47,7 @@ static void Draw(const int selection, const SaveType st, std::vector<std::tuple<
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawFileBrowseBG(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, Lang::get("SELECT_VILLAGER"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("SELECT_VILLAGER"), 395, 0, font);
 
 	for (int i = (selection < 8) ? 0 : selection - 8; i < (int)vlList.size() && i < ((selection < 8) ? 9 : selection + 1); i++) {
 		villagerList += std::get<1>(vlList[i]) + " - " + std::get<2>(vlList[i]) + "\n";
@@ -110,7 +110,7 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 			selection = 0;
 			villagerList.clear();
 
-			const std::string searchResult = Input::getString(Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
 			villagerList = search({}, searchResult);
 		}
 

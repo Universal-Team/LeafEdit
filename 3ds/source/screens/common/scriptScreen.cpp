@@ -64,7 +64,7 @@ void ScriptScreen::Draw(void) const {
 			}
 
 			GFX::DrawTop();
-			Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, this->script->getScriptName(), 390, 0, font);
+			Gui::DrawStringCentered(0, -2, 0.9, WHITE, this->script->getScriptName(), 390, 0, font);
 			Gui::DrawStringCentered(0, 40, 0.7, BLACK, Lang::get("SCRIPT_AUTHOR") + this->script->getAuthor(), 390, 0, font);
 			Gui::DrawStringCentered(0, 60, 0.7, BLACK, Lang::get("SCRIPT_DESCRIPTION") + this->script->getDescription(), 390, 0, font);
 
@@ -92,7 +92,7 @@ void ScriptScreen::Draw(void) const {
 		/* If not valid. */
 	} else {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, Lang::get("SCRIPT_INVALID"), 390, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9, WHITE, Lang::get("SCRIPT_INVALID"), 390, 0, font);
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		GFX::DrawBottom();
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));

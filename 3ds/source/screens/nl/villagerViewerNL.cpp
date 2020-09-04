@@ -48,7 +48,7 @@ void VillagerViewerNL::update() {
 
 void VillagerViewerNL::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("VILLAGER_VIEWER"), 395, 0, font);
 
 	SpriteManagement::DrawVillager(this->viewerIndex, 165, 100);
 
@@ -71,18 +71,14 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	/* Navigation. */
 	if (hRepeat & KEY_RIGHT) {
-		if (Selection < save->maxVillager()) {
-			Selection++;
-		}
+		if (this->Selection < save->maxVillager()) this->Selection++;
 	}
 	
 	if (hRepeat & KEY_LEFT) {
-		if (Selection > 0) {
-			Selection--;
-		}
+		if (this->Selection > 0) this->Selection--;
 	}
 
-	if (hDown & KEY_SELECT)	this->update();
+	if (hDown & KEY_SELECT) this->update();
 
 	if (hRepeat & KEY_R) {
 		if (savesType == SaveType::WA) {
@@ -97,8 +93,8 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (save->villager(Selection)->exist()) {
-			this->villager = save->villager(Selection);
+		if (save->villager(this->Selection)->exist()) {
+			this->villager = save->villager(this->Selection);
 			Gui::setScreen(std::make_unique<VillagerEditorNL>(this->villager), doFade, true);
 		}
 	}

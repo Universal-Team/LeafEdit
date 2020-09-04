@@ -78,7 +78,7 @@ MainMenu::MainMenu() {
 
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("MAINMENU"), 390, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("MAINMENU"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
@@ -94,19 +94,19 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
 	if (hRepeat & KEY_UP) {
-		if (Selection > 1) Selection -= 2;
+		if (this->Selection > 1) this->Selection -= 2;
 	}
 	
 	if (hRepeat & KEY_DOWN) {
-		if (Selection < 3 && Selection != 2 && Selection != 3) Selection += 2;
+		if (this->Selection < 3 && this->Selection != 2 && this->Selection != 3) this->Selection += 2;
 	}
 	
 	if (hRepeat & KEY_LEFT) {
-		if (Selection%2) Selection--;
+		if (this->Selection%2) this->Selection--;
 	}
 	
 	if (hRepeat & KEY_RIGHT) {
-		if (!(Selection%2)) Selection++;
+		if (!(this->Selection%2)) this->Selection++;
 	}
 
 	if (hDown & KEY_START) {
@@ -114,16 +114,21 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (Selection == 0) {
-			if (Msg::promptMsg(Lang::get("EXPERIMENTAL_EDITOR"))) {
-				Gui::setScreen(std::make_unique<Editor>(), doFade, true);
-			}
-		} else if (Selection == 1) {
-			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
-		} else if (Selection == 2) {
-			Overlays::showCredits();
-		} else if (Selection == 3) {
-			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
+		switch(this->Selection) {
+			case 0:
+				if (Msg::promptMsg(Lang::get("EXPERIMENTAL_EDITOR"))) {
+					Gui::setScreen(std::make_unique<Editor>(), doFade, true);
+				}
+				break;
+			case 1:
+				Gui::setScreen(std::make_unique<Settings>(), doFade, true);
+				break;
+			case 2:
+				Overlays::showCredits();
+				break;
+			case 3:
+				Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
+				break;
 		}
 	}
 

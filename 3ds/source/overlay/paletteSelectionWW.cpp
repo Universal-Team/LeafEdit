@@ -54,7 +54,7 @@ static void Draw(std::unique_ptr<PatternImage> &pImg, C2D_Image &img) {
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 
 	GFX::DrawTop(true);
-	Gui::DrawStringCentered(0, -2 + barOffset, 0.9, WHITE, "LeafEdit - " + Lang::get("PALETTE_EDITOR"), 395, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("PALETTE_EDITOR"), 395, 0, font);
 	if (img.subtex != nullptr) C2D_DrawImageAt(img, 125, 45, 0.5f, nullptr, 5, 5); // 160x160. 160/32 -> 5.
 	GFX::DrawBottom(false);
 

@@ -39,24 +39,24 @@ public:
 	void initialize();
 	void addMissingThings();
 
-	/* Using new Style. */
-	bool newStyle() { return this->v_newStyle; }
-	void newStyle(bool v) { this->v_newStyle = v; if (!this->changesMade)	this->changesMade = true; }
 	/* Current Release. */
 	std::string currentRelease() { return this->v_currentRelease; }
-	void currentRelease(std::string v) { this->v_currentRelease = v; if (!this->changesMade)	this->changesMade = true; }
+	void currentRelease(std::string v) { this->v_currentRelease = v; if (!this->changesMade) this->changesMade = true; }
 	/* Current Nightly. */
 	std::string currentNightly() { return this->v_currentNightly; }
-	void currentNightly(std::string v) { this->v_currentNightly = v; if (!this->changesMade)	this->changesMade = true; }
+	void currentNightly(std::string v) { this->v_currentNightly = v; if (!this->changesMade) this->changesMade = true; }
 	/* Language. */
 	int language() { return this->v_language; }
-	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
+	void language(int v) { this->v_language = v; if (!this->changesMade) this->changesMade = true; }
 	/* Do Backups. */
 	bool createBackups() { return this->v_createBackups; }
-	void createBackups(bool v) { this->v_createBackups = v; if (!this->changesMade)	this->changesMade = true; }
+	void createBackups(bool v) { this->v_createBackups = v; if (!this->changesMade) this->changesMade = true; }
+	/* Experimental Mode. */
+	bool showWiki() { return this->v_wiki; }
+	void showWiki(bool v) { this->v_wiki = v; if (!this->changesMade) this->changesMade = true; }
 	/* Version. */
 	int version() { return this->v_version; }
-	void version(int v) { this->v_version = v; if (!this->changesMade)	this->changesMade = true; }
+	void version(int v) { this->v_version = v; if (!this->changesMade) this->changesMade = true; }
 
 	/* Mainly helper. */
 	bool getBool(const std::string &key);
@@ -70,7 +70,7 @@ private:
 	bool changesMade = false;
 
 	/* variables for the config. */
-	bool v_newStyle, v_createBackups;
+	bool v_createBackups, v_wiki;
 	std::string v_currentRelease, v_currentNightly;
 	int v_language, v_version;
 
