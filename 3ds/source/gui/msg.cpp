@@ -57,7 +57,7 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		GFX::DrawTop(false);
 		GFX::DrawBox((240-Gui::GetStringHeight(0.8f, promptMsg, font))/2 - 24, Gui::GetStringHeight(0.8f, promptMsg, font));
 
-		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg, font))/2, 0.8f, WHITE, promptMsg, 390, 100, font);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg, font))/2, 0.8f, WHITE, promptMsg, 385, 100, font);
 
 		GFX::DrawBottom();
 		/* Draw Bottom Screen part. */
@@ -99,7 +99,7 @@ void Msg::DisplayWarnMsg(std::string Text) {
 	GFX::DrawTop(false);
 	GFX::DrawBox((240-Gui::GetStringHeight(0.8f, Text, font))/2 - 24, Gui::GetStringHeight(0.8f, Text, font));
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text, font))/2, 0.8f, WHITE, Text, 395, 100, font);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text, font))/2, 0.8f, WHITE, Text, 385, 100, font);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -117,7 +117,7 @@ void Msg::DisplayWarnMsg2(std::string Text) {
 	GFX::DrawTop(false);
 	GFX::DrawBox((240-Gui::GetStringHeight(0.8f, Text, font))/2 - 24, Gui::GetStringHeight(0.8f, Text, font));
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text, font))/2, 0.8f, WHITE, Text, 395, 100, font);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text, font))/2, 0.8f, WHITE, Text, 385, 100, font);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
 
@@ -135,7 +135,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	GFX::DrawTop(false);
 	GFX::DrawBox((240-Gui::GetStringHeight(0.8f, waitMsg, font))/2 - 24, Gui::GetStringHeight(0.8f, waitMsg, font));
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg, font))/2, 0.8f, WHITE, waitMsg, 390, 100, font);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg, font))/2, 0.8f, WHITE, waitMsg, 385, 100, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("A_CONTINUE"), 395, 0, font);
 
@@ -161,7 +161,7 @@ void Msg::DisplayWaitMsgInit(std::string waitMsg, ...) {
 	GFX::DrawTop();
 
 	GFX::DrawBox((240-Gui::GetStringHeight(0.8f, waitMsg, font))/2 - 24, Gui::GetStringHeight(0.8f, waitMsg, font));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg, font))/2, 0.8f, WHITE, waitMsg, 390, 100, font);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg, font))/2, 0.8f, WHITE, waitMsg, 385, 100, font);
 	
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 25, C2D_Color32(14, 73, 32, 255));
@@ -184,7 +184,7 @@ void Msg::DisplayMsg(std::string Message) {
 	GFX::DrawTop(false);
 	GFX::DrawBox((240-Gui::GetStringHeight(0.8f, Message, font))/2 - 24, Gui::GetStringHeight(0.8f, Message, font));
 
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Message, font))/2, 0.8f, WHITE, Message, 390, 100, font);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Message, font))/2, 0.8f, WHITE, Message, 385, 100, font);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
 }

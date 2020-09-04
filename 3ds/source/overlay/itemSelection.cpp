@@ -132,7 +132,7 @@ u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv, std:
 			std::vector<std::string> categoryNames;
 			categoryNames.push_back({itemCategories[category]});
 
-			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, "", Lang::get("ENTER_SEARCH"));
 			itemList = search(categoryNames, searchResult);
 		}
 
@@ -206,7 +206,7 @@ u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockI
 		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
 			itemIndex = 0;
 			itemList.clear();
-			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, "", Lang::get("ENTER_SEARCH"));
 			itemList = search(categoryNames, searchResult, true);
 		}
 
@@ -273,7 +273,7 @@ u8 Overlays::SelectWWCategory(u8 oldIndex, std::vector<int> category, std::strin
 		if ((hidKeysDown() & KEY_X) || (hidKeysDown() & KEY_TOUCH && iconTouch(touch, searchBtn))) {
 			itemIndex = 0;
 			itemList.clear();
-			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, "", Lang::get("ENTER_SEARCH"));
 			itemList = search(categoryNames, searchResult, true);
 		}
 

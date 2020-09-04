@@ -203,7 +203,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		std::string destination = Overlays::SelectDestination(Lang::get("SELECT_DESTINATION"), "sdmc:/3ds/LeafEdit/Pattern/", "sdmc:/3ds/LeafEdit/Pattern/");
 
 		/* Enter the name of the pattern. */
-		destination += Input::setString(20, Lang::get("ENTER_PATTERN_NAME"));
+		destination += Input::setString(20, "", Lang::get("ENTER_PATTERN_NAME"));
 
 		this->pattern->dumpPattern(destination);
 		Msg::DisplayWaitMsg(Lang::get("SAVED_TO_FILE") + "\n\n" + destination + ".");

@@ -110,7 +110,7 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 			selection = 0;
 			villagerList.clear();
 
-			const std::string searchResult = Input::setString(-1, Lang::get("ENTER_SEARCH"));
+			const std::string searchResult = Input::setString(-1, "", Lang::get("ENTER_SEARCH"));
 			villagerList = search({}, searchResult);
 		}
 

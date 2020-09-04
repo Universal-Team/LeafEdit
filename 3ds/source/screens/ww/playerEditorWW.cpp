@@ -203,7 +203,7 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 						return;
 				}
 
-				this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, "Enter Playername.")));
+				this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
 				break;
 
 			case 1:

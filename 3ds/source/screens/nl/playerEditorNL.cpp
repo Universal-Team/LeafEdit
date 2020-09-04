@@ -219,7 +219,7 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		u8 temp = 0;
 		switch(this->Selection) {
 			case 0:
-				this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, "Enter Playername.")));
+				this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
 				break;
 
 			case 1:

@@ -31,7 +31,7 @@
 #include <string>
 
 namespace Input {
-	std::string setString(uint maxLength, std::string Text);
+	std::string setString(uint maxLength, std::string old, std::string Text);
 	int setInt(int maxValue, std::string Text, int numAmount, int oldVal);
 }
 
