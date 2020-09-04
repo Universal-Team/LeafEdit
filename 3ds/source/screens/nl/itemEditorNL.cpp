@@ -183,7 +183,7 @@ void ItemEditorNL::DrawPocket(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_POCKET"), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->pockets[this->selectedItem]->name(), 400, 0, font);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->pockets[this->selectedItem]->name(), 400, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 
@@ -234,7 +234,7 @@ void ItemEditorNL::DrawIslandBox(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_ISLAND") + std::to_string(currentBox + 1), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->islandBox[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->islandBox[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {
@@ -302,7 +302,7 @@ void ItemEditorNL::DrawDresser(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentBox + 1), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->dresser[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->dresser[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {
@@ -370,7 +370,7 @@ void ItemEditorNL::DrawStorage(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_STORAGE") + std::to_string(currentBox + 1), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->storage[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->storage[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {

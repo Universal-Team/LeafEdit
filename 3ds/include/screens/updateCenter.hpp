@@ -56,14 +56,14 @@ private:
 	void ExtrasLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	const std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "DOWNLOAD_RELEASE"},
-		{95, 97, 130, 48, "DOWNLOAD_NIGHTLY"},
-		{95, 159, 130, 48, "DOWNLOAD_ASSETS"}
+		{95, 34, 102, 20, "DOWNLOAD_RELEASE"},
+		{95, 97, 102, 20, "DOWNLOAD_NIGHTLY"},
+		{95, 159, 102, 20, "DOWNLOAD_ASSETS"}
 	};
 
 	const std::vector<ButtonType> extrasBtns = {
-		{95, 97, 130, 48, "DOWNLOAD_3DSX"},
-		{95, 159, 130, 48, "DOWNLOAD_CIA"}
+		{95, 97, 102, 20, "DOWNLOAD_3DSX"},
+		{95, 159, 102, 20, "DOWNLOAD_CIA"}
 	};
 
 	/* For the extras. */

@@ -108,23 +108,23 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 	
 	/* Corners. */
 	DrawGUI(gui_button_corner_idx, x, y);
-	DrawGUI(gui_button_corner_idx, x + xLength - 14, y, -1.0, 1.0);
-	DrawGUI(gui_button_corner_idx, x, y + yLength - 14, 1.0, -1.0);
-	DrawGUI(gui_button_corner_idx, x + xLength - 14, y + yLength - 14, -1.0, -1.0);
+	DrawGUI(gui_button_corner_idx, x + 14 + xLength, y, -1.0, 1.0);
+	DrawGUI(gui_button_corner_idx, x, y + 14 +yLength, 1.0, -1.0);
+	DrawGUI(gui_button_corner_idx, x + 14 + xLength, y + 14 + yLength, -1.0, -1.0);
 
 	/* Height draw. */
 	tex = _select_box(sprite, 0, 11, 14, 12); // Get Height.
-	C2D_DrawImageAt({sprite.tex, &tex}, x, y + 14, 0.5f, nullptr, 1, yLength - 28);
-	C2D_DrawImageAt({sprite.tex, &tex}, x + xLength - 14, y + 14, 0.5f, nullptr, -1, yLength - 28);
+	C2D_DrawImageAt({sprite.tex, &tex}, x, y + 14, 0.5f, nullptr, 1, yLength);
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14 + xLength, y + 14, 0.5f, nullptr, -1, yLength);
 
 	/* Width draw. */
 	tex = _select_box(sprite, 11, 0, 12, 14); // Get Width.
-	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y, 0.5f, nullptr, xLength - 28, 1);
-	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + yLength - 14, 0.5f, nullptr, xLength - 28, -1);	
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y, 0.5f, nullptr, xLength, 1);
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + 14 + yLength, 0.5f, nullptr, xLength, -1);	
 
 	/* And now the middle. */
 	tex = _select_box(sprite, 11, 11, 12, 12); // Get Corner pixel.
-	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + 14, 0.5f, nullptr, xLength - 28, yLength - 28);
+	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + 14, 0.5f, nullptr, xLength, yLength);
 }
 
 void GFX::DrawTop(bool useBars, bool fullscreen) {
@@ -267,7 +267,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> &list, const 
 /* Draw a Button and draw Text on it. */
 void GFX::DrawButton(const ButtonType button, float TextSize) {
 	DrawBtn(button.x, button.y, button.xLength, button.yLength);
-	Gui::DrawStringCentered(button.x - 160 + (button.xLength/2), button.y + (button.yLength/2) - 10, TextSize, BLACK, Lang::get(button.Text), button.xLength-17, button.yLength-5, font);
+	Gui::DrawStringCentered(button.x + 14 - 160 + (button.xLength / 2), (button.y) + ((button.yLength + 6) - Gui::GetStringHeight(TextSize, Lang::get(button.Text), font)) / 2 + 14, TextSize, BLACK, Lang::get(button.Text), button.xLength, button.yLength + 7, font);
 }
 
 /* Special Grid for Items. I need to do this here instead of using the Universal-Core one. */

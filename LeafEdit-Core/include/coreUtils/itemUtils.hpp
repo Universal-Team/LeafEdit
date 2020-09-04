@@ -70,6 +70,7 @@ namespace ItemUtils {
 	/* Read Database. */
 	void LoadDatabase(SaveType save);
 	std::string getName(u16 ID); // Get an Item's name.
+	std::string getWWName(int category, u8 index);
 
 	/* Item Kind stuff for AC:NL | AC:WA here. */
 	void loadItemBins();

@@ -25,6 +25,7 @@
 */
 
 #include "itemUtils.hpp"
+#include "stringDB.hpp"
 #include "stringUtils.hpp"
 #include "types.hpp"
 
@@ -34,6 +35,7 @@
 #include <vector>
 
 extern std::vector<std::tuple<u16, std::string, std::string>> itemDB;
+extern std::vector<std::string> itemCategories;
 
 // Get an Item's name.
 std::string ItemUtils::getName(u16 ID) {
@@ -43,6 +45,16 @@ std::string ItemUtils::getName(u16 ID) {
 			return std::get<1>(entry);
 		}
 	}
+
+	return std::string("???");
+}
+
+// Get an WW's index Item's name.
+std::string ItemUtils::getWWName(int category, u8 index) {
+	std::vector<std::tuple<u16, std::string, std::string>> temp = StringDB::searchTuple("", {itemCategories[category]}, itemDB, true);
+
+	if (temp.empty()) return "???"; // Database empty.
+	if (temp.size() >= index) return std::get<1>(temp[index]);
 
 	return std::string("???");
 }

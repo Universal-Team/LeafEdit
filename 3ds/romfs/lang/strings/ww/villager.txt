@@ -180,4 +180,4 @@ Anteater
 0x0094, Monty
 0x0095, Elise
 //None
-0x0096, Empty
+0x00FF, Empty

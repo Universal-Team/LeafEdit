@@ -31,13 +31,13 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern std::unique_ptr<Config> config;
 
 static const std::vector<ButtonType> buttons = {
-	{15, 34, 130, 48, "IMPORT_PATTERN"},
-	{15, 97, 130, 48, "CHANGE_PALETTE"},
-	{15, 159, 130, 48, "OWN_PATTERN"},
-	{175, 34, 130, 48, "EXPORT_PATTERN"},
-	{175, 97, 130, 48, "CLEAR_PATTERN"},
-	{175, 159, 130, 48, "EXIT"},
-	{15, 34, 130, 48, "EXPORT_INFORMATION"},
+	{15, 34, 102, 20, "IMPORT_PATTERN"},
+	{15, 97, 102, 20, "CHANGE_PALETTE"},
+	{15, 159, 102, 20, "OWN_PATTERN"},
+	{175, 34, 102, 20, "EXPORT_PATTERN"},
+	{175, 97, 102, 20, "CLEAR_PATTERN"},
+	{175, 159, 102, 20, "EXIT"},
+	{15, 34, 102, 20, "EXPORT_INFORMATION"},
 };
 
 static void Draw(int select, int page) {

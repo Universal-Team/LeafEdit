@@ -87,8 +87,8 @@ private:
 	void TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	const std::vector<ButtonType> tempItemPos = {
-		{20, 45, 280, 50, ""}, // ID.
-		{20, 145, 280, 50, "SWITCH_ITEM_SELECTION"}
+		{20, 45, 252, 22, ""}, // ID.
+		{20, 145, 252, 22, "SWITCH_ITEM_SELECTION"}
 	};
 
 	/* Display AC:WW Top Screen Map. */
@@ -147,17 +147,17 @@ private:
 
 	/* Display Button. */
 	const std::vector<ButtonType> mainButtons = {
-		{220, 25, 90, 30, "TEMP_ITEM"},
-		{220, 55, 90, 30, "CLEAR_WEEDS"},
-		{220, 85, 90, 30, "WATER_FLOWERS"},
-		{220, 115, 90, 30, "ITEM_MISC"}
+		{220, 25, 62, 12, "TEMP_ITEM"},
+		{220, 75, 62, 12, "CLEAR_WEEDS"},
+		{220, 125, 62, 12, "WATER_FLOWERS"},
+		{220, 175, 62, 12, "ITEM_MISC"}
 	};
 
 	/* Display Operations. */
 	const std::vector<ButtonType> operationBtn = {
-		{95, 34, 130, 48, "REMOVE_ITEMS"},
-		{95, 97, 130, 48, "FILL_TOWN"},
-		{95, 159, 130, 48, "REPLACE_ITEMS"}
+		{95, 25, 62, 12, "REMOVE_ITEMS"},
+		{95, 75, 62, 12, "FILL_TOWN"},
+		{95, 125, 62, 12, "REPLACE_ITEMS"}
 	};
 
 	const std::vector<Structs::ButtonPos> icons = {

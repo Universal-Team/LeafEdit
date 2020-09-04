@@ -81,7 +81,7 @@ void getCurrentUsage(){
 
 /* If button Position pressed -> Do something. */
 bool touching(touchPosition touch, ButtonType button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.xLength) && touch.py >= button.y && touch.py <= (button.y + button.yLength)) return true;
+	if (touch.px >= button.x && touch.px <= (button.x + button.xLength + 26) && touch.py >= button.y && touch.py <= (button.y + button.yLength + 26)) return true;
 	else return false;
 }
 

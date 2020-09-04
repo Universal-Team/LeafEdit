@@ -66,7 +66,7 @@ namespace GFX {
 	/* Selection from list. */
 	int ListSelection(int current, const std::vector<std::string> &list, const std::string Msg);
 
-	void DrawButton(const ButtonType button, float TextSize = 0.9f);
+	void DrawButton(const ButtonType button, float TextSize = 0.7f);
 
 	void drawGrid(float xPos, float yPos, float Width, float Height, u32 itemColor, u32 gridColor = C2D_Color32(80, 80, 80, 100));
 }

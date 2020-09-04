@@ -41,12 +41,12 @@ private:
 	int Selection = 0;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "EDITOR"},
-		{175, 34, 130, 48, "SETTINGS"},
-		{15, 97, 130, 48, "CREDITS"},
-		{175, 97, 130, 48, "UPDATE_CENTER"},
-		{15, 159, 130, 48, ""},
-		{175, 159, 130, 48, ""}
+		{15, 34, 102, 20, "EDITOR"},
+		{175, 34, 102, 20, "SETTINGS"},
+		{15, 97, 102, 20, "CREDITS"},
+		{175, 97, 102, 20, "UPDATE_CENTER"},
+		{15, 159, 102, 20, ""},
+		{175, 159, 102, 20, ""}
 	};
 };
 

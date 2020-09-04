@@ -130,6 +130,9 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void VillagerEditorNL::DrawItems(void) const {
 	GFX::DrawTop();
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
+	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->villagerItems[this->itemSelection]->name(), 390, 0, font);
+	
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 

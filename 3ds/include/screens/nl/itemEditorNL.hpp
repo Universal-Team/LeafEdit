@@ -72,12 +72,12 @@ private:
 	int Selection = 0, selectedItem = 0, Mode = 0, currentBox = 0;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "ITEM_POCKET"},
-		{15, 97, 130, 48, "ITEM_ISLAND"},
-		{15, 159, 130, 48, "ITEM_DRESSER"},
-		{175, 34, 130, 48, "ITEM_STORAGE"},
-		{175, 97, 130, 48, ""},
-		{175, 159, 130, 48, ""}
+		{15, 34, 102, 20, "ITEM_POCKET"},
+		{15, 97, 102, 20, "ITEM_ISLAND"},
+		{15, 159, 102, 20, "ITEM_DRESSER"},
+		{175, 34, 102, 20, "ITEM_STORAGE"},
+		{175, 97, 102, 20, ""},
+		{175, 159, 102, 20, ""}
 	};
 
 	const std::vector<Structs::ButtonPos> iconSlots = {

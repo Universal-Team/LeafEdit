@@ -205,7 +205,7 @@ void TownMapEditorWW::DrawMapScreen(void) const {
 
 	/* Draw the Operation Buttons. */
 	for (int i = 0; i < 4; i++) {
-		GFX::DrawButton(mainButtons[i], 0.8f);
+		GFX::DrawButton(mainButtons[i], 0.5f);
 	}
 
 	GFX::DrawGUI(gui_back_idx, icons[0].x, icons[0].y);
@@ -433,11 +433,11 @@ void TownMapEditorWW::DrawTempItem(void) const {
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {
-		GFX::DrawButton(tempItemPos[i], 0.8f);
+		GFX::DrawButton(tempItemPos[i], 0.7f);
 	}
 
 	/* We have no other choice. */
-	Gui::DrawStringCentered(tempItemPos[0].x - 160 + (tempItemPos[0].xLength/2), tempItemPos[0].y + (tempItemPos[0].yLength/2) - 10, 0.9f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength-17, tempItemPos[0].yLength-5, font);
+	Gui::DrawStringCentered(tempItemPos[0].x + 14 - 160 + (tempItemPos[0].xLength / 2), tempItemPos[0].y + ((tempItemPos[0].yLength + 6) - Gui::GetStringHeight(0.7, "Item ID: " + std::to_string(this->itemID), font)) / 2 + 14, 0.7f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength, tempItemPos[0].yLength + 7, font);
 	GFX::DrawGUI(gui_pointer_idx, tempItemPos[this->selection].x+130, tempItemPos[this->selection].y+25);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }

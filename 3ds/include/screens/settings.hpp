@@ -40,7 +40,7 @@ private:
 	int Selection = 0;
 
 	const std::vector<ButtonType> mainButtons = {
-		{95, 34, 130, 48, "TOGGLE_BACKUP"}
+		{95, 34, 102, 20, "TOGGLE_BACKUP"}
 	};
 };
 

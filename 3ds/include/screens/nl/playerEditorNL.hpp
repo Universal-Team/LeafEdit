@@ -47,28 +47,28 @@ private:
 	std::unique_ptr<Player> player;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "PLAYER"},
-		{15, 97, 130, 48, "APPEARANCE"},
-		{15, 159, 130, 48, "BADGE_EDITOR"},
-		{175, 34, 130, 48, "ITEMS"},
-		{175, 97, 130, 48, "PATTERN"},
-		{175, 159, 130, 48, ""}
+		{15, 34, 102, 20, "PLAYER"},
+		{15, 97, 102, 20, "APPEARANCE"},
+		{15, 159, 102, 20, "BADGE_EDITOR"},
+		{175, 34, 102, 20, "ITEMS"},
+		{175, 97, 102, 20, "PATTERN"},
+		{175, 159, 102, 20, ""}
 	};
 
 	const std::vector<ButtonType> appearanceBtn = {
-		{15, 34, 130, 48, "PLAYER_NAME"},
-		{15, 97, 130, 48, "PLAYER_HAIR_STYLE"},
-		{15, 159, 130, 48, "PLAYER_FACETYPE"},
-		{175, 34, 130, 48, "PLAYER_TAN_VALUE"},
-		{175, 97, 130, 48, "PLAYER_HAIR_COLOR"},
-		{175, 159, 130, 48, "PLAYER_EYE_COLOR"}
+		{15, 34, 102, 20, "PLAYER_NAME"},
+		{15, 97, 102, 20, "PLAYER_HAIR_STYLE"},
+		{15, 159, 102, 20, "PLAYER_FACETYPE"},
+		{175, 34, 102, 20, "PLAYER_TAN_VALUE"},
+		{175, 97, 102, 20, "PLAYER_HAIR_COLOR"},
+		{175, 159, 102, 20, "PLAYER_EYE_COLOR"}
 	};
 
 	const std::vector<ButtonType> playerButtons = {
-		{15, 34, 130, 48, "PLAYER_WALLET"},
-		{15, 97, 130, 48, "PLAYER_BANK"},
-		{15, 159, 130, 48, "PLAYER_MEDALS"},
-		{175, 34, 130, 48, "PLAYER_COUPONS"}
+		{15, 34, 102, 20, "PLAYER_WALLET"},
+		{15, 97, 102, 20, "PLAYER_BANK"},
+		{15, 159, 102, 20, "PLAYER_MEDALS"},
+		{175, 34, 102, 20, "PLAYER_COUPONS"}
 	};
 
 

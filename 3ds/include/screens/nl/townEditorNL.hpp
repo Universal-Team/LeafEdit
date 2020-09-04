@@ -46,12 +46,12 @@ private:
 	std::unique_ptr<Pattern> pattern;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 130, 48, "MAP_EDITOR"},
-		{15, 97, 130, 48, "ACRE_EDITOR"},
-		{15, 159, 130, 48, "TOWNFLAG"},
-		{175, 34, 130, 48, ""},
-		{175, 97, 130, 48, ""},
-		{175, 159, 130, 48, ""}
+		{15, 34, 102, 20, "MAP_EDITOR"},
+		{15, 97, 102, 20, "ACRE_EDITOR"},
+		{15, 159, 102, 20, "TOWNFLAG"},
+		{175, 34, 102, 20, ""},
+		{175, 97, 102, 20, ""},
+		{175, 159, 102, 20, ""}
 	};
 };
 
