@@ -18,11 +18,30 @@ This Project has been made with [Universal-Core](https://github.com/Universal-Te
 
 ## Citra User
 
-To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/3ds/LeafEdit/assets/` and you should be fine.
+To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/3ds/LeafEdit/assets/` and you should be fine. You can also use the assets from the `resources/assets/` folder from this source.
 
 ## Compilation
 
-To compile LeafEdit 3DS from source, you need devkitARM installed along with libctru, 3ds-curl and 3ds-libjpeg-turbo. To get these you can run `pacman -S 3ds-dev --noconfirm`, then `pacman -S 3ds-curl --noconfirm` and lastly `pacman -S 3ds-libjpeg-turbo`. Now that you have everything installed, you just need to run clone the repository and run `make`.
+## Compilation
+### Setting up your enviromment
+
+To build LeafEdit from source, you will need to setup a system with devkitARM, libctru, citro2d, citro3d, 3ds-curl and 3ds-libjpeg-turbo. Follow devkitPro's [Getting Started](https://devkitpro.org/wiki/Getting_Started) page to install pacman, then run `(sudo dkp-)pacman -S devkitARM libctru citro2d citro3d 3ds-curl 3ds-libjpeg-turbo`. You will also need [bannertool](https://github.com/Steveice10/bannertool/releases/latest) and [makerom](https://github.com/profi200/Project_CTR/releases/latest) inside the `3ds` folder.
+
+### Cloning the repo
+
+To download the source you will need to clone it with submodules, this can be done by running
+```
+git clone --recursive https://github.com/Universal-Team/LeafEdit.git
+```
+or if you've already cloned it running 
+```
+git submodule update --init --recursive
+```
+to update all the submodules.
+
+### Compiling
+
+Simply run `make` in the LeafEdit directory.
 
 
 ## Credits

@@ -78,7 +78,7 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 }
 
 /* Draws the Item Sprite. */
-void SpriteManagement::DrawItem(u8 itemCategory, int x, int y, float ScaleX, float ScaleY) {
+void SpriteManagement::DrawItem(u16 itemCategory, int x, int y, float ScaleX, float ScaleY) {
 	if (save) {
 		switch(save->getType()) {
 			case SaveType::WW:

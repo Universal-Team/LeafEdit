@@ -36,7 +36,7 @@ namespace SpriteManagement {
 	/* Draw Faces. */
 	void DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	/* Draw Items. */
-	void DrawItem(u8 itemCategory, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	void DrawItem(u16 itemCategory, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	/* Draw Acres. */
 	void DrawAcres(u8 acreID, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	/* Draw Villagers. */
