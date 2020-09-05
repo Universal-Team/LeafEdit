@@ -470,7 +470,7 @@ void PlayerEditorNL::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			this->player->islandmedals((u32)Input::setInt(9999, "Enter medal amount.", 4, this->player->islandmedals()));
 
 
-		} else if (touching(touch, this->playerButtons[2])) {
+		} else if (touching(touch, this->playerButtons[3])) {
 			if (savesType == SaveType::WA) {
 				this->player->coupons((u32)Input::setInt(9999, "Enter coupon amount.", 4, this->player->coupons()));
 			}

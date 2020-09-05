@@ -58,8 +58,8 @@ private:
 		{15, 34, 102, 20, "VILLAGER_REPLACE"}, // Replace.
 		{15, 97, 102, 20, "VILLAGER_PERSONALITY"}, // Personality.
 		{15, 159, 102, 20, "ITEMS"}, // Items.
-		{175, 34, 102, 20, "VILLAGER_CATCHPHRASE"}, // Catchphrase.
-		{175, 97, 102, 20, "VILLAGER_STATUS"}, // Status.
+		{175, 34, 102, 20, ""}, // Catchphrase.
+		{175, 97, 102, 20, ""}, // Status.
 		{175, 159, 102, 20, ""} // ?.
 	};
 

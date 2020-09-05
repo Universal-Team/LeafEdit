@@ -34,24 +34,21 @@ static void Draw(int page) {
 	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 
-	/* 2 -> QR Code. */
-	if (page != 2) {
-		GFX::DrawTop();
-		GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("CREDITS"), 400, 0, font);
-		Gui::DrawStringCentered(0, 30, 0.9f, BLACK, Lang::get("DEVELOPED_BY"), 390, 0, font);
-		Gui::DrawStringCentered(0, 50, 0.9f, BLACK, Lang::get("MAIN_DEV"), 390, 0, font);
-		GFX::DrawGUI(gui_stackz_idx, 5, 74);
-		GFX::DrawGUI(gui_universal_core_idx, 200, 110);
-		Gui::DrawString(395-Gui::GetStringWidth(0.8, Lang::get("CURRENT_VERSION") + V_STRING, font), 218, 0.8, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400, 0, font);
-		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	GFX::DrawTop();
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("CREDITS"), 400, 0, font);
+	Gui::DrawStringCentered(0, 30, 0.9f, BLACK, Lang::get("DEVELOPED_BY"), 390, 0, font);
+	Gui::DrawStringCentered(0, 50, 0.9f, BLACK, Lang::get("MAIN_DEV"), 390, 0, font);
+	GFX::DrawGUI(gui_stackz_idx, 5, 74);
+	GFX::DrawGUI(gui_universal_core_idx, 200, 110);
+	Gui::DrawString(395-Gui::GetStringWidth(0.8, Lang::get("CURRENT_VERSION") + V_STRING, font), 218, 0.8, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400, 0, font);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
-		GFX::DrawBottom();
-		GFX::DrawGUI(gui_top_bar_idx, 0, 0);
-		GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
+	GFX::DrawBottom();
+	GFX::DrawGUI(gui_top_bar_idx, 0, 0);
+	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 
-		Gui::DrawStringCentered(0, 219, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 3", 310, 0, font);
-	}
+	Gui::DrawStringCentered(0, 219, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 1", 310, 0, font);
 
 	/* Credits Pages. */
 	if (page == 0) {
@@ -64,22 +61,6 @@ static void Draw(int page) {
 		Gui::DrawStringCentered(0, 148, 0.7f, BLACK, Lang::get("HELPING_OUT_PROBLEMS"), 310, 0, font);
 		Gui::DrawStringCentered(0, 178, 0.8f, BLACK, "TotallyNotGuy", 310, 0, font);
 		Gui::DrawStringCentered(0, 198, 0.7f, BLACK, Lang::get("GRAPHIC_WORK"), 310, 0, font);
-
-	} else if (page == 1) {
-		Gui::DrawStringCentered(0, -2, 0.8f, WHITE, Lang::get("TRANSLATORS"), 310, 0, font);
-		Gui::DrawString(5, 45, 0.8f, BLACK, "Deutsch\nEnglish\nEspañol\nFrançais\nItaliano\nLietuvių\nPortuguês\n日本語", 310, 0, font);
-		Gui::DrawString(150, 45, 0.8f, BLACK, "SuperSaiyajinStackZ\nSuperSaiyajinStackZ\nYoSoy\nantoine62\nedo9300\nlemonnade0\nChips, David Pires\nPk11", 310, 0, font);
-	}
-
-	if (page == 2) {
-		GFX::DrawTop();
-		Gui::Draw_Rect(0, 0, 400, 240, DIM);
-		GFX::DrawGUI(gui_discord_idx, 115, 35);
-		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-		GFX::DrawBottom();
-		Gui::Draw_Rect(0, 0, 320, 240, DIM);
-		Gui::DrawStringCentered(0,-2, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 3", 310, 0, font);
-		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	}
 
 	C3D_FrameEnd(0);
@@ -94,13 +75,15 @@ void Overlays::showCredits() {
 		u32 hDown = hidKeysDown();
 		hidScanInput();
 
+		/*
 		if (hDown & KEY_RIGHT) {
-			if (page < 2) page++;
+			if (page < 1) page++;
 		}
 
 		if (hDown & KEY_LEFT) {
 			if (page > 0) page--;
 		}
+		*/
 
 		if (hDown & KEY_B) doOut = true;
 	}

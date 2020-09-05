@@ -222,7 +222,7 @@ void TownMapEditorWW::DrawMapScreen(void) const {
 	this->DrawCurrentPos();
 
 	/* Draw the Operation Buttons. */
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		GFX::DrawButton(mainButtons[i], 0.6f);
 	}
 
