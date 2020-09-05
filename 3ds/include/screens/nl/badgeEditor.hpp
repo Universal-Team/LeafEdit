@@ -77,10 +77,10 @@ private:
 	};
 
 	const std::vector<ButtonType> setPos = {
-		{100, 45, 120, 30, "NONE"}, // None.
-		{100, 85, 120, 30, "BRONZE"}, // Bronze.
-		{100, 125, 120, 30, "SILVER"}, // Silver.
-		{100, 165, 120, 30, "GOLD"}  // Gold.
+		{100, 45, 92, 12, "NONE"}, // None.
+		{100, 85, 92, 12, "BRONZE"}, // Bronze.
+		{100, 125, 92, 12, "SILVER"}, // Silver.
+		{100, 165, 92, 12, "GOLD"}  // Gold.
 	};
 };
 

@@ -16,11 +16,15 @@ This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager &
 
 This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core).
 
-## Citra User
 
+## Redirections
+- For a list of all editable features as of latest Nightly, look [here](https://github.com/Universal-Team/LeafEdit/blob/master/editing-features.md).
+
+- For a list of all core features as of latest Nightly, look [here](https://github.com/Universal-Team/LeafEdit/blob/master/core-features.md).
+
+## Citra User
 To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/3ds/LeafEdit/assets/` and you should be fine. You can also use the assets from the `resources/assets/` folder from this source.
 
-## Compilation
 
 ## Compilation
 ### Setting up your enviromment
@@ -42,6 +46,43 @@ to update all the submodules.
 ### Compiling
 
 Simply run `make` in the LeafEdit directory.
+
+## Screenshots about LeafEdit
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/acreEditorNL.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/acreEditorWW.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/appearanceEditorNL.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/appearanceEditorWW.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/badgeEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/credits.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/developed_screen.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/editor.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/itemEditorNL.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/itemEditorWW.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/itemList.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/mainmenu.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/mapEditorNL.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/mapEditorWW.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/paletteToolNL.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/paletteToolNL2.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/paletteToolWW.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/patternEditor.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/patternToolMenu.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/patternViewer.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/playerEditorNL.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/playerEditorNL2.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/playerEditorWW.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/playerEditorWW2.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/playerSelector.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/pocketEditorNL.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/pocketEditorWW.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/saveSelect.png)
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/scriptMain.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/settings.png) 
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/townEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/updateCenter.png) 
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerItemEditor.png) 
+
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerSelect.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerViewer.png)
 
 
 ## Credits
