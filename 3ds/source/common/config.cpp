@@ -39,6 +39,7 @@ void Config::addMissingThings() { }
 void Config::initialize() {
 	/*  Create through fopen "Write". */
 	FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
+
 	/*  Set default values. */
 	this->setString("CurrentRelease", "");
 	this->setString("CurrentNightly", "");
@@ -116,6 +117,7 @@ Config::Config() {
 void Config::save() {
 	if (this->changesMade) {
 		FILE *file = fopen("sdmc:/3ds/LeafEdit/Settings.json", "w");
+
 		/* Set values. */
 		this->setString("CurrentRelease", this->currentRelease());
 		this->setString("CurrentNightly", this->currentNightly());
@@ -123,6 +125,7 @@ void Config::save() {
 		this->setBool("Create_Backups", this->createBackups());
 		this->setBool("Show_Wiki", this->showWiki());
 		this->setInt("Version", this->version());
+		
 		/* Write changes to file. */
 		const std::string dump = this->json.dump(1, '\t');
 		fwrite(dump.c_str(), 1, this->json.dump(1, '\t').size(), file);

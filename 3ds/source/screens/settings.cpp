@@ -66,7 +66,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
+		if (touching(touch, this->mainButtons[0])) {
 			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
 				config->createBackups(config->createBackups() ? false : true);
 				Msg::DisplayWaitMsg(config->createBackups() ? "Backups enabled." : "Backups disabled.");

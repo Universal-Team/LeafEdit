@@ -66,7 +66,7 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 			case SaveType::WA:
 				/* Face starts at 32. */
 				if (Gender == 1) {
-					Gui::DrawSprite(Players, 32 + face +12, x, y, ScaleX, ScaleY);
+					Gui::DrawSprite(Players, 32 + face + 12, x, y, ScaleX, ScaleY);
 				} else {
 					Gui::DrawSprite(Players, 32 + face, x, y, ScaleX, ScaleY);
 				}
@@ -102,9 +102,9 @@ void SpriteManagement::DrawAcres(u8 acreID, int x, int y, float ScaleX, float Sc
 				break;
 			case SaveType::NL:
 				/* AC:NL has a bit different exception there. */
-				if (acreID < 155)	Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY); // Normal handling.
-				else if (acreID > 154 && acreID < 165)	Gui::DrawSprite(Acres, acreID + 1, x, y, ScaleX, ScaleY); // +1 cause one skipped Acre.
-				else if (acreID > 164)	Gui::DrawSprite(Acres, acreID + 2, x, y, ScaleX, ScaleY); // +2 cause two skipped Acre.
+				if (acreID < 155) Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY); // Normal handling.
+				else if (acreID > 154 && acreID < 165) Gui::DrawSprite(Acres, acreID + 1, x, y, ScaleX, ScaleY); // +1 cause one skipped Acre.
+				else if (acreID > 164) Gui::DrawSprite(Acres, acreID + 2, x, y, ScaleX, ScaleY); // +2 cause two skipped Acre.
 				break;
 			case SaveType::WA:
 				Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY);
@@ -226,7 +226,7 @@ void SpriteManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float Sc
 			case SaveType::NL:
 			case SaveType::WA:
 				if (badge != 0) {
-					Gui::DrawSprite(Items, 394 + 3*badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
+					Gui::DrawSprite(Items, 394 + 3 * badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
 				} else {
 					Gui::DrawSprite(Items, 394 + 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
 				}

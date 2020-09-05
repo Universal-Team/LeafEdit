@@ -32,13 +32,13 @@
 #include "overlay.hpp"
 #include "spriteManagement.hpp"
 
-extern std::unique_ptr<Config> config;
 extern SaveType savesType;
 
 #define MAX_DRESSER 17
 #define MAX_ISLAND	3
 #define MAX_STORAGE 35
 
+extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 /* Only load item stuff, when accessing this screen and also unload by exit of that screen. */
@@ -75,15 +75,19 @@ void ItemEditorNL::Draw(void) const {
 		case 0:
 			this->DrawSubMenu();
 			break;
+
 		case 1:
 			this->DrawPocket();
 			break;
+
 		case 2:
 			this->DrawIslandBox();
 			break;
+
 		case 3:
 			this->DrawDresser();
 			break;
+
 		case 4:
 			this->DrawStorage();
 			break;
@@ -95,15 +99,19 @@ void ItemEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 0:
 			this->SubMenuLogic(hDown, hHeld, touch);
 			break;
+
 		case 1:
 			this->PocketLogic(hDown, hHeld, touch);
 			break;
+
 		case 2:
 			this->IslandBoxLogic(hDown, hHeld, touch);
 			break;
+
 		case 3:
 			this->DresserLogic(hDown, hHeld, touch);
 			break;
+
 		case 4:
 			this->StorageLogic(hDown, hHeld, touch);
 			break;
@@ -124,8 +132,8 @@ void ItemEditorNL::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEMS"), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
 
+	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x + 100, this->mainButtons[i].y + 30);
@@ -137,7 +145,6 @@ void ItemEditorNL::DrawSubMenu(void) const {
 void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -165,15 +172,36 @@ void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				this->Mode = 1;
 				break;
+
 			case 1:
 				this->Mode = 2;
 				break;
+
 			case 2:
 				this->Mode = 3;
 				break;
+
 			case 3:
 				if (savesType == SaveType::WA) this->Mode = 4; // WA only.
 				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 4; i++) {
+			if (touching(touch, this->mainButtons[i])) {
+				if (i != 4) {
+					this->Selection = 0;
+					this->Mode = i + 1;
+
+				/* Exception for Storage / 4. */
+				} else {
+					if (savesType == SaveType::WA) {
+						this->Selection = 0;
+						this->Mode = 4;
+					}
+				}
+			}
 		}
 	}
 }
@@ -189,6 +217,7 @@ void ItemEditorNL::DrawPocket(void) const {
 
 	for (int i = 0; i < 16; i++) {
 		GFX::DrawGUI(gui_itemHole_idx, this->pocketSlots[i].x, this->pocketSlots[i].y); // Draw Item Slots.
+
 		if (ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()) > -1) {
 			SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()), this->pocketSlots[i].x + 16, this->pocketSlots[i].y + 16, 1, 1);
 		}
@@ -241,6 +270,7 @@ void ItemEditorNL::DrawIslandBox(void) const {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawGUI(gui_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16); // Draw Item Slots.
+
 				if (ItemUtils::GetSpritesheetID(this->islandBox[i]->id(), this->islandBox[i]->flags()) > -1) {
 					SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->islandBox[i]->id(), this->islandBox[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
@@ -309,6 +339,7 @@ void ItemEditorNL::DrawDresser(void) const {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawGUI(gui_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16); // Draw Item Slots.
+
 				if (ItemUtils::GetSpritesheetID(this->dresser[i]->id(), this->dresser[i]->flags()) > -1) {
 					SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->dresser[i]->id(), this->dresser[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
@@ -377,6 +408,7 @@ void ItemEditorNL::DrawStorage(void) const {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawGUI(gui_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16); // Draw Item Slots.
+
 				if (ItemUtils::GetSpritesheetID(this->storage[i]->id(), this->storage[i]->flags()) > -1) {
 					SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->storage[i]->id(), this->storage[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}

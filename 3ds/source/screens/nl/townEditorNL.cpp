@@ -78,12 +78,28 @@ void TownEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				Gui::setScreen(std::make_unique<TownMapEditorNL>(this->town), doFade, true);
 				break;
+
 			case 1:
 				Gui::setScreen(std::make_unique<AcresEditorNL>(this->town), doFade, true);
 				break;
+
 			case 2:
 				if (this->pattern) Gui::setScreen(std::make_unique<PatternEditor>(this->pattern), doFade, true);
 				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->mainButtons[0])) {
+			Gui::setScreen(std::make_unique<TownMapEditorNL>(this->town), doFade, true);
+
+
+		} else if (touching(touch, this->mainButtons[1])) {
+			Gui::setScreen(std::make_unique<AcresEditorNL>(this->town), doFade, true);
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
+			if (this->pattern) Gui::setScreen(std::make_unique<PatternEditor>(this->pattern), doFade, true);
 		}
 	}
 	

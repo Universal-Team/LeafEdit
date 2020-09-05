@@ -65,6 +65,18 @@ private:
 		{15, 97, 102, 20, "PLAYER_BANK"}
 	};
 
+	const std::vector<Structs::ButtonPos> patternPos = {
+		{40 + (0 * 60), 60 + (0 * 80), 48, 48},
+		{40 + (1 * 60), 60 + (0 * 80), 48, 48},
+		{40 + (2 * 60), 60 + (0 * 80), 48, 48},
+		{40 + (3 * 60), 60 + (0 * 80), 48, 48},
+
+		{40 + (0 * 60), 60 + (1 * 80), 48, 48},
+		{40 + (1 * 60), 60 + (1 * 80), 48, 48},
+		{40 + (2 * 60), 60 + (1 * 80), 48, 48},
+		{40 + (3 * 60), 60 + (1 * 80), 48, 48}
+	};
+
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 

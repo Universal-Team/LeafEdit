@@ -39,15 +39,12 @@
 #include <dirent.h>
 #include <unistd.h>
 
-int barOffset; // The additional offset for the text on the clean style.
 std::unique_ptr<Config> config;
 /* If true -> Exit LeafEdit. */
 bool exiting = false;
 bool doFade = true;
 
 touchPosition touch;
-
-u32 DARKER_COLOR, LIGHT_COLOR, LIGHTER_COLOR, SELECTED_COLOR, UNSELECTED_COLOR; // Color Types.
 
 /* Include all spritesheet's. */
 C2D_SpriteSheet Acres, GUI, Items, Players, Villager, Villager2;
@@ -56,11 +53,6 @@ C2D_Font font;
 /* Is loaded state. */
 bool sheetsLoaded		= false;
 bool FontHasLoaded		= false;
-bool changesMade		= false;
-
-/* GodMode and whatnot. */
-bool Debug = true;
-bool GodMode = true;
 
 bool is3dsx;
 bool Is3dsxUpdated = false;
@@ -140,7 +132,7 @@ Result Init::unloadSheets() {
 /* Load the font, if found. */
 Result Init::loadFont() {
 	if (!FontHasLoaded) {
-		if (access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0 ) {
+		if (access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0) {
 			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
 		} else {

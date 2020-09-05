@@ -108,8 +108,8 @@ u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
 bool CoreUtils::UpdateSaveRegion(Region_Lock &regionLock) {
 	static constexpr u8 ACNLRegionIDs[11] = {0x00, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x03, 0xFF};
 
-	u8 SystemLanguage = 0xC; // 0xC is ACNL default value || max + 1
-	u8 SystemRegion = 7; // 7 is ACNL default value || max + 1
+	u8 SystemLanguage = 0xC; // 0xC is ACNL default value || max + 1.
+	u8 SystemRegion = 7; // 7 is ACNL default value || max + 1.
 	u8 RegionByte = 0;
 	bool ret = false;
 	CFGU_SecureInfoGetRegion(&SystemRegion);
@@ -133,7 +133,7 @@ bool CoreUtils::UpdateSaveRegion(Region_Lock &regionLock) {
 
 /* Fix the Save Region. */
 void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
-	if (save != nullptr) {
+	if (save) {
 		if (save->getType() == SaveType::WA) {
 			if (UpdateSaveRegion(regionLock)) {
 				if (Msg::promptMsg(Lang::get("REGION_NOT_MATCH"))) {
@@ -151,9 +151,11 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::unique_ptr<Player> &player, bool &loaded
 			/* Load. */
 			loaded = true;
 			return LoadPlayerPicture(player->tpcImage());
+
 		} else {
 			return {nullptr};
 		}
+
 	} else {
 		return {nullptr};
 	}
@@ -161,9 +163,10 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::unique_ptr<Player> &player, bool &loaded
 
 void CoreUtils::createBackup() {
 	/* Make sure save is not a nullpointer. */
-	if (save != nullptr) {
+	if (save) {
 		if (config->createBackups()) {
 			std::string fileName;
+
 			switch(save->getType()) {
 				case SaveType::WW:
 					fileName = "ACWW.sav";
@@ -256,12 +259,14 @@ C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType
 					buffer[i * 2 + 1] = NLPaletteColors[image->getPaletteColor(image->getPixel(i).right)]; // Right pixel.
 				}
 				break;
+
 			case SaveType::WW:
 				for (int i = 0; i < 0x200; i++) {
 					buffer[i * 2] = WWPaletteColors[std::max<u8>(0, image->getPaletteColor(image->getPixel(i).left) - 1)]; // Left pixel.
 					buffer[i * 2 + 1] = WWPaletteColors[std::max<u8>(0, image->getPaletteColor(image->getPixel(i).right) - 1)]; // Right pixel.
 				}
 				break;
+
 			case SaveType::UNUSED:
 				linearFree(buffer); // Free buffer cause unneeded.
 				return {nullptr};
@@ -271,6 +276,7 @@ C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType
 		C2D_Image tmp = C2DUtils::ImageDataToC2DImage(buffer, 32, 32, GPU_RGBA8);
 		linearFree(buffer); // Free buffer cause unneeded.
 		return tmp;
+		
 	} else {
 		linearFree(buffer); // Free buffer cause unneeded.
 		return {nullptr};

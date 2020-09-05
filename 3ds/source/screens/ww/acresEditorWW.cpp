@@ -29,12 +29,10 @@
 #include "screenCommon.hpp"
 #include "spriteManagement.hpp"
 
-extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 /* Initialize Screen. */
 AcresEditorWW::AcresEditorWW(std::unique_ptr<Town> &refTown) : town(refTown) {
-
 	/* Get Full Acres. */
 	for (int i = 0; i < 36; i++) {
 		this->FullAcres[i] = this->town->acre(i);
@@ -65,6 +63,7 @@ void AcresEditorWW::DrawTopSelection(void) const {
 		SpriteManagement::DrawAcres(this->selectedAcre - 1, 60, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(this->selectedAcre + 1, 300, 100, 1, 1);
+
 	} else if (this->selectedAcre == this->maxAcres) {
 		SpriteManagement::DrawAcres(this->selectedAcre - 2, 10, 100, 1, 1);
 		SpriteManagement::DrawAcres(this->selectedAcre - 1, 60, 100, 1, 1);
@@ -94,8 +93,8 @@ void AcresEditorWW::DrawMap(void) const {
 }
 
 void AcresEditorWW::Draw(void) const {
-	DrawTopSelection();
-	DrawMap();
+	this->DrawTopSelection();
+	this->DrawMap();
 }
 
 void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -109,7 +108,6 @@ void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Set Top Acre to Selection. */
 	if (hDown & KEY_A) {
 		this->FullAcres[this->selection]->id(this->selectedAcre);
-		changes = true;
 	}
 
 	/* Display Selection on Top Acre. */
@@ -143,7 +141,7 @@ void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (keysHeld() & KEY_R) {
-			if (this->selectedAcre <this-> maxAcres) this->selectedAcre++;
+			if (this->selectedAcre < this->maxAcres) this->selectedAcre++;
 		}
 
 		/* Normal speed. (1 by 1) */

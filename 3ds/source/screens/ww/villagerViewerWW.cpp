@@ -51,8 +51,8 @@ void VillagerViewerWW::Draw(void) const {
 	Gui::DrawStringCentered(0, 150, 0.9f, BLACK, Lang::get("VILLAGER_NAME") + std::get<1>(villagerDB[this->viewerIndex]), 395, 0, font);
 	Gui::DrawStringCentered(0, 180, 0.9f, BLACK, Lang::get("VILLAGER_ID") + std::to_string(this->viewerIndex), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
 
+	GFX::DrawBottom();
 	for (int i = 0; i < 8; i++) {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
 	}
@@ -64,7 +64,6 @@ void VillagerViewerWW::Draw(void) const {
 void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < save->maxVillager()) this->Selection++;
 	}

@@ -31,20 +31,36 @@
 
 extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
 extern std::vector<std::string> g_personality;
+
 extern bool touching(touchPosition touch, ButtonType button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 void VillagerEditorWW::Draw(void) const {
-	if (this->villagerMode == 0) this->DrawSubMenu();
-	else if (this->villagerMode == 1) this->DrawItems();
+	switch(this->villagerMode) {
+		case 0:
+			this->DrawSubMenu();
+			break;
+
+		case 1:
+			this->DrawItems();
+			break;
+	}
+}
+
+void VillagerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	switch(this->villagerMode) {
+		case 0:
+			this->subLogic(hDown, hHeld, touch);
+			break;
+
+		case 1:
+			this->ItemLogic(hDown, hHeld, touch);
+			break;
+	}
 }
 
 const std::string getPersonality(u8 personality) {
 	return g_personality[personality];
-}
-
-void VillagerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->villagerMode == 0) this->subLogic(hDown, hHeld, touch);
-	else if (this->villagerMode == 1) this->ItemLogic(hDown, hHeld, touch);
 }
 
 void VillagerEditorWW::DrawSubMenu(void) const {
@@ -70,7 +86,6 @@ void VillagerEditorWW::DrawSubMenu(void) const {
 void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Selection. */
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -93,10 +108,12 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				this->villager->id((u8)Overlays::SelectVillager(this->villager->id(), SaveType::WW));
 				break;
+
 			case 1:
 				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
 				this->villager->personality(tempSelect);
 				break;
+
 			case 2:
 				/* Get Furniture Items. */
 				for (int i = 0; i < 10; i++) {
@@ -116,6 +133,34 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->mainButtons[0])) {
+			this->villager->id((u8)Overlays::SelectVillager(this->villager->id(), SaveType::WW));
+
+
+		} else if (touching(touch, this->mainButtons[1])) {
+			u8 tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
+			this->villager->personality(tempSelect);
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
+			/* Get Furniture Items. */
+			for (int i = 0; i < 10; i++) {
+				this->villagerItems[i] = this->villager->furniture(i);
+			}
+
+			/* Get other item stuff. */
+			this->villagerItems[10] = this->villager->shirt();
+
+			this->miscItems[0] = this->villager->songWW();
+			this->miscItems[1] = this->villager->wallpaperWW();
+			this->miscItems[2] = this->villager->carpetWW();
+			this->miscItems[3] = this->villager->umbrellaWW();
+
+			this->villagerMode = 1;
+		}
+	}
+
 
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
@@ -127,21 +172,41 @@ void VillagerEditorWW::DrawItems(void) const {
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 
 	/* Item Names. */
-	if (this->itemSelection < 11) {
-		Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->villagerItems[this->itemSelection]->name(), 390, 0, font);
-	} else if (this->itemSelection == 11) {
-		Gui::DrawStringCentered(0, 218, 0.8f, WHITE, "Song hasn't been researched yet.", 390, 0, font);
-	} else if (this->itemSelection == 12) {
-		Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(17, this->miscItems[1]), 390, 0, font);
-	} else if (this->itemSelection == 13) {
-		Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(18, this->miscItems[2]), 390, 0, font);
-	} else if (this->itemSelection == 14) {
-		Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(26, this->miscItems[3]), 390, 0, font);
+	switch(this->itemSelection) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->villagerItems[this->itemSelection]->name(), 390, 0, font);
+			break;
+
+		case 11:
+			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, "Song hasn't been researched yet.", 390, 0, font);
+			break;
+		
+		case 12:
+			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(17, this->miscItems[1]), 390, 0, font);
+			break;
+		
+		case 13:
+			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(18, this->miscItems[2]), 390, 0, font);
+			break;
+
+		case 14:
+			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(26, this->miscItems[3]), 390, 0, font);
+			break;
 	}
 		
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
 
+	GFX::DrawBottom();
 	for (int i = 0; i < 10; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
@@ -152,7 +217,7 @@ void VillagerEditorWW::DrawItems(void) const {
 	GFX::drawGrid(items[13].x, items[13].y, items[13].w, items[13].h, ItemManager::getColor(ItemType::WallpaperCarpet), C2D_Color32(0, 0, 0, 255)); // Carpet.
 	GFX::drawGrid(items[14].x, items[14].y, items[14].w, items[14].h, ItemManager::getColor(ItemType::Clothes), C2D_Color32(0, 0, 0, 255)); // Umbrella.
 
-	GFX::DrawGUI(gui_pointer_idx, items[itemSelection].x + 15, items[itemSelection].y + 15);
+	GFX::DrawGUI(gui_pointer_idx, items[this->itemSelection].x + 15, items[this->itemSelection].y + 15);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -160,28 +225,92 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
 	if (hDown & KEY_A) {
-		if (this->itemSelection < 10) {
-			/* Villager furniture. */
-			this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), SaveType::WW, false, {46}, "Select a Furniture."));
+		switch(this->itemSelection) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+				/* Villager furniture. */
+				this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), SaveType::WW, false, {46}, "Select a Furniture."));
+				break;
 
-		} else if (this->itemSelection == 10) {
-			/* Villager shirt. */
-			this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, "Select a Shirt."));
+			case 10:
+				/* Villager shirt. */
+				this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, "Select a Shirt."));
+				break;
 
-		} else if (this->itemSelection == 11) {
-			/* Song: TODO. */
-			Msg::DisplayWaitMsg("Song hasn't been researched yet.");
-		} else if (this->itemSelection == 12) {
-			/* Villager Wallpaper. */
-			this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, "Select a Wallpaper.");
+			case 11:
+				/* Song: TODO. */
+				Msg::DisplayWaitMsg("Song hasn't been researched yet.");
+				break;
+			
+			case 12:
+				/* Villager Wallpaper. */
+				this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, "Select a Wallpaper.");
+				break;
 
-		} else if (this->itemSelection == 13) {
-			/* Villager Carpet. */
-			this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, "Select a Carpet.");
+			case 13:
+				/* Villager Carpet. */
+				this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, "Select a Carpet.");
+				break;
 
-		} else if (this->itemSelection == 14) {
-			/* Villager Umbrella. */
-			this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, "Select a Umbrella.");
+			case 14:
+				/* Villager Umbrella. */
+				this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, "Select a Umbrella.");
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 15; i++) {
+			if (iconTouch(touch, this->items[i])) {
+				switch(i) {
+					case 0:
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+						/* Villager furniture. */
+						this->villagerItems[i]->id(Overlays::SelectItemCategory(this->villagerItems[i]->id(), SaveType::WW, false, {46}, "Select a Furniture."));
+						break;
+
+					case 10:
+						/* Villager shirt. */
+						this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, "Select a Shirt."));
+						break;
+
+					case 11:
+						/* Song: TODO. */
+						Msg::DisplayWaitMsg("Song hasn't been researched yet.");
+						break;
+			
+					case 12:
+						/* Villager Wallpaper. */
+						this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, "Select a Wallpaper.");
+						break;
+
+					case 13:
+						/* Villager Carpet. */
+						this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, "Select a Carpet.");
+						break;
+
+					case 14:
+						/* Villager Umbrella. */
+						this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, "Select a Umbrella.");
+						break;
+				}
+			}
 		}
 	}
 

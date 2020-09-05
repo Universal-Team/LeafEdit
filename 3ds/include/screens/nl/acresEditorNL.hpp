@@ -45,27 +45,11 @@ private:
 	std::unique_ptr<Acre> FullAcres[42]; // Complete Acres.
 	
 	int SelectionToAcre(int i) const;
-	void DrawMap(void) const;
 	void DrawFullMap(void) const;
 	void DrawTopSelection(void) const;
 	u8 selectedAcre = 0;
 	bool FastMode = false; // Scrolling speed.
 	int selection = 0;
-
-	/* Display AC:NL's Town Map [Not fully.] */
-	const std::vector<Structs::ButtonPos> acreTownPos = {
-		{60, 40, 40, 40},{100, 40, 40, 40},{140, 40, 40, 40},
-		{180, 40, 40, 40},{220, 40, 40, 40},
-
-		{60, 80, 40, 40},{100, 80, 40, 40},{140, 80, 40, 40},
-		{180, 80, 40, 40},{220, 80, 40, 40},
-
-		{60, 120, 40, 40},{100, 120, 40, 40},{140, 120, 40, 40},
-		{180, 120, 40, 40},{220, 120, 40, 40},
-
-		{60, 160, 40, 40},{100, 160, 40, 40},{140, 160, 40, 40},
-		{180, 160, 40, 40},{220, 160, 40, 40}
-	};
 
 	/* Display AC:NL's fully Map. */
 	const std::vector<Structs::ButtonPos> acreMapPos = {

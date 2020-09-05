@@ -31,7 +31,6 @@
 #include "villagerViewerNL.hpp"
 
 extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
-extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::shared_ptr<Sav> save;
 /* Bring that to other screens too. */
@@ -62,14 +61,13 @@ void VillagerViewerNL::Draw(void) const {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
 	}
 
-	GFX::DrawGUI(gui_pointer_idx, villagers[Selection].x+18, villagers[Selection].y+20);
+	GFX::DrawGUI(gui_pointer_idx, villagers[this->Selection].x+18, villagers[this->Selection].y+20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < save->maxVillager()) this->Selection++;
 	}
@@ -80,16 +78,18 @@ void VillagerViewerNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_SELECT) this->update();
 
+
 	if (hRepeat & KEY_R) {
 		if (savesType == SaveType::WA) {
 			if (this->viewerIndex < 398) this->viewerIndex++;
+
 		} else {
 			if (this->viewerIndex < 332) this->viewerIndex++;
 		}
 	}
 
 	if (hRepeat & KEY_L) {
-		if (this->viewerIndex > 0)	this->viewerIndex--;
+		if (this->viewerIndex > 0) this->viewerIndex--;
 	}
 
 	if (hDown & KEY_A) {

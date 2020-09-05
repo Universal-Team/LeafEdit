@@ -86,7 +86,7 @@ void AcresEditorNL::DrawTopSelection(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
-/* Draw the Full TownMap. [Used by GodMode enabled.] */
+/* Draw the Full TownMap. */
 void AcresEditorNL::DrawFullMap(void) const {
 	GFX::DrawBottom(true);
 	for (int i = 0; i < 42; i++) {
@@ -106,35 +106,15 @@ void AcresEditorNL::DrawFullMap(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
-/* Draw smaller TownMap. (Only affects AC:NL.) */
-void AcresEditorNL::DrawMap(void) const {
-	GFX::DrawBottom(true);
-	for (int i = 0; i < 20; i++) {
-		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), acreTownPos[i].x, acreTownPos[i].y);
-	}
-
-	/* Draw Grid. */
-	for (int i = 0; i < 20; i++) {
-		for (u32 y = 0; y < 4; y++) {
-			for (u32 x = 0; x < 5; x++, i++) {
-				Gui::drawGrid(60 + (x * 40), 40 + (y * 40), 40, 40, C2D_Color32(40, 40, 40, 160));
-			}
-		}
-	}
-
-	GFX::DrawGUI(gui_pointer_idx, acreTownPos[this->selection].x + 20, acreTownPos[this->selection].y + 20);
-	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-}
-
 void AcresEditorNL::Draw(void) const {
 	this->DrawTopSelection();
-	GodMode ? this->DrawFullMap() : this->DrawMap();
+	this->DrawFullMap();
 }
 
 void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Go back to the Town Map Editor. */
+	/* Go back to the Town Editor. */
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
@@ -142,47 +122,25 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Set Top Acre to Selection. */
 	if (hDown & KEY_A) {
 		if (this->selectedAcre < 182 || this->selectedAcre > 205) {
-			if (GodMode) {
-				this->FullAcres[this->selection]->id(this->selectedAcre);
-				changes = true;
-			} else {
-				this->FullAcres[SelectionToAcre(this->selection)]->id(this->selectedAcre);
-				changes = true;
-			}
+			this->FullAcres[this->selection]->id(this->selectedAcre);
 		}
 	}
 
 	/* Display Selection on Top Acre. */
 	if (hDown & KEY_Y) {
-		if (GodMode) {
-			this->selectedAcre = this->FullAcres[this->selection]->id();
-		} else {
-			this->selectedAcre = this->FullAcres[SelectionToAcre(this->selection)]->id();
-		}
+		this->selectedAcre = this->FullAcres[this->selection]->id();
 	}
 
 	if (hRepeat & KEY_DOWN) {
-		if (GodMode) {
-			if (this->selection < 35) this->selection += 7;
-		} else {
-			if (this->selection < 15) this->selection += 5;
-		}	
+		if (this->selection < 35) this->selection += 7;
 	}
 
 	if (hRepeat & KEY_UP) {
-		if (GodMode) {
-			if (this->selection > 6) this->selection -= 7;
-		} else {
-			if (this->selection > 4) this->selection -= 5;
-		}
+		if (this->selection > 6) this->selection -= 7;
 	}
 
 	if (hRepeat & KEY_RIGHT) {
-		if (GodMode) {
-			if (this->selection < 41) this->selection++;
-		} else {
-			if (this->selection < 19) this->selection++;
-		}
+		if (this->selection < 41) this->selection++;
 	}
 
 	if (hRepeat & KEY_LEFT) {
@@ -219,18 +177,9 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (GodMode) {
-			for (int i = 0; i < 42; i++) {
-				if (iconTouch(touch, acreMapPos[i])) {
-					this->selection = i;
-				}
-			}
-
-		} else {
-			for (int i = 0; i < 20; i++) {
-				if (iconTouch(touch, acreTownPos[i])) {
-					this->selection = i;
-				}
+		for (int i = 0; i < 42; i++) {
+			if (iconTouch(touch, this->acreMapPos[i])) {
+				this->selection = i;
 			}
 		}
 	}
@@ -241,62 +190,63 @@ int AcresEditorNL::SelectionToAcre(int i) const {
 	switch(i) {
 		case 0:
 			return 8;
-			break;
+
 		case 1:
 			return 9;
-			break;
+
 		case 2:
 			return 10;
-			break;
+
 		case 3:
 			return 11;
-			break;
+
 		case 4:
 			return 12;
+
 		case 5:
 			return 15;
-			break;
+
 		case 6:
 			return 16;
-			break;
+
 		case 7:
 			return 17;
+
 		case 8:
 			return 18;
-			break;
+
 		case 9:
 			return 19;
-			break;
+
 		case 10:
 			return 22;
-			break;
+
 		case 11:
 			return 23;
-			break;
+
 		case 12:
 			return 24;
-			break;
+
 		case 13:
 			return 25;
-			break;
+
 		case 14:
 			return 26;
-			break;
+
 		case 15:
 			return 29;
-			break;
+
 		case 16:
 			return 30;
-			break;
+
 		case 17:
 			return 31;
-			break;
+
 		case 18:
 			return 32;
-			break;
+
 		case 19:
 			return 33;
-			break;
 	}
 
 	return 8; // Should Never Happen.

@@ -31,14 +31,12 @@
 #include "keyboard.hpp"
 #include "overlay.hpp"
 
-extern std::unique_ptr<Config> config;
-
 #define MAX_DRESSER 8
 
+extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 ItemEditorWW::ItemEditorWW(std::unique_ptr<Player> &refPlayer) : player(refPlayer) {
-
 	/* Loading Pocket here. */
 	for (int i = 0; i < 15; i++) {
 		this->pockets[i] = this->player->pocket(i);
@@ -57,9 +55,11 @@ void ItemEditorWW::Draw(void) const {
 		case 0:
 			this->DrawSubMenu();
 			break;
+
 		case 1:
 			this->DrawPocket();
 			break;
+
 		case 2:
 			this->DrawDresser();
 			break;
@@ -71,9 +71,11 @@ void ItemEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 0:
 			this->SubMenuLogic(hDown, hHeld, touch);
 			break;
+
 		case 1:
 			this->PocketLogic(hDown, hHeld, touch);
 			break;
+
 		case 2:
 			this->DresserLogic(hDown, hHeld, touch);
 			break;
@@ -98,7 +100,6 @@ void ItemEditorWW::DrawSubMenu(void) const {
 void ItemEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -118,9 +119,19 @@ void ItemEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				this->Mode = 1;
 				break;
+
 			case 1:
 				this->Mode = 2;
 				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 2; i++) {
+			if (touching(touch, this->mainButtons[i])) {
+				this->Selection = 0;
+				this->Mode = i + 1;
+			}
 		}
 	}
 }

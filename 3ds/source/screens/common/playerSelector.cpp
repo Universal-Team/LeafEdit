@@ -45,9 +45,16 @@ PlayerSelector::PlayerSelector() {
 		if (save->player(i)->exist()) {
 			this->playerNames[i] = StringUtils::UTF16toUTF8(save->player(i)->name());
 
-			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				std::unique_ptr<Player> tmpP = save->player(i);
-				this->TPC[i] = CoreUtils::LoadPlayerTPC(tmpP, this->imageLoaded[i]);
+			switch(savesType) {
+				case SaveType::WW:
+				case SaveType::UNUSED:
+					break;
+
+				case SaveType::NL:
+				case SaveType::WA:
+					std::unique_ptr<Player> tmpP = save->player(i);
+					this->TPC[i] = CoreUtils::LoadPlayerTPC(tmpP, this->imageLoaded[i]);
+					break;
 			}
 		}
 	}
@@ -57,16 +64,23 @@ PlayerSelector::PlayerSelector() {
 PlayerSelector::~PlayerSelector() {
 	C3D_FrameEnd(0);
 
-	if (savesType == SaveType::NL || savesType == SaveType::WA) {
-		for (int i = 0; i < 4; i++) {
-			if (this->imageLoaded[i]) {
-				if (this->TPC[i].tex) {
-					C2DUtils::C2D_ImageDelete(this->TPC[i]);
-					this->TPC[i].tex = nullptr;
-					this->TPC[i].subtex = nullptr;
+	switch(savesType) {
+		case SaveType::NL:
+		case SaveType::WA:
+			for (int i = 0; i < 4; i++) {
+				if (this->imageLoaded[i]) {
+					if (this->TPC[i].tex) {
+						C2DUtils::C2D_ImageDelete(this->TPC[i]);
+						this->TPC[i].tex = nullptr;
+						this->TPC[i].subtex = nullptr;
+					}
 				}
 			}
-		}
+			break;
+
+		case SaveType::WW:
+		case SaveType::UNUSED:
+			break;
 	}
 }
 
@@ -76,15 +90,23 @@ void PlayerSelector::Draw(void) const {
 
 	for (int i = 0; i < 4; i++) {
 		if (save->player(i)->exist()) {
-			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				if (this->TPC[i].tex && this->imageLoaded[i]) {
-					C2D_DrawImageAt(this->TPC[i], (float)(100 * i) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
-				} else {
-					GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f);
-				}
-				
-			} else {
-				GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f); // So WW doesn't look too empty as well.
+
+			switch(savesType) {
+				case SaveType::WW:
+					GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f); // So WW doesn't look too empty as well.
+					break;
+
+				case SaveType::NL:
+				case SaveType::WA:
+					if (this->TPC[i].tex && this->imageLoaded[i]) {
+						C2D_DrawImageAt(this->TPC[i], (float)(100 * i) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
+					} else {
+						GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f);
+					}
+					break;
+
+				case SaveType::UNUSED:
+					break;
 			}
 		}
 
@@ -117,13 +139,18 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		/* Check if player exist. */
 		if (save->player(this->selectedPlayer)->exist()) {
-			/* New Leaf & Welcome Amiibo. */
-			if (savesType == SaveType::NL || savesType == SaveType::WA) {
-				Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(this->selectedPlayer)), doFade, true);
+			switch(savesType) {
+				case SaveType::WW:
+					Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(this->selectedPlayer)), doFade, true);
+					break;
+				
+				case SaveType::NL:
+				case SaveType::WA:
+					Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(this->selectedPlayer)), doFade, true);
+					break;
 
-				/* Wild World. */
-			} else if (savesType == SaveType::WW) {
-				Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(this->selectedPlayer)), doFade, true);
+				case SaveType::UNUSED:
+					break;
 			}
 		}
 	}

@@ -104,7 +104,9 @@ void PatternEditor::Draw(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom(true);
 
-	C2D_DrawImageAt(this->patternImage, 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
+	if (this->patternImage.tex) {
+		C2D_DrawImageAt(this->patternImage, 8, 8, 0.5f, nullptr, 7, 7); // 224x224. 224/32 -> 7.
+	}
 
 	/* Drawing Palette. */
 	if (savesType == SaveType::WW) {
@@ -171,6 +173,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->ptrnTool = Overlays::SelectPatternTool();
 	}
 
+	/* Open the Palette Tool Menu. */
 	if (this->ptrnTool == PatternMode::Palette) {
 		Overlays::PaletteTool(this->image, this->patternImage, savesType);
 		this->ptrnTool = PatternMode::Draw;
@@ -179,10 +182,19 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Import mode. */
 	if (this->ptrnTool == PatternMode::Import) {
 		std::string extension;
-		if (savesType == SaveType::WW) {
-			extension = "acww";
-		} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-			extension = "acnl";
+
+		switch(savesType) {
+			case SaveType::WW:
+				extension = "acww";
+				break;
+
+			case SaveType::NL:
+			case SaveType::WA:
+				extension = "acnl";
+				break;
+
+			case SaveType::UNUSED:
+				return;
 		}
 
 		const std::string file = Overlays::RomfsSDOverlay({extension}, "sdmc:/3ds/LeafEdit/Pattern/", "romfs:/pattern/", Lang::get("SELECT_PATTERN"));
@@ -205,6 +217,21 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		/* Enter the name of the pattern. */
 		destination += Input::setString(20, "", Lang::get("ENTER_PATTERN_NAME"));
 
+		switch(savesType) {
+			case SaveType::WW:
+				destination += ".acww";
+				break;
+
+			case SaveType::NL:
+			case SaveType::WA:
+				destination += ".acnl";
+				break;
+
+			case SaveType::UNUSED:
+				return;
+		}
+
+
 		this->pattern->dumpPattern(destination);
 		Msg::DisplayWaitMsg(Lang::get("SAVED_TO_FILE") + "\n\n" + destination + ".");
 
@@ -218,6 +245,10 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			for (int x = 0; x < 32; x++) {
 				for (int y = 0; y < 32; y++) {
 					if (touch.px <= (8 + 7 + x * 7) && touch.px >= (8 + x * 7) && touch.py <= (8 + 7 + y * 7) && touch.py >= (8 + y * 7)) {
+
+						this->xPos = x;
+						this->yPos = y;
+
 						if (savesType == SaveType::WW) this->image->setPixel(x, y, this->color + 1);
 						else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(x, y, this->color);
 						didTouch = true;
@@ -237,7 +268,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (didTouch) {
 				C3D_FrameEnd(0);
-				if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
+				if (this->patternImage.tex) C2DUtils::C2D_ImageDelete(this->patternImage);
 				this->patternImage = CoreUtils::patternImage(this->image, savesType);
 			}
 		}
@@ -247,7 +278,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(this->xPos, this->yPos, this->color);
 
 			C3D_FrameEnd(0);
-			if (this->patternImage.subtex != nullptr) C2DUtils::C2D_ImageDelete(this->patternImage);
+			if (this->patternImage.tex) C2DUtils::C2D_ImageDelete(this->patternImage);
 			this->patternImage = CoreUtils::patternImage(this->image, savesType);
 		}
 	}

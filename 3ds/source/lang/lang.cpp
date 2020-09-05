@@ -65,7 +65,6 @@ std::string Lang::get(const std::string &key) {
 
 std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
 
-/* TODO. Add switch case and load the neccessary files. */
 void Lang::loadGameStrings(int lang, SaveType save) {
 	switch (save) {
 		case SaveType::WW:
@@ -99,6 +98,6 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 void Lang::load(int lang) {
 	FILE* values;
 	values = fopen(("romfs:/lang/" + langs[lang] + "/app.json").c_str(), "rt");
-	if(values)	appJson = nlohmann::json::parse(values, nullptr, false);
+	if(values) appJson = nlohmann::json::parse(values, nullptr, false);
 	fclose(values);
 }

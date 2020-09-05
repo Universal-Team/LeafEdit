@@ -80,6 +80,7 @@ void MainMenu::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("MAINMENU"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i], 0.7);
@@ -102,11 +103,11 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 	
 	if (hRepeat & KEY_LEFT) {
-		if (this->Selection%2) this->Selection--;
+		if (this->Selection % 2) this->Selection--;
 	}
 	
 	if (hRepeat & KEY_RIGHT) {
-		if (!(this->Selection%2)) this->Selection++;
+		if (!(this->Selection % 2)) this->Selection++;
 	}
 
 	if (hDown & KEY_START) {
@@ -120,12 +121,15 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 				}
 				break;
+
 			case 1:
 				Gui::setScreen(std::make_unique<Settings>(), doFade, true);
 				break;
+
 			case 2:
 				Overlays::showCredits();
 				break;
+
 			case 3:
 				Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 				break;
@@ -133,15 +137,21 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
+		if (touching(touch, this->mainButtons[0])) {
 			if (Msg::promptMsg(Lang::get("EXPERIMENTAL_EDITOR"))) {
 				Gui::setScreen(std::make_unique<Editor>(), doFade, true);
 			}
-		} else if (touching(touch, mainButtons[1])) {
+
+
+		} else if (touching(touch, this->mainButtons[1])) {
 			Gui::setScreen(std::make_unique<Settings>(), doFade, true);
-		} else if (touching(touch, mainButtons[2])) {
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
 			Overlays::showCredits();
-		} else if (touching(touch, mainButtons[3])) {
+
+
+		} else if (touching(touch, this->mainButtons[3])) {
 			Gui::setScreen(std::make_unique<UpdateCenter>(), doFade, true);
 		}
 	}

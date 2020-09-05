@@ -42,16 +42,16 @@ void BadgeEditor::DrawBadges(void) const {
 	}
 }
 
-
 void BadgeEditor::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("BADGE_EDITOR"), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("CURRENT_BADGE") + g_badges[selectedBadge], 395, 0, font);
+	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("CURRENT_BADGE") + g_badges[this->selectedBadge], 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	this->DrawBadges();
-	GFX::DrawGUI(gui_pointer_idx, badgeTouch[selectedBadge].x+20, badgeTouch[selectedBadge].y+20);
+	GFX::DrawGUI(gui_pointer_idx, badgeTouch[this->selectedBadge].x+20, badgeTouch[this->selectedBadge].y+20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 

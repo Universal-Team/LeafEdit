@@ -355,7 +355,7 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 	curl_easy_cleanup(hnd);
 	char* newbuf = (char*)realloc(result_buf, result_written + 1);
 	result_buf = newbuf;
-	result_buf[result_written] = 0; //nullbyte to end it as a proper C style string
+	result_buf[result_written] = 0; // nullbyte to end it as a proper C style string.
 
 	if (cres != CURLE_OK) {
 		printf("Error in:\ncurl\n");
@@ -707,7 +707,7 @@ bool Download::showReleaseInfo(ReleaseFetch RF) {
 	}
 }
 
-// Return latest Release & Nightly states.
+/* Return latest Release & Nightly states. */
 ReleaseFetch Download::getLatestRelease2(void) {
 	ReleaseFetch RF;
 	RF = getLatestRelease();

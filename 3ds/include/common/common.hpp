@@ -44,7 +44,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 
-/* This is the new "screenCommon.hpp", lol. */
 #include "config.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
@@ -72,7 +71,7 @@ extern "C" {
 #define WelcomeLuxury		0x00040000004C5700
 
 /* GodMode and whatnot. */
-extern bool changes, doFade, Debug, GodMode;
+extern bool doFade;
 extern C2D_Font font;
 
 #endif

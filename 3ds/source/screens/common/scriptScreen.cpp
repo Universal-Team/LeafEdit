@@ -40,11 +40,9 @@ void ScriptScreen::load() {
 	if (tempScript != "") {
 		this->script = std::make_unique<Script>(tempScript);
 
-		if (this->script->getValid()) {
-			this->loadMode = false;
-		} else {
-			Msg::DisplayWaitMsg(Lang::get("SCRIPT_INVALID"));
-		}
+		if (this->script->getValid()) this->loadMode = false;
+		else Msg::DisplayWaitMsg(Lang::get("SCRIPT_INVALID"));
+
 	} else {
 		Gui::screenBack(doFade);
 	}
@@ -89,6 +87,7 @@ void ScriptScreen::Draw(void) const {
 
 			if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 		}
+
 		/* If not valid. */
 	} else {
 		GFX::DrawTop();
@@ -125,6 +124,7 @@ void ScriptScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		}
+
 	} else {
 		this->load();
 	}

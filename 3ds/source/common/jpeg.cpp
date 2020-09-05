@@ -62,10 +62,8 @@
 #define TPC_MAX_WIDTH	64
 #define TPC_MAX_HEIGHT	104
 
-// Needed for the noTPC Image.
+/* Needed for the noTPC Image. */
 extern C2D_SpriteSheet GUI;
-
-// This code is bugged for whatever reason. I might rework it when I have the time for it.
 
 static inline u32 Pow2(u32 x) {
 	if (x <= 2)	return x;
@@ -78,20 +76,20 @@ JPEGInfo DecompressJPEG(const void *jpegSrc, const u32 jpegSize) {
 	int			jpegSubsamp;
 	tjhandle	jpegDecompressor = tjInitDecompress();
 
-	// Get the dimensions of the image
+	/* Get the dimensions of the image. */
 	if (tjDecompressHeader2(jpegDecompressor, (u8 *)jpegSrc, jpegSize, (int *)&jpeg.width, (int *)&jpeg.height, &jpegSubsamp)) Msg::DisplayWarnMsg(std::string("tjDecompressHeader2: error\n") + tjGetErrorStr());
 
-	// Allocate the temporary buffer
+	/* Allocate the temporary buffer. */
 	u32 powSize = Pow2(jpeg.width) * Pow2(jpeg.height) * 4;
 	jpeg.image = linearAlloc(powSize);
 
 	if (!jpeg.image) Msg::DisplayWarnMsg("jpeg.image is null");
 
-	// Clear temporary buffer
+	/* Clear temporary buffer. */
 	C3D_SyncMemoryFill((u32 *)jpeg.image, 0, (u32 *)((u8 *)jpeg.image + powSize), BIT(0) | GX_FILL_32BIT_DEPTH, nullptr, 0, nullptr, 0);
 	GSPGPU_FlushDataCache(jpeg.image, powSize);
 
-	// Decompress the image
+	/* Decompress the image. */
 	if (tjDecompress2(jpegDecompressor, (u8 *)jpegSrc, jpegSize, (u8 *)jpeg.image, jpeg.width, 0, jpeg.height, TJPF_ABGR, TJFLAG_FASTDCT)) Msg::DisplayWarnMsg(std::string("tjDecompress2: error\n") + tjGetErrorStr());
 	GSPGPU_FlushDataCache(jpeg.image, powSize);
 

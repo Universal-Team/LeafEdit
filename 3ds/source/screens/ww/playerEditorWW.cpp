@@ -34,6 +34,8 @@
 #include "stringUtils.hpp"
 
 extern bool touching(touchPosition touch, ButtonType button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
+
 extern std::shared_ptr<Sav> save;
 
 const std::vector<std::string> g_TanValues = {
@@ -47,17 +49,43 @@ extern std::vector<std::string> g_HairStyle;
 PlayerEditorWW::PlayerEditorWW(std::unique_ptr<Player> refPlayer): player(std::move(refPlayer)) { }
 
 void PlayerEditorWW::Draw(void) const {
-	if (this->Mode == 0) this->DrawSubMenu();
-	else if (this->Mode == 1) this->DrawPlayer();
-	else if (this->Mode == 2) this->DrawAppearance();
-	else if (this->Mode == 3) this->DisplayPattern();
+	switch(this->Mode) {
+		case 0:
+			this->DrawSubMenu();
+			break;
+
+		case 1:
+			this->DrawPlayer();
+			break;
+
+		case 2:
+			this->DrawAppearance();
+			break;
+		
+		case 3:
+			this->DisplayPattern();
+			break;
+	}
 }
 
 void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->Mode == 0) this->SubMenuLogic(hDown, hHeld, touch);
-	else if (this->Mode == 1) this->PlayerLogic(hDown, hHeld, touch);
-	else if (this->Mode == 2) this->AppearanceLogic(hDown, hHeld, touch);
-	else if (this->Mode == 3) this->PatternLogic(hDown, hHeld, touch);
+	switch(this->Mode) {
+		case 0:
+			this->SubMenuLogic(hDown, hHeld, touch);
+			break;
+
+		case 1:
+			this->PlayerLogic(hDown, hHeld, touch);
+			break;
+		
+		case 2:
+			this->AppearanceLogic(hDown, hHeld, touch);
+			break;
+
+		case 3:
+			this->PatternLogic(hDown, hHeld, touch);
+			break;
+	}
 }
 
 /* Sub Menu. */
@@ -70,11 +98,11 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, 120, 0.7f, BLACK, Lang::get("PLAYER_FACETYPE") + ": " + std::to_string(player->face()), 0, 0, font);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
 
+	GFX::DrawBottom();
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
-		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -83,24 +111,22 @@ void PlayerEditorWW::DrawSubMenu(void) const {
 void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
-	if (hDown & KEY_UP) {
-		if (hRepeat > 0) Selection--;
-	}
-
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
 				this->Selection = 0;
 				this->Mode = 1;
 				break;
+
 			case 1:
 				this->Selection = 0;
 				this->Mode = 2;
 				break;
+
 			case 2:
 				Gui::setScreen(std::make_unique<ItemEditorWW>(this->player), doFade, true);
 				break;
+
 			case 3:
 				/* Load Pattern. */
 				C3D_FrameEnd(0);
@@ -116,6 +142,10 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hRepeat & KEY_UP) {
+		if (this->Selection > 0) this->Selection--;
+	}
+
 	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
@@ -126,6 +156,35 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->mainButtons[0])) {
+			this->Selection = 0;
+			this->Mode = 1;
+
+
+		} else if (touching(touch, this->mainButtons[1])) {
+			this->Selection = 0;
+			this->Mode = 2;
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
+			Gui::setScreen(std::make_unique<ItemEditorWW>(this->player), doFade, true);
+
+
+		} else if (touching(touch, this->mainButtons[3])) {
+			/* Load Pattern. */
+			C3D_FrameEnd(0);
+			for (int i = 0; i < 8; i++) {
+				this->pattern[i] = this->player->pattern(i);
+				this->images[i] = this->pattern[i]->image(0);
+				this->patternImage[i] = CoreUtils::patternImage(this->images[i], SaveType::WW);
+			}
+
+			this->Selection = 0;
+			this->Mode = 3;
+		}
 	}
 	
 	if (hDown & KEY_B) {
@@ -150,6 +209,7 @@ void PlayerEditorWW::DrawAppearance(void) const {
 	Gui::Draw_Rect(200, 105, 90, 40, PlayerManagement::getHairColor(this->player->haircolor(), SaveType::WW));
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 	for (int i = 0; i < 5; i++) {
 		GFX::DrawButton(this->appearanceBtn[i]);
@@ -162,7 +222,6 @@ void PlayerEditorWW::DrawAppearance(void) const {
 void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -194,11 +253,13 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 					case WWRegion::EUR_REV1:
 						length = 7;
 						break;
+
 					case WWRegion::JPN_REV0:
 					case WWRegion::JPN_REV1:
 					case WWRegion::KOR_REV1:
 						length = 6;
 						break;
+
 					case WWRegion::UNKNOWN:
 						return;
 				}
@@ -221,6 +282,46 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			case 4:
 				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
 				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->appearanceBtn[0])) {
+			u8 length = 0;
+			switch(save->getRegion()) {
+				case WWRegion::USA_REV0:
+				case WWRegion::USA_REV1:
+				case WWRegion::EUR_REV1:
+					length = 7;
+					break;
+
+				case WWRegion::JPN_REV0:
+				case WWRegion::JPN_REV1:
+				case WWRegion::KOR_REV1:
+					length = 6;
+					break;
+
+				case WWRegion::UNKNOWN:
+					return;
+			}
+
+			this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
+
+
+		} else if (touching(touch, this->appearanceBtn[1])) {
+			this->player->hairstyle((u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle."));
+
+
+		} else if (touching(touch, this->appearanceBtn[2])) {
+			this->player->face((u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype."));
+
+
+		} else if (touching(touch, this->appearanceBtn[3])) {
+			this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+
+
+		} else if (touching(touch, this->appearanceBtn[4])) {
+			this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
 		}
 	}
 }
@@ -273,11 +374,20 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 		}
 	}
+
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->playerButtons[0])) {
+			this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
+
+
+		} else if (touching(touch, this->playerButtons[1])) {
+			this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
+		}
+	}
 }
 
 void PlayerEditorWW::DisplayPattern(void) const {
-	int selectX = 0, selectY = 0;
-
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("PATTERN_VIEWER"), 395, 0, font);
 
@@ -296,17 +406,12 @@ void PlayerEditorWW::DisplayPattern(void) const {
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 8; i++) {
-		for (u32 y = 0; y < 2; y++) {
-			for (u32 x = 0; x < 4; x++, i++) {
-				C2D_DrawImageAt(this->patternImage[i], 40 + (x * 60), 60 + (y * 80), 0.5f, nullptr, 1.5f, 1.5f);
-			}
+		if (this->patternImage[i].tex) {
+			C2D_DrawImageAt(this->patternImage[i], this->patternPos[i].x, this->patternPos[i].y, 0.5f, nullptr, 1.5f, 1.5f);
 		}
 	}
 
-	if (this->Selection < 4)	selectY = 0;	else	selectY = 1;
-	if (this->Selection > 3)	selectX = this->Selection - 4;	else selectX = this->Selection;
-
-	GFX::DrawGUI(gui_pointer_idx, 45 + (selectX * 60), 67 + (selectY * 80));
+	GFX::DrawGUI(gui_pointer_idx, this->patternPos[this->Selection].x + 20, this->patternPos[this->Selection].y + 20);
 }
 
 void PlayerEditorWW::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -349,5 +454,13 @@ void PlayerEditorWW::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	/* Open Pattern Editor. */
 	if (hDown & KEY_A) {
 		Gui::setScreen(std::make_unique<PatternEditor>(this->pattern[this->Selection]), doFade, true);
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 8; i++) {
+			if (iconTouch(touch, this->patternPos[i])) {
+				Gui::setScreen(std::make_unique<PatternEditor>(this->pattern[i]), doFade, true);
+			}
+		}
 	}
 }

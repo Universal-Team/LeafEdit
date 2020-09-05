@@ -56,7 +56,6 @@ void TownEditorWW::Draw(void) const {
 void TownEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Navigation. */
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -78,15 +77,31 @@ void TownEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				Gui::setScreen(std::make_unique<TownMapEditorWW>(this->town), doFade, true);
 				break;
+
 			case 1:
 				Gui::setScreen(std::make_unique<AcresEditorWW>(this->town), doFade, true);
 				break;
+
 			case 2:
 				if (this->pattern) Gui::setScreen(std::make_unique<PatternEditor>(this->pattern), doFade, true);
 				break;
 		}
 	}
 	
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->mainButtons[0])) {
+			Gui::setScreen(std::make_unique<TownMapEditorWW>(this->town), doFade, true);
+
+
+		} else if (touching(touch, this->mainButtons[1])) {
+			Gui::setScreen(std::make_unique<AcresEditorWW>(this->town), doFade, true);
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
+			if (this->pattern) Gui::setScreen(std::make_unique<PatternEditor>(this->pattern), doFade, true);
+		}
+	}
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}

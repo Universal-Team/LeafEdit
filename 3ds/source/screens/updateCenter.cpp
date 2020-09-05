@@ -50,13 +50,27 @@ void UpdateCenter::checkUpdate() {
 }
 
 void UpdateCenter::Draw(void) const {
-	if (this->Mode == 0) this->DrawMain();
-	else if (this->Mode == 1) this->DrawExtras();
+	switch(this->Mode) {
+		case 0:
+			this->DrawMain();
+			break;
+
+		case 1:
+			this->DrawExtras();
+			break;
+	}
 }
 
 void UpdateCenter::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->Mode == 0) this->MainLogic(hDown, hHeld, touch);
-	else if (this->Mode == 1) this->ExtrasLogic(hDown, hHeld, touch);
+	switch(this->Mode) {
+		case 0:
+			this->MainLogic(hDown, hHeld, touch);
+			break;
+
+		case 1:
+			this->ExtrasLogic(hDown, hHeld, touch);
+			break;
+	}
 }
 
 void UpdateCenter::DrawMain(void) const {
@@ -116,7 +130,6 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	// Navigation.
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection --;
 	}
@@ -129,20 +142,22 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		switch(this->Selection) {
 			case 0:
 				if (checkWifiStatus()) {
-					if (hasCheckedForUpdate) {
-						if (!ReleaseAvailable) {
+					if (this->hasCheckedForUpdate) {
+						if (!this->ReleaseAvailable) {
 							if (Msg::promptMsg(Lang::get("ON_LATEST_VERSION"))) {
 								if (Download::updateApp(false, latestRelease.Version) == 0) {
-									ReleaseAvailable = false;
+									this->ReleaseAvailable = false;
 								}
 							}
+
 						} else {
 							if (Download::updateApp(false, latestRelease.Version) == 0) {
-								ReleaseAvailable = false;
+								this->ReleaseAvailable = false;
 							}
 						}
+
 					} else {
-						// Still allow updating even if not checked, but with no version set.
+						/* Still allow updating even if not checked, but with no version set. */
 						Download::updateApp(false, latestRelease.Version);
 					}
 				}
@@ -150,20 +165,22 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			case 1:
 				if (checkWifiStatus()) {
-					if (hasCheckedForUpdate) {
-						if (!NightlyAvailable) {
+					if (this->hasCheckedForUpdate) {
+						if (!this->NightlyAvailable) {
 							if (Msg::promptMsg(Lang::get("ON_LATEST_VERSION"))) {
 								if (Download::updateApp(true, latestNightly.Target) == 0) {
-									NightlyAvailable = false;
+									this->NightlyAvailable = false;
 								}
 							}
+
 						} else {
 							if (Download::updateApp(true, latestNightly.Target) == 0) {
-								NightlyAvailable = false;
+								this->NightlyAvailable = false;
 							}
 						}
+
 					} else {
-						// Still allow updating even if not checked, but with no version set.
+						/* Still allow updating even if not checked, but with no version set. */
 						if (checkWifiStatus()) {
 							Download::updateApp(true, latestNightly.Target);
 						}
@@ -177,51 +194,59 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
+		if (touching(touch, this->mainButtons[0])) {
 			if (checkWifiStatus()) {
-				if (hasCheckedForUpdate) {
-					if (!ReleaseAvailable) {
+				if (this->hasCheckedForUpdate) {
+					if (!this->ReleaseAvailable) {
 						if (Msg::promptMsg(Lang::get("ON_LATEST_VERSION"))) {
 							if (Download::updateApp(false, latestRelease.Version) == 0) {
-								ReleaseAvailable = false;
+								this->ReleaseAvailable = false;
 							}
 						}
+
 					} else {
 						if (Download::updateApp(false, latestRelease.Version) == 0) {
-							ReleaseAvailable = false;
+							this->ReleaseAvailable = false;
 						}
 					}
+
 				} else {
-					// Still allow updating even if not checked, but with no version set.
+					/* Still allow updating even if not checked, but with no version set. */
 					if (checkWifiStatus()) {
 						Download::updateApp(false, latestRelease.Version);
 					}
 				}
 			}
 
-		} else if (touching(touch, mainButtons[1])) {
+
+		} else if (touching(touch, this->mainButtons[1])) {
 			if (checkWifiStatus()) {
-				if (hasCheckedForUpdate) {
-					if (!NightlyAvailable) {
+				if (this->hasCheckedForUpdate) {
+					if (!this->NightlyAvailable) {
 						if (Msg::promptMsg(Lang::get("ON_LATEST_VERSION"))) {
 							if (Download::updateApp(true, latestNightly.Target) == 0) {
-								NightlyAvailable = false;
+								this->NightlyAvailable = false;
 							}
 						}
+
 					} else {
 						if (Download::updateApp(true, latestNightly.Target) == 0) {
-							NightlyAvailable = false;
+							this->NightlyAvailable = false;
 						}
 					}
+
 				} else {
-					// Still allow updating even if not checked, but with no version set.
+					/* Still allow updating even if not checked, but with no version set. */
 					if (checkWifiStatus()) {
 						Download::updateApp(true, latestNightly.Target);
 					}
 				}
 			}
-		} else if (touching(touch, mainButtons[2])) {
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
 			if (checkWifiStatus()) Download::downloadAssets();
 		}
 	}

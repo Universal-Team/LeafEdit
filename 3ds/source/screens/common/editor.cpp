@@ -72,7 +72,7 @@ bool Editor::loadSave() {
 		/* Check if town exist on AC:WW. */
 		if (save) {
 			if (save->getType() == SaveType::WW) {
-				if (save->town()->exist() != true) {
+				if (!save->town()->exist()) {
 					Log->Write("Town does not exist!", false);
 					return false; // Town does not exist!
 				}
@@ -89,9 +89,9 @@ bool Editor::loadSave() {
 		return false;
 	}
 	
-	if (save->getType() == SaveType::WW)		saveT = 0;
-	else if (save->getType() == SaveType::NL)	saveT = 2;
-	else if (save->getType() == SaveType::WA)	saveT = 4;
+	if (save->getType() == SaveType::WW) this->saveT = 0;
+	else if (save->getType() == SaveType::NL) this->saveT = 2;
+	else if (save->getType() == SaveType::WA) this->saveT = 4;
 
 	savesType = save->getType();
 
@@ -118,13 +118,14 @@ void Editor::SaveInitialize() {
 			Msg::DisplayWarnMsg(Lang::get("LOADING_EDITOR"));
 			if (Init::loadSheets() == 0) {
 				Lang::loadGameStrings(1, savesType);
-				loadState = SaveState::Loaded;
+				this->loadState = SaveState::Loaded;
 
 			} else {
 				Msg::DisplayWarnMsg(Lang::get("FAILED_LOAD_SPRITESHEET"));
 				Gui::screenBack(doFade);
 			}
 		}
+
 	} else {
 		Gui::screenBack(doFade);
 	}
@@ -132,13 +133,14 @@ void Editor::SaveInitialize() {
 
 
 void Editor::Draw(void) const {
-	if (loadState == SaveState::Loaded) {
+	if (this->loadState == SaveState::Loaded) {
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("EDITOR"), 395, 0, font);
 
-		if (saveT != -1) {
+		if (this->saveT != -1) {
 			Gui::DrawStringCentered(0, 60, 0.9f, WHITE, Lang::get("SAVETYPE") + ": " + titleNames[saveT + 1], 400, 0, font); // +1 for PAL names.
 			std::string length = "SaveSize: " + std::to_string(save->getLength()) + " Byte | " + std::to_string(save->getLength() / 1024) + " KB.";
+			Gui::DrawStringCentered(0, 120, 0.9f, WHITE, length, 400, 0, font); // +1 for PAL names.
 		}
 
 		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -157,22 +159,24 @@ void Editor::Draw(void) const {
 }
 
 void Editor::Saving() {
-	if (!save->changesMade()) {
-		Msg::DisplayWaitMsg(Lang::get("SAVING_USELESS"));
-		return;
-	}
+	if (savesType != SaveType::UNUSED) {
+		if (!save->changesMade()) {
+			Msg::DisplayWaitMsg(Lang::get("SAVING_USELESS"));
+			return;
+		}
 
-	/* Handle AC:WA stuff here. */
-	if (savesType == SaveType::WA) {
-		CoreUtils::FixInvalidBuildings();
-	}
+		/* Handle AC:WA stuff here. */
+		if (savesType == SaveType::WA) {
+			CoreUtils::FixInvalidBuildings();
+		}
 
-	if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
-		save->Finish();
-		FILE* out = fopen(this->saveName.c_str(), "rb+");
-		fwrite(save->rawData().get(), 1, save->getLength(), out);
-		fclose(out);
-		hasSaved = true;
+		if (Msg::promptMsg(Lang::get("SAVE_PROMPT"))) {
+			save->Finish();
+			FILE* out = fopen(this->saveName.c_str(), "rb+");
+			fwrite(save->rawData().get(), 1, save->getLength(), out);
+			fclose(out);
+			this->hasSaved = true;
+		}
 	}
 }
 
@@ -181,7 +185,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (loadState == SaveState::Loaded) {
 		if (hDown & KEY_TOUCH) {
-			if (iconTouch(touch, icons[0])) {
+			if (iconTouch(touch, this->icons[0])) {
 				if (save->changesMade() && !this->hasSaved) {
 					if (Msg::promptMsg(Lang::get("UNSAVED_CHANGES"))) {
 						savesType = SaveType::UNUSED;
@@ -193,8 +197,55 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::screenBack(doFade);
 				}
 
-			} else if (iconTouch(touch, icons[1])) {
+
+			} else if (iconTouch(touch, this->icons[1])) {
 				this->Saving();
+
+
+			} else if (touching(touch, this->mainButtons[0])) {
+				if (savesType != SaveType::UNUSED) {
+					/* Player Selector. */
+					if (save->player(0)) {
+						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
+
+					} else {
+						Msg::NotImplementedYet();
+					}
+				}
+			
+
+			} else if (touching(touch, this->mainButtons[1])) {
+				if (savesType != SaveType::UNUSED) {
+					/* Villager Viewer. */
+					if (save->villager(0)) {
+						if (savesType == SaveType::WW) {
+							Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
+
+						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+							Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
+						}
+
+					} else {
+						Msg::NotImplementedYet();
+					}
+				}
+
+
+ 			} else if (touching(touch, this->mainButtons[2])) {
+				if (savesType != SaveType::UNUSED) {
+					/* Town Editor. */
+					if (save->town()) {
+						if (savesType == SaveType::WW) {
+							Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
+
+						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+							Gui::setScreen(std::make_unique<TownEditorNL>(save->town()), doFade, true);
+						}
+
+					} else {
+						Msg::NotImplementedYet();
+					}
+				}
 			}
 		}
 
@@ -209,43 +260,54 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		if (hDown & KEY_A) {
 			if (savesType != SaveType::UNUSED) {
-				/* Player Editor. */
-				if (this->Selection == 0) {
-					if (save->player(0)) {
-						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
-					} else {
-						Msg::NotImplementedYet();
-					}
+				switch(this->Selection) {
+					case 0:
+						/* Player Selector. */
+						if (save->player(0)) {
+							Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
 
-					/* Villager Viewer. */
-				} else if (this->Selection == 1) {
-					if (save->villager(0)) {
-						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
-						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
+						} else {
+							Msg::NotImplementedYet();
 						}
-					} else {
-						Msg::NotImplementedYet();
-					}
+						break;
 
-					/* Town Editor. */
-				} else if (this->Selection == 2) {
-					if (save->town()) {
-						if (savesType == SaveType::WW) {
-							Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
-						} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-							Gui::setScreen(std::make_unique<TownEditorNL>(save->town()), doFade, true);
+					case 1:
+						/* Villager Viewer. */
+						if (save->villager(0)) {
+							if (savesType == SaveType::WW) {
+								Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
+
+							} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+								Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
+							}
+
+						} else {
+							Msg::NotImplementedYet();
 						}
-					} else {
-						Msg::NotImplementedYet();
-					}
+						break;
+					
+					case 2:
+						/* Town Editor. */
+						if (save->town()) {
+							if (savesType == SaveType::WW) {
+								Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
+
+							} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+								Gui::setScreen(std::make_unique<TownEditorNL>(save->town()), doFade, true);
+							}
+							
+						} else {
+							Msg::NotImplementedYet();
+						}
+						break;
 				}
 			}
 		}
 
 		if (hDown & KEY_X) {
-			Gui::setScreen(std::make_unique<ScriptScreen>(), doFade, true);
+			if (savesType != SaveType::UNUSED) {
+				Gui::setScreen(std::make_unique<ScriptScreen>(), doFade, true);
+			}
 		}
 		
 		if (hDown & KEY_B) {
@@ -254,6 +316,6 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 		
 	} else {
-		SaveInitialize(); // Display Browse.
+		this->SaveInitialize(); // Display Browse.
 	}
 }

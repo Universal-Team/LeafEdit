@@ -33,20 +33,36 @@
 extern std::vector<std::tuple<u16, std::string, std::string>> villagerDB;
 extern std::vector<std::string> g_personality;
 extern const std::string getPersonality(u8 personality);
+
 extern bool touching(touchPosition touch, ButtonType button);
+extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 /* Bring that to other screens too. */
 extern SaveType savesType;
 extern const std::string getVillagerName(int index);
 
 void VillagerEditorNL::Draw(void) const {
-	if (this->villagerMode == 0) this->DrawSubMenu();
-	else if (this->villagerMode == 1) this->DrawItems();
+	switch(this->villagerMode) {
+		case 0:
+			this->DrawSubMenu();
+			break;
+
+		case 1:
+			this->DrawItems();
+			break;
+	}
 }
 
 void VillagerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->villagerMode == 0) this->subLogic(hDown, hHeld, touch);
-	else if (this->villagerMode == 1) this->ItemLogic(hDown, hHeld, touch);
+	switch(this->villagerMode) {
+		case 0:
+			this->subLogic(hDown, hHeld, touch);
+			break;
+
+		case 1:
+			this->ItemLogic(hDown, hHeld, touch);
+			break;
+	}
 }
 
 void VillagerEditorNL::DrawSubMenu(void) const {
@@ -73,7 +89,6 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
-	/* Selection. */
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
@@ -83,15 +98,11 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hRepeat & KEY_RIGHT) {
-		if (this->Selection < 3) {
-			this->Selection += 3;
-		}
+		if (this->Selection < 3) this->Selection += 3;
 	}
 
 	if (hRepeat & KEY_LEFT) {
-		if (this->Selection < 6 && this->Selection > 2) {
-			this->Selection -= 3;
-		}
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 
 	if (hDown & KEY_A) {
@@ -100,10 +111,12 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 0:
 				this->villager->id(Overlays::SelectVillager(this->villager->id(), savesType));
 				break;
+
 			case 1:
 				tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
 				this->villager->personality((u8)tempSelect);
 				break;
+
 			case 2:
 				/* Get Furniture Items. */
 				for (int i = 0; i < 15; i++) {
@@ -122,6 +135,32 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, this->mainButtons[0])) {
+			this->villager->id(Overlays::SelectVillager(this->villager->id(), savesType));
+
+
+		} else if (touching(touch, this->mainButtons[1])) {
+			u8 tempSelect = (u8)GFX::ListSelection(this->villager->personality(), g_personality, Lang::get("VILLAGER_PERSONALITY_SELECT"));
+			this->villager->personality((u8)tempSelect);
+
+
+		} else if (touching(touch, this->mainButtons[2])) {
+			/* Get Furniture Items. */
+			for (int i = 0; i < 15; i++) {
+				this->villagerItems[i] = this->villager->furniture(i);
+			}
+
+			/* Get other stuff. */
+			this->villagerItems[15] = this->villager->wallpaper();
+			this->villagerItems[16] = this->villager->carpet();
+			this->villagerItems[17] = this->villager->song();
+			this->villagerItems[18] = this->villager->shirt();
+			this->villagerItems[19] = this->villager->umbrella();
+
+			this->villagerMode = 1;
+		}
+	}
 
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
@@ -134,8 +173,8 @@ void VillagerEditorNL::DrawItems(void) const {
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->villagerItems[this->itemSelection]->name(), 390, 0, font);
 	
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	GFX::DrawBottom();
 
+	GFX::DrawBottom();
 	for (int i = 0; i < 20; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
@@ -148,37 +187,111 @@ void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
 	if (hDown & KEY_A) {
-		if (this->itemSelection < 15) {
-			/* Villager Furniture. */
-			this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), savesType, false, {37}, "Select a Furniture."));
-		} else if (this->itemSelection == 15) {
-			/* Villager Wallpaper. */
-			this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, "Select a Wallpaper."));
-		} else if (this->itemSelection == 16) {
-			/* Villager Carpet. */
-			this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, "Select a Carpet."));
-		} else if (this->itemSelection == 17) {
-			/* Villager Song. */
-			this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, "Select a Song."));
-		} else if (this->itemSelection == 18) {
-			/* Villager Shirt. */
-			this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, "Select a Shirt."));
-		} else if (this->itemSelection == 19) {
-			/* Villager Umbrella. */
-			this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, "Select a Umbrella."));
+		switch(this->itemSelection) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+				/* Villager Furniture. */
+				this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), savesType, false, {37}, "Select a Furniture."));
+				break;
+			
+			case 15:
+				/* Villager Wallpaper. */
+				this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, "Select a Wallpaper."));
+				break;
+
+			case 16:
+				/* Villager Carpet. */
+				this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, "Select a Carpet."));
+				break;
+
+			case 17:
+				/* Villager Song. */
+				this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, "Select a Song."));
+				break;
+
+			case 18:
+				/* Villager Shirt. */
+				this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, "Select a Shirt."));
+				break;
+
+			case 19:
+				/* Villager Umbrella. */
+				this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, "Select a Umbrella."));
+				break;
+		}
+	}
+
+	if (hDown & KEY_TOUCH) {
+		for (int i = 0; i < 20; i++) {
+			if (iconTouch(touch, this->items[i])) {
+				switch(i) {
+					case 0:
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+					case 10:
+					case 11:
+					case 12:
+					case 13:
+					case 14:
+						/* Villager Furniture. */
+						this->villagerItems[i]->id(Overlays::SelectItemCategory(this->villagerItems[i]->id(), savesType, false, {37}, "Select a Furniture."));
+						break;
+
+					case 15:
+						/* Villager Wallpaper. */
+						this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, "Select a Wallpaper."));
+						break;
+
+					case 16:
+						/* Villager Carpet. */
+						this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, "Select a Carpet."));
+						break;
+
+					case 17:
+						/* Villager Song. */
+						this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, "Select a Song."));
+						break;
+
+					case 18:
+						/* Villager Shirt. */
+						this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, "Select a Shirt."));
+						break;
+
+					case 19:
+						/* Villager Umbrella. */
+						this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, "Select a Umbrella."));
+						break;
+				}
+			}
 		}
 	}
 		
 	if (hRepeat & KEY_RIGHT) {
-		if (this->itemSelection < 19) {
-			this->itemSelection++;
-		}
+		if (this->itemSelection < 19) this->itemSelection++;
 	}
 
 	if (hRepeat & KEY_LEFT) {
-		if (this->itemSelection > 0) {
-			this->itemSelection--;
-		}
+		if (this->itemSelection > 0) this->itemSelection--;
 	}
 
 	if (hDown & KEY_B) {
