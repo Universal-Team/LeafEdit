@@ -37,12 +37,15 @@ std::u16string PatternWW::name() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(patternPointer(), 0x216, 15, this->region);
+			return StringUtils::ReadUTF8String(this->patternPointer(), 0x216, 15, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(patternPointer(), 0x212, 9, this->region);
+			return StringUtils::ReadUTF8String(this->patternPointer(), 0x212, 9, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(patternPointer(), 0x21E, 10);
+			return StringUtils::ReadUTF16String(this->patternPointer(), 0x21E, 10);
+
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -54,15 +57,18 @@ void PatternWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteUTF8String(patternPointer(), v, 0x216, 15, this->region);
+			StringUtils::WriteUTF8String(this->patternPointer(), v, 0x216, 15, this->region);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteUTF8String(patternPointer(), v, 0x212, 9, this->region);
+			StringUtils::WriteUTF8String(this->patternPointer(), v, 0x212, 9, this->region);
 			break;
+
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteUTF16String(patternPointer(), v, 0x21E, 10);
+			StringUtils::WriteUTF16String(this->patternPointer(), v, 0x21E, 10);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -74,12 +80,15 @@ u16 PatternWW::creatorid() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x20A);
+			return SaveUtils::Read<u16>(this->patternPointer(), 0x20A);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x208);
+			return SaveUtils::Read<u16>(this->patternPointer(), 0x208);
+
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x20E);
+			return SaveUtils::Read<u16>(this->patternPointer(), 0x20E);
+
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -91,15 +100,18 @@ void PatternWW::creatorid(u16 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			SaveUtils::Write<u16>(patternPointer(), 0x20A, v);
+			SaveUtils::Write<u16>(this->patternPointer(), 0x20A, v);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			SaveUtils::Write<u16>(patternPointer(), 0x208, v);
+			SaveUtils::Write<u16>(this->patternPointer(), 0x208, v);
 			break;
+
 		case WWRegion::KOR_REV1:
-			SaveUtils::Write<u16>(patternPointer(), 0x20E, v);
+			SaveUtils::Write<u16>(this->patternPointer(), 0x20E, v);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -111,12 +123,15 @@ std::u16string PatternWW::creatorname() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(patternPointer(), 0x20C, 7, this->region);
+			return StringUtils::ReadUTF8String(this->patternPointer(), 0x20C, 7, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(patternPointer(), 0x20A, 6, this->region);
+			return StringUtils::ReadUTF8String(this->patternPointer(), 0x20A, 6, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(patternPointer(), 0x210, 6);
+			return StringUtils::ReadUTF16String(this->patternPointer(), 0x210, 6);
+
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -128,15 +143,18 @@ void PatternWW::creatorname(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteUTF8String(patternPointer(), v, 0x20C, 7, this->region);
+			StringUtils::WriteUTF8String(this->patternPointer(), v, 0x20C, 7, this->region);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteUTF8String(patternPointer(), v, 0x20A, 6, this->region);
+			StringUtils::WriteUTF8String(this->patternPointer(), v, 0x20A, 6, this->region);
 			break;
+
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteUTF16String(patternPointer(), v, 0x210, 6);
+			StringUtils::WriteUTF16String(this->patternPointer(), v, 0x210, 6);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -149,11 +167,14 @@ u8 PatternWW::creatorGender() const {
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
 			return this->patternPointer()[0x214];
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			return this->patternPointer()[0x210];
+
 		case WWRegion::KOR_REV1:
 			return this->patternPointer()[0x21C];
+
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -165,15 +186,18 @@ void PatternWW::creatorGender(u8 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			SaveUtils::Write<u8>(patternPointer(), 0x214, v);
+			SaveUtils::Write<u8>(this->patternPointer(), 0x214, v);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			SaveUtils::Write<u8>(patternPointer(), 0x210, v);
+			SaveUtils::Write<u8>(this->patternPointer(), 0x210, v);
 			break;
+
 		case WWRegion::KOR_REV1:
-			SaveUtils::Write<u8>(patternPointer(), 0x21C, v);
+			SaveUtils::Write<u8>(this->patternPointer(), 0x21C, v);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -188,7 +212,8 @@ u16 PatternWW::origtownid() const {
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 		case WWRegion::KOR_REV1:
-			return SaveUtils::Read<u16>(patternPointer(), 0x200);
+			return SaveUtils::Read<u16>(this->patternPointer(), 0x200);
+
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -203,8 +228,9 @@ void PatternWW::origtownid(u16 v) {
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 		case WWRegion::KOR_REV1:
-			SaveUtils::Write<u16>(patternPointer(), 0x200, v);
+			SaveUtils::Write<u16>(this->patternPointer(), 0x200, v);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -216,12 +242,15 @@ std::u16string PatternWW::origtownname() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(patternPointer(), 0x202, 7, this->region);
+			return StringUtils::ReadUTF8String(this->patternPointer(), 0x202, 7, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(patternPointer(), 0x202, 6, this->region);
+			return StringUtils::ReadUTF8String(this->patternPointer(), 0x202, 6, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(patternPointer(), 0x202, 6);
+			return StringUtils::ReadUTF16String(this->patternPointer(), 0x202, 6);
+
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -233,15 +262,18 @@ void PatternWW::origtownname(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteUTF8String(patternPointer(), v, 0x202, 7, this->region);
+			StringUtils::WriteUTF8String(this->patternPointer(), v, 0x202, 7, this->region);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteUTF8String(patternPointer(), v, 0x202, 6, this->region);
+			StringUtils::WriteUTF8String(this->patternPointer(), v, 0x202, 6, this->region);
 			break;
+
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteUTF16String(patternPointer(), v, 0x202, 6);
+			StringUtils::WriteUTF16String(this->patternPointer(), v, 0x202, 6);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -265,12 +297,15 @@ u8 PatternWW::designtype() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return (u8)(patternPointer()[0x226] & 0x0F);
+			return (u8)(this->patternPointer()[0x226] & 0x0F);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return (u8)(patternPointer()[0x21C] & 0x0F);
+			return (u8)(this->patternPointer()[0x21C] & 0x0F);
+
 		case WWRegion::KOR_REV1:
-			return (u8)(patternPointer()[0x232] & 0x0F);
+			return (u8)(this->patternPointer()[0x232] & 0x0F);
+
 		case WWRegion::UNKNOWN:
 			return 0;
 	}
@@ -282,15 +317,18 @@ void PatternWW::designtype(u8 v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			SaveUtils::Write<u8>(this->patternPointer(), 0x226, (patternPointer()[0x226] & 0xF0) | (v & 0x0F));
+			SaveUtils::Write<u8>(this->patternPointer(), 0x226, (this->patternPointer()[0x226] & 0xF0) | (v & 0x0F));
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			SaveUtils::Write<u8>(this->patternPointer(), 0x21C, (patternPointer()[0x21C] & 0xF0) | (v & 0x0F));
+			SaveUtils::Write<u8>(this->patternPointer(), 0x21C, (this->patternPointer()[0x21C] & 0xF0) | (v & 0x0F));
 			break;
+
 		case WWRegion::KOR_REV1:
-			SaveUtils::Write<u8>(this->patternPointer(), 0x232, (patternPointer()[0x232] & 0xF0) | (v & 0x0F));
+			SaveUtils::Write<u8>(this->patternPointer(), 0x232, (this->patternPointer()[0x232] & 0xF0) | (v & 0x0F));
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -301,6 +339,7 @@ void PatternWW::dumpPattern(const std::string fileName) {
 	/* If region == UNKNOWN -> Do NOTHING. */
 	if (this->region != WWRegion::UNKNOWN) {
 		u32 size = 0;
+
 		/* Get size. */
 		switch(this->region) {
 			case WWRegion::USA_REV0:
@@ -308,13 +347,16 @@ void PatternWW::dumpPattern(const std::string fileName) {
 			case WWRegion::EUR_REV1:
 				size = 0x228;
 				break;
+
 			case WWRegion::JPN_REV0:
 			case WWRegion::JPN_REV1:
 				size = 0x220;
 				break;
+
 			case WWRegion::KOR_REV1:
 				size = 0x234;
 				break;
+
 			case WWRegion::UNKNOWN:
 				break;
 		}
@@ -340,6 +382,7 @@ void PatternWW::injectPattern(const std::string fileName) {
 		
 		/* Open file and get size. */
 		FILE* ptrn = fopen(fileName.c_str(), "rb");
+
 		if (ptrn) {
 			fseek(ptrn, 0, SEEK_END);
 			u32 size = ftell(ptrn);
@@ -352,13 +395,16 @@ void PatternWW::injectPattern(const std::string fileName) {
 				case WWRegion::EUR_REV1:
 					if (size == 0x228) allowInject = true;
 					break;
+
 				case WWRegion::JPN_REV0:
 				case WWRegion::JPN_REV1:
 					if (size == 0x220) allowInject = true;
 					break;
+
 				case WWRegion::KOR_REV1:
 					if (size == 0x234) allowInject = true;
 					break;
+
 				case WWRegion::UNKNOWN:
 					break;
 			}
@@ -384,8 +430,7 @@ void PatternWW::injectPattern(const std::string fileName) {
 }
 
 std::unique_ptr<PatternImage> PatternWW::image(const int pattern) const {
-	u32 patternOffset = this->Offset + 0;
-	u32 pltOffset = this->Offset + 0;
+	u32 patternOffset = this->Offset + 0, pltOffset = this->Offset + 0;
 
 	switch(this->region) {
 		case WWRegion::USA_REV0:
@@ -394,15 +439,18 @@ std::unique_ptr<PatternImage> PatternWW::image(const int pattern) const {
 			patternOffset = this->Offset + 0;
 			pltOffset = this->Offset + 0x226;
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			patternOffset = this->Offset + 0;
 			pltOffset = this->Offset + 0x21C;
 			break;
+
 		case WWRegion::KOR_REV1:
 			patternOffset = this->Offset + 0;
 			pltOffset = this->Offset + 0x232;
 			break;
+
 		case WWRegion::UNKNOWN:
 			return nullptr; // What else should be returned?
 			break;

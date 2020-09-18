@@ -44,15 +44,18 @@ void CoreUtils::FixInvalidBuildings(void) {
 	if (save != nullptr) { // Make sure save is not a nullpointer.
 		u32 offset = 0;
 		bool ask = false;
+
 		if (save->getType() == SaveType::WA || save->getType() == SaveType::NL) {
 			if (save->getType() == SaveType::NL) {
-				offset = 0x80+0x049528;
+				offset = 0x80 + 0x049528;
+
 			} else if (save->getType() == SaveType::WA) {
 				offset = 0x04be88;
 			}
 
 			for (int i = 0; i < 58; i++) {
 				u8 building = save->savePointer()[(offset + (i * 4))]; // Get building IDs.
+
 				if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
 					if (!ask) {
 						ask = true;
@@ -77,8 +80,10 @@ u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
 		switch (LanguageID) {
 			case CFG_LANGUAGE_FR: // If lang is French.
 				return 3;
+
 			case CFG_LANGUAGE_ES: // If lang is Spanish.
 				return 2;
+
 			default: // If lang is English & other langs.
 				return 1;
 		}
@@ -87,12 +92,16 @@ u8 CoreUtils::DeriveRegionLockID(u8 RegionID, u8 LanguageID) {
 		switch (LanguageID) {
 			case CFG_LANGUAGE_FR: // If lang is French.
 				return 6;
+
 			case CFG_LANGUAGE_DE: // If lang is German.
 				return 8;
+
 			case CFG_LANGUAGE_IT: // If lang is Italian.
 				return 7;
+
 			case CFG_LANGUAGE_ES: // If lang is Spanish.
 				return 5;
+
 			default:
 				return 4;
 		}
@@ -171,12 +180,15 @@ void CoreUtils::createBackup() {
 				case SaveType::WW:
 					fileName = "ACWW.sav";
 					break;
+
 				case SaveType::NL:
 					fileName = "garden.dat";
 					break;
+
 				case SaveType::WA:
 					fileName = "garden_plus.dat";
 					break;
+
 				case SaveType::UNUSED:
 					fileName = "?";
 					break;
@@ -296,14 +308,17 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 				case WWRegion::JPN_REV1:
 					path = "romfs:/pattern/empty/ww_jpn.acww";
 					break;
+
 				case WWRegion::USA_REV0:
 				case WWRegion::USA_REV1:
 				case WWRegion::EUR_REV1:
 					path = "romfs:/pattern/empty/ww_eur.acww";
 					break;
+
 				case WWRegion::KOR_REV1:
 					path = "romfs:/pattern/empty/ww_kor.acww";
 					break;
+
 				case WWRegion::UNKNOWN:
 					return; // Because invalid.
 			}
@@ -313,6 +328,7 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 		case SaveType::WA:
 			path = "romfs:/pattern/empty/nl.acnl";
 			break;
+
 		case SaveType::UNUSED:
 			return; // Because invalid.
 	}
@@ -446,6 +462,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 				StringUtils::WriteUTF8String(data.get(), ptrn->name(), 0, patternLength, region);
 				StringUtils::WriteUTF8String(data.get(), ptrn->creatorname(), creatorNameStart, creatorLength, region);
 				StringUtils::WriteUTF8String(data.get(), ptrn->origtownname(), townNameStart, townLength, region);
+				
 			} else {
 				StringUtils::WriteUTF16String(data.get(), ptrn->name(), 0, patternLength);
 				StringUtils::WriteUTF16String(data.get(), ptrn->creatorname(), creatorNameStart, creatorLength);

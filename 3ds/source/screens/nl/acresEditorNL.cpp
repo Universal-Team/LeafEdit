@@ -42,6 +42,7 @@ AcresEditorNL::AcresEditorNL(std::unique_ptr<Town> &refTown): town(refTown) {
 
 	if (savesType == SaveType::NL) {
 		this->maxAcres = 203;
+		
 	} else if (savesType == SaveType::WA) {
 		this->maxAcres = 205;
 	}

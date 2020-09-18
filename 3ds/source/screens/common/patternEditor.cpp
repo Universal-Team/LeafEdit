@@ -97,6 +97,7 @@ void PatternEditor::Draw(void) const {
 
 	if (this->pattern->creatorGender()) {
 		Gui::DrawStringCentered(0, 160, 0.7f, BLACK, Lang::get("PATTER_GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
+
 	} else {
 		Gui::DrawStringCentered(0, 160, 0.7f, BLACK, Lang::get("PATTER_GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
 	}
@@ -113,6 +114,7 @@ void PatternEditor::Draw(void) const {
 		for (int i = 0; i < 15; i++) {
 			if (i == this->color) {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, WWPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(160, 0, 0, 255));
+
 			} else {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, WWPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
 			}
@@ -122,6 +124,7 @@ void PatternEditor::Draw(void) const {
 		for (int i = 0; i < 15; i++) {
 			if (i == this->color) {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, NLPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(160, 0, 0, 255));
+				
 			} else {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, NLPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
 			}

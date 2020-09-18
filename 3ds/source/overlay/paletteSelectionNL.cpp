@@ -85,6 +85,7 @@ static void Draw(std::unique_ptr<PatternImage> &pImg, C2D_Image &img, int index)
 	for (int i = 0; i < 15; i++) {
 		if (i == index) {
 			GFX::drawGrid(paletteGrid[i].x, paletteGrid[i].y, paletteGrid[i].w, paletteGrid[i].h, NLPaletteColors[pImg->getPaletteColor(i)], C2D_Color32(180, 0, 0, 255));
+
 		} else {
 			GFX::drawGrid(paletteGrid[i].x, paletteGrid[i].y, paletteGrid[i].w, paletteGrid[i].h, NLPaletteColors[pImg->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
 		}
@@ -119,6 +120,7 @@ static void DrawPaletteSelection(int colorGroup, int selection) {
 		for (int i = 0; i < 9; i++) {
 			if (i == selection) {
 				GFX::drawGrid(colorGrid[i].x, colorGrid[i].y, colorGrid[i].w, colorGrid[i].h, NLPaletteColors[(i + (colorGroup * 16))], C2D_Color32(180, 0, 0, 255));
+
 			} else {
 				GFX::drawGrid(colorGrid[i].x, colorGrid[i].y, colorGrid[i].w, colorGrid[i].h, NLPaletteColors[(i + (colorGroup * 16))], C2D_Color32(0, 0, 0, 255));
 			}
@@ -128,6 +130,7 @@ static void DrawPaletteSelection(int colorGroup, int selection) {
 		for (int i = 0; i < 15; i++) {
 			if (i == selection) {
 				GFX::drawGrid(paletteGrid[i].x, paletteGrid[i].y, paletteGrid[i].w, paletteGrid[i].h, NLPaletteColors[(15 + (colorGroup * i))], C2D_Color32(180, 0, 0, 255));
+
 			} else {
 				GFX::drawGrid(paletteGrid[i].x, paletteGrid[i].y, paletteGrid[i].w, paletteGrid[i].h, NLPaletteColors[(15 + (colorGroup * i))], C2D_Color32(20, 20, 20, 255));
 			}
@@ -241,6 +244,7 @@ void Overlays::PaletteToolNL(std::unique_ptr<PatternImage> &pImg, C2D_Image &img
 					group = 0;
 					selectColor = false;
 				}
+				
 			} else {
 				if (hRepeat & KEY_RIGHT) {
 					if (index < 14) index++;

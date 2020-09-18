@@ -123,6 +123,7 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
@@ -246,6 +247,7 @@ void PlayerEditorNL::DrawAppearance(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->appearanceBtn[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
@@ -401,6 +403,7 @@ void PlayerEditorNL::DrawPlayer(void) const {
 	}
 
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 4; i++) {
 		GFX::DrawButton(this->playerButtons[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->playerButtons[i].x+100, this->playerButtons[i].y+30);
@@ -490,6 +493,7 @@ void PlayerEditorNL::DisplayPattern(void) const {
 
 	if (this->pattern[this->Selection]->creatorGender()) {
 		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
+
 	} else {
 		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
 	}
@@ -564,6 +568,7 @@ void PlayerEditorNL::DrawLetter(void) const {
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->intro()), 400, 0, font);
 		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->body()), 400, 0, font);
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->end()), 400, 0, font);
+		
 	} else {
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "Letter not available.", 395, 0, font);
 	}

@@ -36,6 +36,7 @@ void Settings::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+	
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 1; i++) {

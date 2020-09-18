@@ -28,7 +28,7 @@
 #include "saveUtils.hpp"
 
 u16 LetterNL::playerid() const {
-	return SaveUtils::Read<u16>(letterPointer(), 0x0);
+	return SaveUtils::Read<u16>(this->letterPointer(), 0x0);
 }
 
 std::u16string LetterNL::playername() const {
@@ -36,7 +36,7 @@ std::u16string LetterNL::playername() const {
 }
 
 u16 LetterNL::townid() const {
-	return SaveUtils::Read<u16>(letterPointer(), 0x16);
+	return SaveUtils::Read<u16>(this->letterPointer(), 0x16);
 }
 
 std::u16string LetterNL::townname() const {
@@ -80,5 +80,5 @@ u8 LetterNL::lettertype() const {
 }
 
 std::unique_ptr<Item> LetterNL::item() const {
-	return std::make_unique<ItemNL>(data, Offset + 0x274);
+	return std::make_unique<ItemNL>(this->data, this->Offset + 0x274);
 }

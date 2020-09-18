@@ -398,7 +398,8 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre++;
 				this->currentPosX = 0;
 				updateStuff();
-			} else if (currentPosX < 15) {
+
+			} else if (this->currentPosX < 15) {
 				this->currentPosX++;
 				updateStuff();
 			}
@@ -410,7 +411,8 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre--;
 				this->currentPosX = 15;
 				updateStuff();
-			} else if (currentPosX > 0) {
+
+			} else if (this->currentPosX > 0) {
 				this->currentPosX--;
 				updateStuff();
 			}
@@ -422,7 +424,8 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre += 4;
 				this->currentPosY = 0;
 				updateStuff();
-			} else if (currentPosY < 15) {
+
+			} else if (this->currentPosY < 15) {
 				this->currentPosY++;
 				updateStuff();
 			}
@@ -434,7 +437,8 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre -= 4;
 				this->currentPosY = 15;
 				updateStuff();
-			} else if (currentPosY > 0) {
+
+			} else if (this->currentPosY > 0) {
 				this->currentPosY--;
 				updateStuff();
 			}
@@ -462,6 +466,7 @@ void TownMapEditorWW::DrawTempItem(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
+	
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(tempItemPos[i], 0.7f);
 	}

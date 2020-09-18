@@ -93,6 +93,7 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
 			if ((selection - 9) < 0) {
 				selection = 0;
+
 			} else {
 				selection -= 9;
 			}
@@ -101,6 +102,7 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 			if ((selection + 9) > (int)villagerList.size()-1) {
 				selection = (int)villagerList.size()-1;
+				
 			} else {
 				selection += 9;
 			}

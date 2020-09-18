@@ -91,6 +91,7 @@ Result Init::CheckSheets() {
 	(access("sdmc:/3ds/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
 	(access("sdmc:/3ds/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
 		return 0;
+
 	} else {
 		return -1;
 	}
@@ -102,6 +103,7 @@ Result Init::loadSheets() {
 		if (CheckSheets() != 0) {
 			Msg::DisplayWarnMsg(Lang::get("SPRITESHEETS_NOT_FOUND"));
 			return -1;
+
 		} else {
 			Acres			= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/acres.t3x");
 			Items			= C2D_SpriteSheetLoad("sdmc:/3ds/LeafEdit/assets/items.t3x");
@@ -135,6 +137,7 @@ Result Init::loadFont() {
 		if (access("sdmc:/3ds/LeafEdit/assets/font.bcfnt", F_OK) != 0) {
 			Msg::DisplayWarnMsg(Lang::get("FONT_NOT_FOUND"));
 			return -1;
+
 		} else {
 			Gui::loadFont(font, "sdmc:/3ds/LeafEdit/assets/font.bcfnt");
 		}
@@ -163,6 +166,7 @@ Result Init::Init() {
 	mkdir("sdmc:/3ds", 0777); // For DSP dump
 	mkdir("sdmc:/3ds/LeafEdit", 0777); // main Path.
 	mkdir("sdmc:/3ds/LeafEdit/assets", 0777); // Assets path.
+
 	/* Towns. */
 	mkdir("sdmc:/3ds/LeafEdit/Towns", 0777); // Town Management Path.
 	mkdir("sdmc:/3ds/LeafEdit/Towns/New-Leaf", 0777); // New Leaf Path.
@@ -170,8 +174,10 @@ Result Init::Init() {
 	mkdir("sdmc:/3ds/LeafEdit/Towns/Welcome-Luxury", 0777); // Welcome Luxury Path.
 	mkdir("sdmc:/3ds/LeafEdit/Towns/Wild-World", 0777); // Wild World Path.
 	mkdir("sdmc:/3ds/LeafEdit/Backups", 0777); // Backup path.
+
 	/* Pattern. */
 	mkdir("sdmc:/3ds/LeafEdit/Pattern", 0777);
+
 	/* Pattern Editor. */
 	mkdir("sdmc:/3ds/LeafEdit/Pattern-Editor", 0777);
 
@@ -192,7 +198,7 @@ Result Init::Init() {
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 
 	/* If sheets not found -> Download it. */
-	if (CheckSheets() != 0) { Download::downloadAssets(); }
+	if (CheckSheets() != 0) Download::downloadAssets();
 
 	/* Only Load Font if found, else load System font. */
 	loadFont();
@@ -205,11 +211,11 @@ Result Init::Init() {
 	getCurrentUsage();
 	char path[PATH_MAX];
 	getcwd(path, PATH_MAX);
-	if (is3dsx == true) {
-			path3dsx = path;
-			if (path3dsx == "sdmc:/") {
-				path3dsx = path3dsx.substr(5, path3dsx.size());
-			} else {
+
+	if (is3dsx) {
+		path3dsx = path;
+		if (path3dsx == "sdmc:/") {
+			path3dsx = path3dsx.substr(5, path3dsx.size());
 		}
 	}
 
@@ -219,6 +225,7 @@ Result Init::Init() {
 /* Screen set & Init part. */
 Result Init::Initialize() {
 	Init(); // Init base stuff.
+
 	if (doFade) {
 		fadein = true;
 		fadealpha = 255;
@@ -271,12 +278,13 @@ Result Init::Exit() {
 	*/
 
 	unloadSheets();
+	Init::unloadFont();
+	Gui::unloadSheet(GUI);
+	config->save();
+	Gui::exit();
+
 	acExit();
 	amExit();
-	Gui::exit();
-	Init::unloadFont();
-	config->save();
-	Gui::unloadSheet(GUI);
 	cfguExit();
 	gfxExit();
 	romfsExit();

@@ -45,6 +45,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, const std
 	GFX::DrawFileBrowseBG();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Text, 395, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395, 0, font);
+
 	for (uint i = (Selection < 8) ? 0 : Selection - 8; i < dirContents.size() && i < ((Selection < 8) ? 9 : Selection + 1); i++) {
 		files += dirContents[i].name + "\n";
 	}
@@ -55,6 +56,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, const std
 
 	if (Selection < 9) GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else GFX::DrawSelector(true, 24 + (8 * 21));
+
 	Gui::DrawString(5, 25, 0.85f, BLACK, files, 360, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -74,6 +76,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 	chdir(initialPath.c_str());
 	std::vector<DirEntry> dirContentsTemp;
 	getDirectoryContents(dirContentsTemp, fileType);
+
 	for(uint i = 0; i < dirContentsTemp.size(); i++) {
 		dirContents.push_back(dirContentsTemp[i]);
 	}
@@ -93,6 +96,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 			dirContents.clear();
 			std::vector<DirEntry> dirContentsTemp;
 			getDirectoryContents(dirContentsTemp, fileType);
+
 			for(uint i = 0; i < dirContentsTemp.size(); i++) {
 				dirContents.push_back(dirContentsTemp[i]);
 			}
@@ -105,6 +109,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 				chdir(dirContents[selectedFile].name.c_str());
 				selectedFile = 0;
 				dirChanged = true;
+
 			} else {
 				char path[PATH_MAX];
 				getcwd(path, PATH_MAX);
@@ -116,6 +121,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
 			if ((selectedFile - 9) < 0) {
 				selectedFile = 0;
+
 			} else {
 				selectedFile -= 9;
 			}
@@ -124,6 +130,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 			if ((selectedFile + 9) > (int)dirContents.size()-1) {
 				selectedFile = (int)dirContents.size()-1;
+
 			} else {
 				selectedFile += 9;
 			}
@@ -148,6 +155,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 				if (Msg::promptMsg(Lang::get("CANCEL_FILE_SELECTION"))) {
 					return "";
 				}
+				
 			} else {
 				chdir("..");
 				selectedFile = 0;

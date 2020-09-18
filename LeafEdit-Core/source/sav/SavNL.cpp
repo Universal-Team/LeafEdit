@@ -30,27 +30,29 @@
 /* Get Player data. */
 std::unique_ptr<Player> SavNL::player(int player, int index) const {
 	if (player > 3 || index > 3) return nullptr; // Player goes out of scope.
-	return std::make_unique<PlayerNL>(dataPointer, 0xA0 + (player * 0x9F10), index);
+
+	return std::make_unique<PlayerNL>(this->dataPointer, 0xA0 + (player * 0x9F10), index);
 }
 
 /* Get Villager data. */
 std::unique_ptr<Villager> SavNL::villager(int villager) const {
 	if (villager > 9) return nullptr; // Villager goes out of scope.
-	return std::make_unique<VillagerNL>(dataPointer, 0x027d10 + (villager * 0x24f8));
+
+	return std::make_unique<VillagerNL>(this->dataPointer, 0x027d10 + (villager * 0x24f8));
 }
 
 /* Get Town data. */
 std::unique_ptr<Town> SavNL::town() const {
-	return std::make_unique<TownNL>(dataPointer);
+	return std::make_unique<TownNL>(this->dataPointer);
 }
 
 /* Get Island data. */
 std::unique_ptr<Island> SavNL::island() const {
-	return std::make_unique<IslandNL>(dataPointer);
+	return std::make_unique<IslandNL>(this->dataPointer);
 }
 
 std::unique_ptr<Shop> SavNL::shop() const {
-	return std::make_unique<ShopNL>(dataPointer, 0);
+	return std::make_unique<ShopNL>(this->dataPointer, 0);
 }
 
 /* Last call before writing to file. Update Checksum. */

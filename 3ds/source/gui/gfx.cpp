@@ -38,16 +38,19 @@ void GFX::DrawGUI(int img, int x, int y, float ScaleX, float ScaleY) {
 
 void GFX::DrawGUIBlend(int img, int x, int y, float ScaleX, float ScaleY, u32 color) {
 	C2D_ImageTint tint;
+
 	C2D_SetImageTint(&tint, C2D_TopLeft, color, 0.5);
 	C2D_SetImageTint(&tint, C2D_TopRight, color, 0.5);
 	C2D_SetImageTint(&tint, C2D_BotLeft, color, 0.5);
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 0.5);
+
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(GUI, img), x, y, 0.5f,  &tint, ScaleX, ScaleY);
 }
 
 /* Code from PKSM. https://github.com/FlagBrew/PKSM/blob/master/3ds/source/gui/gui.cpp#L73 */
 Tex3DS_SubTexture _select_box(const C2D_Image& image, int x, int y, int endX, int endY) {
 	Tex3DS_SubTexture tex = *image.subtex;
+
 	if (x != endX) {
 		int deltaX	= endX - x;
 		float texRL	= tex.left - tex.right;
@@ -75,12 +78,15 @@ void GFX::DrawSelector(bool top, int y) {
 		/* Draw Sides. */
 		DrawGUI(gui_selector_side_idx, 0, y);
 		DrawGUI(gui_selector_side_idx, 391, y, -1.0, 1.0);
+
 		/* Stretch the middle. */
 		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 382.0, 1);
+
 	} else {
 		/* Draw Sides. */
 		DrawGUI(gui_selector_side_idx, 0, y);
 		DrawGUI(gui_selector_side_idx, 311, y, -1.0, 1.0);
+
 		/* Stretch the middle. */
 		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 302.0, 1);
 	}
@@ -129,6 +135,7 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 
 void GFX::DrawTop(bool useBars, bool fullscreen) {
 	Gui::ScreenDraw(Top);
+
 	if (!fullscreen) {
 		/* Draw Tiled BG. */
 		DrawGUI(gui_tileBG_idx, 0, 0);
@@ -137,12 +144,15 @@ void GFX::DrawTop(bool useBars, bool fullscreen) {
 		DrawGUI(gui_tileBG_idx, 0, 132);
 		DrawGUI(gui_tileBG_idx, 135, 132);
 		DrawGUI(gui_tileBG_idx, 270, 132);
+
 		/* Draw grass bar on bottom. */
 		DrawGUI(gui_bar_idx, 0, 215);
+
 		if (useBars) {
 			/* Draw Text bar, so Text is readable. */
 			DrawGUI(gui_top_bar_idx, 0, 0);
 		}
+
 	} else {
 		/* Just solid. */
 		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(215, 178, 111, 255)); // Draw BG based on Tile's color.
@@ -151,12 +161,14 @@ void GFX::DrawTop(bool useBars, bool fullscreen) {
 
 void GFX::DrawBottom(bool fullscreen) {
 	Gui::ScreenDraw(Bottom);
+
 	DrawGUI(gui_tileBG_idx, 0, 0);
 	DrawGUI(gui_tileBG_idx, 135, 0);
 	DrawGUI(gui_tileBG_idx, 270, 0);
 	DrawGUI(gui_tileBG_idx, 0, 132);
 	DrawGUI(gui_tileBG_idx, 135, 132);
 	DrawGUI(gui_tileBG_idx, 270, 132);
+
 	if (!fullscreen) {
 		DrawGUI(gui_bar_idx, 0, 0, 1, -1);
 		DrawGUI(gui_bar_idx, 0, 215);
@@ -166,26 +178,33 @@ void GFX::DrawBottom(bool fullscreen) {
 void GFX::DrawFileBrowseBG(bool isTop) {
 	if (isTop) {
 		Gui::ScreenDraw(Top);
+
 		/* Draw Bakground. */
 		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+
 		/* Draw FileBrowse Bars. */
 		Gui::Draw_Rect(0, 45, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 87, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 129, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 171, 400, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+
 		/* Draw Textbox bars. */
 		DrawGUI(gui_top_bar_idx, 0, 0);
 		DrawGUI(gui_bottom_bar_idx, 0, 208);
+
 	} else {
 		Gui::ScreenDraw(Bottom);
+
 		/* Draw Background. */
 		Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+
 		/* Draw FileBrowse Bars. */
 		Gui::Draw_Rect(0, 24, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 67, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 109, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 152, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
 		Gui::Draw_Rect(0, 194, 320, 21, C2D_Color32(0xDF, 0xBB, 0x78, 255));
+
 		/* Draw grass Bars. */
 		DrawGUI(gui_bar_idx, 0, 0, 1, -1);
 		DrawGUI(gui_bar_idx, 0, 215);
@@ -241,6 +260,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> &list, const 
 		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
 			if ((selection - 9) < 0) {
 				selection = 0;
+
 			} else {
 				selection -= 9;
 			}
@@ -249,6 +269,7 @@ int GFX::ListSelection(int current, const std::vector<std::string> &list, const 
 		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 			if ((selection + 9) > (int)list.size()-1) {
 				selection = (int)list.size()-1;
+
 			} else {
 				selection += 9;
 			}

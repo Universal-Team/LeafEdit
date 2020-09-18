@@ -42,13 +42,16 @@ void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float Scale
 			case SaveType::WW:
 				Gui::DrawSprite(Players, 56 + hair, x, y, ScaleX, ScaleY); // Hair & Face are the same on AC:WW.
 				break;
+
 			case SaveType::NL:
 			case SaveType::WA:
 				if (hair == 16 || hair == 33) break;
-				if (hair < 17) Gui::DrawSprite(Players, hair, x, y, ScaleX, ScaleY); // Hair starts at 0.
-				else Gui::DrawSprite(Players, hair - 1, x, y, ScaleX, ScaleY);
 
+				if (hair < 17) Gui::DrawSprite(Players, hair, x, y, ScaleX, ScaleY); // Hair starts at 0.
+
+				else Gui::DrawSprite(Players, hair - 1, x, y, ScaleX, ScaleY);
 				break;
+
 			case SaveType::UNUSED:
 				break;
 		}
@@ -62,15 +65,18 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 			case SaveType::WW:
 				Gui::DrawSprite(Players, 56 + face, x, y, ScaleX, ScaleY); // Hair & Face are the same on AC:WW.
 				break;
+
 			case SaveType::NL:
 			case SaveType::WA:
 				/* Face starts at 32. */
 				if (Gender == 1) {
 					Gui::DrawSprite(Players, 32 + face + 12, x, y, ScaleX, ScaleY);
+
 				} else {
 					Gui::DrawSprite(Players, 32 + face, x, y, ScaleX, ScaleY);
 				}
 				break;
+
 			case SaveType::UNUSED:
 				break;
 		}
@@ -83,10 +89,12 @@ void SpriteManagement::DrawItem(u16 itemCategory, int x, int y, float ScaleX, fl
 		switch(save->getType()) {
 			case SaveType::WW:
 				break; // No Sprites for AC:WW implemented.
+
 			case SaveType::NL:
 			case SaveType::WA:
 				Gui::DrawSprite(Items, itemCategory, x, y, ScaleX, ScaleY);
 				break;
+
 			case SaveType::UNUSED:
 				break;
 		}
@@ -100,15 +108,20 @@ void SpriteManagement::DrawAcres(u8 acreID, int x, int y, float ScaleX, float Sc
 			case SaveType::WW:
 				Gui::DrawSprite(Acres, 219 + acreID, x, y, ScaleX, ScaleY); // Acre starts at 219 here.
 				break;
+
 			case SaveType::NL:
 				/* AC:NL has a bit different exception there. */
 				if (acreID < 155) Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY); // Normal handling.
+
 				else if (acreID > 154 && acreID < 165) Gui::DrawSprite(Acres, acreID + 1, x, y, ScaleX, ScaleY); // +1 cause one skipped Acre.
+
 				else if (acreID > 164) Gui::DrawSprite(Acres, acreID + 2, x, y, ScaleX, ScaleY); // +2 cause two skipped Acre.
 				break;
+
 			case SaveType::WA:
 				Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY);
 				break;
+
 			case SaveType::UNUSED:
 				break;
 		}
@@ -177,10 +190,10 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 
 				if (villagerID < 78) {
 					Gui::DrawSprite(Villager, wwVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
+
 				} else {
 					Gui::DrawSprite(Villager2, wwVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
 				}
-
 				break;
 				
 			case SaveType::NL:
@@ -191,10 +204,10 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 
 				if (villagerID < 168) {
 					Gui::DrawSprite(Villager, nlVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
+
 				} else {
 					Gui::DrawSprite(Villager2, nlVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
 				}
-
 				break;
 
 			case SaveType::WA:
@@ -206,11 +219,12 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 
 				if (villagerID < 200) {
 					Gui::DrawSprite(Villager, villagerID, x, y, ScaleX, ScaleY);
+
 				} else {
 					Gui::DrawSprite(Villager2, villagerID - 200, x, y, ScaleX, ScaleY);
 				}
-
 				break;
+
 			case SaveType::UNUSED:
 				break;
 		}
@@ -223,14 +237,17 @@ void SpriteManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float Sc
 		switch(save->getType()) {
 			case SaveType::WW:
 				break; // Don't exist here.
+
 			case SaveType::NL:
 			case SaveType::WA:
 				if (badge != 0) {
 					Gui::DrawSprite(Items, 394 + 3 * badgeGroup + badge - 1, x, y, ScaleX, ScaleY);
+
 				} else {
 					Gui::DrawSprite(Items, 394 + 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
 				}
 				break;
+				
 			case SaveType::UNUSED:
 				break;
 		}	

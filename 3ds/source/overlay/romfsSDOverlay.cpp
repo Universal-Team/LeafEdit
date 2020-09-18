@@ -44,6 +44,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, bool romf
 	GFX::DrawFileBrowseBG();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Text + " " + std::string(romfs ? "[RomFS]" : "[" + Lang::get("SD_CARD") + "]"), 395, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395, 0, font);
+
 	for (uint i = (Selection < 8) ? 0 : Selection - 8; i < dirContents.size() && i < ((Selection < 8) ? 9 : Selection + 1); i++) {
 		files += dirContents[i].name + "\n";
 	}
@@ -78,6 +79,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 	chdir(romfsPath.c_str());
 	std::vector<DirEntry> dirContentsTemp;
 	getDirectoryContents(dirContentsTemp, extensions);
+
 	for(uint i = 0; i < dirContentsTemp.size(); i++) {
 		dirContents.push_back(dirContentsTemp[i]);
 	}
@@ -97,6 +99,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 			dirContents.clear();
 			std::vector<DirEntry> dirContentsTemp;
 			getDirectoryContents(dirContentsTemp, extensions);
+
 			for(uint i = 0; i < dirContentsTemp.size(); i++) {
 				dirContents.push_back(dirContentsTemp[i]);
 			}
@@ -107,6 +110,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
 			if ((selectedFile - 9) < 0) {
 				selectedFile = 0;
+
 			} else {
 				selectedFile -= 9;
 			}
@@ -115,6 +119,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 			if ((selectedFile + 9) > (int)dirContents.size()-1) {
 				selectedFile = (int)dirContents.size()-1;
+
 			} else {
 				selectedFile += 9;
 			}
@@ -139,6 +144,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 					chdir(dirContents[selectedFile].name.c_str());
 					selectedFile = 0;
 					dirChanged = true;
+
 				} else {
 					char path[PATH_MAX];
 					getcwd(path, PATH_MAX);
@@ -152,6 +158,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 			getcwd(path, PATH_MAX);
 			if (strcmp(path, SDPath.c_str()) == 0 || strcmp(path, "/") == 0 || strcmp(path, romfsPath.c_str()) == 0) {
 				return "";
+
 			} else {
 				chdir("..");
 				selectedFile = 0;
@@ -163,6 +170,7 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 			if (romfsMode) {
 				romfsMode = false;
 				chdir(SDPath.c_str());
+				
 			} else {
 				romfsMode = true;
 				chdir(romfsPath.c_str());

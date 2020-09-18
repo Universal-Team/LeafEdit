@@ -122,6 +122,7 @@ void ItemEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 void ItemEditorNL::DrawSlotSelection(void) const {
 	if (this->Mode != 1) {
 		GFX::DrawGUIBlend(gui_itemHole_idx, this->iconSlots[this->selectedItem].x, this->iconSlots[this->selectedItem].y, 1, 1, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+
 	} else {
 		GFX::DrawGUIBlend(gui_itemHole_idx, this->pocketSlots[this->selectedItem].x, this->pocketSlots[this->selectedItem].y, 1, 1, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	}
@@ -134,6 +135,7 @@ void ItemEditorNL::DrawSubMenu(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x + 100, this->mainButtons[i].y + 30);
@@ -213,6 +215,7 @@ void ItemEditorNL::DrawPocket(void) const {
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->pockets[this->selectedItem]->name(), 400, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 16; i++) {
@@ -266,6 +269,7 @@ void ItemEditorNL::DrawIslandBox(void) const {
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->islandBox[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
+
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
@@ -335,6 +339,7 @@ void ItemEditorNL::DrawDresser(void) const {
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->dresser[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
+
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
@@ -404,6 +409,7 @@ void ItemEditorNL::DrawStorage(void) const {
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->storage[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
+	
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {

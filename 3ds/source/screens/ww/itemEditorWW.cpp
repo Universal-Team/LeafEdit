@@ -87,6 +87,7 @@ void ItemEditorWW::DrawSubMenu(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEMS"), 395, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {
@@ -143,6 +144,7 @@ void ItemEditorWW::DrawPocket(void) const {
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->pockets[this->selectedItem]->name(), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 15; i++) {
@@ -190,6 +192,7 @@ void ItemEditorWW::DrawDresser(void) const {
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentBox + 1), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->dresser[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
+	
 	GFX::DrawBottom();
 
 	for (int i = 0 + (10 * this->currentBox), i2 = 0; i < 10 + (10 * this->currentBox); i++, i2++) {

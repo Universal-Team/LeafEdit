@@ -43,6 +43,7 @@ void UpdateCenter::checkUpdate() {
 	/* Get Latest Release & Nightly. */
 	latestRelease = Download::getLatestRelease2();
 	latestNightly = Download::getLatestNightly();
+
 	/* Check if Nightly & Release matches. */
 	if (config->currentRelease() != latestRelease.Version) ReleaseAvailable = true;
 	if (config->currentNightly() != latestNightly.Target) NightlyAvailable = true;
@@ -77,13 +78,14 @@ void UpdateCenter::DrawMain(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER"), 400, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
-	/* Display some Informations. */
 
+	/* Display some Informations. */
 	if (this->Selection == 0) {
 		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, Lang::get("LATEST_VERSION") + latestRelease.Version, 395, 0, font);
 		Gui::DrawStringCentered(0, 80, 0.8f, BLACK, Lang::get("PUBLISHED_AT") + latestRelease.Published, 395, 90, font);
 		Gui::DrawStringCentered(0, 100, 0.8f, BLACK, latestRelease.ReleaseName, 395, 0, font);
 		Gui::DrawStringCentered(0, 218, 0.9f, WHITE, Lang::get("CURRENT_VERSION") + config->currentRelease(), 395, 0, font);
+
 	} else if (this->Selection == 1) {
 		Gui::DrawStringCentered(0, 40, 0.8f, BLACK, Lang::get("LATEST_VERSION") + latestNightly.Target, 395, 0, font);
 		Gui::DrawStringCentered(0, 60, 0.8f, BLACK, Lang::get("COMMITTED_BY") + latestNightly.Committer, 395, 90, font);
@@ -262,8 +264,8 @@ void UpdateCenter::DrawExtras(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("UPDATE_CENTER") + " Extras", 400, 0, font);
 	GFX::DrawGUI(gui_pattern_editor_idx, 25 + 1, 35 + 1);
-	GFX::DrawBottom();
 
+	GFX::DrawBottom();
 	Gui::DrawStringCentered(0, 35, 0.7f, BLACK, Lang::get("APP") + this->extraNames[this->selectedExtra], 310, 0, font);
 	Gui::DrawStringCentered(0, 50, 0.7f, BLACK, Lang::get("AUTHOR") + this->extraAuthorNames[this->selectedExtra], 310, 0, font);
 

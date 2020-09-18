@@ -102,10 +102,9 @@ ItemBin_s* ItemUtils::GetItemBinSlot(u16 ItemID) {
 	if (chk < 0 || chk > maxID) {
 		delete ItemSlot;
 		return nullptr;
-	}
 
-	/* chk <= maxID. */
-	else if (g_ItemBin) {
+	} else if (g_ItemBin) {
+		/* chk <= maxID. */
 		fseek(g_ItemBin, sizeof(ItemBin_s)*chk, SEEK_SET);
 		if ((fread(reinterpret_cast<void*>(ItemSlot), 1, sizeof(ItemBin_s), g_ItemBin)) >= 0) return ItemSlot;
 	}

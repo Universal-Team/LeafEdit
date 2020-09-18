@@ -100,6 +100,7 @@ void PlayerSelector::Draw(void) const {
 				case SaveType::WA:
 					if (this->TPC[i].tex && this->imageLoaded[i]) {
 						C2D_DrawImageAt(this->TPC[i], (float)(100 * i) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
+						
 					} else {
 						GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f);
 					}

@@ -44,6 +44,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, const std
 	GFX::DrawFileBrowseBG();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Text, 395, 0, font);
 	Gui::DrawStringCentered(0, 217, 0.9f, WHITE, Lang::get("REFRESH"), 395, 0, font);
+
 	for (uint i = (Selection < 8) ? 0 : Selection - 8; i < dirContents.size() && i < ((Selection < 8) ? 9 : Selection + 1); i++) {
 		files += dirContents[i].name + "\n";
 	}
@@ -77,6 +78,7 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 	chdir(initialPath.c_str());
 	std::vector<DirEntry> dirContentsTemp;
 	getDirectoryContents(dirContentsTemp, {});
+
 	for(uint i = 0; i < dirContentsTemp.size(); i++) {
 		dirContents.push_back(dirContentsTemp[i]);
 	}
@@ -96,6 +98,7 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 			dirContents.clear();
 			std::vector<DirEntry> dirContentsTemp;
 			getDirectoryContents(dirContentsTemp, {});
+
 			for(uint i = 0; i < dirContentsTemp.size(); i++) {
 				dirContents.push_back(dirContentsTemp[i]);
 			}
@@ -122,6 +125,7 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 		if ((hRepeat & KEY_LEFT) || (hRepeat & KEY_L)) {
 			if ((selectedDir - 9) < 0) {
 				selectedDir = 0;
+
 			} else {
 				selectedDir -= 9;
 			}
@@ -130,6 +134,7 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 			if ((selectedDir + 9) > (int)dirContents.size()-1) {
 				selectedDir = (int)dirContents.size()-1;
+
 			} else {
 				selectedDir += 9;
 			}
@@ -152,6 +157,7 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 			getcwd(path, PATH_MAX);
 			if (strcmp(path, "sdmc:/") == 0 || strcmp(path, "/") == 0) {
 				return defaultDest;
+				
 			} else {
 				chdir("..");
 				selectedDir = 0;

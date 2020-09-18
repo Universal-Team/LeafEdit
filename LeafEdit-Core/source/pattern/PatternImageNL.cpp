@@ -29,6 +29,7 @@
 
 u8 PatternImageNL::getPaletteColor(u8 plt) const {
 	if (plt > 14) return 0;
+
 	return (u8)this->paletteData()[plt];
 }
 
@@ -37,6 +38,7 @@ int PatternImageNL::getWWPaletteIndex() const { return 0; }
 
 void PatternImageNL::setPaletteColor(int index, u8 color) {
 	if (index > 15) return;
+	
 	SaveUtils::Write<u8>(this->paletteData(), index, color);
 }
 

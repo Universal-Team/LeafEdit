@@ -396,6 +396,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre++;
 				this->currentPosX = 0;
 				updateStuff();
+
 			} else if (this->currentPosX < 15) {
 				this->currentPosX++;
 				updateStuff();
@@ -408,6 +409,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre--;
 				this->currentPosX = 15;
 				updateStuff();
+
 			} else if (this->currentPosX > 0) {
 				this->currentPosX--;
 				updateStuff();
@@ -420,6 +422,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre += 5;
 				this->currentPosY = 0;
 				updateStuff();
+
 			} else if (this->currentPosY < 15) {
 				this->currentPosY++;
 				updateStuff();
@@ -432,6 +435,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre -= 5;
 				this->currentPosY = 15;
 				updateStuff();
+				
 			} else if (this->currentPosY > 0) {
 				this->currentPosY--;
 				updateStuff();

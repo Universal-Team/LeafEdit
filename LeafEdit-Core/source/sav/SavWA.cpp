@@ -30,27 +30,29 @@
 /* Get Player data. */
 std::unique_ptr<Player> SavWA::player(int player, int index) const {
 	if (player > 3 || index > 3) return nullptr; // Player goes out of scope.
-	return std::make_unique<PlayerWA>(dataPointer, 0xA0 + (player * 0xA480), index);
+
+	return std::make_unique<PlayerWA>(this->dataPointer, 0xA0 + (player * 0xA480), index);
 }
 
 /* Get Villager data. */
 std::unique_ptr<Villager> SavWA::villager(int villager) const {
 	if (villager > 9) return nullptr; // Villager goes out of scope.
-	return std::make_unique<VillagerWA>(dataPointer, 0x0292D0 + (villager * 0x2518));
+
+	return std::make_unique<VillagerWA>(this->dataPointer, 0x0292D0 + (villager * 0x2518));
 }
 
 /* Get Town data. */
 std::unique_ptr<Town> SavWA::town() const {
-	return std::make_unique<TownWA>(dataPointer);
+	return std::make_unique<TownWA>(this->dataPointer);
 }
 
 /* Get Island data. */
 std::unique_ptr<Island> SavWA::island() const {
-	return std::make_unique<IslandWA>(dataPointer);
+	return std::make_unique<IslandWA>(this->dataPointer);
 }
 
 std::unique_ptr<Shop> SavWA::shop() const {
-	return std::make_unique<ShopWA>(dataPointer, 0);
+	return std::make_unique<ShopWA>(this->dataPointer, 0);
 }
 
 /* Last call before writing to file. Update Checksum. */

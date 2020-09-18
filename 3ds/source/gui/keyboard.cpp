@@ -20,7 +20,6 @@ std::string Input::setString(uint maxLength, std::string old, std::string Text) 
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text, font))/2, 0.8f, WHITE, Text, 385, 100, font);
 	C3D_FrameEnd(0);
 
-	C3D_FrameEnd(0);
 	SwkbdState state;
 	swkbdInit(&state, SWKBD_TYPE_NORMAL, 2, maxLength);
 	char temp[maxLength + 1] = {0};

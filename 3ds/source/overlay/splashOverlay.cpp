@@ -31,10 +31,12 @@ static void Draw(void) {
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
+
 	Gui::ScreenDraw(Top);
 	GFX::DrawGUI(gui_dev_by_idx, 0, 0);
 	Gui::DrawString(395-Gui::GetStringWidth(0.50, "2019-2020"), 218, 0.50, C2D_Color32(255, 255, 255, 255), "2019-2020");
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(23, 121, 53, 255));
 	GFX::DrawGUI(gui_banner_idx, 32, 56);
@@ -47,6 +49,7 @@ void Overlays::SplashOverlay() {
 	fadealpha = 255;
 	int delay = 200; // The delay for exiting the overlay.
 	bool doOut = false;
+	
 	while(!doOut) {
 		Draw();
 		Gui::fadeEffects(16, 16, false);

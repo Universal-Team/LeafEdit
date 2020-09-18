@@ -75,36 +75,42 @@ Config::Config() {
 
 	if (!this->json.contains("CurrentRelease")) {
 		this->currentRelease("");
+
 	} else {
 		this->currentRelease(this->getString("CurrentRelease"));
 	}
 
 	if (!this->json.contains("CurrentNightly")) {
 		this->currentNightly("");
+
 	} else {
 		this->currentNightly(this->getString("CurrentNightly"));
 	}
 
 	if (!this->json.contains("Language")) {
 		this->language(1);
+
 	} else {
 		this->language(this->getInt("Language"));
 	}
 
 	if (!this->json.contains("Create_Backups")) {
 		this->createBackups(true);
+
 	} else {
 		this->createBackups(this->getBool("Create_Backups"));
 	}
 
 	if (!this->json.contains("Show_Wiki")) {
 		this->showWiki(true);
+
 	} else {
 		this->showWiki(this->getBool("Show_Wiki"));
 	}
 
 	if (!this->json.contains("Version")) {
 		this->version(this->configVersion);
+
 	} else {
 		this->version(this->getInt("Version"));
 	}
@@ -135,9 +141,7 @@ void Config::save() {
 
 
 bool Config::getBool(const std::string &key) {
-	if (!this->json.contains(key)) {
-		return false;
-	}
+	if (!this->json.contains(key)) return false;
 
 	return this->json.at(key).get_ref<const bool&>();
 }
@@ -145,9 +149,7 @@ bool Config::getBool(const std::string &key) {
 void Config::setBool(const std::string &key, bool v) { this->json[key] = v; }
 
 int Config::getInt(const std::string &key) {
-	if (!this->json.contains(key)) {
-		return 0;
-	}
+	if (!this->json.contains(key)) return 0;
 
 	return this->json.at(key).get_ref<const int64_t&>();
 }
@@ -155,9 +157,7 @@ int Config::getInt(const std::string &key) {
 void Config::setInt(const std::string &key, int v) { this->json[key] = v; }
 
 std::string Config::getString(const std::string &key) {
-	if (!this->json.contains(key)) {
-		return "";
-	}
+	if (!this->json.contains(key)) return "";
 
 	return this->json.at(key).get_ref<const std::string&>();
 }

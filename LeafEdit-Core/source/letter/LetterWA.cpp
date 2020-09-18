@@ -28,7 +28,7 @@
 #include "saveUtils.hpp"
 
 u16 LetterWA::playerid() const {
-	return SaveUtils::Read<u16>(letterPointer(), 0x0);
+	return SaveUtils::Read<u16>(this->letterPointer(), 0x0);
 }
 
 std::u16string LetterWA::playername() const {
@@ -36,7 +36,7 @@ std::u16string LetterWA::playername() const {
 }
 
 u16 LetterWA::townid() const {
-	return SaveUtils::Read<u16>(letterPointer(), 0x16);
+	return SaveUtils::Read<u16>(this->letterPointer(), 0x16);
 }
 
 std::u16string LetterWA::townname() const {
@@ -80,5 +80,5 @@ u8 LetterWA::lettertype() const {
 }
 
 std::unique_ptr<Item> LetterWA::item() const {
-	return std::make_unique<ItemWA>(data, Offset + 0x274);
+	return std::make_unique<ItemWA>(this->data, this->Offset + 0x274);
 }

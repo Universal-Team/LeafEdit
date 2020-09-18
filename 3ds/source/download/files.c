@@ -7,6 +7,7 @@ FS_Path getPathInfo(const char * path, FS_ArchiveID * archive) {
 
 	if (!strncmp(path, "sdmc:/", 6)) {
 		prefixlen = 5;
+		
 	} else if (*path != '/') {
 		/* if the path is local (doesnt start with a slash), it needs to be appended to the working dir to be valid. */
 		char * actualPath = NULL;

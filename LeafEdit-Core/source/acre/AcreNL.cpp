@@ -33,7 +33,7 @@
 */
 
 u8 AcreNL::id() const {
-	return acrePointer()[0];
+	return this->acrePointer()[0];
 }
 void AcreNL::id(u8 v) {
 	SaveUtils::Write<u8>(this->acrePointer(), 0x0, v);

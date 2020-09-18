@@ -108,6 +108,7 @@ u8 BadgeEditor::setAll() {
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
+		
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("SET_BADGES_TO"), 395, 0, font);
 		GFX::DrawBottom();

@@ -211,6 +211,7 @@ void PlayerEditorWW::DrawAppearance(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
+
 	for (int i = 0; i < 5; i++) {
 		GFX::DrawButton(this->appearanceBtn[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->appearanceBtn[i].x+100, this->appearanceBtn[i].y+30);
@@ -399,6 +400,7 @@ void PlayerEditorWW::DisplayPattern(void) const {
 
 	if (this->pattern[this->Selection]->creatorGender()) {
 		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
+		
 	} else {
 		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
 	}

@@ -29,6 +29,7 @@
 
 u8 PatternImageWW::getPaletteColor(u8 plt) const {
 	if (plt > 15) return 0;
+
 	u8 paletteIndex = (u8)(((this->paletteData()[0]) & 0xF0) >> 4);
 	return (u8)((paletteIndex * 15) + plt);
 }
@@ -39,6 +40,7 @@ int PatternImageWW::getWWPaletteIndex() const {
 
 void PatternImageWW::setPaletteColor(int index, u8 color) {
 	if (index > 14) return;
+	
 	this->paletteData()[0] = (u8)(((index) << 4) & 0xF0);
 }
 

@@ -33,31 +33,31 @@
 
 /* Pattern Name. */
 std::u16string PatternWA::name() const {
-	return StringUtils::ReadUTF16String(patternPointer(), 0, 20);
+	return StringUtils::ReadUTF16String(this->patternPointer(), 0, 20);
 }
 void PatternWA::name(std::u16string v) {
-	StringUtils::WriteUTF16String(patternPointer(), v, 0, 20);
+	StringUtils::WriteUTF16String(this->patternPointer(), v, 0, 20);
 }
 
 /* Creator ID. */
 u16 PatternWA::creatorid() const {
-	return SaveUtils::Read<u16>(patternPointer(), 0x2A);
+	return SaveUtils::Read<u16>(this->patternPointer(), 0x2A);
 }
 void PatternWA::creatorid(u16 v) {
-	return SaveUtils::Write<u16>(patternPointer(), 0x2A, v);
+	return SaveUtils::Write<u16>(this->patternPointer(), 0x2A, v);
 }
 
 /* Creator Name. */
 std::u16string PatternWA::creatorname() const {
-	return StringUtils::ReadUTF16String(patternPointer(), 0x2C, 8);
+	return StringUtils::ReadUTF16String(this->patternPointer(), 0x2C, 8);
 }
 void PatternWA::creatorname(std::u16string v) {
-	StringUtils::WriteUTF16String(patternPointer(), v, 0x2C, 8);
+	StringUtils::WriteUTF16String(this->patternPointer(), v, 0x2C, 8);
 }
 
 /* Creator Gender. */
 u8 PatternWA::creatorGender() const {
-	return patternPointer()[0x3E];
+	return this->patternPointer()[0x3E];
 }
 void PatternWA::creatorGender(u8 v) {
 	SaveUtils::Write<u8>(this->patternPointer(), 0x3E, v);
@@ -65,18 +65,18 @@ void PatternWA::creatorGender(u8 v) {
 
 /* Town ID. */
 u16 PatternWA::origtownid() const {
-	return SaveUtils::Read<u16>(patternPointer(), 0x40);
+	return SaveUtils::Read<u16>(this->patternPointer(), 0x40);
 }
 void PatternWA::origtownid(u16 v) {
-	return SaveUtils::Write<u16>(patternPointer(), 0x40, v);
+	return SaveUtils::Write<u16>(this->patternPointer(), 0x40, v);
 }
 
 /* Town Name. */
 std::u16string PatternWA::origtownname() const {
-	return StringUtils::ReadUTF16String(patternPointer(), 0x42, 8);
+	return StringUtils::ReadUTF16String(this->patternPointer(), 0x42, 8);
 }
 void PatternWA::origtownname(std::u16string v) {
-	StringUtils::WriteUTF16String(patternPointer(), v, 0x42, 8);
+	StringUtils::WriteUTF16String(this->patternPointer(), v, 0x42, 8);
 }
 
 /* Own a Pattern. */
@@ -93,10 +93,10 @@ void PatternWA::ownPattern(std::unique_ptr<Player> player) {
 
 /* Design Type. */
 u8 PatternWA::designtype() const {
-	return (patternPointer()[0x69] & 9);
+	return (this->patternPointer()[0x69] & 9);
 }
 void PatternWA::designtype(u8 v) {
-	SaveUtils::Write<u8>(this->patternPointer(), 0x69, (patternPointer()[0x69] & 0xF0) | (v & 0x9));
+	SaveUtils::Write<u8>(this->patternPointer(), 0x69, (this->patternPointer()[0x69] & 0xF0) | (v & 0x9));
 }
 
 /* Dump a Pattern to file. */
@@ -104,14 +104,16 @@ void PatternWA::dumpPattern(const std::string fileName) {
 	/* Get Pattern size. 0x9 for default pattern, else pro pattern. */
 	u32 size = 0;
 	
-	if (patternPointer()[0x69] == 0x09) {
+	if (this->patternPointer()[0x69] == 0x09) {
 		size = 620;
+
 	} else {
 		size = 2160;
 	}
 
 	/* Open File. */
 	FILE* ptrn = fopen(fileName.c_str(), "wb");
+	
 	if (ptrn) {
 		/* Write to file and close. */
 		fwrite(this->patternPointer(), 1, size, ptrn);

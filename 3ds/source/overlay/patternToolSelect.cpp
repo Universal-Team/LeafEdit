@@ -58,6 +58,7 @@ static void Draw(int select, int page) {
 		}
 
 		GFX::DrawGUI(gui_pointer_idx, buttons[select].x + 100, buttons[select].y + 30);
+
 	} else {
 		GFX::DrawButton(buttons[6]);
 		GFX::DrawGUI(gui_pointer_idx, buttons[6 + select].x + 100, buttons[6 + select].y + 30);
@@ -95,17 +96,23 @@ PatternMode Overlays::SelectPatternTool() {
 			if (page == 0) {
 				if (touching(touch, buttons[0])) {
 					return PatternMode::Import;
+
 				} else if (touching(touch, buttons[1])) {
 					return PatternMode::Palette;
+
 				} else if (touching(touch, buttons[2])) {
 					return PatternMode::Own;
+
 				} else if (touching(touch, buttons[3])) {
 					return PatternMode::Export;
+
 				} else if (touching(touch, buttons[4])) {
 					return PatternMode::Clear;
+
 				} else if (touching(touch, buttons[5])) {
 					return PatternMode::Exit;
 				}
+
 			} else {
 				if (touching(touch, buttons[6])) {
 					return PatternMode::ExportInformation;
@@ -140,17 +147,23 @@ PatternMode Overlays::SelectPatternTool() {
 				switch(selection) {
 					case 0:
 						return PatternMode::Import;
+
 					case 1:
 						return PatternMode::Palette;
+
 					case 2:
 						return PatternMode::Own;
+
 					case 3:
 						return PatternMode::Export;
+
 					case 4:
 						return PatternMode::Clear;
+
 					case 5:
 						return PatternMode::Exit;
 				}
+				
 			} else {
 				switch(selection) {
 					case 0:

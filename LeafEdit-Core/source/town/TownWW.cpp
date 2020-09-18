@@ -34,7 +34,8 @@ u8 TownWW::grasstype() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return townPointer()[0x2200];
+			return this->townPointer()[0x2200];
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 		case WWRegion::KOR_REV1:
@@ -51,6 +52,7 @@ void TownWW::grasstype(u8 v) {
 		case WWRegion::EUR_REV1:
 			SaveUtils::Write<u8>(this->townPointer(), 0x2200, v);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 		case WWRegion::KOR_REV1:
@@ -65,12 +67,15 @@ std::u16string TownWW::name() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(townPointer(), 0x0004, 8, this->region);
+			return StringUtils::ReadUTF8String(this->townPointer(), 0x0004, 8, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(townPointer(), 0x0004, 6, this->region);
+			return StringUtils::ReadUTF8String(this->townPointer(), 0x0004, 6, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(townPointer(), 0x0004, 6);
+			return StringUtils::ReadUTF16String(this->townPointer(), 0x0004, 6);
+			
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -82,15 +87,18 @@ void TownWW::name(std::u16string v) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			StringUtils::WriteUTF8String(townPointer(), v, 0x0004, 8, this->region);
+			StringUtils::WriteUTF8String(this->townPointer(), v, 0x0004, 8, this->region);
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			StringUtils::WriteUTF8String(townPointer(), v, 0x0004, 6, this->region);
+			StringUtils::WriteUTF8String(this->townPointer(), v, 0x0004, 6, this->region);
 			break;
+
 		case WWRegion::KOR_REV1:
-			StringUtils::WriteUTF16String(townPointer(), v, 0x0004, 6);
+			StringUtils::WriteUTF16String(this->townPointer(), v, 0x0004, 6);
 			break;
+
 		case WWRegion::UNKNOWN:
 			break;
 	}
@@ -99,16 +107,20 @@ void TownWW::name(std::u16string v) {
 /* Town Acre. */
 std::unique_ptr<Acre> TownWW::acre(int Acre) const {
 	if (Acre > 35) return nullptr; // Acre Index goes out of scope.
+
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return std::make_unique<AcreWW>(data, 0xC330 + Acre *1);
+			return std::make_unique<AcreWW>(this->data, 0xC330 + Acre * 1);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<AcreWW>(data, 0xA32C + Acre *1); // 0xA32C - 0xA34E
+			return std::make_unique<AcreWW>(this->data, 0xA32C + Acre * 1);
+
 		case WWRegion::KOR_REV1:
-			return std::make_unique<AcreWW>(data, 0xD304 + Acre *1);
+			return std::make_unique<AcreWW>(this->data, 0xD304 + Acre * 1);
+
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
@@ -119,16 +131,20 @@ std::unique_ptr<Acre> TownWW::acre(int Acre) const {
 /* Town Item. */
 std::unique_ptr<Item> TownWW::item(u32 index) const {
 	if (index > 4095) return nullptr; // Item Index goes out of scope.
+
 	switch(this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return std::make_unique<ItemWW>(data, 0xC354 + index * 2);
+			return std::make_unique<ItemWW>(this->data, 0xC354 + index * 2);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<ItemWW>(data, 0xA350 + index * 2);
+			return std::make_unique<ItemWW>(this->data, 0xA350 + index * 2);
+
 		case WWRegion::KOR_REV1:
-			return std::make_unique<ItemWW>(data, 0xD328 + index * 2);
+			return std::make_unique<ItemWW>(this->data, 0xD328 + index * 2);
+
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
@@ -138,7 +154,7 @@ std::unique_ptr<Item> TownWW::item(u32 index) const {
 
 /* Return if Town exist. */
 bool TownWW::exist() const {
-	if (SaveUtils::Read<u16>(townPointer(), 0x2) == 0x0 || SaveUtils::Read<u16>(townPointer(), 0x2) == 0xFFFF)	return false;
+	if (SaveUtils::Read<u16>(this->townPointer(), 0x2) == 0x0 || SaveUtils::Read<u16>(this->townPointer(), 0x2) == 0xFFFF)	return false;
 	return true;
 }
 
@@ -155,11 +171,14 @@ std::unique_ptr<Pattern> TownWW::townflag() const {
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
 			return std::make_unique<PatternWW>(this->data, 0x15930, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			return std::make_unique<PatternWW>(this->data, 0x11C5C, this->region);
+
 		case WWRegion::KOR_REV1:
 			return std::make_unique<PatternWW>(this->data, 0x16D0C, this->region);
+
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
@@ -177,16 +196,19 @@ bool TownWW::itemBuried(int index) const {
 		case WWRegion::JPN_REV1:
 			offset = 0xC350 + ((index / 256) * 256 + (index % 256)) / 8;
 			break;
+
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
 			offset = 0xE354 + ((index / 256) * 256 + (index % 256)) / 8;
 			break;
+
 		case WWRegion::KOR_REV1:
 			offset = 0xF328 + ((index / 256) * 256 + (index % 256)) / 8;
 			break;
+
 		case WWRegion::UNKNOWN:
-			return 0;
+			return false;
 	}
 
 	return SaveUtils::GetBit(this->townPointer(), offset, (index % 256) % 8);
@@ -203,14 +225,17 @@ void TownWW::itemBuried(int index, bool buried) {
 		case WWRegion::JPN_REV1:
 			offset = 0xC350 + ((index / 256) * 256 + (index % 256)) / 8;
 			break;
+
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
 			offset = 0xE354 + ((index / 256) * 256 + (index % 256)) / 8;
 			break;
+
 		case WWRegion::KOR_REV1:
 			offset = 0xF328 + ((index / 256) * 256 + (index % 256)) / 8;
 			break;
+			
 		case WWRegion::UNKNOWN:
 			return;
 	}

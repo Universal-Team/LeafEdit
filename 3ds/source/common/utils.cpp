@@ -94,7 +94,7 @@ C2D_Image C2DUtils::ImageDataToC2DImage(u32 *imageData, u32 width, u32 height, G
 
 /* Delete | free's a C2D_Image. */
 void C2DUtils::C2D_ImageDelete(C2D_Image image) {
-	if (image.tex != nullptr && image.subtex != nullptr) {
+	if (image.tex && image.subtex) {
 		C3D_TexDelete(image.tex);
 		delete image.tex;
 		delete image.subtex;

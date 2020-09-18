@@ -51,15 +51,17 @@ void StringDB::LoadItemDatabase(SaveType save) {
 		case SaveType::WW:
 			path = WW_ITEM_PATH;
 			break;
+
 		case SaveType::NL:
 			path = NL_ITEM_PATH;
 			break;
+
 		case SaveType::WA:
 			path = WA_ITEM_PATH;
 			break;
+
 		case SaveType::UNUSED:
 			return;
-			break;
 	}
 
 	std::string currentLine;
@@ -100,15 +102,17 @@ void StringDB::LoadVillagerDatabase(SaveType save) {
 		case SaveType::WW:
 			path = WW_VILLAGER_PATH;
 			break;
+
 		case SaveType::NL:
 			path = NL_VILLAGER_PATH;
 			break;
+
 		case SaveType::WA:
 			path = WA_VILLAGER_PATH;
 			break;
+
 		case SaveType::UNUSED:
 			return;
-			break;
 	}
 
 	std::string currentLine;
@@ -154,8 +158,10 @@ std::vector<std::tuple<u16, std::string, std::string>> StringDB::searchTuple(std
 		for (int i = 0; i < (int)searchCategory.size(); i++) {
 			/* Push categories first. */
 			if (searchCategory[i] != "") {
+
 				for (int i2 = 0; i2 < (int)searchType.size(); i2++) {
 					if (std::get<2>(searchType[i2]).find(searchCategory[i]) != std::string::npos) {
+						
 						if (compare) {
 							if (std::get<2>(searchType[i2]) == searchCategory[i]) {
 								temp.push_back({searchType[i2]});

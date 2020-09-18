@@ -30,5 +30,6 @@
 /* Get able sister pattern. */
 std::unique_ptr<Pattern> ShopWA::ableSisterPattern(int pattern) const {
 	if (pattern > 7) return nullptr;
+	
 	return std::make_unique<PatternWA>(this->data, 0x62338 + pattern * 0x870);
 }

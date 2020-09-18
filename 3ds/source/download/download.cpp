@@ -161,12 +161,14 @@ Result downloadToFile(std::string url, std::string path) {
 	const char* filepath = path.c_str();
 
 	void *socubuf = memalign(0x1000, 0x100000);
+
 	if (!socubuf) {
 		retcode = -1;
 		goto exit;
 	}
 	
 	res = socInit((u32*)socubuf, 0x100000);
+
 	if (R_FAILED(res)) {
 		retcode = res;
 		goto exit;
@@ -174,6 +176,7 @@ Result downloadToFile(std::string url, std::string path) {
 
 	makeDirs(strdup(filepath));
 	downfile = fopen(filepath, "wb");
+
 	if (!downfile) {
 		retcode = -2;
 		goto exit;
@@ -283,9 +286,7 @@ static size_t handle_data(char* ptr, size_t size, size_t nmemb, void* userdata) 
 		result_buf = new_buf;
 	}
 
-	if (!result_buf) {
-		return 0;
-	}
+	if (!result_buf) return 0;
 
 	memcpy(result_buf + result_written, ptr, bsz);
 	result_written += bsz;
@@ -315,11 +316,13 @@ static Result setupContext(CURL *hnd, const char * url) {
 Result downloadFromRelease(std::string url, std::string asset, std::string path, bool includePrereleases) {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
+
 	if (!socubuf) {
 		return -1;
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
+
 	if (R_FAILED(ret)) {
 		free(socubuf);
 		return ret;
@@ -341,6 +344,7 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 	CURL *hnd = curl_easy_init();
 
 	ret = setupContext(hnd, apiurl.c_str());
+
 	if (ret != 0) {
 		socExit();
 		free(result_buf);
@@ -371,6 +375,7 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 	printf("Looking for asset with matching name:\n%s\n", asset.c_str());
 	std::string assetUrl;
 	json parsedAPI = json::parse(result_buf);
+
 	if (includePrereleases)	parsedAPI = parsedAPI[0];
 	if (parsedAPI["assets"].is_array()) {
 		for (auto jsonAsset : parsedAPI["assets"]) {
@@ -383,6 +388,7 @@ Result downloadFromRelease(std::string url, std::string asset, std::string path,
 			}
 		}
 	}
+
 	socExit();
 	free(result_buf);
 	free(socubuf);
@@ -404,9 +410,7 @@ bool checkWifiStatus(void) {
 	u32 wifiStatus;
 	bool res = false;
 
-	if (R_SUCCEEDED(ACU_GetWifiStatus(&wifiStatus)) && wifiStatus) {
-		res = true;
-	}
+	if (R_SUCCEEDED(ACU_GetWifiStatus(&wifiStatus)) && wifiStatus) res = true;
 
 	return res;
 }
@@ -442,11 +446,13 @@ void notConnectedMsg(void) {
 ReleaseFetch getLatestRelease() {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
+
 	if (!socubuf) {
 		return {""};
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
+
 	if (R_FAILED(ret)) {
 		free(socubuf);
 		return {""};
@@ -458,6 +464,7 @@ ReleaseFetch getLatestRelease() {
 
 	CURL *hnd = curl_easy_init();
 	ret = setupContext(hnd, apiurl.c_str());
+
 	if (ret != 0) {
 		socExit();
 		free(result_buf);
@@ -490,18 +497,21 @@ ReleaseFetch getLatestRelease() {
 
 	if (parsedAPI["name"].is_string()) {
 		RF.ReleaseName = parsedAPI["name"];
+
 	} else {
 		RF.ReleaseName = "";
 	}
 	
 	if (parsedAPI["tag_name"].is_string()) {
 		RF.Version = parsedAPI["tag_name"];
+
 	} else {
 		RF.Version = "";
 	}
 
 	if (parsedAPI["body"].is_string()) {
 		RF.Body = parsedAPI["body"];
+
 	} else {
 		RF.Body = "";
 	}
@@ -509,6 +519,7 @@ ReleaseFetch getLatestRelease() {
 	if (parsedAPI["published_at"].is_string()) {
 		std::string Test = parsedAPI["published_at"];
 		RF.Published = Test.substr(0, 10) + "  " + Test.substr(11, 8);
+
 	} else {
 		RF.Published = "";
 	}
@@ -527,11 +538,13 @@ ReleaseFetch getLatestRelease() {
 NightlyFetch getLatestCommit() {
 	Result ret = 0;
 	void *socubuf = memalign(0x1000, 0x100000);
+
 	if (!socubuf) {
 		return {""};
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
+
 	if (R_FAILED(ret)) {
 		free(socubuf);
 		return {""};
@@ -543,6 +556,7 @@ NightlyFetch getLatestCommit() {
 
 	CURL *hnd = curl_easy_init();
 	ret = setupContext(hnd, apiurl.c_str());
+
 	if (ret != 0) {
 		socExit();
 		free(result_buf);
@@ -575,18 +589,21 @@ NightlyFetch getLatestCommit() {
 
 	if (parsedAPI["commit"]["message"].is_string()) {
 		NF.Message = parsedAPI["commit"]["message"];
+
 	} else {
 		NF.Message = "";
 	}
 
 	if (parsedAPI["committer"]["login"].is_string()) {
 		NF.Committer = parsedAPI["committer"]["login"];
+
 	} else {
 		NF.Committer = "";
 	}
 
 	if (parsedAPI["author"]["login"].is_string()) {
 		NF.Author = parsedAPI["author"]["login"];
+
 	} else {
 		NF.Author = "";
 	}
@@ -594,6 +611,7 @@ NightlyFetch getLatestCommit() {
 	if (parsedAPI["sha"].is_string()) {
 		std::string Temp = parsedAPI["sha"];
 		NF.Target = Temp.substr(0,7);
+
 	} else {
 		NF.Target = "";
 	}
@@ -616,6 +634,7 @@ void setMessageText(const std::string &text) {
 	std::string _topTextStr(text);
 	std::vector<std::string> words;
 	std::size_t pos;
+
 	// std::replace( _topTextStr.begin(), _topTextStr.end(), '\n', ' ');
 	_topTextStr.erase(std::remove(_topTextStr.begin(), _topTextStr.end(), '\r'), _topTextStr.end());
 	while((pos = _topTextStr.find(' ')) != std::string::npos) {
@@ -635,9 +654,11 @@ void setMessageText(const std::string &text) {
 			temp += " " + word;
 			_topText.push_back(temp);
 			temp = "";
+
 		} else if (width > 350) {
 			_topText.push_back(temp);
 			temp = word;
+
 		} else {
 			temp += " " + word;
 		}
@@ -679,17 +700,14 @@ bool Download::showReleaseInfo(ReleaseFetch RF) {
 		const u32 hHeld = hidKeysHeld();
 
 		if (hHeld & KEY_UP || hHeld & KEY_DOWN) {
-			for(int i = 0; i < 10; i++)
-				gspWaitForVBlank();
+			for(int i = 0; i < 10; i++) gspWaitForVBlank();
 		}
 
 		if (hDown & KEY_A) {
 			return true;
 		}
 		
-		if (hDown & KEY_B || hDown & KEY_Y || hDown & KEY_TOUCH) {
-			return false;
-		}
+		if (hDown & KEY_B || hDown & KEY_Y || hDown & KEY_TOUCH) return false;
 		
 		if (hHeld & KEY_UP) {
 			if (textPosition > 0) {
@@ -729,6 +747,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
+
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.cia?raw=true", "sdmc:/3ds/LeafEdit/LeafEdit.cia") != 0) {
 				showProgressBar = false;
 				downloadFailed();
@@ -738,17 +757,21 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			/* Install and delete. */
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			progressBarType = 1;
+
 			if (version != "")	config->currentNightly(version);
+
 			config->save(); // Needed to do that here.
 			installCia("sdmc:/3ds/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/3ds/LeafEdit/LeafEdit.cia");
+
 		} else if (is3dsx) {
 			/* Download 3DSX Nightly. */
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_NIGHTLY") + " (3DSX)").c_str());
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
+
 			if (downloadToFile("https://github.com/Universal-Team/extras/blob/master/builds/LeafEdit/LeafEdit.3dsx?raw=true", path3dsx + "LeafEdit.3dsx") != 0) {
 				showProgressBar = false;
 				downloadFailed();
@@ -756,10 +779,13 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			}
 
 			showProgressBar = false;
+
 			if (version != "")	config->currentNightly(version);
+
 			config->save(); // Needed to do that here.
 			success = true;
 		}
+
 	} else {
 		if (!is3dsx) {
 			/* Download CIA Release. */
@@ -767,6 +793,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
+
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.cia", "sdmc:/3ds/LeafEdit/LeafEdit.cia", false) != 0) {
 				showProgressBar = false;
 				downloadFailed();
@@ -776,17 +803,21 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			/* Install and delete. */
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("INSTALLING_CIA")).c_str());
 			progressBarType = 1;
+
 			if (version != "")	config->currentRelease(version);
+
 			config->save(); // Needed to do that here.
 			installCia("sdmc:/3ds/LeafEdit/LeafEdit.cia", true);
 			showProgressBar = false;
 			deleteFile("sdmc:/3ds/LeafEdit/LeafEdit.cia");
+
 		} else if (is3dsx) {
 			/* Download 3DSX Release. */
 			snprintf(progressBarMsg, sizeof(progressBarMsg), (Lang::get("DOWNLOADING_LATEST_RELEASE") + " (3DSX)").c_str());
 			showProgressBar = true;
 			progressBarType = 0;
 			Threads::create((ThreadFunc)displayProgressBar);
+
 			if (downloadFromRelease("https://github.com/Universal-Team/LeafEdit", "LeafEdit.3dsx", path3dsx + "LeafEdit.3dsx", false) != 0) {
 				showProgressBar = false;
 				downloadFailed();
@@ -794,7 +825,9 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			}
 
 			showProgressBar = false;
+
 			if (version != "")	config->currentRelease(version);
+
 			config->save(); // Needed to do that here.
 			success = true;
 		}
@@ -802,7 +835,6 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 	
 	doneMsg();
 
-	if (version != "")
 	if (success) {
 		if (is3dsx) {
 			Is3dsxUpdated = true;
@@ -820,6 +852,7 @@ void Download::downloadAssets(void) {
 	progressBarType = 0;
 	
 	Threads::create((ThreadFunc)displayProgressBar);
+
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/acres.t3x") != 0) {
 		showProgressBar = false;
 		downloadFailed();
@@ -828,6 +861,7 @@ void Download::downloadAssets(void) {
 
 	/* Items & Badges. */
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 2, 6);
+
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/items.t3x") != 0) {
 		showProgressBar = false;
 		downloadFailed();
@@ -836,6 +870,7 @@ void Download::downloadAssets(void) {
 
 	/* Faces & Hair. */
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 3, 6);
+
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/players.t3x") != 0) {
 		showProgressBar = false;
 		downloadFailed();
@@ -844,6 +879,7 @@ void Download::downloadAssets(void) {
 
 	/* Font. */
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 4, 6);
+
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/3ds/LeafEdit/assets/font.bcfnt") != 0) {
 		showProgressBar = false;
 		downloadFailed();
@@ -852,6 +888,7 @@ void Download::downloadAssets(void) {
 
 	/* First Villager Sprite. */
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 5, 6);
+
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers.t3x") != 0) {
 		showProgressBar = false;
 		downloadFailed();
@@ -860,6 +897,7 @@ void Download::downloadAssets(void) {
 
 	/* Second Villager Sprite. */
 	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 6, 6);
+
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers2.t3x") != 0) {
 		showProgressBar = false;
 		downloadFailed();
@@ -910,6 +948,7 @@ void displayProgressBar() {
 		/* Download. */
 		if (progressBarType == 0) {
 			Gui::Draw_Rect(31, 121, (int)(((float)downloadNow/(float)downloadTotal) * 338.0f), 28, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
+
 		/* Install. */
 		} else {
 			Gui::Draw_Rect(31, 121, (int)(((float)installOffset/(float)installSize) * 338.0f), 28, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
@@ -932,6 +971,7 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 	}
 
 	ret = socInit((u32*)socubuf, 0x100000);
+
 	if (R_FAILED(ret)) {
 		free(socubuf);
 		return emptyVector;
@@ -943,6 +983,7 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 
 	CURL *hnd = curl_easy_init();
 	ret = setupContext(hnd, apiurl.c_str());
+
 	if (ret != 0) {
 		socExit();
 		free(result_buf);
@@ -972,6 +1013,7 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 
 	std::vector<ExtraEntry> jsonItems;
 	json parsedAPI = json::parse(result_buf);
+	
 	for(uint i = 0; i < parsedAPI.size(); i++) {
 		ExtraEntry extraEntry;
 

@@ -73,6 +73,7 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 			loadToVector("romfs:/lang/strings/ww/hairstyle.txt", g_HairStyle);
 			loadToVector("romfs:/lang/strings/ww/personalities.txt", g_personality);
 			break;
+
 		case SaveType::NL:
 			loadToVector("romfs:/lang/strings/nl/badges.txt", g_badges);
 			loadToVector("romfs:/lang/strings/nl/facetype.txt", g_FaceType);
@@ -80,6 +81,7 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 			loadToVector("romfs:/lang/strings/nl/hairstyle.txt", g_HairStyle);
 			loadToVector("romfs:/lang/strings/nl/personalities.txt", g_personality);
 			break;
+
 		case SaveType::WA:
 			loadToVector("romfs:/lang/strings/wa/badges.txt", g_badges);
 			loadToVector("romfs:/lang/strings/wa/facetype.txt", g_FaceType);
@@ -87,6 +89,7 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 			loadToVector("romfs:/lang/strings/wa/hairstyle.txt", g_HairStyle);
 			loadToVector("romfs:/lang/strings/wa/personalities.txt", g_personality);
 			break;
+			
 		case SaveType::UNUSED:
 			break;
 	}
@@ -98,6 +101,6 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 void Lang::load(int lang) {
 	FILE* values;
 	values = fopen(("romfs:/lang/" + langs[lang] + "/app.json").c_str(), "rt");
-	if(values) appJson = nlohmann::json::parse(values, nullptr, false);
+	if (values) appJson = nlohmann::json::parse(values, nullptr, false);
 	fclose(values);
 }

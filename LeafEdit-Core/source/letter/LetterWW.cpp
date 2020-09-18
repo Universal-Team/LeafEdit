@@ -52,12 +52,15 @@ std::u16string LetterWW::intro() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(letterPointer(), 0x30, 0xF, this->region);
+			return StringUtils::ReadUTF8String(this->letterPointer(), 0x30, 0xF, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(letterPointer(), 0x2C, 0xA, this->region);
+			return StringUtils::ReadUTF8String(this->letterPointer(), 0x2C, 0xA, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(letterPointer(), 0x80, 0xF);
+			return StringUtils::ReadUTF16String(this->letterPointer(), 0x80, 0xF);
+
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -70,12 +73,15 @@ std::u16string LetterWW::body() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(letterPointer(), 0x48, 84, this->region);
+			return StringUtils::ReadUTF8String(this->letterPointer(), 0x48, 84, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(letterPointer(), 0x36, 64, this->region);
+			return StringUtils::ReadUTF8String(this->letterPointer(), 0x36, 64, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(letterPointer(), 0x93, 64);
+			return StringUtils::ReadUTF16String(this->letterPointer(), 0x93, 64);
+
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -88,12 +94,15 @@ std::u16string LetterWW::end() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return StringUtils::ReadUTF8String(letterPointer(), 0xC8, 0x1A, this->region);
+			return StringUtils::ReadUTF8String(this->letterPointer(), 0xC8, 0x1A, this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return StringUtils::ReadUTF8String(letterPointer(), 0x76, 0x10, this->region);
+			return StringUtils::ReadUTF8String(this->letterPointer(), 0x76, 0x10, this->region);
+
 		case WWRegion::KOR_REV1:
-			return StringUtils::ReadUTF16String(letterPointer(), 0x114, 0x1A);
+			return StringUtils::ReadUTF16String(this->letterPointer(), 0x114, 0x1A);
+
 		case WWRegion::UNKNOWN:
 			return StringUtils::UTF8toUTF16("?");
 	}
@@ -126,12 +135,15 @@ std::unique_ptr<Item> LetterWW::item() const {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return std::make_unique<ItemWW>(data, Offset + 0x1238);
+			return std::make_unique<ItemWW>(this->data, this->Offset + 0x1238);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<ItemWW>(data, Offset + 0x1192);
+			return std::make_unique<ItemWW>(this->data, this->Offset + 0x1192);
+
 		case WWRegion::KOR_REV1:
-			return std::make_unique<ItemWW>(data, Offset + 0x12A4);
+			return std::make_unique<ItemWW>(this->data, this->Offset + 0x12A4);
+
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}

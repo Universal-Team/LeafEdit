@@ -75,68 +75,100 @@ u32 ItemManager::getColor(ItemType item) {
 	switch(item) {
 		case ItemType::Empty:
 			return C2D_Color32(0, 0, 0, 0); // Transparent.
+
 		case ItemType::Furniture:
 			return Furniture;
+
 		case ItemType::Gyroid:
 			return Gyroid;
+
 		case ItemType::Diary:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
+
 		case ItemType::Clothes:
 			return Clothes;
+
 		case ItemType::Song:
 			return Song;
+
 		case ItemType::Paper:
 			return Paper;
+
 		case ItemType::Trash:
 			return Trash;
+
 		case ItemType::Shell:
 			return Shell;
+
 		case ItemType::Fruit:
 			return Fruit;
+
 		case ItemType::Turnip:
 			return Turnip;
+
 		case ItemType::Catchable:
 			return Catchable;
+
 		case ItemType::QuestItem:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
+
 		case ItemType::Item:
 			return Item;
+
 		case ItemType::RaffleTicket:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
+
 		case ItemType::WallpaperCarpet:
 			return WallpaperCarpet;
+
 		case ItemType::Fossil:
 			return Fossil;
+
 		case ItemType::Tool:
 			return Tool;
+
 		case ItemType::Tree:
 			return Tree;
+
 		case ItemType::Weed:
 			return Weed;
+
 		case ItemType::Flower:
 			return Flower;
+
 		case ItemType::Rock:
 			return Rock;
+
 		case ItemType::MoneyRock:
 			return MoneyRock;
+
 		case ItemType::Signboard:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
+
 		case ItemType::Money:
 			return Money;
+
 		case ItemType::HouseObject:
 			return C2D_Color32(0, 0, 0, 0); // Isn't supported in LeafEdit.
+
 		case ItemType::Building:
 			return Building;
+
 		case ItemType::ParchedFlower:
 			return ParchedFlower;
+
 		case ItemType::WateredFlower:
 			return WateredFlower;
+
 		case ItemType::Pattern:
 			return Pattern;
+
 		case ItemType::WiltedFlower:
 			return WiltedFlower;
+
 		case ItemType::Occupied:
 			return Occupied;
+
 		case ItemType::Invalid:
 			return Invalid;
 	}
@@ -149,6 +181,7 @@ int ItemManager::getIndex(const u16 &v) {
 	if (v == std::get<0>(itemDB[0]) || v >= 0xFFF1) return 0;
 
 	int index = -1, min = 0, mid = 0, max = itemDB.size();
+
 	while (min <= max) {
 		mid = min + (max - min) / 2;
 		if (std::get<0>(itemDB[mid]) == v) {
@@ -158,6 +191,7 @@ int ItemManager::getIndex(const u16 &v) {
 
 		if (std::get<0>(itemDB[mid]) < v) {
 			min = mid + 1;
+
 		} else {
 			max = mid - 1;
 		}
@@ -173,6 +207,7 @@ int ItemManager::getIndexString(const int &current, const std::string &v) {
 	if (v == std::get<1>(itemDB[0])) return 0;
 
 	int index = -1, min = 0, mid = 0, max = itemDB.size();
+
 	while (min <= max) {
 		mid = min + (max - min) / 2;
 		if (std::get<1>(itemDB[mid]) == v) {
@@ -182,6 +217,7 @@ int ItemManager::getIndexString(const int &current, const std::string &v) {
 		
 		if (std::get<1>(itemDB[mid]) < v) {
 			min = mid + 1;
+			
 		} else {
 			max = mid - 1;
 		}

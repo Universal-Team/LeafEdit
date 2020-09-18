@@ -72,6 +72,7 @@ void ScriptScreen::Draw(void) const {
 
 			if (this->script->gameSupported(this->selection)) {
 				Gui::DrawStringCentered(0, 180, 0.7, BLACK, Lang::get("SUPPORTED") + Lang::get("YES") + ".", 390, 0, font);
+				
 			} else {
 				Gui::DrawStringCentered(0, 180, 0.7, BLACK, Lang::get("SUPPORTED") + Lang::get("NO") + ".", 390, 0, font);
 			}

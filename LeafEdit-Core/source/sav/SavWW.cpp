@@ -32,16 +32,20 @@
 /* Get Player data. */
 std::unique_ptr<Player> SavWW::player(int player, int index) const {
 	if (player > 3 || index > 3) return nullptr; // Player goes out of scope.
+
 	switch (this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return std::make_unique<PlayerWW>(dataPointer, 0x000C + (player * 0x228C), this->region, index);
+			return std::make_unique<PlayerWW>(this->dataPointer, 0x000C + (player * 0x228C), this->region, index);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<PlayerWW>(dataPointer, 0x000C + (player * 0x1D10), this->region, index);
+			return std::make_unique<PlayerWW>(this->dataPointer, 0x000C + (player * 0x1D10), this->region, index);
+
 		case WWRegion::KOR_REV1:
-			return std::make_unique<PlayerWW>(dataPointer, 0x0014 + (player * 0x249C), this->region, index);
+			return std::make_unique<PlayerWW>(this->dataPointer, 0x0014 + (player * 0x249C), this->region, index);
+
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
@@ -52,16 +56,20 @@ std::unique_ptr<Player> SavWW::player(int player, int index) const {
 /* Get Villager data. */
 std::unique_ptr<Villager> SavWW::villager(int villager) const {
 	if (villager > 7) return nullptr; // Villager goes out of scope.
+
 	switch (this->region) {
 		case WWRegion::USA_REV0:
 		case WWRegion::USA_REV1:
 		case WWRegion::EUR_REV1:
-			return std::make_unique<VillagerWW>(dataPointer, 0x8A3C + (villager * 0x700), this->region);
+			return std::make_unique<VillagerWW>(this->dataPointer, 0x8A3C + (villager * 0x700), this->region);
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
-			return std::make_unique<VillagerWW>(dataPointer, 0x744C + (villager * 0x5C0), this->region);
+			return std::make_unique<VillagerWW>(this->dataPointer, 0x744C + (villager * 0x5C0), this->region);
+
 		case WWRegion::KOR_REV1:
-			return std::make_unique<VillagerWW>(dataPointer, 0x928C + (villager * 0x7EC), this->region);
+			return std::make_unique<VillagerWW>(this->dataPointer, 0x928C + (villager * 0x7EC), this->region);
+
 		case WWRegion::UNKNOWN:
 			return nullptr;
 	}
@@ -71,7 +79,7 @@ std::unique_ptr<Villager> SavWW::villager(int villager) const {
 
 /* Get Town data. */
 std::unique_ptr<Town> SavWW::town() const {
-	return std::make_unique<TownWW>(dataPointer, this->region);
+	return std::make_unique<TownWW>(this->dataPointer, this->region);
 }
 
 /* Get Island data. (Does not exist.) */
@@ -80,7 +88,7 @@ std::unique_ptr<Island> SavWW::island() const {
 }
 
 std::unique_ptr<Shop> SavWW::shop() const {
-	return std::make_unique<ShopWW>(dataPointer, 0, this->region);
+	return std::make_unique<ShopWW>(this->dataPointer, 0, this->region);
 }
 
 /* Last call before writing to file. Update Checksum. */
@@ -92,15 +100,18 @@ void SavWW::Finish(void) {
 			Checksum::UpdateWWChecksum(this->region, this->savePointer(), reinterpret_cast<u16*>(this->savePointer()), 0x15FE0 / sizeof(u16));
 			memcpy(this->savePointer() + 0x15FE0, this->savePointer(), 0x15FE0); // Copy SaveData to the second save copy.
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			Checksum::UpdateWWChecksum(this->region, this->savePointer(), reinterpret_cast<u16*>(this->savePointer()), 0x12224 / sizeof(u16));
 			memcpy(this->savePointer() + 0x12224, this->savePointer(), 0x12224); // Copy SaveData to the second save copy.
 			break;
+
 		case WWRegion::KOR_REV1:
 			Checksum::UpdateWWChecksum(this->region, this->savePointer(), reinterpret_cast<u16*>(this->savePointer()), 0x173FC / sizeof(u16));
 			memcpy(this->savePointer() + 0x173FC, this->savePointer(), 0x173FC); // Copy SaveData to the second save copy.
 			break;
+			
 		case WWRegion::UNKNOWN:
 			break;
 	}

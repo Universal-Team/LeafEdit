@@ -29,10 +29,10 @@
 
 /* Villager ID. */
 u16 VillagerNL::id() const {
-	return SaveUtils::Read<u16>(villagerPointer(), 0x0);
+	return SaveUtils::Read<u16>(this->villagerPointer(), 0x0);
 }
 void VillagerNL::id(u16 v) {
-	SaveUtils::Write<u16>(villagerPointer(), 0x0, v);
+	SaveUtils::Write<u16>(this->villagerPointer(), 0x0, v);
 }
 
 /* Check if the Villager exist. */
@@ -43,7 +43,7 @@ bool VillagerNL::exist() const {
 
 /* Villager Personality. */
 u8 VillagerNL::personality() const {
-	return villagerPointer()[0x2];
+	return this->villagerPointer()[0x2];
 }
 void VillagerNL::personality(u8 v) {
 	SaveUtils::Write<u8>(this->villagerPointer(), 0x2, v);
@@ -51,31 +51,32 @@ void VillagerNL::personality(u8 v) {
 
 /* Villager Song. */
 std::unique_ptr<Item> VillagerNL::song() const {
-	return std::make_unique<ItemNL>(data, offset + 0x2452);
+	return std::make_unique<ItemNL>(this->data, this->offset + 0x2452);
 }
 
 /* Villager Shirt. */
 std::unique_ptr<Item> VillagerNL::shirt() const {
-	return std::make_unique<ItemNL>(data, offset + 0x244E);
+	return std::make_unique<ItemNL>(this->data, this->offset + 0x244E);
 }
 
 /* Villager Wallpaper. */
 std::unique_ptr<Item> VillagerNL::wallpaper() const {
-	return std::make_unique<ItemNL>(data, offset + 0x2456);
+	return std::make_unique<ItemNL>(this->data, this->offset + 0x2456);
 }
 
 /* Villager Carpet. */
 std::unique_ptr<Item> VillagerNL::carpet() const {
-	return std::make_unique<ItemNL>(data, offset + 0x245A);
+	return std::make_unique<ItemNL>(this->data, this->offset + 0x245A);
 }
 
 /* Villager Umbrella. */
 std::unique_ptr<Item> VillagerNL::umbrella() const {
-	return std::make_unique<ItemNL>(data, offset + 0x245E);
+	return std::make_unique<ItemNL>(this->data, this->offset + 0x245E);
 }
 
 /* Villager Furniture. */
 std::unique_ptr<Item> VillagerNL::furniture(int slot) const {
 	if (slot > 15) return nullptr;
-	return std::make_unique<ItemNL>(data, offset + 0x2462 + slot * 4);
+
+	return std::make_unique<ItemNL>(this->data, this->offset + 0x2462 + slot * 4);
 }

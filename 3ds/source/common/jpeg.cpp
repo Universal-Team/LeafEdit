@@ -101,8 +101,8 @@ JPEGInfo DecompressJPEG(const void *jpegSrc, const u32 jpegSize) {
 C2D_Image LoadPlayerPicture(const void *tpcData) {
 	JPEGInfo jpeg = DecompressJPEG(tpcData, TPC_SIZE);
 
-	if (jpeg.width > TPC_MAX_WIDTH || jpeg.height > TPC_MAX_HEIGHT || jpeg.image == nullptr) {
-		if (jpeg.image != nullptr) linearFree(jpeg.image);
+	if (jpeg.width > TPC_MAX_WIDTH || jpeg.height > TPC_MAX_HEIGHT || !jpeg.image) {
+		if (jpeg.image) linearFree(jpeg.image);
 		return {nullptr}; // Return nullptr!
 	}
 

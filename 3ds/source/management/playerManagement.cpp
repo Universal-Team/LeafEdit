@@ -75,20 +75,28 @@ u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 			switch(hairColor) {
 				case 0:
 					return C2D_Color32(128, 70, 27, 255);
+
 				case 1:
 					return C2D_Color32(210, 105, 30, 255);
+
 				case 2:
 					return C2D_Color32(255, 69, 0, 255);
+
 				case 3:
 					return C2D_Color32(0, 191, 255, 255);
+
 				case 4:
 					return C2D_Color32(255, 216, 0, 255);
+
 				case 5:
 					return C2D_Color32(173, 255, 47, 255);
+
 				case 6:
 					return C2D_Color32(255, 20, 147, 255);
+
 				case 7:
 					return C2D_Color32(220, 220, 220, 255);
+
 				default:
 					return C2D_Color32(0, 0, 0, 0);
 			}
@@ -98,34 +106,49 @@ u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 			switch(hairColor) {
 				case 0:
 					return C2D_Color32(89, 58, 56, 255);
+
 				case 1:
 					return C2D_Color32(147, 89, 41, 255);
+
 				case 2:
 					return C2D_Color32(239, 87, 46, 255);
+
 				case 3:
 					return C2D_Color32(65, 166, 220, 255);
+
 				case 4:
 					return C2D_Color32(255, 231, 121, 255);
+
 				case 5:
 					return C2D_Color32(139, 207, 98, 255);
+
 				case 6:
 					return C2D_Color32(238, 121, 139, 255);
+
 				case 7:
 					return C2D_Color32(255, 255, 255, 255);
+
 				case 8:
 					return C2D_Color32(0, 0, 0, 255);
+
 				case 9:
 					return C2D_Color32(65, 6, 1, 255);
+
 				case 10:
 					return C2D_Color32(187, 12, 7, 255);
+
 				case 11:
 					return C2D_Color32(0, 20, 73, 255);
+
 				case 12:
 					return C2D_Color32(222, 167, 15, 255);
+
 				case 13:
 					return C2D_Color32(1, 90, 34, 255);
+
 				case 14:
 					return C2D_Color32(173, 117, 188, 255);
+
 				default:
 					return C2D_Color32(0, 0, 0, 0);
 			}
@@ -153,14 +176,19 @@ u32 PlayerManagement::getEyeColor(u8 eyeColor) {
 	switch(eyeColor) {
 		case 0:
 			return C2D_Color32(50, 54, 39, 255);
+
 		case 1:
 			return C2D_Color32(205, 114, 70, 255);
+
 		case 2:
 			return C2D_Color32(91, 151, 115, 255);
+
 		case 3:
 			return C2D_Color32(109, 134, 128, 255);
+
 		case 4:
 			return C2D_Color32(96, 128, 196, 255);
+			
 		case 5:
 			return C2D_Color32(63, 136, 189, 255);
 	}

@@ -54,36 +54,45 @@ std::unique_ptr<Sav> Sav::getSave(std::shared_ptr<u8[]> dt, u32 length) {
 			if (memcmp(dt.get(), dt.get() + 0x12224, 0x12224) == 0) {
 				Log->Write("Detected AC:WW Japanese save.");
 				return std::make_unique<SavWW>(dt, WWRegion::JPN_REV0, length);
+
 			} else if (memcmp(dt.get(), dt.get() + 0x15FE0, 0x15FE0) == 0) {
 				Log->Write("Detected AC:WW Europe / USA save.");
 				return std::make_unique<SavWW>(dt, WWRegion::EUR_REV1, length);
+
 			} else if (memcmp(dt.get(), dt.get() + 0x173FC, 0x173FC) == 0) {
 				Log->Write("Detected AC:WW Korean save.");
 				return std::make_unique<SavWW>(dt, WWRegion::KOR_REV1, length);
+
 			} else {
 				return nullptr;
 			}
+
 		case 0x7FA00:
 			/* Check if save header matches first! We don't want to edit a non-ac save. */
 			if (memcmp(dt.get() + 0x80, ACNLArray, 0x1C) == 0) {
 				Log->Write("Detected AC:NL save.");
 				return std::make_unique<SavNL>(dt, length);
+
 			} else {
 				Log->Write("Detected Invalid save.");
 				return nullptr;
 			}
+
 		case 0x80000:
 			Log->Write("Detected a 512 KB save. Checking for 512 KB saves...");
 			return check080000(dt, length);
+
 		case 0x89B00:
 			/* Check if save header matches first! We don't want to edit a non-ac save. */
 			if (memcmp(dt.get() + 0x80, ACWAArray, 0x1C) == 0) {
 				Log->Write("Detected AC:WA save.");
 				return std::make_unique<SavWA>(dt, length);
+
 			} else {
 				Log->Write("Detected Invalid save.");
 				return nullptr;
 			}
+
 	default:
 		Log->Write("Detected Invalid save.");
 		return nullptr;
@@ -96,18 +105,22 @@ std::unique_ptr<Sav> Sav::check080000(std::shared_ptr<u8[]> dt, u32 length) {
 	if (memcmp(dt.get(), dt.get() + 0x12224, 0x12224) == 0) {
 		Log->Write("Detected AC:WW Japanese save.");
 		return std::make_unique<SavWW>(dt, WWRegion::JPN_REV0, length);
+
 		/* Check for AC:WW Europe | USA. */
 	} else if (memcmp(dt.get(), dt.get() + 0x15FE0, 0x15FE0) == 0) {
 		Log->Write("Detected AC:WW Europe / USA save.");
 		return std::make_unique<SavWW>(dt, WWRegion::EUR_REV1, length);
+
 		/* Check for AC:WW Korean. */
 	} else if (memcmp(dt.get(), dt.get() + 0x173FC, 0x173FC) == 0) {
 		Log->Write("Detected AC:WW Korean save.");
 		return std::make_unique<SavWW>(dt, WWRegion::KOR_REV1, length);
+
 		/* Check for AC:NL. */
 	} else if (memcmp(dt.get() + 0x80, ACNLArray, 0x1C) == 0) {
 		Log->Write("Detected AC:NL save.");
 			return std::make_unique<SavNL>(dt, length);
+			
 	} else {
 		/* No save checks matches, return nullptr. */
 		Log->Write("Detected Invalid save.");

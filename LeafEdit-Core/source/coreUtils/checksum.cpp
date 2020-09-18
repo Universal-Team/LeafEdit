@@ -144,6 +144,7 @@ const u32 crcTable_2[256] = { /* Polynomial: 0x04C11DB7, 0x00000000 initial valu
 /* Calculate the CRC32 reflected type. */
 u32 Checksum::CalculateCRC32Reflected(u8 *buf, u32 size) {
 	u32 crc = 0xFFFFFFFF;
+
 	while (size-- != 0) {
 		crc = crcTable_1[(crc ^ *buf) & 0xFF] ^ (crc >> 8);
 		buf++;
@@ -155,6 +156,7 @@ u32 Checksum::CalculateCRC32Reflected(u8 *buf, u32 size) {
 /* Calculate the CRC32 normal type. */
 u32 Checksum::CalculateCRC32Normal(u8 *buf, u32 size) {
 	u32 crc = 0;
+
 	while (size-- != 0) {
 		crc = crcTable_2[((crc >> 24) ^ *buf) & 0xFF] ^ (crc << 8);
 		buf++;
@@ -177,6 +179,7 @@ u32 Checksum::UpdateCRC32(u8 *rawData, u32 startOffset, u32 size, ChecksumType t
 	u32 crc32 = 0;
 	if (type == CRC_NORMAL) {
 		crc32 = CalculateCRC32Normal(rawData + startOffset + 4, size);
+
 	} else {
 		crc32 = CalculateCRC32Reflected(rawData + startOffset + 4, size);
 	}
@@ -210,6 +213,7 @@ void Checksum::FixCRC32s(u8 *data) {
 /* Fix the CRC32 for AC:NL. */
 void Checksum::FixNLCRC32s(u8 *data) {
 	UpdateCRC32(data, 0x80, 0x1C); // Save Header.
+
 	/* Rehash players. */
 	for (int i = 0; i < 4; i++) {
 		UpdateCRC32(data, 0xA0 + ((0x9E90 + 0x80) * i), 0x6B64); // Players Checksum1.
@@ -231,6 +235,7 @@ u16 Checksum::CalculateWW(const u16 *buffer, u64 size, uint checksumOffset) {
 	if ((checksumOffset & 1) == 1)	return 0; // checksumOffset must be 16-bit aligned!
 
 	u16 checksum = 0;
+
 	for (uint i = 0; i < size; i++) {
 		if (i == checksumOffset) continue;
 		checksum += buffer[i];
@@ -242,7 +247,7 @@ u16 Checksum::CalculateWW(const u16 *buffer, u64 size, uint checksumOffset) {
 /* Verify AC:WW's Checksum. */
 bool Checksum::VerifyWW(const u16 *buffer, u64 size, u16 currentChecksum, uint checksumOffset) {
 	if (CalculateWW(buffer, size, checksumOffset) == currentChecksum) return true;
-	else	return false;
+	else return false;
 }
 
 /* Update AC:WW's Checksum. */
@@ -253,13 +258,16 @@ void Checksum::UpdateWWChecksum(WWRegion region, u8 *saveBuffer, u16 *buffer, u6
 		case WWRegion::EUR_REV1:
 			SaveUtils::Write<u16>(saveBuffer, 0x15FDC, CalculateWW(buffer, size, 0xAFEE));
 			break;
+
 		case WWRegion::JPN_REV0:
 		case WWRegion::JPN_REV1:
 			SaveUtils::Write<u16>(saveBuffer, 0x12220, CalculateWW(buffer, size, 0x9110));
 			break;
+
 		case WWRegion::KOR_REV1:
 			SaveUtils::Write<u16>(saveBuffer, 0x173F8, CalculateWW(buffer, size, 0xB9FC));
 			break;
+			
 		case WWRegion::UNKNOWN:
 			break;
 	}
