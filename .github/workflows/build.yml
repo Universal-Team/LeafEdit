@@ -62,7 +62,7 @@ jobs:
           name: build
 
   # Only run this for non-PR jobs.
-  publish_build_twlbot:
+  publish_build:
     runs-on: ubuntu-latest
     name: Publish build to Universal-Team/extras
     if: ${{ success() && !startsWith(github.ref, 'refs/pull') }}
@@ -74,7 +74,6 @@ jobs:
       COMMIT_MESSAGE: ${{ needs.build.outputs.commit_message }}
     outputs:
       current_date: ${{ steps.commit.outputs.current_date }}
-      twlbot_commit: ${{ steps.commit.outputs.twlbot_commit }}
     steps:
       - name: Install tools
         run: |
@@ -116,7 +115,6 @@ jobs:
           git commit -m "LeafEdit | $COMMIT_HASH"
           git tag v$CURRENT_DATE
           git push origin master v$CURRENT_DATE
-          echo ::set-output name=twlbot_commit::$(git log --format=%H -1)
       - name: Release to Universal-Team/extras
         run: |
           AUTH_HEADER="Authorization: token ${{ secrets.TWLBOT_TOKEN }}"
