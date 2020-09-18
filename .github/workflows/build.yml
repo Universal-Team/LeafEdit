@@ -137,11 +137,11 @@ jobs:
 
   send_webhook:
     runs-on: ubuntu-latest
-    needs: [publish_build_twlbot, build]
+    needs: [publish_build, build]
     name: Send Discord webhook
     if: ${{ !startsWith(github.ref, 'refs/pull') }}
     env:
-      CURRENT_DATE: ${{ needs.publish_build_twlbot.outputs.current_date }}
+      CURRENT_DATE: ${{ needs.publish_build.outputs.current_date }}
       AUTHOR_NAME: ${{ needs.build.outputs.author_name }}
       COMMITTER_NAME: ${{ needs.build.outputs.committer_name }}
       COMMIT_SUBJECT: ${{ needs.build.outputs.commit_subject }}
