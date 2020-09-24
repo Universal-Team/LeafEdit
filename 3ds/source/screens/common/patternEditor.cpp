@@ -167,7 +167,10 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	/* Set Personal stuff to pattern. */
 	if (this->ptrnTool == PatternMode::Own) {
-		this->pattern->ownPattern(save->player(0));
+		if (savesType != SaveType::HHD || savesType != SaveType::UNUSED) {
+			this->pattern->ownPattern(save->player(0));
+		}
+		
 		this->ptrnTool = PatternMode::Draw;
 	}
 

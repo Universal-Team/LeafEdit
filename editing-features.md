@@ -66,3 +66,9 @@ Here you can see all current editing features from LeafEdit.
 - [x] Edit Villager Wallpaper.
 - [x] Replace Villager species. (ID)
 - [x] View Villagers.
+
+## Happy Home Designer
+
+### Player
+- [x] Show Playername.
+- [x] View and Edit Pattern.

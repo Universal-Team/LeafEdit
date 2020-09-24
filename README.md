@@ -12,7 +12,11 @@
   </a>
 </p>
 
-This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager & Editor for the Nintendo 3DS!
+LeafEdit is a work in progress save editor and save manager for the following games:
+* Animal Crossing: Wild World
+* Animal Crossing: New Leaf
+* Animal Crossing: New Leaf Welcome amiibo
+* Animal Crossing: Happy Home Designer
 
 This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core) and [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core).
 
@@ -20,11 +24,8 @@ This Project has been made with [Universal-Core](https://github.com/Universal-Te
 ## Redirections
 - For a list of all editable features as of latest Nightly, look [here](https://github.com/Universal-Team/LeafEdit/blob/master/editing-features.md).
 
-- For a list of all core features as of latest Nightly, look [here](https://github.com/Universal-Team/LeafEdit/blob/master/core-features.md).
-
 ## Citra User
 To use LeafEdit completely you need to get the assets from [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/). Put the files to `sdmc:/3ds/LeafEdit/assets/` and you should be fine. You can also use the assets from the `resources/assets/` folder from this source.
-
 
 ## Compilation
 ### Setting up your enviromment
