@@ -80,6 +80,7 @@ UNIVCORE	:= 	Universal-Core
 SOURCECORE	:= ../LeafEdit-Core/source \
 			   ../LeafEdit-Core/source/acre \
 			   ../LeafEdit-Core/source/coreUtils \
+			   ../LeafEdit-Core/source/hhd \
 			   ../LeafEdit-Core/source/house \
 			   ../LeafEdit-Core/source/island \
 			   ../LeafEdit-Core/source/item \
@@ -94,6 +95,7 @@ SOURCECORE	:= ../LeafEdit-Core/source \
 INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/acre \
 			   ../LeafEdit-Core/include/coreUtils \
+			   ../LeafEdit-Core/include/hhd \
 			   ../LeafEdit-Core/include/house \
 			   ../LeafEdit-Core/include/island \
 			   ../LeafEdit-Core/include/item \
@@ -109,10 +111,10 @@ COMMON_SRC	:= ../common/source ../common/source/plugin
 COMMON_INC	:=	../common/include ../common/include/plugin
 
 SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/management \
-				source/overlay source/screens source/screens/common source/screens/nl source/screens/ww
+				source/overlay source/screens source/screens/common source/screens/hhd source/screens/nl source/screens/ww
 DATA		:=	data
 INCLUDES	:=	$(INCLUDECORE) $(UNIVCORE) $(COMMON_INC) include include/common include/download include/gui include/lang include/management \
-				include/overlay include/screens include/screens/common include/screens/nl include/screens/ww include/sprite
+				include/overlay include/screens include/screens/common include/screens/hhd include/screens/nl include/screens/ww include/sprite
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx

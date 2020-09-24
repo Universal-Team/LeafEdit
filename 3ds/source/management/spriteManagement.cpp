@@ -52,6 +52,7 @@ void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float Scale
 				else Gui::DrawSprite(Players, hair - 1, x, y, ScaleX, ScaleY);
 				break;
 
+			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
 		}
@@ -77,6 +78,7 @@ void SpriteManagement::DrawFace(u16 Gender, u8 face, int x, int y, float ScaleX,
 				}
 				break;
 
+			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
 		}
@@ -95,6 +97,7 @@ void SpriteManagement::DrawItem(u16 itemCategory, int x, int y, float ScaleX, fl
 				Gui::DrawSprite(Items, itemCategory, x, y, ScaleX, ScaleY);
 				break;
 
+			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
 		}
@@ -122,6 +125,7 @@ void SpriteManagement::DrawAcres(u8 acreID, int x, int y, float ScaleX, float Sc
 				Gui::DrawSprite(Acres, acreID, x, y, ScaleX, ScaleY);
 				break;
 
+			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
 		}
@@ -225,6 +229,7 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 				}
 				break;
 
+			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
 		}
@@ -247,7 +252,8 @@ void SpriteManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float Sc
 					Gui::DrawSprite(Items, 394 + 72, x, y, ScaleX, ScaleY); // 72.. the blank one.
 				}
 				break;
-				
+
+			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
 		}	

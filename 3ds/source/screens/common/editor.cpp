@@ -28,6 +28,7 @@
 #include "init.hpp"
 #include "lang.hpp"
 #include "overlay.hpp"
+#include "playerEditorHHD.hpp"
 #include "playerSelector.hpp"
 #include "saveUtils.hpp"
 #include "Sav.hpp"
@@ -55,6 +56,8 @@ const std::vector<std::string> titleNames = {
 	"New Leaf",
 	"とびだせ どうぶつの森 amiibo+",
 	"Welcome amiibo",
+	"Happy Home Designer",
+	"Happy Home Designer"
 };
 
 bool Editor::loadSave() {
@@ -92,6 +95,7 @@ bool Editor::loadSave() {
 	if (save->getType() == SaveType::WW) this->saveT = 0;
 	else if (save->getType() == SaveType::NL) this->saveT = 2;
 	else if (save->getType() == SaveType::WA) this->saveT = 4;
+	else if (save->getType() == SaveType::HHD) this->saveT = 5;
 
 	savesType = save->getType();
 
@@ -204,9 +208,18 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			} else if (touching(touch, this->mainButtons[0])) {
 				if (savesType != SaveType::UNUSED) {
-					/* Player Selector. */
-					if (save->player(0)) {
-						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
+					/* Go to Player Selector, if not HHD. */
+					if (savesType != SaveType::HHD) {
+						/* Player Selector. */
+						if (save->player(0)) {
+							Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
+						}
+
+					} else {
+						if (save->playerhhd()) {
+							Gui::setScreen(std::make_unique<PlayerEditorHHD>(save->playerhhd()), doFade, true);
+						}
+					}
 
 					} else {
 						Msg::NotImplementedYet();
@@ -215,7 +228,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			
 
 			} else if (touching(touch, this->mainButtons[1])) {
-				if (savesType != SaveType::UNUSED) {
+				if (savesType != SaveType::UNUSED || savesType != SaveType::HHD) {
 					/* Villager Viewer. */
 					if (save->villager(0)) {
 						if (savesType == SaveType::WW) {
@@ -232,7 +245,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
  			} else if (touching(touch, this->mainButtons[2])) {
-				if (savesType != SaveType::UNUSED) {
+				if (savesType != SaveType::UNUSED || savesType != SaveType::HHD) {
 					/* Town Editor. */
 					if (save->town()) {
 						if (savesType == SaveType::WW) {
@@ -247,7 +260,6 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					}
 				}
 			}
-		}
 
 		/* Navigation. */
 		if (hRepeat & KEY_UP) {
@@ -262,42 +274,44 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (savesType != SaveType::UNUSED) {
 				switch(this->Selection) {
 					case 0:
-						/* Player Selector. */
-						if (save->player(0)) {
-							Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
+						if (savesType != SaveType::HHD) {
+							/* Player Selector. */
+							if (save->player(0)) {
+								Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
+							}
 
 						} else {
-							Msg::NotImplementedYet();
+							if (save->playerhhd()) {
+								Gui::setScreen(std::make_unique<PlayerEditorHHD>(save->playerhhd()), doFade, true);
+							}
 						}
 						break;
 
 					case 1:
 						/* Villager Viewer. */
-						if (save->villager(0)) {
-							if (savesType == SaveType::WW) {
-								Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
+						if (savesType != SaveType::HHD) {
+							if (save->villager(0)) {
+								if (savesType == SaveType::WW) {
+									Gui::setScreen(std::make_unique<VillagerViewerWW>(), doFade, true);
 
-							} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-								Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
+								} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+									Gui::setScreen(std::make_unique<VillagerViewerNL>(), doFade, true);
+								}
 							}
-
-						} else {
-							Msg::NotImplementedYet();
 						}
 						break;
 					
 					case 2:
 						/* Town Editor. */
-						if (save->town()) {
-							if (savesType == SaveType::WW) {
-								Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
+						if (savesType != SaveType::HHD) {
+							if (save->town()) {
+								if (savesType == SaveType::WW) {
+									Gui::setScreen(std::make_unique<TownEditorWW>(save->town()), doFade, true);
 
-							} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
-								Gui::setScreen(std::make_unique<TownEditorNL>(save->town()), doFade, true);
+								} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+									Gui::setScreen(std::make_unique<TownEditorNL>(save->town()), doFade, true);
+								}
 							}
-							
-						} else {
-							Msg::NotImplementedYet();
 						}
 						break;
 				}

@@ -41,7 +41,7 @@ extern std::unique_ptr<Config> config;
 
 /* Fix Invalid Buildings and replace them with "Empty". */
 void CoreUtils::FixInvalidBuildings(void) {
-	if (save != nullptr) { // Make sure save is not a nullpointer.
+	if (save) { // Make sure save is not a nullpointer.
 		u32 offset = 0;
 		bool ask = false;
 
@@ -189,6 +189,10 @@ void CoreUtils::createBackup() {
 					fileName = "garden_plus.dat";
 					break;
 
+				case SaveType::HHD:
+					fileName = "takumi.dat";
+					break;
+
 				case SaveType::UNUSED:
 					fileName = "?";
 					break;
@@ -266,6 +270,7 @@ C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType
 		switch(ST) {
 			case SaveType::NL:
 			case SaveType::WA:
+			case SaveType::HHD:
 				for (int i = 0; i < 0x200; i++) {
 					buffer[i * 2] = NLPaletteColors[image->getPaletteColor(image->getPixel(i).left)]; // Left pixel.
 					buffer[i * 2 + 1] = NLPaletteColors[image->getPaletteColor(image->getPixel(i).right)]; // Right pixel.
@@ -326,6 +331,7 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 
 		case SaveType::NL:
 		case SaveType::WA:
+		case SaveType::HHD:
 			path = "romfs:/pattern/empty/nl.acnl";
 			break;
 
@@ -430,6 +436,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 			break;
 
 		case SaveType::WA:
+		case SaveType::HHD:
 			patternLength = 20;
 			creatorNameStart = 0x28;
 			creatorLength = 8;

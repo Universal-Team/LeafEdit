@@ -2,7 +2,7 @@ name: Build LeafEdit
 
 on:
   push:
-    branches-ignore: [translation]
+    branches-ignore: [translation, leafedit-core-v2]
   pull_request:
     branches: ["*"]
   release:

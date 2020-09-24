@@ -143,7 +143,7 @@ void Script::WriteFor(u32 offset, u32 length, u8 data) {
 /* Write an EncryptedInt32. */
 void Script::DoEI32(u32 offset, u32 value) {
 	if (save) {
-		if (save->getType() == SaveType::NL || save->getType() == SaveType::WA) {
+		if (save->getType() == SaveType::NL || save->getType() == SaveType::WA || save->getType() == SaveType::HHD) {
 			u32 encryptedInt = 0;
 			u32 encryptionData = 0;
 
@@ -221,6 +221,13 @@ bool Script::gameSupported(int entry) const {
 
 				break;
 
+			case SaveType::HHD:
+				for (int i = 0; i < (int)games.size(); i++) {
+					if (games[i] == "HHD") return true;
+				}
+
+				break;
+
 			case SaveType::UNUSED:
 				return false;
 				break;
@@ -288,7 +295,10 @@ ScriptError Script::execute(int entry) {
 				
 				data = (u8)std::stoi(dataString, 0, 16);
 
-				if (save) save->savePointer()[offset] = data; // Do not cast for an u8, because we don't need that.
+				if (save) {
+					save->savePointer()[offset] = data; // Do not cast for an u8, because we don't need that.
+					save->changesMade(true);
+				}
 
 			} else if (type == "WriteU16") {
 				u32 offset = 0; u16 data = 0; std::string offsetString = "", dataString = "";

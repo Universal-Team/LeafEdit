@@ -47,6 +47,7 @@ PlayerSelector::PlayerSelector() {
 
 			switch(savesType) {
 				case SaveType::WW:
+				case SaveType::HHD:
 				case SaveType::UNUSED:
 					break;
 
@@ -79,6 +80,7 @@ PlayerSelector::~PlayerSelector() {
 			break;
 
 		case SaveType::WW:
+		case SaveType::HHD:
 		case SaveType::UNUSED:
 			break;
 	}
@@ -106,6 +108,7 @@ void PlayerSelector::Draw(void) const {
 					}
 					break;
 
+				case SaveType::HHD:
 				case SaveType::UNUSED:
 					break;
 			}
@@ -150,6 +153,7 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(this->selectedPlayer)), doFade, true);
 					break;
 
+				case SaveType::HHD:
 				case SaveType::UNUSED:
 					break;
 			}

@@ -120,7 +120,7 @@ void PatternEditor::Draw(void) const {
 			}
 		}
 
-	} else if (savesType == SaveType::NL || savesType == SaveType::WA) {
+	} else if (savesType == SaveType::NL || savesType == SaveType::WA || savesType == SaveType::HHD) {
 		for (int i = 0; i < 15; i++) {
 			if (i == this->color) {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, NLPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(160, 0, 0, 255));
@@ -167,7 +167,10 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	
 	/* Set Personal stuff to pattern. */
 	if (this->ptrnTool == PatternMode::Own) {
-		this->pattern->ownPattern(save->player(0));
+		if (savesType != SaveType::HHD || savesType != SaveType::UNUSED) {
+			this->pattern->ownPattern(save->player(0));
+		}
+		
 		this->ptrnTool = PatternMode::Draw;
 	}
 
@@ -193,6 +196,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			case SaveType::NL:
 			case SaveType::WA:
+			case SaveType::HHD:
 				extension = "acnl";
 				break;
 
@@ -227,6 +231,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			case SaveType::NL:
 			case SaveType::WA:
+			case SaveType::HHD:
 				destination += ".acnl";
 				break;
 
@@ -253,7 +258,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						this->yPos = y;
 
 						if (savesType == SaveType::WW) this->image->setPixel(x, y, this->color + 1);
-						else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(x, y, this->color);
+						else if (savesType == SaveType::NL || savesType == SaveType::WA || savesType == SaveType::HHD) this->image->setPixel(x, y, this->color);
 						didTouch = true;
 						break;
 					}
@@ -278,7 +283,7 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		if (hHeld & KEY_A) {
 			if (savesType == SaveType::WW) this->image->setPixel(this->xPos, this->yPos, this->color + 1);
-			else if (savesType == SaveType::NL || savesType == SaveType::WA) this->image->setPixel(this->xPos, this->yPos, this->color);
+			else if (savesType == SaveType::NL || savesType == SaveType::WA || savesType == SaveType::HHD) this->image->setPixel(this->xPos, this->yPos, this->color);
 
 			C3D_FrameEnd(0);
 			if (this->patternImage.tex) C2DUtils::C2D_ImageDelete(this->patternImage);
