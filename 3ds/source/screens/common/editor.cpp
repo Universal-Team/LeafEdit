@@ -28,7 +28,7 @@
 #include "init.hpp"
 #include "lang.hpp"
 #include "overlay.hpp"
-#include "PlayerEditorHHD.hpp"
+#include "playerEditorHHD.hpp"
 #include "playerSelector.hpp"
 #include "saveUtils.hpp"
 #include "Sav.hpp"
