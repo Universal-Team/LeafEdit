@@ -70,6 +70,10 @@ extern "C" {
 
 #define WelcomeLuxury		0x00040000004C5700
 
+#define HHD_JPN             0x000400000014F000
+#define HHD_USA             0x000400000014F100
+#define HHD_EUR             0x000400000014F200
+
 /* GodMode and whatnot. */
 extern bool doFade;
 extern C2D_Font font;

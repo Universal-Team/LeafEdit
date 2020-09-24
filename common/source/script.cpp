@@ -295,7 +295,10 @@ ScriptError Script::execute(int entry) {
 				
 				data = (u8)std::stoi(dataString, 0, 16);
 
-				if (save) save->savePointer()[offset] = data; // Do not cast for an u8, because we don't need that.
+				if (save) {
+					save->savePointer()[offset] = data; // Do not cast for an u8, because we don't need that.
+					save->changesMade(true);
+				}
 
 			} else if (type == "WriteU16") {
 				u32 offset = 0; u16 data = 0; std::string offsetString = "", dataString = "";

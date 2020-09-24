@@ -14,7 +14,7 @@
 
 This is a work in progress Animal Crossing: New Leaf & Wild World Save Manager & Editor for the Nintendo 3DS!
 
-This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core).
+This Project has been made with [Universal-Core](https://github.com/Universal-Team/Universal-Core) and [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core).
 
 
 ## Redirections
@@ -119,12 +119,13 @@ Spanish
 - [YoSoy](https://twitter.com/riku200)
 
 ### Others
-- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For some core work of NLTK & ACSE research and for the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
-- [devkitPro](https://github.com/devkitPro), [Fincs](https://github.com/fincs), [Smealum](https://github.com/smealum), [Wintermute](https://github.com/WinterMute): For devkitARM, Citro2D, Citro3D and Libctru.
+- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
+- [devkitPro](https://github.com/devkitPro): For devkitARM, Citro2D, Citro3D and Libctru.
 - [Flame](https://github.com/FlameKat53): The name idea of LeafEdit.
 - [Kodtiz3D](https://github.com/Kodtiz3D): For the icon and the banner.
 - [FlagBrew](https://github.com/FlagBrew) / [piepie62](https://github.com/piepie62): For helping out by problems and [PKSM-Core](https://github.com/FlagBrew/PKSM-Core)'s Save Structure inspiration. LeafEdit's Core Structure is very similar to the one from PKSM-Core.
-- [Lukas](https://github.com/RedShyGuy): For some useful AC:NL offsets for the core.
+- [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core): The save editing code comes from here. Credits to all the contributors from LeafEdit-Core.
 - [Pk11](https://github.com/Epicpkmn11): For being a big help.
+- [RedShyGuy](https://github.com/RedShyGuy): For some useful AC:NL offsets for the core.
 - [TotallyNotGuy](https://github.com/TotallyNotGuy): For the amazing graphic work!
 - [Universal-Updater](https://github.com/Universal-Team/Universal-Updater): Download code being ported from this app.
