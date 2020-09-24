@@ -28,6 +28,6 @@
 #include "overlay.hpp"
 
 void Overlays::PaletteTool(std::unique_ptr<PatternImage> &pImg, C2D_Image &img, SaveType ST) {
-	if (ST == SaveType::NL || ST == SaveType::WA) Overlays::PaletteToolNL(pImg, img);
+	if (ST == SaveType::NL || ST == SaveType::WA || ST == SaveType::HHD) Overlays::PaletteToolNL(pImg, img);
 	else if (ST == SaveType::WW) Overlays::PaletteToolWW(pImg, img);
 }

@@ -55,6 +55,8 @@ const std::vector<std::string> titleNames = {
 	"New Leaf",
 	"とびだせ どうぶつの森 amiibo+",
 	"Welcome amiibo",
+	"Happy Home Designer",
+	"Happy Home Designer"
 };
 
 bool Editor::loadSave() {
@@ -92,6 +94,7 @@ bool Editor::loadSave() {
 	if (save->getType() == SaveType::WW) this->saveT = 0;
 	else if (save->getType() == SaveType::NL) this->saveT = 2;
 	else if (save->getType() == SaveType::WA) this->saveT = 4;
+	else if (save->getType() == SaveType::HHD) this->saveT = 5;
 
 	savesType = save->getType();
 
@@ -203,7 +206,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 			} else if (touching(touch, this->mainButtons[0])) {
-				if (savesType != SaveType::UNUSED) {
+				if (savesType != SaveType::UNUSED && savesType != SaveType::HHD) {
 					/* Player Selector. */
 					if (save->player(0)) {
 						Gui::setScreen(std::make_unique<PlayerSelector>(), doFade, true);
@@ -259,7 +262,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_A) {
-			if (savesType != SaveType::UNUSED) {
+			if (savesType != SaveType::UNUSED && savesType != SaveType::HHD) {
 				switch(this->Selection) {
 					case 0:
 						/* Player Selector. */

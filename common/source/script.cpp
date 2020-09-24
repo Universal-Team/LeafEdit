@@ -143,7 +143,7 @@ void Script::WriteFor(u32 offset, u32 length, u8 data) {
 /* Write an EncryptedInt32. */
 void Script::DoEI32(u32 offset, u32 value) {
 	if (save) {
-		if (save->getType() == SaveType::NL || save->getType() == SaveType::WA) {
+		if (save->getType() == SaveType::NL || save->getType() == SaveType::WA || save->getType() == SaveType::HHD) {
 			u32 encryptedInt = 0;
 			u32 encryptionData = 0;
 
@@ -217,6 +217,13 @@ bool Script::gameSupported(int entry) const {
 			case SaveType::WA:
 				for (int i = 0; i < (int)games.size(); i++) {
 					if (games[i] == "WA") return true;
+				}
+
+				break;
+
+			case SaveType::HHD:
+				for (int i = 0; i < (int)games.size(); i++) {
+					if (games[i] == "HHD") return true;
 				}
 
 				break;

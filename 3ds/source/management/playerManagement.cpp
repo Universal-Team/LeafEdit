@@ -153,6 +153,7 @@ u32 PlayerManagement::getHairColor(u8 hairColor, SaveType save) {
 					return C2D_Color32(0, 0, 0, 0);
 			}
 
+		case SaveType::HHD:
 		case SaveType::UNUSED:
 			return C2D_Color32(0, 0, 0, 0);
 	}

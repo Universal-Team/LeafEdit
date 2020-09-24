@@ -90,6 +90,7 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 			loadToVector("romfs:/lang/strings/wa/personalities.txt", g_personality);
 			break;
 			
+		case SaveType::HHD:
 		case SaveType::UNUSED:
 			break;
 	}
