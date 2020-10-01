@@ -114,16 +114,7 @@ u16 Overlays::SelectItem(u16 oldID, const SaveType st, const bool blockInv, std:
 			}
 
 			if (hidKeysDown() & KEY_A) {
-				if (blockInv) {
-					if (st == SaveType::NL || st == SaveType::WA) {
-						if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
-							return std::get<0>(itemList[itemIndex]);
-						}
-					}
-
-				} else {
-					return std::get<0>(itemList[itemIndex]);
-				}
+				return std::get<0>(itemList[itemIndex]);
 			}
 		}
 
@@ -196,16 +187,7 @@ u16 Overlays::SelectItemCategory(u16 oldID, const SaveType st, const bool blockI
 			}
 
 			if (hidKeysDown() & KEY_A) {
-				if (blockInv) {
-					if (st == SaveType::NL || st == SaveType::WA) {
-						if (ItemUtils::IsInvWhitelisted(std::get<0>(itemList[itemIndex]))) {
-							return std::get<0>(itemList[itemIndex]);
-						}
-					}
-
-				} else {
-					return std::get<0>(itemList[itemIndex]);
-				}
+				return std::get<0>(itemList[itemIndex]);
 			}
 		}
 
@@ -267,7 +249,7 @@ u8 Overlays::SelectWWCategory(u8 oldIndex, std::vector<int> category, std::strin
 			if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 				if ((itemIndex + 9) > (int)itemList.size()-1) {
 					itemIndex = (int)itemList.size()-1;
-					
+
 				} else {
 					itemIndex += 9;
 				}

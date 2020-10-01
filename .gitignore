@@ -1,4 +1,3 @@
-*.bin
 *.d
 *.o
 *.elf
@@ -19,3 +18,5 @@ bannertool*
 makerom*
 *.exe
 3ds/romfs/gfx/gui.t3x
+3ds/app/icon.bin
+3ds/app/banner.bin

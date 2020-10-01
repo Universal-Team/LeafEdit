@@ -25,8 +25,11 @@
 */
 
 #include "itemEditorNL.hpp"
+#include "itemKind.hpp"
 #include "itemManager.hpp"
 #include "itemUtils.hpp"
+#include "ItemWhiteListNL.hpp"
+#include "ItemWhiteListWA.hpp"
 #include "gfx.hpp"
 #include "keyboard.hpp"
 #include "overlay.hpp"
@@ -43,7 +46,22 @@ extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
 /* Only load item stuff, when accessing this screen and also unload by exit of that screen. */
 ItemEditorNL::ItemEditorNL(std::unique_ptr<Player> &refPlayer) : player(refPlayer) {
-	ItemUtils::loadItemBins();
+	switch(savesType) {
+		case SaveType::NL:
+			this->whiteList = std::make_unique<ItemWhiteListNL>();
+			this->itemKind = this->whiteList->GetItemKind();
+			break;
+
+		case SaveType::WA:
+			this->whiteList = std::make_unique<ItemWhiteListWA>();
+			this->itemKind = this->whiteList->GetItemKind();
+			break;
+
+		case SaveType::HHD:
+		case SaveType::WW:
+		case SaveType::UNUSED:
+			break;
+	}
 
 	/* Loading Pocket here. */
 	for (int i = 0; i < 16; i++) {
@@ -68,7 +86,7 @@ ItemEditorNL::ItemEditorNL(std::unique_ptr<Player> &refPlayer) : player(refPlaye
 	}
 }
 
-ItemEditorNL::~ItemEditorNL() { ItemUtils::closeItemBins(); }
+ItemEditorNL::~ItemEditorNL() { }
 
 void ItemEditorNL::Draw(void) const {
 	switch(this->Mode) {
@@ -168,7 +186,7 @@ void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-	
+
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
@@ -221,8 +239,8 @@ void ItemEditorNL::DrawPocket(void) const {
 	for (int i = 0; i < 16; i++) {
 		GFX::DrawGUI(gui_itemHole_idx, this->pocketSlots[i].x, this->pocketSlots[i].y); // Draw Item Slots.
 
-		if (ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()) > -1) {
-			SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()), this->pocketSlots[i].x + 16, this->pocketSlots[i].y + 16, 1, 1);
+		if (this->itemKind->GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()) > -1) {
+			SpriteManagement::DrawItem(this->itemKind->GetSpritesheetID(this->pockets[i]->id(), this->pockets[i]->flags()), this->pocketSlots[i].x + 16, this->pocketSlots[i].y + 16, 1, 1);
 		}
 	}
 
@@ -275,8 +293,8 @@ void ItemEditorNL::DrawIslandBox(void) const {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawGUI(gui_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16); // Draw Item Slots.
 
-				if (ItemUtils::GetSpritesheetID(this->islandBox[i]->id(), this->islandBox[i]->flags()) > -1) {
-					SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->islandBox[i]->id(), this->islandBox[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
+				if (this->itemKind->GetSpritesheetID(this->islandBox[i]->id(), this->islandBox[i]->flags()) > -1) {
+					SpriteManagement::DrawItem(this->itemKind->GetSpritesheetID(this->islandBox[i]->id(), this->islandBox[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
 			}
 		}
@@ -345,8 +363,8 @@ void ItemEditorNL::DrawDresser(void) const {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawGUI(gui_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16); // Draw Item Slots.
 
-				if (ItemUtils::GetSpritesheetID(this->dresser[i]->id(), this->dresser[i]->flags()) > -1) {
-					SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->dresser[i]->id(), this->dresser[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
+				if (this->itemKind->GetSpritesheetID(this->dresser[i]->id(), this->dresser[i]->flags()) > -1) {
+					SpriteManagement::DrawItem(this->itemKind->GetSpritesheetID(this->dresser[i]->id(), this->dresser[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
 			}
 		}
@@ -409,14 +427,14 @@ void ItemEditorNL::DrawStorage(void) const {
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->storage[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
 
 	GFX::DrawBottom();
-	
+
 	for (int i = 0 + (10 * this->currentBox); i < 10 + (10 * this->currentBox); i++) {
 		for (u32 y = 0; y < 2; y++) {
 			for (u32 x = 0; x < 5; x++, i++) {
 				GFX::DrawGUI(gui_itemHole_idx, 25 + x * 58 - 16, 75 + y * 58 - 16); // Draw Item Slots.
 
-				if (ItemUtils::GetSpritesheetID(this->storage[i]->id(), this->storage[i]->flags()) > -1) {
-					SpriteManagement::DrawItem(ItemUtils::GetSpritesheetID(this->storage[i]->id(), this->storage[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
+				if (this->itemKind->GetSpritesheetID(this->storage[i]->id(), this->storage[i]->flags()) > -1) {
+					SpriteManagement::DrawItem(this->itemKind->GetSpritesheetID(this->storage[i]->id(), this->storage[i]->flags()), 25 + x * 58, 75 + y * 58, 1 , 1);
 				}
 			}
 		}

@@ -72,7 +72,7 @@ void PlayerEditorNL::Draw(void) const {
 		case 0:
 			this->DrawSubMenu();
 			break;
-		
+
 		case 1:
 			this->DrawPlayer();
 			break;
@@ -92,7 +92,7 @@ void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 0:
 			this->SubMenuLogic(hDown, hHeld, touch);
 			break;
-		
+
 		case 1:
 			this->PlayerLogic(hDown, hHeld, touch);
 			break;
@@ -100,7 +100,7 @@ void PlayerEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 2:
 			this->AppearanceLogic(hDown, hHeld, touch);
 			break;
-		
+
 		case 3:
 			this->PatternLogic(hDown, hHeld, touch);
 			break;
@@ -121,7 +121,7 @@ void PlayerEditorNL::DrawSubMenu(void) const {
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 6; i++) {
@@ -218,7 +218,7 @@ void PlayerEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			this->Mode = 3;
 		}
 	}
-	
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
@@ -270,11 +270,11 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < 3) this->Selection += 3;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
-	
+
 	if (hDown & KEY_B) {
 		this->Selection = 0;
 		this->Mode = 0;
@@ -392,7 +392,7 @@ void PlayerEditorNL::DrawPlayer(void) const {
 	Gui::Draw_Rect(40, 37, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	Gui::Draw_Rect(40, 65, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	Gui::Draw_Rect(40, 93, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
-	
+
 	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, "Wallet Amount: " + std::to_string((this->player->wallet())), 380, 0, font);
 	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, "Bank Amount: " + std::to_string((this->player->bank())), 380, 0, font);
 	Gui::DrawStringCentered(0, 91, 0.9f, BLACK, "Medal Amount: " + std::to_string((this->player->islandmedals())), 380, 0, font);
@@ -427,11 +427,11 @@ void PlayerEditorNL::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < 3) this->Selection += 3;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
-	
+
 	if (hDown & KEY_B) {
 		this->Selection = 0;
 		this->Mode = 0;
@@ -564,11 +564,11 @@ void PlayerEditorNL::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 void PlayerEditorNL::DrawLetter(void) const {
 	GFX::DrawTop();
 
-	if (this->player->letter(this->Selection)->playerid() != 0) { // Player ID 0 --> No letter.
+	if (this->player->letter(this->Selection)->flag() != 0) { // Flag 0 -> No exist.
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->intro()), 400, 0, font);
 		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->body()), 400, 0, font);
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->end()), 400, 0, font);
-		
+
 	} else {
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "Letter not available.", 395, 0, font);
 	}

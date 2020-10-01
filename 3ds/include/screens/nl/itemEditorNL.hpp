@@ -30,6 +30,7 @@
 #include "common.hpp"
 #include "coreUtils.hpp"
 #include "Item.hpp"
+#include "ItemWhiteList.hpp"
 #include "screenCommon.hpp"
 
 #include <vector>
@@ -69,6 +70,8 @@ private:
 	std::unique_ptr<Item> dresser[180];
 	std::unique_ptr<Item> islandBox[40];
 	std::unique_ptr<Item> storage[360];
+	std::unique_ptr<ItemWhiteList> whiteList = nullptr;
+	std::unique_ptr<ItemKind> itemKind = nullptr;
 	int Selection = 0, selectedItem = 0, Mode = 0, currentBox = 0;
 
 	const std::vector<ButtonType> mainButtons = {

@@ -84,6 +84,7 @@ SOURCECORE	:= ../LeafEdit-Core/source \
 			   ../LeafEdit-Core/source/house \
 			   ../LeafEdit-Core/source/island \
 			   ../LeafEdit-Core/source/item \
+			   ../LeafEdit-Core/source/itemUtils \
 			   ../LeafEdit-Core/source/letter \
 			   ../LeafEdit-Core/source/pattern \
 			   ../LeafEdit-Core/source/player \
@@ -99,6 +100,7 @@ INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/house \
 			   ../LeafEdit-Core/include/island \
 			   ../LeafEdit-Core/include/item \
+			   ../LeafEdit-Core/include/itemUtils \
 			   ../LeafEdit-Core/include/letter \
 			   ../LeafEdit-Core/include/pattern \
 			   ../LeafEdit-Core/include/player \
@@ -107,8 +109,8 @@ INCLUDECORE	:= ../LeafEdit-Core/include \
 			   ../LeafEdit-Core/include/town \
 			   ../LeafEdit-Core/include/villager
 
-COMMON_SRC	:= ../common/source ../common/source/plugin
-COMMON_INC	:=	../common/include ../common/include/plugin
+COMMON_SRC	:= ../common/source
+COMMON_INC	:=	../common/include
 
 SOURCES		:=	$(SOURCECORE) $(UNIVCORE) $(COMMON_SRC) source source/common source/download source/gui source/lang source/management \
 				source/overlay source/screens source/screens/common source/screens/hhd source/screens/nl source/screens/ww
