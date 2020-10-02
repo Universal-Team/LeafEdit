@@ -38,7 +38,7 @@ To download the source you will need to clone it with submodules, this can be do
 ```
 git clone --recursive https://github.com/Universal-Team/LeafEdit.git
 ```
-or if you've already cloned it running 
+or if you've already cloned it running
 ```
 git submodule update --init --recursive
 ```
@@ -77,11 +77,11 @@ Simply run `make` in the LeafEdit directory.
 
 ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/pocketEditorWW.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/saveSelect.png)
 
-![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/scriptMain.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/settings.png) 
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/scriptMain.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/settings.png)
 
-![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/townEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/updateCenter.png) 
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/townEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/updateCenter.png)
 
-![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerItemEditor.png) 
+![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerEditor.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerItemEditor.png)
 
 ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerSelect.png) ![](https://github.com/Universal-Team/LeafEdit/blob/master/Screenshots/villagerViewer.png)
 
@@ -120,11 +120,11 @@ Spanish
 - [YoSoy](https://twitter.com/riku200)
 
 ### Others
-- [Cuyler](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
+- [Cuyler36](https://github.com/Cuyler36), [Slattz](https://github.com/Slattz), [NLTK](https://github.com/Slattz/NLTK), [ACSE](https://github.com/Cuyler36/ACSE): For the acres, face, hair, items and villagers sprites which are available [here](https://github.com/Universal-Team/extras/raw/master/builds/LeafEdit/assets/).
 - [devkitPro](https://github.com/devkitPro): For devkitARM, Citro2D, Citro3D and Libctru.
+- [FlagBrew](https://github.com/FlagBrew) / [piepie62](https://github.com/piepie62): For helping out by problems and [PKSM-Core](https://github.com/FlagBrew/PKSM-Core)'s Save Structure inspiration. LeafEdit's Core Structure is very similar to the one from PKSM-Core.
 - [Flame](https://github.com/FlameKat53): The name idea of LeafEdit.
 - [Kodtiz3D](https://github.com/Kodtiz3D): For the icon and the banner.
-- [FlagBrew](https://github.com/FlagBrew) / [piepie62](https://github.com/piepie62): For helping out by problems and [PKSM-Core](https://github.com/FlagBrew/PKSM-Core)'s Save Structure inspiration. LeafEdit's Core Structure is very similar to the one from PKSM-Core.
 - [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core): The save editing code comes from here. Credits to all the contributors from LeafEdit-Core.
 - [Pk11](https://github.com/Epicpkmn11): For being a big help.
 - [RedShyGuy](https://github.com/RedShyGuy): For some useful AC:NL offsets for the core.

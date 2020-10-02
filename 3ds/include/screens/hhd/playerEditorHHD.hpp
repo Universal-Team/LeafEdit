@@ -54,14 +54,25 @@ private:
 	/* Draws. */
 	void DrawSubMenu(void) const;
 	void DrawPattern(void) const;
+	void DrawUnlock(void) const;
 
 	/* Logics. */
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	
+	void UnlockLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
 	const std::vector<ButtonType> mainButtons = {
 		{15, 34, 102, 20, "PATTERN"},
-		{15, 97, 102, 20, ""},
+		{15, 97, 102, 20, "MISCS"},
+		{15, 159, 102, 20, ""},
+		{175, 34, 102, 20, ""},
+		{175, 97, 102, 20, ""},
+		{175, 159, 102, 20, ""}
+	};
+
+	const std::vector<ButtonType> unlockBtn = {
+		{15, 34, 102, 20, "UNLOCK_HANDBOOKS"},
+		{15, 97, 102, 20, "UNLOCK_EMOTIONS"},
 		{15, 159, 102, 20, ""},
 		{175, 34, 102, 20, ""},
 		{175, 97, 102, 20, ""},
@@ -86,7 +97,7 @@ private:
 		{197, 100, 48, 48},
 		{197, 160, 48, 48},
 
-		{257, 40, 48, 48},	
+		{257, 40, 48, 48},
 		{257, 100, 48, 48},
 		{257, 160, 48, 48}
 	};

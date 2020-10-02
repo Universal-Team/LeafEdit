@@ -61,7 +61,7 @@ void PlayerEditorWW::Draw(void) const {
 		case 2:
 			this->DrawAppearance();
 			break;
-		
+
 		case 3:
 			this->DisplayPattern();
 			break;
@@ -77,7 +77,7 @@ void PlayerEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 1:
 			this->PlayerLogic(hDown, hHeld, touch);
 			break;
-		
+
 		case 2:
 			this->AppearanceLogic(hDown, hHeld, touch);
 			break;
@@ -153,7 +153,7 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < 3) this->Selection += 3;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
@@ -186,7 +186,7 @@ void PlayerEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			this->Mode = 3;
 		}
 	}
-	
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
@@ -234,11 +234,11 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < 3) this->Selection += 3;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
-	
+
 	if (hDown & KEY_B) {
 		this->Selection = 0;
 		this->Mode = 0;
@@ -265,23 +265,23 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 						return;
 				}
 
-				this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
+				this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), Lang::get("ENTER_PLAYERNAME"))));
 				break;
 
 			case 1:
-				this->player->hairstyle((u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle."));
+				this->player->hairstyle((u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, Lang::get("SELECT_HAIRSTYLE")));
 				break;
 
 			case 2:
-				this->player->face((u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype."));
+				this->player->face((u8)GFX::ListSelection(this->player->face(), g_FaceType, Lang::get("SELECT_FACETYPE")));
 				break;
 
 			case 3:
-				this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+				this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, Lang::get("SELECT_TAN")));
 				break;
 
 			case 4:
-				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, Lang::get("SELECT_HAIRCOLOR")));
 				break;
 		}
 	}
@@ -306,23 +306,23 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 					return;
 			}
 
-			this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
+			this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), Lang::get("ENTER_PLAYERNAME"))));
 
 
 		} else if (touching(touch, this->appearanceBtn[1])) {
-			this->player->hairstyle((u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle."));
+			this->player->hairstyle((u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, Lang::get("SELECT_HAIRSTYLE")));
 
 
 		} else if (touching(touch, this->appearanceBtn[2])) {
-			this->player->face((u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype."));
+			this->player->face((u8)GFX::ListSelection(this->player->face(), g_FaceType, Lang::get("SELECT_FACETYPE")));
 
 
 		} else if (touching(touch, this->appearanceBtn[3])) {
-			this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+			this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, Lang::get("SELECT_TAN")));
 
 
 		} else if (touching(touch, this->appearanceBtn[4])) {
-			this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+			this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, Lang::get("SELECT_HAIRCOLOR")));
 		}
 	}
 }
@@ -334,15 +334,15 @@ void PlayerEditorWW::DrawPlayer(void) const {
 
 	Gui::Draw_Rect(40, 37, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	Gui::Draw_Rect(40, 65, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
-	
-	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, "Wallet Amount: " + std::to_string((this->player->wallet())), 380, 0, font);
-	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, "Bank Amount: " + std::to_string((this->player->bank())), 380, 0, font);
+
+	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string((this->player->wallet())), 380, 0, font);
+	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string((this->player->bank())), 380, 0, font);
 
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {
 		GFX::DrawButton(this->playerButtons[i]);
-		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->playerButtons[i].x+100, this->playerButtons[i].y+30);
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->playerButtons[i].x + 100, this->playerButtons[i].y + 30);
 	}
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
@@ -354,11 +354,11 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 1) this->Selection++;
 	}
-	
+
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
-	
+
 	if (hDown & KEY_B) {
 		this->Selection = 0;
 		this->Mode = 0;
@@ -367,11 +367,11 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
-				this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
+				this->player->wallet((u32)Input::setInt(99999, Lang::get("ENTER_WALLET_AMOUNT"), 5, this->player->wallet()));
 				break;
 
 			case 1:
-				this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
+				this->player->bank((u32)Input::setInt(999999999, Lang::get("ENTER_BANK_AMOUNT"), 9, this->player->bank()));
 				break;
 		}
 	}
@@ -379,11 +379,11 @@ void PlayerEditorWW::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, this->playerButtons[0])) {
-			this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
+			this->player->wallet((u32)Input::setInt(99999, Lang::get("ENTER_WALLET_AMOUNT"), 5, this->player->wallet()));
 
 
 		} else if (touching(touch, this->playerButtons[1])) {
-			this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
+			this->player->bank((u32)Input::setInt(999999999, Lang::get("ENTER_BANK_AMOUNT"), 9, this->player->bank()));
 		}
 	}
 }
@@ -400,7 +400,7 @@ void PlayerEditorWW::DisplayPattern(void) const {
 
 	if (this->pattern[this->Selection]->creatorGender()) {
 		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("FEMALE"), 395, 0, font);
-		
+
 	} else {
 		Gui::DrawStringCentered(0, 140, 0.7f, BLACK, Lang::get("GENDER") + ": " + Lang::get("MALE"), 395, 0, font);
 	}

@@ -202,7 +202,12 @@ void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 
 			case 3:
-				if (savesType == SaveType::WA) this->Mode = 4; // WA only.
+				if (savesType == SaveType::WA) {
+					this->Mode = 4; // WA only.
+
+ 				} else {
+					Msg::DisplayWaitMsg(Lang::get("STORAGE_WA_ONLY"));
+				}
 				break;
 		}
 	}
@@ -219,6 +224,9 @@ void ItemEditorNL::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					if (savesType == SaveType::WA) {
 						this->Selection = 0;
 						this->Mode = 4;
+
+					} else {
+						Msg::DisplayWaitMsg(Lang::get("STORAGE_WA_ONLY"));
 					}
 				}
 			}

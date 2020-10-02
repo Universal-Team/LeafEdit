@@ -90,7 +90,7 @@ void VillagerEditorWW::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
-	
+
 	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
@@ -191,11 +191,11 @@ void VillagerEditorWW::DrawItems(void) const {
 		case 11:
 			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, "Song hasn't been researched yet.", 390, 0, font);
 			break;
-		
+
 		case 12:
 			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(17, this->miscItems[1]), 390, 0, font);
 			break;
-		
+
 		case 13:
 			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(18, this->miscItems[2]), 390, 0, font);
 			break;
@@ -204,11 +204,11 @@ void VillagerEditorWW::DrawItems(void) const {
 			Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + ItemUtils::getWWName(26, this->miscItems[3]), 390, 0, font);
 			break;
 	}
-		
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
-	
+
 	for (int i = 0; i < 10; i++) {
 		GFX::drawGrid(items[i].x, items[i].y, items[i].w, items[i].h, ItemManager::getColor(this->villagerItems[i]->itemtype()), C2D_Color32(0, 0, 0, 255));
 	}
@@ -239,32 +239,32 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 8:
 			case 9:
 				/* Villager furniture. */
-				this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), SaveType::WW, false, {46}, "Select a Furniture."));
+				this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), SaveType::WW, false, {46}, Lang::get("SELECT_FURNITURE")));
 				break;
 
 			case 10:
 				/* Villager shirt. */
-				this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, "Select a Shirt."));
+				this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, Lang::get("SELECT_SHIRT")));
 				break;
 
 			case 11:
 				/* Song: TODO. */
 				Msg::DisplayWaitMsg("Song hasn't been researched yet.");
 				break;
-			
+
 			case 12:
 				/* Villager Wallpaper. */
-				this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, "Select a Wallpaper.");
+				this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, Lang::get("SELECT_WALLPAPER"));
 				break;
 
 			case 13:
 				/* Villager Carpet. */
-				this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, "Select a Carpet.");
+				this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, Lang::get("SELECT_CARPET"));
 				break;
 
 			case 14:
 				/* Villager Umbrella. */
-				this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, "Select a Umbrella.");
+				this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, Lang::get("SELECT_UMBRELLA"));
 				break;
 		}
 	}
@@ -284,32 +284,32 @@ void VillagerEditorWW::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					case 8:
 					case 9:
 						/* Villager furniture. */
-						this->villagerItems[i]->id(Overlays::SelectItemCategory(this->villagerItems[i]->id(), SaveType::WW, false, {46}, "Select a Furniture."));
+						this->villagerItems[i]->id(Overlays::SelectItemCategory(this->villagerItems[i]->id(), SaveType::WW, false, {46}, Lang::get("SELECT_FURNITURE")));
 						break;
 
 					case 10:
 						/* Villager shirt. */
-						this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, "Select a Shirt."));
+						this->villagerItems[10]->id(Overlays::SelectItemCategory(this->villagerItems[10]->id(), SaveType::WW, false, {19}, Lang::get("SELECT_SHIRT")));
 						break;
 
 					case 11:
 						/* Song: TODO. */
 						Msg::DisplayWaitMsg("Song hasn't been researched yet.");
 						break;
-			
+
 					case 12:
 						/* Villager Wallpaper. */
-						this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, "Select a Wallpaper.");
+						this->miscItems[1] = Overlays::SelectWWCategory(this->miscItems[1], {17}, Lang::get("SELECT_WALLPAPER"));
 						break;
 
 					case 13:
 						/* Villager Carpet. */
-						this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, "Select a Carpet.");
+						this->miscItems[2] = Overlays::SelectWWCategory(this->miscItems[2], {18}, Lang::get("SELECT_CARPET"));
 						break;
 
 					case 14:
 						/* Villager Umbrella. */
-						this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, "Select a Umbrella.");
+						this->miscItems[3] = Overlays::SelectWWCategory(this->miscItems[3], {26}, Lang::get("SELECT_UMBRELLA"));
 						break;
 				}
 			}

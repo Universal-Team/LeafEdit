@@ -41,7 +41,7 @@ void TownMapEditorWW::Draw(void) const {
 		case 0:
 			this->DrawMapScreen();
 			break;
-		
+
 		case 1:
 			this->DrawTempItem();
 			break;
@@ -187,7 +187,7 @@ void TownMapEditorWW::DrawInformation() const {
 	int x;
 
 	for (int i = 0; i < 16; i++) {
-		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), WWMapPos[i].x, WWMapPos[i].y);
+		SpriteManagement::DrawAcres(this->FullAcres[SelectionToAcre(i)]->id(), this->WWMapPos[i].x, this->WWMapPos[i].y);
 	}
 
 	if (this->currentAcre < 4) x = this->currentAcre;
@@ -350,7 +350,7 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 			case 0:
 				this->selectMode = 1;
 				break;
-			
+
 			case 1:
 				this->selectMode = 0;
 				break;
@@ -448,13 +448,13 @@ void TownMapEditorWW::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (hRepeat & KEY_DOWN) {
 			if (this->selection < 3) this->selection++;
 		}
-		
+
 		if (hRepeat & KEY_UP) {
 			if (this->selection > 0) this->selection--;
 		}
 	}
 
-	if (touching(touch, mainButtons[0])) {
+	if (touching(touch, this->mainButtons[0])) {
 		this->selection = 0;
 		this->Mode = 1;
 	}
@@ -466,21 +466,21 @@ void TownMapEditorWW::DrawTempItem(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
-	
+
 	for (int i = 0; i < 2; i++) {
-		GFX::DrawButton(tempItemPos[i], 0.7f);
+		GFX::DrawButton(this->tempItemPos[i], 0.7f);
 	}
 
 	/* We have no other choice. */
-	Gui::DrawStringCentered(tempItemPos[0].x + 14 - 160 + (tempItemPos[0].xLength / 2), tempItemPos[0].y + ((tempItemPos[0].yLength + 6) - Gui::GetStringHeight(0.7, "Item ID: " + std::to_string(this->itemID), font)) / 2 + 14, 0.7f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength, tempItemPos[0].yLength + 7, font);
+	Gui::DrawStringCentered(this->tempItemPos[0].x + 14 - 160 + (this->tempItemPos[0].xLength / 2), this->tempItemPos[0].y + ((this->tempItemPos[0].yLength + 6) - Gui::GetStringHeight(0.7, "Item ID: " + std::to_string(this->itemID), font)) / 2 + 14, 0.7f, BLACK, Lang::get("ITEM_ID") + ": " + std::to_string(this->itemID), this->tempItemPos[0].xLength, this->tempItemPos[0].yLength + 7, font);
 
-	GFX::DrawGUI(gui_pointer_idx, tempItemPos[this->selection].x+130, tempItemPos[this->selection].y+25);
+	GFX::DrawGUI(gui_pointer_idx, this->tempItemPos[this->selection].x + 130, this->tempItemPos[this->selection].y + 25);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void TownMapEditorWW::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
-	
+
 	if (hDown & KEY_B) {
 		this->selection = 0;
 		this->Mode = 0;

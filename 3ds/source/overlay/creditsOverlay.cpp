@@ -28,6 +28,10 @@
 
 extern std::unique_ptr<Config> config;
 
+const std::vector<std::string> LEContributors = {
+	"Cuyler36", "piepie62", "Pk11", "RedShyGuy", "Slattz", "SuperSaiyajinStackZ"
+};
+
 static void Draw(int page) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -37,8 +41,7 @@ static void Draw(int page) {
 	GFX::DrawTop();
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("CREDITS"), 400, 0, font);
-	Gui::DrawStringCentered(0, 30, 0.9f, BLACK, Lang::get("DEVELOPED_BY"), 390, 0, font);
-	Gui::DrawStringCentered(0, 50, 0.9f, BLACK, Lang::get("MAIN_DEV"), 390, 0, font);
+	Gui::DrawStringCentered(0, 28, 0.9f, BLACK, Lang::get("DEVELOPED_BY"), 390, 0, font);
 	GFX::DrawGUI(gui_stackz_idx, 5, 74);
 	GFX::DrawGUI(gui_universal_core_idx, 200, 110);
 	Gui::DrawString(395-Gui::GetStringWidth(0.8, Lang::get("CURRENT_VERSION") + V_STRING, font), 218, 0.8, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400, 0, font);
@@ -48,19 +51,33 @@ static void Draw(int page) {
 	GFX::DrawGUI(gui_top_bar_idx, 0, 0);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 
-	Gui::DrawStringCentered(0, 219, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 1", 310, 0, font);
+	Gui::DrawStringCentered(0, -2, 0.8f, WHITE, Lang::get("CURRENT_PAGE") + std::to_string(page + 1) + " | 3", 310, 0, font);
 
 	/* Credits Pages. */
 	if (page == 0) {
-		Gui::DrawStringCentered(0, -2, 0.8f, WHITE, Lang::get("GENERAL_CREDITS"), 310, 0, font);
-		Gui::DrawStringCentered(0, 28, 0.8f, BLACK, "Cuyler, Slattz", 310, 0, font);
+		Gui::DrawStringCentered(0, 219, 0.8f, WHITE, Lang::get("GENERAL_CREDITS"), 310, 0, font);
+		Gui::DrawStringCentered(0, 28, 0.8f, BLACK, "Cuyler36, Slattz", 310, 0, font);
 		Gui::DrawStringCentered(0, 48, 0.7f, BLACK, Lang::get("PRE_RESEARCH_WORK"), 310, 0, font);
 		Gui::DrawStringCentered(0, 78, 0.8f, BLACK, "piepie62, FlagBrew, PKSM-Core", 310, 0, font);
 		Gui::DrawStringCentered(0, 98, 0.7f, BLACK, Lang::get("CORE_STRUCTURE"), 310, 0, font);
 		Gui::DrawStringCentered(0, 128, 0.8f, BLACK, "Pk11", 310, 0, font);
 		Gui::DrawStringCentered(0, 148, 0.7f, BLACK, Lang::get("HELPING_OUT_PROBLEMS"), 310, 0, font);
-		Gui::DrawStringCentered(0, 178, 0.8f, BLACK, "TotallyNotGuy", 310, 0, font);
-		Gui::DrawStringCentered(0, 198, 0.7f, BLACK, Lang::get("GRAPHIC_WORK"), 310, 0, font);
+		Gui::DrawStringCentered(0, 178, 0.8f, BLACK, "RedShyGuy", 310, 0, font);
+		Gui::DrawStringCentered(0, 198, 0.7f, BLACK, Lang::get("HELPING_CORE"), 310, 0, font);
+
+	} else if (page == 1) {
+		Gui::DrawStringCentered(0, 219, 0.8f, WHITE, Lang::get("GENERAL_CREDITS"), 310, 0, font);
+		Gui::DrawStringCentered(0, 28, 0.8f, BLACK, "TotallyNotGuy", 310, 0, font);
+		Gui::DrawStringCentered(0, 48, 0.7f, BLACK, Lang::get("GRAPHIC_WORK"), 310, 0, font);
+		Gui::DrawStringCentered(0, 78, 0.8f, BLACK, "Universal-Team", 310, 0, font);
+		Gui::DrawStringCentered(0, 98, 0.7f, BLACK, Lang::get("UNIVERSAL_CORE"), 310, 0, font);
+
+	} else if (page == 2) {
+		Gui::DrawStringCentered(0, 219, 0.8f, WHITE, Lang::get("LEAFEDIT_CORE_CONTRIBUTORS"), 310, 0, font);
+
+		for (int i = 0; i < (int)LEContributors.size(); i++) {
+			Gui::DrawStringCentered(0, 30 + (i * 20), 0.7f, BLACK, "- " + LEContributors[i], 310, 0, font);
+		}
 	}
 
 	C3D_FrameEnd(0);
@@ -75,15 +92,15 @@ void Overlays::showCredits() {
 		u32 hDown = hidKeysDown();
 		hidScanInput();
 
-		/*
+
 		if (hDown & KEY_RIGHT) {
-			if (page < 1) page++;
+			if (page < 2) page++;
 		}
 
 		if (hDown & KEY_LEFT) {
 			if (page > 0) page--;
 		}
-		*/
+
 
 		if (hDown & KEY_B) doOut = true;
 	}

@@ -76,7 +76,7 @@ void VillagerEditorNL::DrawSubMenu(void) const {
 	//Gui::DrawStringCentered(0, 160, 0.9f, BLACK, Lang::get("VILLAGER_CATCHPHRASE") + ": ", 395, 0, font);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 6; i++) {
@@ -93,7 +93,7 @@ void VillagerEditorNL::subLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection--;
 	}
-	
+
 	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 5) this->Selection++;
 	}
@@ -172,7 +172,7 @@ void VillagerEditorNL::DrawItems(void) const {
 	GFX::DrawTop();
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->villagerItems[this->itemSelection]->name(), 390, 0, font);
-	
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
@@ -206,32 +206,32 @@ void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 13:
 			case 14:
 				/* Villager Furniture. */
-				this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), savesType, false, {37}, "Select a Furniture."));
+				this->villagerItems[this->itemSelection]->id(Overlays::SelectItemCategory(this->villagerItems[this->itemSelection]->id(), savesType, false, {37}, Lang::get("SELECT_FURNITURE")));
 				break;
-			
+
 			case 15:
 				/* Villager Wallpaper. */
-				this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, "Select a Wallpaper."));
+				this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, Lang::get("SELECT_WALLPAPER")));
 				break;
 
 			case 16:
 				/* Villager Carpet. */
-				this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, "Select a Carpet."));
+				this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, Lang::get("SELECT_CARPET")));
 				break;
 
 			case 17:
 				/* Villager Song. */
-				this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, "Select a Song."));
+				this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, Lang::get("SELECT_SONG")));
 				break;
 
 			case 18:
 				/* Villager Shirt. */
-				this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, "Select a Shirt."));
+				this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, Lang::get("SELECT_SHIRT")));
 				break;
 
 			case 19:
 				/* Villager Umbrella. */
-				this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, "Select a Umbrella."));
+				this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, Lang::get("SELECT_UMBRELLA")));
 				break;
 		}
 	}
@@ -256,38 +256,38 @@ void VillagerEditorNL::ItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					case 13:
 					case 14:
 						/* Villager Furniture. */
-						this->villagerItems[i]->id(Overlays::SelectItemCategory(this->villagerItems[i]->id(), savesType, false, {37}, "Select a Furniture."));
+						this->villagerItems[i]->id(Overlays::SelectItemCategory(this->villagerItems[i]->id(), savesType, false, {37}, Lang::get("SELECT_FURNITURE")));
 						break;
 
 					case 15:
 						/* Villager Wallpaper. */
-						this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, "Select a Wallpaper."));
+						this->villagerItems[15]->id(Overlays::SelectItemCategory(this->villagerItems[15]->id(), savesType, false, {25}, Lang::get("SELECT_WALLPAPER")));
 						break;
 
 					case 16:
 						/* Villager Carpet. */
-						this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, "Select a Carpet."));
+						this->villagerItems[16]->id(Overlays::SelectItemCategory(this->villagerItems[16]->id(), savesType, false, {26}, Lang::get("SELECT_CARPET")));
 						break;
 
 					case 17:
 						/* Villager Song. */
-						this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, "Select a Song."));
+						this->villagerItems[17]->id(Overlays::SelectItemCategory(this->villagerItems[17]->id(), savesType, false, {17}, Lang::get("SELECT_SONG")));
 						break;
 
 					case 18:
 						/* Villager Shirt. */
-						this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, "Select a Shirt."));
+						this->villagerItems[18]->id(Overlays::SelectItemCategory(this->villagerItems[18]->id(), savesType, false, {27}, Lang::get("SELECT_SHIRT")));
 						break;
 
 					case 19:
 						/* Villager Umbrella. */
-						this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, "Select a Umbrella."));
+						this->villagerItems[19]->id(Overlays::SelectItemCategory(this->villagerItems[19]->id(), savesType, false, {33}, Lang::get("SELECT_UMBRELLA")));
 						break;
 				}
 			}
 		}
 	}
-		
+
 	if (hRepeat & KEY_RIGHT) {
 		if (this->itemSelection < 19) this->itemSelection++;
 	}

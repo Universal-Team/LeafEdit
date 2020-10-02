@@ -284,102 +284,103 @@ void PlayerEditorNL::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		u8 temp = 0;
 		switch(this->Selection) {
 			case 0:
-				this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
+				this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, StringUtils::UTF16toUTF8(this->player->name()), Lang::get("ENTER_PLAYERNAME"))));
 				break;
 
 			case 1:
-				temp = (u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle.");
+				temp = (u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, Lang::get("SELECT_HAIRSTYLE"));
 
 				switch(this->player->gender()) {
 					case 0:
 						if (temp < 17) this->player->hairstyle(temp);
-						else Msg::DisplayWaitMsg("Not a valid hair for gender male!");
+						else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_HAIRSTYLE") + Lang::get("MALE") + "!");
 						break;
 
 					case 1:
 						if (temp > 16) this->player->hairstyle(temp);
-						else Msg::DisplayWaitMsg("Not a valid hair for gender female!");
+
+						else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_HAIRSTYLE") + Lang::get("FEMALE") + "!");
 						break;
 				}
 				break;
 
 			case 2:
-				temp = (u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype.");
+				temp = (u8)GFX::ListSelection(this->player->face(), g_FaceType, Lang::get("SELECT_FACETYPE"));
 
 				switch(this->player->gender()) {
 					case 0:
 						if (temp < 12) this->player->face(temp);
-						else Msg::DisplayWaitMsg("Not a valid facetype for gender male!");
+						else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_FACETYPE") + Lang::get("MALE") + "!");
 						break;
 
 					case 1:
 						if (temp > 11) this->player->face(temp);
-						else Msg::DisplayWaitMsg("Not a valid facetype for gender female!");
+						else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_FACETYPE") + Lang::get("FEMALE") + "!");
 						break;
 				}
 				break;
 
 			case 3:
-				this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+				this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, Lang::get("SELECT_TAN")));
 				break;
 
 			case 4:
-				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+				this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, Lang::get("SELECT_HAIRCOLOR")));
 				break;
 
 			case 5:
-				this->player->eyecolor((u8)GFX::ListSelection(this->player->eyecolor(), g_EyeColor, "Select a Eye Color."));
+				this->player->eyecolor((u8)GFX::ListSelection(this->player->eyecolor(), g_EyeColor, Lang::get("SELECT_EYECOLOR")));
 				break;
 		}
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, this->appearanceBtn[0])) {
-			this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, StringUtils::UTF16toUTF8(this->player->name()), "Enter Playername.")));
+			this->player->name(StringUtils::UTF8toUTF16(Input::setString(8, StringUtils::UTF16toUTF8(this->player->name()), Lang::get("ENTER_PLAYERNAME"))));
 
 
 		} else if (touching(touch, this->appearanceBtn[1])) {
-			u8 temp = (u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, "Select a Hairstyle.");
+			u8 temp = (u8)GFX::ListSelection(this->player->hairstyle(), g_HairStyle, Lang::get("SELECT_HAIRSTYLE"));
 
 			switch(this->player->gender()) {
 				case 0:
 					if (temp < 17) this->player->hairstyle(temp);
-					else Msg::DisplayWaitMsg("Not a valid hair for gender male!");
+					else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_HAIRSTYLE") + Lang::get("MALE") + "!");
 					break;
 
 				case 1:
 					if (temp > 16) this->player->hairstyle(temp);
-					else Msg::DisplayWaitMsg("Not a valid hair for gender female!");
+					else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_HAIRSTYLE") + Lang::get("FEMALE") + "!");
 					break;
 			}
 
 
 		} else if (touching(touch, this->appearanceBtn[2])) {
-			u8 temp = (u8)GFX::ListSelection(this->player->face(), g_FaceType, "Select a Facetype.");
+			u8 temp = (u8)GFX::ListSelection(this->player->face(), g_FaceType, Lang::get("SELECT_FACETYPE"));
 
 			switch(this->player->gender()) {
 				case 0:
 					if (temp < 12) this->player->face(temp);
-					else Msg::DisplayWaitMsg("Not a valid facetype for gender male!");
+					else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_FACETYPE") + Lang::get("MALE") + "!");
 					break;
 
 				case 1:
 					if (temp > 11) this->player->face(temp);
-					else Msg::DisplayWaitMsg("Not a valid facetype for gender female!");
+					else Msg::DisplayWaitMsg(Lang::get("NOT_VALID_FACETYPE") + Lang::get("FEMALE") + "!");
 					break;
 			}
 
 
 		} else if (touching(touch, this->appearanceBtn[3])) {
-			this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, "Select a Tan Value."));
+			this->player->tan((u8)GFX::ListSelection(this->player->tan(), g_TanValues, Lang::get("SELECT_TAN")));
 
 
 		} else if (touching(touch, this->appearanceBtn[4])) {
-			this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, "Select a Hair Color."));
+			this->player->haircolor((u8)GFX::ListSelection(this->player->haircolor(), g_HairColor, Lang::get("SELECT_HAIRCOLOR")));
 
 
 		} else if (touching(touch, this->appearanceBtn[5])) {
-			this->player->eyecolor((u8)GFX::ListSelection(this->player->eyecolor(), g_EyeColor, "Select a Eye Color."));
+			this->player->eyecolor((u8)GFX::ListSelection(this->player->eyecolor(), g_EyeColor, Lang::get("SELECT_EYECOLOR")));
 		}
 	}
 }
@@ -393,13 +394,13 @@ void PlayerEditorNL::DrawPlayer(void) const {
 	Gui::Draw_Rect(40, 65, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 	Gui::Draw_Rect(40, 93, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
 
-	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, "Wallet Amount: " + std::to_string((this->player->wallet())), 380, 0, font);
-	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, "Bank Amount: " + std::to_string((this->player->bank())), 380, 0, font);
-	Gui::DrawStringCentered(0, 91, 0.9f, BLACK, "Medal Amount: " + std::to_string((this->player->islandmedals())), 380, 0, font);
+	Gui::DrawStringCentered(0, 35, 0.9f, BLACK, Lang::get("PLAYER_WALLET") + ": " + std::to_string((this->player->wallet())), 380, 0, font);
+	Gui::DrawStringCentered(0, 63, 0.9f, BLACK, Lang::get("PLAYER_BANK") + ": " + std::to_string((this->player->bank())), 380, 0, font);
+	Gui::DrawStringCentered(0, 91, 0.9f, BLACK, Lang::get("PLAYER_MEDALS") + ": " + std::to_string((this->player->islandmedals())), 380, 0, font);
 
 	if (savesType == SaveType::WA) {
 		Gui::Draw_Rect(40, 121, 320, 22, C2D_Color32(0xD5, 0xB0, 0x6E, 255));
-		Gui::DrawStringCentered(0, 119, 0.9f, BLACK, "Coupon Amount: " + std::to_string((this->player->coupons())), 380, 0, font);
+		Gui::DrawStringCentered(0, 119, 0.9f, BLACK, Lang::get("PLAYER_COUPONS") + ": " + std::to_string((this->player->coupons())), 380, 0, font);
 	}
 
 	GFX::DrawBottom();
@@ -440,20 +441,20 @@ void PlayerEditorNL::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
-				this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
+				this->player->wallet((u32)Input::setInt(99999, Lang::get("ENTER_WALLET_AMOUNT"), 5, this->player->wallet()));
 				break;
 
 			case 1:
-				this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
+				this->player->bank((u32)Input::setInt(999999999, Lang::get("ENTER_BANK_AMOUNT"), 9, this->player->bank()));
 				break;
 
 			case 2:
-				this->player->islandmedals((u32)Input::setInt(9999, "Enter medal amount.", 4, this->player->islandmedals()));
+				this->player->islandmedals((u32)Input::setInt(9999, Lang::get("ENTER_MEDAL_AMOUNT"), 4, this->player->islandmedals()));
 				break;
 
 			case 3:
 				if (savesType == SaveType::WA) {
-					this->player->coupons((u32)Input::setInt(9999, "Enter coupon amount.", 4, this->player->coupons()));
+					this->player->coupons((u32)Input::setInt(9999, Lang::get("ENTER_COUPON_AMOUNT"), 4, this->player->coupons()));
 				}
 
 				break;
@@ -462,20 +463,20 @@ void PlayerEditorNL::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, this->playerButtons[0])) {
-			this->player->wallet((u32)Input::setInt(99999, "Enter wallet amount.", 5, this->player->wallet()));
+			this->player->wallet((u32)Input::setInt(99999, Lang::get("ENTER_WALLET_AMOUNT"), 5, this->player->wallet()));
 
 
 		} else if (touching(touch, this->playerButtons[1])) {
-			this->player->bank((u32)Input::setInt(999999999, "Enter bank amount.", 9, this->player->bank()));
+			this->player->bank((u32)Input::setInt(999999999, Lang::get("ENTER_BANK_AMOUNT"), 9, this->player->bank()));
 
 
 		} else if (touching(touch, this->playerButtons[2])) {
-			this->player->islandmedals((u32)Input::setInt(9999, "Enter medal amount.", 4, this->player->islandmedals()));
+			this->player->islandmedals((u32)Input::setInt(9999, Lang::get("ENTER_MEDAL_AMOUNT"), 4, this->player->islandmedals()));
 
 
 		} else if (touching(touch, this->playerButtons[3])) {
 			if (savesType == SaveType::WA) {
-				this->player->coupons((u32)Input::setInt(9999, "Enter coupon amount.", 4, this->player->coupons()));
+				this->player->coupons((u32)Input::setInt(9999, Lang::get("ENTER_COUPON_AMOUNT"), 4, this->player->coupons()));
 			}
 		}
 	}
@@ -570,7 +571,7 @@ void PlayerEditorNL::DrawLetter(void) const {
 		Gui::DrawStringCentered(0, 217, 0.9f, WHITE, StringUtils::UTF16toUTF8(this->player->letter(this->Selection)->end()), 400, 0, font);
 
 	} else {
-		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "Letter not available.", 395, 0, font);
+		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("LETTER_NOT_AVAILABLE"), 395, 0, font);
 	}
 
 	GFX::DrawBottom();

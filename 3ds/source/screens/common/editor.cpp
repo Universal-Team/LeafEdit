@@ -63,6 +63,7 @@ const std::vector<std::string> titleNames = {
 bool Editor::loadSave() {
 	save = nullptr;
 	FILE* in = fopen(this->saveName.c_str(), "rb");
+
 	if (in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
@@ -91,7 +92,7 @@ bool Editor::loadSave() {
 		Log->Write("SaveFile returned nullptr", false);
 		return false;
 	}
-	
+
 	if (save->getType() == SaveType::WW) this->saveT = 0;
 	else if (save->getType() == SaveType::NL) this->saveT = 2;
 	else if (save->getType() == SaveType::WA) this->saveT = 4;
@@ -107,7 +108,7 @@ bool Editor::loadSave() {
 	}
 
 	CoreUtils::createBackup(); // Create backup there.
-	
+
 	return true;
 }
 
@@ -225,7 +226,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 						Msg::NotImplementedYet();
 					}
 				}
-			
+
 
 			} else if (touching(touch, this->mainButtons[1])) {
 				if (savesType != SaveType::UNUSED || savesType != SaveType::HHD) {
@@ -265,7 +266,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (hRepeat & KEY_UP) {
 			if (this->Selection > 0) this->Selection--;
 		}
-		
+
 		if (hRepeat & KEY_DOWN) {
 			if (this->Selection < 2) this->Selection++;
 		}
@@ -300,7 +301,7 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 							}
 						}
 						break;
-					
+
 					case 2:
 						/* Town Editor. */
 						if (savesType != SaveType::HHD) {
@@ -323,12 +324,12 @@ void Editor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<ScriptScreen>(), doFade, true);
 			}
 		}
-		
+
 		if (hDown & KEY_B) {
 			savesType = SaveType::UNUSED;
 			Gui::screenBack(doFade);
 		}
-		
+
 	} else {
 		this->SaveInitialize(); // Display Browse.
 	}

@@ -43,7 +43,7 @@ void TownMapEditorNL::Draw(void) const {
 		case 0:
 			this->DrawMapScreen();
 			break;
-		
+
 		case 1:
 			this->DrawTempItem();
 			break;
@@ -55,7 +55,7 @@ void TownMapEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 0:
 			this->MapScreenLogic(hDown, hHeld, touch);
 			break;
-		
+
 		case 1:
 			this->TempItemLogic(hDown, hHeld, touch);
 			break;
@@ -149,7 +149,7 @@ void TownMapEditorNL::DrawGrid(void) const {
 		for (u32 y = 0; y < 16; y++) {
 			for (u32 x = 0; x < 16; x++, i++) {
 				GFX::drawGrid(15 + (x * 12.5), 20 + (y * 12.5), 12.5, 12.5, ItemManager::getColor(this->MapItems[i]->itemtype()));
-				
+
 				if (this->ItemBuried[i]) GFX::DrawGUI(gui_cross_idx, 16.5 + (x * 12.5), 21.5 + (y * 12.5));
 			}
 		}
@@ -236,7 +236,7 @@ void TownMapEditorNL::DrawMapScreen(void) const {
 		case 0:
 			GFX::DrawGUIBlend(gui_pointer_idx, mainButtons[this->selection].x + 40, mainButtons[this->selection].y + 13);
 			break;
-		
+
 		case 1:
 			GFX::DrawGUI(gui_pointer_idx, mainButtons[this->selection].x + 40, mainButtons[this->selection].y + 13);
 			break;
@@ -336,7 +336,7 @@ void TownMapEditorNL::updateStuff() {
 
 void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
-	
+
 	if ((hDown & KEY_B) || (hDown & KEY_TOUCH && iconTouch(touch, icons[0]))) {
 		Gui::screenBack(doFade);
 	}
@@ -435,7 +435,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 				this->currentAcre -= 5;
 				this->currentPosY = 15;
 				updateStuff();
-				
+
 			} else if (this->currentPosY > 0) {
 				this->currentPosY--;
 				updateStuff();
@@ -446,7 +446,7 @@ void TownMapEditorNL::MapScreenLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (hRepeat & KEY_DOWN) {
 			if (this->selection < 3) this->selection++;
 		}
-		
+
 		if (hRepeat & KEY_UP) {
 			if (this->selection > 0) this->selection--;
 		}
@@ -468,16 +468,16 @@ void TownMapEditorNL::DrawTempItem(void) const {
 	}
 
 	/* We have no other choice. */
-	Gui::DrawStringCentered(tempItemPos[0].x + 14 - 160 + (tempItemPos[0].xLength / 2), tempItemPos[0].y + ((tempItemPos[0].yLength + 6) - Gui::GetStringHeight(0.7, "Item ID: " + std::to_string(this->itemID), font)) / 2 + 14, 0.7f, BLACK, "Item ID: " + std::to_string(this->itemID), tempItemPos[0].xLength, tempItemPos[0].yLength + 7, font);
-	Gui::DrawStringCentered(tempItemPos[1].x + 14 - 160 + (tempItemPos[1].xLength / 2), tempItemPos[1].y + ((tempItemPos[1].yLength + 6) - Gui::GetStringHeight(0.7, "Item Flags: " + std::to_string(this->itemFlag), font)) / 2 + 14, 0.7f, BLACK, "Item Flags: " + std::to_string(this->itemFlag), tempItemPos[1].xLength, tempItemPos[1].yLength + 7, font);
-	
-	GFX::DrawGUI(gui_pointer_idx, tempItemPos[this->selection].x+130, tempItemPos[this->selection].y+25);
+	Gui::DrawStringCentered(tempItemPos[0].x + 14 - 160 + (tempItemPos[0].xLength / 2), tempItemPos[0].y + ((tempItemPos[0].yLength + 6) - Gui::GetStringHeight(0.7, "Item ID: " + std::to_string(this->itemID), font)) / 2 + 14, 0.7f, BLACK, Lang::get("ITEM_ID") + ": " + std::to_string(this->itemID), tempItemPos[0].xLength, tempItemPos[0].yLength + 7, font);
+	Gui::DrawStringCentered(tempItemPos[1].x + 14 - 160 + (tempItemPos[1].xLength / 2), tempItemPos[1].y + ((tempItemPos[1].yLength + 6) - Gui::GetStringHeight(0.7, "Item Flags: " + std::to_string(this->itemFlag), font)) / 2 + 14, 0.7f, BLACK, Lang::get("ITEM_FLAGS") + ": " + std::to_string(this->itemFlag), tempItemPos[1].xLength, tempItemPos[1].yLength + 7, font);
+
+	GFX::DrawGUI(gui_pointer_idx, tempItemPos[this->selection].x + 130, tempItemPos[this->selection].y + 25);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void TownMapEditorNL::TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
-	
+
 	if (hDown & KEY_B) {
 		this->selection = 0;
 		this->Mode = 0;

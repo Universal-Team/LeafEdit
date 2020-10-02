@@ -83,11 +83,11 @@ void AcresEditorWW::DrawTopSelection(void) const {
 /* Draw TownMap. */
 void AcresEditorWW::DrawMap(void) const {
 	GFX::DrawBottom(true);
-	
+
 	for (int i = 0; i < 36; i++) {
 		SpriteManagement::DrawAcres(this->FullAcres[i]->id(), acrePos[i].x, acrePos[i].y, 1, 1);
 	}
-	
+
 	GFX::DrawGUI(gui_pointer_idx, acrePos[this->selection].x + 14, acrePos[this->selection].y + 14);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -162,7 +162,7 @@ void AcresEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 36; i++) {
-			if (iconTouch(touch, acrePos[i])) {
+			if (iconTouch(touch, this->acrePos[i])) {
 				this->selection = i;
 			}
 		}

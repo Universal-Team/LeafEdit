@@ -39,6 +39,10 @@ void PlayerEditorHHD::Draw(void) const {
 		case 1:
 			this->DrawPattern();
 			break;
+
+		case 2:
+			this->DrawUnlock();
+			break;
 	}
 }
 
@@ -47,9 +51,13 @@ void PlayerEditorHHD::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		case 0:
 			this->SubMenuLogic(hDown, hHeld, touch);
 			break;
-		
+
 		case 1:
 			this->PatternLogic(hDown, hHeld, touch);
+			break;
+
+		case 2:
+			this->UnlockLogic(hDown, hHeld, touch);
 			break;
 	}
 }
@@ -60,12 +68,12 @@ void PlayerEditorHHD::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, 40, 0.7f, BLACK, Lang::get("PLAYER_NAME") + ": " + StringUtils::UTF16toUTF8(this->player->name()), 0, 0, font);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(this->mainButtons[i]);
-		
+
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->mainButtons[i].x+100, this->mainButtons[i].y+30);
 	}
 
@@ -73,17 +81,40 @@ void PlayerEditorHHD::DrawSubMenu(void) const {
 }
 
 void PlayerEditorHHD::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(true);
 		return;
+	}
+
+	if (hRepeat & KEY_UP) {
+		if (this->Selection > 0) this->Selection--;
+	}
+
+	if (hRepeat & KEY_DOWN) {
+		if (this->Selection < 5) this->Selection++;
+	}
+
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
+	}
+
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
 
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
 				this->LoadPattern();
-				this->Mode = 1;
 				this->Selection = 0;
+				this->Mode = 1;
+				break;
+
+			case 1:
+				this->Selection = 0;
+				this->Mode = 2;
 				break;
 		}
 	}
@@ -187,8 +218,67 @@ void PlayerEditorHHD::PatternLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_SELECT) {
 		this->LoadPattern(); // Refresh.
 	}
-	
+
 	if (hDown & KEY_A) {
 		Gui::setScreen(std::make_unique<PatternEditor>(this->pattern[this->Selection]), doFade, true);
+	}
+}
+
+void PlayerEditorHHD::DrawUnlock(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("MISCELLANEOUS"), 395, 0, font);
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
+	GFX::DrawBottom();
+	for (int i = 0; i < 6; i++) {
+		GFX::DrawButton(this->unlockBtn[i]);
+
+		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, this->unlockBtn[i].x + 100, this->unlockBtn[i].y + 30);
+	}
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+}
+
+void PlayerEditorHHD::UnlockLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	u32 hRepeat = hidKeysDownRepeat();
+
+	if (hDown & KEY_B) {
+		this->Selection = 0;
+		this->Mode = 0;
+	}
+
+	if (hRepeat & KEY_UP) {
+		if (this->Selection > 0) this->Selection--;
+	}
+
+	if (hRepeat & KEY_DOWN) {
+		if (this->Selection < 5) this->Selection++;
+	}
+
+	if (hRepeat & KEY_RIGHT) {
+		if (this->Selection < 3) this->Selection += 3;
+	}
+
+	if (hRepeat & KEY_LEFT) {
+		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
+	}
+
+	if (hDown & KEY_A) {
+		switch(this->Selection) {
+			case 0:
+				if (Msg::promptMsg(Lang::get("UNLOCK_HANDBOOKS_MSG"))) {
+					this->player->unlockHandbooks();
+					Msg::DisplayWaitMsg(Lang::get("UNLOCKED"));
+				}
+				break;
+
+			case 1:
+				if (Msg::promptMsg(Lang::get("UNLOCK_EMOTIONS_MSG"))) {
+					this->player->unlockEmotions();
+					Msg::DisplayWaitMsg(Lang::get("UNLOCKED"));
+				}
+				break;
+		}
 	}
 }

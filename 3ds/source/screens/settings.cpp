@@ -36,7 +36,7 @@ void Settings::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9, WHITE, "LeafEdit - " + Lang::get("SETTINGS"), 390, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-	
+
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 1; i++) {
@@ -54,13 +54,13 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
-	
+
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
 				if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
 					config->createBackups(config->createBackups() ? false : true);
-					Msg::DisplayWaitMsg(config->createBackups() ? "Backups enabled." : "Backups disabled.");
+					Msg::DisplayWaitMsg(config->createBackups() ? Lang::get("BACKUP_ENABLED") : Lang::get("BACKUP_DISABLED"));
 				}
 				break;
 		}
@@ -70,7 +70,7 @@ void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (touching(touch, this->mainButtons[0])) {
 			if (Msg::promptMsg(Lang::get("TOGGLE_BACKUPS"))) {
 				config->createBackups(config->createBackups() ? false : true);
-				Msg::DisplayWaitMsg(config->createBackups() ? "Backups enabled." : "Backups disabled.");
+				Msg::DisplayWaitMsg(config->createBackups() ? Lang::get("BACKUP_ENABLED") : Lang::get("BACKUP_DISABLED"));
 			}
 		}
 	}
