@@ -63,8 +63,10 @@ public:
 
 	int getEntrySize() const {
 		if (!this->valid) return 0;
+
 		if (this->scriptJson.contains("scriptContent")) {
 			return (int)this->scriptJson["scriptContent"].size();
+
 		} else {
 			return 0;
 		}
@@ -78,6 +80,7 @@ public:
 
 		if (this->scriptJson["scriptContent"][entry]["info"].contains("savetypes")) {
 			return this->scriptJson["scriptContent"][entry]["info"]["savetypes"];
+
 		} else {
 			return {""};
 		}
@@ -89,6 +92,7 @@ public:
 
 		if (this->scriptJson["scriptContent"][entry]["info"].contains("regions")) {
 			return this->scriptJson["scriptContent"][entry]["info"]["regions"];
+
 		} else {
 			return {""};
 		}
@@ -108,7 +112,10 @@ private:
 	void WriteFor(u32 offset, u32 length, u8 data);
 	void DoEI32(u32 offset, u32 value);
 
-	
+	void DumpToFile(u32 offset, u32 length, const std::string &fileName);
+	void InjectToFile(u32 offset, const std::string &fileName);
+
+
 	/* Some main script informations. */
 	bool valid = false;
 	nlohmann::json scriptJson;
