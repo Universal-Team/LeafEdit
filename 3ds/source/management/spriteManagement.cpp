@@ -25,15 +25,13 @@
 */
 
 #include "common.hpp"
-#include "Sav.hpp"
+#include "saveUtils.hpp"
 #include "spriteManagement.hpp"
 
 #include <3ds.h>
 
 /* Include all SpriteSheets which are used for the editor. */
 extern C2D_SpriteSheet Acres, Items, Players, Villager, Villager2;
-
-extern std::shared_ptr<Sav> save;
 
 /* Draws the Hair sprite from a Player. */
 void SpriteManagement::DrawHair(u8 hair, int x, int y, float ScaleX, float ScaleY) {
@@ -199,7 +197,7 @@ void SpriteManagement::DrawVillager(u16 villagerID, int x, int y, float ScaleX, 
 					Gui::DrawSprite(Villager2, wwVillagerIndex[villagerID], x, y, ScaleX, ScaleY);
 				}
 				break;
-				
+
 			case SaveType::NL:
 				if (villagerID > 333) {
 					Gui::DrawSprite(Villager2, 199, x, y, ScaleX, ScaleY);
@@ -256,6 +254,6 @@ void SpriteManagement::DrawBadge(u8 badgeGroup, u8 badge, int x, int y, float Sc
 			case SaveType::HHD:
 			case SaveType::UNUSED:
 				break;
-		}	
+		}
 	}
 }

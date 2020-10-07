@@ -36,7 +36,6 @@
 #include <dirent.h> // For mkdir.
 #include <unistd.h>
 
-extern std::shared_ptr<Sav> save;
 extern std::unique_ptr<Config> config;
 
 /* Fix Invalid Buildings and replace them with "Empty". */
@@ -293,7 +292,7 @@ C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType
 		C2D_Image tmp = C2DUtils::ImageDataToC2DImage(buffer, 32, 32, GPU_RGBA8);
 		linearFree(buffer); // Free buffer cause unneeded.
 		return tmp;
-		
+
 	} else {
 		linearFree(buffer); // Free buffer cause unneeded.
 		return {nullptr};
@@ -469,7 +468,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 				StringUtils::WriteUTF8String(data.get(), ptrn->name(), 0, patternLength, region);
 				StringUtils::WriteUTF8String(data.get(), ptrn->creatorname(), creatorNameStart, creatorLength, region);
 				StringUtils::WriteUTF8String(data.get(), ptrn->origtownname(), townNameStart, townLength, region);
-				
+
 			} else {
 				StringUtils::WriteUTF16String(data.get(), ptrn->name(), 0, patternLength);
 				StringUtils::WriteUTF16String(data.get(), ptrn->creatorname(), creatorNameStart, creatorLength);

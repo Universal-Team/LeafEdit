@@ -37,9 +37,7 @@ std::unique_ptr<Logging> Log;
 #define DO_LOG false // Do this to true, if Logging should be used.
 
 /* If do Logging, open. */
-Logging::Logging() {
-	if (DO_LOG) this->Open();
-}
+Logging::Logging() { if (DO_LOG) this->Open(); }
 
 /* Create the log file. */
 void Logging::Create(void) {
@@ -57,9 +55,7 @@ void Logging::Open() {
 }
 
 /* Close the log file. */
-void Logging::Close() {
-	if (DO_LOG) this->logFile.close();
-}
+void Logging::Close() { if (DO_LOG) this->logFile.close(); }
 
 /* Write a debug Message to the log. */
 void Logging::Write(const std::string debugText, const bool coreLog) {
@@ -78,6 +74,7 @@ const std::string Logging::format(const std::string& fmt_str, ...) {
 	vasprintf(&fp, fmt_str.c_str(), ap);
 	va_end(ap);
 	std::unique_ptr<char, decltype(free)*> formatted(fp, free);
+
 	return std::string(formatted.get());
 }
 
@@ -87,5 +84,6 @@ const std::string Logging::logDate(void) {
 	struct tm timeStruct;
 	time(&unixTime);
 	localtime_r(&unixTime, &timeStruct);
+
 	return format("%04i-%02i-%02i %02i:%02i:%02i", timeStruct.tm_year + 1900, timeStruct.tm_mon + 1, timeStruct.tm_mday, timeStruct.tm_hour, timeStruct.tm_min, timeStruct.tm_sec);
 }

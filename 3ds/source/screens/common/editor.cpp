@@ -42,7 +42,6 @@
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 
-std::shared_ptr<Sav> save;
 static std::string SaveFile;
 /* Bring that to other screens too. */
 SaveType savesType = SaveType::UNUSED;

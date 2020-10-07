@@ -35,10 +35,9 @@ enum class ScriptError {
 };
 
 #include "json.hpp"
-#include "Sav.hpp"
+#include "saveUtils.hpp"
 #include <string>
 
-extern std::shared_ptr<Sav> save;
 #define MAIN_SCRIPT_PATH "sdmc:/3ds/LeafEdit/scripts/"
 
 class Script {

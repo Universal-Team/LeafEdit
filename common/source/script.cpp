@@ -128,18 +128,21 @@ void Script::ReadMain() {
 	if (this->valid) {
 		if (this->scriptJson["scriptInfo"].contains("author")) {
 			this->author = this->scriptJson["scriptInfo"]["author"];
+
 		} else {
 			this->author = "?";
 		}
 
 		if (this->scriptJson["scriptInfo"].contains("title")) {
 			this->scriptName = this->scriptJson["scriptInfo"]["title"];
+
 		} else {
 			this->scriptName = "?";
 		}
 
 		if (this->scriptJson["scriptInfo"].contains("description")) {
 			this->description = this->scriptJson["scriptInfo"]["description"];
+
 		} else {
 			this->description = "?";
 		}
@@ -263,7 +266,6 @@ bool Script::gameSupported(int entry) const {
 
 						case WWRegion::UNKNOWN:
 							return false;
-							break;
 					}
 				}
 				break;
@@ -288,7 +290,6 @@ bool Script::gameSupported(int entry) const {
 
 			case SaveType::UNUSED:
 				return false;
-				break;
 		}
 	}
 
@@ -340,6 +341,7 @@ ScriptError Script::execute(int entry) {
 				/* Get offset from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
 					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -350,6 +352,7 @@ ScriptError Script::execute(int entry) {
 				/* Get data from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_string()) {
 					dataString = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -370,6 +373,7 @@ ScriptError Script::execute(int entry) {
 				/* Get offset from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
 					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -380,6 +384,7 @@ ScriptError Script::execute(int entry) {
 				/* Get data from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_string()) {
 					dataString = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -397,6 +402,7 @@ ScriptError Script::execute(int entry) {
 				/* Get offset from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
 					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -407,6 +413,7 @@ ScriptError Script::execute(int entry) {
 				/* Get data from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_string()) {
 					dataString = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -424,6 +431,7 @@ ScriptError Script::execute(int entry) {
 				/* Get offset from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
 					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -434,6 +442,7 @@ ScriptError Script::execute(int entry) {
 				/* Get Length from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("length") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("length").is_string()) {
 					lengthString = this->scriptJson["scriptContent"][entry]["script"][i]["length"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -444,6 +453,7 @@ ScriptError Script::execute(int entry) {
 				/* Get data from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_string()) {
 					dataString = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -461,6 +471,7 @@ ScriptError Script::execute(int entry) {
 				/* Get offset from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
 					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -471,6 +482,7 @@ ScriptError Script::execute(int entry) {
 				/* Get data from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_string()) {
 					dataString = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -488,6 +500,7 @@ ScriptError Script::execute(int entry) {
 				/* Get offset from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("offset") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("offset").is_string()) {
 					offsetString = this->scriptJson["scriptContent"][entry]["script"][i]["offset"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -498,6 +511,7 @@ ScriptError Script::execute(int entry) {
 				/* Get data from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("data") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("data").is_number()) {
 					data = this->scriptJson["scriptContent"][entry]["script"][i]["data"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;
@@ -506,6 +520,7 @@ ScriptError Script::execute(int entry) {
 				/* Get bit index from json. */
 				if (this->scriptJson.at("scriptContent").at(entry).at("script").at(i).contains("bitIndex") && this->scriptJson.at("scriptContent").at(entry).at("script").at(i).at("bitIndex").is_number()) {
 					bitIndex = this->scriptJson["scriptContent"][entry]["script"][i]["bitIndex"];
+
 				} else {
 					ret = ScriptError::Syntax;
 					break;

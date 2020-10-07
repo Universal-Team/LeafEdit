@@ -36,7 +36,6 @@ extern int fadealpha;
 extern bool fadein;
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
-extern std::shared_ptr<Sav> save;
 
 #define TESTPATH "sdmc:/nogba/Battery/EUR.sav"
 
@@ -44,6 +43,7 @@ void doStuff() {
 	/* Here we open the file and get the SaveType. */
 	save = nullptr;
 	FILE* in = fopen(TESTPATH, "rb");
+
 	if (in) {
 		fseek(in, 0, SEEK_END);
 		u32 size = ftell(in);
@@ -82,7 +82,7 @@ void MainMenu::Draw(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
-	
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i], 0.7);
 		if (i == Selection)	GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
@@ -98,15 +98,15 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 1) this->Selection -= 2;
 	}
-	
+
 	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 3 && this->Selection != 2 && this->Selection != 3) this->Selection += 2;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection % 2) this->Selection--;
 	}
-	
+
 	if (hRepeat & KEY_RIGHT) {
 		if (!(this->Selection % 2)) this->Selection++;
 	}
