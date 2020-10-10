@@ -200,7 +200,7 @@ void Script::WriteFor(u32 offset, u32 length, u8 data) {
 			save->savePointer()[i] = data;
 		}
 
-		save->changesMade(true);
+		save->setChangesMade(true);
 	}
 }
 
@@ -243,29 +243,23 @@ bool Script::gameSupported(int entry) const {
 					const std::vector<std::string> regions = this->getSupportedRegionsEntry(entry);
 
 					switch(save->getRegion()) {
-						case WWRegion::USA_REV0:
-						case WWRegion::USA_REV1:
-						case WWRegion::EUR_REV1:
+						case WWRegion::EUR_USA:
 							for (int i = 0; i < (int)regions.size(); i++) {
 								if (regions[i] == "EUR" || regions[i] == "USA") return true;
 							}
 							break;
 
-						case WWRegion::JPN_REV0:
-						case WWRegion::JPN_REV1:
+						case WWRegion::JPN:
 							for (int i = 0; i < (int)regions.size(); i++) {
 								if (regions[i] == "JPN") return true;
 							}
 							break;
 
-						case WWRegion::KOR_REV1:
+						case WWRegion::KOR:
 							for (int i = 0; i < (int)regions.size(); i++) {
 								if (regions[i] == "KOR") return true;
 							}
 							break;
-
-						case WWRegion::UNKNOWN:
-							return false;
 					}
 				}
 				break;
@@ -362,7 +356,7 @@ ScriptError Script::execute(int entry) {
 
 				if (save) {
 					save->savePointer()[offset] = data; // Do not cast for an u8, because we don't need that.
-					save->changesMade(true);
+					save->setChangesMade(true);
 				}
 
 

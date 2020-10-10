@@ -37,7 +37,7 @@ extern bool fadein;
 extern bool touching(touchPosition touch, ButtonType button);
 extern bool exiting;
 
-#define TESTPATH "sdmc:/nogba/Battery/EUR.sav"
+#define TESTPATH "sdmc:/3ds/ACWW-Utils/KOR/saves/KOR.sav"
 
 void doStuff() {
 	/* Here we open the file and get the SaveType. */

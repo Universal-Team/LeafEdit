@@ -249,20 +249,14 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		switch(this->Selection) {
 			case 0:
 				switch(save->getRegion()) {
-					case WWRegion::USA_REV0:
-					case WWRegion::USA_REV1:
-					case WWRegion::EUR_REV1:
+					case WWRegion::EUR_USA:
 						length = 7;
 						break;
 
-					case WWRegion::JPN_REV0:
-					case WWRegion::JPN_REV1:
-					case WWRegion::KOR_REV1:
+					case WWRegion::JPN:
+					case WWRegion::KOR:
 						length = 6;
 						break;
-
-					case WWRegion::UNKNOWN:
-						return;
 				}
 
 				this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), Lang::get("ENTER_PLAYERNAME"))));
@@ -290,20 +284,14 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (touching(touch, this->appearanceBtn[0])) {
 			u8 length = 0;
 			switch(save->getRegion()) {
-				case WWRegion::USA_REV0:
-				case WWRegion::USA_REV1:
-				case WWRegion::EUR_REV1:
+				case WWRegion::EUR_USA:
 					length = 7;
 					break;
 
-				case WWRegion::JPN_REV0:
-				case WWRegion::JPN_REV1:
-				case WWRegion::KOR_REV1:
+				case WWRegion::JPN:
+				case WWRegion::KOR:
 					length = 6;
 					break;
-
-				case WWRegion::UNKNOWN:
-					return;
 			}
 
 			this->player->name(StringUtils::UTF8toUTF16(Input::setString(length, StringUtils::UTF16toUTF8(this->player->name()), Lang::get("ENTER_PLAYERNAME"))));

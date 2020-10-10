@@ -161,11 +161,11 @@ C2D_Image CoreUtils::LoadPlayerTPC(std::unique_ptr<Player> &player, bool &loaded
 			return LoadPlayerPicture(player->tpcImage());
 
 		} else {
-			return {nullptr};
+			return { nullptr };
 		}
 
 	} else {
-		return {nullptr};
+		return { nullptr };
 	}
 }
 
@@ -223,7 +223,7 @@ void CoreUtils::createBackup() {
 	All Palettes.
 	Color format seems to be: RGBA.
 */
-static const u32 NLPaletteColors[] = {
+static constexpr u32 NLPaletteColors[] = {
 	0xFFEEFFFF, 0xFF99AAFF, 0xEE5599FF, 0xFF66AAFF, 0xFF0066FF, 0xBB4477FF, 0xCC0055FF, 0x990033FF, 0x552233FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
 	0xFFBBCCFF, 0xFF7777FF, 0xDD3311FF, 0xFF5544FF, 0xFF0000FF, 0xCC6666FF, 0xBB4444FF, 0xBB0000FF, 0x882222FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xEEEEEEFF,
 	0xDDCCBBFF, 0xFFCC66FF, 0xDD6622FF, 0xFFAA22FF, 0xFF6600FF, 0xBB8855FF, 0xDD4400FF, 0xBB4400FF, 0x663311FF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xDDDDDDFF,
@@ -243,7 +243,7 @@ static const u32 NLPaletteColors[] = {
 };
 
 /* Color format seems to be: BRGA. */
-static const u32 WWPaletteColors[] = {
+static constexpr u32 WWPaletteColors[] = {
 	0xFF0000FF, 0xFF7331FF, 0xFFAD00FF, 0xFFFF00FF, 0xADFF00FF, 0x52FF00FF, 0x00FF00FF, 0x00AD52FF, 0x0052ADFF, 0x0000FFFF, 0x5200FFFF, 0xAD00FFFF, 0xFF00FFFF, 0x000000FF, 0xFFFFFFFF,
 	0xFF7B7BFF, 0xFFB57BFF, 0xFFE77BFF, 0xFFFF7BFF, 0xDEFF7BFF, 0xADFF7BFF, 0x7BFF7BFF, 0x52AD84FF, 0x5284ADFF, 0x7B7BFFFF, 0xB57BFFFF, 0xE77BFFFF, 0xFF7BFFFF, 0x000000FF, 0xFFFFFFFF,
 	0xA50000FF, 0xA53100FF, 0xA57300FF, 0xA5A500FF, 0x73A500FF, 0x31A500FF, 0x00A500FF, 0x005221FF, 0x002152FF, 0x0000A5FF, 0x3100A5FF, 0x7300A5FF, 0xA500A5FF, 0x000000FF, 0xFFFFFFFF,
@@ -285,7 +285,7 @@ C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType
 
 			case SaveType::UNUSED:
 				linearFree(buffer); // Free buffer cause unneeded.
-				return {nullptr};
+				return { nullptr };
 		}
 
 
@@ -295,7 +295,7 @@ C2D_Image CoreUtils::patternImage(std::unique_ptr<PatternImage> &image, SaveType
 
 	} else {
 		linearFree(buffer); // Free buffer cause unneeded.
-		return {nullptr};
+		return { nullptr };
 	}
 }
 
@@ -308,23 +308,17 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 		case SaveType::WW:
 			/* Switch Region. */
 			switch(region) {
-				case WWRegion::JPN_REV0:
-				case WWRegion::JPN_REV1:
+				case WWRegion::JPN:
 					path = "romfs:/pattern/empty/ww_jpn.acww";
 					break;
 
-				case WWRegion::USA_REV0:
-				case WWRegion::USA_REV1:
-				case WWRegion::EUR_REV1:
+				case WWRegion::EUR_USA:
 					path = "romfs:/pattern/empty/ww_eur.acww";
 					break;
 
-				case WWRegion::KOR_REV1:
+				case WWRegion::KOR:
 					path = "romfs:/pattern/empty/ww_kor.acww";
 					break;
-
-				case WWRegion::UNKNOWN:
-					return; // Because invalid.
 			}
 			break;
 
@@ -359,8 +353,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 		case SaveType::WW:
 			/* Switch Region. */
 			switch(region) {
-				case WWRegion::JPN_REV0:
-				case WWRegion::JPN_REV1:
+				case WWRegion::JPN:
 					patternLength = 9;
 					creatorNameStart = 0x9;
 					creatorLength = 6;
@@ -373,21 +366,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 					pSize = 0x1A;
 					break;
 
-				case WWRegion::USA_REV0:
-					patternLength = 15;
-					creatorNameStart = 0xF;
-					creatorLength = 7;
-					townNameStart = 0x16;
-					townLength = 7;
-					creatorIDStart = 0x1D;
-					townIDStart = 0x1F;
-					creatorGenderStart = 0x21;
-					file = "sdmc:/3ds/LeafEdit/Pattern-Editor/defaults/wwUSADefault.pt";
-					pSize = 0x22;
-					break;
-
-				case WWRegion::USA_REV1:
-				case WWRegion::EUR_REV1:
+				case WWRegion::EUR_USA:
 					patternLength = 15;
 					creatorNameStart = 0xF;
 					creatorLength = 7;
@@ -400,7 +379,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 					pSize = 0x22;
 					break;
 
-				case WWRegion::KOR_REV1:
+				case WWRegion::KOR:
 					patternLength = 10;
 					creatorNameStart = 0x14;
 					creatorLength = 6;
@@ -413,9 +392,6 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 					pSize = 0x31;
 					UTF8Read = false;
 					break;
-
-				case WWRegion::UNKNOWN:
-					return;
 			}
 
 			break;

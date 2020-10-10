@@ -31,6 +31,7 @@
 #include "gui.hpp"
 #include "itemManager.hpp"
 #include "lang.hpp"
+#include "logging.hpp"
 #include "mainMenu.hpp"
 #include "overlay.hpp"
 #include "screenCommon.hpp"
@@ -192,7 +193,7 @@ Result Init::Init() {
 
 
 	config = std::make_unique<Config>();
-	
+
 	ItemManager::loadColors();
 	Lang::load(1);
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
@@ -235,7 +236,7 @@ Result Init::Initialize() {
 	hidSetRepeatParameters(10, 10);
 
 	Overlays::SplashOverlay();
-	
+
 	/* Set the Screen to the MainMenu. */
 	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
@@ -258,7 +259,7 @@ Result Init::MainLoop() {
 		Gui::DrawScreen(true);
 		Gui::ScreenLogic(hDown, hHeld, touch, doFade, true);
 		C3D_FrameEnd(0);
-		
+
 		if (exiting || Is3dsxUpdated) {
 			if (!fadeout) break;
 		}

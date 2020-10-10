@@ -103,9 +103,9 @@ private:
 	void Write(u32 offset, T data) {
 		if (save) {
 			*reinterpret_cast<T*>(save->savePointer() + offset) = data;
-			save->changesMade(true);
+			save->setChangesMade(true);
 		}
-	}
+	};
 
 	/* Write a for loop. */
 	void WriteFor(u32 offset, u32 length, u8 data);
