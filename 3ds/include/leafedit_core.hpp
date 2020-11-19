@@ -24,26 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _LEAFEDIT_INIT_HPP
-#define _LEAFEDIT_INIT_HPP
+#ifndef _LEAFEDIT_CORE_HPP
+#define _LEAFEDIT_CORE_HPP
 
-#include <3ds.h>
-
-namespace Init {
-	/* Load & Unload Sheets & Font. */
-	Result loadSheets();
-	Result loadFont();
-	Result unloadSheets();
-	Result unloadFont();
-
-	bool ItemBinsFound();
-	Result CheckSheets();
-
-	/* Init, Mainloop & Exit. */
-	Result Init();
-	Result Initialize();
-	Result MainLoop();
-	Result Exit();
-}
+#define _LANG_PATH "romfs:/lang/strings"
+#define _ITEM_BIN_PATH "sdmc:/3ds/LeafEdit/assets"
 
 #endif

@@ -43,7 +43,7 @@
 std::unique_ptr<Config> config;
 /* If true -> Exit LeafEdit. */
 bool exiting = false;
-bool doFade = true;
+bool doFade = false; // NOTE: This is broken right now. I will fix it at a later point in Universal-Core.
 
 touchPosition touch;
 
@@ -86,11 +86,11 @@ bool iconTouch(touchPosition touch, Structs::ButtonPos button) {
 
 /* Check if Sheets are found. */
 Result Init::CheckSheets() {
-	if ((access("sdmc:/3ds/LeafEdit/assets/acres.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/3ds/LeafEdit/assets/items.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/3ds/LeafEdit/assets/players.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/3ds/LeafEdit/assets/villagers.t3x", F_OK) == 0 ) ||
-	(access("sdmc:/3ds/LeafEdit/assets/villagers2.t3x", F_OK) == 0 )) {
+	if ((access("sdmc:/3ds/LeafEdit/assets/acres.t3x", F_OK) == 0) &&
+	(access("sdmc:/3ds/LeafEdit/assets/items.t3x", F_OK) == 0) &&
+	(access("sdmc:/3ds/LeafEdit/assets/players.t3x", F_OK) == 0) &&
+	(access("sdmc:/3ds/LeafEdit/assets/villagers.t3x", F_OK) == 0) &&
+	(access("sdmc:/3ds/LeafEdit/assets/villagers2.t3x", F_OK) == 0)) {
 		return 0;
 
 	} else {
@@ -130,6 +130,17 @@ Result Init::unloadSheets() {
 	}
 
 	return 0;
+}
+
+bool Init::ItemBinsFound() {
+	if ((access("sdmc:/3ds/LeafEdit/assets/ItemNL.bin", F_OK) == 0) &&
+		(access("sdmc:/3ds/LeafEdit/assets/ItemWA.bin", F_OK) == 0) &&
+		(access("sdmc:/3ds/LeafEdit/assets/KindNL.bin", F_OK) == 0) &&
+		(access("sdmc:/3ds/LeafEdit/assets/KindWA.bin", F_OK) == 0)) {
+			return true;
+	}
+
+	return false;
 }
 
 /* Load the font, if found. */
@@ -199,7 +210,7 @@ Result Init::Init() {
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 
 	/* If sheets not found -> Download it. */
-	if (CheckSheets() != 0) Download::downloadAssets();
+	if (CheckSheets() != 0 || !ItemBinsFound()) Download::downloadAssets();
 
 	/* Only Load Font if found, else load System font. */
 	loadFont();
@@ -215,9 +226,7 @@ Result Init::Init() {
 
 	if (is3dsx) {
 		path3dsx = path;
-		if (path3dsx == "sdmc:/") {
-			path3dsx = path3dsx.substr(5, path3dsx.size());
-		}
+		if (path3dsx == "sdmc:/") path3dsx = path3dsx.substr(5, path3dsx.size());
 	}
 
 	return 0;

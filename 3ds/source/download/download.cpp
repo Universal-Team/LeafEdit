@@ -134,7 +134,7 @@ static size_t file_handle_data(char *ptr, size_t size, size_t nmemb, void *userd
 	if (file_buffer_pos + bsz >= FILE_ALLOC_SIZE) {
 		tofill = FILE_ALLOC_SIZE - file_buffer_pos;
 		memcpy(g_buffers[g_index] + file_buffer_pos, ptr, tofill);
-		
+
 		LightEvent_Wait(&waitCommit);
 		LightEvent_Clear(&waitCommit);
 		file_toCommit_size = file_buffer_pos + tofill;
@@ -166,7 +166,7 @@ Result downloadToFile(std::string url, std::string path) {
 		retcode = -1;
 		goto exit;
 	}
-	
+
 	res = socInit((u32*)socubuf, 0x100000);
 
 	if (R_FAILED(res)) {
@@ -185,7 +185,7 @@ Result downloadToFile(std::string url, std::string path) {
 	hnd = curl_easy_init();
 	curl_easy_setopt(hnd, CURLOPT_BUFFERSIZE, FILE_ALLOC_SIZE);
 	curl_easy_setopt(hnd, CURLOPT_URL, url.c_str());
-	curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 0L); 
+	curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 0L);
 	curl_easy_setopt(hnd, CURLOPT_USERAGENT, USER_AGENT);
 	curl_easy_setopt(hnd, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(hnd, CURLOPT_FAILONERROR, 1L);
@@ -200,7 +200,7 @@ Result downloadToFile(std::string url, std::string path) {
 
 	cres = curl_easy_perform(hnd);
 	curl_easy_cleanup(hnd);
-	
+
 	if (cres != CURLE_OK) {
 		retcode = -cres;
 		goto exit;
@@ -219,7 +219,7 @@ Result downloadToFile(std::string url, std::string path) {
 	}
 
 	fflush(downfile);
-	
+
 exit:
 	if (fsCommitThread) {
 		killThread = true;
@@ -230,7 +230,7 @@ exit:
 	}
 
 	socExit();
-	
+
 	if (socubuf) {
 		free(socubuf);
 	}
@@ -254,7 +254,7 @@ exit:
 	file_buffer_pos = 0;
 	file_toCommit_size = 0;
 	writeError = false;
-	
+
 	return retcode;
 }
 
@@ -501,7 +501,7 @@ ReleaseFetch getLatestRelease() {
 	} else {
 		RF.ReleaseName = "";
 	}
-	
+
 	if (parsedAPI["tag_name"].is_string()) {
 		RF.Version = parsedAPI["tag_name"];
 
@@ -706,16 +706,16 @@ bool Download::showReleaseInfo(ReleaseFetch RF) {
 		if (hDown & KEY_A) {
 			return true;
 		}
-		
+
 		if (hDown & KEY_B || hDown & KEY_Y || hDown & KEY_TOUCH) return false;
-		
+
 		if (hHeld & KEY_UP) {
 			if (textPosition > 0) {
 				textPosition--;
 				redrawText = true;
 			}
 		}
-		
+
 		if (hHeld & KEY_DOWN) {
 			if (textPosition < (int)(_topText.size() - 10)) {
 				textPosition++;
@@ -832,7 +832,7 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			success = true;
 		}
 	}
-	
+
 	doneMsg();
 
 	if (success) {
@@ -840,17 +840,17 @@ Result Download::updateApp(bool nightly, const std::string &version) {
 			Is3dsxUpdated = true;
 		}
 	}
-	
+
 	success = false;
 	return 0;
 }
 
 void Download::downloadAssets(void) {
 	/* Acres AC:WW & AC:NL. */
-	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 1, 6);
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 1, 10);
 	showProgressBar = true;
 	progressBarType = 0;
-	
+
 	Threads::create((ThreadFunc)displayProgressBar);
 
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/acres.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/acres.t3x") != 0) {
@@ -860,7 +860,7 @@ void Download::downloadAssets(void) {
 	}
 
 	/* Items & Badges. */
-	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 2, 6);
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 2, 10);
 
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/items.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/items.t3x") != 0) {
 		showProgressBar = false;
@@ -869,7 +869,7 @@ void Download::downloadAssets(void) {
 	}
 
 	/* Faces & Hair. */
-	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 3, 6);
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 3, 10);
 
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/players.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/players.t3x") != 0) {
 		showProgressBar = false;
@@ -878,7 +878,7 @@ void Download::downloadAssets(void) {
 	}
 
 	/* Font. */
-	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 4, 6);
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 4, 10);
 
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/font.bcfnt?raw=true", "sdmc:/3ds/LeafEdit/assets/font.bcfnt") != 0) {
 		showProgressBar = false;
@@ -887,7 +887,7 @@ void Download::downloadAssets(void) {
 	}
 
 	/* First Villager Sprite. */
-	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 5, 6);
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 5, 10);
 
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers.t3x") != 0) {
 		showProgressBar = false;
@@ -896,9 +896,45 @@ void Download::downloadAssets(void) {
 	}
 
 	/* Second Villager Sprite. */
-	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 6, 6);
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 6, 10);
 
 	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/villagers2.t3x?raw=true", "sdmc:/3ds/LeafEdit/assets/villagers2.t3x") != 0) {
+		showProgressBar = false;
+		downloadFailed();
+		return;
+	}
+
+	/* ItemNL. */
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 7, 10);
+
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/ItemNL.bin?raw=true", "sdmc:/3ds/LeafEdit/assets/ItemNL.bin") != 0) {
+		showProgressBar = false;
+		downloadFailed();
+		return;
+	}
+
+	/* ItemWA. */
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 8, 10);
+
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/ItemWA.bin?raw=true", "sdmc:/3ds/LeafEdit/assets/ItemWA.bin") != 0) {
+		showProgressBar = false;
+		downloadFailed();
+		return;
+	}
+
+	/* KindNL. */
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 9, 10);
+
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/KindNL.bin?raw=true", "sdmc:/3ds/LeafEdit/assets/KindNL.bin") != 0) {
+		showProgressBar = false;
+		downloadFailed();
+		return;
+	}
+
+	/* KindWA. */
+	snprintf(progressBarMsg, sizeof(progressBarMsg), Lang::get("DOWNLOADING_ASSETS").c_str(), 10, 10);
+
+	if (downloadToFile("https://github.com/Universal-Team/LeafEdit-Extras/blob/master/assets/KindWA.bin?raw=true", "sdmc:/3ds/LeafEdit/assets/KindWA.bin") != 0) {
 		showProgressBar = false;
 		downloadFailed();
 		return;
@@ -913,13 +949,9 @@ void Download::downloadAssets(void) {
 void displayProgressBar() {
 	char str[256];
 	while(showProgressBar) {
-		if (downloadTotal < 1.0f) {
-			downloadTotal = 1.0f;
-		}
+		if (downloadTotal < 1.0f) downloadTotal = 1.0f;
 
-		if (downloadTotal < downloadNow) {
-			downloadTotal = downloadNow;
-		}
+		if (downloadTotal < downloadNow) downloadTotal = downloadNow;
 
 		if (progressBarType == 0) {
 			snprintf(str, sizeof(str), "%s / %s (%.2f%%)",
@@ -966,9 +998,7 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 	void *socubuf = memalign(0x1000, 0x100000);
 	std::vector<ExtraEntry> emptyVector;
 
-	if (!socubuf) {
-		return emptyVector;
-	}
+	if (!socubuf) return emptyVector;
 
 	ret = socInit((u32*)socubuf, 0x100000);
 
@@ -1013,17 +1043,13 @@ std::vector<ExtraEntry> Download::getExtraList(std::string category) {
 
 	std::vector<ExtraEntry> jsonItems;
 	json parsedAPI = json::parse(result_buf);
-	
+
 	for(uint i = 0; i < parsedAPI.size(); i++) {
 		ExtraEntry extraEntry;
 
-		if (parsedAPI[i]["name"].is_string()) {
-			extraEntry.name = parsedAPI[i]["name"];
-		}
+		if (parsedAPI[i]["name"].is_string()) extraEntry.name = parsedAPI[i]["name"];
 
-		if (parsedAPI[i]["download_url"].is_string()) {
-			extraEntry.downloadUrl = parsedAPI[i]["download_url"];
-		}
+		if (parsedAPI[i]["download_url"].is_string()) extraEntry.downloadUrl = parsedAPI[i]["download_url"];
 
 		jsonItems.push_back(extraEntry);
 	}

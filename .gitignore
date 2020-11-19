@@ -12,6 +12,7 @@
 .vscode/ipch
 *.DS_Store
 3ds/romfs/gfx/sprites.t3x
+3ds/romfs/lang/strings
 nds/graphics/bmp2ds
 
 bannertool*
