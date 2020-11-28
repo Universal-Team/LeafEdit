@@ -43,7 +43,7 @@
 std::unique_ptr<Config> config;
 /* If true -> Exit LeafEdit. */
 bool exiting = false;
-bool doFade = false; // NOTE: This is broken right now. I will fix it at a later point in Universal-Core.
+bool doFade = true;
 
 touchPosition touch;
 
