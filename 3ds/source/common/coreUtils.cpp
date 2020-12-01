@@ -58,9 +58,7 @@ void CoreUtils::FixInvalidBuildings(void) {
 				if ((building >= 0x12 && building <= 0x4B) || building > 0xFC) {
 					if (!ask) {
 						ask = true;
-						if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) {
-							return;
-						}
+						if (!Msg::promptMsg(Lang::get("INVALID_BUILDINGS"))) return;
 					}
 
 					SaveUtils::Write<u32>(save->savePointer(), offset + (i * 4), static_cast<u32>(0x000000FC)); // Write empty building.
@@ -144,9 +142,7 @@ void CoreUtils::FixSaveRegion(Region_Lock &regionLock) {
 	if (save) {
 		if (save->getType() == SaveType::WA) {
 			if (UpdateSaveRegion(regionLock)) {
-				if (Msg::promptMsg(Lang::get("REGION_NOT_MATCH"))) {
-					save->savePointer()[0x621CE] = regionLock.RawByte;
-				}
+				if (Msg::promptMsg(Lang::get("REGION_NOT_MATCH"))) save->savePointer()[0x621CE] = regionLock.RawByte;
 			}
 		}
 	}
@@ -312,7 +308,8 @@ void CoreUtils::generateEmptyPattern(SaveType ST, WWRegion region, std::shared_p
 					path = "romfs:/pattern/empty/ww_jpn.acww";
 					break;
 
-				case WWRegion::EUR_USA:
+				case WWRegion::EUR:
+				case WWRegion::USA:
 					path = "romfs:/pattern/empty/ww_eur.acww";
 					break;
 
@@ -366,7 +363,8 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 					pSize = 0x1A;
 					break;
 
-				case WWRegion::EUR_USA:
+				case WWRegion::EUR:
+				case WWRegion::USA:
 					patternLength = 15;
 					creatorNameStart = 0xF;
 					creatorLength = 7;
@@ -435,7 +433,7 @@ void CoreUtils::dumpPatternInformation(SaveType ST, WWRegion region, std::unique
 
 	FILE *dmp = fopen(file.c_str(), "w");
 	if (dmp) {
-		std::shared_ptr<u8[]> data = std::shared_ptr<u8[]>(new u8[pSize]);
+		std::unique_ptr<u8[]> data = std::make_unique<u8[]>(pSize);
 
 		/* Write. */
 		if (data) {

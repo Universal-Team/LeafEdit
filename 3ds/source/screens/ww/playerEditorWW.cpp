@@ -249,7 +249,8 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		switch(this->Selection) {
 			case 0:
 				switch(save->getRegion()) {
-					case WWRegion::EUR_USA:
+					case WWRegion::EUR:
+					case WWRegion::USA:
 						length = 7;
 						break;
 
@@ -284,7 +285,8 @@ void PlayerEditorWW::AppearanceLogic(u32 hDown, u32 hHeld, touchPosition touch) 
 		if (touching(touch, this->appearanceBtn[0])) {
 			u8 length = 0;
 			switch(save->getRegion()) {
-				case WWRegion::EUR_USA:
+				case WWRegion::EUR:
+				case WWRegion::USA:
 					length = 7;
 					break;
 

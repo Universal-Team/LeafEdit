@@ -243,7 +243,8 @@ bool Script::gameSupported(int entry) const {
 					const std::vector<std::string> regions = this->getSupportedRegionsEntry(entry);
 
 					switch(save->getRegion()) {
-						case WWRegion::EUR_USA:
+						case WWRegion::EUR:
+						case WWRegion::USA:
 							for (int i = 0; i < (int)regions.size(); i++) {
 								if (regions[i] == "EUR" || regions[i] == "USA") return true;
 							}
