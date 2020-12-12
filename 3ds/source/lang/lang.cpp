@@ -44,11 +44,11 @@ std::vector<std::string> g_personality;
 
 /* Load a Text file or such to a Vector. */
 void Lang::loadToVector(std::string path, std::vector<std::string> &vec) {
-	char* line = NULL;
+	char *line = NULL;
 	size_t len = 0;
 	vec.clear();
 
-	FILE* in = fopen(path.c_str(), "r");
+	FILE *in = fopen(path.c_str(), "r");
 	while(__getline(&line, &len, in) != -1) {
 		if (line[strlen(line) - 1] == '\n') line[strlen(line)-1] = '\0';
 		vec.push_back(line);
@@ -59,37 +59,37 @@ void Lang::loadToVector(std::string path, std::vector<std::string> &vec) {
 
 std::string Lang::get(const std::string &key) {
 	if (!appJson.contains(key)) return "";
-	
+
 	return appJson.at(key).get_ref<const std::string&>();
 }
 
-std::string langs[] = {"de", "en", "es", "fr", "it", "lt", "pt", "jp"};
+const std::string langs[] = { "de", "en", "es", "fr", "it", "lt", "pt", "jp" };
 
 void Lang::loadGameStrings(int lang, SaveType save) {
 	switch (save) {
 		case SaveType::WW:
-			loadToVector("romfs:/lang/strings/ww/facetype.txt", g_FaceType);
-			loadToVector("romfs:/lang/strings/ww/haircolor.txt", g_HairColor);
-			loadToVector("romfs:/lang/strings/ww/hairstyle.txt", g_HairStyle);
-			loadToVector("romfs:/lang/strings/ww/personalities.txt", g_personality);
+			loadToVector("romfs:/lang/strings/ww/en/facetype.txt", g_FaceType);
+			loadToVector("romfs:/lang/strings/ww/en/haircolor.txt", g_HairColor);
+			loadToVector("romfs:/lang/strings/ww/en/hairstyle.txt", g_HairStyle);
+			loadToVector("romfs:/lang/strings/ww/en/personalities.txt", g_personality);
 			break;
 
 		case SaveType::NL:
-			loadToVector("romfs:/lang/strings/nl/badges.txt", g_badges);
-			loadToVector("romfs:/lang/strings/nl/facetype.txt", g_FaceType);
-			loadToVector("romfs:/lang/strings/nl/haircolor.txt", g_HairColor);
-			loadToVector("romfs:/lang/strings/nl/hairstyle.txt", g_HairStyle);
-			loadToVector("romfs:/lang/strings/nl/personalities.txt", g_personality);
+			loadToVector("romfs:/lang/strings/nl/en/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/nl/en/facetype.txt", g_FaceType);
+			loadToVector("romfs:/lang/strings/nl/en/haircolor.txt", g_HairColor);
+			loadToVector("romfs:/lang/strings/nl/en/hairstyle.txt", g_HairStyle);
+			loadToVector("romfs:/lang/strings/nl/en/personalities.txt", g_personality);
 			break;
 
 		case SaveType::WA:
-			loadToVector("romfs:/lang/strings/wa/badges.txt", g_badges);
-			loadToVector("romfs:/lang/strings/wa/facetype.txt", g_FaceType);
-			loadToVector("romfs:/lang/strings/wa/haircolor.txt", g_HairColor);
-			loadToVector("romfs:/lang/strings/wa/hairstyle.txt", g_HairStyle);
-			loadToVector("romfs:/lang/strings/wa/personalities.txt", g_personality);
+			loadToVector("romfs:/lang/strings/wa/en/badges.txt", g_badges);
+			loadToVector("romfs:/lang/strings/wa/en/facetype.txt", g_FaceType);
+			loadToVector("romfs:/lang/strings/wa/en/haircolor.txt", g_HairColor);
+			loadToVector("romfs:/lang/strings/wa/en/hairstyle.txt", g_HairStyle);
+			loadToVector("romfs:/lang/strings/wa/en/personalities.txt", g_personality);
 			break;
-			
+
 		case SaveType::HHD:
 		case SaveType::UNUSED:
 			break;
@@ -100,7 +100,7 @@ void Lang::loadGameStrings(int lang, SaveType save) {
 }
 
 void Lang::load(int lang) {
-	FILE* values;
+	FILE *values;
 	values = fopen(("romfs:/lang/" + langs[lang] + "/app.json").c_str(), "rt");
 	if (values) appJson = nlohmann::json::parse(values, nullptr, false);
 	fclose(values);
