@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	PatternEditor(std::unique_ptr<Pattern> &ptrn);
 	~PatternEditor();
-	
+
 private:
 	PatternMode ptrnTool = PatternMode::Draw;
 	std::unique_ptr<Pattern> &pattern;
@@ -52,22 +52,22 @@ private:
 	int color = 0, xPos = 0, yPos = 0;
 
 	const std::vector<Structs::ButtonPos> palettePos = {
-		{260, 7, 22, 22},
-		{290, 7, 22, 22},
-		{260, 35, 22, 22},
-		{290, 35, 22, 22},
-		{260, 63, 22, 22},
-		{290, 63, 22, 22},
-		{260, 91, 22, 22},
-		{290, 91, 22, 22},
-		{260, 119, 22, 22},
-		{290, 119, 22, 22},
-		{260, 147, 22, 22},
-		{290, 147, 22, 22},
-		{260, 175, 22, 22},
-		{290, 175, 22, 22},
-		{260, 203, 22, 22},
-		{290, 203, 22, 22}
+		{ 260, 7, 22, 22 },
+		{ 290, 7, 22, 22 },
+		{ 260, 35, 22, 22 },
+		{ 290, 35, 22, 22 },
+		{ 260, 63, 22, 22 },
+		{ 290, 63, 22, 22 },
+		{ 260, 91, 22, 22 },
+		{ 290, 91, 22, 22 },
+		{ 260, 119, 22, 22 },
+		{ 290, 119, 22, 22 },
+		{ 260, 147, 22, 22 },
+		{ 290, 147, 22, 22 },
+		{ 260, 175, 22, 22 },
+		{ 290, 175, 22, 22 },
+		{ 260, 203, 22, 22 },
+		{ 290, 203, 22, 22 }
 	};
 };
 

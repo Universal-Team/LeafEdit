@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -47,40 +47,40 @@ private:
 	void DrawBadges(void) const;
 
 	const std::vector<Structs::ButtonPos> badgeTouch = {
-		{3, 33, 40, 40}, // Badge 1.
-		{58, 33, 40, 40}, // Badge 2.
-		{113, 33, 40, 40}, // Badge 3.
-		{168, 33, 40, 40}, // Badge 4.
-		{223, 33, 40, 40}, // Badge 5.
-		{278, 33, 40, 40}, // Badge 6.
+		{ 3, 33, 40, 40 }, // Badge 1.
+		{ 58, 33, 40, 40 }, // Badge 2.
+		{ 113, 33, 40, 40 }, // Badge 3.
+		{ 168, 33, 40, 40 }, // Badge 4.
+		{ 223, 33, 40, 40 }, // Badge 5.
+		{ 278, 33, 40, 40 }, // Badge 6.
 
-		{3, 78, 40, 40}, // Badge 7.
-		{58, 78, 40, 40}, // Badge 8.
-		{113, 78, 40, 40}, // Badge 9.
-		{168, 78, 40, 40}, // Badge 10.
-		{223, 78, 40, 40}, // Badge 11.
-		{278, 78, 40, 40}, // Badge 12.
+		{ 3, 78, 40, 40 }, // Badge 7.
+		{ 58, 78, 40, 40 }, // Badge 8.
+		{ 113, 78, 40, 40 }, // Badge 9.
+		{ 168, 78, 40, 40 }, // Badge 10.
+		{ 223, 78, 40, 40 }, // Badge 11.
+		{ 278, 78, 40, 40 }, // Badge 12.
 
-		{3, 123, 40, 40}, // Badge 13.
-		{58, 123, 40, 40}, // Badge 14.
-		{113, 123, 40, 40}, // Badge 15.
-		{168, 123, 40, 40}, // Badge 16.
-		{223, 123, 40, 40}, // Badge 17.
-		{278, 123, 40, 40}, // Badge 18.
+		{ 3, 123, 40, 40 }, // Badge 13.
+		{ 58, 123, 40, 40 }, // Badge 14.
+		{ 113, 123, 40, 40 }, // Badge 15.
+		{ 168, 123, 40, 40 }, // Badge 16.
+		{ 223, 123, 40, 40 }, // Badge 17.
+		{ 278, 123, 40, 40 }, // Badge 18.
 
-		{3, 168, 40, 40}, // Badge 19.
-		{58, 168, 40, 40}, // Badge 20.
-		{113, 168, 40, 40}, // Badge 21.
-		{168, 168, 40, 40}, // Badge 22.
-		{223, 168, 40, 40}, // Badge 23.
-		{278, 168, 40, 40}  // Badge 24.
+		{ 3, 168, 40, 40 }, // Badge 19.
+		{ 58, 168, 40, 40 }, // Badge 20.
+		{ 113, 168, 40, 40 }, // Badge 21.
+		{ 168, 168, 40, 40 }, // Badge 22.
+		{ 223, 168, 40, 40 }, // Badge 23.
+		{ 278, 168, 40, 40 }  // Badge 24.
 	};
 
 	const std::vector<ButtonType> setPos = {
-		{100, 45, 92, 12, "NONE"}, // None.
-		{100, 85, 92, 12, "BRONZE"}, // Bronze.
-		{100, 125, 92, 12, "SILVER"}, // Silver.
-		{100, 165, 92, 12, "GOLD"}  // Gold.
+		{ 100, 45, 92, 12, "NONE" }, // None.
+		{ 100, 85, 92, 12, "BRONZE" }, // Bronze.
+		{ 100, 125, 92, 12, "SILVER" }, // Silver.
+		{ 100, 165, 92, 12, "GOLD" } // Gold.
 	};
 };
 

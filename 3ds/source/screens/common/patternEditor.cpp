@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -124,7 +124,7 @@ void PatternEditor::Draw(void) const {
 		for (int i = 0; i < 15; i++) {
 			if (i == this->color) {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, NLPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(160, 0, 0, 255));
-				
+
 			} else {
 				GFX::drawGrid(palettePos[i].x, palettePos[i].y, palettePos[i].w, palettePos[i].h, NLPaletteColors[this->image->getPaletteColor(i)], C2D_Color32(20, 20, 20, 255));
 			}
@@ -164,13 +164,13 @@ void PatternEditor::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		CoreUtils::dumpPatternInformation(savesType, save->getRegion(), this->pattern);
 		this->ptrnTool = PatternMode::Draw;
 	}
-	
+
 	/* Set Personal stuff to pattern. */
 	if (this->ptrnTool == PatternMode::Own) {
 		if (savesType != SaveType::HHD || savesType != SaveType::UNUSED) {
 			this->pattern->ownPattern(save->player(0));
 		}
-		
+
 		this->ptrnTool = PatternMode::Draw;
 	}
 

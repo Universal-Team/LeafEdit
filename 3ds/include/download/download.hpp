@@ -70,9 +70,7 @@ void displayProgressBar();
 */
 bool checkWifiStatus(void);
 
-
 ReleaseFetch getLatestRelease();
-
 NightlyFetch getLatestCommit();
 
 /* LeafEdit's namespace for Downloads. */

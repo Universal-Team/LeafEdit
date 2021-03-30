@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, bool romf
 
 	if (Selection < 9) GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else GFX::DrawSelector(true, 24 + (8 * 21));
-	
+
 	Gui::DrawString(5, 25, 0.85f, BLACK, files, 360, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -124,20 +124,20 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 				selectedFile += 9;
 			}
 		}
-		
+
 		if (hRepeat & KEY_UP) {
 			if (selectedFile > 0) {
 				selectedFile--;
 			}
 		}
-		
+
 
 		if (hRepeat & KEY_DOWN) {
 			if ((uint)selectedFile < dirContents.size()-1) {
 				selectedFile++;
 			}
 		}
-		
+
 		if (hDown & KEY_A) {
 			if (dirContents.size() > 0) {
 				if (dirContents[selectedFile].isDirectory) {
@@ -170,16 +170,16 @@ std::string Overlays::RomfsSDOverlay(std::vector<std::string> extensions, std::s
 			if (romfsMode) {
 				romfsMode = false;
 				chdir(SDPath.c_str());
-				
+
 			} else {
 				romfsMode = true;
 				chdir(romfsPath.c_str());
 			}
-			
+
 			selectedFile = 0;
 			dirChanged = true;
 		}
-		
+
 		if (hDown & KEY_START) {
 			selectedFile = 0;
 			dirChanged = true;

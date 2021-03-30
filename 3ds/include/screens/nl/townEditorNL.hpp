@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -46,12 +46,12 @@ private:
 	std::unique_ptr<Pattern> pattern;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 102, 20, "MAP_EDITOR"},
-		{15, 97, 102, 20, "ACRE_EDITOR"},
-		{15, 159, 102, 20, "TOWNFLAG"},
-		{175, 34, 102, 20, ""},
-		{175, 97, 102, 20, ""},
-		{175, 159, 102, 20, ""}
+		{ 15, 34, 102, 20, "MAP_EDITOR" },
+		{ 15, 97, 102, 20, "ACRE_EDITOR" },
+		{ 15, 159, 102, 20, "TOWNFLAG" },
+		{ 175, 34, 102, 20, "" },
+		{ 175, 97, 102, 20, "" },
+		{ 175, 159, 102, 20, "" }
 	};
 };
 

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -49,11 +49,7 @@ void Settings::Draw(void) const {
 
 
 void Settings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	u32 hRepeat = hidKeysDownRepeat();
-
-	if (hDown & KEY_B) {
-		Gui::screenBack(doFade);
-	}
+	if (hDown & KEY_B) Gui::screenBack(doFade);
 
 	if (hDown & KEY_A) {
 		switch(this->Selection) {

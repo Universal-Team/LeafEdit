@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -214,10 +214,10 @@ int ItemManager::getIndexString(const int &current, const std::string &v) {
 			index = mid;
 			break;
 		}
-		
+
 		if (std::get<1>(itemDB[mid]) < v) {
 			min = mid + 1;
-			
+
 		} else {
 			max = mid - 1;
 		}

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ public:
 private:
 	int selectedPlayer = 0;
 	C2D_Image TPC[4]; // TPC Image of all players.
-	bool imageLoaded[4] = {false};
-	std::string playerNames[4] = {""};
+	bool imageLoaded[4] = { false };
+	std::string playerNames[4] = { "" };
 };
 
 #endif

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -131,7 +131,7 @@ void Config::save() {
 		this->setBool("Create_Backups", this->createBackups());
 		this->setBool("Show_Wiki", this->showWiki());
 		this->setInt("Version", this->version());
-		
+
 		/* Write changes to file. */
 		const std::string dump = this->json.dump(1, '\t');
 		fwrite(dump.c_str(), 1, this->json.dump(1, '\t').size(), file);

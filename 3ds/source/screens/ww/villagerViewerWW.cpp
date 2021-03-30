@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -53,11 +53,11 @@ void VillagerViewerWW::Draw(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
-	
+
 	for (int i = 0; i < 8; i++) {
 		SpriteManagement::DrawVillager(this->ID[i], villagers[i].x, villagers[i].y);
 	}
-	
+
 	GFX::DrawGUI(gui_pointer_idx, villagers[this->Selection].x + 18, villagers[this->Selection].y + 20);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -68,13 +68,13 @@ void VillagerViewerWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < save->maxVillager()) this->Selection++;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection > 0) this->Selection--;
 	}
 
 	if (hDown & KEY_SELECT) this->update();
-	
+
 	if (hRepeat & KEY_R) {
 		if (this->viewerIndex < 150) this->viewerIndex++;
 	}

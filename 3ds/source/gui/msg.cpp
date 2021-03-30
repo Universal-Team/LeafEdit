@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@
 #include <vector>
 
 const std::vector<ButtonType> promptBtn = {
-	{0, 85, 121, 24, "YES"}, // Yes.
-	{162, 85, 121, 24, "NO"}, // No.
-	{80, 90, 121, 24, "OK"} // OK.
+	{ 0, 85, 121, 24, "YES" }, // Yes.
+	{ 162, 85, 121, 24, "NO" }, // No.
+	{ 80, 90, 121, 24, "OK" } // OK.
 };
 
-const std::vector<std::string> prompt = {"YES", "NO"};
+const std::vector<std::string> prompt = { "YES", "NO" };
 
 extern touchPosition touch;
 extern bool touching(touchPosition touch, ButtonType button);
@@ -162,7 +162,7 @@ void Msg::DisplayWaitMsgInit(std::string waitMsg, ...) {
 	GFX::DrawTop();
 	GFX::DrawBox((240 - Gui::GetStringHeight(0.8f, waitMsg, font))/2 - 24, Gui::GetStringHeight(0.8f, waitMsg, font));
 	Gui::DrawStringCentered(0, (240 - Gui::GetStringHeight(0.8f, waitMsg, font))/2, 0.8f, WHITE, waitMsg, 385, 100, font);
-	
+
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 25, C2D_Color32(14, 73, 32, 255));
 	Gui::Draw_Rect(0, 25, 320, 190, C2D_Color32(23, 121, 53, 255));

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ static void Draw(std::unique_ptr<PatternImage> &pImg, C2D_Image &img) {
 void Overlays::PaletteToolWW(std::unique_ptr<PatternImage> &pImg, C2D_Image &img) {
 	bool exitOverlay = false;
 	while(!exitOverlay) {
-		
+
 		Draw(pImg, img);
 		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();

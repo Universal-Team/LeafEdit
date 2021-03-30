@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -49,25 +49,25 @@ static const u32 NLPaletteColors[] = {
 };
 
 static const std::vector<Structs::ButtonPos> paletteGrid = {
-	{10, 120, 20, 20},
-	{30, 120, 20, 20},
-	{50, 120, 20, 20},
+	{ 10, 120, 20, 20 },
+	{ 30, 120, 20, 20 },
+	{ 50, 120, 20, 20 },
 
-	{70, 120, 20, 20},
-	{90, 120, 20, 20},
-	{110, 120, 20, 20},
+	{ 70, 120, 20, 20 },
+	{ 90, 120, 20, 20 },
+	{ 110, 120, 20, 20 },
 
-	{130, 120, 20, 20},
-	{150, 120, 20, 20},
-	{170, 120, 20, 20},
+	{ 130, 120, 20, 20 },
+	{ 150, 120, 20, 20 },
+	{ 170, 120, 20, 20 },
 
-	{190, 120, 20, 20},
-	{210, 120, 20, 20},
-	{230, 120, 20, 20},
+	{ 190, 120, 20, 20 },
+	{ 210, 120, 20, 20 },
+	{ 230, 120, 20, 20 },
 
-	{250, 120, 20, 20},
-	{270, 120, 20, 20},
-	{290, 120, 20, 20}
+	{ 250, 120, 20, 20 },
+	{ 270, 120, 20, 20 },
+	{ 290, 120, 20, 20 }
 };
 
 static void Draw(std::unique_ptr<PatternImage> &pImg, C2D_Image &img, int index) {
@@ -95,17 +95,17 @@ static void Draw(std::unique_ptr<PatternImage> &pImg, C2D_Image &img, int index)
 }
 
 static const std::vector<Structs::ButtonPos> colorGrid = {
-	{100, 80, 20, 20},
-	{140, 80, 20, 20},
-	{180, 80, 20, 20},
+	{ 100, 80, 20, 20 },
+	{ 140, 80, 20, 20 },
+	{ 180, 80, 20, 20 },
 
-	{100, 120, 20, 20},
-	{140, 120, 20, 20},
-	{180, 120, 20, 20},
+	{ 100, 120, 20, 20 },
+	{ 140, 120, 20, 20 },
+	{ 180, 120, 20, 20 },
 
-	{100, 160, 20, 20},
-	{140, 160, 20, 20},
-	{180, 160, 20, 20}
+	{ 100, 160, 20, 20 },
+	{ 140, 160, 20, 20 },
+	{ 180, 160, 20, 20 }
 };
 
 static void DrawPaletteSelection(int colorGroup, int selection) {
@@ -146,7 +146,7 @@ void Overlays::PaletteToolNL(std::unique_ptr<PatternImage> &pImg, C2D_Image &img
 	int group = 0, groupSelection = 0, index = 0;
 
 	while(!exitOverlay) {
-		
+
 		if (!selectColor) Draw(pImg, img, index);
 		else DrawPaletteSelection(group, groupSelection);
 		touchPosition touch;
@@ -217,7 +217,7 @@ void Overlays::PaletteToolNL(std::unique_ptr<PatternImage> &pImg, C2D_Image &img
 						if (groupSelection > 0 || groupSelection > 3 || groupSelection > 6) {
 							groupSelection--;
 						}
-						
+
 					} else {
 						if (groupSelection > 0) groupSelection--;
 					}
@@ -244,7 +244,7 @@ void Overlays::PaletteToolNL(std::unique_ptr<PatternImage> &pImg, C2D_Image &img
 					group = 0;
 					selectColor = false;
 				}
-				
+
 			} else {
 				if (hRepeat & KEY_RIGHT) {
 					if (index < 14) index++;

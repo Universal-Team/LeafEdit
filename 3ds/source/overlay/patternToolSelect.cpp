@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -31,13 +31,13 @@ extern bool touching(touchPosition touch, ButtonType button);
 extern std::unique_ptr<Config> config;
 
 static const std::vector<ButtonType> buttons = {
-	{15, 34, 102, 20, "IMPORT_PATTERN"},
-	{15, 97, 102, 20, "CHANGE_PALETTE"},
-	{15, 159, 102, 20, "OWN_PATTERN"},
-	{175, 34, 102, 20, "EXPORT_PATTERN"},
-	{175, 97, 102, 20, "CLEAR_PATTERN"},
-	{175, 159, 102, 20, "EXIT"},
-	{15, 34, 102, 20, "EXPORT_INFORMATION"},
+	{ 15, 34, 102, 20, "IMPORT_PATTERN" },
+	{ 15, 97, 102, 20, "CHANGE_PALETTE" },
+	{ 15, 159, 102, 20, "OWN_PATTERN" },
+	{ 175, 34, 102, 20, "EXPORT_PATTERN" },
+	{ 175, 97, 102, 20, "CLEAR_PATTERN" },
+	{ 175, 159, 102, 20, "EXIT" },
+	{ 15, 34, 102, 20, "EXPORT_INFORMATION" },
 };
 
 static void Draw(int select, int page) {
@@ -163,7 +163,7 @@ PatternMode Overlays::SelectPatternTool() {
 					case 5:
 						return PatternMode::Exit;
 				}
-				
+
 			} else {
 				switch(selection) {
 					case 0:

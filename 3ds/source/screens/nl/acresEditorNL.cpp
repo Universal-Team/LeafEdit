@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ AcresEditorNL::AcresEditorNL(std::unique_ptr<Town> &refTown): town(refTown) {
 
 	if (savesType == SaveType::NL) {
 		this->maxAcres = 203;
-		
+
 	} else if (savesType == SaveType::WA) {
 		this->maxAcres = 205;
 	}
@@ -53,7 +53,7 @@ void AcresEditorNL::DrawTopSelection(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ACRE_EDITOR"), 390, 0, font);
 	Gui::DrawStringCentered(0, 180, 0.8f, BLACK, Lang::get("ACRE_ID") + std::to_string(this->selectedAcre), 390, 0, font);
-	
+
 	if (this->selectedAcre == 0) {
 		SpriteManagement::DrawAcres(this->selectedAcre, 150, 100, 2, 2); // Current Selected ACRE.
 		SpriteManagement::DrawAcres(this->selectedAcre+1, 300, 100, 1, 1);
@@ -156,7 +156,7 @@ void AcresEditorNL::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (keysHeld() & KEY_L) {
 			if (this->selectedAcre > 0) this->selectedAcre--;
 		}
-		
+
 		if (keysHeld() & KEY_R) {
 			if (this->selectedAcre < this->maxAcres) this->selectedAcre++;
 		}

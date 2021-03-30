@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -46,8 +46,8 @@ private:
 	bool changelogShown = false; // I have no clue if I keep that, lol.
 	bool hasCheckedForUpdate = false; // Always false at startup.
 
-	ReleaseFetch latestRelease = {""};
-	NightlyFetch latestNightly = {""};
+	ReleaseFetch latestRelease = { "" };
+	NightlyFetch latestNightly = { "" };
 
 	void DrawMain(void) const;
 	void MainLogic(u32 hDown, u32 hHeld, touchPosition touch);
@@ -56,19 +56,19 @@ private:
 	void ExtrasLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	const std::vector<ButtonType> mainButtons = {
-		{95, 34, 102, 20, "DOWNLOAD_RELEASE"},
-		{95, 97, 102, 20, "DOWNLOAD_NIGHTLY"},
-		{95, 159, 102, 20, "DOWNLOAD_ASSETS"}
+		{ 95, 34, 102, 20, "DOWNLOAD_RELEASE" },
+		{ 95, 97, 102, 20, "DOWNLOAD_NIGHTLY" },
+		{ 95, 159, 102, 20, "DOWNLOAD_ASSETS" }
 	};
 
 	const std::vector<ButtonType> extrasBtns = {
-		{95, 97, 102, 20, "DOWNLOAD_3DSX"},
-		{95, 159, 102, 20, "DOWNLOAD_CIA"}
+		{ 95, 97, 102, 20, "DOWNLOAD_3DSX" },
+		{ 95, 159, 102, 20, "DOWNLOAD_CIA" }
 	};
 
 	/* For the extras. */
-	const std::vector<std::string> extraNames = {"LeafEdit-Pattern-Editor"};
-	const std::vector<std::string> extraAuthorNames = {"SuperSaiyajinStackZ"};
+	const std::vector<std::string> extraNames = { "LeafEdit-Pattern-Editor" };
+	const std::vector<std::string> extraAuthorNames = { "SuperSaiyajinStackZ" };
 };
 
 #endif

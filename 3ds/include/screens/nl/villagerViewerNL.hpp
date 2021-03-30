@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -46,17 +46,17 @@ private:
 	void update();
 
 	const std::vector<Structs::ButtonPos> villagers = {
-		{15, 50, 48, 48},
-		{73, 50, 48, 48},
-		{131, 50, 48, 48},
-		{189, 50, 48, 48},
-		{247, 50, 48, 48},
-		
-		{15, 125, 48, 48},
-		{73, 125, 48, 48},
-		{131, 125, 48, 48},
-		{189, 125, 48, 48},
-		{247, 125, 48, 48}
+		{ 15, 50, 48, 48 },
+		{ 73, 50, 48, 48 },
+		{ 131, 50, 48, 48 },
+		{ 189, 50, 48, 48 },
+		{ 247, 50, 48, 48 },
+
+		{ 15, 125, 48, 48 },
+		{ 73, 125, 48, 48 },
+		{ 131, 125, 48, 48 },
+		{ 189, 125, 48, 48 },
+		{ 247, 125, 48, 48 }
 	};
 };
 

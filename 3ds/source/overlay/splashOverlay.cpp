@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ static void Draw(void) {
 
 	Gui::ScreenDraw(Top);
 	GFX::DrawGUI(gui_dev_by_idx, 0, 0);
-	Gui::DrawString(395-Gui::GetStringWidth(0.50, "2019-2020"), 218, 0.50, C2D_Color32(255, 255, 255, 255), "2019-2020");
+	Gui::DrawString(395-Gui::GetStringWidth(0.50, "2019-2021"), 218, 0.50, C2D_Color32(255, 255, 255, 255), "2019-2021");
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	Gui::ScreenDraw(Bottom);
@@ -49,7 +49,7 @@ void Overlays::SplashOverlay() {
 	fadealpha = 255;
 	int delay = 200; // The delay for exiting the overlay.
 	bool doOut = false;
-	
+
 	while(!doOut) {
 		Draw();
 		Gui::fadeEffects(16, 16, false);

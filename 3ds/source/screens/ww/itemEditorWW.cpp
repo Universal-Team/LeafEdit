@@ -1,6 +1,6 @@
 	/*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -114,7 +114,7 @@ void ItemEditorWW::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-	
+
 	if (hDown & KEY_A) {
 		switch(this->Selection) {
 			case 0:
@@ -192,7 +192,7 @@ void ItemEditorWW::DrawDresser(void) const {
 	Gui::DrawStringCentered(0, -2, 0.9f, WHITE, "LeafEdit - " + Lang::get("ITEM_DRESSER") + std::to_string(currentBox + 1), 395, 0, font);
 	GFX::DrawGUI(gui_bottom_bar_idx, 0, 209);
 	Gui::DrawStringCentered(0, 218, 0.8f, WHITE, Lang::get("CURRENT_ITEM") + this->dresser[this->selectedItem + (this->currentBox * 10)]->name(), 400, 0, font);
-	
+
 	GFX::DrawBottom();
 
 	for (int i = 0 + (10 * this->currentBox), i2 = 0; i < 10 + (10 * this->currentBox); i++, i2++) {

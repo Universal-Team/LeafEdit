@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -114,7 +114,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack(doFade);
 	}
-	
+
 	if (hDown & KEY_X) {
 		if (checkWifiStatus()) {
 			if (Msg::promptMsg(Lang::get("FETCH_UPDATES"))) {
@@ -135,7 +135,7 @@ void UpdateCenter::MainLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_UP) {
 		if (this->Selection > 0) this->Selection --;
 	}
-	
+
 	if (hRepeat & KEY_DOWN) {
 		if (this->Selection < 2) this->Selection++;
 	}

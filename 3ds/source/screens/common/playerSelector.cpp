@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ void PlayerSelector::Draw(void) const {
 				case SaveType::WA:
 					if (this->TPC[i].tex && this->imageLoaded[i]) {
 						C2D_DrawImageAt(this->TPC[i], (float)(100 * i) + 18.f, 45.f, 0.5f, nullptr, 1.f, 1.f);
-						
+
 					} else {
 						GFX::DrawGUI(gui_noTPC_idx, (float)(100 * i) + 18.f, 45.f, 1.f, 1.f);
 					}
@@ -117,10 +117,7 @@ void PlayerSelector::Draw(void) const {
 		Gui::DrawString(18 + (i * 100), 150, 0.64f, BLACK, this->playerNames[i], 400, 0, font);
 	}
 
-
-	if (save->player(this->selectedPlayer)->exist()) {
-		Gui::drawAnimatedSelector((100 * this->selectedPlayer) + 18, 45, 64, 104, .030, C2D_Color32(0, 0, 180, 255), C2D_Color32(0, 0, 0, 0));
-	}
+	Gui::drawAnimatedSelector((100 * this->selectedPlayer) + 18, 45, 64, 104, .030, C2D_Color32(0, 0, 180, 255), C2D_Color32(0, 0, 0, 0));
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
@@ -131,9 +128,7 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
 	if (hRepeat & KEY_RIGHT) {
-		if (this->selectedPlayer < 3) {
-			if (save->player(this->selectedPlayer + 1)->exist()) this->selectedPlayer++;
-		}
+		if (this->selectedPlayer < 3) this->selectedPlayer++;
 	}
 
 	if (hRepeat & KEY_LEFT) {
@@ -147,7 +142,7 @@ void PlayerSelector::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				case SaveType::WW:
 					Gui::setScreen(std::make_unique<PlayerEditorWW>(save->player(this->selectedPlayer)), doFade, true);
 					break;
-				
+
 				case SaveType::NL:
 				case SaveType::WA:
 					Gui::setScreen(std::make_unique<PlayerEditorNL>(save->player(this->selectedPlayer)), doFade, true);

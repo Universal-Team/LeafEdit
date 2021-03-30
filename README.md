@@ -30,7 +30,7 @@ To use LeafEdit completely you need to get the assets from [here](https://github
 ## Compilation
 ### Setting up your enviromment
 
-To build LeafEdit from source, you will need to setup a system with devkitARM, libctru, citro2d, citro3d, 3ds-curl and 3ds-libjpeg-turbo. Follow devkitPro's [Getting Started](https://devkitpro.org/wiki/Getting_Started) page to install pacman, then run `(sudo dkp-)pacman -S devkitARM libctru citro2d citro3d 3ds-curl 3ds-libjpeg-turbo`. You will also need [bannertool](https://github.com/Steveice10/bannertool/releases/latest) and [makerom](https://github.com/profi200/Project_CTR/releases/latest) inside the `3ds` folder.
+To build LeafEdit from source, you will need to setup a system with devkitARM, libctru, citro2d, citro3d, 3ds-curl and 3ds-libjpeg-turbo. Follow devkitPro's [Getting Started](https://devkitpro.org/wiki/Getting_Started) page to install pacman, then run `(sudo dkp-)pacman -S devkitARM libctru citro2d citro3d 3ds-curl 3ds-libjpeg-turbo`. You will also need [bannertool](https://github.com/Steveice10/bannertool/releases/latest) and [makerom](https://github.com/profi200/Project_CTR/releases/latest) set to your PATH.
 
 ### Cloning the repo
 

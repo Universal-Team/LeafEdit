@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, const std
 
 	if (Selection < 9) GFX::DrawSelector(true, 24 + ((int)Selection * 21));
 	else GFX::DrawSelector(true, 24 + (8 * 21));
-	
+
 	Gui::DrawString(5, 25, 0.85f, BLACK, files, 360, 0, font);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -145,26 +145,26 @@ std::string Overlays::SelectDestination(std::string Text, std::string initialPat
 				selectedDir--;
 			}
 		}
-		
+
 		if (hRepeat & KEY_DOWN) {
 			if ((uint)selectedDir < dirContents.size()-1) {
 				selectedDir++;
 			}
 		}
-		
+
 		if (hDown & KEY_B) {
 			char path[PATH_MAX];
 			getcwd(path, PATH_MAX);
 			if (strcmp(path, "sdmc:/") == 0 || strcmp(path, "/") == 0) {
 				return defaultDest;
-				
+
 			} else {
 				chdir("..");
 				selectedDir = 0;
 				dirChanged = true;
 			}
 		}
-		
+
 		if (hDown & KEY_START) {
 			selectedDir = 0;
 			dirChanged = true;

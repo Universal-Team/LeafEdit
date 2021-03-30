@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ namespace Overlays {
 	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
 	void SplashOverlay();
 	void showCredits();
-	
+
 	PatternMode SelectPatternTool();
 	void PaletteToolWW(std::unique_ptr<PatternImage> &pImg, C2D_Image &img);
 	void PaletteToolNL(std::unique_ptr<PatternImage> &pImg, C2D_Image &img);

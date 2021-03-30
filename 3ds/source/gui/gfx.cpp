@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ void GFX::DrawSelector(bool top, int y) {
 		DrawGUI(gui_selector_side_idx, 391, y, -1.0, 1.0);
 
 		/* Stretch the middle. */
-		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 382.0, 1);
+		C2D_DrawImageAt({ sprite.tex, &tex }, 9, y, 0.5f, nullptr, 382.0, 1);
 
 	} else {
 		/* Draw Sides. */
@@ -88,7 +88,7 @@ void GFX::DrawSelector(bool top, int y) {
 		DrawGUI(gui_selector_side_idx, 311, y, -1.0, 1.0);
 
 		/* Stretch the middle. */
-		C2D_DrawImageAt({sprite.tex, &tex}, 9, y, 0.5f, nullptr, 302.0, 1);
+		C2D_DrawImageAt({ sprite.tex, &tex }, 9, y, 0.5f, nullptr, 302.0, 1);
 	}
 }
 
@@ -97,13 +97,13 @@ void GFX::DrawBox(int y, int ySize) {
 	Tex3DS_SubTexture tex = _select_box(sprite, 7, 20, 8, 21); // Get pixel for middle part.
 
 	DrawGUI(gui_box_top_idx, 0, y); // Draw Top.
-	C2D_DrawImageAt({sprite.tex, &tex}, 7, y + 24, 0.5f, nullptr, 388.0, ySize); // Draw box middle.
+	C2D_DrawImageAt({ sprite.tex, &tex }, 7, y + 24, 0.5f, nullptr, 388.0, ySize); // Draw box middle.
 
 	tex = _select_box(sprite, 0, 15, 7, 16); // Get Left pixel corner.
-	C2D_DrawImageAt({sprite.tex, &tex}, 0, y + 24, 0.5f, nullptr, 1, ySize); // Draw Left corner.
+	C2D_DrawImageAt({ sprite.tex, &tex }, 0, y + 24, 0.5f, nullptr, 1, ySize); // Draw Left corner.
 
 	tex = _select_box(sprite, 394, 15, 400, 16); // Get Right pixel corner.
-	C2D_DrawImageAt({sprite.tex, &tex}, 394, y + 24, 0.5f, nullptr, 1, ySize); // Draw Right corner.
+	C2D_DrawImageAt({ sprite.tex, &tex }, 394, y + 24, 0.5f, nullptr, 1, ySize); // Draw Right corner.
 
 	C2D_DrawImageAt(sprite, 0, y + 24 + ySize, 0.5f, nullptr, -1, -1); // Draw Bottom part.
 }
@@ -111,7 +111,7 @@ void GFX::DrawBox(int y, int ySize) {
 void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 	C2D_Image sprite = C2D_SpriteSheetGetImage(GUI, gui_button_corner_idx);
 	Tex3DS_SubTexture tex;
-	
+
 	/* Corners. */
 	DrawGUI(gui_button_corner_idx, x, y);
 	DrawGUI(gui_button_corner_idx, x + 14 + xLength, y, -1.0, 1.0);
@@ -120,13 +120,13 @@ void GFX::DrawBtn(int x, int y, int xLength, int yLength) {
 
 	/* Height draw. */
 	tex = _select_box(sprite, 0, 11, 14, 12); // Get Height.
-	C2D_DrawImageAt({sprite.tex, &tex}, x, y + 14, 0.5f, nullptr, 1, yLength);
-	C2D_DrawImageAt({sprite.tex, &tex}, x + 14 + xLength, y + 14, 0.5f, nullptr, -1, yLength);
+	C2D_DrawImageAt({ sprite.tex, &tex }, x, y + 14, 0.5f, nullptr, 1, yLength);
+	C2D_DrawImageAt({ sprite.tex, &tex }, x + 14 + xLength, y + 14, 0.5f, nullptr, -1, yLength);
 
 	/* Width draw. */
 	tex = _select_box(sprite, 11, 0, 12, 14); // Get Width.
-	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y, 0.5f, nullptr, xLength, 1);
-	C2D_DrawImageAt({sprite.tex, &tex}, x + 14, y + 14 + yLength, 0.5f, nullptr, xLength, -1);	
+	C2D_DrawImageAt({ sprite.tex, &tex }, x + 14, y, 0.5f, nullptr, xLength, 1);
+	C2D_DrawImageAt({ sprite.tex, &tex }, x + 14, y + 14 + yLength, 0.5f, nullptr, xLength, -1);
 
 	/* And now the middle. */
 	tex = _select_box(sprite, 11, 11, 12, 12); // Get Corner pixel.

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -55,35 +55,35 @@ private:
 	void ItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<ButtonType> mainButtons = {
-		{15, 34, 102, 20, "VILLAGER_REPLACE"}, // Replace.
-		{15, 97, 102, 20, "VILLAGER_PERSONALITY"}, // Personality.
-		{15, 159, 102, 20, "ITEMS"}, // Items.
-		{175, 34, 102, 20, ""}, // Catchphrase.
-		{175, 97, 102, 20, ""}, // Status.
-		{175, 159, 102, 20, ""} // ?.
+		{ 15, 34, 102, 20, "VILLAGER_REPLACE" }, // Replace.
+		{ 15, 97, 102, 20, "VILLAGER_PERSONALITY" }, // Personality.
+		{ 15, 159, 102, 20, "ITEMS" }, // Items.
+		{ 175, 34, 102, 20, "" }, // Catchphrase.
+		{ 175, 97, 102, 20, "" }, // Status.
+		{ 175, 159, 102, 20, "" } // ?.
 	};
 
 	std::vector<Structs::ButtonPos> items = {
-		{65, 40, 30, 30}, // Furniture 0.
-		{105, 40, 30, 30}, // Furniture 1.
-		{145, 40, 30, 30}, // Furniture 2.
-		{185, 40, 30, 30}, // Furniture 3.
-		{225, 40, 30, 30}, // Furniture 4.
-		{65, 80, 30, 30}, // Furniture 5.
-		{105, 80, 30, 30}, // Furniture 6.
-		{145, 80, 30, 30}, // Furniture 7.
-		{185, 80, 30, 30}, // Furniture 8.
-		{225, 80, 30, 30}, // Furniture 9.
-		{65, 120, 30, 30}, // Furniture 10.
-		{105, 120, 30, 30}, // Furniture 11.
-		{145, 120, 30, 30}, // Furniture 12.
-		{185, 120, 30, 30}, // Furniture 13.
-		{225, 120, 30, 30}, // Furniture 14.
-		{65, 170, 30, 30}, // Shirt.
-		{105, 170, 30, 30}, // Song.
-		{145, 170, 30, 30}, // Wallpaper.
-		{185, 170, 30, 30}, // Carpet.
-		{225, 170, 30, 30} // Umbrella.
+		{ 65, 40, 30, 30 }, // Furniture 0.
+		{ 105, 40, 30, 30 }, // Furniture 1.
+		{ 145, 40, 30, 30 }, // Furniture 2.
+		{ 185, 40, 30, 30 }, // Furniture 3.
+		{ 225, 40, 30, 30 }, // Furniture 4.
+		{ 65, 80, 30, 30 }, // Furniture 5.
+		{ 105, 80, 30, 30 }, // Furniture 6.
+		{ 145, 80, 30, 30 }, // Furniture 7.
+		{ 185, 80, 30, 30 }, // Furniture 8.
+		{ 225, 80, 30, 30 }, // Furniture 9.
+		{ 65, 120, 30, 30 }, // Furniture 10.
+		{ 105, 120, 30, 30 }, // Furniture 11.
+		{ 145, 120, 30, 30 }, // Furniture 12.
+		{ 185, 120, 30, 30 }, // Furniture 13.
+		{ 225, 120, 30, 30 }, // Furniture 14.
+		{ 65, 170, 30, 30 }, // Shirt.
+		{ 105, 170, 30, 30 }, // Song.
+		{ 145, 170, 30, 30 }, // Wallpaper.
+		{ 185, 170, 30, 30 }, // Carpet.
+		{ 225, 170, 30, 30 } // Umbrella.
 	};
 };
 

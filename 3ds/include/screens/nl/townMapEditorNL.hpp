@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ private:
 	/* Specific stuff. */
 	std::unique_ptr<Town> &town;
 	std::unique_ptr<Item> MapItems[5120]; // Complete Town Map Items.
-	bool ItemBuried[5120] = {false};
+	bool ItemBuried[5120] = { false };
 	std::unique_ptr<Acre> FullAcres[42]; // Complete Acres.
 
 	/* Main Screen. */
@@ -89,24 +89,24 @@ private:
 	void TempItemLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	const std::vector<ButtonType> tempItemPos = {
-		{20, 28, 252, 22, ""}, // ID.
-		{20, 98, 252, 22, ""}, // Flag.
-		{20, 168, 252, 22, "SWITCH_ITEM_SELECTION"}
+		{ 20, 28, 252, 22, "" }, // ID.
+		{ 20, 98, 252, 22, "" }, // Flag.
+		{ 20, 168, 252, 22, "SWITCH_ITEM_SELECTION" }
 	};
 
 	/* Town Map Display [NL / Top Screen.] */
 	const std::vector<Structs::ButtonPos> townPos = {
-		{5, 40, 40, 40},{45, 40, 40, 40},{85, 40, 40, 40},
-		{125, 40, 40, 40},{165, 40, 40, 40},
+		{ 5, 40, 40, 40 }, { 45, 40, 40, 40 }, {85, 40, 40, 40},
+		{ 125, 40, 40, 40 }, { 165, 40, 40, 40 },
 
-		{5, 80, 40, 40},{45, 80, 40, 40},{85, 80, 40, 40},
-		{125, 80, 40, 40},{165, 80, 40, 40},
+		{ 5, 80, 40, 40 }, { 45, 80, 40, 40 }, { 85, 80, 40, 40 },
+		{ 125, 80, 40, 40 }, { 165, 80, 40, 40 },
 
-		{5, 120, 40, 40},{45, 120, 40, 40},{85, 120, 40, 40},
-		{125, 120, 40, 40},{165, 120, 40, 40},
+		{ 5, 120, 40, 40 }, { 45, 120, 40, 40 }, { 85, 120, 40, 40 },
+		{ 125, 120, 40, 40 }, { 165, 120, 40, 40 },
 
-		{5, 160, 40, 40},{45, 160, 40, 40},{85, 160, 40, 40},
-		{125, 160, 40, 40},{165, 160, 40, 40}
+		{ 5, 160, 40, 40 }, { 45, 160, 40, 40}, { 85, 160, 40, 40 },
+		{ 125, 160, 40, 40 }, { 165, 160, 40, 40 }
 	};
 
 	/* Display AC:NL's Town Map [Not fully.] */

@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 
 	while(1) {
 		Draw(selection, st, villagerList);
-		
+
 		/* Logic, here. */
 		u32 hRepeat = hidKeysDownRepeat();
 		hidScanInput();
@@ -102,7 +102,7 @@ u16 Overlays::SelectVillager(u16 oldID, const SaveType st) {
 		if ((hRepeat & KEY_RIGHT) || (hRepeat & KEY_R)) {
 			if ((selection + 9) > (int)villagerList.size()-1) {
 				selection = (int)villagerList.size()-1;
-				
+
 			} else {
 				selection += 9;
 			}

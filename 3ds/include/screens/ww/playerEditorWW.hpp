@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -44,37 +44,37 @@ private:
 	std::unique_ptr<Player> player;
 
 	const std::vector<ButtonType> mainButtons = {
-		{15, 34, 102, 20, "PLAYER"},
-		{15, 97, 102, 20, "APPEARANCE"},
-		{15, 159, 102, 20, "ITEMS"},
-		{175, 34, 102, 20, "PATTERN"},
-		{175, 97, 102, 20, ""},
-		{175, 159, 102, 20, ""}
+		{ 15, 34, 102, 20, "PLAYER" },
+		{ 15, 97, 102, 20, "APPEARANCE" },
+		{ 15, 159, 102, 20, "ITEMS" },
+		{ 175, 34, 102, 20, "PATTERN" },
+		{ 175, 97, 102, 20, "" },
+		{ 175, 159, 102, 20, "" }
 	};
 
 	const std::vector<ButtonType> appearanceBtn = {
-		{15, 34, 102, 20, "PLAYER_NAME"},
-		{15, 97, 102, 20, "PLAYER_HAIR_STYLE"},
-		{15, 159, 102, 20, "PLAYER_FACETYPE"},
-		{175, 34, 102, 20, "PLAYER_TAN_VALUE"},
-		{175, 97, 102, 20, "PLAYER_HAIR_COLOR"}
+		{ 15, 34, 102, 20, "PLAYER_NAME" },
+		{ 15, 97, 102, 20, "PLAYER_HAIR_STYLE" },
+		{ 15, 159, 102, 20, "PLAYER_FACETYPE" },
+		{ 175, 34, 102, 20, "PLAYER_TAN_VALUE" },
+		{ 175, 97, 102, 20, "PLAYER_HAIR_COLOR" }
 	};
 
 	const std::vector<ButtonType> playerButtons = {
-		{15, 34, 102, 20, "PLAYER_WALLET"},
-		{15, 97, 102, 20, "PLAYER_BANK"}
+		{ 15, 34, 102, 20, "PLAYER_WALLET" },
+		{ 15, 97, 102, 20, "PLAYER_BANK" }
 	};
 
 	const std::vector<Structs::ButtonPos> patternPos = {
-		{40 + (0 * 60), 60 + (0 * 80), 48, 48},
-		{40 + (1 * 60), 60 + (0 * 80), 48, 48},
-		{40 + (2 * 60), 60 + (0 * 80), 48, 48},
-		{40 + (3 * 60), 60 + (0 * 80), 48, 48},
+		{ 40 + (0 * 60), 60 + (0 * 80), 48, 48 },
+		{ 40 + (1 * 60), 60 + (0 * 80), 48, 48 },
+		{ 40 + (2 * 60), 60 + (0 * 80), 48, 48 },
+		{ 40 + (3 * 60), 60 + (0 * 80), 48, 48 },
 
-		{40 + (0 * 60), 60 + (1 * 80), 48, 48},
-		{40 + (1 * 60), 60 + (1 * 80), 48, 48},
-		{40 + (2 * 60), 60 + (1 * 80), 48, 48},
-		{40 + (3 * 60), 60 + (1 * 80), 48, 48}
+		{ 40 + (0 * 60), 60 + (1 * 80), 48, 48 },
+		{ 40 + (1 * 60), 60 + (1 * 80), 48, 48 },
+		{ 40 + (2 * 60), 60 + (1 * 80), 48, 48 },
+		{ 40 + (3 * 60), 60 + (1 * 80), 48, 48 }
 	};
 
 	void DrawSubMenu(void) const;
@@ -87,14 +87,14 @@ private:
 	/* Pattern. */
 	void DisplayPattern(void) const;
 	void PatternLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	
+
 	/* Player. */
 	void DrawPlayer(void) const;
 	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	std::unique_ptr<Pattern> pattern[8] = {nullptr};
-	std::unique_ptr<PatternImage> images[8] = {nullptr};
-	C2D_Image patternImage[8] = {nullptr};
+	std::unique_ptr<Pattern> pattern[8] = { nullptr };
+	std::unique_ptr<PatternImage> images[8] = { nullptr };
+	C2D_Image patternImage[8] = { nullptr };
 };
 
 #endif

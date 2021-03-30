@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ void TownEditorWW::Draw(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 
 	GFX::DrawBottom();
-	
+
 	for (int i = 0; i < 6; i++) {
 		GFX::DrawButton(mainButtons[i]);
 		if (i == this->Selection) GFX::DrawGUI(gui_pointer_idx, mainButtons[i].x + 100, mainButtons[i].y + 30);
@@ -68,7 +68,7 @@ void TownEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hRepeat & KEY_RIGHT) {
 		if (this->Selection < 3) this->Selection += 3;
 	}
-	
+
 	if (hRepeat & KEY_LEFT) {
 		if (this->Selection < 6 && this->Selection > 2) this->Selection -= 3;
 	}
@@ -88,7 +88,7 @@ void TownEditorWW::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				break;
 		}
 	}
-	
+
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, this->mainButtons[0])) {
 			Gui::setScreen(std::make_unique<TownMapEditorWW>(this->town), doFade, true);

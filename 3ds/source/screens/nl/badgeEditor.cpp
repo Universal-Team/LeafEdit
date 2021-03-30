@@ -1,6 +1,6 @@
 /*
 *   This file is part of LeafEdit
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -108,7 +108,7 @@ u8 BadgeEditor::setAll() {
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
-		
+
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, -2, 0.9f, WHITE, Lang::get("SET_BADGES_TO"), 395, 0, font);
 		GFX::DrawBottom();
