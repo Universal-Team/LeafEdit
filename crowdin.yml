@@ -1,3 +1,7 @@
+project_id_env: LEAFEDIT_CROWDIN_ID
+api_token_env: CROWDIN_TOKEN
+preserve_hierarchy: true
+
 files:
   - source: /3ds/romfs/lang/en/app.json
     translation: /3ds/romfs/lang/%two_letters_code%/app.json
