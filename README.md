@@ -12,7 +12,11 @@
   </a>
 </p>
 
-LeafEdit is a work in progress save editor and save manager for the following games:
+## Note
+
+***LeafEdit is now discontinued due to the lost of interest. Forks however can still be created, in case someone else is interested into continuing the work instead. No Updates are planned for LeafEdit anymore.***
+
+LeafEdit is a ~~work in progress~~ discontinued save editor and save manager for the following games:
 * Animal Crossing: Wild World
 * Animal Crossing: New Leaf
 * Animal Crossing: New Leaf Welcome amiibo
